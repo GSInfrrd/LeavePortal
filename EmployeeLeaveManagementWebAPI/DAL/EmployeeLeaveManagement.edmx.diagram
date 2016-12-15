@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="57668baab2a747e9adc7c40976c9d2fa" Name="Diagram1">
+        <EntityTypeShape EntityType="LeaveManagementSystemModel.EmployeeContactDetail" Width="1.5" PointX="7.5" PointY="13.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="LeaveManagementSystemModel.EmployeeDetail" Width="1.5" PointX="5.25" PointY="13.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="LeaveManagementSystemModel.EmployeeLeaveTransaction" Width="1.5" PointX="10.5" PointY="12.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="LeaveManagementSystemModel.EmployeeLeaveTransactionHistory" Width="1.5" PointX="7.5" PointY="7.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="LeaveManagementSystemModel.EmployeeProjectDetail" Width="1.5" PointX="7.5" PointY="17.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="LeaveManagementSystemModel.Holiday" Width="1.5" PointX="0.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="LeaveManagementSystemModel.LeaveMaster" Width="1.5" PointX="5.25" PointY="18.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="LeaveManagementSystemModel.MasterDataType" Width="1.5" PointX="0.75" PointY="12.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="LeaveManagementSystemModel.MasterDataValue" Width="1.5" PointX="3" PointY="11.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="LeaveManagementSystemModel.UserAccount" Width="1.5" PointX="7.5" PointY="27.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="LeaveManagementSystemModel.Workflow" Width="1.5" PointX="12.75" PointY="13.25" IsExpanded="true" />
+        <AssociationConnector Association="LeaveManagementSystemModel.FK_EmpDetails_EmployeeContactDetails" ManuallyRouted="false" />
+        <AssociationConnector Association="LeaveManagementSystemModel.FK_MasterDataValue_EmployeeContactDetails" ManuallyRouted="false" />
+        <AssociationConnector Association="LeaveManagementSystemModel.FK_EmployeeDetails_EmployeeLeaveTransaction" ManuallyRouted="false" />
+        <AssociationConnector Association="LeaveManagementSystemModel.FK_EmployeeDetails_EmployeeLeaveTransactionHistory" ManuallyRouted="false" />
+        <AssociationConnector Association="LeaveManagementSystemModel.FK_EmployeeDetails_EmployeeProjectDetail" ManuallyRouted="false" />
+        <AssociationConnector Association="LeaveManagementSystemModel.FK_EmployeeDetails_UserAccount" ManuallyRouted="false" />
+        <AssociationConnector Association="LeaveManagementSystemModel.FK_EmployeeDetailsId_Workflow" ManuallyRouted="false" />
+        <AssociationConnector Association="LeaveManagementSystemModel.FK_MasterDataValue_EmployeeDetails" ManuallyRouted="false" />
+        <AssociationConnector Association="LeaveManagementSystemModel.FK_EmployeeLeaveTransaction_Workflow" ManuallyRouted="false" />
+        <AssociationConnector Association="LeaveManagementSystemModel.FK_MasterDataValue_EmployeeLeaveTransaction" ManuallyRouted="false" />
+        <AssociationConnector Association="LeaveManagementSystemModel.FK_MasterDataValueStatus_EmployeeLeaveTransaction" ManuallyRouted="false" />
+        <AssociationConnector Association="LeaveManagementSystemModel.FK_MasterDataValue_EmployeeLeaveTransactionHistory" ManuallyRouted="false" />
+        <AssociationConnector Association="LeaveManagementSystemModel.FK_MasterDataValueStatus_EmployeeLeaveTransactionHistory" ManuallyRouted="false" />
+        <AssociationConnector Association="LeaveManagementSystemModel.FK_MasterDataValue_EmployeeProjectDetail1" ManuallyRouted="false" />
+        <AssociationConnector Association="LeaveManagementSystemModel.FK_MasterDataValue_LeaveMaster" ManuallyRouted="false" />
+        <AssociationConnector Association="LeaveManagementSystemModel.FK_MasterDataType_MasterDataValue" ManuallyRouted="false" />
+        <AssociationConnector Association="LeaveManagementSystemModel.FK_MasterDataValueStatus_Workflow" ManuallyRouted="false" />
+        <EntityTypeShape EntityType="LeaveManagementSystemModel.Announcement" Width="1.5" PointX="3.375" PointY="0.75" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

@@ -1,0 +1,52 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 14
+VisualStudioVersion = 14.0.25420.1
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EmployeeLeaveManagementWebAPI", "EmployeeLeaveManagementWebAPI\EmployeeLeaveManagementWebAPI.csproj", "{B989E425-D7B7-4B33-8272-34564DCDAC5A}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EmployeeLeaveManagementWebAPI.Tests", "EmployeeLeaveManagementWebAPI.Tests\EmployeeLeaveManagementWebAPI.Tests.csproj", "{227EF687-06FB-44AE-871F-C9A66E69D45B}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LMS_WebAPI_DAL", "DAL\LMS_WebAPI_DAL.csproj", "{9EE2B6D4-6A8D-4FDF-A116-231FCBC5AF5C}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LMS_WebAPI_Domain", "Domain\LMS_WebAPI_Domain.csproj", "{485C566D-4A4D-44A6-A33B-65DDE722448F}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LMS_WebAPI_ServiceHelpers", "Service\LMS_WebAPI_ServiceHelpers.csproj", "{DEA9E46F-BA6A-490F-B0C4-764A3A795834}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LMS_WebAPI_Utils", "Utils\LMS_WebAPI_Utils.csproj", "{0E52B307-5148-4449-98B0-BA995AF29D25}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{B989E425-D7B7-4B33-8272-34564DCDAC5A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B989E425-D7B7-4B33-8272-34564DCDAC5A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B989E425-D7B7-4B33-8272-34564DCDAC5A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B989E425-D7B7-4B33-8272-34564DCDAC5A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{227EF687-06FB-44AE-871F-C9A66E69D45B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{227EF687-06FB-44AE-871F-C9A66E69D45B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{227EF687-06FB-44AE-871F-C9A66E69D45B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{227EF687-06FB-44AE-871F-C9A66E69D45B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9EE2B6D4-6A8D-4FDF-A116-231FCBC5AF5C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9EE2B6D4-6A8D-4FDF-A116-231FCBC5AF5C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9EE2B6D4-6A8D-4FDF-A116-231FCBC5AF5C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9EE2B6D4-6A8D-4FDF-A116-231FCBC5AF5C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{485C566D-4A4D-44A6-A33B-65DDE722448F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{485C566D-4A4D-44A6-A33B-65DDE722448F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{485C566D-4A4D-44A6-A33B-65DDE722448F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{485C566D-4A4D-44A6-A33B-65DDE722448F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DEA9E46F-BA6A-490F-B0C4-764A3A795834}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DEA9E46F-BA6A-490F-B0C4-764A3A795834}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DEA9E46F-BA6A-490F-B0C4-764A3A795834}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DEA9E46F-BA6A-490F-B0C4-764A3A795834}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0E52B307-5148-4449-98B0-BA995AF29D25}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0E52B307-5148-4449-98B0-BA995AF29D25}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0E52B307-5148-4449-98B0-BA995AF29D25}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0E52B307-5148-4449-98B0-BA995AF29D25}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
