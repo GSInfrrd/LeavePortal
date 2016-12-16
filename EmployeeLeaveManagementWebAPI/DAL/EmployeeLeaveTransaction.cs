@@ -23,7 +23,7 @@ namespace LMS_WebAPI_DAL
         public long Id { get; set; }
         public int RefEmployeeId { get; set; }
         public System.DateTime FromDate { get; set; }
-        public Nullable<System.DateTime> ToDate { get; set; }
+        public System.DateTime ToDate { get; set; }
         public System.DateTime CreatedDate { get; set; }
         public int RefStatus { get; set; }
         public int NumberOfWorkingDays { get; set; }

@@ -352,7 +352,7 @@ namespace EmployeeLeaveManagementWebAPI.Controllers
         {
             try
             {
-                var empData = userManager.GetEmployeeDatailsForDashboard(empId);
+                var empData = userManager.GetEmployeeDatailsForDashboard(empId,2016);
                 if (null != empData)
                 {
                     return empData;
@@ -368,6 +368,33 @@ namespace EmployeeLeaveManagementWebAPI.Controllers
                 //throw;
             }
         }
+
+
+        [AllowAnonymous]
+        [HttpGet]
+        public LeaveReportModel GetLeaveReportDetails(int empId,int year)
+        {
+            try
+            {
+                var empData = userManager.GetEmployeeDatailsForDashboard(empId,year);
+                if (null != empData)
+                {
+                    return empData.leaveDetails;
+                }
+                else
+                {
+                    return null;
+                }
+            }
+            catch (Exception ex)
+            {
+                return null;
+                //throw;
+            }
+        }
+
+
+        
         // POST api/Account/Register
         [AllowAnonymous]
         [Route("Register")]

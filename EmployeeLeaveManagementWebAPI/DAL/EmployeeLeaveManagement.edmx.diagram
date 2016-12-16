@@ -34,6 +34,10 @@
         <AssociationConnector Association="LeaveManagementSystemModel.FK_MasterDataType_MasterDataValue" ManuallyRouted="false" />
         <AssociationConnector Association="LeaveManagementSystemModel.FK_MasterDataValueStatus_Workflow" ManuallyRouted="false" />
         <EntityTypeShape EntityType="LeaveManagementSystemModel.Announcement" Width="1.5" PointX="3.375" PointY="0.75" />
+        <EntityTypeShape EntityType="LeaveManagementSystemModel.EmployeeEducationDetail" Width="1.5" PointX="3.75" PointY="3.75" />
+        <EntityTypeShape EntityType="LeaveManagementSystemModel.EmployeeExperienceDetail" Width="1.5" PointX="0.75" PointY="4.75" />
+        <AssociationConnector Association="LeaveManagementSystemModel.FK_EmployeeEducationDetails_EmployeeDetails" />
+        <AssociationConnector Association="LeaveManagementSystemModel.FK_EmployeeExperienceDetails_EmployeeDetails" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

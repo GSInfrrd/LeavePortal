@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.ComponentModel.DataAnnotations;
+using LMS_WebAPI_Domain;
 
 namespace EmployeeLeaveManagementApp.Models
 {
@@ -47,6 +48,7 @@ namespace EmployeeLeaveManagementApp.Models
         }
 
         public List<Announcement> Announcements { get; set; }
+        public LeaveReportModel LeaveDetails { get; set; }
     }
     public class Announcement
     {

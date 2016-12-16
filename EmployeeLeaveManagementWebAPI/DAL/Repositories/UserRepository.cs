@@ -4,6 +4,8 @@ using LMS_WebAPI_Utils;
 using LMS_WebAPI_DAL;
 using System;
 using System.Collections.Generic;
+using System.Data.SqlClient;
+using LMS_WebAPI_Domain;
 
 namespace LMS_WebAPI_DAL.Repositories
 {
@@ -44,7 +46,7 @@ namespace LMS_WebAPI_DAL.Repositories
                                       select new EmployeeCommon()
                                       {
                                           Id = n.Id,
-                                          Name = n.Name,
+                                          Name = n.FirstName,
                                           ManagerId = n.ManagerId,
                                           Experience = n.Experience,
                                           RoleName = n.MasterDataValue.Value,
@@ -63,7 +65,7 @@ namespace LMS_WebAPI_DAL.Repositories
                                        where n.RefEmployeeId == UserEmpId
                                        select n).SingleOrDefault();
                         empDetails.ProjectName = empdata.MasterDataValue.Value;
-                        empDetails.ManagerName = (from n in ctx.EmployeeDetails where n.Id == empDetails.ManagerId select n.Name).SingleOrDefault();
+                        empDetails.ManagerName = (from n in ctx.EmployeeDetails where n.Id == empDetails.ManagerId select n.FirstName).SingleOrDefault();
 
                         return empDetails;
                     }
@@ -88,6 +90,95 @@ namespace LMS_WebAPI_DAL.Repositories
                    
                         return announcements;
                     }
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
+        }
+
+        public LeaveReportModel GetLeaveReportDetails(int employeeId,int year)
+        {
+            try
+            {
+                var leaveReport = new LeaveReportModel();
+                using (var ctx = new LeaveManagementSystemEntities1())
+                {
+                    var years = ctx.EmployeeLeaveTransactions.Where(i=>i.RefEmployeeId==employeeId && i.FromDate.Year==year && i.ToDate.Year==year).ToList();
+                    foreach(var item in years)
+                    {
+                       
+                        for (DateTime date=item.FromDate;date<=item.ToDate;date=date.AddDays(1))
+                        {
+                            if(date.DayOfWeek!=DayOfWeek.Saturday && date.DayOfWeek!=DayOfWeek.Sunday)
+                            {
+                                switch (date.Month)
+                                {
+                                    case 1:
+
+                                        leaveReport.Jan++;
+                                        break;
+                                    case 2:
+                                        leaveReport.Feb++;
+                                        break;
+                                            case 3:
+                                        leaveReport.Mar++;
+                                        break;
+                                    case 4:
+                                        leaveReport.Apr++;
+                                        break;
+                                    case 5:
+                                        leaveReport.May++;
+                                        break;
+                                    case 6:
+                                        leaveReport.Jun++;
+                                        break;
+                                    case 7:
+                                        leaveReport.Jul++;
+                                        break;
+                                    case 8:
+                                        leaveReport.Aug++;
+                                        break;
+                                    case 9:
+                                        leaveReport.Sep++;
+                                        break;
+                                    case 10:
+                                        leaveReport.Oct++;
+                                        break;
+                                    case 11:
+                                        leaveReport.Nov++;
+                                        break;
+                                    case 12:
+                                        leaveReport.Dec++;
+                                        break;
+                                }
+                            }
+                        }
+                    }
+
+                    //var Year = new SqlParameter("@Year", 2016);
+                    //var data= ctx.Database.SqlQuery<LeaveReportModel>("dbo.GetLeaveReportProcedure @Year", Year).ToList();
+                    return leaveReport;
+                }
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
+        }
+
+        public EmployeeDetail GetUserProfileDetails(int employeeId)
+        {
+            try
+            {
+                using (var ctx = new LeaveManagementSystemEntities1())
+                {
+                    var profileDetails = ctx.EmployeeDetails.Include("EmployeeEducationDetails").Include("EmployeeExperienceDetails").Include("UserAccounts").FirstOrDefault(i => i.Id == employeeId);
+
+                    return profileDetails;
+                }
             }
             catch (Exception ex)
             {

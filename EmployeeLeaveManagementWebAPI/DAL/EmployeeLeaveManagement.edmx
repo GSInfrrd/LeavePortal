@@ -33,7 +33,7 @@
             <PropertyRef Name="Id" />
           </Key>
           <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="Name" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="FirstName" Type="nvarchar" MaxLength="50" Nullable="false" />
           <Property Name="RefRoleId" Type="int" Nullable="false" />
           <Property Name="DateOfJoining" Type="datetime2" Precision="7" />
           <Property Name="ManagerId" Type="int" />
@@ -43,6 +43,35 @@
           <Property Name="CreatedBy" Type="nvarchar" MaxLength="50" />
           <Property Name="ModifiedBy" Type="nvarchar" MaxLength="50" />
           <Property Name="EmpNumber" Type="nvarchar" MaxLength="50" />
+          <Property Name="DateOfBirth" Type="date" />
+          <Property Name="City" Type="varchar" MaxLength="50" />
+          <Property Name="Country" Type="varchar" MaxLength="50" />
+          <Property Name="LastName" Type="varchar" MaxLength="50" />
+          <Property Name="PhoneNumber" Type="varchar" MaxLength="20" />
+          <Property Name="ImagePath" Type="varchar" MaxLength="250" />
+          <Property Name="Bio" Type="varchar" MaxLength="250" />
+        </EntityType>
+        <EntityType Name="EmployeeEducationDetails">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="RefEmployeeId" Type="int" Nullable="false" />
+          <Property Name="Institution" Type="varchar" MaxLength="250" Nullable="false" />
+          <Property Name="Degree" Type="varchar" MaxLength="100" Nullable="false" />
+          <Property Name="FromDate" Type="date" Nullable="false" />
+          <Property Name="ToDate" Type="date" Nullable="false" />
+        </EntityType>
+        <EntityType Name="EmployeeExperienceDetails">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="RefEmployeeId" Type="int" Nullable="false" />
+          <Property Name="CompanyName" Type="varchar" MaxLength="250" Nullable="false" />
+          <Property Name="Role" Type="varchar" MaxLength="250" Nullable="false" />
+          <Property Name="FromDate" Type="date" Nullable="false" />
+          <Property Name="ToDate" Type="date" Nullable="false" />
         </EntityType>
         <EntityType Name="EmployeeLeaveTransaction">
           <Key>
@@ -50,8 +79,8 @@
           </Key>
           <Property Name="Id" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="RefEmployeeId" Type="int" Nullable="false" />
-          <Property Name="FromDate" Type="datetime2" Precision="7" Nullable="false" />
-          <Property Name="ToDate" Type="datetime2" Precision="7" />
+          <Property Name="FromDate" Type="datetime" />
+          <Property Name="ToDate" Type="datetime" />
           <Property Name="CreatedDate" Type="datetime2" Precision="7" Nullable="false" />
           <Property Name="RefStatus" Type="int" Nullable="false" />
           <Property Name="NumberOfWorkingDays" Type="int" Nullable="false" />
@@ -96,10 +125,10 @@
             <PropertyRef Name="Id" />
           </Key>
           <Property Name="Id" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="Date" Type="datetime2" Precision="7" Nullable="false" />
+          <Property Name="Date" Type="date" />
           <Property Name="Description" Type="nvarchar(max)" />
           <Property Name="Year" Type="bigint" Nullable="false" />
-          <Property Name="CreatedDate" Type="datetime2" Precision="7" Nullable="false" />
+          <Property Name="CreatedDate" Type="date" />
           <Property Name="ModifiedDate" Type="datetime2" Precision="7" />
           <Property Name="CreatedBy" Type="nvarchar" MaxLength="50" />
           <Property Name="ModifiedBy" Type="nvarchar" MaxLength="50" />
@@ -230,6 +259,30 @@
             </Principal>
             <Dependent Role="Workflow">
               <PropertyRef Name="RefApproverId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_EmployeeEducationDetails_EmployeeDetails">
+          <End Role="EmployeeDetails" Type="Self.EmployeeDetails" Multiplicity="1" />
+          <End Role="EmployeeEducationDetails" Type="Self.EmployeeEducationDetails" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="EmployeeDetails">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="EmployeeEducationDetails">
+              <PropertyRef Name="RefEmployeeId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_EmployeeExperienceDetails_EmployeeDetails">
+          <End Role="EmployeeDetails" Type="Self.EmployeeDetails" Multiplicity="1" />
+          <End Role="EmployeeExperienceDetails" Type="Self.EmployeeExperienceDetails" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="EmployeeDetails">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="EmployeeExperienceDetails">
+              <PropertyRef Name="RefEmployeeId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -369,6 +422,8 @@
           <EntitySet Name="Announcements" EntityType="Self.Announcements" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="EmployeeContactDetails" EntityType="Self.EmployeeContactDetails" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="EmployeeDetails" EntityType="Self.EmployeeDetails" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="EmployeeEducationDetails" EntityType="Self.EmployeeEducationDetails" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="EmployeeExperienceDetails" EntityType="Self.EmployeeExperienceDetails" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="EmployeeLeaveTransaction" EntityType="Self.EmployeeLeaveTransaction" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="EmployeeLeaveTransactionHistory" EntityType="Self.EmployeeLeaveTransactionHistory" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="EmployeeProjectDetail" EntityType="Self.EmployeeProjectDetail" Schema="dbo" store:Type="Tables" />
@@ -401,6 +456,14 @@
           <AssociationSet Name="FK_EmployeeDetailsId_Workflow" Association="Self.FK_EmployeeDetailsId_Workflow">
             <End Role="EmployeeDetails" EntitySet="EmployeeDetails" />
             <End Role="Workflow" EntitySet="Workflow" />
+          </AssociationSet>
+          <AssociationSet Name="FK_EmployeeEducationDetails_EmployeeDetails" Association="Self.FK_EmployeeEducationDetails_EmployeeDetails">
+            <End Role="EmployeeDetails" EntitySet="EmployeeDetails" />
+            <End Role="EmployeeEducationDetails" EntitySet="EmployeeEducationDetails" />
+          </AssociationSet>
+          <AssociationSet Name="FK_EmployeeExperienceDetails_EmployeeDetails" Association="Self.FK_EmployeeExperienceDetails_EmployeeDetails">
+            <End Role="EmployeeDetails" EntitySet="EmployeeDetails" />
+            <End Role="EmployeeExperienceDetails" EntitySet="EmployeeExperienceDetails" />
           </AssociationSet>
           <AssociationSet Name="FK_EmployeeLeaveTransaction_Workflow" Association="Self.FK_EmployeeLeaveTransaction_Workflow">
             <End Role="EmployeeLeaveTransaction" EntitySet="EmployeeLeaveTransaction" />
@@ -471,7 +534,6 @@
             <PropertyRef Name="Id" />
           </Key>
           <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="Name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="RefRoleId" Type="Int32" Nullable="false" />
           <Property Name="DateOfJoining" Type="DateTime" Precision="7" />
           <Property Name="ManagerId" Type="Int32" />
@@ -488,6 +550,16 @@
           <NavigationProperty Name="UserAccounts" Relationship="Self.FK_EmployeeDetails_UserAccount" FromRole="EmployeeDetails" ToRole="UserAccount" />
           <NavigationProperty Name="Workflows" Relationship="Self.FK_EmployeeDetailsId_Workflow" FromRole="EmployeeDetails" ToRole="Workflow" />
           <NavigationProperty Name="MasterDataValue" Relationship="Self.FK_MasterDataValue_EmployeeDetails" FromRole="EmployeeDetails" ToRole="MasterDataValue" />
+          <Property Name="FirstName" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="DateOfBirth" Type="DateTime" Precision="0" />
+          <Property Name="City" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Country" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="LastName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="PhoneNumber" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="EmployeeEducationDetails" Relationship="LeaveManagementSystemModel.FK_EmployeeEducationDetails_EmployeeDetails" FromRole="EmployeeDetail" ToRole="EmployeeEducationDetail" />
+          <NavigationProperty Name="EmployeeExperienceDetails" Relationship="LeaveManagementSystemModel.FK_EmployeeExperienceDetails_EmployeeDetails" FromRole="EmployeeDetail" ToRole="EmployeeExperienceDetail" />
+          <Property Name="ImagePath" Type="String" MaxLength="250" FixedLength="false" Unicode="false" />
+          <Property Name="Bio" Type="String" MaxLength="250" FixedLength="false" Unicode="false" />
         </EntityType>
         <EntityType Name="EmployeeLeaveTransaction">
           <Key>
@@ -495,8 +567,8 @@
           </Key>
           <Property Name="Id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="RefEmployeeId" Type="Int32" Nullable="false" />
-          <Property Name="FromDate" Type="DateTime" Nullable="false" Precision="7" />
-          <Property Name="ToDate" Type="DateTime" Precision="7" />
+          <Property Name="FromDate" Type="DateTime" Precision="3" />
+          <Property Name="ToDate" Type="DateTime" Precision="3" />
           <Property Name="CreatedDate" Type="DateTime" Nullable="false" Precision="7" />
           <Property Name="RefStatus" Type="Int32" Nullable="false" />
           <Property Name="NumberOfWorkingDays" Type="Int32" Nullable="false" />
@@ -550,10 +622,10 @@
             <PropertyRef Name="Id" />
           </Key>
           <Property Name="Id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="Date" Type="DateTime" Nullable="false" Precision="7" />
+          <Property Name="Date" Type="DateTime" Precision="0" />
           <Property Name="Description" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="Year" Type="Int64" Nullable="false" />
-          <Property Name="CreatedDate" Type="DateTime" Nullable="false" Precision="7" />
+          <Property Name="CreatedDate" Type="DateTime" Precision="0" />
           <Property Name="ModifiedDate" Type="DateTime" Precision="7" />
           <Property Name="CreatedBy" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="ModifiedBy" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
@@ -916,6 +988,16 @@
             <End Role="Workflow" EntitySet="Workflows" />
           </AssociationSet>
           <EntitySet Name="Announcements" EntityType="LeaveManagementSystemModel.Announcement" />
+          <EntitySet Name="EmployeeEducationDetails" EntityType="LeaveManagementSystemModel.EmployeeEducationDetail" />
+          <EntitySet Name="EmployeeExperienceDetails" EntityType="LeaveManagementSystemModel.EmployeeExperienceDetail" />
+          <AssociationSet Name="FK_EmployeeEducationDetails_EmployeeDetails" Association="LeaveManagementSystemModel.FK_EmployeeEducationDetails_EmployeeDetails">
+            <End Role="EmployeeDetail" EntitySet="EmployeeDetails" />
+            <End Role="EmployeeEducationDetail" EntitySet="EmployeeEducationDetails" />
+          </AssociationSet>
+          <AssociationSet Name="FK_EmployeeExperienceDetails_EmployeeDetails" Association="LeaveManagementSystemModel.FK_EmployeeExperienceDetails_EmployeeDetails">
+            <End Role="EmployeeDetail" EntitySet="EmployeeDetails" />
+            <End Role="EmployeeExperienceDetail" EntitySet="EmployeeExperienceDetails" />
+          </AssociationSet>
         </EntityContainer>
         <EntityType Name="Announcement">
           <Key>
@@ -927,6 +1009,54 @@
           <Property Name="ImagePath" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
           <Property Name="IsActive" Type="Boolean" />
         </EntityType>
+        <EntityType Name="EmployeeEducationDetail">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="RefEmployeeId" Type="Int32" Nullable="false" />
+          <Property Name="Institution" Type="String" Nullable="false" MaxLength="250" FixedLength="false" Unicode="false" />
+          <Property Name="Degree" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="FromDate" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="ToDate" Type="DateTime" Nullable="false" Precision="0" />
+          <NavigationProperty Name="EmployeeDetail" Relationship="LeaveManagementSystemModel.FK_EmployeeEducationDetails_EmployeeDetails" FromRole="EmployeeEducationDetail" ToRole="EmployeeDetail" />
+        </EntityType>
+        <EntityType Name="EmployeeExperienceDetail">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="RefEmployeeId" Type="Int32" Nullable="false" />
+          <Property Name="CompanyName" Type="String" Nullable="false" MaxLength="250" FixedLength="false" Unicode="false" />
+          <Property Name="Role" Type="String" Nullable="false" MaxLength="250" FixedLength="false" Unicode="false" />
+          <Property Name="FromDate" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="ToDate" Type="DateTime" Nullable="false" Precision="0" />
+          <NavigationProperty Name="EmployeeDetail" Relationship="LeaveManagementSystemModel.FK_EmployeeExperienceDetails_EmployeeDetails" FromRole="EmployeeExperienceDetail" ToRole="EmployeeDetail" />
+        </EntityType>
+        <Association Name="FK_EmployeeEducationDetails_EmployeeDetails">
+          <End Type="LeaveManagementSystemModel.EmployeeDetail" Role="EmployeeDetail" Multiplicity="1" />
+          <End Type="LeaveManagementSystemModel.EmployeeEducationDetail" Role="EmployeeEducationDetail" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="EmployeeDetail">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="EmployeeEducationDetail">
+              <PropertyRef Name="RefEmployeeId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_EmployeeExperienceDetails_EmployeeDetails">
+          <End Type="LeaveManagementSystemModel.EmployeeDetail" Role="EmployeeDetail" Multiplicity="1" />
+          <End Type="LeaveManagementSystemModel.EmployeeExperienceDetail" Role="EmployeeExperienceDetail" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="EmployeeDetail">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="EmployeeExperienceDetail">
+              <PropertyRef Name="RefEmployeeId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -950,8 +1080,15 @@
           <EntitySetMapping Name="EmployeeDetails">
             <EntityTypeMapping TypeName="LeaveManagementSystemModel.EmployeeDetail">
               <MappingFragment StoreEntitySet="EmployeeDetails">
+                <ScalarProperty Name="Bio" ColumnName="Bio" />
+                <ScalarProperty Name="ImagePath" ColumnName="ImagePath" />
+                <ScalarProperty Name="PhoneNumber" ColumnName="PhoneNumber" />
+                <ScalarProperty Name="LastName" ColumnName="LastName" />
+                <ScalarProperty Name="Country" ColumnName="Country" />
+                <ScalarProperty Name="City" ColumnName="City" />
+                <ScalarProperty Name="DateOfBirth" ColumnName="DateOfBirth" />
+                <ScalarProperty Name="FirstName" ColumnName="FirstName" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
-                <ScalarProperty Name="Name" ColumnName="Name" />
                 <ScalarProperty Name="RefRoleId" ColumnName="RefRoleId" />
                 <ScalarProperty Name="DateOfJoining" ColumnName="DateOfJoining" />
                 <ScalarProperty Name="ManagerId" ColumnName="ManagerId" />
@@ -1097,6 +1234,30 @@
                 <ScalarProperty Name="ImagePath" ColumnName="ImagePath" />
                 <ScalarProperty Name="CarouselContent" ColumnName="CarouselContent" />
                 <ScalarProperty Name="Title" ColumnName="Title" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="EmployeeEducationDetails">
+            <EntityTypeMapping TypeName="LeaveManagementSystemModel.EmployeeEducationDetail">
+              <MappingFragment StoreEntitySet="EmployeeEducationDetails">
+                <ScalarProperty Name="ToDate" ColumnName="ToDate" />
+                <ScalarProperty Name="FromDate" ColumnName="FromDate" />
+                <ScalarProperty Name="Degree" ColumnName="Degree" />
+                <ScalarProperty Name="Institution" ColumnName="Institution" />
+                <ScalarProperty Name="RefEmployeeId" ColumnName="RefEmployeeId" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="EmployeeExperienceDetails">
+            <EntityTypeMapping TypeName="LeaveManagementSystemModel.EmployeeExperienceDetail">
+              <MappingFragment StoreEntitySet="EmployeeExperienceDetails">
+                <ScalarProperty Name="ToDate" ColumnName="ToDate" />
+                <ScalarProperty Name="FromDate" ColumnName="FromDate" />
+                <ScalarProperty Name="Role" ColumnName="Role" />
+                <ScalarProperty Name="CompanyName" ColumnName="CompanyName" />
+                <ScalarProperty Name="RefEmployeeId" ColumnName="RefEmployeeId" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
               </MappingFragment>
             </EntityTypeMapping>

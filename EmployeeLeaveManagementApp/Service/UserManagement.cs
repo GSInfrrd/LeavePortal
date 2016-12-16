@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using LMS_WebAPP_Domain;
+using LMS_WebAPI_Domain;
 
 namespace LMS_WebAPP_ServiceHelpers
 {
@@ -70,6 +71,62 @@ namespace LMS_WebAPP_ServiceHelpers
             {
                 const string URL = "http://localhost:64476/api/Account/GetUserDetails";
                 urlParameters = "?empId=" + EmpId;
+                client.BaseAddress = new Uri(URL);
+                // Add an Accept header for JSON format.
+                client.DefaultRequestHeaders.Accept.Add(
+                new MediaTypeWithQualityHeaderValue("application/json"));
+
+                // List data response.
+                HttpResponseMessage response = await client.GetAsync(urlParameters);  // Blocking call!
+                if (response.IsSuccessStatusCode)
+                {
+                    // Parse the response body. Blocking!
+                    var dataObjects = await response.Content.ReadAsAsync<EmployeeDetailsModel>();
+                    return dataObjects;
+                }
+                else
+                {
+                    Console.WriteLine("{0} ({1})", (int)response.StatusCode, response.ReasonPhrase);
+                    return null;
+                }
+            }
+        }
+
+        
+                 public async Task<LeaveReportModel> GetLeaveReportDetails(int empId,int year)
+        {
+            using (HttpClient client = new HttpClient())
+            {
+                const string URL = "http://localhost:64476/api/Account/GetUserDetails";
+                urlParameters = "?empId=" + empId+"&year="+year;
+                client.BaseAddress = new Uri(URL);
+                // Add an Accept header for JSON format.
+                client.DefaultRequestHeaders.Accept.Add(
+                new MediaTypeWithQualityHeaderValue("application/json"));
+
+                // List data response.
+                HttpResponseMessage response = await client.GetAsync(urlParameters);  // Blocking call!
+                if (response.IsSuccessStatusCode)
+                {
+                    // Parse the response body. Blocking!
+                    var dataObjects = await response.Content.ReadAsAsync<LeaveReportModel>();
+                    return dataObjects;
+                }
+                else
+                {
+                    Console.WriteLine("{0} ({1})", (int)response.StatusCode, response.ReasonPhrase);
+                    return null;
+                }
+            }
+        }
+
+
+                      public async Task<EmployeeDetailsModel> GetUserProfileDetails(int empId)
+        {
+            using (HttpClient client = new HttpClient())
+            {
+                const string URL = "http://localhost:64476/api/Profile/GetUserProfileDetails";
+                urlParameters = "?empId=" + empId;
                 client.BaseAddress = new Uri(URL);
                 // Add an Accept header for JSON format.
                 client.DefaultRequestHeaders.Accept.Add(

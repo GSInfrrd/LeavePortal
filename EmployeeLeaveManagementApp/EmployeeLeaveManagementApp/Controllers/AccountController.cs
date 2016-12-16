@@ -8,6 +8,7 @@ using LMS_WebAPP_ServiceHelpers;
 using LMS_WebAPP_Utils;
 using LMS_WebAPP_Domain;
 using System.Threading.Tasks;
+using LMS_WebAPI_Domain;
 
 namespace EmployeeLeaveManagementApp.Controllers
 {
@@ -23,7 +24,26 @@ namespace EmployeeLeaveManagementApp.Controllers
             ViewBag.userExist = true;
             return View();
         }
-        
+
+        public async Task<ActionResult> Profile()
+        {
+            if (null != Session[Constants.SESSION_OBJ_USER])
+            {
+                var data = (UserAccount)Session[Constants.SESSION_OBJ_USER];
+                EmployeeDetailsModel datares = await user.GetUserProfileDetails(data.RefEmployeeId);
+
+                //Models.LoginModel model = new Models.LoginModel();
+                //model.EmpName = data.UserName;
+                //model.UserName = data.UserName;
+                //model.Projectname = datares.ProjectName;
+                //model.ManagerName = datares.ManagerName;
+                //model.DateOfJoining = DateTime.Now;
+                //model.RoleName = datares.RoleName;
+                return View(datares);
+            }
+            return View("Login");
+        }
+
         [HttpPost]
         public async Task<ActionResult> Login(Models.LoginModel model)
         {
@@ -116,11 +136,25 @@ namespace EmployeeLeaveManagementApp.Controllers
                     announceItem.Title = item.Title;
                     model.Announcements.Add(announceItem);
                 }
+                model.LeaveDetails = datares.LeaveDetails;
                 // model.Announcements = (Models.Announcement)datares.Announcements;
                 return View(model);
             }
             return View("Login");
         }
+
+        public async Task<ActionResult> GetLeaveReportDetails(int year)
+        {
+            if (null != Session[Constants.SESSION_OBJ_USER])
+            {
+                var data = (UserAccount)Session[Constants.SESSION_OBJ_USER];
+                LeaveReportModel datares = await user.GetLeaveReportDetails(data.RefEmployeeId, year);
+                // model.Announcements = (Models.Announcement)datares.Announcements;
+                return Json(new { result = datares });
+            }
+            return View("Login");
+        }
+
 
         //private async Task<EmployeeDetailsModel> GetAsyncData(UserAccount data)
         //{

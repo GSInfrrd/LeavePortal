@@ -7,8 +7,8 @@
     <ProjectGuid>{2C46A917-DFD8-4209-A858-7CED1FCA55CA}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Domain</RootNamespace>
-    <AssemblyName>Domain</AssemblyName>
+    <RootNamespace>LMS_WebAPP_Domain</RootNamespace>
+    <AssemblyName>LMS_WebAPP_Domain</AssemblyName>
     <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
@@ -41,6 +41,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="EmployeeDetailsModel.cs" />
+    <Compile Include="LeaveReportModel.cs" />
     <Compile Include="LeaveTransaction.cs" />
     <Compile Include="UserAccount.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

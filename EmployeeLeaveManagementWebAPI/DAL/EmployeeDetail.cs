@@ -23,10 +23,11 @@ namespace LMS_WebAPI_DAL
             this.EmployeeProjectDetails = new HashSet<EmployeeProjectDetail>();
             this.UserAccounts = new HashSet<UserAccount>();
             this.Workflows = new HashSet<Workflow>();
+            this.EmployeeEducationDetails = new HashSet<EmployeeEducationDetail>();
+            this.EmployeeExperienceDetails = new HashSet<EmployeeExperienceDetail>();
         }
     
         public int Id { get; set; }
-        public string Name { get; set; }
         public int RefRoleId { get; set; }
         public Nullable<System.DateTime> DateOfJoining { get; set; }
         public Nullable<int> ManagerId { get; set; }
@@ -36,6 +37,14 @@ namespace LMS_WebAPI_DAL
         public string CreatedBy { get; set; }
         public string ModifiedBy { get; set; }
         public string EmpNumber { get; set; }
+        public string FirstName { get; set; }
+        public System.DateTime DateOfBirth { get; set; }
+        public string City { get; set; }
+        public string Country { get; set; }
+        public string LastName { get; set; }
+        public string PhoneNumber { get; set; }
+        public string ImagePath { get; set; }
+        public string Bio { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<EmployeeContactDetail> EmployeeContactDetails { get; set; }
@@ -50,5 +59,9 @@ namespace LMS_WebAPI_DAL
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Workflow> Workflows { get; set; }
         public virtual MasterDataValue MasterDataValue { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<EmployeeEducationDetail> EmployeeEducationDetails { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<EmployeeExperienceDetail> EmployeeExperienceDetails { get; set; }
     }
 }
