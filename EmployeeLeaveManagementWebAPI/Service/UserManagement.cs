@@ -22,7 +22,7 @@ namespace LMS_WebAPI_ServiceHelpers
                 var userData = user.GetUser(UserName, password);
                 if (null != userData)
                 {
-                    VerifiedUser.UserName = userData.EmployeeDetail.Name;
+                    VerifiedUser.UserName = userData.EmployeeDetail.FirstName+" "+userData.EmployeeDetail.LastName;
                     VerifiedUser.Password = userData.Password;
                     VerifiedUser.Lastlogin = userData.Lastlogin;
                     VerifiedUser.RefEmployeeId = userData.RefEmployeeId;
@@ -36,14 +36,16 @@ namespace LMS_WebAPI_ServiceHelpers
             }
         }
 
-        public EmployeeDetailsModel GetEmployeeDatailsForDashboard(int EmpId)
+        public EmployeeDetailsModel GetEmployeeDatailsForDashboard(int EmpId,int year)
         {
             try
             {
                 var userData = user.GetUserDetails(EmpId);
                 var announcements = user.GetAnnouncements();
+                var leaveReportDetails = user.GetLeaveReportDetails(EmpId,year);
                 var VerifiedUser = new EmployeeDetailsModel();
-               foreach(var item in announcements)
+                VerifiedUser.leaveDetails = leaveReportDetails;
+                foreach (var item in announcements)
                 {
                     LMS_WebAPI_Domain.Announcement announceItem = new LMS_WebAPI_Domain.Announcement();
                     announceItem.ImagePath = item.ImagePath;
@@ -68,5 +70,49 @@ namespace LMS_WebAPI_ServiceHelpers
                 throw ex;
             }
         }
+
+        public EmployeeDetailsModel GetUserProfileDetails(int EmpId)
+        {
+            try
+            {
+                var userData = user.GetUserProfileDetails(EmpId);
+                var profileDetails = new EmployeeDetailsModel();
+                List<EmployeeEducationDetails> EEdetails = new List<EmployeeEducationDetails>();
+                profileDetails.FirstName = userData.FirstName;
+                profileDetails.LastName = userData.LastName;
+                profileDetails.City = userData.City;
+                profileDetails.Country = userData.Country;
+                profileDetails.Telephone = userData.PhoneNumber;
+                profileDetails.RoleName = "S/W Engineer";
+                profileDetails.DateOfBirth = userData.DateOfBirth.ToString("MMM dd,yyyy");
+                profileDetails.Email = userData.UserAccounts.FirstOrDefault(i => i.RefEmployeeId == EmpId).UserName;
+                profileDetails.ImagePath = userData.ImagePath;
+                profileDetails.Bio = userData.Bio;
+                foreach (var item in userData.EmployeeEducationDetails)
+                {
+                    var edet = new EmployeeEducationDetails();
+                    edet.Degree = item.Degree;
+                    edet.Institution = item.Institution;
+                    edet.TimePeriod = item.FromDate.ToString("MMMM yyyy")+"~" +item.ToDate.ToString("MMMM yyyy");
+                    EEdetails.Add(edet);
+                }
+                profileDetails.EmployeeEducationDetails = EEdetails;
+                List<EmployeeExperienceDetails> EExpdetails = new List<EmployeeExperienceDetails>();
+                foreach (var item in userData.EmployeeExperienceDetails)
+                {
+                    var exdet = new EmployeeExperienceDetails();
+                    exdet.Company = item.CompanyName;
+                    exdet.Role = item.Role;
+                    exdet.TimePeriod = item.FromDate.ToString("MMMM yyyy") + "~" + item.ToDate.ToString("MMMM yyyy");
+                    EExpdetails.Add(exdet);
+                }
+                profileDetails.EmployeeExperienceDetails = EExpdetails;
+                return profileDetails;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+}
     }
 }

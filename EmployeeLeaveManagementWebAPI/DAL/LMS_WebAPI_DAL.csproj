@@ -7,8 +7,8 @@
     <ProjectGuid>{9EE2B6D4-6A8D-4FDF-A116-231FCBC5AF5C}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>DAL</RootNamespace>
-    <AssemblyName>DAL</AssemblyName>
+    <RootNamespace>LMS_WebAPI_DAL</RootNamespace>
+    <AssemblyName>LMS_WebAPI_DAL</AssemblyName>
     <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
@@ -58,6 +58,12 @@
       <DependentUpon>EmployeeLeaveManagement.tt</DependentUpon>
     </Compile>
     <Compile Include="EmployeeDetail.cs">
+      <DependentUpon>EmployeeLeaveManagement.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EmployeeEducationDetail.cs">
+      <DependentUpon>EmployeeLeaveManagement.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EmployeeExperienceDetail.cs">
       <DependentUpon>EmployeeLeaveManagement.tt</DependentUpon>
     </Compile>
     <Compile Include="EmployeeLeaveManagement.Context.cs">
