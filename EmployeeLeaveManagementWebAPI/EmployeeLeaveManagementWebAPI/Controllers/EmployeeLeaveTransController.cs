@@ -13,10 +13,10 @@ namespace EmployeeLeaveManagementWebAPI.Controllers
     {
 
         // GET api/values
-        public List<EmployeeLeaveTransactionModel> Get()
+        public List<EmployeeLeaveTransactionModel> Get(int id)
         {
             EmployeeLeaveTransactionManagement ELTM = new EmployeeLeaveTransactionManagement();
-            var res=ELTM.GetEmployeeLeaveTransaction();
+            var res=ELTM.GetEmployeeLeaveTransaction(id);
 
             return res;
             
@@ -28,26 +28,26 @@ namespace EmployeeLeaveManagementWebAPI.Controllers
         //    return "value";
         //}
 
-        public List<EmployeeLeaveTransactionModel> Get(int leaveType, string fromDate, string toDate, string comments, int workingDays)
+        public List<EmployeeLeaveTransactionModel> Get(int id, int leaveType, string fromDate, string toDate, string comments, int workingDays)
         {
             EmployeeLeaveTransactionManagement ELTM = new EmployeeLeaveTransactionManagement();
             var detailsInserted = ELTM.InsertEmployeeLeaveDetails(leaveType,fromDate,toDate,comments,workingDays);
             var res = new List<EmployeeLeaveTransactionModel>();
             if(detailsInserted)
             {
-                res = ELTM.GetEmployeeLeaveTransaction();
+                res = ELTM.GetEmployeeLeaveTransaction(id);
             }
             return res;
         }
 
-        public List<EmployeeLeaveTransactionModel> Get(int id)
+        public List<EmployeeLeaveTransactionModel> Get(int id, bool status)
         {
             EmployeeLeaveTransactionManagement ELTM = new EmployeeLeaveTransactionManagement();
             var detailsInserted = ELTM.SubmitLeaveForApproval(id);
             var res = new List<EmployeeLeaveTransactionModel>();
             if (detailsInserted)
             {
-                res = ELTM.GetEmployeeLeaveTransaction();
+                res = ELTM.GetEmployeeLeaveTransaction(id);
             }
             return res;
         }
@@ -59,7 +59,7 @@ namespace EmployeeLeaveManagementWebAPI.Controllers
             var res = new List<EmployeeLeaveTransactionModel>();
             if (detailsInserted)
             {
-                res = ELTM.GetEmployeeLeaveTransaction();
+                res = ELTM.GetEmployeeLeaveTransaction(employeeId);
             }
             return res;
         }

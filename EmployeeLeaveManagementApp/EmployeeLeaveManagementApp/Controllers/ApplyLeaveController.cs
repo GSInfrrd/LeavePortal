@@ -4,6 +4,7 @@ using LMS_WebAPP_ServiceHelpers;
 using System.Threading.Tasks;
 using System;
 using LMS_WebAPP_Utils;
+using LMS_WebAPP_Domain;
 
 namespace EmployeeLeaveManagementApp.Controllers
 {
@@ -17,8 +18,9 @@ namespace EmployeeLeaveManagementApp.Controllers
         {
             if (null != Session[Constants.SESSION_OBJ_USER])
             {
+                var data = (UserAccount)Session[Constants.SESSION_OBJ_USER];
                 EmployeeLeaveTransactionManagement ELTM = new EmployeeLeaveTransactionManagement();
-                var res = await ELTM.GetProductAsync();
+                var res = await ELTM.GetProductAsync(data.RefEmployeeId);
                 //var values = Enum.GetValues(typeof(LeaveType));
                 return View(res);
             }
@@ -36,9 +38,10 @@ namespace EmployeeLeaveManagementApp.Controllers
         [HttpPost]
         public async  Task<ActionResult> SubmitLeaveRequest(int leaveType,string fromDate,string toDate,string comments,int workingDays)
         {
+            var data = (UserAccount)Session[Constants.SESSION_OBJ_USER];
             EmployeeLeaveTransactionManagement ELTM = new EmployeeLeaveTransactionManagement();
-          
-            var res =await  ELTM.SubmitLeaveRequestAsync(leaveType, fromDate,toDate,comments,workingDays);
+            int id = data.RefEmployeeId;
+            var res =await  ELTM.SubmitLeaveRequestAsync(id,leaveType, fromDate,toDate,comments,workingDays);
             //return RedirectToAction("ApplyLeave");
              return Json(new { result = res });
         }

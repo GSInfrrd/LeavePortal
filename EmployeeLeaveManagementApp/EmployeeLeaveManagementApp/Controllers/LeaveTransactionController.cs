@@ -2,6 +2,8 @@
 using System.Web.Mvc;
 using LMS_WebAPP_ServiceHelpers;
 using System.Threading.Tasks;
+using LMS_WebAPP_Domain;
+using LMS_WebAPP_Utils;
 
 namespace EmployeeLeaveManagementApp.Controllers
 {
@@ -13,10 +15,18 @@ namespace EmployeeLeaveManagementApp.Controllers
         // GET: LeaveTransection
         public async Task<ActionResult> LeaveTransaction()
         {
-            EmployeeLeaveTransactionManagement ELTM = new EmployeeLeaveTransactionManagement();
-            var res = await ELTM.GetProductAsync();
-            
-            return View(res);
+            if (null != Session[Constants.SESSION_OBJ_USER])
+            {
+                var data = (UserAccount)Session[Constants.SESSION_OBJ_USER];
+                EmployeeLeaveTransactionManagement ELTM = new EmployeeLeaveTransactionManagement();
+                var res = await ELTM.GetProductAsync(data.RefEmployeeId);
+                //var values = Enum.GetValues(typeof(LeaveType));
+                return View(res);
+            }
+            else
+            {
+                return RedirectToAction("Login", "Account");
+            }
         }
 
         

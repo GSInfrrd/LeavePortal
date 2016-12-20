@@ -17,6 +17,9 @@ namespace LMS_WebAPI_Domain
         public int NumberOfWorkingDays { get; set; }
         public int RefLeaveType { get; set; }
 
+        public string LeaveTypeName { get; set; }
+        public string StatusName { get; set; }
+
         public string LeaveType { get; set; }
         public string EmployeeComment { get; set; }
         public string ManagerComments { get; set; }

@@ -14,13 +14,14 @@ namespace LMS_WebAPP_ServiceHelpers
 
 
         private string URL = "http://localhost:64476/api/EmployeeLeaveTrans";
-        // private string urlParameters = "?userName=anualoor&password=Temp@123";
+        private string urlParameters;
 
-        public async Task<IList<LeaveTransaction>> GetProductAsync()
+        public async Task<IList<LeaveTransaction>> GetProductAsync(int empid)
         {
             HttpClient client = new HttpClient();
             client.BaseAddress = new Uri(URL);
-            
+            urlParameters = "?id=" + empid;
+            URL += urlParameters;
             // Add an Accept header for JSON format.
             client.DefaultRequestHeaders.Accept.Add(
             new MediaTypeWithQualityHeaderValue("application/json"));
@@ -37,10 +38,10 @@ namespace LMS_WebAPP_ServiceHelpers
             return null;
         }
 
-        public async Task<IList<LeaveTransaction>> SubmitLeaveRequestAsync(int leaveType,string fromDate,string toDate,string comments,int workingDays)
+        public async Task<IList<LeaveTransaction>> SubmitLeaveRequestAsync(int id, int leaveType,string fromDate,string toDate,string comments,int workingDays)
         {
             HttpClient client = new HttpClient();
-           var urlParameters = "?leaveType=" + leaveType + "&fromDate=" + fromDate + "&toDate="+ toDate+"&comments="+comments+"&workingDays="+workingDays;
+           var urlParameters = "?id=" + id + "&leaveType=" + leaveType + "&fromDate=" + fromDate + "&toDate="+ toDate+"&comments="+comments+"&workingDays="+workingDays;
             //URL = URL + "/SubmitLeaveRequest";
             client.BaseAddress = new Uri(URL);
 
@@ -63,7 +64,8 @@ namespace LMS_WebAPP_ServiceHelpers
         public async Task<IList<LeaveTransaction>> SubmitLeaveForApprovalAsync(int id)
         {
             HttpClient client = new HttpClient();
-            var urlParameters = "?id=" + id;
+            var urlParameters = "?id=" + id + "&status=" + true;
+            //urlParameters = "?empId=" + empId + "&year=" + year;
             //URL = URL + "/SubmitLeaveRequest";
             client.BaseAddress = new Uri(URL);
 

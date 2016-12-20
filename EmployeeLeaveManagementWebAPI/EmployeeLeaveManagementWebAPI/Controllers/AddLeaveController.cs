@@ -13,10 +13,10 @@ namespace EmployeeLeaveManagementWebAPI.Controllers
         //GET: AddLeave
         [AllowAnonymous]
         [HttpGet]
-        public List<EmployeeLeaveTransactionModel> GetLeaveType()
+        public List<EmployeeLeaveTransactionModel> GetLeaveType(int id)
         {
             EmployeeLeaveTransactionManagement ELTM = new EmployeeLeaveTransactionManagement();
-            var res = ELTM.GetEmployeeLeaveTransaction();
+            var res = ELTM.GetEmployeeLeaveTransaction(id);
 
             return res;
 
