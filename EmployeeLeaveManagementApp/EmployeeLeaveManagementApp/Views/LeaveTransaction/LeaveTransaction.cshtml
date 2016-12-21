@@ -3,6 +3,20 @@
     ViewBag.Title = "LeaveTransaction";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
+<style>
+        .pagination > .active > a,
+.pagination > .active > span,
+.pagination > .active > a:hover,
+.pagination > .active > span:hover,
+.pagination > .active > a:focus,
+.pagination > .active > span:focus {
+  z-index: 3;
+  color: #fff;
+  cursor: default;
+  background-color: black !important;
+  border-color: black !important;
+}
+</style>
 <!DOCTYPE html>
 <html>
 <head>
@@ -101,6 +115,14 @@
     <!-- page script -->
     <script>
         $(function () {
+            $('#example2').DataTable({
+                "paging": true,
+                "lengthChange": true,
+                "searching": false,
+                "ordering": true,
+                "info": true,
+                "autoWidth": false,
+            });
             setTimeout($("#example2").DataTable(), 5000);
    
   });
