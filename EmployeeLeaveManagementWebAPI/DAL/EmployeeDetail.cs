@@ -30,7 +30,7 @@ namespace LMS_WebAPI_DAL
         public int Id { get; set; }
         public int RefRoleId { get; set; }
         public Nullable<System.DateTime> DateOfJoining { get; set; }
-        public Nullable<int> ManagerId { get; set; }
+        public int ManagerId { get; set; }
         public System.DateTime CreatedDate { get; set; }
         public Nullable<System.DateTime> ModifiedDate { get; set; }
         public Nullable<int> Experience { get; set; }

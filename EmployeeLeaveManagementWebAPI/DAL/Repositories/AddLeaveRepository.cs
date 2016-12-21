@@ -50,10 +50,9 @@ namespace LMS_WebAPI_DAL.Repositories
                         RefEmployeeId = 1,
                         CreatedBy = "Alekya"
                     };
-                    ctx.EmployeeLeaveTransactions.Add(employeeLeaveDetails);                       
-                        ctx.SaveChanges();
-                 
-
+                 ctx.EmployeeLeaveTransactions.Add(employeeLeaveDetails);
+                    ctx.SaveChanges();
+                   
                     }
                     result = true;
          
@@ -78,7 +77,21 @@ namespace LMS_WebAPI_DAL.Repositories
 
                     var leaveDetails = ctx.EmployeeLeaveTransactions.FirstOrDefault(x => x.Id == id);
                     leaveDetails.RefStatus =(int) LeaveStatus.Submitted;
-                    ctx.SaveChanges();         
+                    ctx.SaveChanges();
+                    var workFlow = new Workflow
+                    {
+                        RefLeaveTransactionId = leaveDetails.Id,
+                        RefApproverId = ctx.EmployeeDetails.FirstOrDefault(x => x.Id == 1).ManagerId,
+                        ModifiedDate = DateTime.Now,
+                        RefStatus = (int)LeaveStatus.Submitted,
+                        CreatedDate=DateTime.Now,
+                        CreatedBy=leaveDetails.EmployeeDetail.FirstName
+                    };
+                    ctx.Workflows.Add(workFlow);
+                    ctx.SaveChanges();
+
+
+
                 }
                 result = true;
 
