@@ -40,6 +40,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ApproveLeave.cs" />
     <Compile Include="EmployeeDetailsModel.cs" />
     <Compile Include="LeaveReportModel.cs" />
     <Compile Include="LeaveTransaction.cs" />

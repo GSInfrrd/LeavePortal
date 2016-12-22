@@ -48,6 +48,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ApproveLeaveManagement.cs" />
     <Compile Include="EmployeeLeaveTransactionManagement.cs" />
     <Compile Include="UserManagement.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

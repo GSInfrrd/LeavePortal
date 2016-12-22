@@ -1,0 +1,437 @@
+﻿
+@{
+    ViewBag.Title = "ApplyLeave";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+@model List<LMS_WebAPP_Domain.ApproveLeave>
+@{
+    ViewBag.Title = "ApproveLeave";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+   
+}
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Approve Leave</title>
+    <!-- Tell the browser to be responsive to screen width -->
+    <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+    <!-- Bootstrap 3.3.6 -->
+    <link rel="stylesheet" href="../../bootstrap/css/bootstrap.min.css">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.5.0/css/font-awesome.min.css">
+    <!-- Ionicons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/ionicons/2.0.1/css/ionicons.min.css">
+    <!-- DataTables -->
+    <link rel="stylesheet" href="../../plugins/datatables/dataTables.bootstrap.css">
+    <!-- Theme style -->
+    <link rel="stylesheet" href="../../dist/css/AdminLTE.min.css">
+    <!-- AdminLTE Skins. Choose a skin from the css/skins
+         folder instead of downloading all of them to reduce the load. -->
+    <link rel="stylesheet" href="../../dist/css/skins/_all-skins.min.css">
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
+    <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
+    <!-- iCheck for checkboxes and radio inputs -->
+    <link rel="stylesheet" href="../../plugins/iCheck/all.css">
+    <link rel="stylesheet" href="../../dist/css/AdminLTE.min.css">
+
+    <link href="~/plugins/Toastr/toastr.css" rel="stylesheet" />
+
+
+    @*<style>
+            .paginate_button{
+                background-color:#222d32 !important;
+            }
+        </style>*@
+</head>
+<body class="hold-transition skin-blue sidebar-mini">
+
+    <!-- Content Wrapper. Contains page content -->
+    <!-- Main content -->
+    <section class="content-header" style="height:41px">
+        <h1 class="col-md-9" style="padding-left:0px">
+            Approve Leave
+        </h1>
+        <div style="float:right;padding-right:0px" class="col-md-2">
+
+
+        </div>
+    </section>
+
+    <section class="content">
+        <div class="row">
+            <div class="col-xs-12">
+                <div class="box">
+                    <div class="box-body">
+                        <table id="example1" class="table table-bordered table-striped">
+                            <thead>
+                                <tr>
+                                    <th>Employee Name</th>
+                                    <th>From Date</th>
+                                    <th>To Date</th>
+                                    <th>Submitted Date</th>
+                                    <th>Status</th>
+                                    <th style="width:160px">Number of working Days</th>
+                                    <th>Leave Type</th>
+                                    <th>View</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (LMS_WebAPP_Domain.ApproveLeave m in Model)
+                                {
+                                    var btnDisabled = m.RefStatus > 9 ? "disabled" : "";
+
+
+                                    <tr>
+                                        <td>@m.EmployeeName</td>
+                                        <td>@m.FromDate.Date.ToString("dd/MM/yyyy")</td>
+                                        <td>@m.ToDate.Date.ToString("dd/MM/yyyy")</td>
+                                        <td>@m.CreatedDate.Date.ToString("dd/MM/yyyy")</td>
+                                        <td>@(LMS_WebAPP_Utils.CommonMethods.Description((LMS_WebAPP_Utils.LeaveStatus)m.RefStatus))</td>
+                                        <td>@m.NumberOfWorkingDays</td>
+                                        <td>@(LMS_WebAPP_Utils.CommonMethods.Description((LMS_WebAPP_Utils.LeaveType)m.RefLeaveType))</td>
+                                        <td><button type="button" id="btnViewLeave" class="btn bg-black" data-toggle="modal" data-target=".bs-add-leave-modal" style="background-color:#222d32 !important" data-content="@m.Id" data-COMMENT="@m.EmployeeComment"><i class="fa fa-eye"></i></button></td>
+
+                                    </tr>
+
+
+                                }
+                            </tbody>
+                            <tfoot>
+                                <tr>
+                                    <td></td>
+                                </tr>
+                            </tfoot>
+                        </table>
+                    </div>
+                    <!-- /.box-body -->
+                </div>
+                <!-- /.box -->
+            </div>
+            <!-- /.col -->
+        </div>
+        <!-- /.row -->
+    </section>
+    <div class="modal bs-add-leave-modal" id="ViewLeaveModal" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                    <h4 class="modal-title">View Leave</h4>
+                </div>
+                <div class="modal-body">
+                    <div class="form-group">
+                        <div>
+                            <label>Employee Name :  </label> &nbsp;<span id="MdlName"></span>
+                            <label style="padding-left:100px">Leave Type :  </label> &nbsp;<span id="MdlLeaveType"></span>
+                        </div>
+                        <div>
+                            
+                        </div>
+                        <div>
+                            <label style="padding-top:20px">From Date : </label> &nbsp;<span id="MdlFromDate"></span>
+                            <label style="padding-left:200px">To Date : </label> &nbsp;<span id="MdlToDate"></span>
+                        </div>
+                        <div>
+                            
+                        </div>
+                        <div>
+                            <label style="padding-top:20px">Submitted Date : </label> &nbsp;<span id="MdlSubmittedDate"></span>
+                            <label style="padding-left:150px">Number Of Working Days :</label> &nbsp;<span id="MdlNumberOfWorkingDays"></span>
+                        </div>
+                        <div>
+                            
+                        </div>
+                        <div>
+                            <label style="padding-top:20px">Employee Comments :</label> &nbsp;<span id="MdlEmployeeComments"></span>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div>
+                            <label style="padding-top:20px">Manager Comments :</label>
+                        </div>
+                        <div>
+                            <textarea id="leaveComment" rows="3" style="width:568px" placeholder="Enter ..."></textarea>
+                        </div>
+                        <div>
+                            <label style="padding-top:20px">Do you want to reassign? :</label>
+                            <span style="padding-top:20px;padding-left:50px">NO
+                                <input value="NO" style="padding-top:20px" type="radio" name="r1" class="flat-red" checked>
+                            </span>
+                            <span style="padding-top:20px; padding-left:50px">YES
+                                <input value="YES" style="padding-top:20px" type="radio" name="r1" class="flat-red">
+                            </span>
+                            
+                        </div>
+                        <div class="form-group" id="assignto">
+                            <label>Assign To:</label>
+                            <select class="form-control select2" style="width: 100%;">
+                                <option selected="selected">Girija</option>
+                                <option>Tanima</option>
+                                <option>Anoop</option>
+                                <option>Amit</option>
+                            </select>
+                        </div>
+                        <label id="lblHiddenId" style="display:none"></label>
+                        <div class="form-group has-error" style="display:none" id="divCommentError">
+                            <label class="control-label" for="leaveComment">
+                                <i class="fa fa-times-circle-o"></i> Please enter the comments
+                            </label>
+
+                        </div>
+
+                    </div>
+                </div>
+
+                <div class="modal-footer">
+                    <button type="button" id="btnAssignTo" style="background-color:#222d32 !important" class="btn btn-primary">Assign</button>
+                    <button type="button" id="btnApproveLeave" style="background-color:#222d32 !important" class="btn btn-primary">Approve</button>
+                    <button type="button" id="btnRejectLeave" style="background-color:#222d32 !important" class="btn btn-primary">Reject</button>
+                    <button type="button" class="btn btn-primary pull-right" style="background-color:#222d32 !important" data-dismiss="modal" data->Cancel</button>
+
+                </div>
+            </div>
+            </div>
+        </div>
+            <!-- /.modal -->
+            <!-- /.content -->
+            <!-- ./wrapper -->
+            <!-- jQuery 2.2.3 -->
+            <script src="../../plugins/jQuery/jquery-2.2.3.min.js"></script>
+            <!-- Bootstrap 3.3.6 -->
+            <script src="../../bootstrap/js/bootstrap.min.js"></script>
+            <!-- DataTables -->
+            <script src="../../plugins/datatables/jquery.dataTables.min.js"></script>
+            <script src="../../plugins/datatables/dataTables.bootstrap.min.js"></script>
+            <!-- SlimScroll -->
+            <script src="../../plugins/slimScroll/jquery.slimscroll.min.js"></script>
+            <!-- FastClick -->
+            <script src="../../plugins/fastclick/fastclick.js"></script>
+            <!-- AdminLTE App -->
+            <script src="../../dist/js/app.min.js"></script>
+            <!-- AdminLTE for demo purposes -->
+            <script src="../../dist/js/demo.js"></script>
+            <!-- page script -->
+            <script src="~/plugins/daterangepicker/moment.min.js"></script>
+            @*<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.11.2/moment.min.js"></script>*@
+            <script src="../../plugins/daterangepicker/daterangepicker.js"></script>
+            <!-- bootstrap datepicker -->
+            <script src="../../plugins/datepicker/bootstrap-datepicker.js"></script>
+            <script src="../../plugins/iCheck/icheck.min.js"></script>
+            <script src="../../plugins/Toastr/toastr.js"></script>
+            <script>
+                var fromDate;
+                var toDate;
+                $(document).ready(function () {
+                    debugger;
+                    if (localStorage.getItem("leaveApproved") == 1) {
+                        showSuccessMessage("Leave request successfully approved");
+                        localStorage.removeItem("leaveApproved");
+                    }
+                    if (localStorage.getItem("leaveRejected") == 1) {
+                        showSuccessMessage("Leave request rejected");
+                        localStorage.removeItem("leaveRejected");
+                    }
+                    if (localStorage.getItem("leaveAssigned") == 1) {
+                        showSuccessMessage("Leave request successfully assigned");
+                        localStorage.removeItem("leaveAssigned");
+                    }
+                    $(function () {
+                        $("#example1").DataTable();
+                        $('#example2').DataTable({
+                            "paging": true,
+                            "lengthChange": false,
+                            "searching": false,
+                            "ordering": true,
+                            "info": true,
+                            "autoWidth": false,
+                        });
+                        $("#example1.dataTables_filter").hide();
+                        $('#leaveDatepicker').daterangepicker(
+                            {
+                                minDate: new Date()
+                            });
+                        $('#leaveDatepicker').on('change.daterangepicker', function (ev, picker) {
+                            var date = ev.target.value;
+                            var dates = [];
+                            dates = date.split('-');
+                            var start = dates[0].trim();
+                            var startDate = new Date(start);
+                            var startMonth = startDate.getMonth() + 1;
+                            fromDate = startDate.getFullYear() + "-" + startMonth + "-" + startDate.getDate();
+                            var end = dates[1].trim();
+                            var endDate = new Date(end);
+                            var endMonth = endDate.getMonth() + 1;
+                            toDate = endDate.getFullYear() + "-" + endMonth + "-" + endDate.getDate();
+                            //toDate = end.toString("YYYY-MM-DD");
+                            var days = (endDate - startDate) / (1000 * 60 * 60 * 24);
+                            days += 1;
+                            var weekend_count = 0;
+                            for (i = startDate.valueOf() ; i <= endDate.valueOf() ; i += 86400000) {
+                                var temp = new Date(i);
+                                if (temp.getDay() == 0 || temp.getDay() == 6) {
+                                    weekend_count++;
+                                }
+                            }
+                            days = days - weekend_count;
+                            $("#lblTotalWorkingDays").html(Math.round(days));
+                        });
+                        $('#leaveDatepicker').on('apply.daterangepicker', function (ev, picker) {
+
+                            var start = picker.startDate;
+                            fromDate = start.format('YYYY-MM-DD');
+                            var end = picker.endDate;
+                            toDate = end.format('YYYY-MM-DD');
+                            var days = (end - start) / (1000 * 60 * 60 * 24);
+
+                            var weekend_count = 0;
+                            for (i = start.valueOf() ; i <= end.valueOf() ; i += 86400000) {
+                                var temp = new Date(i);
+                                if (temp.getDay() == 0 || temp.getDay() == 6) {
+                                    weekend_count++;
+                                }
+                            }
+                            days = days - weekend_count
+                            $("#lblTotalWorkingDays").html(Math.round(days));
+                        });
+                    });
+                    $('#AddLeaveModal').on('hidden.bs.modal', function () {
+                        $(this).find("textarea#leaveComment").val('').end();
+                        //$("#leaveDatepicker").daterangepicker("destroy");
+                        //$("#leaveDatepicker").daterangepicker("refresh");
+                        $(this).find("input.flat-red:checked").parent().removeClass('checked');
+                        $("#divCommentError").hide();
+                        $("#divLeaveTypeError").hide();
+
+                    });
+                });
+
+                $("#leaveComment").keypress(function (e) {
+                    $("#divCommentError").hide();
+                });
+
+                $('input:radio[name=r1]:checked').change(function (e) {
+                    if ($("input[name='r1']:checked").val() == 'NO') {
+                        $("#assignto").hide();
+                    }
+                    if ($("input[name='r1']:checked").val() == 'YES') {
+                        $("#assignto").show();
+                    }
+
+                });
+                
+                $(document).on('click', '#btnViewLeave', function (e) {
+                    var tt = $(this);
+                    var name = tt.parent().parent().children()[0].innerText;
+                    var leavetype = tt.parent().parent().children()[6].innerText;
+                    var fromdate = tt.parent().parent().children()[1].innerText;
+                    var todate = tt.parent().parent().children()[2].innerText;
+                    var submitteddate = tt.parent().parent().children()[3].innerText;
+                    var numberofworkingdays = tt.parent().parent().children()[5].innerText;
+                    var leavetype = tt.parent().parent().children()[6].innerText;
+                    var employeecomments = $(this).attr("data-COMMENT");
+                
+                   
+                    $('#assignto').hide();
+                    
+                    $('#MdlName').html(name);
+                    $('#MdlLeaveType').html(leavetype);
+                    $('#MdlFromDate').html(fromdate);
+                    $('#MdlToDate').html(todate);
+                    $('#MdlSubmittedDate').html(submitteddate);
+                    $('#MdlNumberOfWorkingDays').html(numberofworkingdays);
+                    $('#MdlEmployeeComments').html(employeecomments);
+                    
+                   
+                    var id = $(this).data("content");
+                    $('#lblHiddenId').html(id);
+                    var status = 1;
+                    $.ajax({
+                        cache: false,
+                        type: 'get',
+                        url: '/ApproveLeave/GetApproveLeave',
+                        data: { id: id , status: status },
+                        //contentType: "application/json; charset=utf-8",
+                        dataType: "json",
+                        success: function (data) {
+                           
+                            $('#ViewLeaveModal').modal('show');
+                        }
+                    });
+                }
+       );
+
+                $(document).on('click', '#btnApproveLeave', function (e) {
+
+                    debugger;
+                    var comments = $("#leaveComment").val();
+                    var id = $("#lblHiddenId").html();
+                    var st = 1;
+                    var status = 1;
+                    $.ajax({
+                        cache: false,
+                        type: 'post',
+                        url: '/ApproveLeave/ApproveEmployeeLeave',
+                        data: { id: id, comments: comments, st: st},
+                        //contentType: "application/json; charset=utf-8",
+                        dataType: "json",
+                        success: function (data) {
+                            if (data) {
+                                $('#ViewLeaveModal').modal('hide');
+                                localStorage.setItem("leaveApproved", 1);
+                                location.reload();
+                            }
+                        }
+                    });
+                }
+      );
+
+                $(document).on('click', '#btnRejectLeave', function (e) {
+
+                    debugger;
+                    var comments = $("#leaveComment").val();
+                    var id = $("#lblHiddenId").html();
+                    var st = 0;
+                    var status = 1;
+                    $.ajax({
+                        cache: false,
+                        type: 'post',
+                        url: '/ApproveLeave/ApproveEmployeeLeave',
+                        data: { id: id, comments: comments, st: st },
+                        //contentType: "application/json; charset=utf-8",
+                        dataType: "json",
+                        success: function (data) {
+
+                            $('#ViewLeaveModal').modal('hide');
+                            localStorage.setItem("leaveRejected", 1);
+                            location.reload();
+                        }
+                    });
+                }
+     );
+
+                
+
+                
+
+                function showSuccessMessage(message, fadeOut) {
+                    //To clear existing toastr
+                    toastr.clear();
+                    //fadeOut = false;
+                    var position = "bottom-full-width";
+                    toastr.options.positionClass = 'toast-' + position;
+                    if (typeof fadeOut !== "undefined" && fadeOut == false) { toastr.options.timeOut = 0; }
+                    toastr.success(message);
+                }
+            </script>
+</body>
+</html>
+
+

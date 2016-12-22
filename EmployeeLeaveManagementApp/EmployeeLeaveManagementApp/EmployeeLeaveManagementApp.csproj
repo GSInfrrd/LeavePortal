@@ -197,6 +197,7 @@
     <Compile Include="App_Start\Startup.Auth.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\ApplyLeaveController.cs" />
+    <Compile Include="Controllers\ApproveLeaveController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\LeaveTransactionController.cs" />
     <Compile Include="Global.asax.cs">
@@ -1165,6 +1166,7 @@
     <Content Include="Views\ApplyLeave\AddLeave.cshtml" />
     <Content Include="Views\ApplyLeave\ApplyLeave.cshtml" />
     <Content Include="Views\Account\Profile.cshtml" />
+    <Content Include="Views\ApproveLeave\ApproveLeave.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

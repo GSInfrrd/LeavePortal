@@ -24,43 +24,7 @@ namespace LMS_WebAPI_ServiceHelpers
             return EmployeeLeaveTransaction;
         }
 
-        //private List<EmployeeLeaveTransactionModel> ToModel(List<EmployeeLeaveTransaction> employeeLeaveTransaction)
-        //{
-        //    List<EmployeeLeaveTransactionModel> Empres = new List<EmployeeLeaveTransactionModel>();
-        //    try
-        //    {
-                
-        //        foreach (var m in employeeLeaveTransaction)
-        //        {
-        //            var newTrans = new EmployeeLeaveTransactionModel();
-        //            newTrans.Id = m.Id;
-        //            newTrans.RefEmployeeId = m.RefEmployeeId;
-        //            newTrans.FromDate = m.FromDate;
-        //            newTrans.ToDate = m.ToDate;
-        //            newTrans.CreatedDate = m.CreatedDate;
-        //            newTrans.RefStatus = m.RefStatus;
-        //            newTrans.NumberOfWorkingDays = m.NumberOfWorkingDays;
-        //            newTrans.RefLeaveType = m.RefLeaveType;
-        //            newTrans.EmployeeComment = m.EmployeeComment;
-        //            newTrans.LeaveTypeName = m.MasterDataValue.Value;
-        //            newTrans.StatusName = m.MasterDataValue1.Value;
-        //            //newTrans.ManagerComments = m.ManagerComments;
-        //            newTrans.ModifiedDate = m.ModifiedDate;
-        //            Empres.Add(newTrans);
-
-
-        //        }
-        //    }
-        //    catch (Exception)
-        //    {
-
-        //        throw;
-        //    }
-        //    return Empres;
-
-
-
-        //}
+       
 
         public bool InsertEmployeeLeaveDetails(int leaveType, string fromDate, string toDate, string comments, int workingDays)
         {
