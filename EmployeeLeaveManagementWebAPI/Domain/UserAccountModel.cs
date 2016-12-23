@@ -16,5 +16,8 @@ namespace LMS_WebAPI_Domain
         public System.DateTime CreatedDate { get; set; }
         public Nullable<System.DateTime> ModifiedDate { get; set; }           
         public int RefRoleId { get; set; }   
+
+        public string Imagepath { get; set; }
+        public DateTime DateOfJoining { get; set; }
     }
 }

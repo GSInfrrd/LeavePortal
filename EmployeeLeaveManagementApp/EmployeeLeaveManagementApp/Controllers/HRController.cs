@@ -3,6 +3,7 @@ using LMS_WebAPP_ServiceHelpers;
 using LMS_WebAPP_Utils;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Web;
@@ -13,6 +14,7 @@ namespace EmployeeLeaveManagementApp.Controllers
     public class HRController : Controller
     {
         HRManagement hrOperations = new HRManagement();
+        UserManagement userMgt = new UserManagement();
         // GET: HR
         public ActionResult AddEmployeeDetails()
         {
@@ -23,6 +25,21 @@ namespace EmployeeLeaveManagementApp.Controllers
             else
             {
                 return RedirectToAction("Login","Account");
+            }
+        }
+
+        public async Task<ActionResult> EmployeeDetails()
+        {
+            if (null != Session[Constants.SESSION_OBJ_USER])
+            {
+                var data = (UserAccount)Session[Constants.SESSION_OBJ_USER];
+                var model = new List<EmployeeDetailsModel>();
+                model = await hrOperations.GetEmployeeListAsync();
+                return View(model);
+            }
+            else
+            {
+                return RedirectToAction("Login", "Account");
             }
         }
 

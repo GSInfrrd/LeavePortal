@@ -18,5 +18,11 @@ namespace EmployeeLeaveManagementWebAPI.Controllers
             var result = hrOperations.SubmitEmployeeDetails(model);
             return result;
         }
+
+        public List<EmployeeDetailsModel> Get()
+        {
+            var result = hrOperations.GetEmployeeList();
+            return result;
+        }
     }
 }

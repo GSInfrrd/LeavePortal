@@ -6,6 +6,7 @@ using LMS_WebAPI_DAL;
 using System;
 using LMS_WebAPI_Utils;
 using System.Data.Entity;
+using System.Net.Mail;
 
 namespace LMS_WebAPI_DAL.Repositories
 {
@@ -78,10 +79,13 @@ namespace LMS_WebAPI_DAL.Repositories
                     var leaveDetails = ctx.EmployeeLeaveTransactions.FirstOrDefault(x => x.Id == id);
                     leaveDetails.RefStatus =(int) LeaveStatus.Submitted;
                     ctx.SaveChanges();
+                    var mailFrom =ctx.UserAccounts.FirstOrDefault(i => i.RefEmployeeId == leaveDetails.RefEmployeeId);
+                    var fromEmail = ctx.UserAccounts.FirstOrDefault(i => i.RefEmployeeId == mailFrom.Id).UserName;
+                    var toEmail= ctx.UserAccounts.FirstOrDefault(i => i.RefEmployeeId == mailFrom.EmployeeDetail.ManagerId).UserName;
                     var workFlow = new Workflow
                     {
                         RefLeaveTransactionId = leaveDetails.Id,
-                        RefApproverId =(int)ctx.EmployeeDetails.FirstOrDefault(x => x.Id == 1).ManagerId,
+                        RefApproverId =(int)ctx.EmployeeDetails.FirstOrDefault(x => x.Id == leaveDetails.RefEmployeeId).ManagerId,
                         ModifiedDate = DateTime.Now,
                         RefStatus = (int)LeaveStatus.Submitted,
                         CreatedDate=DateTime.Now,
@@ -90,7 +94,7 @@ namespace LMS_WebAPI_DAL.Repositories
                     ctx.Workflows.Add(workFlow);
                     ctx.SaveChanges();
 
-
+                    var op = SendMail(leaveDetails.EmployeeDetail.FirstName,fromEmail, toEmail);
 
                 }
                 result = true;
@@ -125,6 +129,34 @@ namespace LMS_WebAPI_DAL.Repositories
             }
             return result;
         }
+
+        public bool SendMail(string firstName, string fromEmail,string toEmail)
+        {
+
+            var message = new MailMessage();
+            message.From=new MailAddress(fromEmail);
+
+            message.To.Add(new MailAddress("alekhya.kk9@gmail.com"));
+            message.CC.Add(new MailAddress("alekya@infrrd.ai"));
+            message.Subject = "Leave Notification";
+            message.Body = @"Hi,</br></br>"+firstName+" has applied leave.Login to your account to approve/reject";
+
+
+
+            using (var client = new SmtpClient())
+            {
+                client.Host = "smtp.gmail.com";
+                client.Port = 587;
+                client.EnableSsl = true;
+                client.UseDefaultCredentials = false;
+                client.Credentials = new System.Net.NetworkCredential("alekya@infrrd.ai","alkvyS9.");
+
+                client.Send(message);
+            }
+
+                return true;
+            }
+
+        }
     }
 
-}

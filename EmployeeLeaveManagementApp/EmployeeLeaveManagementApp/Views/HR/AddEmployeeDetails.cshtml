@@ -244,7 +244,7 @@
             RefHierarchyLevel: $("#ddlLevel").val(),
             DateOfJoining: $("#txtJoiningDate").val(),
             ManagerName: $("#ddlManagerName").val(),
-            Imagepath:imgPath,
+            Imagepath: imgPath,
             EmployeeEducation: [educationDetails],
             EmployeeExperience:[experienceDetails]
         };
@@ -255,6 +255,7 @@
             data: JSON.stringify(model),
             contentType: "application/json",
             dataType: "json",
+            processData:false,
             success: function (data) {
                 localStorage.setItem("leaveDeleted", 1);
                 location.reload();
@@ -262,12 +263,16 @@
         });
     }
    );
-        var imgpath="";
+    var imgpath = "";
+    var size = "";
+    var type = "";
     function ValidateAndUploadImage()
-    {
-     debugger   
+    {  
         var file = document.getElementById("employeeImage").value;
         imgPath = document.getElementById("employeeImage").files[0].name;
+        size = document.getElementById("employeeImage").files[0].size;
+        type = document.getElementById("employeeImage").files[0].type;
+
         var reader = new FileReader();
 
         reader.onload = function (e) {
@@ -277,6 +282,27 @@
                 .height(200);
         };
         reader.readAsDataURL(document.getElementById("employeeImage").files[0]);
+
+        var fileUpload = $("#employeeImage").get(0);
+                var files = fileUpload.files;
+                var test = new FormData();
+                for (var i = 0; i < files.length; i++) {
+                    test.append(files[i].name, files[i]);
+                }
+                $.ajax({
+                    url: "../ImageUploadHandler.ashx",
+                    type: "POST",
+                    contentType: false,
+                    processData: false,
+                    data: test,
+                    // dataType: "json",
+                    success: function (result) {
+                        alert(result);
+                    },
+                    error: function (err) {
+                        alert(err.statusText);
+                    }
+                });
 
     }
 </script>

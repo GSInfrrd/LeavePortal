@@ -20,5 +20,11 @@ namespace LMS_WebAPI_ServiceHelpers
 
             return result;
         }
+
+        public List<EmployeeDetailsModel> GetEmployeeList()
+        {
+            var result = hrRepo.GetEmployeeList();
+            return result;
+        }
     }
 }

@@ -22,5 +22,7 @@ namespace LMS_WebAPP_Domain
         public string ManagerName { get; set; }
         public System.DateTime DateOfJoining { get; set; }
 
+        public string Imagepath { get; set; }
+
     }
 }

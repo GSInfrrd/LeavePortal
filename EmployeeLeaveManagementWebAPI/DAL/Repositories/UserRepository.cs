@@ -105,7 +105,7 @@ namespace LMS_WebAPI_DAL.Repositories
                 var leaveReport = new LeaveReportModel();
                 using (var ctx = new LeaveManagementSystemEntities1())
                 {
-                    var years = ctx.EmployeeLeaveTransactions.Where(i=>i.RefEmployeeId==employeeId && i.FromDate.Year==year && i.ToDate.Year==year).ToList();
+                    var years = ctx.EmployeeLeaveTransactions.Where(i=>i.RefEmployeeId==employeeId && i.RefStatus==(int)LeaveStatus.Approved && i.FromDate.Year==year && i.ToDate.Year==year).ToList();
                     foreach(var item in years)
                     {
                        

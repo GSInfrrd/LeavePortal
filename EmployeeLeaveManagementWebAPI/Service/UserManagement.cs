@@ -28,6 +28,8 @@ namespace LMS_WebAPI_ServiceHelpers
                     VerifiedUser.RefEmployeeId = userData.RefEmployeeId;
                     VerifiedUser.CreatedDate = userData.CreatedDate;
                     VerifiedUser.RefRoleId = userData.EmployeeDetail.RefRoleId;
+                    VerifiedUser.Imagepath = userData.EmployeeDetail.ImagePath;
+                    VerifiedUser.DateOfJoining =Convert.ToDateTime(userData.EmployeeDetail.DateOfJoining);
 
                 }
                 return VerifiedUser;

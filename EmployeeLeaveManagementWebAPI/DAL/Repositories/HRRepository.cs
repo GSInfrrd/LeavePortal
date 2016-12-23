@@ -82,5 +82,35 @@ namespace LMS_WebAPI_DAL.Repositories
             return result;
 
         }
+
+        public List<EmployeeDetailsModel> GetEmployeeList()
+        {
+            var list = new List<EmployeeDetailsModel>();
+            try
+            {
+                using (var ctx = new LeaveManagementSystemEntities1())
+                {
+                  var empList   = ctx.EmployeeDetails.ToList();
+                    foreach(var item in empList)
+                    {
+                        var listItem = new EmployeeDetailsModel();
+                        listItem.FirstName = item.FirstName;
+                        listItem.LastName = item.LastName;
+                        listItem.ManagerName =item.ManagerId!=null?ctx.EmployeeDetails.FirstOrDefault(i => i.Id == item.ManagerId).FirstName:string.Empty;
+                        listItem.DateOfJoining =Convert.ToDateTime(item.DateOfJoining);
+                        listItem.EmployeeNumber =Convert.ToInt32(item.EmpNumber);
+                        listItem.RoleName= item.RefRoleId != 0 ? ctx.MasterDataValues.FirstOrDefault(i => i.Id == item.RefRoleId).Value : string.Empty;
+
+                        list.Add(listItem);
+                    }
+
+                }
+                return list;
+            }
+            catch (Exception ex)
+            {
+                throw;
+            }
+        }
     }
 }

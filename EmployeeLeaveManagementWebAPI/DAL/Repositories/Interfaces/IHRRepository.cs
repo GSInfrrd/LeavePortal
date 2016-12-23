@@ -10,5 +10,6 @@ namespace LMS_WebAPI_DAL.Repositories.Interfaces
   public interface IHRRepository 
     {
         bool SubmitEmployeeDetails(EmployeeDetailsModel model);
+        List<EmployeeDetailsModel> GetEmployeeList();
     }
 }

@@ -12,11 +12,11 @@
         <h1>
             User Profile
         </h1>
-        <ol class="breadcrumb">
+        @*<ol class="breadcrumb">
             <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
             <li><a href="#">Examples</a></li>
             <li class="active">User profile</li>
-        </ol>
+        </ol>*@
     </section>
     <section class="content">
         <div class="row">
@@ -69,16 +69,16 @@
                 <div class="nav-tabs-custom">
                     <ul class="nav nav-tabs">
                         @*<li class="active"><a href="#activity" data-toggle="tab">Activity</a></li>*@
-                        <li class="active"><a href="#timeline" data-toggle="tab">Profile</a></li>
-                        <li><a href="#settings" data-toggle="tab" style="display:none">Settings</a></li>
+                        <li class="active"><a href="#profile" id="tabProfile" data-toggle="tab">Profile</a></li>
+                        <li><a href="#editDetails" id="tabEditDetails" data-toggle="tab" style="display:none">Edit</a></li>
                     </ul>
                     <div class="tab-content">
 
-                        <div class="active tab-pane" id="timeline">
+                        <div class="active tab-pane" id="profile">
                             <!-- The timeline -->
                             @*<div id="profile-tab" class="tab-pane active">*@
                             <div class="pd-20">
-                                <div class="vd_info tr"> <a class="btn btn-xs bg-yellow pull-right"> <i class="fa fa-pencil append-icon"></i> Edit </a> </div>
+                                <div class="vd_info tr"> <a class="btn btn-xs bg-yellow pull-right" id="editEmployeeDetails"> <i class="fa fa-pencil append-icon"></i> Edit </a> </div>
                                 <h3 class="mgbt-xs-15 mgtp-10 font-semibold"><i class="fa fa-user"></i> ABOUT</h3>
                                 <div class="row">
                                     <div class="col-sm-6">
@@ -207,7 +207,7 @@
                             @*</div>*@
                         </div>
                         <!-- /.tab-pane -->
-                        <div class="tab-pane" id="settings">
+                        <div class="tab-pane" id="editDetails">
                             <form class="form-horizontal">
                                 <div class="form-group">
                                     <label for="inputName" class="col-sm-2 control-label">Name</label>
@@ -264,3 +264,12 @@
             <!-- /.col -->
         </div>
         </section>
+<script>
+    $("#editEmployeeDetails").on('click',function(e)
+    {
+        $("#tabEditDetails").show();
+        $("#tabProfile").hide();
+        $("#editDetails").show();
+        $("#profile").hide();
+    })
+</script>
