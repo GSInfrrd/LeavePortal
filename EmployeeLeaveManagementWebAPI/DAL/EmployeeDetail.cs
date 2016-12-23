@@ -25,12 +25,13 @@ namespace LMS_WebAPI_DAL
             this.Workflows = new HashSet<Workflow>();
             this.EmployeeEducationDetails = new HashSet<EmployeeEducationDetail>();
             this.EmployeeExperienceDetails = new HashSet<EmployeeExperienceDetail>();
+            this.EmployeeSkills = new HashSet<EmployeeSkill>();
         }
     
         public int Id { get; set; }
         public int RefRoleId { get; set; }
         public Nullable<System.DateTime> DateOfJoining { get; set; }
-        public int ManagerId { get; set; }
+        public Nullable<int> ManagerId { get; set; }
         public System.DateTime CreatedDate { get; set; }
         public Nullable<System.DateTime> ModifiedDate { get; set; }
         public Nullable<int> Experience { get; set; }
@@ -45,6 +46,7 @@ namespace LMS_WebAPI_DAL
         public string PhoneNumber { get; set; }
         public string ImagePath { get; set; }
         public string Bio { get; set; }
+        public Nullable<int> RefHierarchyLevel { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<EmployeeContactDetail> EmployeeContactDetails { get; set; }
@@ -63,5 +65,8 @@ namespace LMS_WebAPI_DAL
         public virtual ICollection<EmployeeEducationDetail> EmployeeEducationDetails { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<EmployeeExperienceDetail> EmployeeExperienceDetails { get; set; }
+        public virtual MasterDataValue MasterDataValue1 { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<EmployeeSkill> EmployeeSkills { get; set; }
     }
 }

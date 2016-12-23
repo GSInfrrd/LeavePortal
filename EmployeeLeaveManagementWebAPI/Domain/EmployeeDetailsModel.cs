@@ -41,11 +41,16 @@ namespace LMS_WebAPI_Domain
         public string Country { get; set; }
         public string Telephone { get; set; }
 
-        public string DateOfBirth { get; set; }
+        public string DateOfBirthAsString { get; set; }
+        public DateTime DateOfBirth { get; set; }
 
         public string Email { get; set; }
         public string ImagePath { get; set; }
         public string Bio { get; set; }
+        public int RefRoleId { get; set; }
+        public List<string> Skills { get; set; }
+        public int EmployeeNumber { get; set; }
+        public int RefHierarchyLevel { get; set; }
 
     }
 

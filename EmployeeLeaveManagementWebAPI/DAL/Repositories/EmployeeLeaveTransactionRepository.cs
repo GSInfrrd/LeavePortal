@@ -42,7 +42,7 @@ namespace LMS_WebAPI_DAL.Repositories
                     var newTrans = new EmployeeLeaveTransactionModel();
                     newTrans.Id = m.Id;
                     newTrans.RefEmployeeId = m.RefEmployeeId;
-                    newTrans.FromDate = m.FromDate;
+                    newTrans.FromDate = Convert.ToDateTime(m.FromDate);
                     newTrans.ToDate = m.ToDate;
                     newTrans.CreatedDate = m.CreatedDate;
                     newTrans.RefStatus = m.RefStatus;

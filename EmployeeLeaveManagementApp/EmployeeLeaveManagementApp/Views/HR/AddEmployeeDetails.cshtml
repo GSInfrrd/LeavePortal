@@ -1,0 +1,282 @@
+﻿@model LMS_WebAPP_Domain.EmployeeDetailsModel
+@{
+    ViewBag.Title = "AddEmployeeDetails";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    var model = Model;
+}
+
+@*<h2>Add Employee Details</h2>*@
+<link rel="stylesheet" href="../../plugins/iCheck/all.css">
+<link rel="stylesheet" href="../../plugins/select2/select2.min.css">
+<link rel="stylesheet" href="../../dist/css/AdminLTE.min.css">
+<section class="content">
+    <div class="row">
+
+        <div class="col-md-12">
+            <!-- general form elements -->
+            <div class="box box-primary">
+                <div class="box-header with-border">
+                    <h3 class="box-title">Employee Info</h3>
+                </div>
+                <!-- /.box-header -->
+                <!-- form start -->
+                @*<form role="form">*@
+                <div class="box-body">
+                    <div class="form-group col-md-6">
+                        <img class="profile-user-img img-responsive" style="width:150px;height:200px" id="empImageDisplay" src="~/Content/Images/DefaultImage.png" alt="User profile picture">
+
+                        <div class="text-center" style="padding-top:10px">
+                            <label class="btn btn-info"><i class="fa fa-upload"></i><input id="employeeImage" type="file" style="display:none" onchange="ValidateAndUploadImage()" /> Upload</label>
+                        </div>
+                    </div>
+                    <div class="form-group col-md-6">
+                        <label for="txtFirstName">FirstName</label>
+                        <input type="text" class="form-control" id="txtFirstName" placeholder="Enter email">
+                    </div>
+                    <div class="form-group col-md-6">
+                        <label for="txtlastname">LastName</label>
+                        <input type="text" class="form-control" id="txtLastName" placeholder="Password">
+                    </div>
+                    <div class="form-group col-md-6">
+                        <label for="txtEmail">Email</label>
+                        <input type="email" class="form-control" id="txtEmail" placeholder="Enter Email">
+                    </div>
+                    <div class="form-group col-md-6">
+                        <label for="txtEmployeeNumber">Employee Number</label>
+                        <input type="email" class="form-control" id="txtEmployeeNumber" placeholder="Enter Email">
+                    </div>
+                        <div class="form-group col-md-6">
+                            <label for="txtJoiningDate">Date Of Joining</label>
+                            <input type="date" class="form-control" id="txtJoiningDate" placeholder="Enter Email">
+                        </div>
+                    @*<div class="form-group col-md-6">
+                        <label for="txtGender">Gender</label>
+                        <div>
+                            <input type="radio" name="gender" class="flat-red" value="Male">&nbsp; Male
+                            <input type="radio" name="gender" class="flat-red" value="Female">&nbsp; Female
+                        </div>
+                    </div>*@
+                    <div class="form-group col-md-6">
+                        <label for="txtBirthday">BirthDay</label>
+                        <input type="date" class="form-control" id="txtBirthday" placeholder="Enter Email">
+                    </div>
+                    <div class="form-group col-md-6">
+                        <label for="txtCity">City</label>
+                        <input type="text" class="form-control" id="txtCity" placeholder="Enter Email">
+                    </div>
+                    <div class="form-group col-md-6">
+                        <label for="txtCountry">Country</label>
+                        <input type="text" class="form-control" id="txtCountry" placeholder="Enter Email">
+                    </div>
+                    <div class="form-group col-md-6">
+                        <label for="txtTelephone">Telephone</label>
+                        <input type="tel" class="form-control" id="txtTelephone" placeholder="Enter Email">
+                    </div>
+                    @*<div class="form-group">
+                            <label for="exampleInputPassword1">Password</label>
+                            <input type="password" class="form-control" id="exampleInputPassword1" placeholder="Enter Email">
+                        </div>*@
+
+                    <div class="form-group col-md-6">
+                        <label for="ddlDesignation">Designation</label>
+                            <select class="form-control select2" style="width: 100%;" id="ddlDesignation">
+                                <option value="@Convert.ToInt16(LMS_WebAPP_Utils.EmployeeRole.Manager)">@LMS_WebAPP_Utils.CommonMethods.Description((LMS_WebAPP_Utils.EmployeeRole.Manager))</option>
+                                <option value="@Convert.ToInt16(LMS_WebAPP_Utils.EmployeeRole.Employee)">@LMS_WebAPP_Utils.CommonMethods.Description((LMS_WebAPP_Utils.EmployeeRole.Employee))</option>
+                            </select>
+                    </div>
+                    <div class="form-group col-md-6">
+                        <label for="ddlLevel">Level</label>
+                            <select class="form-control select2" style="width: 100%;" id="ddlLevel">
+                                <option value="@Convert.ToInt16(LMS_WebAPP_Utils.HierarchyLevel.Level0)">@LMS_WebAPP_Utils.CommonMethods.Description((LMS_WebAPP_Utils.HierarchyLevel.Level0))</option>
+                                <option value="@Convert.ToInt16(LMS_WebAPP_Utils.HierarchyLevel.Level1)">@LMS_WebAPP_Utils.CommonMethods.Description((LMS_WebAPP_Utils.HierarchyLevel.Level1))</option>
+                                <option value="@Convert.ToInt16(LMS_WebAPP_Utils.HierarchyLevel.Level2)">@LMS_WebAPP_Utils.CommonMethods.Description((LMS_WebAPP_Utils.HierarchyLevel.Level2))</option>
+                                <option value="@Convert.ToInt16(LMS_WebAPP_Utils.HierarchyLevel.Level3)">@LMS_WebAPP_Utils.CommonMethods.Description((LMS_WebAPP_Utils.HierarchyLevel.Level3))</option>
+                                <option value="@Convert.ToInt16(LMS_WebAPP_Utils.HierarchyLevel.Level4)">@LMS_WebAPP_Utils.CommonMethods.Description((LMS_WebAPP_Utils.HierarchyLevel.Level4))</option>
+                                <option value="@Convert.ToInt16(LMS_WebAPP_Utils.HierarchyLevel.Level5)">@LMS_WebAPP_Utils.CommonMethods.Description((LMS_WebAPP_Utils.HierarchyLevel.Level5))</option>
+                            </select>
+                    </div>
+                    <div class="form-group col-md-6">
+                        <label for="ddlManager">Manager Name</label>
+                    
+                            <select class="form-control select2" style="width: 100%;" id="ddlManagerName">
+                                <option>Girija</option>
+                                <option>Lalith</option>
+                            </select>
+                   
+                    </div>
+
+                </div>
+                <!-- /.box-body -->
+                @*</form>*@
+            </div>
+        </div>
+        <div class="col-md-12">
+            <!-- general form elements -->
+            <div class="box box-primary">
+                <div class="box-header with-border">
+                    <h3 class="box-title">Education Details(Highest Degree)</h3>
+                </div>
+                <!-- /.box-header -->
+                <!-- form start -->
+                @*<form role="form">*@
+                <div class="box-body">
+                    <div class="form-group col-md-6">
+                        <label for="exampleInputEmail1">Graduation</label>
+                        <div>
+                            <select id="ddlGraduation" class="form-control select2" style="width: 100%;">
+                                <option>BTech</option>
+                                <option>MTech</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group col-md-6">
+                        <label for="exampleInputPassword1">Specialization</label>
+                        <div>
+                            <select id="ddlSpecialization" class="form-control select2" style="width: 100%;">
+                                <option>CSE</option>
+                                <option>EEE</option>
+                                <option>ECE</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group col-md-6">
+                        <label for="exampleInputPassword1">College/University</label>
+                        <input type="text" class="form-control" id="txtUniversity" placeholder="Enter Email">
+                    </div>
+                    <div class="form-group col-md-6">
+                        <label for="educationFromDate">From</label>
+                        <input type="date" class="form-control" id="educationFromDate" placeholder="Enter Email">
+                    </div>
+                    <div class="form-group col-md-6">
+                        <label for="educationToDate">To</label>
+                        <input type="date" class="form-control" id="educationToDate" placeholder="Enter Email">
+                    </div>
+
+                </div>
+                @*</form>*@
+
+            </div>
+
+            <div class="box box-primary">
+                <div class="box-header with-border">
+                    <h3 class="box-title">Experience Details(Last Employer Details)</h3>
+                </div>
+                <!-- /.box-header -->
+                <!-- form start -->
+                @*<form role="form">*@
+                <div class="box-body">
+                    <div class="form-group col-md-6">
+                        <label for="txtEmployer">Employer</label>
+                        <input type="text" class="form-control" id="txtEmployer" placeholder="Enter Email">
+                    </div>
+                    <div class="form-group col-md-6">
+                        <label for="txtDesignation">Designation</label>
+                        <input type="text" class="form-control" id="txtDesignation" placeholder="Enter Email">
+                    </div>
+                    <div class="form-group col-md-6">
+                        <label for="ExpFromDate">From</label>
+                        <input type="date" class="form-control" id="ExpFromDate" placeholder="Enter Email">
+                    </div>
+                    <div class="form-group col-md-6">
+                        <label for="ExpToDate">To</label>
+                        <input type="date" class="form-control" id="ExpToDate" placeholder="Enter Email">
+                    </div>
+                    <div class="form-group col-md-6">
+                        <label for="ddlSkills">Skills</label>
+                        <select id="ddlSkills" multiple="multiple" class="form-control select2" style="width: 100%;">
+                            <option>.Net</option>
+                            <option>Java</option>
+                            <option>Html</option>
+                        </select>
+                    </div>
+
+                </div>
+                <div class="box-footer">
+                    <button type="submit" id="btnSubmitEmployeeDetails" class="btn btn-primary">Submit</button>
+                </div>
+                @*</form>*@
+
+            </div>
+        </div>
+    </div>
+
+    <!-- /.row -->
+</section>
+<script src="../../plugins/iCheck/icheck.min.js"></script>
+<script src="../../plugins/select2/select2.full.min.js"></script>
+<script>
+    $(function () {
+        //Initialize Select2 Elements
+        $(".select2").select2();
+    });
+    $('input[type="checkbox"].flat-red, input[type="radio"].flat-red').iCheck({
+        checkboxClass: 'icheckbox_flat-green',
+        radioClass: 'iradio_flat-green'
+    });
+
+    $(document).on('click', '#btnSubmitEmployeeDetails', function (e) {
+        debugger;
+        var educationDetails = {
+
+            Graduation: $("#ddlGraduation").val(),
+            Institution: $("#txtUniversity").val(),
+            FromDate: $("#educationFromDate").val(),
+            ToDate: $("#educationToDate").val()
+        }
+        var experienceDetails = {
+
+            CompanyName: $("#txtEmployer").val(),
+            Role: $("#txtDesignation").val(),
+            FromDate: $("#expFromDate").val(),
+            ToDate: $("#expToDate").val()
+        }
+        var model = {
+            FirstName: $("#txtFirstName").val(),
+            LastName: $("#txtLastName").val(),
+            Email: $("#txtEmail").val(),
+            DateOfBirth: $("#txtBirthday").val(),
+            RoleId: $("#ddlDesignation").val(),
+            Skills: $("#ddlSkills").val(),
+            EmployeeNumber: $("#txtEmployeeNumber").val(),
+            City: $("#txtCity").val(),
+            Country: $("#txtCountry").val(),
+            Telephone: $("#txtTelephone").val(),
+            RefHierarchyLevel: $("#ddlLevel").val(),
+            DateOfJoining: $("#txtJoiningDate").val(),
+            ManagerName: $("#ddlManagerName").val(),
+            Imagepath:imgPath,
+            EmployeeEducation: [educationDetails],
+            EmployeeExperience:[experienceDetails]
+        };
+        $.ajax({
+            cache: false,
+            type: 'post',
+            url: '/HR/SubmitEmployeeDetails',
+            data: JSON.stringify(model),
+            contentType: "application/json",
+            dataType: "json",
+            success: function (data) {
+                localStorage.setItem("leaveDeleted", 1);
+                location.reload();
+            }
+        });
+    }
+   );
+        var imgpath="";
+    function ValidateAndUploadImage()
+    {
+     debugger   
+        var file = document.getElementById("employeeImage").value;
+        imgPath = document.getElementById("employeeImage").files[0].name;
+        var reader = new FileReader();
+
+        reader.onload = function (e) {
+            $('#empImageDisplay')
+                .attr('src', e.target.result)
+                .width(150)
+                .height(200);
+        };
+        reader.readAsDataURL(document.getElementById("employeeImage").files[0]);
+
+    }
+</script>

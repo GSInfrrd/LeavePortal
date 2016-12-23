@@ -28,7 +28,7 @@ namespace LMS_WebAPI_DAL.Repositories
             }
         }
 
-        public bool InsertEmployeeLeaveDetails(int leaveType, string fromDate, string toDate, string comments, int workingDays)
+        public bool InsertEmployeeLeaveDetails(int empId, int leaveType, string fromDate, string toDate, string comments, int workingDays)
         {
            
             var result = false;
@@ -46,9 +46,9 @@ namespace LMS_WebAPI_DAL.Repositories
                         CreatedDate = DateTime.Now,
                         NumberOfWorkingDays = workingDays,
                         RefLeaveType = leaveType,
-                        RefStatus =(int)LeaveStatus.Planned,
-                        RefEmployeeId = 1,
-                        CreatedBy = "Alekya"
+                        RefStatus = (int)LeaveStatus.Planned,
+                        RefEmployeeId = empId,
+                        CreatedBy = ctx.EmployeeDetails.FirstOrDefault(i => i.Id == empId).FirstName
                     };
                  ctx.EmployeeLeaveTransactions.Add(employeeLeaveDetails);
                     ctx.SaveChanges();
@@ -81,7 +81,7 @@ namespace LMS_WebAPI_DAL.Repositories
                     var workFlow = new Workflow
                     {
                         RefLeaveTransactionId = leaveDetails.Id,
-                        RefApproverId = ctx.EmployeeDetails.FirstOrDefault(x => x.Id == 1).ManagerId,
+                        RefApproverId =(int)ctx.EmployeeDetails.FirstOrDefault(x => x.Id == 1).ManagerId,
                         ModifiedDate = DateTime.Now,
                         RefStatus = (int)LeaveStatus.Submitted,
                         CreatedDate=DateTime.Now,

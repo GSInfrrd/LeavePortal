@@ -31,7 +31,7 @@ namespace EmployeeLeaveManagementWebAPI.Controllers
         public List<EmployeeLeaveTransactionModel> Get(int id, int leaveType, string fromDate, string toDate, string comments, int workingDays)
         {
             EmployeeLeaveTransactionManagement ELTM = new EmployeeLeaveTransactionManagement();
-            var detailsInserted = ELTM.InsertEmployeeLeaveDetails(leaveType,fromDate,toDate,comments,workingDays);
+            var detailsInserted = ELTM.InsertEmployeeLeaveDetails(id,leaveType,fromDate,toDate,comments,workingDays);
             var res = new List<EmployeeLeaveTransactionModel>();
             if(detailsInserted)
             {

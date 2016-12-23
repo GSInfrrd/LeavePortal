@@ -27,6 +27,8 @@ namespace LMS_WebAPI_ServiceHelpers
                     VerifiedUser.Lastlogin = userData.Lastlogin;
                     VerifiedUser.RefEmployeeId = userData.RefEmployeeId;
                     VerifiedUser.CreatedDate = userData.CreatedDate;
+                    VerifiedUser.RefRoleId = userData.EmployeeDetail.RefRoleId;
+
                 }
                 return VerifiedUser;
             }
@@ -84,7 +86,7 @@ namespace LMS_WebAPI_ServiceHelpers
                 profileDetails.Country = userData.Country;
                 profileDetails.Telephone = userData.PhoneNumber;
                 profileDetails.RoleName = "S/W Engineer";
-                profileDetails.DateOfBirth = userData.DateOfBirth.ToString("MMM dd,yyyy");
+                profileDetails.DateOfBirthAsString = userData.DateOfBirth.ToString("MMM dd,yyyy");
                 profileDetails.Email = userData.UserAccounts.FirstOrDefault(i => i.RefEmployeeId == EmpId).UserName;
                 profileDetails.ImagePath = userData.ImagePath;
                 profileDetails.Bio = userData.Bio;

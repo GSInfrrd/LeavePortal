@@ -14,6 +14,7 @@ namespace LMS_WebAPI_Domain
         public Nullable<System.DateTime> Lastlogin { get; set; }
         public int RefEmployeeId { get; set; }
         public System.DateTime CreatedDate { get; set; }
-        public Nullable<System.DateTime> ModifiedDate { get; set; }      
+        public Nullable<System.DateTime> ModifiedDate { get; set; }           
+        public int RefRoleId { get; set; }   
     }
 }

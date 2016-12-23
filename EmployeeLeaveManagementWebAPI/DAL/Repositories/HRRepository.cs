@@ -1,0 +1,86 @@
+﻿using LMS_WebAPI_DAL.Repositories.Interfaces;
+using LMS_WebAPI_Domain;
+using LMS_WebAPI_Utils;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace LMS_WebAPI_DAL.Repositories
+{
+    public class HRRepository : IHRRepository
+    {
+        public bool SubmitEmployeeDetails(EmployeeDetailsModel model)
+        {
+            var result = false;
+
+            try
+            {
+                using (var ctx = new LeaveManagementSystemEntities1())
+                {
+
+                    var employeeDetails = new EmployeeDetail
+                    {
+                        FirstName = model.FirstName,
+                        LastName = model.LastName,
+                        DateOfBirth = model.DateOfBirth,
+                        RefRoleId = model.RefRoleId,
+                        City = model.City,
+                        Country = model.Country,
+                        CreatedDate = DateTime.Now,
+                        EmpNumber = model.EmployeeNumber.ToString(),
+                        ImagePath=model.ImagePath,
+                        PhoneNumber=model.Telephone,
+                        RefHierarchyLevel=model.RefHierarchyLevel,
+                        ManagerId=ctx.EmployeeDetails.FirstOrDefault(x=>x.FirstName== model.ManagerName).Id
+
+                    };
+                    ctx.EmployeeDetails.Add(employeeDetails);
+                    ctx.SaveChanges();
+                    var id = employeeDetails.Id;
+
+                    var employeeEducationDetails = new EmployeeEducationDetail
+                    {
+
+                        Degree = model.EmployeeEducationDetails[0].Degree,
+                        Institution = model.EmployeeEducationDetails[0].Institution,
+                        FromDate = Convert.ToDateTime(model.EmployeeEducationDetails[0].TimePeriod.Split('~')[0]),
+                        ToDate = Convert.ToDateTime(model.EmployeeEducationDetails[0].TimePeriod.Split('~')[1]),
+                        RefEmployeeId = id
+                    };
+                    ctx.EmployeeEducationDetails.Add(employeeEducationDetails);
+                    ctx.SaveChanges();
+                    var employeeExperienceDetails = new EmployeeExperienceDetail
+                    {
+                        CompanyName = model.EmployeeExperienceDetails[0].Company,
+                        Role = model.EmployeeExperienceDetails[0].Role,
+                        FromDate = Convert.ToDateTime(model.EmployeeEducationDetails[0].TimePeriod.Split('~')[0]),
+                        ToDate = Convert.ToDateTime(model.EmployeeEducationDetails[0].TimePeriod.Split('~')[1]),
+                        RefEmployeeId = id
+                    };
+                    ctx.EmployeeExperienceDetails.Add(employeeExperienceDetails);
+                    ctx.SaveChanges();
+                    //List<EmployeeSkill> empSkillList = new List<EmployeeSkill>();
+                    foreach (var skill in model.Skills)
+                    {
+                        var empSkill = new EmployeeSkill();
+                        empSkill.RefEmployeeId = id;
+                        empSkill.Skill = skill;
+                        ctx.EmployeeSkills.Add(empSkill);
+                        ctx.SaveChanges();
+                    }
+
+                }
+                result = true;
+
+            }
+            catch (Exception ex)
+            {
+                throw;
+            }
+            return result;
+
+        }
+    }
+}

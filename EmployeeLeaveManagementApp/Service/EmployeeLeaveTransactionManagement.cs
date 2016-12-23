@@ -41,7 +41,7 @@ namespace LMS_WebAPP_ServiceHelpers
         public async Task<IList<LeaveTransaction>> SubmitLeaveRequestAsync(int id, int leaveType,string fromDate,string toDate,string comments,int workingDays)
         {
             HttpClient client = new HttpClient();
-           var urlParameters = "?id=" + id + "&leaveType=" + leaveType + "&fromDate=" + fromDate + "&toDate="+ toDate+"&comments="+comments+"&workingDays="+workingDays;
+           var urlParameters = "?empId=" + id + "&leaveType=" + leaveType + "&fromDate=" + fromDate + "&toDate="+ toDate+"&comments="+comments+"&workingDays="+workingDays;
             //URL = URL + "/SubmitLeaveRequest";
             client.BaseAddress = new Uri(URL);
 

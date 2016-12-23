@@ -26,6 +26,7 @@ namespace LMS_WebAPI_DAL
             this.EmployeeProjectDetails = new HashSet<EmployeeProjectDetail>();
             this.LeaveMasters = new HashSet<LeaveMaster>();
             this.Workflows = new HashSet<Workflow>();
+            this.EmployeeDetails1 = new HashSet<EmployeeDetail>();
         }
     
         public int Id { get; set; }
@@ -51,5 +52,7 @@ namespace LMS_WebAPI_DAL
         public virtual MasterDataType MasterDataType { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Workflow> Workflows { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<EmployeeDetail> EmployeeDetails1 { get; set; }
     }
 }

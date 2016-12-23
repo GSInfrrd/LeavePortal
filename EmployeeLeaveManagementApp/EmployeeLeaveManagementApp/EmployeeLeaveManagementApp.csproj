@@ -199,10 +199,12 @@
     <Compile Include="Controllers\ApplyLeaveController.cs" />
     <Compile Include="Controllers\ApproveLeaveController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\HRController.cs" />
     <Compile Include="Controllers\LeaveTransactionController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Models\EmployeeModel.cs" />
     <Compile Include="Models\LoginModel.cs" />
     <Compile Include="obj\Debug\TemporaryGeneratedFile_036C0B5B-1481-4323-8D20-8F5ADCB23D92.cs" />
     <Compile Include="obj\Debug\TemporaryGeneratedFile_5937a670-0e60-4077-877b-f7221da3dda1.cs" />
@@ -1167,6 +1169,7 @@
     <Content Include="Views\ApplyLeave\ApplyLeave.cshtml" />
     <Content Include="Views\Account\Profile.cshtml" />
     <Content Include="Views\ApproveLeave\ApproveLeave.cshtml" />
+    <Content Include="Views\HR\AddEmployeeDetails.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

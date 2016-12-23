@@ -124,7 +124,7 @@ namespace LMS_WebAPI_DAL.Repositories
                 Empres.Id = m.Id;
                 Empres.EmployeeName = m.EmployeeDetail.FirstName + " " + m.EmployeeDetail.LastName;
                 Empres.RefEmployeeId = m.RefEmployeeId;
-                Empres.FromDate = m.FromDate;
+                Empres.FromDate =Convert.ToDateTime(m.FromDate);
                 Empres.ToDate = m.ToDate;
                 Empres.CreatedDate = m.CreatedDate;
                 Empres.RefStatus = m.RefStatus;
@@ -162,7 +162,7 @@ namespace LMS_WebAPI_DAL.Repositories
                     newTrans.Id = m.EmployeeLeaveTransaction.Id;
                     newTrans.EmployeeName = m.EmployeeLeaveTransaction.EmployeeDetail.FirstName +" "+ m.EmployeeLeaveTransaction.EmployeeDetail.LastName;
                     newTrans.RefEmployeeId = m.EmployeeLeaveTransaction.EmployeeDetail.Id;
-                    newTrans.FromDate = m.EmployeeLeaveTransaction.FromDate;
+                    newTrans.FromDate =Convert.ToDateTime(m.EmployeeLeaveTransaction.FromDate);
                     newTrans.ToDate = m.EmployeeLeaveTransaction.ToDate;
                     newTrans.CreatedDate = m.EmployeeLeaveTransaction.CreatedDate;
                     newTrans.RefStatus = m.EmployeeLeaveTransaction.RefStatus;

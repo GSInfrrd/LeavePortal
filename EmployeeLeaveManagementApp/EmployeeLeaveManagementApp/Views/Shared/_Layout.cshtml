@@ -28,8 +28,10 @@
     <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
     <![endif]-->
     @using LMS_WebAPP_Utils
-    @{ 
+    @{
         var userName = ((LMS_WebAPP_Domain.UserAccount)Session[Constants.SESSION_OBJ_USER]).UserName;
+        var roleId = ((LMS_WebAPP_Domain.UserAccount)Session[Constants.SESSION_OBJ_USER]).RefRoleId;
+        var userRole = LMS_WebAPP_Utils.CommonMethods.Description((LMS_WebAPP_Utils.EmployeeRole)roleId);
     }
 </head>
 <body class="hold-transition skin-black sidebar-mini">
@@ -44,7 +46,7 @@
     <!-- FastClick -->
     <script src="~/plugins/chartjs/Chart.min.js"></script>
     <script src="~/plugins/fastclick/fastclick.js"></script>
- <!-- Bootstrap 3.3.6 -->
+    <!-- Bootstrap 3.3.6 -->
     <!-- AdminLTE App -->
     <script src="~/dist/js/app.min.js"></script>
     <!-- AdminLTE for demo purposes -->
@@ -56,7 +58,8 @@
                 <!-- mini logo for sidebar mini 50x50 pixels -->
 
                 <span class="logo-mini">
-<img src="~/dist/img/Logo_mini.png"  style="height: 48px;"/> </span>
+                    <img src="~/dist/img/Logo_mini.png" style="height: 48px;" />
+                </span>
                 <!-- logo for regular state and mobile devices -->
 
                 <span class="logo-lg"><img src="~/dist/img/infrrd-logo-main.png" style="width:196px;height:52px;" /></span>
@@ -107,7 +110,7 @@
                                     <img src="../../dist/img/user2-160x160.jpg" class="img-circle" alt="User Image">
                                     <p>
                                         <span class="Login_Name">
-                                           @userName
+                                            @userName
                                         </span><br /> Web Developer
                                         <small>Member since Nov. 2012</small>
                                     </p>
@@ -148,39 +151,97 @@
                 <!-- /.search form -->
                 <!-- sidebar menu: : style can be found in sidebar.less -->
                 <ul class="sidebar-menu">
+                    @if (roleId == (int)EmployeeRole.Employee)
+                    {
+                        <li class="treeview">
+                            <a href="@Url.Action("Dashboard", "Account")">
+                                <i class="fa fa-dashboard"></i> <span>Dashboard</span>
 
-                    <li class="treeview">
-                        <a href="@Url.Action("Dashboard", "Account")">
-                            <i class="fa fa-dashboard"></i> <span>Dashboard</span>
+                            </a>
 
-                        </a>
+                        </li>
+                    }
+                    @if (roleId == (int)EmployeeRole.Employee)
+                    {
+                        <li class="treeview">
+                            <a href="@Url.Action("Profile", "Account")">
+                                <i class="fa fa-files-o"></i>
+                                <span>Profile</span>
+                            </a>
+                        </li>
+                    }
+                    @if (roleId == (int)EmployeeRole.Employee)
+                    {
+                        <li>
+                            <a href="@Url.Action("ApplyLeave", "ApplyLeave")">
+                                <i class="fa fa-th"></i> <span>Apply Leave</span>
 
-                    </li>
-                    <li class="treeview">
-                        <a href="@Url.Action("Profile", "Account")"">
-                            <i class="fa fa-files-o"></i>
-                            <span>Profile</span>
-                        </a>
-                    </li>
-                    <li>
-                        <a href="@Url.Action("ApplyLeave", "ApplyLeave")">
-                            <i class="fa fa-th"></i> <span>Apply Leave</span>
+                            </a>
+                        </li>
+                    }
+                    @if (roleId == (int)EmployeeRole.Employee)
+                    {
+                        <li>
+                            <a href="@Url.Action("LeaveTransaction", "LeaveTransaction")">
+                                <i class="fa fa-th"></i> <span>Leave History</span>
 
-                        </a>
-                    </li>
-                    <li>
-                        <a href="@Url.Action("LeaveTransaction", "LeaveTransaction")">
-                            <i class="fa fa-th"></i> <span>Leave History</span>
-
-                        </a>
-                    </li>
+                            </a>
+                        </li>
+                    }
+@if (roleId == (int)EmployeeRole.Manager)
+{
                     <li>
                         <a href="@Url.Action("ApproveLeave", "ApproveLeave")">
                             <i class="fa fa-th"></i> <span>Approve Leave</span>
 
                         </a>
                     </li>
+  }
+                    @if (roleId == (int)EmployeeRole.HR)
+                    {
+                        <li>
+                            <a href="@Url.Action("AddEmployeeDetails", "HR")">
+                                <i class="fa fa-th"></i> <span>Add Employee Details</span>
 
+                            </a>
+                        </li>
+                    }
+                    @if (roleId == (int)EmployeeRole.HR)
+                    {
+                        <li>
+                            <a href="@Url.Action("LeaveTransaction", "LeaveTransaction")">
+                                <i class="fa fa-th"></i> <span>Add Holidays</span>
+
+                            </a>
+                        </li>
+                    }
+                    @if (roleId == (int)EmployeeRole.HR)
+                    {
+                        <li>
+                            <a href="@Url.Action("LeaveTransaction", "LeaveTransaction")">
+                                <i class="fa fa-th"></i> <span>Add Leaves</span>
+
+                            </a>
+                        </li>
+                    }
+                    @if (roleId == (int)EmployeeRole.HR)
+                    {
+                        <li>
+                            <a href="@Url.Action("LeaveTransaction", "LeaveTransaction")">
+                                <i class="fa fa-th"></i> <span>Company Announcements</span>
+
+                            </a>
+                        </li>
+                    }
+                    @if (roleId == (int)EmployeeRole.HR)
+                    {
+                        <li>
+                            <a href="@Url.Action("LeaveTransaction", "LeaveTransaction")">
+                                <i class="fa fa-th"></i> <span>Broadcast</span>
+
+                            </a>
+                        </li>
+                    }
                 </ul>
             </section>
             <!-- /.sidebar -->
@@ -192,17 +253,17 @@
             @*<section class="content-header"></section>*@
             <!-- Main content -->
             @*<section class="content">*@
-                <!-- Default box -->
+            <!-- Default box -->
 
 
 
 
-                @RenderBody()
+            @RenderBody()
 
 
-                <!-- /.box-body -->
-                <!-- /.box-footer-->
-                <!-- /.box -->
+            <!-- /.box-body -->
+            <!-- /.box-footer-->
+            <!-- /.box -->
             @*</section>*@
             <!-- /.content -->
         </div>

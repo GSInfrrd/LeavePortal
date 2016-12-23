@@ -38,6 +38,9 @@
         <EntityTypeShape EntityType="LeaveManagementSystemModel.EmployeeExperienceDetail" Width="1.5" PointX="0.75" PointY="4.75" />
         <AssociationConnector Association="LeaveManagementSystemModel.FK_EmployeeEducationDetails_EmployeeDetails" />
         <AssociationConnector Association="LeaveManagementSystemModel.FK_EmployeeExperienceDetails_EmployeeDetails" />
+        <EntityTypeShape EntityType="LeaveManagementSystemModel.EmployeeSkill" Width="1.5" PointX="7.5" PointY="21.875" />
+        <AssociationConnector Association="LeaveManagementSystemModel.FK_EmployeeDetails_MasterDataValue" />
+        <AssociationConnector Association="LeaveManagementSystemModel.FK_EmployeeSkills_EmployeeDetails" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

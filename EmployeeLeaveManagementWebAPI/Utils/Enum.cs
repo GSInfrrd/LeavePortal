@@ -28,4 +28,15 @@ namespace LMS_WebAPI_Utils
         [Description("Approved")]
         Approved = 12
     }
+
+    public enum EmployeeRole
+    {
+
+        [Description("Admin/HR")]
+        HR = 1,
+        [Description("Manager")]
+        Manager = 2,
+        [Description("Employee")]
+        Employee = 3
+    }
 }

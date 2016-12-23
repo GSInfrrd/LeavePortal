@@ -32,7 +32,6 @@
                         <div class="box-header with-border" style="padding-left:46px">
                             <a class="btn btn-social-icon btn-facebook"><i class="fa fa-facebook"></i></a>
                             <a class="btn btn-social-icon btn-google"><i class="fa fa-google-plus"></i></a>
-                            <a class="btn btn-social-icon btn-instagram"><i class="fa fa-instagram"></i></a>
                             <a class="btn btn-social-icon btn-instagram"><i class="fa fa-twitter"></i></a>
                         </div>
                         <!-- /.box-header -->
@@ -58,18 +57,6 @@
                         </div>
                         <!-- /.box-body -->
                         @*</div>*@
-                        @*<ul class="list-group list-group-unbordered">
-                                <li class="list-group-item">
-                                    <b>Followers</b> <a class="pull-right">1,322</a>
-                                </li>
-                                <li class="list-group-item">
-                                    <b>Following</b> <a class="pull-right">543</a>
-                                </li>
-                                <li class="list-group-item">
-                                    <b>Friends</b> <a class="pull-right">13,287</a>
-                                </li>
-                            </ul>
-                            <a href="#" class="btn btn-primary btn-block"><b>Follow</b></a>*@
                     </div>
                     <!-- /.box-body -->
                 </div>
@@ -83,7 +70,7 @@
                     <ul class="nav nav-tabs">
                         @*<li class="active"><a href="#activity" data-toggle="tab">Activity</a></li>*@
                         <li class="active"><a href="#timeline" data-toggle="tab">Profile</a></li>
-                        <li><a href="#settings" data-toggle="tab">Settings</a></li>
+                        <li><a href="#settings" data-toggle="tab" style="display:none">Settings</a></li>
                     </ul>
                     <div class="tab-content">
 
@@ -139,7 +126,7 @@
                                     <div class="col-sm-6">
                                         <div class="row mgbt-xs-0">
                                             <label class="col-xs-5 control-label">Birthday:</label>
-                                            <div class="col-xs-7 controls">@Model.DateOfBirth</div>
+                                            <div class="col-xs-7 controls">@Model.DateOfBirthAsString</div>
                                             <!-- col-sm-10 -->
                                         </div>
                                     </div>

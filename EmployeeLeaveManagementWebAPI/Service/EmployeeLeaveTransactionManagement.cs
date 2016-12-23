@@ -26,9 +26,9 @@ namespace LMS_WebAPI_ServiceHelpers
 
        
 
-        public bool InsertEmployeeLeaveDetails(int leaveType, string fromDate, string toDate, string comments, int workingDays)
+        public bool InsertEmployeeLeaveDetails(int empId,int leaveType, string fromDate, string toDate, string comments, int workingDays)
         {
-            var insertEmployeeDetails = addLeaveRepository.InsertEmployeeLeaveDetails(leaveType, fromDate, toDate, comments, workingDays);
+            var insertEmployeeDetails = addLeaveRepository.InsertEmployeeLeaveDetails(empId,leaveType, fromDate, toDate, comments, workingDays);
 
             return insertEmployeeDetails;
         }

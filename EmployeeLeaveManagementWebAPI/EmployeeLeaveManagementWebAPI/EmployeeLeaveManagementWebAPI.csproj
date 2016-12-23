@@ -238,6 +238,7 @@
     <Compile Include="Controllers\ApproveLeaveController.cs" />
     <Compile Include="Controllers\EmployeeLeaveTransController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\HRController.cs" />
     <Compile Include="Controllers\ProfileController.cs" />
     <Compile Include="Controllers\ValuesController.cs" />
     <Compile Include="Global.asax.cs">

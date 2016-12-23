@@ -10,7 +10,7 @@ namespace LMS_WebAPI_DAL.Repositories.Interfaces
   public  interface IAddLeaveRepository
     {
         List<string> GetLeaveType();
-        bool InsertEmployeeLeaveDetails(int leaveType, string fromDate, string toDate, string comments, int workingDays);
+        bool InsertEmployeeLeaveDetails(int empId,int leaveType, string fromDate, string toDate, string comments, int workingDays);
 
         bool SubmitLeaveForApproval(int id);
 

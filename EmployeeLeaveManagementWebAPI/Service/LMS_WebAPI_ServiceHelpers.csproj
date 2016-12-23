@@ -43,6 +43,7 @@
     <Compile Include="AddLeaveManagement.cs" />
     <Compile Include="ApproveLeaveManagement.cs" />
     <Compile Include="EmployeeLeaveTransactionManagement.cs" />
+    <Compile Include="HRManagement.cs" />
     <Compile Include="UserManagement.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

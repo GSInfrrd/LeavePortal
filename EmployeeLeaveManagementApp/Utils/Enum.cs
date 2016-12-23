@@ -28,4 +28,31 @@ namespace LMS_WebAPP_Utils
         [Description("Approved")]
         Approved =12
     }
+
+    public enum EmployeeRole
+    {
+
+        [Description("Admin/HR")]
+        HR = 1,
+        [Description("Manager")]
+        Manager = 2,
+        [Description("Employee")]
+        Employee = 3
+    }
+
+    public enum HierarchyLevel
+    {
+        [Description("Level-0")]
+        Level0 =13,
+        [Description("Level-1")]
+        Level1 =15,
+        [Description("Level-2")]
+        Level2 =16,
+        [Description("Level-3")]
+        Level3 =17,
+        [Description("Level-4")]
+        Level4 =18,
+        [Description("Level-5")]
+        Level5 =19
+    }
 }

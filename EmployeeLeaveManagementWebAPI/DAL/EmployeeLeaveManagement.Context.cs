@@ -39,5 +39,6 @@ namespace LMS_WebAPI_DAL
         public virtual DbSet<Announcement> Announcements { get; set; }
         public virtual DbSet<EmployeeEducationDetail> EmployeeEducationDetails { get; set; }
         public virtual DbSet<EmployeeExperienceDetail> EmployeeExperienceDetails { get; set; }
+        public virtual DbSet<EmployeeSkill> EmployeeSkills { get; set; }
     }
 }

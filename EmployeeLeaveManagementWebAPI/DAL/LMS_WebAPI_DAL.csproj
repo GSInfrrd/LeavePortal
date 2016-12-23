@@ -93,6 +93,9 @@
     <Compile Include="EmployeeProjectDetail.cs">
       <DependentUpon>EmployeeLeaveManagement.tt</DependentUpon>
     </Compile>
+    <Compile Include="EmployeeSkill.cs">
+      <DependentUpon>EmployeeLeaveManagement.tt</DependentUpon>
+    </Compile>
     <Compile Include="Holiday.cs">
       <DependentUpon>EmployeeLeaveManagement.tt</DependentUpon>
     </Compile>
@@ -110,10 +113,12 @@
     <Compile Include="Repositories\ApproveLeaveRepository.cs" />
     <Compile Include="Repositories\EmployeeLeaveTransactionRepository.cs" />
     <Compile Include="Repositories\GenericRepository.cs" />
+    <Compile Include="Repositories\HRRepository.cs" />
     <Compile Include="Repositories\Interfaces\IApproveLeaveRepository.cs" />
     <Compile Include="Repositories\Interfaces\IAddLeaveRepository.cs" />
     <Compile Include="Repositories\Interfaces\IEmployeeLeaveTransaction.cs" />
     <Compile Include="Repositories\Interfaces\IGenericRepository.cs" />
+    <Compile Include="Repositories\Interfaces\IHRRepository.cs" />
     <Compile Include="Repositories\Interfaces\IUser.cs" />
     <Compile Include="Repositories\UserRepository.cs" />
     <Compile Include="UserAccount.cs">
