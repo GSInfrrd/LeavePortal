@@ -153,7 +153,7 @@
                 <!-- /.search form -->
                 <!-- sidebar menu: : style can be found in sidebar.less -->
                 <ul class="sidebar-menu">
-                    @if (roleId == (int)EmployeeRole.Employee)
+                    @if ((roleId == (int)EmployeeRole.Employee) || (roleId == (int)EmployeeRole.Manager))
                     {
                         <li class="treeview">
                             <a href="@Url.Action("Dashboard", "Account")">
@@ -163,7 +163,7 @@
 
                         </li>
                     }
-                    @if (roleId == (int)EmployeeRole.Employee)
+                    @if ((roleId == (int)EmployeeRole.Employee) || (roleId == (int)EmployeeRole.Manager))
                     {
                         <li class="treeview">
                             <a href="@Url.Action("Profile", "Account")">
@@ -172,8 +172,8 @@
                             </a>
                         </li>
                     }
-                    @if (roleId == (int)EmployeeRole.Employee)
-                    {
+                   @if ((roleId == (int)EmployeeRole.Employee) || (roleId == (int)EmployeeRole.Manager))
+                   {
                         <li>
                             <a href="@Url.Action("ApplyLeave", "ApplyLeave")">
                                 <i class="fa fa-th"></i> <span>Apply Leave</span>
@@ -181,7 +181,7 @@
                             </a>
                         </li>
                     }
-                    @if (roleId == (int)EmployeeRole.Employee)
+                    @if ((roleId == (int)EmployeeRole.Employee)|| (roleId == (int)EmployeeRole.Manager))
                     {
                         <li>
                             <a href="@Url.Action("LeaveTransaction", "LeaveTransaction")">

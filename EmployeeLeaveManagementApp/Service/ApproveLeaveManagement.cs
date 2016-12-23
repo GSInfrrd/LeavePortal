@@ -58,5 +58,26 @@ namespace LMS_WebAPP_ServiceHelpers
             }
             return false;
         }
+
+        public async Task<IList<EmployeeDetailsModel>> GetAllManagersAsync()
+        {
+            HttpClient client = new HttpClient();
+            client.BaseAddress = new Uri(URL);
+           // urlParameters = "?id=" + id ;
+           // URL += urlParameters;
+            // Add an Accept header for JSON format.
+            client.DefaultRequestHeaders.Accept.Add(
+            new MediaTypeWithQualityHeaderValue("application/json"));
+
+            // List data response.
+            HttpResponseMessage response = await client.GetAsync(URL);  // Blocking call!
+            if (response.IsSuccessStatusCode)
+            {
+                var dataObjects = response.Content.ReadAsAsync<IList<EmployeeDetailsModel>>().Result.ToList();
+                return dataObjects;
+
+            }
+            return null;
+        }
     }
 }

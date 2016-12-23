@@ -26,7 +26,12 @@ namespace LMS_WebAPP_Utils
         [Description("Rejected")]
         Rejected =11,
         [Description("Approved")]
-        Approved =12
+        Approved = 12,
+        [Description("Reassigned")]
+        Reassigned = 13,
+        [Description("Canceled")]
+        Canceled = 14
+
     }
 
     public enum EmployeeRole

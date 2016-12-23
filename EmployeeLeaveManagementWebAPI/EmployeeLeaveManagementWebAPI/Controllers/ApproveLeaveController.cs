@@ -1,18 +1,24 @@
 ﻿using LMS_WebAPI_Domain;
 using LMS_WebAPI_ServiceHelpers;
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Web;
 using System.Web.Http;
-using System.Web.Mvc;
+//using LMS_WebAPI_DAL;
 
 namespace EmployeeLeaveManagementWebAPI.Controllers
 {
-    
+
     public class ApproveLeaveController : ApiController
     {
         // GET: ApproveLeave
+
+        public List<EmployeeDetailsModel> Get()
+        {
+            ApproveLeaveManagement ELTM = new ApproveLeaveManagement();
+            var res = ELTM.GetAllManagers();
+
+            return res;
+
+        }
         public List<ApproveLeaveModel> Get(int id)
         {
             ApproveLeaveManagement ELTM = new ApproveLeaveManagement();

@@ -39,5 +39,15 @@ namespace EmployeeLeaveManagementApp.Controllers
             return Json(new { result = res });
         }
 
+        [HttpPost]
+        public async Task<ActionResult> GetAllManagers()
+        {
+            ApproveLeaveManagement ELTM = new ApproveLeaveManagement();
+
+            var res = await ELTM.GetAllManagersAsync();
+            //return RedirectToAction("ApplyLeave");
+            return Json(new { result = res });
+        }
+
     }
 }

@@ -163,7 +163,7 @@
                         <div>
                             <label style="padding-top:20px">Do you want to reassign? :</label>
                             <span style="padding-top:20px;padding-left:50px">NO
-                                <input value="NO" style="padding-top:20px" type="radio" name="r1" class="flat-red" checked>
+                                <input id="rd1" value="NO" style="padding-top:20px" type="radio" name="r1" class="flat-red" checked>
                             </span>
                             <span style="padding-top:20px; padding-left:50px">YES
                                 <input value="YES" style="padding-top:20px" type="radio" name="r1" class="flat-red">
@@ -172,11 +172,7 @@
                         </div>
                         <div class="form-group" id="assignto">
                             <label>Assign To:</label>
-                            <select class="form-control select2" style="width: 100%;">
-                                <option selected="selected">Girija</option>
-                                <option>Tanima</option>
-                                <option>Anoop</option>
-                                <option>Amit</option>
+                            <select class="form-control select2" style="width: 100%;" id="dropdownassignto">
                             </select>
                         </div>
                         <label id="lblHiddenId" style="display:none"></label>
@@ -194,7 +190,8 @@
                     <button type="button" id="btnAssignTo" style="background-color:#222d32 !important" class="btn btn-primary">Assign</button>
                     <button type="button" id="btnApproveLeave" style="background-color:#222d32 !important" class="btn btn-primary">Approve</button>
                     <button type="button" id="btnRejectLeave" style="background-color:#222d32 !important" class="btn btn-primary">Reject</button>
-                    <button type="button" class="btn btn-primary pull-right" style="background-color:#222d32 !important" data-dismiss="modal" data->Cancel</button>
+                    <button type="button" id="btnCancelLeave" style="background-color:#222d32 !important" class="btn btn-primary">Cancel</button>
+                    <button type="button" class="btn btn-primary pull-right" style="background-color:#222d32 !important" data-dismiss="modal" data->Close</button>
 
                 </div>
             </div>
@@ -242,6 +239,10 @@
                     if (localStorage.getItem("leaveAssigned") == 1) {
                         showSuccessMessage("Leave request successfully assigned");
                         localStorage.removeItem("leaveAssigned");
+                    }
+                    if (localStorage.getItem("leaveCanceled") == 1) {
+                        showSuccessMessage("Leave request Canceled");
+                        localStorage.removeItem("leaveCanceled");
                     }
                     $(function () {
                         $("#example1").DataTable();
@@ -317,10 +318,37 @@
                     $("#divCommentError").hide();
                 });
 
-                $('input:radio[name=r1]:checked').change(function (e) {
+                $('input:radio[name=r1]').change(function (e) {
+                    debugger;
                     if ($("input[name='r1']:checked").val() == 'NO') {
                         $("#assignto").hide();
+                        $("#btnAssignTo").hide();
                     }
+                    if ($("input[name='r1']:checked").val() == 'YES') {
+                        $("#assignto").show();
+                        $("#btnAssignTo").show();
+                        $.ajax({
+                            cache: false,
+                            type: 'post',
+                            url: '/ApproveLeave/GetAllManagers',
+                            data: { },
+                            //contentType: "application/json; charset=utf-8",
+                            dataType: "json",
+                            success: function (data) {
+                                $('#dropdownassignto').empty().append('<option selected="selected" value="0">Please select</option>');
+                                for (var i = 0; i < data.result.length; i++) {
+                                    var opt = new Option(data.result[i].FirstName + " " + data.result[i].LastName, data.result[i].Id);
+                                    $('#dropdownassignto').append(opt);
+                                }
+                                }
+                        });
+                    }
+
+                });
+
+                $('input:radio[name=r2]:checked').change(function (e) {
+                    debugger;
+                   
                     if ($("input[name='r1']:checked").val() == 'YES') {
                         $("#assignto").show();
                     }
@@ -338,7 +366,8 @@
                     var leavetype = tt.parent().parent().children()[6].innerText;
                     var employeecomments = $(this).attr("data-COMMENT");
                 
-                   
+                    $("#rd1").prop('checked', true);
+                  
                     $('#assignto').hide();
                     
                     $('#MdlName').html(name);
@@ -352,6 +381,7 @@
                    
                     var id = $(this).data("content");
                     $('#lblHiddenId').html(id);
+                    $("#btnAssignTo").hide();
                     var status = 1;
                     $.ajax({
                         cache: false,
@@ -363,6 +393,7 @@
                         success: function (data) {
                            
                             $('#ViewLeaveModal').modal('show');
+                            
                         }
                     });
                 }
@@ -416,7 +447,29 @@
                     });
                 }
      );
+                $(document).on('click', '#btnCancelLeave', function (e) {
 
+                    debugger;
+                    var comments = $("#leaveComment").val();
+                    var id = $("#lblHiddenId").html();
+                    var st = 2;
+                    var status = 1;
+                    $.ajax({
+                        cache: false,
+                        type: 'post',
+                        url: '/ApproveLeave/ApproveEmployeeLeave',
+                        data: { id: id, comments: comments, st: st },
+                        //contentType: "application/json; charset=utf-8",
+                        dataType: "json",
+                        success: function (data) {
+
+                            $('#ViewLeaveModal').modal('hide');
+                            localStorage.setItem("leaveCanceled", 1);
+                            location.reload();
+                        }
+                    });
+                }
+     );
                 
 
                 

@@ -1,18 +1,24 @@
-﻿using LMS_WebAPI_DAL.Repositories;
+﻿using LMS_WebAPI_DAL;
+using LMS_WebAPI_DAL.Repositories;
 using LMS_WebAPI_DAL.Repositories.Interfaces;
 using LMS_WebAPI_Domain;
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace LMS_WebAPI_ServiceHelpers
 {
-   public  class ApproveLeaveManagement
+    public  class ApproveLeaveManagement
     {
         private IApproveLeaveRepository EmployeeLeaves = new ApproveLeaveRepository();
-      
+
+        
+        public List<EmployeeDetailsModel> GetAllManagers()
+        {
+            var ManagerDetails = EmployeeLeaves.GetAllManagers();
+            // var leaveType = addLeaveRepository.GetLeaveType();
+            // var retResult = ToModel(EmployeeLeaveTransaction);
+
+            return ManagerDetails;
+        }
         public List<ApproveLeaveModel> GetApproveLeave(int id)
         {
             var ApproveLeaves = EmployeeLeaves.GetApproveLeave(id);
@@ -21,6 +27,8 @@ namespace LMS_WebAPI_ServiceHelpers
 
             return ApproveLeaves;
         }
+
+        
 
         public bool ApproveEmployeeLeave(int id, string comments, int st)
         {

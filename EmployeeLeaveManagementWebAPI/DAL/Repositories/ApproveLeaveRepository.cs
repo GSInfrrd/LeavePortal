@@ -8,24 +8,57 @@ using System.Threading.Tasks;
 
 namespace LMS_WebAPI_DAL.Repositories
 {
-   public class ApproveLeaveRepository : IApproveLeaveRepository
+    public class ApproveLeaveRepository : IApproveLeaveRepository
     {
+
+        public List<EmployeeDetailsModel> GetAllManagers()
+        {
+            try
+            {
+                using (var ctx = new LeaveManagementSystemEntities1())
+
+                {
+
+
+                    var ManagersDetails = ctx.EmployeeDetails.Where(m => (m.RefRoleId == 1) || (m.RefRoleId == 2)).ToList();
+                    var retResult = ToModelMasterDetails(ManagersDetails);
+
+                    if (retResult != null)
+                    {
+                        return retResult;
+                    }
+                    else
+                        return null;
+                }
+            }
+            catch (Exception ex)
+            {
+                throw;
+            }
+        }
         public List<ApproveLeaveModel> GetApproveLeave(int id)
         {
-            using (var ctx = new LeaveManagementSystemEntities1())
-
+            try
             {
+                using (var ctx = new LeaveManagementSystemEntities1())
 
-
-                var ApproveLeaves = ctx.Workflows.Where(m => (m.EmployeeLeaveTransaction.EmployeeDetail.Id == id)).ToList();
-                var retResult = ToModel(ApproveLeaves);
-
-                if (retResult != null)
                 {
-                    return retResult;
+
+
+                    var ApproveLeaves = ctx.Workflows.Where(m => (m.EmployeeLeaveTransaction.EmployeeDetail.ManagerId == id)).ToList();
+                    var retResult = ToModel(ApproveLeaves);
+
+                    if (retResult != null)
+                    {
+                        return retResult;
+                    }
+                    else
+                        return null;
                 }
-                else
-                    return null;
+            }
+            catch (Exception ex)
+            {
+                throw;
             }
         }
 
@@ -44,15 +77,19 @@ namespace LMS_WebAPI_DAL.Repositories
                     {
                         leaveDetails.EmployeeLeaveTransaction.RefStatus = 12;
                     }
-                    else
+                    if (st == 0)
                     {
                         leaveDetails.EmployeeLeaveTransaction.RefStatus = 11;
+                    }
+                    if (st == 2)
+                    {
+                        leaveDetails.EmployeeLeaveTransaction.RefStatus = 14;
                     }
                     leaveDetails.ManagerComments = comments;
                     ctx.SaveChanges();
                     insertintoLeaveHistory(leaveDetails);
                     deletefromworkflow(id);
-                    
+
                 }
                 result = true;
 
@@ -62,7 +99,7 @@ namespace LMS_WebAPI_DAL.Repositories
                 throw;
             }
             return result;
-           
+
         }
 
         public void insertintoLeaveHistory(Workflow leaveDetails)
@@ -98,7 +135,7 @@ namespace LMS_WebAPI_DAL.Repositories
         {
             try
             {
-                
+
                 using (var ctx = new LeaveManagementSystemEntities1())
                 {
                     var leaveDetails = ctx.Workflows.FirstOrDefault(x => x.EmployeeLeaveTransaction.Id == id);
@@ -124,7 +161,7 @@ namespace LMS_WebAPI_DAL.Repositories
                 Empres.Id = m.Id;
                 Empres.EmployeeName = m.EmployeeDetail.FirstName + " " + m.EmployeeDetail.LastName;
                 Empres.RefEmployeeId = m.RefEmployeeId;
-                Empres.FromDate =Convert.ToDateTime(m.FromDate);
+                Empres.FromDate = m.FromDate;
                 Empres.ToDate = m.ToDate;
                 Empres.CreatedDate = m.CreatedDate;
                 Empres.RefStatus = m.RefStatus;
@@ -135,10 +172,41 @@ namespace LMS_WebAPI_DAL.Repositories
                 Empres.StatusName = m.MasterDataValue1.Value;
                 //newTrans.ManagerComments = m.ManagerComments;
                 Empres.ModifiedDate = m.ModifiedDate;
-                   
 
 
-                
+
+
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+            return Empres;
+
+
+
+        }
+
+        private List<EmployeeDetailsModel> ToModelMasterDetails(List<EmployeeDetail> EmployeeDetails)
+        {
+            List<EmployeeDetailsModel> Empres = new List<EmployeeDetailsModel>();
+            try
+            {
+
+
+                foreach (var m in EmployeeDetails)
+                {
+
+                    var newTrans = new EmployeeDetailsModel();
+                    newTrans.Id = m.Id;
+                    newTrans.FirstName = m.FirstName;
+                    newTrans.LastName = m.LastName;
+                    Empres.Add(newTrans);
+                }
+
+
+
             }
             catch (Exception)
             {
@@ -160,9 +228,9 @@ namespace LMS_WebAPI_DAL.Repositories
                 {
                     var newTrans = new ApproveLeaveModel();
                     newTrans.Id = m.EmployeeLeaveTransaction.Id;
-                    newTrans.EmployeeName = m.EmployeeLeaveTransaction.EmployeeDetail.FirstName +" "+ m.EmployeeLeaveTransaction.EmployeeDetail.LastName;
+                    newTrans.EmployeeName = m.EmployeeLeaveTransaction.EmployeeDetail.FirstName + " " + m.EmployeeLeaveTransaction.EmployeeDetail.LastName;
                     newTrans.RefEmployeeId = m.EmployeeLeaveTransaction.EmployeeDetail.Id;
-                    newTrans.FromDate =Convert.ToDateTime(m.EmployeeLeaveTransaction.FromDate);
+                    newTrans.FromDate = m.EmployeeLeaveTransaction.FromDate;
                     newTrans.ToDate = m.EmployeeLeaveTransaction.ToDate;
                     newTrans.CreatedDate = m.EmployeeLeaveTransaction.CreatedDate;
                     newTrans.RefStatus = m.EmployeeLeaveTransaction.RefStatus;
