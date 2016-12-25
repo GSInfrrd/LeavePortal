@@ -39,11 +39,11 @@ namespace LMS_WebAPP_ServiceHelpers
             return null;
         }
       
-        public async Task<bool> AprroveEmployeeLeaveAsync(int id , string comments , int st)
+        public async Task<bool> AprroveEmployeeLeaveAsync(int id , string comments , int st, int apid)
         {
             HttpClient client = new HttpClient();
             client.BaseAddress = new Uri(URL);
-            urlParameters = "?id=" + id + "&comments=" + comments + "&st=" + st;
+            urlParameters = "?id=" + id + "&comments=" + comments + "&st=" + st + "&apid=" + apid;
             URL += urlParameters;
             // Add an Accept header for JSON format.
             client.DefaultRequestHeaders.Accept.Add(
@@ -59,12 +59,12 @@ namespace LMS_WebAPP_ServiceHelpers
             return false;
         }
 
-        public async Task<IList<EmployeeDetailsModel>> GetAllManagersAsync()
+        public async Task<IList<EmployeeDetailsModel>> GetAllManagersAsync(int id, int st)
         {
             HttpClient client = new HttpClient();
             client.BaseAddress = new Uri(URL);
-           // urlParameters = "?id=" + id ;
-           // URL += urlParameters;
+            urlParameters = "?id=" + id + "&st=" + st;
+            URL += urlParameters;
             // Add an Accept header for JSON format.
             client.DefaultRequestHeaders.Accept.Add(
             new MediaTypeWithQualityHeaderValue("application/json"));

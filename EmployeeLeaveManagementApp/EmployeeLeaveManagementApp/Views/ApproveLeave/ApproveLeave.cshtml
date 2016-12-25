@@ -176,9 +176,9 @@
                             </select>
                         </div>
                         <label id="lblHiddenId" style="display:none"></label>
-                        <div class="form-group has-error" style="display:none" id="divCommentError">
-                            <label class="control-label" for="leaveComment">
-                                <i class="fa fa-times-circle-o"></i> Please enter the comments
+                        <div class="form-group has-error" style="display:none" id="divselectError">
+                            <label class="control-label" for="dropdownassignto">
+                                <i class="fa fa-times-circle-o"></i> Please select the manager
                             </label>
 
                         </div>
@@ -337,7 +337,13 @@
                             success: function (data) {
                                 $('#dropdownassignto').empty().append('<option selected="selected" value="0">Please select</option>');
                                 for (var i = 0; i < data.result.length; i++) {
-                                    var opt = new Option(data.result[i].FirstName + " " + data.result[i].LastName, data.result[i].Id);
+                                    var name = data.result[i].FirstName;
+                                    if( data.result[i].LastName != null)
+                                    {
+                                        name += " ";
+                                        name +=  data.result[i].LastName;
+                                    }
+                                    var opt = new Option(name, data.result[i].Id);
                                     $('#dropdownassignto').append(opt);
                                 }
                                 }
@@ -404,13 +410,14 @@
                     debugger;
                     var comments = $("#leaveComment").val();
                     var id = $("#lblHiddenId").html();
+                    var apid = 0;
                     var st = 1;
                     var status = 1;
                     $.ajax({
                         cache: false,
                         type: 'post',
                         url: '/ApproveLeave/ApproveEmployeeLeave',
-                        data: { id: id, comments: comments, st: st},
+                        data: { id: id, comments: comments, st: st, apid: apid},
                         //contentType: "application/json; charset=utf-8",
                         dataType: "json",
                         success: function (data) {
@@ -429,13 +436,14 @@
                     debugger;
                     var comments = $("#leaveComment").val();
                     var id = $("#lblHiddenId").html();
+                    var apid = 0;
                     var st = 0;
                     var status = 1;
                     $.ajax({
                         cache: false,
                         type: 'post',
                         url: '/ApproveLeave/ApproveEmployeeLeave',
-                        data: { id: id, comments: comments, st: st },
+                        data: { id: id, comments: comments, st: st , apid:apid},
                         //contentType: "application/json; charset=utf-8",
                         dataType: "json",
                         success: function (data) {
@@ -452,13 +460,14 @@
                     debugger;
                     var comments = $("#leaveComment").val();
                     var id = $("#lblHiddenId").html();
+                    var apid = 0;
                     var st = 2;
                     var status = 1;
                     $.ajax({
                         cache: false,
                         type: 'post',
                         url: '/ApproveLeave/ApproveEmployeeLeave',
-                        data: { id: id, comments: comments, st: st },
+                        data: { id: id, comments: comments, st: st, apid: apid },
                         //contentType: "application/json; charset=utf-8",
                         dataType: "json",
                         success: function (data) {
@@ -468,6 +477,37 @@
                             location.reload();
                         }
                     });
+                }
+     );
+
+                $(document).on('click', '#btnAssignTo', function (e) {
+
+                    $("#divselectError").hide();
+                    if ($("#dropdownassignto").val() == 0) {
+                        $("#divselectError").show();
+                    }
+                    else {
+                        $("#divselectError").hide();
+                        var comments = $("#leaveComment").val();
+                        var id = $("#lblHiddenId").html();
+                        var apid = $("#dropdownassignto").val();
+                        var st = 3;
+                        var status = 1;
+                        $.ajax({
+                            cache: false,
+                            type: 'post',
+                            url: '/ApproveLeave/ApproveEmployeeLeave',
+                            data: { id: id, comments: comments, st: st , apid: apid},
+                            //contentType: "application/json; charset=utf-8",
+                            dataType: "json",
+                            success: function (data) {
+
+                                $('#ViewLeaveModal').modal('hide');
+                                localStorage.setItem("leaveAssigned", 1);
+                                location.reload();
+                            }
+                        });
+                    }
                 }
      );
                 

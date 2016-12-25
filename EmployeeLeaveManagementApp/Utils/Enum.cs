@@ -28,9 +28,9 @@ namespace LMS_WebAPP_Utils
         [Description("Approved")]
         Approved = 12,
         [Description("Reassigned")]
-        Reassigned = 13,
+        Reassigned = 21,
         [Description("Canceled")]
-        Canceled = 14
+        Canceled = 20
 
     }
 

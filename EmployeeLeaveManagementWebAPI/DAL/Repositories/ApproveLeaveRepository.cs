@@ -11,7 +11,7 @@ namespace LMS_WebAPI_DAL.Repositories
     public class ApproveLeaveRepository : IApproveLeaveRepository
     {
 
-        public List<EmployeeDetailsModel> GetAllManagers()
+        public List<EmployeeDetailsModel> GetAllManagers(int id , int st)
         {
             try
             {
@@ -20,7 +20,7 @@ namespace LMS_WebAPI_DAL.Repositories
                 {
 
 
-                    var ManagersDetails = ctx.EmployeeDetails.Where(m => (m.RefRoleId == 1) || (m.RefRoleId == 2)).ToList();
+                    var ManagersDetails = ctx.EmployeeDetails.Where(m => ((m.RefRoleId == 1) || (m.RefRoleId == 2))&&(m.Id != id) ).ToList();
                     var retResult = ToModelMasterDetails(ManagersDetails);
 
                     if (retResult != null)
@@ -45,7 +45,7 @@ namespace LMS_WebAPI_DAL.Repositories
                 {
 
 
-                    var ApproveLeaves = ctx.Workflows.Where(m => (m.EmployeeLeaveTransaction.EmployeeDetail.ManagerId == id)).ToList();
+                    var ApproveLeaves = ctx.Workflows.Where(m => (m.RefApproverId == id)).ToList();
                     var retResult = ToModel(ApproveLeaves);
 
                     if (retResult != null)
@@ -62,7 +62,7 @@ namespace LMS_WebAPI_DAL.Repositories
             }
         }
 
-        public bool ApproveEmployeeLeave(int id, string comments, int st)
+        public bool ApproveEmployeeLeave(int id, string comments, int st , int apid)
         {
 
             var result = false;
@@ -76,19 +76,37 @@ namespace LMS_WebAPI_DAL.Repositories
                     if (st == 1)
                     {
                         leaveDetails.EmployeeLeaveTransaction.RefStatus = 12;
+                        leaveDetails.ManagerComments = comments;
+                        ctx.SaveChanges();
+                        insertintoLeaveHistory(leaveDetails);
+                        deletefromworkflow(id);
                     }
                     if (st == 0)
                     {
                         leaveDetails.EmployeeLeaveTransaction.RefStatus = 11;
+                        leaveDetails.ManagerComments = comments;
+                        ctx.SaveChanges();
+                        insertintoLeaveHistory(leaveDetails);
+                        deletefromworkflow(id);
                     }
                     if (st == 2)
                     {
-                        leaveDetails.EmployeeLeaveTransaction.RefStatus = 14;
+                        leaveDetails.EmployeeLeaveTransaction.RefStatus = 20;
+                        leaveDetails.ManagerComments = comments;
+                        ctx.SaveChanges();
+                        insertintoLeaveHistory(leaveDetails);
+                        deletefromworkflow(id);
                     }
-                    leaveDetails.ManagerComments = comments;
-                    ctx.SaveChanges();
-                    insertintoLeaveHistory(leaveDetails);
-                    deletefromworkflow(id);
+                    if (st == 3)
+                    {
+                        leaveDetails.EmployeeLeaveTransaction.RefStatus = 21;
+                        leaveDetails.RefApproverId = apid;
+                        leaveDetails.ManagerComments = comments;
+                        ctx.SaveChanges();
+                       // insertintoLeaveHistory(leaveDetails);
+                       // deletefromworkflow(id);
+                    }
+                    
 
                 }
                 result = true;

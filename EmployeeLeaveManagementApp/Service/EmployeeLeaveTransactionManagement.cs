@@ -41,16 +41,18 @@ namespace LMS_WebAPP_ServiceHelpers
         public async Task<IList<LeaveTransaction>> SubmitLeaveRequestAsync(int id, int leaveType,string fromDate,string toDate,string comments,int workingDays)
         {
             HttpClient client = new HttpClient();
-           var urlParameters = "?empId=" + id + "&leaveType=" + leaveType + "&fromDate=" + fromDate + "&toDate="+ toDate+"&comments="+comments+"&workingDays="+workingDays;
-            //URL = URL + "/SubmitLeaveRequest";
             client.BaseAddress = new Uri(URL);
+            var urlParameters = "?Id=" + id + "&leaveType=" + leaveType + "&fromDate=" + fromDate + "&toDate="+ toDate+"&comments="+comments+"&workingDays="+workingDays;
+            URL += urlParameters;
+            //URL = URL + "/SubmitLeaveRequest";
+            
 
             // Add an Accept header for JSON format.
             client.DefaultRequestHeaders.Accept.Add(
             new MediaTypeWithQualityHeaderValue("application/json"));
 
             // List data response.
-            HttpResponseMessage response = await client.GetAsync(urlParameters);  // Blocking call!
+            HttpResponseMessage response = await client.GetAsync(URL);  // Blocking call!
             if (response.IsSuccessStatusCode)
             {
                 // Parse the response body. Blocking!

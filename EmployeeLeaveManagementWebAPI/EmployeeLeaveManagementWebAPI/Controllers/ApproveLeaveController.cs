@@ -11,10 +11,10 @@ namespace EmployeeLeaveManagementWebAPI.Controllers
     {
         // GET: ApproveLeave
 
-        public List<EmployeeDetailsModel> Get()
+        public List<EmployeeDetailsModel> Get(int id, int st)
         {
             ApproveLeaveManagement ELTM = new ApproveLeaveManagement();
-            var res = ELTM.GetAllManagers();
+            var res = ELTM.GetAllManagers(id,st);
 
             return res;
 
@@ -28,10 +28,10 @@ namespace EmployeeLeaveManagementWebAPI.Controllers
 
         }
         
-        public List<ApproveLeaveModel> Get(int id , string comments , int st)
+        public List<ApproveLeaveModel> Get(int id , string comments , int st, int apid)
         {
             ApproveLeaveManagement ALM = new ApproveLeaveManagement();
-            var EmployeeLeaveApproved = ALM.ApproveEmployeeLeave(id,comments,st);
+            var EmployeeLeaveApproved = ALM.ApproveEmployeeLeave(id,comments,st, apid);
 
             var res = new List<ApproveLeaveModel>();
             if (EmployeeLeaveApproved)

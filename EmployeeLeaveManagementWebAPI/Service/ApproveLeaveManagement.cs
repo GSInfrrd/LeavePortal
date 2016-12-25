@@ -11,9 +11,9 @@ namespace LMS_WebAPI_ServiceHelpers
         private IApproveLeaveRepository EmployeeLeaves = new ApproveLeaveRepository();
 
         
-        public List<EmployeeDetailsModel> GetAllManagers()
+        public List<EmployeeDetailsModel> GetAllManagers(int id , int st)
         {
-            var ManagerDetails = EmployeeLeaves.GetAllManagers();
+            var ManagerDetails = EmployeeLeaves.GetAllManagers(id,st);
             // var leaveType = addLeaveRepository.GetLeaveType();
             // var retResult = ToModel(EmployeeLeaveTransaction);
 
@@ -30,9 +30,9 @@ namespace LMS_WebAPI_ServiceHelpers
 
         
 
-        public bool ApproveEmployeeLeave(int id, string comments, int st)
+        public bool ApproveEmployeeLeave(int id, string comments, int st , int apid)
         {
-            var ApproveLeaves = EmployeeLeaves.ApproveEmployeeLeave(id,comments,st);
+            var ApproveLeaves = EmployeeLeaves.ApproveEmployeeLeave(id,comments,st,apid);
             // var leaveType = addLeaveRepository.GetLeaveType();
             // var retResult = ToModel(EmployeeLeaveTransaction);
 

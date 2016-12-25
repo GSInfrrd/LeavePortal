@@ -190,7 +190,7 @@
                             </a>
                         </li>
                     }
-@if (roleId == (int)EmployeeRole.Manager)
+@if ((roleId == (int)EmployeeRole.Manager) || (roleId == (int)EmployeeRole.HR))
 {
                     <li>
                         <a href="@Url.Action("ApproveLeave", "ApproveLeave")">

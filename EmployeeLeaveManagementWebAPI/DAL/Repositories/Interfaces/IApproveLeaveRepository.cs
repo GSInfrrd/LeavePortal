@@ -10,7 +10,7 @@ namespace LMS_WebAPI_DAL.Repositories.Interfaces
     public interface IApproveLeaveRepository
     {
         List<ApproveLeaveModel> GetApproveLeave(int id);
-        List<EmployeeDetailsModel> GetAllManagers();
-        bool ApproveEmployeeLeave(int id, string comments, int st);
+        List<EmployeeDetailsModel> GetAllManagers(int id, int st);
+        bool ApproveEmployeeLeave(int id, string comments, int st , int apid);
     }
 }

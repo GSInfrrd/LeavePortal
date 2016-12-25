@@ -30,11 +30,11 @@ namespace EmployeeLeaveManagementApp.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult> ApproveEmployeeLeave(int id, string comments , int st)
+        public async Task<ActionResult> ApproveEmployeeLeave(int id, string comments , int st , int apid)
         {
             ApproveLeaveManagement ELTM = new ApproveLeaveManagement();
 
-            var res = await ELTM.AprroveEmployeeLeaveAsync(id, comments, st);
+            var res = await ELTM.AprroveEmployeeLeaveAsync(id, comments, st, apid);
             //return RedirectToAction("ApplyLeave");
             return Json(new { result = res });
         }
@@ -43,8 +43,10 @@ namespace EmployeeLeaveManagementApp.Controllers
         public async Task<ActionResult> GetAllManagers()
         {
             ApproveLeaveManagement ELTM = new ApproveLeaveManagement();
-
-            var res = await ELTM.GetAllManagersAsync();
+            var data = (UserAccount)Session[Constants.SESSION_OBJ_USER];
+            int id = data.RefEmployeeId;
+            int st = 1;
+            var res = await ELTM.GetAllManagersAsync(id, st);
             //return RedirectToAction("ApplyLeave");
             return Json(new { result = res });
         }
