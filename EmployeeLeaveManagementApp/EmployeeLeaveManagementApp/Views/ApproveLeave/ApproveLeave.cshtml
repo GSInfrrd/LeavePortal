@@ -137,7 +137,7 @@
                         </div>
                         <div>
                             <label style="padding-top:20px">From Date : </label> &nbsp;<span id="MdlFromDate"></span>
-                            <label style="padding-left:200px">To Date : </label> &nbsp;<span id="MdlToDate"></span>
+                            <label style="padding-left:180px">To Date : </label> &nbsp;<span id="MdlToDate"></span>
                         </div>
                         <div>
                             
@@ -155,10 +155,17 @@
                     </div>
                     <div class="form-group">
                         <div>
-                            <label style="padding-top:20px">Manager Comments :</label>
+                            <label id="managercomments" style="padding-top:20px">Manager Comments :</label>
                         </div>
+                        
                         <div>
                             <textarea id="leaveComment" rows="3" style="width:568px" placeholder="Enter ..."></textarea>
+                        </div>
+                        <div class="form-group has-error" style="display:none" id="divCommentError">
+                            <label class="control-label" for="managercomments">
+                                <i class="fa fa-times-circle-o"></i> Please enter the comments
+                            </label>
+
                         </div>
                         <div>
                             <label style="padding-top:20px">Do you want to reassign? :</label>
@@ -190,8 +197,8 @@
                     <button type="button" id="btnAssignTo" style="background-color:#222d32 !important" class="btn btn-primary">Assign</button>
                     <button type="button" id="btnApproveLeave" style="background-color:#222d32 !important" class="btn btn-primary">Approve</button>
                     <button type="button" id="btnRejectLeave" style="background-color:#222d32 !important" class="btn btn-primary">Reject</button>
-                    <button type="button" id="btnCancelLeave" style="background-color:#222d32 !important" class="btn btn-primary">Cancel</button>
-                    <button type="button" class="btn btn-primary pull-right" style="background-color:#222d32 !important" data-dismiss="modal" data->Close</button>
+                    @*<button type="button" id="btnCancelLeave" style="background-color:#222d32 !important" class="btn btn-primary">Cancel</button>*@
+                    <button type="button" class="btn btn-primary pull-right" style="background-color:#222d32 !important" data-dismiss="modal" data->Cancel</button>
 
                 </div>
             </div>
@@ -323,10 +330,15 @@
                     if ($("input[name='r1']:checked").val() == 'NO') {
                         $("#assignto").hide();
                         $("#btnAssignTo").hide();
+                        $("#btnApproveLeave").show();
+                        $("#btnRejectLeave").show();
+                      
                     }
                     if ($("input[name='r1']:checked").val() == 'YES') {
                         $("#assignto").show();
                         $("#btnAssignTo").show();
+                        $("#btnApproveLeave").hide();
+                        $("#btnRejectLeave").hide();
                         $.ajax({
                             cache: false,
                             type: 'post',
@@ -373,7 +385,10 @@
                     var employeecomments = $(this).attr("data-COMMENT");
                 
                     $("#rd1").prop('checked', true);
-                  
+                    $("#btnApproveLeave").show();
+                    $("#btnRejectLeave").show();
+                    $("#divCommentError").hide();
+                    $("#divselectError").hide();
                     $('#assignto').hide();
                     
                     $('#MdlName').html(name);
@@ -406,53 +421,64 @@
        );
 
                 $(document).on('click', '#btnApproveLeave', function (e) {
-
-                    debugger;
-                    var comments = $("#leaveComment").val();
-                    var id = $("#lblHiddenId").html();
-                    var apid = 0;
-                    var st = 1;
-                    var status = 1;
-                    $.ajax({
-                        cache: false,
-                        type: 'post',
-                        url: '/ApproveLeave/ApproveEmployeeLeave',
-                        data: { id: id, comments: comments, st: st, apid: apid},
-                        //contentType: "application/json; charset=utf-8",
-                        dataType: "json",
-                        success: function (data) {
-                            if (data) {
-                                $('#ViewLeaveModal').modal('hide');
-                                localStorage.setItem("leaveApproved", 1);
-                                location.reload();
+                    $("#divCommentError").hide();
+                    if ($("#leaveComment").val() == "") {
+                        $("#divCommentError").show();
+                    }
+                    else {
+                        $("#divCommentError").hide();
+                        var comments = $("#leaveComment").val();
+                        var id = $("#lblHiddenId").html();
+                        var apid = 0;
+                        var st = 1;
+                        var status = 1;
+                        $.ajax({
+                            cache: false,
+                            type: 'post',
+                            url: '/ApproveLeave/ApproveEmployeeLeave',
+                            data: { id: id, comments: comments, st: st, apid: apid },
+                            //contentType: "application/json; charset=utf-8",
+                            dataType: "json",
+                            success: function (data) {
+                                if (data) {
+                                    $('#ViewLeaveModal').modal('hide');
+                                    localStorage.setItem("leaveApproved", 1);
+                                    location.reload();
+                                }
                             }
-                        }
-                    });
+                        });
+                    }
                 }
       );
 
                 $(document).on('click', '#btnRejectLeave', function (e) {
 
-                    debugger;
-                    var comments = $("#leaveComment").val();
-                    var id = $("#lblHiddenId").html();
-                    var apid = 0;
-                    var st = 0;
-                    var status = 1;
-                    $.ajax({
-                        cache: false,
-                        type: 'post',
-                        url: '/ApproveLeave/ApproveEmployeeLeave',
-                        data: { id: id, comments: comments, st: st , apid:apid},
-                        //contentType: "application/json; charset=utf-8",
-                        dataType: "json",
-                        success: function (data) {
+                    $("#divCommentError").hide();
+                    if ($("#leaveComment").val() == "") {
+                        $("#divCommentError").show();
+                    }
+                    else {
+                        $("#divCommentError").hide();
+                        var comments = $("#leaveComment").val();
+                        var id = $("#lblHiddenId").html();
+                        var apid = 0;
+                        var st = 0;
+                        var status = 1;
+                        $.ajax({
+                            cache: false,
+                            type: 'post',
+                            url: '/ApproveLeave/ApproveEmployeeLeave',
+                            data: { id: id, comments: comments, st: st, apid: apid },
+                            //contentType: "application/json; charset=utf-8",
+                            dataType: "json",
+                            success: function (data) {
 
-                            $('#ViewLeaveModal').modal('hide');
-                            localStorage.setItem("leaveRejected", 1);
-                            location.reload();
-                        }
-                    });
+                                $('#ViewLeaveModal').modal('hide');
+                                localStorage.setItem("leaveRejected", 1);
+                                location.reload();
+                            }
+                        });
+                    }
                 }
      );
                 $(document).on('click', '#btnCancelLeave', function (e) {

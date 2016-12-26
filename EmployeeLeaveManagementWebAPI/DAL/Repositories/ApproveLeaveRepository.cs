@@ -45,7 +45,7 @@ namespace LMS_WebAPI_DAL.Repositories
                 {
 
 
-                    var ApproveLeaves = ctx.Workflows.Where(m => (m.RefApproverId == id)).ToList();
+                    var ApproveLeaves = ctx.Workflows.Where(m => (m.RefApproverId == id) &&((m.RefStatus == 10)|| (m.RefStatus == 21))).ToList();
                     var retResult = ToModel(ApproveLeaves);
 
                     if (retResult != null)
