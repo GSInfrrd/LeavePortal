@@ -27,7 +27,52 @@ namespace EmployeeLeaveManagementApp.Controllers
                 return RedirectToAction("Login","Account");
             }
         }
+        public ActionResult CompanyAnnouncements()
+        {
+            if (null != Session[Constants.SESSION_OBJ_USER])
+            {
+                return View();
+            }
+            else
+            {
+                return RedirectToAction("Login", "Account");
+            }
+        }
 
+        public ActionResult Broadcast()
+        {
+            if (null != Session[Constants.SESSION_OBJ_USER])
+            {
+                return View();
+            }
+            else
+            {
+                return RedirectToAction("Login", "Account");
+            }
+        }
+
+        public ActionResult AddLeaves()
+        {
+            if (null != Session[Constants.SESSION_OBJ_USER])
+            {
+                return View();
+            }
+            else
+            {
+                return RedirectToAction("Login", "Account");
+            }
+        }
+        public ActionResult AddHolidays()
+        {
+            if (null != Session[Constants.SESSION_OBJ_USER])
+            {
+                return View();
+            }
+            else
+            {
+                return RedirectToAction("Login", "Account");
+            }
+        }
         public async Task<ActionResult> EmployeeDetails()
         {
             if (null != Session[Constants.SESSION_OBJ_USER])

@@ -130,7 +130,7 @@
                                             <!-- col-sm-10 -->
                                         </div>
                                     </div>
-                                    <div class="col-sm-6">
+                                    @*<div class="col-sm-6">
                                         <div class="row mgbt-xs-0">
                                             <label class="col-xs-5 control-label">Interests:</label>
                                             <div class="col-xs-7 controls">Basketball, Web, Design, etc.</div>
@@ -143,7 +143,7 @@
                                             <div class="col-xs-7 controls"><a href="http://Vendroid.venmond.com">Vendroid.venmond.com</a></div>
                                             <!-- col-sm-10 -->
                                         </div>
-                                    </div>
+                                    </div>*@
                                     <div class="col-sm-6">
                                         <div class="row mgbt-xs-0">
                                             <label class="col-xs-5 control-label">Phone:</label>
@@ -210,33 +210,89 @@
                         <div class="tab-pane" id="editDetails">
                             <form class="form-horizontal">
                                 <div class="form-group">
-                                    <label for="inputName" class="col-sm-2 control-label">Name</label>
+                                    <label for="inputName" class="col-sm-2 control-label">First Name</label>
                                     <div class="col-sm-10">
-                                        <input type="email" class="form-control" id="inputName" placeholder="Name">
+                                        <input type="text" class="form-control" id="inputName" placeholder="First Name" value="@Model.FirstName">
                                     </div>
                                 </div>
                                 <div class="form-group">
-                                    <label for="inputEmail" class="col-sm-2 control-label">Email</label>
+                                    <label for="inputName" class="col-sm-2 control-label">Last Name</label>
                                     <div class="col-sm-10">
-                                        <input type="email" class="form-control" id="inputEmail" placeholder="Email">
+                                        <input type="text" class="form-control" id="inputName" value="@Model.LastName" placeholder="Last Name">
                                     </div>
                                 </div>
                                 <div class="form-group">
-                                    <label for="inputName" class="col-sm-2 control-label">Name</label>
+                                    <label for="inputEmail" class="col-sm-2 control-label">City</label>
                                     <div class="col-sm-10">
-                                        <input type="text" class="form-control" id="inputName" placeholder="Name">
+                                        <input type="text" class="form-control" id="inputEmail" value="@Model.City" placeholder="City">
                                     </div>
                                 </div>
                                 <div class="form-group">
-                                    <label for="inputExperience" class="col-sm-2 control-label">Experience</label>
+                                    <label for="inputEmail" class="col-sm-2 control-label">Country</label>
                                     <div class="col-sm-10">
-                                        <textarea class="form-control" id="inputExperience" placeholder="Experience"></textarea>
+                                        <input type="text" class="form-control" id="inputEmail" value="@Model.Country" placeholder="Country">
                                     </div>
                                 </div>
+                                <div class="form-group">
+                                    <label for="inputEmail" class="col-sm-2 control-label">Date Of Birth</label>
+                                    <div class="col-sm-10">
+                                        <input type="date" class="form-control" id="inputEmail" value="@Model.DateOfBirth">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="inputEmail" class="col-sm-2 control-label">Telephone</label>
+                                    <div class="col-sm-10">
+                                        <input type="tel" class="form-control" id="inputEmail" value="@Model.Telephone" placeholder="Telephone">
+                                    </div>
+                                </div>
+                             <h3>Education Details</h3>
+                                <div class="form-group">
+                                    <label for="inputEmail" class="col-sm-2 control-label">Graduation</label>
+                                    <div class="col-sm-10">
+                                        <input type="text" class="form-control" id="inputEmail" value="@Model.EmployeeEducationDetails[0].Degree" placeholder="Graduation">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="inputEmail" class="col-sm-2 control-label">Institution</label>
+                                    <div class="col-sm-10">
+                                        <input type="text" class="form-control" id="inputEmail" value="@Model.EmployeeEducationDetails[0].Institution"  placeholder="Institution">
+                                    </div>
+                                </div>                             
+                                <div id="divEducationDetails" style="display:none">
+                                </div>
+                                <a class="btn" style="color:#3c8dbc" id="lnkAddEducationDetails">Add more Education Details</a>
+                                <h3>Experience Details</h3>
+                                <div class="form-group">
+                                    <label for="inputExperience" class="col-sm-2 control-label">Employer</label>
+                                    <div class="col-sm-10">
+                                        <input type="text" class="form-control" id="inputExperience" value="@Model.EmployeeExperienceDetails[0].Company" placeholder="Employer">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="inputExperience" class="col-sm-2 control-label">Designation</label>
+                                    <div class="col-sm-10">
+                                        <input type="text" class="form-control" id="inputExperience" value="@Model.EmployeeExperienceDetails[0].Role" placeholder="Designation">
+                                    </div>
+                                </div>
+                                <div id="otherExperienceDetails" style="display:none">
+                                    <div class="form-group">
+                                        <label for="inputExperience" class="col-sm-2 control-label">Employer</label>
+                                        <div class="col-sm-10">
+                                            <input type="text" class="form-control" id="inputExperience" placeholder="Employer">
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="inputExperience" class="col-sm-2 control-label">Designation</label>
+                                        <div class="col-sm-10">
+                                            <input type="text" class="form-control" id="inputExperience" placeholder="Designation">
+                                        </div>
+                                    </div>
+                                </div>
+                                <a class="btn" id="lnkAddExperienceDetails">Add more Experience Details</a>
                                 <div class="form-group">
                                     <label for="inputSkills" class="col-sm-2 control-label">Skills</label>
                                     <div class="col-sm-10">
-                                        <input type="text" class="form-control" id="inputSkills" placeholder="Skills">
+                                        <input type="text" class="form-control" id="inputSkills" value="@Model.Skills" placeholder="Skills">
                                     </div>
                                 </div>
                                 <div class="form-group">
@@ -272,4 +328,18 @@
         $("#editDetails").show();
         $("#profile").hide();
     })
+    $("#lnkAddEducationDetails").click(function(e)
+    {
+        var html="<div class='form-group'><label for='inputEmail' class='col-sm-2 control-label'>Graduation</label> <div class='col-sm-10'>"+
+            "<input type='text' class='form-control' id='inputEmail' placeholder='Graduation'></div></div> <div class='form-group'>"+
+"<label for='inputEmail' class='col-sm-2 control-label'>Institution</label><div class='col-sm-10'>"+
+"<input type='text' class='form-control' id='inputEmail' placeholder='Institution'></div></div>"
+        $("#divEducationDetails").html(html);
+        $("#divEducationDetails").show();
+        //$("#lnkAddEducationDetails").hide();
+    });
+    $("#lnkAddExperienceDetails").click(function(e)
+    {
+        $("#otherExperienceDetails").show();
+    });
 </script>
