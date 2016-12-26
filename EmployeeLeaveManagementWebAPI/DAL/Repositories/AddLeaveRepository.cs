@@ -139,7 +139,8 @@ namespace LMS_WebAPI_DAL.Repositories
             message.To.Add(new MailAddress("alekhya.kk9@gmail.com"));
             message.CC.Add(new MailAddress("alekya@infrrd.ai"));
             message.Subject = "Leave Notification";
-            message.Body = @"Hi,</br></br>"+firstName+" has applied leave.Login to your account to approve/reject";
+            message.IsBodyHtml = true;
+            message.Body = @"Hi,<br/><b>"+firstName+"</b> has applied for leave.Login to your account to approve/reject.<br/><br/>Best Regards,<br/><b>Infrrd Leave Management<b>";
 
 
 

@@ -80,13 +80,15 @@
                     <div class="form-group col-md-6">
                         <label for="ddlDesignation">Designation</label>
                             <select class="form-control select2" style="width: 100%;" id="ddlDesignation">
+                                <option value="">Select</option>
                                 <option value="@Convert.ToInt16(LMS_WebAPP_Utils.EmployeeRole.Manager)">@LMS_WebAPP_Utils.CommonMethods.Description((LMS_WebAPP_Utils.EmployeeRole.Manager))</option>
                                 <option value="@Convert.ToInt16(LMS_WebAPP_Utils.EmployeeRole.Employee)">@LMS_WebAPP_Utils.CommonMethods.Description((LMS_WebAPP_Utils.EmployeeRole.Employee))</option>
                             </select>
                     </div>
                     <div class="form-group col-md-6">
-                        <label for="ddlLevel">Level</label>
+                        <label>Level</label>
                             <select class="form-control select2" style="width: 100%;" id="ddlLevel">
+                                <option value="">Select</option>
                                 <option value="@Convert.ToInt16(LMS_WebAPP_Utils.HierarchyLevel.Level0)">@LMS_WebAPP_Utils.CommonMethods.Description((LMS_WebAPP_Utils.HierarchyLevel.Level0))</option>
                                 <option value="@Convert.ToInt16(LMS_WebAPP_Utils.HierarchyLevel.Level1)">@LMS_WebAPP_Utils.CommonMethods.Description((LMS_WebAPP_Utils.HierarchyLevel.Level1))</option>
                                 <option value="@Convert.ToInt16(LMS_WebAPP_Utils.HierarchyLevel.Level2)">@LMS_WebAPP_Utils.CommonMethods.Description((LMS_WebAPP_Utils.HierarchyLevel.Level2))</option>
@@ -95,10 +97,11 @@
                                 <option value="@Convert.ToInt16(LMS_WebAPP_Utils.HierarchyLevel.Level5)">@LMS_WebAPP_Utils.CommonMethods.Description((LMS_WebAPP_Utils.HierarchyLevel.Level5))</option>
                             </select>
                     </div>
-                    <div class="form-group col-md-6">
-                        <label for="ddlManager">Manager Name</label>
+                    <div class="form-group col-md-6" id="ddlManager">
+                        <label for="ddlManagerName">Manager Name</label>
                     
                             <select class="form-control select2" style="width: 100%;" id="ddlManagerName">
+                                <option value="">Select</option>
                                 <option>Girija</option>
                                 <option>Lalith</option>
                             </select>
@@ -144,12 +147,8 @@
                         <input type="text" class="form-control" id="txtUniversity" placeholder="Enter Email">
                     </div>
                     <div class="form-group col-md-6">
-                        <label for="educationFromDate">From</label>
-                        <input type="date" class="form-control" id="educationFromDate" placeholder="Enter Email">
-                    </div>
-                    <div class="form-group col-md-6">
-                        <label for="educationToDate">To</label>
-                        <input type="date" class="form-control" id="educationToDate" placeholder="Enter Email">
+                        <label for="educationFromDate">Duration</label>
+                        <input type="text" class="form-control" id="educationDatePicker">
                     </div>
 
                 </div>
@@ -175,11 +174,7 @@
                     </div>
                     <div class="form-group col-md-6">
                         <label for="ExpFromDate">From</label>
-                        <input type="date" class="form-control" id="ExpFromDate" placeholder="Enter Email">
-                    </div>
-                    <div class="form-group col-md-6">
-                        <label for="ExpToDate">To</label>
-                        <input type="date" class="form-control" id="ExpToDate" placeholder="Enter Email">
+                        <input type="text" class="form-control" id="experienceDatePicker">
                     </div>
                     <div class="form-group col-md-6">
                         <label for="ddlSkills">Skills</label>
@@ -204,11 +199,121 @@
 </section>
 <script src="../../plugins/iCheck/icheck.min.js"></script>
 <script src="../../plugins/select2/select2.full.min.js"></script>
+<script src="~/plugins/daterangepicker/moment.min.js"></script>
+@*<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.11.2/moment.min.js"></script>*@
+<script src="../../plugins/daterangepicker/daterangepicker.js"></script>
 <script>
-    $(function () {
-        //Initialize Select2 Elements
-        $(".select2").select2();
+    var educationFromDate;
+    var educationToDate;
+    var experienceFromDate;
+    var experienceToDate;
+    $(document).ready(function () {
+                $(function () {
+            //Initialize Select2 Elements
+            $(".select2").select2().on('change', function (e) {
+                debugger
+                if ($("#ddlLevel").val() == 13) {
+                    $("#ddlManager").hide();
+                }
+                else {
+                    $("#ddlManager").show();
+                }
+            });
+            $('#educationDatePicker').daterangepicker(
+                   {
+                   });
+            $('#experienceDatePicker').daterangepicker(
+                  {
+                  });
+            $('#educationDatepicker').on('change.daterangepicker', function (ev, picker) {
+                var date = ev.target.value;
+                var dates = [];
+                dates = date.split('-');
+                var start = dates[0].trim();
+                var startDate = new Date(start);
+                var startMonth = startDate.getMonth() + 1;
+                educationFromDate = startDate.getFullYear() + "-" + startMonth + "-" + startDate.getDate();
+                var end = dates[1].trim();
+                var endDate = new Date(end);
+                var endMonth = endDate.getMonth() + 1;
+                educationToDate = endDate.getFullYear() + "-" + endMonth + "-" + endDate.getDate();
+                //toDate = end.toString("YYYY-MM-DD");
+                //var days = (endDate - startDate) / (1000 * 60 * 60 * 24);
+                //days += 1;
+                //var weekend_count = 0;
+                //for (i = startDate.valueOf() ; i <= endDate.valueOf() ; i += 86400000) {
+                //    var temp = new Date(i);
+                //    if (temp.getDay() == 0 || temp.getDay() == 6) {
+                //        weekend_count++;
+                //    }
+                //}
+                //days = days - weekend_count;
+                //$("#lblTotalWorkingDays").html(Math.round(days));
+            });
+            $('#educationDatePicker').on('apply.daterangepicker', function (ev, picker) {
+
+                var start = picker.startDate;
+                educationFromDate = start.format('YYYY-MM-DD');
+                var end = picker.endDate;
+                educationToDate = end.format('YYYY-MM-DD');
+                //var days = (end - start) / (1000 * 60 * 60 * 24);
+
+                //var weekend_count = 0;
+                //for (i = start.valueOf() ; i <= end.valueOf() ; i += 86400000) {
+                //    var temp = new Date(i);
+                //    if (temp.getDay() == 0 || temp.getDay() == 6) {
+                //        weekend_count++;
+                //    }
+                //}
+                //days = days - weekend_count
+                //$("#lblTotalWorkingDays").html(Math.round(days));
+            });
+            $('#experienceDatePicker').on('change.daterangepicker', function (ev, picker) {
+                var date = ev.target.value;
+                var dates = [];
+                dates = date.split('-');
+                var start = dates[0].trim();
+                var startDate = new Date(start);
+                var startMonth = startDate.getMonth() + 1;
+                experienceFromDate = startDate.getFullYear() + "-" + startMonth + "-" + startDate.getDate();
+                var end = dates[1].trim();
+                var endDate = new Date(end);
+                var endMonth = endDate.getMonth() + 1;
+                experienceToDate = endDate.getFullYear() + "-" + endMonth + "-" + endDate.getDate();
+                //toDate = end.toString("YYYY-MM-DD");
+                //var days = (endDate - startDate) / (1000 * 60 * 60 * 24);
+                //days += 1;
+                //var weekend_count = 0;
+                //for (i = startDate.valueOf() ; i <= endDate.valueOf() ; i += 86400000) {
+                //    var temp = new Date(i);
+                //    if (temp.getDay() == 0 || temp.getDay() == 6) {
+                //        weekend_count++;
+                //    }
+                //}
+                //days = days - weekend_count;
+                //$("#lblTotalWorkingDays").html(Math.round(days));
+            });
+            $('#experienceDatePicker').on('apply.daterangepicker', function (ev, picker) {
+
+                var start = picker.startDate;
+                experienceFromDate = start.format('YYYY-MM-DD');
+                var end = picker.endDate;
+                experienceToDate = end.format('YYYY-MM-DD');
+                //var days = (end - start) / (1000 * 60 * 60 * 24);
+
+                //var weekend_count = 0;
+                //for (i = start.valueOf() ; i <= end.valueOf() ; i += 86400000) {
+                //    var temp = new Date(i);
+                //    if (temp.getDay() == 0 || temp.getDay() == 6) {
+                //        weekend_count++;
+                //    }
+                //}
+                //days = days - weekend_count
+                //$("#lblTotalWorkingDays").html(Math.round(days));
+            });
+        })
     });
+
     $('input[type="checkbox"].flat-red, input[type="radio"].flat-red').iCheck({
         checkboxClass: 'icheckbox_flat-green',
         radioClass: 'iradio_flat-green'
@@ -220,15 +325,15 @@
 
             Graduation: $("#ddlGraduation").val(),
             Institution: $("#txtUniversity").val(),
-            FromDate: $("#educationFromDate").val(),
-            ToDate: $("#educationToDate").val()
+            FromDate:educationFromDate,
+            ToDate: educationToDate
         }
         var experienceDetails = {
 
             CompanyName: $("#txtEmployer").val(),
             Role: $("#txtDesignation").val(),
-            FromDate: $("#expFromDate").val(),
-            ToDate: $("#expToDate").val()
+            FromDate: experienceFromDate,
+            ToDate: experienceToDate
         }
         var model = {
             FirstName: $("#txtFirstName").val(),
@@ -305,4 +410,6 @@
                 });
 
     }
+
+
 </script>

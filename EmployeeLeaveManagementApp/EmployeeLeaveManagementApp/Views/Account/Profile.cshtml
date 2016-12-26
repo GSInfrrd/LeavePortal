@@ -257,9 +257,17 @@
                                     <div class="col-sm-10">
                                         <input type="text" class="form-control" id="inputEmail" value="@Model.EmployeeEducationDetails[0].Institution"  placeholder="Institution">
                                     </div>
-                                </div>                             
-                                <div id="divEducationDetails" style="display:none">
+                                </div>    
+                                <div class="form-group">
+                                    <label for="inputEmail" class="col-sm-2 control-label">Duration</label>
+                                    <div class="col-sm-10">
+                                        <input type="text" class="form-control" id="educationDatePicker">
+                                    </div>
                                 </div>
+                                                   
+                                <div id="divEducationDetails" style="display:none">  
+                                 </div>
+
                                 <a class="btn" style="color:#3c8dbc" id="lnkAddEducationDetails">Add more Education Details</a>
                                 <h3>Experience Details</h3>
                                 <div class="form-group">
@@ -274,19 +282,13 @@
                                         <input type="text" class="form-control" id="inputExperience" value="@Model.EmployeeExperienceDetails[0].Role" placeholder="Designation">
                                     </div>
                                 </div>
-                                <div id="otherExperienceDetails" style="display:none">
-                                    <div class="form-group">
-                                        <label for="inputExperience" class="col-sm-2 control-label">Employer</label>
-                                        <div class="col-sm-10">
-                                            <input type="text" class="form-control" id="inputExperience" placeholder="Employer">
-                                        </div>
+                                <div class="form-group">
+                                    <label for="inputEmail" class="col-sm-2 control-label">Duration</label>
+                                    <div class="col-sm-10">
+                                        <input type="text" class="form-control" id="experienceDatePicker">
                                     </div>
-                                    <div class="form-group">
-                                        <label for="inputExperience" class="col-sm-2 control-label">Designation</label>
-                                        <div class="col-sm-10">
-                                            <input type="text" class="form-control" id="inputExperience" placeholder="Designation">
-                                        </div>
-                                    </div>
+                                </div>
+                                <div id="otherExperienceDetails" style="display:none">                              
                                 </div>
                                 <a class="btn" id="lnkAddExperienceDetails">Add more Experience Details</a>
                                 <div class="form-group">
@@ -320,7 +322,20 @@
             <!-- /.col -->
         </div>
         </section>
+<script src="~/plugins/daterangepicker/moment.min.js"></script>
+@*<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.11.2/moment.min.js"></script>*@
+<script src="../../plugins/daterangepicker/daterangepicker.js"></script>
 <script>
+    $(document).ready(function () {
+        $(function () {
+            $('#educationDatePicker').daterangepicker(
+                   {
+                   });
+            $('#experienceDatePicker').daterangepicker(
+                  {
+                  });
+        })
+    });
     $("#editEmployeeDetails").on('click',function(e)
     {
         $("#tabEditDetails").show();
@@ -330,16 +345,23 @@
     })
     $("#lnkAddEducationDetails").click(function(e)
     {
-        var html="<div class='form-group'><label for='inputEmail' class='col-sm-2 control-label'>Graduation</label> <div class='col-sm-10'>"+
-            "<input type='text' class='form-control' id='inputEmail' placeholder='Graduation'></div></div> <div class='form-group'>"+
-"<label for='inputEmail' class='col-sm-2 control-label'>Institution</label><div class='col-sm-10'>"+
-"<input type='text' class='form-control' id='inputEmail' placeholder='Institution'></div></div>"
-        $("#divEducationDetails").html(html);
+        $("#divEducationDetails").prepend("<hr><div class='form-group'><label for='inputEmail' class='col-sm-2 control-label'>Graduation</label> <div class='col-sm-10'>" +
+            "<input type='text' class='form-control' id='inputEmail' placeholder='Graduation'></div></div> <div class='form-group'>" +
+"<label for='inputEmail' class='col-sm-2 control-label'>Institution</label><div class='col-sm-10'>" +
+"<input type='text' class='form-control' id='inputEmail' placeholder='Institution'></div></div> <div class='form-group'>" +
+"<label for='inputEmail' class='col-sm-2 control-label'>Duration</label><div class='col-sm-10'>" +
+"<input type='text' class='form-control' id='educationDatePicker'></div>");
         $("#divEducationDetails").show();
         //$("#lnkAddEducationDetails").hide();
     });
     $("#lnkAddExperienceDetails").click(function(e)
     {
+        $("#otherExperienceDetails").prepend("<hr><div class='form-group'><label for='inputEmail' class='col-sm-2 control-label'>Employer</label> <div class='col-sm-10'>" +
+           "<input type='text' class='form-control' id='inputEmail' placeholder='Employer'></div></div> <div class='form-group'>" +
+"<label for='inputEmail' class='col-sm-2 control-label'>Designation</label><div class='col-sm-10'>" +
+"<input type='text' class='form-control' id='inputEmail' placeholder='Designation'></div></div> <div class='form-group'>" +
+"<label for='inputEmail' class='col-sm-2 control-label'>Duration</label><div class='col-sm-10'>" +
+"<input type='text' class='form-control' id='experienceDatePicker'></div></div></div>");
         $("#otherExperienceDetails").show();
     });
 </script>

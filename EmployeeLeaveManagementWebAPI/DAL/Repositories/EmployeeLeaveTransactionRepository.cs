@@ -19,7 +19,7 @@ namespace LMS_WebAPI_DAL.Repositories
             {
 
 
-                var EmployeeLeaveTransactions = ctx.EmployeeLeaveTransactions.Where(m => m.RefEmployeeId == id).ToList();
+                var EmployeeLeaveTransactions = ctx.EmployeeLeaveTransactions.Where(m => m.RefEmployeeId == id).OrderByDescending(m=>m.CreatedDate).ToList();
                 var retResult = ToModel(EmployeeLeaveTransactions);
 
                 if (retResult != null)

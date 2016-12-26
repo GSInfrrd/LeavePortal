@@ -64,7 +64,7 @@ namespace LMS_WebAPI_DAL.Repositories
                         var empdata = (from n in ctx.EmployeeProjectDetails
                                        where n.RefEmployeeId == UserEmpId
                                        select n).SingleOrDefault();
-                        empDetails.ProjectName = empdata.MasterDataValue.Value;
+                        empDetails.ProjectName = empdata!=null? empdata.MasterDataValue.Value:string.Empty;
                         empDetails.ManagerName = (from n in ctx.EmployeeDetails where n.Id == empDetails.ManagerId select n.FirstName).SingleOrDefault();
 
                         return empDetails;
