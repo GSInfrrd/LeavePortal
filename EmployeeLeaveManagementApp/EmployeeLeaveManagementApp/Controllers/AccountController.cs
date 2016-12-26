@@ -173,5 +173,24 @@ namespace EmployeeLeaveManagementApp.Controllers
         //    });
         //    return null;
         //}
+
+        public async Task<ActionResult> ProfileDetails(int id)
+        {
+            if (null != Session[Constants.SESSION_OBJ_USER])
+            {
+                var data = (UserAccount)Session[Constants.SESSION_OBJ_USER];
+                EmployeeDetailsModel datares = await user.GetUserProfileDetails(id);
+
+                //Models.LoginModel model = new Models.LoginModel();
+                //model.EmpName = data.UserName;
+                //model.UserName = data.UserName;
+                //model.Projectname = datares.ProjectName;
+                //model.ManagerName = datares.ManagerName;
+                //model.DateOfJoining = DateTime.Now;
+                //model.RoleName = datares.RoleName;
+                return View("Profile",datares);
+            }
+            return View("Login");
+        }
     }
 }

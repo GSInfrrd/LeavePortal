@@ -31,11 +31,11 @@
                     </div>
                     <div class="form-group col-md-6">
                         <label for="txtFirstName">FirstName</label>
-                        <input type="text" class="form-control" id="txtFirstName" placeholder="Enter email">
+                        <input type="text" class="form-control" id="txtFirstName" placeholder="First Name">
                     </div>
                     <div class="form-group col-md-6">
                         <label for="txtlastname">LastName</label>
-                        <input type="text" class="form-control" id="txtLastName" placeholder="Password">
+                        <input type="text" class="form-control" id="txtLastName" placeholder="Last Name">
                     </div>
                     <div class="form-group col-md-6">
                         <label for="txtEmail">Email</label>
@@ -43,11 +43,11 @@
                     </div>
                     <div class="form-group col-md-6">
                         <label for="txtEmployeeNumber">Employee Number</label>
-                        <input type="email" class="form-control" id="txtEmployeeNumber" placeholder="Enter Email">
+                        <input type="email" class="form-control" id="txtEmployeeNumber" placeholder="Employee Number">
                     </div>
                         <div class="form-group col-md-6">
                             <label for="txtJoiningDate">Date Of Joining</label>
-                            <input type="date" class="form-control" id="txtJoiningDate" placeholder="Enter Email">
+                            <input type="text" class="form-control" id="txtJoiningDate">
                         </div>
                     @*<div class="form-group col-md-6">
                         <label for="txtGender">Gender</label>
@@ -58,19 +58,19 @@
                     </div>*@
                     <div class="form-group col-md-6">
                         <label for="txtBirthday">BirthDay</label>
-                        <input type="date" class="form-control" id="txtBirthday" placeholder="Enter Email">
+                        <input type="text" class="form-control" id="txtBirthday">
                     </div>
                     <div class="form-group col-md-6">
                         <label for="txtCity">City</label>
-                        <input type="text" class="form-control" id="txtCity" placeholder="Enter Email">
+                        <input type="text" class="form-control" id="txtCity" placeholder="City">
                     </div>
                     <div class="form-group col-md-6">
                         <label for="txtCountry">Country</label>
-                        <input type="text" class="form-control" id="txtCountry" placeholder="Enter Email">
+                        <input type="text" class="form-control" id="txtCountry" placeholder="Country">
                     </div>
                     <div class="form-group col-md-6">
                         <label for="txtTelephone">Telephone</label>
-                        <input type="tel" class="form-control" id="txtTelephone" placeholder="Enter Email">
+                        <input type="tel" class="form-control" id="txtTelephone" placeholder="Telephone">
                     </div>
                     @*<div class="form-group">
                             <label for="exampleInputPassword1">Password</label>
@@ -225,6 +225,15 @@
             $('#experienceDatePicker').daterangepicker(
                   {
                   });
+                    //Date picker
+            $('#txtJoiningDate').datepicker({
+                autoclose: true
+            });
+                    //Date picker
+            $('#txtBirthday').datepicker({
+                autoclose: true
+            });
+            
             $('#educationDatepicker').on('change.daterangepicker', function (ev, picker) {
                 var date = ev.target.value;
                 var dates = [];
@@ -402,10 +411,10 @@
                     data: test,
                     // dataType: "json",
                     success: function (result) {
-                        alert(result);
+                        //alert(result);
                     },
                     error: function (err) {
-                        alert(err.statusText);
+                        //alert(err.statusText);
                     }
                 });
 

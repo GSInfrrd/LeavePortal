@@ -2,6 +2,7 @@
 @{
     ViewBag.Title = "Profile";
     Layout = "~/Views/Shared/_Layout.cshtml";
+    var roleId = ((LMS_WebAPP_Domain.UserAccount)Session[LMS_WebAPP_Utils.Constants.SESSION_OBJ_USER]).RefRoleId;
 }
 <style>
     .products-list .product-info {
@@ -24,7 +25,7 @@
                 <!-- Profile Image -->
                 <div class="box box-primary">
                     <div class="box-body box-profile">
-                        <img class="profile-user-img img-responsive img-circle" src="@Model.ImagePath" alt="User profile picture">
+                        <img class="profile-user-img img-responsive img-circle" style="height:100px" src="@Model.ImagePath" alt="User profile picture">
                         <h3 class="profile-username text-center">@Model.FirstName</h3>
                         <p class="text-muted text-center">@Model.RoleName</p>
                         <p style="align-content:center">@Model.Bio</p>
@@ -46,8 +47,12 @@
                             <hr>
                             <strong><i class="fa fa-flask margin-r-5"></i> Skills</strong>
                             <p>
-                                <span class="label label-danger">UI Design</span>
-                                <span class="label label-success">Coding</span>
+                                @foreach (var item in Model.Skills)
+                                {
+                                    <span class="label label-danger">@item.Trim()</span>
+                                }
+                                <span class="label label-danger">@Model.Skills[0].Trim()</span>
+                                <span class="label label-success">@Model.Skills[1].Trim()</span>
                                 <span class="label label-info">Javascript</span>
                                 <span class="label label-warning">PHP</span>
                                 <span class="label label-primary">Node.js</span>
@@ -78,7 +83,10 @@
                             <!-- The timeline -->
                             @*<div id="profile-tab" class="tab-pane active">*@
                             <div class="pd-20">
+                                @if (roleId == (int)LMS_WebAPP_Utils.EmployeeRole.Employee)
+                                {
                                 <div class="vd_info tr"> <a class="btn btn-xs bg-yellow pull-right" id="editEmployeeDetails"> <i class="fa fa-pencil append-icon"></i> Edit </a> </div>
+                                }
                                 <h3 class="mgbt-xs-15 mgtp-10 font-semibold"><i class="fa fa-user"></i> ABOUT</h3>
                                 <div class="row">
                                     <div class="col-sm-6">

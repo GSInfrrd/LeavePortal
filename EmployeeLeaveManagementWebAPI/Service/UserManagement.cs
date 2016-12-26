@@ -8,6 +8,12 @@ using LMS_WebAPI_DAL;
 using LMS_WebAPI_DAL.Repositories;
 using LMS_WebAPI_DAL.Repositories.Interfaces;
 using LMS_WebAPI_Domain;
+using System.IO;
+using System.Net.Http;
+using System.Net.Http.Headers;
+using System.Drawing;
+using System.Drawing.Imaging;
+using System.Net;
 
 namespace LMS_WebAPI_ServiceHelpers
 {
@@ -87,11 +93,13 @@ namespace LMS_WebAPI_ServiceHelpers
                 profileDetails.City = userData.City;
                 profileDetails.Country = userData.Country;
                 profileDetails.Telephone = userData.PhoneNumber;
-                profileDetails.RoleName = "S/W Engineer";
-                profileDetails.DateOfBirthAsString = userData.DateOfBirth.ToString("MMM dd,yyyy");
+                profileDetails.RefRoleId = userData.RefRoleId;
+                profileDetails.RoleName = userData.MasterDataValue.Value;
+                profileDetails.DateOfBirthAsString = userData.DateOfBirth.ToString("MMM dd");
                 profileDetails.Email = userData.UserAccounts.FirstOrDefault(i => i.RefEmployeeId == EmpId).UserName;
                 profileDetails.ImagePath = userData.ImagePath;
                 profileDetails.Bio = userData.Bio;
+                profileDetails.Id = userData.Id;
                 foreach (var item in userData.EmployeeEducationDetails)
                 {
                     var edet = new EmployeeEducationDetails();
@@ -111,6 +119,15 @@ namespace LMS_WebAPI_ServiceHelpers
                     EExpdetails.Add(exdet);
                 }
                 profileDetails.EmployeeExperienceDetails = EExpdetails;
+                List<string> employeeSkills = new List<string>();
+                foreach (var item in userData.EmployeeSkills)
+                {
+                    //var employeeSkill =string.Empty;
+                    employeeSkills.Add(item.Skill);
+                   
+                }
+                profileDetails.Skills = employeeSkills;
+
                 return profileDetails;
             }
             catch (Exception ex)

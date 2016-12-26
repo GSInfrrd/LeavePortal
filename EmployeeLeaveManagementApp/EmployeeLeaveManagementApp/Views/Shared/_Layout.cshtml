@@ -144,9 +144,9 @@
                 <!-- Sidebar user panel -->
                 <div class="user-panel">
                     <div class="pull-left image">
-                        <img src="@imagePath" class="img-circle" alt="User Image">
+                        <img src="@imagePath" class="img-circle" style="height:45px" alt="User Image">
                     </div>
-                    <div class="pull-left info">
+                    <div class="pull-left info" style="padding-top:15px">
                         <p class="Login_Name">@userName</p>
                     </div>
                 </div>
@@ -177,7 +177,7 @@
                    {
                         <li>
                             <a href="@Url.Action("ApplyLeave", "ApplyLeave")">
-                                <i class="fa fa-th"></i> <span>Apply Leave</span>
+                                <i class="fa fa-calendar-plus-o"></i> <span>Apply Leave</span>
 
                             </a>
                         </li>
@@ -186,7 +186,7 @@
                     {
                         <li>
                             <a href="@Url.Action("LeaveTransaction", "LeaveTransaction")">
-                                <i class="fa fa-th"></i> <span>Leave History</span>
+                                <i class="fa fa-history"></i> <span>Leave History</span>
 
                             </a>
                         </li>
@@ -195,16 +195,16 @@
 {
                     <li>
                         <a href="@Url.Action("ApproveLeave", "ApproveLeave")">
-                            <i class="fa fa-th"></i> <span>Approve Leave</span>
+                            <i class="fa fa-calendar-check-o"></i> <span>Take Action</span>
 
                         </a>
                     </li>
   }
-                    @if (roleId == (int)EmployeeRole.HR)
+                    @if (roleId == (int)EmployeeRole.HR || roleId==(int)EmployeeRole.Manager)
                     {
                         <li>
                             <a href="@Url.Action("EmployeeDetails", "HR")">
-                                <i class="fa fa-th"></i> <span>Employee Details</span>
+                                <i class="fa fa-database"></i> <span>Employee Details</span>
 
                             </a>
                         </li>
@@ -231,7 +231,7 @@
                     {
                         <li>
                             <a href="@Url.Action("CompanyAnnouncements", "HR")">
-                                <i class="fa fa-th"></i> <span>Company Announcements</span>
+                                <i class="fa fa-volume-up"></i> <span>Company Announcements</span>
 
                             </a>
                         </li>
@@ -273,9 +273,9 @@
         <!-- /.content-wrapper -->
         <footer class="main-footer">
             <div class="pull-right hidden-xs">
-                <b>Version &nbsp;</b>0.0.1
+                <b>Version &nbsp;</b>1.0.0
             </div>
-            <strong>Copyright &copy; 2016 <a href="http://almsaeedstudio.com">Infrrd</a>.</strong> All rights
+            <strong>Copyright &copy; 2016 <a href="http://www.infrrd.ai/">Infrrd</a>.</strong> All rights
             reserved.
         </footer>
         <!-- Control Sidebar -->

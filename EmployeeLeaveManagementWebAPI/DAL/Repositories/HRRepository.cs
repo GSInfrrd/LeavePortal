@@ -33,7 +33,8 @@ namespace LMS_WebAPI_DAL.Repositories
                         ImagePath=model.ImagePath,
                         PhoneNumber=model.Telephone,
                         RefHierarchyLevel=model.RefHierarchyLevel,
-                        ManagerId=ctx.EmployeeDetails.FirstOrDefault(x=>x.FirstName== model.ManagerName).Id
+                        ManagerId=ctx.EmployeeDetails.FirstOrDefault(x=>x.FirstName== model.ManagerName).Id,
+                        DateOfJoining=model.DateOfJoining
 
                     };
                     ctx.EmployeeDetails.Add(employeeDetails);
@@ -103,6 +104,7 @@ namespace LMS_WebAPI_DAL.Repositories
                     foreach(var item in empList)
                     {
                         var listItem = new EmployeeDetailsModel();
+                        listItem.Id = item.Id;
                         listItem.FirstName = item.FirstName;
                         listItem.LastName = item.LastName;
                         listItem.ManagerName =item.ManagerId!=null?ctx.EmployeeDetails.FirstOrDefault(i => i.Id == item.ManagerId).FirstName:string.Empty;

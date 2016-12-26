@@ -2,15 +2,20 @@
 @{
     ViewBag.Title = "EmployeeDetails";
     Layout = "~/Views/Shared/_Layout.cshtml";
+    var roleId = ((LMS_WebAPP_Domain.UserAccount)Session[LMS_WebAPP_Utils.Constants.SESSION_OBJ_USER]).RefRoleId;
+    var userRole = LMS_WebAPP_Utils.CommonMethods.Description((LMS_WebAPP_Utils.EmployeeRole)roleId);
 }
 
 <section class="content-header" style="height:41px">
     <h1 class="col-md-9">
      Employee Details
     </h1>
-    <div style="float:right;padding-right:0px" class="col-md-2">
-        <button type="button" id="btnAddEmployee" onclick="AddEmployeeDetails()" class="btn btn-block bg-black" style="background-color:#222d32 !important"><i class="fa fa-plus"></i>&nbsp; Add Employee </button>
+  @if (roleId == (int)LMS_WebAPP_Utils.EmployeeRole.HR)
+  {
+<div style = "float:right;padding-right:0px" class="col-md-2">
+        <button type = "button" id="btnAddEmployee" onclick="AddEmployeeDetails()" class="btn btn-block bg-black" style="background-color:#222d32 !important"><i class="fa fa-plus"></i>&nbsp; Add Employee</button>
     </div>
+  }
 </section>
 
 <section class="content">
@@ -18,7 +23,7 @@
         <div class="col-xs-12">
             <div class="box">
                 <div class="box-body">
-                    <table id="example1" class="table table-bordered table-striped">
+                    <table id = "example1" class="table table-bordered table-striped">
                         <thead>
                             <tr>
                                 <th>Employee Name</th>
@@ -36,7 +41,7 @@
                                 
 
                                 <tr>
-                                    <td>@m.FirstName</td>
+                                    <td><a href="@Url.Action("ProfileDetails","Account",new { @id = m.Id })"> @m.FirstName</a></td>
                                     <td>@m.EmployeeNumber</td>
                                     <td>@m.DateOfJoining.Date.ToString("dd/MM/yyyy")</td>
                                     <td>@m.RoleName </td>

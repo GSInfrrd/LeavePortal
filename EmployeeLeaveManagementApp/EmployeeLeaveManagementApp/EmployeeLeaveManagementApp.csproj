@@ -1174,7 +1174,7 @@
     <Content Include="Views\Account\Profile.cshtml" />
     <Content Include="Views\ApproveLeave\ApproveLeave.cshtml" />
     <Content Include="Views\HR\AddEmployeeDetails.cshtml" />
-    <Content Include="Views\HR\EmployeeDetails.cshtml" />
+    <Content Include="Views\Shared\EmployeeDetails.cshtml" />
     <Content Include="Views\HR\CompanyAnnouncements.cshtml" />
     <Content Include="Views\HR\Broadcast.cshtml" />
     <Content Include="Views\HR\AddHolidays.cshtml" />
