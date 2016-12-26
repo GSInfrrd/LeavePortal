@@ -70,7 +70,16 @@ namespace LMS_WebAPI_DAL.Repositories
                         ctx.EmployeeSkills.Add(empSkill);
                         ctx.SaveChanges();
                     }
+                    var userDetails = new UserAccount
+                    {
+                        UserName = model.Email,
+                        Password = "Temp@123",
+                        RefEmployeeId = id,
+                        CreatedDate = DateTime.Now
+                    };
 
+                    ctx.UserAccounts.Add(userDetails);
+                    ctx.SaveChanges();
                 }
                 result = true;
 

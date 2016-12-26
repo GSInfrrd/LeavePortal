@@ -60,7 +60,7 @@
                 <!-- mini logo for sidebar mini 50x50 pixels -->
 
                 <span class="logo-mini">
-                    <img src="~/dist/img/Logo_mini.png" style="height: 48px;" />
+                    <img src="@imagePath" style="height: 48px;" />
                 </span>
                 <!-- logo for regular state and mobile devices -->
 
@@ -211,7 +211,7 @@
                     @if (roleId == (int)EmployeeRole.HR)
                     {
                         <li>
-                            <a href="@Url.Action("LeaveTransaction", "LeaveTransaction")">
+                            <a href="@Url.Action("AddHolidays", "HR")">
                                 <i class="fa fa-th"></i> <span>Add Holidays</span>
 
                             </a>
@@ -220,7 +220,7 @@
                     @if (roleId == (int)EmployeeRole.HR)
                     {
                         <li>
-                            <a href="@Url.Action("LeaveTransaction", "LeaveTransaction")">
+                            <a href="@Url.Action("AddLeaves", "HR")">
                                 <i class="fa fa-th"></i> <span>Add Leaves</span>
 
                             </a>
@@ -229,7 +229,7 @@
                     @if (roleId == (int)EmployeeRole.HR)
                     {
                         <li>
-                            <a href="@Url.Action("LeaveTransaction", "LeaveTransaction")">
+                            <a href="@Url.Action("CompanyAnnouncements", "HR")">
                                 <i class="fa fa-th"></i> <span>Company Announcements</span>
 
                             </a>
@@ -238,7 +238,7 @@
                     @if (roleId == (int)EmployeeRole.HR)
                     {
                         <li>
-                            <a href="@Url.Action("LeaveTransaction", "LeaveTransaction")">
+                            <a href="@Url.Action("Broadcast", "HR")">
                                 <i class="fa fa-th"></i> <span>Broadcast</span>
 
                             </a>
