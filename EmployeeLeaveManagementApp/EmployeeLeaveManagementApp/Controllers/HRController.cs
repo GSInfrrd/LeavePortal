@@ -15,6 +15,7 @@ namespace EmployeeLeaveManagementApp.Controllers
     {
         HRManagement hrOperations = new HRManagement();
         UserManagement userMgt = new UserManagement();
+        HolidayManagement holidayManager = new HolidayManagement();
         // GET: HR
         public ActionResult AddEmployeeDetails()
         {
@@ -24,7 +25,7 @@ namespace EmployeeLeaveManagementApp.Controllers
             }
             else
             {
-                return RedirectToAction("Login","Account");
+                return RedirectToAction("Login", "Account");
             }
         }
         public ActionResult CompanyAnnouncements()
@@ -62,17 +63,48 @@ namespace EmployeeLeaveManagementApp.Controllers
                 return RedirectToAction("Login", "Account");
             }
         }
-        public ActionResult AddHolidays()
+        public async Task<JsonResult> AddHolidays(DateTime date, string Year, string description, bool active = true)
         {
             if (null != Session[Constants.SESSION_OBJ_USER])
             {
-                return View();
+                var model = new HolidayModel()
+                {
+                    Date = date,
+                    Year = Convert.ToInt32(Year),
+                    Description = description,
+                    IsActive = active
+                  
+
+                };
+
+                var HolidayList = await holidayManager.AddNewHolidayDetailsAsync(model);
+
+                var resultJson = new { list = HolidayList };
+
+              return Json(resultJson, JsonRequestBehavior.AllowGet);
+            }
+            else
+            {
+                return null;
+
+                //set error page or login page
+            }
+        }
+
+
+        public async Task<ActionResult> HolidayList()
+        {
+            if (null != Session[Constants.SESSION_OBJ_USER])
+            {
+                var holidayList = await holidayManager.GetHolidayListAsync();
+                return View(holidayList);
             }
             else
             {
                 return RedirectToAction("Login", "Account");
             }
         }
+
         public async Task<ActionResult> EmployeeDetails()
         {
             if (null != Session[Constants.SESSION_OBJ_USER])

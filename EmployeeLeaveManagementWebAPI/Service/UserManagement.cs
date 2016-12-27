@@ -1,19 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using LMS_WebAPI_Utils;
-using LMS_WebAPI_DAL;
 using LMS_WebAPI_DAL.Repositories;
 using LMS_WebAPI_DAL.Repositories.Interfaces;
 using LMS_WebAPI_Domain;
-using System.IO;
-using System.Net.Http;
-using System.Net.Http.Headers;
-using System.Drawing;
-using System.Drawing.Imaging;
-using System.Net;
 
 namespace LMS_WebAPI_ServiceHelpers
 {

@@ -43,6 +43,7 @@
     <Compile Include="ApproveLeaveModel.cs" />
     <Compile Include="EmployeeDetailsModel.cs" />
     <Compile Include="EmployeeLeaveTransactionModel.cs" />
+    <Compile Include="HolidayModel.cs" />
     <Compile Include="LeaveReportModel.cs" />
     <Compile Include="LeaveTypeModel.cs" />
     <Compile Include="UserAccountModel.cs" />

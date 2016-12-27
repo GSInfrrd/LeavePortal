@@ -1,48 +1,56 @@
-﻿
-@{
-    ViewBag.Title = "AddHolidays";
-    Layout = "~/Views/Shared/_Layout.cshtml";
-}
+﻿@model IList<LMS_WebAPP_Domain.HolidayModel>
 
-<section class="content-header">
-    <h1>
-  Add Holidays
-    </h1>
-</section>
-<section class="content">
-    <div class="row">
+    @{
+        ViewBag.Title = "AddHolidays";
+        Layout = "~/Views/Shared/_Layout.cshtml";
+    }
 
-        <div class="col-md-12">
-            <!-- general form elements -->
-            <div class="box">
-                <!-- /.box-header -->
-                <!-- form start -->
-                @*<form role="form">*@
-                <div class="box-body">
-
-                    <div class="form-group">
-                        <label for="txtFirstName">Date</label>
-                        <input type="text" class="form-control" id="txtFirstName" placeholder="Enter email">
-                    </div>
-                    <div class="form-group">
-                        <label for="txtlastname">Description</label>
-                        <input type="text" class="form-control" id="txtLastName" placeholder="Password">
-                    </div>
-                    <div class="form-group">
-                        <label for="txtlastname">Year</label>
-                        <input type="text" class="form-control" id="txtLastName" placeholder="Password">
-                    </div>
-
-                </div>
-                <div class="box-footer">
-                    <button type="submit" id="btnSubmitEmployeeDetails" class="btn btn-primary">Submit</button>
-                </div>
-                @*</form>*@
-
-            </div>
+    <section class="content-header" style="height:41px">
+        <h1 class="col-md-9">
+            Holidays
+        </h1>
+        <div style="float:right;padding-right:0px" class="col-md-2">
+            <button type="button" id="btnAddHolidays" class="btn btn-block bg-black" style="background-color:#222d32 !important"><i class="fa fa-plus"></i>&nbsp; Add Holiday </button>
         </div>
-    </div>
+    </section>
 
-    <!-- /.row -->
-</section>
-
+    <section class="content">
+        <div class="row">
+            <div class="col-xs-12">
+                <div class="box">
+                    <div class="box-body">
+                        <table id="example1" class="table table-bordered table-striped">
+                            <thead>
+                                <tr>
+                                    <th>Date</th>
+                                    <th>Description</th>
+                                    <th>Year</th>
+                                    <th>IsActive</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (LMS_WebAPP_Domain.HolidayModel m in Model)
+                                {
+                                    <tr>
+                                        <td>@m.Date</td>
+                                        <td>@m.Description</td>
+                                        <td>@m.Year</td>
+                                        <td>@m.IsActive </td>
+                                    </tr>
+                                }
+                            </tbody>
+                            <tfoot>
+                                <tr>
+                                    <td></td>
+                                </tr>
+                            </tfoot>
+                        </table>
+                    </div>
+                    <!-- /.box-body -->
+                </div>
+                <!-- /.box -->
+            </div>
+            <!-- /.col -->
+        </div>
+        <!-- /.row -->
+    </section>

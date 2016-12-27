@@ -1,0 +1,318 @@
+﻿@model IList<LMS_WebAPP_Domain.HolidayModel>
+
+
+@{
+    ViewBag.Title = "AddHolidays";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+   var dateList= (from n in Model select n.Date).ToList();
+}
+<link href="~/plugins/Toastr/toastr.css" rel="stylesheet" />
+<link rel="stylesheet" href="~/plugins/datatables/dataTables.bootstrap.css">
+<!-- Bootstrap 3.3.6 -->
+@*<link rel="stylesheet" href="../../bootstrap/css/bootstrap.min.css">*@
+
+<section class="content-header" style="height:41px">
+    <h1 class="col-md-9">
+        Holidays
+    </h1>
+    <div style="float:right;padding-right:0px" class="col-md-2">
+        <button type="button" class="btn btn-block bg-black" data-toggle="modal" data-target="#exampleModal"><i class="fa fa-plus"></i>&nbsp;Add Holiday</button>
+    </div>
+</section>
+
+<section class="content">
+    <div class="row">
+        <div class="col-xs-12">
+            <div class="box">
+                <div class="box-body" id="DataTablebody" >
+                    <table id="example1" class="table table-bordered table-striped">
+                        <thead>
+                            <tr>
+                                <th>Date</th>
+                                <th>Description</th>
+                                <th>Year</th>
+                                <th>IsActive</th>
+                                @*<th> Edit</th>
+                                <th>Delete</th>*@
+                            </tr>
+                        </thead>
+                        <tbody >
+                            @foreach (LMS_WebAPP_Domain.HolidayModel m in Model)
+                            {
+                            <tr>
+                                <td>@m.FormattedDate</td>
+                                <td>@m.Description</td>
+                                <td>@m.Year</td>
+                                <td>@m.IsActive </td>
+                                @*<td>
+                                    <a href="#" id="btnDeleteHoliday" style="color:red" data-content="@m.Id">
+                                        <span class="fa fa-close"></span>
+                                    </a>
+
+                                </td>*@
+                            </tr>
+                            }
+                        </tbody>
+                        
+                    </table>
+                </div>
+                <!-- /.box-body -->
+            </div>
+            <!-- /.box -->
+        </div>
+        <!-- /.col -->
+    </div>
+    <!-- /.row -->
+</section>
+
+<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="exampleModalLabel">Add Holiday</h4>
+            </div>
+            <div class="modal-body">
+                <form>
+                    <div class="form-group">
+                        <label>Date:</label>
+
+                        <div class="input-group date">
+                            <div class="input-group-addon">
+                                <i class="fa fa-calendar"></i>
+                            </div>
+                            <input type="text" class="form-control pull-right" id="datepicker" readonly="readonly">
+                        </div>
+                        <!-- /.input group -->
+                    </div>
+
+                    <div class="form-group">
+                        <label>Year:</label>
+
+                        <div class="input-group date">
+                            <div class="input-group-addon">
+                                <i class="fa fa-calendar-o"></i>
+                            </div>
+                            <input type="text" class="form-control pull-right" id="datepickerYear" readonly="readonly">
+                        </div>
+                        <!-- /.input group -->
+                    </div>
+
+
+                    <div class="form-group">
+                        <div>
+                            <label>Description:</label>
+                        </div>
+
+                        <div>
+                            <textarea id="Description" rows="3" style="width:568px" placeholder="Enter ..."></textarea>
+                        </div>
+                        <div class="form-group has-error" style="display:none" id="divCommentError">
+                            <label class="control-label" for="leaveComment">
+                                <i class="fa fa-times-circle-o"></i> Please enter the description
+                            </label>
+
+                        </div>
+
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" id="btnAddHoliday" style="background-color:#222d32 !important">Add</button>
+                <button type="button" class="btn btn-default" id="btnClose" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- bootstrap datepicker -->
+<script src="~/plugins/datepicker/bootstrap-datepicker.js"></script>
+<script src="~/plugins/Toastr/toastr.js"></script>
+<script src="~/plugins/datatables/jquery.dataTables.min.js"></script>
+<script src="~/plugins/datatables/dataTables.bootstrap.min.js"></script>
+<script type="text/javascript">
+    $('#exampleModal').on('show.bs.modal', function (event) {
+        //$('#datepickerYear').val("");
+        //$('#datepicker').val("");
+        //$('#Description').val("");
+    });
+
+
+    $('#datepicker').datepicker({
+        autoclose: true,
+        @*onRender: function (date) {
+            debugger;
+            return (date.valueOf() in @dateList ? 'disabled' : '';
+        }*@
+        beforeShowDay:
+          function (dt) {
+
+              return available(dt);
+          }
+    });
+
+    $(function () {
+        $('#example1').DataTable({
+            "paging": true,
+            "lengthChange": true,
+            "searching": false,
+            "ordering": true,
+            "info": true,
+            "autoWidth": false,
+        });
+    });
+
+    function available(date) {
+        debugger;
+        var totalDate = @Html.Raw(Json.Encode(dateList));
+        debugger;
+        dmy = date.getDate() + "-" + (date.getMonth() + 1) + "-" + date.getFullYear();
+        if ($.inArray(dmy, totalDate) != -1) {
+            debugger;
+            return false;
+        } else {
+            return true;
+        }
+    }
+
+    $("#datepickerYear").datepicker({
+        autoclose: true,
+        format: " yyyy", // Notice the Extra space at the beginning
+        viewMode: "years",
+        minViewMode: "years"
+    });
+
+    //Add Holiday
+
+    $(document).on('click', '#btnAddHoliday ', function (e) {
+        debugger;
+        if (formValidate() == true) {
+            $.ajax({
+                cache: false,
+                type: 'post',
+                url: '/HR/AddHolidays',
+                data: { date: $('#datepicker').val(), Year: $('#datepickerYear').val(), description: $('#Description').val(), active: true },
+                dataType: "json",
+                success: function (data) {
+                    $('#exampleModal').modal('hide');
+                    updateDatatable(data);
+                    //  location.reload();
+                    showMessage("New holiday added successfully", "1", true);
+                    $('#datepickerYear').val("");
+                    $('#datepicker').val("");
+                    $('#Description').val("");
+                    //Update datatable
+                }
+
+            });
+        }
+        else {
+            showMessage("Fields cannot be empty!!", "2", true);
+        }
+    }
+    );
+
+    $(document).on('click', '#btnClose,.close', function (e) {
+        debugger;
+        $('#datepickerYear').val("");
+        $('#datepicker').val("");
+        $('#Description').val("");
+    });
+
+    //Show error Message
+    function showMessage(message, Type, fadeOut) {
+        //To clear existing toastr
+        toastr.clear();
+        //fadeOut = false;
+        var position = "bottom-full-width";
+        toastr.options.positionClass = 'toast-' + position;
+        if (typeof fadeOut !== "undefined" && fadeOut == false) { toastr.options.timeOut = 0; }
+        else {
+            toastr.options.timeOut = 700;
+        }
+        switch (Type) {
+            case "1":
+                toastr.success(message);
+                break;
+            case "2":
+                toastr.error(message);
+                break;
+        }
+    }
+
+    //Form validate
+
+    function formValidate() {
+        if ($('#datepickerYear').val() != "" &&
+        $('#datepicker').val() != "" &&
+        $('#Description').val() != "") {
+            return true;
+        }
+        else { return false; }
+    }
+
+//    Delete Holiday
+      $(document).on('click', '#btnDeleteHoliday', function (e) {
+          var id = $(this).data("content");
+          $.ajax({
+              cache: false,
+              type: 'post',
+              url: '/ApplyLeave/DeleteLeaveRequest',
+              data: { id: id },
+              //contentType: "application/json; charset=utf-8",
+              dataType: "json",
+              success: function (data) {
+                 
+                
+              }
+          });
+      }
+    );
+
+
+    function updateDatatable(data) {
+        debugger;
+        $('#DataTablebody').html('');
+        var fixedCartItemsHtml = "<table id='example1' class='table table-bordered table-striped'>" + " <thead> <tr>  <th>Date</th><th>Description</th>  <th>Year</th>" +
+                               "<th>IsActive</th> </tr></thead><tbody>";
+        for (var i = 0; i < data.list.length; i++) {
+            //date
+            fixedCartItemsHtml = fixedCartItemsHtml +
+                                 "<tr>" +
+                                 "<td>" + data.list[i].FormattedDate +
+                                 "</td>";
+            //Description
+            fixedCartItemsHtml = fixedCartItemsHtml +
+
+                                 "<td>" + data.list[i].Description +
+                                 "</td>";
+            //Year
+            fixedCartItemsHtml = fixedCartItemsHtml +
+
+                                "<td>" + data.list[i].Year +
+                                "</td>";
+            //Is Active
+            fixedCartItemsHtml = fixedCartItemsHtml +
+
+                              "<td>" + data.list[i].IsActive +
+                              "</td></tr>";
+        }
+        fixedCartItemsHtml = fixedCartItemsHtml + "</tbody></table>";
+        $('#DataTablebody').html(fixedCartItemsHtml);
+
+       
+            $('#example1').DataTable({
+                "paging": true,
+                "lengthChange": true,
+                "searching": false,
+                "ordering": true,
+                "info": true,
+                "autoWidth": false,
+            });
+      
+       
+    }
+</script>
+
+<!-- /.modal -->
+<!-- /.content -->
+<!-- ./wrapper -->
