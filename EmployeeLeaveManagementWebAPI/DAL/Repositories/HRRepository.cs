@@ -30,11 +30,12 @@ namespace LMS_WebAPI_DAL.Repositories
                         Country = model.Country,
                         CreatedDate = DateTime.Now,
                         EmpNumber = model.EmployeeNumber.ToString(),
-                        ImagePath=model.ImagePath,
                         PhoneNumber=model.Telephone,
                         RefHierarchyLevel=model.RefHierarchyLevel,
                         ManagerId=ctx.EmployeeDetails.FirstOrDefault(x=>x.FirstName== model.ManagerName).Id,
-                        DateOfJoining=model.DateOfJoining
+                        DateOfJoining=model.DateOfJoining,
+                        ImagePath=model.ImagePath
+                        
 
                     };
                     ctx.EmployeeDetails.Add(employeeDetails);
@@ -123,5 +124,6 @@ namespace LMS_WebAPI_DAL.Repositories
                 throw;
             }
         }
+
     }
 }

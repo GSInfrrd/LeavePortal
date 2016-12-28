@@ -57,10 +57,14 @@ namespace LMS_WebAPI_DAL.Repositories
                         var LeaveType = ctx.LeaveMasters.ToList();
                         empDetails.TotalLeaveCount = LeaveType.Sum(q => q.Count);
 
-                        empDetails.TotalCountTaken = (from c in ctx.EmployeeLeaveTransactions
-                                                      where c.RefEmployeeId == UserEmpId
+                        empDetails.TotalSpent = (from c in ctx.EmployeeLeaveTransactions
+                                                      where c.RefEmployeeId == UserEmpId & c.RefStatus==(int)(LeaveStatus.Approved)
                                                       select c.NumberOfWorkingDays).ToList().Sum();
-                        
+
+                        empDetails.TotalApplied = (from c in ctx.EmployeeLeaveTransactions
+                                                 where c.RefEmployeeId == UserEmpId & c.RefStatus == (int)(LeaveStatus.Planned)
+                                                 select c.NumberOfWorkingDays).ToList().Sum();
+
                         var empdata = (from n in ctx.EmployeeProjectDetails
                                        where n.RefEmployeeId == UserEmpId
                                        select n).SingleOrDefault();

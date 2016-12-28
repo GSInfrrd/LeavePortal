@@ -61,7 +61,7 @@
                 <!-- mini logo for sidebar mini 50x50 pixels -->
 
                 <span class="logo-mini">
-                    <img src="@imagePath" style="height: 48px;" />
+                    <img src="~/dist/img/infrrd-logo-main.png" style="height: 48px;" />
                 </span>
                 <!-- logo for regular state and mobile devices -->
 
@@ -241,6 +241,15 @@
                         <li>
                             <a href="@Url.Action("Broadcast", "HR")">
                                 <i class="fa fa-th"></i> <span>Broadcast</span>
+
+                            </a>
+                        </li>
+                    }
+                    @if (roleId == (int)EmployeeRole.HR)
+                    {
+                        <li>
+                            <a href="@Url.Action("Reports", "HR")">
+                                <i class="fa fa-th"></i> <span>Reports</span>
 
                             </a>
                         </li>

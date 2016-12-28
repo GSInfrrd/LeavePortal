@@ -14,7 +14,6 @@ namespace LMS_WebAPI_Domain
             this.leaveDetails = new LeaveReportModel();
             this.EmployeeEducationDetails = new List<EmployeeEducationDetails>();
             this.EmployeeExperienceDetails = new List<EmployeeExperienceDetails>();
-
         }
         public int Id { get; set; }
 
@@ -25,7 +24,8 @@ namespace LMS_WebAPI_Domain
         public string ProjectName { get; set; }
         public String RoleName { get; set; }
         public int? TotalLeaveCount { get; set; }
-        public int TotalCountTaken { get; set; }
+        public int TotalApplied { get; set; }
+        public int TotalSpent { get; set; }
         public string ManagerName { get; set; }
         public System.DateTime DateOfJoining { get; set; }
 
@@ -51,6 +51,8 @@ namespace LMS_WebAPI_Domain
         public List<string> Skills { get; set; }
         public int EmployeeNumber { get; set; }
         public int RefHierarchyLevel { get; set; }
+
+        public int RefImageId { get; set; }
 
     }
 

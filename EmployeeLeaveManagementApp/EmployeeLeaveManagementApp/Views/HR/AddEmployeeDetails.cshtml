@@ -103,7 +103,6 @@
                             <select class="form-control select2" style="width: 100%;" id="ddlManagerName">
                                 <option value="">Select</option>
                                 <option>Girija</option>
-                                <option>Lalith</option>
                             </select>
                    
                     </div>
@@ -166,11 +165,11 @@
                 <div class="box-body">
                     <div class="form-group col-md-6">
                         <label for="txtEmployer">Employer</label>
-                        <input type="text" class="form-control" id="txtEmployer" placeholder="Enter Email">
+                        <input type="text" class="form-control" id="txtEmployer" placeholder="Enter Employer">
                     </div>
                     <div class="form-group col-md-6">
                         <label for="txtDesignation">Designation</label>
-                        <input type="text" class="form-control" id="txtDesignation" placeholder="Enter Email">
+                        <input type="text" class="form-control" id="txtDesignation" placeholder="Enter Designation">
                     </div>
                     <div class="form-group col-md-6">
                         <label for="ExpFromDate">From</label>
@@ -207,6 +206,8 @@
     var educationToDate;
     var experienceFromDate;
     var experienceToDate;
+    var imgpath = "";
+    var imgId;
     $(document).ready(function () {
                 $(function () {
             //Initialize Select2 Elements
@@ -289,18 +290,6 @@
                 var endDate = new Date(end);
                 var endMonth = endDate.getMonth() + 1;
                 experienceToDate = endDate.getFullYear() + "-" + endMonth + "-" + endDate.getDate();
-                //toDate = end.toString("YYYY-MM-DD");
-                //var days = (endDate - startDate) / (1000 * 60 * 60 * 24);
-                //days += 1;
-                //var weekend_count = 0;
-                //for (i = startDate.valueOf() ; i <= endDate.valueOf() ; i += 86400000) {
-                //    var temp = new Date(i);
-                //    if (temp.getDay() == 0 || temp.getDay() == 6) {
-                //        weekend_count++;
-                //    }
-                //}
-                //days = days - weekend_count;
-                //$("#lblTotalWorkingDays").html(Math.round(days));
             });
             $('#experienceDatePicker').on('apply.daterangepicker', function (ev, picker) {
 
@@ -308,17 +297,7 @@
                 experienceFromDate = start.format('YYYY-MM-DD');
                 var end = picker.endDate;
                 experienceToDate = end.format('YYYY-MM-DD');
-                //var days = (end - start) / (1000 * 60 * 60 * 24);
-
-                //var weekend_count = 0;
-                //for (i = start.valueOf() ; i <= end.valueOf() ; i += 86400000) {
-                //    var temp = new Date(i);
-                //    if (temp.getDay() == 0 || temp.getDay() == 6) {
-                //        weekend_count++;
-                //    }
-                //}
-                //days = days - weekend_count
-                //$("#lblTotalWorkingDays").html(Math.round(days));
+         
             });
         })
     });
@@ -329,7 +308,8 @@
     });
 
     $(document).on('click', '#btnSubmitEmployeeDetails', function (e) {
-        debugger;
+        debugger
+        var imagepath = imgpath != "" ? imgpath : "";
         var educationDetails = {
 
             Graduation: $("#ddlGraduation").val(),
@@ -358,7 +338,8 @@
             RefHierarchyLevel: $("#ddlLevel").val(),
             DateOfJoining: $("#txtJoiningDate").val(),
             ManagerName: $("#ddlManagerName").val(),
-            Imagepath: imgPath,
+            //RefImageId:imgId,
+            Imagepath: imagepath,
             EmployeeEducation: [educationDetails],
             EmployeeExperience:[experienceDetails]
         };
@@ -371,21 +352,17 @@
             dataType: "json",
             processData:false,
             success: function (data) {
-                localStorage.setItem("leaveDeleted", 1);
-                location.reload();
+                localStorage.setItem("EmployeeAdded", 1);
+                window.location.href = "/HR/EmployeeDetails";
             }
         });
     }
    );
-    var imgpath = "";
-    var size = "";
-    var type = "";
+
     function ValidateAndUploadImage()
     {  
         var file = document.getElementById("employeeImage").value;
         imgPath = document.getElementById("employeeImage").files[0].name;
-        size = document.getElementById("employeeImage").files[0].size;
-        type = document.getElementById("employeeImage").files[0].type;
 
         var reader = new FileReader();
 
@@ -411,6 +388,8 @@
                     data: test,
                     // dataType: "json",
                     success: function (result) {
+                        debugger;
+                        imgpath = result;
                         //alert(result);
                     },
                     error: function (err) {

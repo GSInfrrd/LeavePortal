@@ -5,7 +5,7 @@
     var roleId = ((LMS_WebAPP_Domain.UserAccount)Session[LMS_WebAPP_Utils.Constants.SESSION_OBJ_USER]).RefRoleId;
     var userRole = LMS_WebAPP_Utils.CommonMethods.Description((LMS_WebAPP_Utils.EmployeeRole)roleId);
 }
-
+<link href="~/plugins/Toastr/toastr.css" rel="stylesheet" />
 <section class="content-header" style="height:41px">
     <h1 class="col-md-9">
      Employee Details
@@ -78,11 +78,26 @@
     </div>
     <!-- /.row -->
 </section>
-
+<script src="../../plugins/Toastr/toastr.js"></script>
 <script>
-    function AddEmployeeDetails()
-    {
+    $(document).ready(function () {
+        if (localStorage.getItem("EmployeeAdded") == 1) {
+            showSuccessMessage("Employee Added Successfully");
+            localStorage.removeItem("EmployeeAdded");
+        }
+      
+    });
+    function AddEmployeeDetails() {
         window.location.href = "/HR/AddEmployeeDetails";
     }
 
+    function showSuccessMessage(message, fadeOut) {
+        //To clear existing toastr
+        toastr.clear();
+        //fadeOut = false;
+        var position = "bottom-full-width";
+        toastr.options.positionClass = 'toast-' + position;
+        if (typeof fadeOut !== "undefined" && fadeOut == false) { toastr.options.timeOut = 0; }
+        toastr.success(message);
+    }
 </script>

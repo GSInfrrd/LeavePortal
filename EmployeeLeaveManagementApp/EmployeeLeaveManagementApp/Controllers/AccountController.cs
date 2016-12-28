@@ -31,7 +31,8 @@ namespace EmployeeLeaveManagementApp.Controllers
             {
                 var data = (UserAccount)Session[Constants.SESSION_OBJ_USER];
                 EmployeeDetailsModel datares = await user.GetUserProfileDetails(data.RefEmployeeId);
-
+                List<string> col = new List<string>() { "danger","info","warning","success" };
+                datares.Colors = col;
                 //Models.LoginModel model = new Models.LoginModel();
                 //model.EmpName = data.UserName;
                 //model.UserName = data.UserName;
@@ -130,8 +131,9 @@ namespace EmployeeLeaveManagementApp.Controllers
                 model.Projectname = datares.ProjectName;
                 model.ManagerName = datares.ManagerName;
                 model.TotalLeaveCount = Convert.ToInt16(datares.TotalLeaveCount);
-                model.TotalTaken = datares.TotalCountTaken;
-                model.TotalLeft = Convert.ToInt16(datares.TotalLeaveCount - datares.TotalCountTaken);
+                model.TotalApplied = datares.TotalApplied;
+                model.TotalSpent = datares.TotalSpent;
+                model.TotalLeft = Convert.ToInt16(datares.TotalLeaveCount - datares.TotalSpent);
                 model.DateOfJoining = DateTime.Now;
                 model.RoleName = datares.RoleName;
                 model.Announcements = new List<Models.Announcement>();
@@ -180,7 +182,8 @@ namespace EmployeeLeaveManagementApp.Controllers
             {
                 var data = (UserAccount)Session[Constants.SESSION_OBJ_USER];
                 EmployeeDetailsModel datares = await user.GetUserProfileDetails(id);
-
+                List<string> col = new List<string>() { "danger", "info", "warning", "success","primary"};
+                datares.Colors = col;
                 //Models.LoginModel model = new Models.LoginModel();
                 //model.EmpName = data.UserName;
                 //model.UserName = data.UserName;

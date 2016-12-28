@@ -33,7 +33,9 @@ namespace EmployeeLeaveManagementApp.Models
         public int TotalLeft { get; set; }
         [DisplayFormat(DataFormatString = "{0:dd MMM yyyy}")]
         public DateTime DateOfJoining { get; set; }
-        public int TotalTaken { get; set; }
+        public int TotalApplied { get; set; }
+
+        public int TotalSpent { get; set; }
         public string FormattedDate
         {
             get
@@ -49,6 +51,7 @@ namespace EmployeeLeaveManagementApp.Models
 
         public List<Announcement> Announcements { get; set; }
         public LeaveReportModel LeaveDetails { get; set; }
+
     }
     public class Announcement
     {

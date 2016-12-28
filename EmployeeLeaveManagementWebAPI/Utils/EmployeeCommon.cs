@@ -22,7 +22,8 @@ namespace LMS_WebAPI_Utils
         public Nullable<System.DateTime> Lastlogin { get; set; }
         public string ProjectName { get; set; }
         public int? TotalLeaveCount { get; set; }
-        public int TotalCountTaken { get; set; }
+        public int TotalApplied { get; set; }
+public int TotalSpent { get; set; }
 
         public IDictionary<string,int> MonthlyLeaveReport { get; set; }
     }

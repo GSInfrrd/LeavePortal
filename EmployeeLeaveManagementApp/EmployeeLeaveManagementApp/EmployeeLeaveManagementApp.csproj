@@ -1180,6 +1180,7 @@
     <Content Include="Views\HR\AddHolidays.cshtml" />
     <Content Include="Views\HR\AddLeaves.cshtml" />
     <Content Include="Views\HR\HolidayList.cshtml" />
+    <Content Include="Views\HR\Reports.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

@@ -15,7 +15,7 @@ namespace LMS_WebAPP_Domain
             this.LeaveDetails = new LeaveReportModel();
             this.EmployeeEducationDetails = new List<EmployeeEducationDetails>();
             this.EmployeeExperienceDetails = new List<EmployeeExperienceDetails>();
-
+            this.Colors = new List<string>();
         }
         public int Id { get; set; }
 
@@ -26,11 +26,12 @@ namespace LMS_WebAPP_Domain
         public string ProjectName { get; set; }
         public String RoleName { get; set; }
         public int? TotalLeaveCount { get; set; }
-        public int TotalCountTaken { get; set; }
+        public int TotalApplied { get; set; }
+        public int TotalSpent { get; set; }
         public int TotalLeft { get; set; }
         public string ManagerName { get; set; }
         public System.DateTime DateOfJoining { get; set; }
-        
+        public List<string> Colors { get; set; }
         public List<Announcement> Announcements { get; set; }
 
         public LeaveReportModel LeaveDetails { get; set; }

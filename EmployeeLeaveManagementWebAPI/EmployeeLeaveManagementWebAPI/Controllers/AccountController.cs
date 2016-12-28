@@ -18,7 +18,8 @@ using EmployeeLeaveManagementWebAPI.Providers;
 using EmployeeLeaveManagementWebAPI.Results;
 using LMS_WebAPI_ServiceHelpers;
 using LMS_WebAPI_Domain;
-
+using System.Net;
+using System.IO;
 
 namespace EmployeeLeaveManagementWebAPI.Controllers
 {
@@ -330,6 +331,7 @@ namespace EmployeeLeaveManagementWebAPI.Controllers
             try
             {
                 var userData = userManager.GetUser(userName, password);
+             userData.Imagepath= GetFile(userData.Imagepath);
                 if (null != userData)
                 {
                     return userData;
@@ -346,6 +348,24 @@ namespace EmployeeLeaveManagementWebAPI.Controllers
             }
         }
 
+        [AllowAnonymous]
+        [HttpGet]
+        public string GetFile(string imagePath)
+        {
+            //string localFilePath = imagePath;
+
+            //HttpResponseMessage response = new HttpResponseMessage(HttpStatusCode.OK);
+            //response.Content = new StreamContent(new FileStream(localFilePath, FileMode.Open, FileAccess.Read));
+            //response.Content.Headers.ContentDisposition = new System.Net.Http.Headers.ContentDispositionHeaderValue("attachment");
+            //response.Content.Headers.ContentDisposition.FileName = "myImage.png";
+            //response.Content.Headers.ContentType = new System.Net.Http.Headers.MediaTypeHeaderValue("image/png");
+            byte[] imageByteData = System.IO.File.ReadAllBytes(imagePath);
+            string imageBase64Data = Convert.ToBase64String(imageByteData);
+            string imageDataURL = string.Format("data:image/png;base64,{0}", imageBase64Data);
+            return imageDataURL;
+
+            //return response;
+        }
         [AllowAnonymous]
         [HttpGet]
         public EmployeeDetailsModel GetUserDetails(int empId)

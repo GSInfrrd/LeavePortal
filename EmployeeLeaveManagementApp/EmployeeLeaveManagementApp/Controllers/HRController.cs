@@ -28,6 +28,19 @@ namespace EmployeeLeaveManagementApp.Controllers
                 return RedirectToAction("Login", "Account");
             }
         }
+
+        public ActionResult Reports()
+        {
+            if (null != Session[Constants.SESSION_OBJ_USER])
+            {
+
+                return View();
+            }
+            else
+            {
+                return RedirectToAction("Login", "Account");
+            }
+        }
         public ActionResult CompanyAnnouncements()
         {
             if (null != Session[Constants.SESSION_OBJ_USER])
@@ -133,7 +146,7 @@ namespace EmployeeLeaveManagementApp.Controllers
             empModel.DateOfJoining = model.DateOfJoining;
             empModel.City = model.City;
             empModel.Country = model.Country;
-            empModel.ImagePath = "/Content/Images/EmployeeImages/" + model.Imagepath;
+            empModel.ImagePath=model.Imagepath;
             empModel.EmployeeNumber = model.EmployeeNumber;
             empModel.RefHierarchyLevel = model.RefHierarchyLevel;
             empModel.ManagerName = model.ManagerName;

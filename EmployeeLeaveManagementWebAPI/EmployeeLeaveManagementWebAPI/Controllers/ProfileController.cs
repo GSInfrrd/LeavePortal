@@ -18,9 +18,11 @@ namespace EmployeeLeaveManagementWebAPI.Controllers
         [HttpGet]
         public EmployeeDetailsModel GetUserProfileDetails(int empId)
         {
+            var accController = new AccountController();
             try
             {
                 var empData = userManager.GetUserProfileDetails(empId);
+                empData.ImagePath = accController.GetFile(empData.ImagePath);
                 if (null != empData)
                 {
                     return empData;

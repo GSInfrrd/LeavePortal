@@ -57,8 +57,9 @@ namespace LMS_WebAPI_ServiceHelpers
                 if (null != userData)
                 {
                     VerifiedUser.RoleName = userData.RoleName;
-                    VerifiedUser.TotalCountTaken = userData.TotalCountTaken;
                     VerifiedUser.TotalLeaveCount = userData.TotalLeaveCount;
+                    VerifiedUser.TotalApplied = userData.TotalApplied;
+                    VerifiedUser.TotalSpent = userData.TotalSpent;
                     VerifiedUser.ManagerName = userData.ManagerName;
                     VerifiedUser.ProjectName = userData.ProjectName;
                     VerifiedUser.DateOfJoining = Convert.ToDateTime(userData.DateOfJoining);

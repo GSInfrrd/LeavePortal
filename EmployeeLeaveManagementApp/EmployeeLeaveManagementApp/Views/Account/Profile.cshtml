@@ -6,139 +6,139 @@
 }
 <style>
     .products-list .product-info {
-    margin-left:0px !important;
+        margin-left: 0px !important;
     }
 </style>
-    <section class="content-header">
-        <h1>
-            User Profile
-        </h1>
-        @*<ol class="breadcrumb">
-            <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
-            <li><a href="#">Examples</a></li>
-            <li class="active">User profile</li>
-        </ol>*@
-    </section>
-    <section class="content">
-        <div class="row">
-            <div class="col-md-3">
-                <!-- Profile Image -->
-                <div class="box box-primary">
-                    <div class="box-body box-profile">
-                        <img class="profile-user-img img-responsive img-circle" style="height:100px" src="@Model.ImagePath" alt="User profile picture">
-                        <h3 class="profile-username text-center">@Model.FirstName</h3>
-                        <p class="text-muted text-center">@Model.RoleName</p>
-                        <p style="align-content:center">@Model.Bio</p>
-                        @*<div class="box box-primary">*@
-                        <div class="box-header with-border" style="padding-left:46px">
-                            <a class="btn btn-social-icon btn-facebook"><i class="fa fa-facebook"></i></a>
-                            <a class="btn btn-social-icon btn-google"><i class="fa fa-google-plus"></i></a>
-                            <a class="btn btn-social-icon btn-instagram"><i class="fa fa-twitter"></i></a>
-                        </div>
-                        <!-- /.box-header -->
-                        <div class="box-body">
-                            <strong><i class="fa fa-book margin-r-5"></i> Education</strong>
-                            <p class="text-muted">
-                                @Model.EmployeeEducationDetails[0].Degree from @Model.EmployeeEducationDetails[0].Institution
-                            </p>
-                            <hr>
-                            <strong><i class="fa fa-map-marker margin-r-5"></i> Location</strong>
-                            <p class="text-muted">@Model.City,@Model.Country</p>
-                            <hr>
-                            <strong><i class="fa fa-flask margin-r-5"></i> Skills</strong>
-                            <p>
-                                @foreach (var item in Model.Skills)
+<section class="content-header" style="height:41px">
+    <h1 class="col-md-10">
+        User Profile
+    </h1>
+    <div style="padding-right:0px" class="pull-right">
+        <button type="button" id="generatePdf" class="btn btn-primary"><i class="fa fa-download"></i> Generate PDF </button>
+    </div>
+</section>
+<section class="content">
+    <div class="row">
+        <div class="col-md-3">
+            <!-- Profile Image -->
+            <div class="box box-primary">
+                <div class="box-body box-profile">
+                    <img class="profile-user-img img-responsive img-circle" style="height:100px" src="@Model.ImagePath" alt="User profile picture">
+                    <h3 class="profile-username text-center">@Model.FirstName</h3>
+                    <p class="text-muted text-center">@Model.RoleName</p>
+                    <p class="text-center" style="align-content:center">@Model.Bio</p>
+                    @*<div class="box box-primary">*@
+                    <div class="box-header with-border" style="padding-left:46px">
+                        <a class="btn btn-social-icon btn-facebook"><i class="fa fa-facebook"></i></a>
+                        <a class="btn btn-social-icon btn-google"><i class="fa fa-google-plus"></i></a>
+                        <a class="btn btn-social-icon btn-instagram"><i class="fa fa-twitter"></i></a>
+                    </div>
+                    <!-- /.box-header -->
+                    <div class="box-body">
+                        <strong><i class="fa fa-book margin-r-5"></i> Education</strong>
+                        <p class="text-muted">
+                            @Model.EmployeeEducationDetails[0].Degree from @Model.EmployeeEducationDetails[0].Institution
+                        </p>
+                        <hr>
+                        <strong><i class="fa fa-map-marker margin-r-5"></i> Location</strong>
+                        <p class="text-muted">@Model.City,@Model.Country</p>
+                        <hr>
+                        <strong><i class="fa fa-flask margin-r-5"></i> Skills</strong>
+                        <p>
+                            @for (int i = 0, j = 0; i < Model.Skills.Count; i++)
+                            {
+                                if (j >= Model.Colors.Count)
                                 {
-                                    <span class="label label-danger">@item.Trim()</span>
+                                    j = 0;
                                 }
-                                <span class="label label-danger">@Model.Skills[0].Trim()</span>
-                                <span class="label label-success">@Model.Skills[1].Trim()</span>
-                                <span class="label label-info">Javascript</span>
-                                <span class="label label-warning">PHP</span>
-                                <span class="label label-primary">Node.js</span>
-                            </p>
-                            <hr>
 
-                        </div>
-                        <!-- /.box-body -->
-                        @*</div>*@
+                                <span class="label label-@Model.Colors[j]">@Model.Skills[i].Trim()</span>
+                                j++;
+                            }
+
+                        </p>
+                        <hr>
+
                     </div>
                     <!-- /.box-body -->
+                    @*</div>*@
                 </div>
-                <!-- /.box -->
-                <!-- About Me Box -->
-                <!-- /.box -->
+                <!-- /.box-body -->
             </div>
-            <!-- /.col -->
-            <div class="col-md-9">
-                <div class="nav-tabs-custom">
-                    <ul class="nav nav-tabs">
-                        @*<li class="active"><a href="#activity" data-toggle="tab">Activity</a></li>*@
-                        <li class="active"><a href="#profile" id="tabProfile" data-toggle="tab">Profile</a></li>
-                        <li><a href="#editDetails" id="tabEditDetails" data-toggle="tab" style="display:none">Edit</a></li>
-                    </ul>
-                    <div class="tab-content">
+            <!-- /.box -->
+            <!-- About Me Box -->
+            <!-- /.box -->
+        </div>
+        <!-- /.col -->
+        <div class="col-md-9">
+            <div class="nav-tabs-custom">
+                <ul class="nav nav-tabs">
+                    @*<li class="active"><a href="#activity" data-toggle="tab">Activity</a></li>*@
+                    <li class="active"><a href="#profile" id="tabProfile" data-toggle="tab">Profile</a></li>
+                    <li><a href="#editDetails" id="tabEditDetails" data-toggle="tab" style="display:none">Edit</a></li>
+                </ul>
+                <div class="tab-content">
 
-                        <div class="active tab-pane" id="profile">
-                            <!-- The timeline -->
-                            @*<div id="profile-tab" class="tab-pane active">*@
-                            <div class="pd-20">
-                                @if (roleId == (int)LMS_WebAPP_Utils.EmployeeRole.Employee)
-                                {
+                    <div class="active tab-pane" id="profile">
+                        <!-- The timeline -->
+                        @*<div id="profile-tab" class="tab-pane active">*@
+                        <div class="pd-20">
+                            @if (roleId == (int)LMS_WebAPP_Utils.EmployeeRole.Employee)
+                            {
                                 <div class="vd_info tr"> <a class="btn btn-xs bg-yellow pull-right" id="editEmployeeDetails"> <i class="fa fa-pencil append-icon"></i> Edit </a> </div>
-                                }
-                                <h3 class="mgbt-xs-15 mgtp-10 font-semibold"><i class="fa fa-user"></i> ABOUT</h3>
-                                <div class="row">
-                                    <div class="col-sm-6">
-                                        <div class="row mgbt-xs-0">
-                                            <label class="col-xs-5 control-label">First Name:</label>
-                                            <div class="col-xs-7 controls">@Model.FirstName</div>
-                                            <!-- col-sm-10 -->
-                                        </div>
+                            }
+                            <h3 class="mgbt-xs-15 mgtp-10 font-semibold"><i class="fa fa-user"></i> ABOUT</h3>
+                            <div class="row">
+                                <div class="col-sm-6">
+                                    <div class="row mgbt-xs-0">
+                                        <label class="col-xs-5 control-label">First Name:</label>
+                                        <div class="col-xs-7 controls">@Model.FirstName</div>
+                                        <!-- col-sm-10 -->
                                     </div>
-                                    <div class="col-sm-6">
-                                        <div class="row mgbt-xs-0">
-                                            <label class="col-xs-5 control-label">Last Name:</label>
-                                            <div class="col-xs-7 controls">@Model.LastName</div>
-                                            <!-- col-sm-10 -->
-                                        </div>
+                                </div>
+                                <div class="col-sm-6">
+                                    <div class="row mgbt-xs-0">
+                                        <label class="col-xs-5 control-label">Last Name:</label>
+                                        <div class="col-xs-7 controls">@Model.LastName</div>
+                                        <!-- col-sm-10 -->
                                     </div>
-                                    <div class="col-sm-6">
-                                        <div class="row mgbt-xs-0">
-                                            <label class="col-xs-5 control-label">User Name:</label>
-                                            <div class="col-xs-7 controls">@Model.FirstName</div>
-                                            <!-- col-sm-10 -->
-                                        </div>
+                                </div>
+                                <div class="col-sm-6">
+                                    <div class="row mgbt-xs-0">
+                                        <label class="col-xs-5 control-label">User Name:</label>
+                                        <div class="col-xs-7 controls">@Model.FirstName</div>
+                                        <!-- col-sm-10 -->
                                     </div>
-                                    <div class="col-sm-6">
-                                        <div class="row mgbt-xs-0">
-                                            <label class="col-xs-5 control-label">Email:</label>
-                                            <div class="col-xs-7 controls">@Model.Email</div>
-                                            <!-- col-sm-10 -->
-                                        </div>
+                                </div>
+                                <div class="col-sm-6">
+                                    <div class="row mgbt-xs-0">
+                                        <label class="col-xs-5 control-label">Email:</label>
+                                        <div class="col-xs-7 controls">@Model.Email</div>
+                                        <!-- col-sm-10 -->
                                     </div>
-                                    <div class="col-sm-6">
-                                        <div class="row mgbt-xs-0">
-                                            <label class="col-xs-5 control-label">City:</label>
-                                            <div class="col-xs-7 controls">@Model.City</div>
-                                            <!-- col-sm-10 -->
-                                        </div>
+                                </div>
+                                <div class="col-sm-6">
+                                    <div class="row mgbt-xs-0">
+                                        <label class="col-xs-5 control-label">City:</label>
+                                        <div class="col-xs-7 controls">@Model.City</div>
+                                        <!-- col-sm-10 -->
                                     </div>
-                                    <div class="col-sm-6">
-                                        <div class="row mgbt-xs-0">
-                                            <label class="col-xs-5 control-label">Country:</label>
-                                            <div class="col-xs-7 controls">@Model.Country</div>
-                                            <!-- col-sm-10 -->
-                                        </div>
+                                </div>
+                                <div class="col-sm-6">
+                                    <div class="row mgbt-xs-0">
+                                        <label class="col-xs-5 control-label">Country:</label>
+                                        <div class="col-xs-7 controls">@Model.Country</div>
+                                        <!-- col-sm-10 -->
                                     </div>
-                                    <div class="col-sm-6">
-                                        <div class="row mgbt-xs-0">
-                                            <label class="col-xs-5 control-label">Birthday:</label>
-                                            <div class="col-xs-7 controls">@Model.DateOfBirthAsString</div>
-                                            <!-- col-sm-10 -->
-                                        </div>
+                                </div>
+                                <div class="col-sm-6">
+                                    <div class="row mgbt-xs-0">
+                                        <label class="col-xs-5 control-label">Birthday:</label>
+                                        <div class="col-xs-7 controls">@Model.DateOfBirthAsString</div>
+                                        <!-- col-sm-10 -->
                                     </div>
-                                    @*<div class="col-sm-6">
+                                </div>
+                                @*<div class="col-sm-6">
                                         <div class="row mgbt-xs-0">
                                             <label class="col-xs-5 control-label">Interests:</label>
                                             <div class="col-xs-7 controls">Basketball, Web, Design, etc.</div>
@@ -152,22 +152,22 @@
                                             <!-- col-sm-10 -->
                                         </div>
                                     </div>*@
-                                    <div class="col-sm-6">
-                                        <div class="row mgbt-xs-0">
-                                            <label class="col-xs-5 control-label">Phone:</label>
-                                            <div class="col-xs-7 controls">@Model.Telephone</div>
-                                            <!-- col-sm-10 -->
-                                        </div>
+                                <div class="col-sm-6">
+                                    <div class="row mgbt-xs-0">
+                                        <label class="col-xs-5 control-label">Phone:</label>
+                                        <div class="col-xs-7 controls">@Model.Telephone</div>
+                                        <!-- col-sm-10 -->
                                     </div>
                                 </div>
-                                <hr class="pd-10">
-                                <div class="row">
-                                    <div class="col-sm-6 mgbt-xs-20">
-                                        <h3 class="mgbt-xs-15 font-semibold"><i class="fa fa-file-text-o mgr-10 profile-icon"></i> EXPERIENCE</h3>
-                                        <div class="box-body">
-                                            <ul class="products-list product-list-in-box">
-                                                @foreach (var item in Model.EmployeeExperienceDetails)
-                                                {
+                            </div>
+                            <hr class="pd-10">
+                            <div class="row">
+                                <div class="col-sm-6 mgbt-xs-20">
+                                    <h3 class="mgbt-xs-15 font-semibold"><i class="fa fa-file-text-o mgr-10 profile-icon"></i> EXPERIENCE</h3>
+                                    <div class="box-body">
+                                        <ul class="products-list product-list-in-box">
+                                            @foreach (var item in Model.EmployeeExperienceDetails)
+                                            {
 
 
                                                 <li class="item">
@@ -175,29 +175,7 @@
                                                         <a href="javascript:void(0)" class="product-title">
                                                             @item.Role
                                                         </a> at <a href="http://www.venmond.com">
-                                                           @item.Company
-
-                                                        </a>
-                                                        <span class="product-description">
-                                                          @item.TimePeriod
-                                                        </span>
-                                                    </div>
-                                                </li>
-                                                }
-                                            </ul>
-                                        </div>
-                                    </div>
-                                    <div class="col-sm-6">
-                                        <h3 class="mgbt-xs-15 font-semibold"><i class="fa fa-trophy mgr-10 profile-icon"></i> EDUCATION</h3>
-                                        <div class="box-body">
-                                            <ul class="products-list product-list-in-box">
-                                                @foreach (var item in Model.EmployeeEducationDetails)
-                                                {
-                                                <li class="item">
-                                                    <div class="product-info">
-                                                        <a href="javascript:void(0)" class="product-title">
-
-                                                           @item.Degree at <a href="http://www.venmond.com">@item.Institution</a>
+                                                            @item.Company
 
                                                         </a>
                                                         <span class="product-description">
@@ -205,131 +183,153 @@
                                                         </span>
                                                     </div>
                                                 </li>
-                                                }
-                                            </ul>
-                                        </div>
+                                            }
+                                        </ul>
+                                    </div>
+                                </div>
+                                <div class="col-sm-6">
+                                    <h3 class="mgbt-xs-15 font-semibold"><i class="fa fa-trophy mgr-10 profile-icon"></i> EDUCATION</h3>
+                                    <div class="box-body">
+                                        <ul class="products-list product-list-in-box">
+                                            @foreach (var item in Model.EmployeeEducationDetails)
+                                            {
+                                                <li class="item">
+                                                    <div class="product-info">
+                                                        <a href="javascript:void(0)" class="product-title">
+
+                                                            @item.Degree at <a href="http://www.venmond.com">@item.Institution</a>
+
+                                                        </a>
+                                                        <span class="product-description">
+                                                            @item.TimePeriod
+                                                        </span>
+                                                    </div>
+                                                </li>
+                                            }
+                                        </ul>
                                     </div>
                                 </div>
                             </div>
-                            <!-- pd-20 -->
-                            @*</div>*@
                         </div>
-                        <!-- /.tab-pane -->
-                        <div class="tab-pane" id="editDetails">
-                            <form class="form-horizontal">
-                                <div class="form-group">
-                                    <label for="inputName" class="col-sm-2 control-label">First Name</label>
-                                    <div class="col-sm-10">
-                                        <input type="text" class="form-control" id="inputName" placeholder="First Name" value="@Model.FirstName">
-                                    </div>
-                                </div>
-                                <div class="form-group">
-                                    <label for="inputName" class="col-sm-2 control-label">Last Name</label>
-                                    <div class="col-sm-10">
-                                        <input type="text" class="form-control" id="inputName" value="@Model.LastName" placeholder="Last Name">
-                                    </div>
-                                </div>
-                                <div class="form-group">
-                                    <label for="inputEmail" class="col-sm-2 control-label">City</label>
-                                    <div class="col-sm-10">
-                                        <input type="text" class="form-control" id="inputEmail" value="@Model.City" placeholder="City">
-                                    </div>
-                                </div>
-                                <div class="form-group">
-                                    <label for="inputEmail" class="col-sm-2 control-label">Country</label>
-                                    <div class="col-sm-10">
-                                        <input type="text" class="form-control" id="inputEmail" value="@Model.Country" placeholder="Country">
-                                    </div>
-                                </div>
-                                <div class="form-group">
-                                    <label for="inputEmail" class="col-sm-2 control-label">Date Of Birth</label>
-                                    <div class="col-sm-10">
-                                        <input type="date" class="form-control" id="inputEmail" value="@Model.DateOfBirth">
-                                    </div>
-                                </div>
-                                <div class="form-group">
-                                    <label for="inputEmail" class="col-sm-2 control-label">Telephone</label>
-                                    <div class="col-sm-10">
-                                        <input type="tel" class="form-control" id="inputEmail" value="@Model.Telephone" placeholder="Telephone">
-                                    </div>
-                                </div>
-                             <h3>Education Details</h3>
-                                <div class="form-group">
-                                    <label for="inputEmail" class="col-sm-2 control-label">Graduation</label>
-                                    <div class="col-sm-10">
-                                        <input type="text" class="form-control" id="inputEmail" value="@Model.EmployeeEducationDetails[0].Degree" placeholder="Graduation">
-                                    </div>
-                                </div>
-                                <div class="form-group">
-                                    <label for="inputEmail" class="col-sm-2 control-label">Institution</label>
-                                    <div class="col-sm-10">
-                                        <input type="text" class="form-control" id="inputEmail" value="@Model.EmployeeEducationDetails[0].Institution"  placeholder="Institution">
-                                    </div>
-                                </div>    
-                                <div class="form-group">
-                                    <label for="inputEmail" class="col-sm-2 control-label">Duration</label>
-                                    <div class="col-sm-10">
-                                        <input type="text" class="form-control" id="educationDatePicker">
-                                    </div>
-                                </div>
-                                                   
-                                <div id="divEducationDetails" style="display:none">  
-                                 </div>
-
-                                <a class="btn" style="color:#3c8dbc" id="lnkAddEducationDetails">Add more Education Details</a>
-                                <h3>Experience Details</h3>
-                                <div class="form-group">
-                                    <label for="inputExperience" class="col-sm-2 control-label">Employer</label>
-                                    <div class="col-sm-10">
-                                        <input type="text" class="form-control" id="inputExperience" value="@Model.EmployeeExperienceDetails[0].Company" placeholder="Employer">
-                                    </div>
-                                </div>
-                                <div class="form-group">
-                                    <label for="inputExperience" class="col-sm-2 control-label">Designation</label>
-                                    <div class="col-sm-10">
-                                        <input type="text" class="form-control" id="inputExperience" value="@Model.EmployeeExperienceDetails[0].Role" placeholder="Designation">
-                                    </div>
-                                </div>
-                                <div class="form-group">
-                                    <label for="inputEmail" class="col-sm-2 control-label">Duration</label>
-                                    <div class="col-sm-10">
-                                        <input type="text" class="form-control" id="experienceDatePicker">
-                                    </div>
-                                </div>
-                                <div id="otherExperienceDetails" style="display:none">                              
-                                </div>
-                                <a class="btn" id="lnkAddExperienceDetails">Add more Experience Details</a>
-                                <div class="form-group">
-                                    <label for="inputSkills" class="col-sm-2 control-label">Skills</label>
-                                    <div class="col-sm-10">
-                                        <input type="text" class="form-control" id="inputSkills" value="@Model.Skills" placeholder="Skills">
-                                    </div>
-                                </div>
-                                <div class="form-group">
-                                    <div class="col-sm-offset-2 col-sm-10">
-                                        <div class="checkbox">
-                                            <label>
-                                                <input type="checkbox"> I agree to the <a href="#">terms and conditions</a>
-                                            </label>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="form-group">
-                                    <div class="col-sm-offset-2 col-sm-10">
-                                        <button type="submit" class="btn btn-danger">Submit</button>
-                                    </div>
-                                </div>
-                            </form>
-                        </div>
-                        <!-- /.tab-pane -->
+                        <!-- pd-20 -->
+                        @*</div>*@
                     </div>
-                    <!-- /.tab-content -->
+                    <!-- /.tab-pane -->
+                    <div class="tab-pane" id="editDetails">
+                        <form class="form-horizontal">
+                            <div class="form-group">
+                                <label for="inputName" class="col-sm-2 control-label">First Name</label>
+                                <div class="col-sm-10">
+                                    <input type="text" class="form-control" id="inputName" placeholder="First Name" value="@Model.FirstName">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="inputName" class="col-sm-2 control-label">Last Name</label>
+                                <div class="col-sm-10">
+                                    <input type="text" class="form-control" id="inputName" value="@Model.LastName" placeholder="Last Name">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="inputEmail" class="col-sm-2 control-label">City</label>
+                                <div class="col-sm-10">
+                                    <input type="text" class="form-control" id="inputEmail" value="@Model.City" placeholder="City">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="inputEmail" class="col-sm-2 control-label">Country</label>
+                                <div class="col-sm-10">
+                                    <input type="text" class="form-control" id="inputEmail" value="@Model.Country" placeholder="Country">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="inputEmail" class="col-sm-2 control-label">Date Of Birth</label>
+                                <div class="col-sm-10">
+                                    <input type="date" class="form-control" id="inputEmail" value="@Model.DateOfBirth">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="inputEmail" class="col-sm-2 control-label">Telephone</label>
+                                <div class="col-sm-10">
+                                    <input type="tel" class="form-control" id="inputEmail" value="@Model.Telephone" placeholder="Telephone">
+                                </div>
+                            </div>
+                            <h3>Education Details</h3>
+                            <div class="form-group">
+                                <label for="inputEmail" class="col-sm-2 control-label">Graduation</label>
+                                <div class="col-sm-10">
+                                    <input type="text" class="form-control" id="inputEmail" value="@Model.EmployeeEducationDetails[0].Degree" placeholder="Graduation">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="inputEmail" class="col-sm-2 control-label">Institution</label>
+                                <div class="col-sm-10">
+                                    <input type="text" class="form-control" id="inputEmail" value="@Model.EmployeeEducationDetails[0].Institution" placeholder="Institution">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="inputEmail" class="col-sm-2 control-label">Duration</label>
+                                <div class="col-sm-10">
+                                    <input type="text" class="form-control" id="educationDatePicker">
+                                </div>
+                            </div>
+
+                            <div id="divEducationDetails" style="display:none">
+                            </div>
+
+                            <a class="btn" style="color:#3c8dbc" id="lnkAddEducationDetails">Add more Education Details</a>
+                            <h3>Experience Details</h3>
+                            <div class="form-group">
+                                <label for="inputExperience" class="col-sm-2 control-label">Employer</label>
+                                <div class="col-sm-10">
+                                    <input type="text" class="form-control" id="inputExperience" value="@Model.EmployeeExperienceDetails[0].Company" placeholder="Employer">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="inputExperience" class="col-sm-2 control-label">Designation</label>
+                                <div class="col-sm-10">
+                                    <input type="text" class="form-control" id="inputExperience" value="@Model.EmployeeExperienceDetails[0].Role" placeholder="Designation">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="inputEmail" class="col-sm-2 control-label">Duration</label>
+                                <div class="col-sm-10">
+                                    <input type="text" class="form-control" id="experienceDatePicker">
+                                </div>
+                            </div>
+                            <div id="otherExperienceDetails" style="display:none">
+                            </div>
+                            <a class="btn" id="lnkAddExperienceDetails">Add more Experience Details</a>
+                            <div class="form-group">
+                                <label for="inputSkills" class="col-sm-2 control-label">Skills</label>
+                                <div class="col-sm-10">
+                                    <input type="text" class="form-control" id="inputSkills" value="@Model.Skills" placeholder="Skills">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="col-sm-offset-2 col-sm-10">
+                                    <div class="checkbox">
+                                        <label>
+                                            <input type="checkbox"> I agree to the <a href="#">terms and conditions</a>
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="col-sm-offset-2 col-sm-10">
+                                    <button type="submit" class="btn btn-danger">Submit</button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                    <!-- /.tab-pane -->
                 </div>
-                <!-- /.nav-tabs-custom -->
+                <!-- /.tab-content -->
             </div>
-            <!-- /.col -->
+            <!-- /.nav-tabs-custom -->
         </div>
-        </section>
+        <!-- /.col -->
+    </div>
+</section>
 <script src="~/plugins/daterangepicker/moment.min.js"></script>
 @*<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.11.2/moment.min.js"></script>*@
 <script src="../../plugins/daterangepicker/daterangepicker.js"></script>
@@ -342,17 +342,24 @@
             $('#experienceDatePicker').daterangepicker(
                   {
                   });
+
+            var colorClass = ["label-success", "label-danger", "label-info", "label-warning", "label-primary"];
+
+            $('.sd-list').each(function () {
+                var index = $(this).index();
+                if (index < colors.length) {
+                    $(this).addClass(colorClass[index]);
+                }
+            })
         })
     });
-    $("#editEmployeeDetails").on('click',function(e)
-    {
+    $("#editEmployeeDetails").on('click', function (e) {
         $("#tabEditDetails").show();
         $("#tabProfile").hide();
         $("#editDetails").show();
         $("#profile").hide();
     })
-    $("#lnkAddEducationDetails").click(function(e)
-    {
+    $("#lnkAddEducationDetails").click(function (e) {
         $("#divEducationDetails").prepend("<hr><div class='form-group'><label for='inputEmail' class='col-sm-2 control-label'>Graduation</label> <div class='col-sm-10'>" +
             "<input type='text' class='form-control' id='inputEmail' placeholder='Graduation'></div></div> <div class='form-group'>" +
 "<label for='inputEmail' class='col-sm-2 control-label'>Institution</label><div class='col-sm-10'>" +
@@ -362,8 +369,7 @@
         $("#divEducationDetails").show();
         //$("#lnkAddEducationDetails").hide();
     });
-    $("#lnkAddExperienceDetails").click(function(e)
-    {
+    $("#lnkAddExperienceDetails").click(function (e) {
         $("#otherExperienceDetails").prepend("<hr><div class='form-group'><label for='inputEmail' class='col-sm-2 control-label'>Employer</label> <div class='col-sm-10'>" +
            "<input type='text' class='form-control' id='inputEmail' placeholder='Employer'></div></div> <div class='form-group'>" +
 "<label for='inputEmail' class='col-sm-2 control-label'>Designation</label><div class='col-sm-10'>" +
@@ -371,5 +377,20 @@
 "<label for='inputEmail' class='col-sm-2 control-label'>Duration</label><div class='col-sm-10'>" +
 "<input type='text' class='form-control' id='experienceDatePicker'></div></div></div>");
         $("#otherExperienceDetails").show();
+    });
+
+    var doc = new jsPDF();
+    var specialElementHandlers = {
+        '#editor': function (element, renderer) {
+            return true;
+        }
+    };
+
+    $('#generatePdf').click(function () {
+        doc.fromHTML($('#content').html(), 15, 15, {
+            'width': 170,
+            'elementHandlers': specialElementHandlers
+        });
+        doc.save('sample-file.pdf');
     });
 </script>
