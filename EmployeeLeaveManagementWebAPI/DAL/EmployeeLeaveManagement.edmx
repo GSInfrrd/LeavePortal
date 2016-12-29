@@ -199,6 +199,19 @@
           <Property Name="ModifiedBy" Type="nvarchar" MaxLength="50" />
           <Property Name="ManagerComments" Type="nvarchar(max)" />
         </EntityType>
+        <EntityType Name="WorkFromHome">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="bigint" Nullable="false" />
+          <Property Name="RefEmployeeId" Type="int" Nullable="false" />
+          <Property Name="Date" Type="datetime2" Precision="7" Nullable="false" />
+          <Property Name="CreatedDate" Type="datetime2" Precision="7" Nullable="false" />
+          <Property Name="RefStatus" Type="int" Nullable="false" />
+          <Property Name="CreatedBy" Type="int" />
+          <Property Name="ModifiedBy" Type="int" />
+          <Property Name="ModifiedDate" Type="datetime2" Precision="7" />
+        </EntityType>
         <Association Name="FK_EmpDetails_EmployeeContactDetails">
           <End Role="EmployeeDetails" Type="Self.EmployeeDetails" Multiplicity="1" />
           <End Role="EmployeeContactDetails" Type="Self.EmployeeContactDetails" Multiplicity="*" />
@@ -439,6 +452,33 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_WorkFromHome_refEmpID">
+          <End Role="EmployeeDetails" Type="Self.EmployeeDetails" Multiplicity="1" />
+          <End Role="WorkFromHome" Type="Self.WorkFromHome" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="EmployeeDetails">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="WorkFromHome">
+              <PropertyRef Name="RefEmployeeId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_WorkFromHome_RefStatus">
+          <End Role="MasterDataValue" Type="Self.MasterDataValue" Multiplicity="1" />
+          <End Role="WorkFromHome" Type="Self.WorkFromHome" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="MasterDataValue">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="WorkFromHome">
+              <PropertyRef Name="RefStatus" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Function Name="GetLeaveReportProcedure" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="Year" Type="nvarchar" Mode="In" />
+        </Function>
         <EntityContainer Name="LeaveManagementSystemModelStoreContainer">
           <EntitySet Name="Announcements" EntityType="Self.Announcements" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="EmployeeContactDetails" EntityType="Self.EmployeeContactDetails" Schema="dbo" store:Type="Tables" />
@@ -455,6 +495,7 @@
           <EntitySet Name="MasterDataValue" EntityType="Self.MasterDataValue" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="UserAccount" EntityType="Self.UserAccount" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Workflow" EntityType="Self.Workflow" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="WorkFromHome" EntityType="Self.WorkFromHome" Schema="dbo" store:Type="Tables" />
           <AssociationSet Name="FK_EmpDetails_EmployeeContactDetails" Association="Self.FK_EmpDetails_EmployeeContactDetails">
             <End Role="EmployeeDetails" EntitySet="EmployeeDetails" />
             <End Role="EmployeeContactDetails" EntitySet="EmployeeContactDetails" />
@@ -535,6 +576,14 @@
             <End Role="MasterDataValue" EntitySet="MasterDataValue" />
             <End Role="Workflow" EntitySet="Workflow" />
           </AssociationSet>
+          <AssociationSet Name="FK_WorkFromHome_refEmpID" Association="Self.FK_WorkFromHome_refEmpID">
+            <End Role="EmployeeDetails" EntitySet="EmployeeDetails" />
+            <End Role="WorkFromHome" EntitySet="WorkFromHome" />
+          </AssociationSet>
+          <AssociationSet Name="FK_WorkFromHome_RefStatus" Association="Self.FK_WorkFromHome_RefStatus">
+            <End Role="MasterDataValue" EntitySet="MasterDataValue" />
+            <End Role="WorkFromHome" EntitySet="WorkFromHome" />
+          </AssociationSet>
         </EntityContainer>
       </Schema></edmx:StorageModels>
     <!-- CSDL content -->
@@ -589,6 +638,7 @@
           <Property Name="RefHierarchyLevel" Type="Int32" />
           <NavigationProperty Name="MasterDataValue1" Relationship="LeaveManagementSystemModel.FK_EmployeeDetails_MasterDataValue" FromRole="EmployeeDetail" ToRole="MasterDataValue" />
           <NavigationProperty Name="EmployeeSkills" Relationship="LeaveManagementSystemModel.FK_EmployeeSkills_EmployeeDetails" FromRole="EmployeeDetail" ToRole="EmployeeSkill" />
+          <NavigationProperty Name="WorkFromHomes" Relationship="LeaveManagementSystemModel.FK_WorkFromHome_refEmpID" FromRole="EmployeeDetail" ToRole="WorkFromHome" />
         </EntityType>
         <EntityType Name="EmployeeLeaveTransaction">
           <Key>
@@ -700,6 +750,7 @@
           <NavigationProperty Name="MasterDataType" Relationship="Self.FK_MasterDataType_MasterDataValue" FromRole="MasterDataValue" ToRole="MasterDataType" />
           <NavigationProperty Name="Workflows" Relationship="Self.FK_MasterDataValueStatus_Workflow" FromRole="MasterDataValue" ToRole="Workflow" />
           <NavigationProperty Name="EmployeeDetails1" Relationship="LeaveManagementSystemModel.FK_EmployeeDetails_MasterDataValue" FromRole="MasterDataValue" ToRole="EmployeeDetail" />
+          <NavigationProperty Name="WorkFromHomes" Relationship="LeaveManagementSystemModel.FK_WorkFromHome_RefStatus" FromRole="MasterDataValue" ToRole="WorkFromHome" />
         </EntityType>
         <EntityType Name="UserAccount">
           <Key>
@@ -1037,6 +1088,18 @@
             <End Role="EmployeeDetail" EntitySet="EmployeeDetails" />
             <End Role="EmployeeSkill" EntitySet="EmployeeSkills" />
           </AssociationSet>
+          <EntitySet Name="WorkFromHomes" EntityType="LeaveManagementSystemModel.WorkFromHome" />
+          <AssociationSet Name="FK_WorkFromHome_refEmpID" Association="LeaveManagementSystemModel.FK_WorkFromHome_refEmpID">
+            <End Role="EmployeeDetail" EntitySet="EmployeeDetails" />
+            <End Role="WorkFromHome" EntitySet="WorkFromHomes" />
+          </AssociationSet>
+          <AssociationSet Name="FK_WorkFromHome_RefStatus" Association="LeaveManagementSystemModel.FK_WorkFromHome_RefStatus">
+            <End Role="MasterDataValue" EntitySet="MasterDataValues" />
+            <End Role="WorkFromHome" EntitySet="WorkFromHomes" />
+          </AssociationSet>
+          <FunctionImport Name="GetLeaveReportProcedure" ReturnType="Collection(LeaveManagementSystemModel.GetLeaveReportProcedure_Result)">
+          <Parameter Name="Year" Mode="In" Type="String" />
+          </FunctionImport>
         </EntityContainer>
         <EntityType Name="Announcement">
           <Key>
@@ -1129,6 +1192,60 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <EntityType Name="WorkFromHome">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int64" Nullable="false" />
+          <Property Name="RefEmployeeId" Type="Int32" Nullable="false" />
+          <Property Name="Date" Type="DateTime" Nullable="false" Precision="7" />
+          <Property Name="CreatedDate" Type="DateTime" Nullable="false" Precision="7" />
+          <Property Name="RefStatus" Type="Int32" Nullable="false" />
+          <Property Name="CreatedBy" Type="Int32" />
+          <Property Name="ModifiedBy" Type="Int32" />
+          <Property Name="ModifiedDate" Type="DateTime" Precision="7" />
+          <NavigationProperty Name="EmployeeDetail" Relationship="LeaveManagementSystemModel.FK_WorkFromHome_refEmpID" FromRole="WorkFromHome" ToRole="EmployeeDetail" />
+          <NavigationProperty Name="MasterDataValue" Relationship="LeaveManagementSystemModel.FK_WorkFromHome_RefStatus" FromRole="WorkFromHome" ToRole="MasterDataValue" />
+        </EntityType>
+        <Association Name="FK_WorkFromHome_refEmpID">
+          <End Type="LeaveManagementSystemModel.EmployeeDetail" Role="EmployeeDetail" Multiplicity="1" />
+          <End Type="LeaveManagementSystemModel.WorkFromHome" Role="WorkFromHome" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="EmployeeDetail">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="WorkFromHome">
+              <PropertyRef Name="RefEmployeeId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_WorkFromHome_RefStatus">
+          <End Type="LeaveManagementSystemModel.MasterDataValue" Role="MasterDataValue" Multiplicity="1" />
+          <End Type="LeaveManagementSystemModel.WorkFromHome" Role="WorkFromHome" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="MasterDataValue">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="WorkFromHome">
+              <PropertyRef Name="RefStatus" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <ComplexType Name="GetLeaveReportProcedure_Result">
+          <Property Type="Int32" Name="Year" Nullable="true" />
+          <Property Type="Int32" Name="Jan" Nullable="true" />
+          <Property Type="Int32" Name="Feb" Nullable="true" />
+          <Property Type="Int32" Name="Mar" Nullable="true" />
+          <Property Type="Int32" Name="Apr" Nullable="true" />
+          <Property Type="Int32" Name="May" Nullable="true" />
+          <Property Type="Int32" Name="Jun" Nullable="true" />
+          <Property Type="Int32" Name="Jul" Nullable="true" />
+          <Property Type="Int32" Name="Aug" Nullable="true" />
+          <Property Type="Int32" Name="Sep" Nullable="true" />
+          <Property Type="Int32" Name="Oct" Nullable="true" />
+          <Property Type="Int32" Name="Nov" Nullable="true" />
+          <Property Type="Int32" Name="Dec" Nullable="true" />
+        </ComplexType>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -1344,6 +1461,39 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
+          <EntitySetMapping Name="WorkFromHomes">
+            <EntityTypeMapping TypeName="LeaveManagementSystemModel.WorkFromHome">
+              <MappingFragment StoreEntitySet="WorkFromHome">
+                <ScalarProperty Name="ModifiedDate" ColumnName="ModifiedDate" />
+                <ScalarProperty Name="ModifiedBy" ColumnName="ModifiedBy" />
+                <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
+                <ScalarProperty Name="RefStatus" ColumnName="RefStatus" />
+                <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
+                <ScalarProperty Name="Date" ColumnName="Date" />
+                <ScalarProperty Name="RefEmployeeId" ColumnName="RefEmployeeId" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <FunctionImportMapping FunctionImportName="GetLeaveReportProcedure" FunctionName="LeaveManagementSystemModel.Store.GetLeaveReportProcedure">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="LeaveManagementSystemModel.GetLeaveReportProcedure_Result">
+                <ScalarProperty Name="Year" ColumnName="Year" />
+                <ScalarProperty Name="Jan" ColumnName="Jan" />
+                <ScalarProperty Name="Feb" ColumnName="Feb" />
+                <ScalarProperty Name="Mar" ColumnName="Mar" />
+                <ScalarProperty Name="Apr" ColumnName="Apr" />
+                <ScalarProperty Name="May" ColumnName="May" />
+                <ScalarProperty Name="Jun" ColumnName="Jun" />
+                <ScalarProperty Name="Jul" ColumnName="Jul" />
+                <ScalarProperty Name="Aug" ColumnName="Aug" />
+                <ScalarProperty Name="Sep" ColumnName="Sep" />
+                <ScalarProperty Name="Oct" ColumnName="Oct" />
+                <ScalarProperty Name="Nov" ColumnName="Nov" />
+                <ScalarProperty Name="Dec" ColumnName="Dec" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
         </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>

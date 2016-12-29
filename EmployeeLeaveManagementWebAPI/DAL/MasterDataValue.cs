@@ -27,6 +27,7 @@ namespace LMS_WebAPI_DAL
             this.LeaveMasters = new HashSet<LeaveMaster>();
             this.Workflows = new HashSet<Workflow>();
             this.EmployeeDetails1 = new HashSet<EmployeeDetail>();
+            this.WorkFromHomes = new HashSet<WorkFromHome>();
         }
     
         public int Id { get; set; }
@@ -54,5 +55,7 @@ namespace LMS_WebAPI_DAL
         public virtual ICollection<Workflow> Workflows { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<EmployeeDetail> EmployeeDetails1 { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<WorkFromHome> WorkFromHomes { get; set; }
     }
 }

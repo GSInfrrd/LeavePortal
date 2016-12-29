@@ -12,6 +12,8 @@ namespace LMS_WebAPI_DAL
     using System;
     using System.Data.Entity;
     using System.Data.Entity.Infrastructure;
+    using System.Data.Entity.Core.Objects;
+    using System.Linq;
     
     public partial class LeaveManagementSystemEntities1 : DbContext
     {
@@ -40,5 +42,15 @@ namespace LMS_WebAPI_DAL
         public virtual DbSet<EmployeeEducationDetail> EmployeeEducationDetails { get; set; }
         public virtual DbSet<EmployeeExperienceDetail> EmployeeExperienceDetails { get; set; }
         public virtual DbSet<EmployeeSkill> EmployeeSkills { get; set; }
+        public virtual DbSet<WorkFromHome> WorkFromHomes { get; set; }
+    
+        public virtual ObjectResult<GetLeaveReportProcedure_Result> GetLeaveReportProcedure(string year)
+        {
+            var yearParameter = year != null ?
+                new ObjectParameter("Year", year) :
+                new ObjectParameter("Year", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<GetLeaveReportProcedure_Result>("GetLeaveReportProcedure", yearParameter);
+        }
     }
 }
