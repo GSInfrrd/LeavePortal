@@ -76,47 +76,120 @@ namespace EmployeeLeaveManagementApp.Controllers
                 return RedirectToAction("Login", "Account");
             }
         }
-        public async Task<JsonResult> AddHolidays(DateTime date, string Year, string description, bool active = true)
+
+
+        public async Task<JsonResult> AddHolidays(DateTime date, string description, bool? active = true)
         {
-            if (null != Session[Constants.SESSION_OBJ_USER])
+            try
             {
-                var model = new HolidayModel()
+                if (null != Session[Constants.SESSION_OBJ_USER])
                 {
-                    Date = date,
-                    Year = Convert.ToInt32(Year),
-                    Description = description,
-                    IsActive = active
-                  
+                    var data = (UserAccount)Session[Constants.SESSION_OBJ_USER];
+                    var model = new HolidayModel()
+                    {
+                        Date = date,
+                        Year = Convert.ToInt32(date.Year),
+                        Description = description,
+                        IsActive = active,
+                        CreatedBy = data.UserName,
+                    };
 
-                };
+                    var HolidayList = await holidayManager.AddNewHolidayDetailsAsync(model);
 
-                var HolidayList = await holidayManager.AddNewHolidayDetailsAsync(model);
+                    var resultJson = new { list = HolidayList };
 
-                var resultJson = new { list = HolidayList };
+                    return Json(resultJson, JsonRequestBehavior.AllowGet);
+                }
+                else
+                {
+                    return null;
 
-              return Json(resultJson, JsonRequestBehavior.AllowGet);
+                    //set error page or login page
+                }
             }
-            else
+            catch (Exception)
             {
                 return null;
 
-                //set error page or login page
             }
         }
 
+        public async Task<JsonResult> UpdateHoliday(long Id, DateTime date, string description, bool? active = true)
+        {
+            try
+            {
+                if (null != Session[Constants.SESSION_OBJ_USER])
+                {
+                    var data = (UserAccount)Session[Constants.SESSION_OBJ_USER];
+                    var model = new HolidayModel()
+                    {
+                        Id = Id,
+                        Date = date,
+                        Year = Convert.ToInt32(date.Year),
+                        Description = description,
+                        IsActive = active,
+                        ModifiedBy = data.UserName
+                    };
+
+                    var HolidayList = await holidayManager.UpdateNewHolidayDetailsAsync(model);
+                    var resultJson = new { list = HolidayList };
+                    return Json(resultJson, JsonRequestBehavior.AllowGet);
+                }
+                else
+                {
+                    return null;
+                    //set error page or login page
+                }
+            }
+            catch (Exception)
+            {
+                return null;
+            }
+        }
 
         public async Task<ActionResult> HolidayList()
         {
-            if (null != Session[Constants.SESSION_OBJ_USER])
+            try
             {
-                var holidayList = await holidayManager.GetHolidayListAsync();
-                return View(holidayList);
+                if (null != Session[Constants.SESSION_OBJ_USER])
+                {
+                    var holidayList = await holidayManager.GetHolidayListAsync();
+                    return View(holidayList);
+                }
+                else
+                {
+                    return RedirectToAction("Login", "Account");
+                }
             }
-            else
+            catch (Exception)
             {
-                return RedirectToAction("Login", "Account");
+                return null;
             }
         }
+
+        public async Task<JsonResult> DeleteHoliday(int Id)
+        {
+            try
+            {
+                if (null != Session[Constants.SESSION_OBJ_USER])
+                {
+                    var data = (UserAccount)Session[Constants.SESSION_OBJ_USER];
+                    var HolidayList = await holidayManager.DeleteHolidayDetailsAsync(Id);
+                    var resultJson = new { list = HolidayList };
+                    return Json(resultJson, JsonRequestBehavior.AllowGet);
+                }
+                else
+                {
+                    return null;
+                    //set error page or login page
+                }
+            }
+            catch (Exception)
+            {
+                return null;
+            }
+        }
+
 
         public async Task<ActionResult> EmployeeDetails()
         {

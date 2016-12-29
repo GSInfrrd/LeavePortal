@@ -4,10 +4,11 @@
 @{
     ViewBag.Title = "AddHolidays";
     Layout = "~/Views/Shared/_Layout.cshtml";
-   var dateList= (from n in Model select n.Date).ToList();
+    var dateList = (from n in Model select n.Date).ToList();
 }
 <link href="~/plugins/Toastr/toastr.css" rel="stylesheet" />
 <link rel="stylesheet" href="~/plugins/datatables/dataTables.bootstrap.css">
+<link rel="stylesheet" href="~/plugins/iCheck/all.css">
 <!-- Bootstrap 3.3.6 -->
 @*<link rel="stylesheet" href="../../bootstrap/css/bootstrap.min.css">*@
 
@@ -16,7 +17,7 @@
         Holidays
     </h1>
     <div style="float:right;padding-right:0px" class="col-md-2">
-        <button type="button" class="btn btn-block bg-black" data-toggle="modal" data-target="#exampleModal"><i class="fa fa-plus"></i>&nbsp;Add Holiday</button>
+        <button type="button" id="btnAddNewHoliday" class="btn btn-block bg-black" data-toggle="modal" data-target="#exampleModal"><i class="fa fa-plus"></i>&nbsp;Add Holiday</button>
     </div>
 </section>
 
@@ -24,36 +25,42 @@
     <div class="row">
         <div class="col-xs-12">
             <div class="box">
-                <div class="box-body" id="DataTablebody" >
+                <div class="box-body" id="DataTablebody">
                     <table id="example1" class="table table-bordered table-striped">
                         <thead>
                             <tr>
                                 <th>Date</th>
                                 <th>Description</th>
                                 <th>Year</th>
-                                <th>IsActive</th>
-                                @*<th> Edit</th>
-                                <th>Delete</th>*@
+                                @*<th>IsActive</th>*@
+                                <th> Edit</th>
+                                <th>Delete</th>
                             </tr>
                         </thead>
-                        <tbody >
+                        <tbody>
                             @foreach (LMS_WebAPP_Domain.HolidayModel m in Model)
                             {
-                            <tr>
-                                <td>@m.FormattedDate</td>
-                                <td>@m.Description</td>
-                                <td>@m.Year</td>
-                                <td>@m.IsActive </td>
-                                @*<td>
-                                    <a href="#" id="btnDeleteHoliday" style="color:red" data-content="@m.Id">
-                                        <span class="fa fa-close"></span>
-                                    </a>
+                                <tr>
+                                    <td>@m.FormattedDate</td>
+                                    <td>@m.Description</td>
+                                    <td>@m.Year</td>
+                                    @*<td>@m.IsActive </td>*@
+                                    <td>
+                                        <a href="#" id="btnEditHoliday" style="color:black" data-content="@m.Id" data-toggle="modal" data-target="#exampleModal">
+                                            <span class="fa fa-pencil"></span>
+                                        </a>
 
-                                </td>*@
-                            </tr>
+                                    </td>
+                                    <td>
+                                        <a href="#" id="btnDeleteHoliday" style="color:red" data-content="@m.Id">
+                                            <span class="fa fa-close"></span>
+                                        </a>
+
+                                    </td>
+                                </tr>
                             }
                         </tbody>
-                        
+
                     </table>
                 </div>
                 <!-- /.box-body -->
@@ -86,17 +93,7 @@
                         <!-- /.input group -->
                     </div>
 
-                    <div class="form-group">
-                        <label>Year:</label>
 
-                        <div class="input-group date">
-                            <div class="input-group-addon">
-                                <i class="fa fa-calendar-o"></i>
-                            </div>
-                            <input type="text" class="form-control pull-right" id="datepickerYear" readonly="readonly">
-                        </div>
-                        <!-- /.input group -->
-                    </div>
 
 
                     <div class="form-group">
@@ -115,10 +112,19 @@
                         </div>
 
                     </div>
+
+                    @*<div class="form-group">*@
+                    @*<label>*@
+                    @*<input type="radio" name="r1" class="minimal" id="isActive">*@
+                    @*</label>*@
+                    @*<label>Is Active</label>*@
+                    <!-- /.input group -->
+                    @*</div>*@
                 </form>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-primary" id="btnAddHoliday" style="background-color:#222d32 !important">Add</button>
+                <button type="button" class="btn btn-primary" id="btnEditHolidaySave" style="background-color:#222d32 !important; display:none">Save</button>
+                <button type="button" class="btn btn-primary" id="btnAddHoliday" style="background-color:#222d32 !important">Add </button>
                 <button type="button" class="btn btn-default" id="btnClose" data-dismiss="modal">Close</button>
             </div>
         </div>
@@ -126,6 +132,7 @@
 </div>
 <!-- bootstrap datepicker -->
 <script src="~/plugins/datepicker/bootstrap-datepicker.js"></script>
+<script src="~/plugins/iCheck/icheck.min.js"></script>
 <script src="~/plugins/Toastr/toastr.js"></script>
 <script src="~/plugins/datatables/jquery.dataTables.min.js"></script>
 <script src="~/plugins/datatables/dataTables.bootstrap.min.js"></script>
@@ -143,11 +150,11 @@
             debugger;
             return (date.valueOf() in @dateList ? 'disabled' : '';
         }*@
-        beforeShowDay:
-          function (dt) {
+        //beforeShowDay:
+        //  function (dt) {
 
-              return available(dt);
-          }
+        //      return available(dt);
+        //  }
     });
 
     $(function () {
@@ -161,49 +168,60 @@
         });
     });
 
-    function available(date) {
+    @*$('#datepicker').datepicker()
+    .on(picker_event, function(e) {
         debugger;
-        var totalDate = @Html.Raw(Json.Encode(dateList));
-        debugger;
-        dmy = date.getDate() + "-" + (date.getMonth() + 1) + "-" + date.getFullYear();
-        if ($.inArray(dmy, totalDate) != -1) {
-            debugger;
-            return false;
-        } else {
-            return true;
-        }
-    }
 
-    $("#datepickerYear").datepicker({
-        autoclose: true,
-        format: " yyyy", // Notice the Extra space at the beginning
-        viewMode: "years",
-        minViewMode: "years"
-    });
+    });*@
+
+    //function available(date) {
+    //    debugger;
+
+    //    debugger;
+    //    dmy = date.getDate() + "-" + (date.getMonth() + 1) + "-" + date.getFullYear();
+    //    if ($.inArray(dmy, totalDate) != -1) {
+    //        debugger;
+    //        return false;
+    //    } else {
+    //        return true;
+    //    }
+    //}
 
     //Add Holiday
+
+    $(document).on('click', '#btnAddNewHoliday', function (e) {
+        $('#exampleModalLabel').text("Add Holiday");
+        $('#btnAddHoliday').show();
+        $('#btnEditHolidaySave').hide();
+    });
+
 
     $(document).on('click', '#btnAddHoliday ', function (e) {
         debugger;
         if (formValidate() == true) {
-            $.ajax({
-                cache: false,
-                type: 'post',
-                url: '/HR/AddHolidays',
-                data: { date: $('#datepicker').val(), Year: $('#datepickerYear').val(), description: $('#Description').val(), active: true },
-                dataType: "json",
-                success: function (data) {
-                    $('#exampleModal').modal('hide');
-                    updateDatatable(data);
-                    //  location.reload();
-                    showMessage("New holiday added successfully", "1", true);
-                    $('#datepickerYear').val("");
-                    $('#datepicker').val("");
-                    $('#Description').val("");
-                    //Update datatable
-                }
-
-            });
+            if(DateCheckValidation()==true){
+                $.ajax({
+                    cache: false,
+                    type: 'post',
+                    url: '/HR/AddHolidays',
+                    data: { date: $('#datepicker').val(), description: $('#Description').val(), active: true },
+                    dataType: "json",
+                    success: function (data) {
+                        $('#exampleModal').modal('hide');
+                        updateDatatable(data);
+                        //  location.reload();
+                        showMessage("New holiday added successfully", "1", true);
+                        $('#datepickerYear').val("");
+                        $('#datepicker').val("");
+                        $('#Description').val("");
+                        // $(this).find("input.flat-red:checked").parent().removeClass('checked');
+                        //Update datatable
+                    }
+                });
+            }
+            else{
+                showMessage("The selected date is already existing.Please select new date!!", "2", true);
+            }
         }
         else {
             showMessage("Fields cannot be empty!!", "2", true);
@@ -227,7 +245,7 @@
         toastr.options.positionClass = 'toast-' + position;
         if (typeof fadeOut !== "undefined" && fadeOut == false) { toastr.options.timeOut = 0; }
         else {
-            toastr.options.timeOut = 700;
+            toastr.options.timeOut = 3000;
         }
         switch (Type) {
             case "1":
@@ -239,41 +257,119 @@
         }
     }
 
+    function DateCheckValidation(){
+        var loop=[];
+        var totalDate = @Html.Raw(Json.Encode(dateList));
+        for(i = 0;i<totalDate.length;i++)
+        {
+            loop.push(new Date(parseInt( totalDate[i].substr(6, 13))).getTime());
+        }
+        var newdate= new Date(  $('#datepicker').val() ).getTime();
+        if ($.inArray(newdate, loop) > -1) {
+            console.log("date is in the array");
+            return false;
+        }
+        else {
+            console.log("date is not in array");
+            return true;
+        }
+    }
+
     //Form validate
 
+
+
     function formValidate() {
-        if ($('#datepickerYear').val() != "" &&
+        if (
+
         $('#datepicker').val() != "" &&
         $('#Description').val() != "") {
             return true;
         }
         else { return false; }
+
+
+
     }
 
-//    Delete Holiday
-      $(document).on('click', '#btnDeleteHoliday', function (e) {
-          var id = $(this).data("content");
-          $.ajax({
-              cache: false,
-              type: 'post',
-              url: '/ApplyLeave/DeleteLeaveRequest',
-              data: { id: id },
-              //contentType: "application/json; charset=utf-8",
-              dataType: "json",
-              success: function (data) {
-                 
-                
-              }
-          });
-      }
+
+    //    Delete Holiday
+    $(document).on('click', '#btnDeleteHoliday', function (e) {
+      
+        var id = $(this).data("content");
+        $.ajax({
+            cache: false,
+            type: 'post',
+            url: '/Hr/DeleteHoliday',
+            data: { Id: id },
+            dataType: "json",
+            success: function (data) {
+                updateDatatable(data);
+                //  location.reload();
+                showMessage("Deleted successfully", "1", true);
+            }
+        });
+    }
     );
+
+    // Edit Holiday
+    var Id=0;
+    
+
+    $(document).on('click', '#btnEditHoliday', function (e) {
+        debugger;
+        e.preventDefault();
+        $('#exampleModalLabel').text("Edit Holiday");
+        Id = $(this).data("content");
+        $('#datepicker').val($(this).parent().parent().find("td:nth-child(1)")[0].innerText);
+        $('#Description').val($(this).parent().parent().find("td:nth-child(2)")[0].innerText);
+        // $('input[name=r1]:checked').val($(this).parent().parent().find("td:nth-child(4)")[0].innerText);
+        $('#btnAddHoliday').hide();
+        $('#btnEditHolidaySave').show();
+        //hide the add button dispaly edit button
+    });
+
+    //Edit Adding
+    $(document).on('click', '#btnEditHolidaySave', function (e) {
+        debugger;
+        if (formValidate() == true) {
+            if(DateCheckValidation()==true){
+                $.ajax({
+                    cache: false,
+                    type: 'post',
+                    url: '/HR/UpdateHoliday',
+                    data: {Id:Id, date: $('#datepicker').val(), description: $('#Description').val(), active: true },
+                    dataType: "json",
+                    success: function (data) {
+                        $('#exampleModal').modal('hide');
+                        updateDatatable(data);
+                        //  location.reload();
+                        showMessage("Successfully done.", "1", true);
+                        $('#datepickerYear').val("");
+                        $('#datepicker').val("");
+                        $('#Description').val("");
+                    }
+                });
+            }
+            else{
+                showMessage("The selected date is already existing.Please select new date!!", "2", true);
+            }
+        }
+        else {
+            showMessage("Fields cannot be empty!!", "2", true);
+        }
+    }
+    );
+
+
 
 
     function updateDatatable(data) {
         debugger;
         $('#DataTablebody').html('');
         var fixedCartItemsHtml = "<table id='example1' class='table table-bordered table-striped'>" + " <thead> <tr>  <th>Date</th><th>Description</th>  <th>Year</th>" +
-                               "<th>IsActive</th> </tr></thead><tbody>";
+                               "<th> Edit</th> <th>Delete</th> </tr></thead><tbody>";
+
         for (var i = 0; i < data.list.length; i++) {
             //date
             fixedCartItemsHtml = fixedCartItemsHtml +
@@ -290,26 +386,34 @@
 
                                 "<td>" + data.list[i].Year +
                                 "</td>";
-            //Is Active
-            fixedCartItemsHtml = fixedCartItemsHtml +
+            ////Is Active
+            //fixedCartItemsHtml = fixedCartItemsHtml +
 
-                              "<td>" + data.list[i].IsActive +
-                              "</td></tr>";
+            //                  "<td>" + data.list[i].IsActive +
+            //                  "</td>";
+            //edit button
+            fixedCartItemsHtml = fixedCartItemsHtml +"<td><a id='btnEditHoliday'  href='#' data-toggle='modal'  data-target='#exampleModal' style='color:black' data-content='" + data.list[i].Id  + "' >";
+            fixedCartItemsHtml = fixedCartItemsHtml +" <span class='fa fa-pencil'></span> </a></td>";
+
+            //delete button
+
+            fixedCartItemsHtml = fixedCartItemsHtml +"<td><a id='btnDeleteHoliday'  href='#' style='color:red' data-content='" + data.list[i].Id  + "' >";
+            fixedCartItemsHtml = fixedCartItemsHtml +" <span class='fa fa-close'></span></a></td></tr>";
         }
         fixedCartItemsHtml = fixedCartItemsHtml + "</tbody></table>";
         $('#DataTablebody').html(fixedCartItemsHtml);
 
-       
-            $('#example1').DataTable({
-                "paging": true,
-                "lengthChange": true,
-                "searching": false,
-                "ordering": true,
-                "info": true,
-                "autoWidth": false,
-            });
-      
-       
+
+        $('#example1').DataTable({
+            "paging": true,
+            "lengthChange": true,
+            "searching": false,
+            "ordering": true,
+            "info": true,
+            "autoWidth": false,
+        });
+
+
     }
 </script>
 

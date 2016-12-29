@@ -70,5 +70,63 @@ namespace LMS_WebAPP_ServiceHelpers
                 throw ex;
             }
         }
+
+        public async Task<List<HolidayModel>> UpdateNewHolidayDetailsAsync(HolidayModel model)
+        {
+            try
+            {
+                string URL = "http://localhost:64476/api/Holiday/UpdateHoliday";
+                HttpClient client = new HttpClient();
+                urlParameters = "?Editmodel=" + model;
+
+                client.BaseAddress = new Uri(URL);
+                // Add an Accept header for JSON format.
+                client.DefaultRequestHeaders.Accept.Add(
+                new MediaTypeWithQualityHeaderValue("application/json"));
+
+                // List data response.
+                HttpResponseMessage response = await client.PutAsJsonAsync(URL, model);
+                if (response.IsSuccessStatusCode)
+                {
+                    // Parse the response body. Blocking!
+                    var dataObjects = response.Content.ReadAsAsync<List<HolidayModel>>().Result;
+                    return dataObjects;
+                }
+                return null;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
+        public async Task<List<HolidayModel>> DeleteHolidayDetailsAsync(int Id)
+        {
+            try
+            {
+                string URL = "http://localhost:64476/api/Holiday/DeleteHoliday";
+                HttpClient client = new HttpClient();
+                urlParameters = "?Id=" + Id;
+
+                client.BaseAddress = new Uri(URL);
+                // Add an Accept header for JSON format.
+                client.DefaultRequestHeaders.Accept.Add(
+                new MediaTypeWithQualityHeaderValue("application/json"));
+
+                // List data response.
+                HttpResponseMessage response = await client.DeleteAsync(urlParameters);
+                if (response.IsSuccessStatusCode)
+                {
+                    // Parse the response body. Blocking!
+                    var dataObjects = response.Content.ReadAsAsync<List<HolidayModel>>().Result;
+                    return dataObjects;
+                }
+                return null;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
     }
 }

@@ -12,6 +12,8 @@ namespace LMS_WebAPI_DAL.Repositories.Interfaces
 
         bool AddHoliday(Holiday newHoliday);
 
-        bool DeleteLeaveRequest(int id);
+        bool DeleteHolidayRequest(long id);
+
+        bool UpdateHoliday(Holiday holiday);
     }
 }

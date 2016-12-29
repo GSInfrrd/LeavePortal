@@ -2,8 +2,6 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using LMS_WebAPI_DAL.Repositories;
 using LMS_WebAPI_Domain;
 
@@ -16,22 +14,20 @@ namespace LMS_WebAPI_ServiceHelpers
         {
             try
             {
-              
                 LMS_WebAPI_DAL.Holiday newholiday = new LMS_WebAPI_DAL.Holiday()
                 {
                     Date = model.Date,
                     Year = model.Year,
                     Description = model.Description,
                     IsActive = true,
-                    Id =model.Id
+                    Id = model.Id
 
                 };
-               if(holiday.AddHoliday(newholiday) == true) { return GetHolidayList(); }
+                if (holiday.AddHoliday(newholiday) == true) { return GetHolidayList(); }
                 else
                 {
                     throw new Exception("Something went wrong");
                 }
-               
             }
             catch (Exception ex)
             {
@@ -55,6 +51,47 @@ namespace LMS_WebAPI_ServiceHelpers
                                    IsActive = holi.IsActive
                                }).ToList();
                 return holidayList;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
+        public IList<HolidayModel> UpdateHoliday(HolidayModel model)
+        {
+            try
+            {
+                LMS_WebAPI_DAL.Holiday newholiday = new LMS_WebAPI_DAL.Holiday()
+                {
+                    Date = model.Date,
+                    Year = model.Year,
+                    Description = model.Description,
+                    IsActive = true,
+                    Id = model.Id,
+                    ModifiedBy = model.ModifiedBy
+                };
+                if (holiday.UpdateHoliday(newholiday))
+                {
+                    return GetHolidayList();
+                }
+                return null;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
+        public IList<HolidayModel> DeleteHoliday(long id)
+        {
+            try
+            {
+                if (holiday.DeleteHolidayRequest(id))
+                {
+                    return GetHolidayList();
+                }
+                return null;
             }
             catch (Exception ex)
             {

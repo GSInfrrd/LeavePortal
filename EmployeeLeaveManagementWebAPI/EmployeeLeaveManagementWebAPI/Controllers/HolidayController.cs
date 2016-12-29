@@ -44,10 +44,34 @@ namespace EmployeeLeaveManagementWebAPI.Controllers
             }
         }
 
-
-        public bool DeleteLeaveRequest(int id)
+        [System.Web.Http.HttpDelete]
+        [System.Web.Http.AllowAnonymous]
+        public IList<HolidayModel> DeleteHoliday(long Id)
         {
-            return true;
+            try
+            {
+                return holidayManager.DeleteHoliday(Id);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
         }
+
+
+        [System.Web.Http.HttpPut]
+        [System.Web.Http.AllowAnonymous]
+        public IList<HolidayModel> UpdateHoliday(HolidayModel model)
+        {
+            try
+            {
+                return holidayManager.UpdateHoliday(model);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
     }
 }
