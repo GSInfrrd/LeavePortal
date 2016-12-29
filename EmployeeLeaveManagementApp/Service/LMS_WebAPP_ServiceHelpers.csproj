@@ -54,6 +54,7 @@
     <Compile Include="HRManagement.cs" />
     <Compile Include="UserManagement.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="WorkFromHomeManagement.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Domain\LMS_WebAPP_Domain.csproj">

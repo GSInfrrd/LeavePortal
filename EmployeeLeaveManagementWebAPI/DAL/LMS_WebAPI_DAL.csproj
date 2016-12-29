@@ -125,7 +125,9 @@
     <Compile Include="Repositories\Interfaces\IHoliday.cs" />
     <Compile Include="Repositories\Interfaces\IHRRepository.cs" />
     <Compile Include="Repositories\Interfaces\IUser.cs" />
+    <Compile Include="Repositories\Interfaces\IWorkFromHome.cs" />
     <Compile Include="Repositories\UserRepository.cs" />
+    <Compile Include="Repositories\WorkFromHomeRepository.cs" />
     <Compile Include="UserAccount.cs">
       <DependentUpon>EmployeeLeaveManagement.tt</DependentUpon>
     </Compile>
