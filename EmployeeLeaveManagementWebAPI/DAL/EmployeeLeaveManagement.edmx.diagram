@@ -44,6 +44,7 @@
         <EntityTypeShape EntityType="LeaveManagementSystemModel.WorkFromHome" Width="1.5" PointX="10.5" PointY="18.625" />
         <AssociationConnector Association="LeaveManagementSystemModel.FK_WorkFromHome_refEmpID" />
         <AssociationConnector Association="LeaveManagementSystemModel.FK_WorkFromHome_RefStatus" />
+        <AssociationConnector Association="LeaveManagementSystemModel.FK_WorkFromHome_RefReason" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

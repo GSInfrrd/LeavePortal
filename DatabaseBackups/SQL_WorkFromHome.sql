@@ -9,7 +9,7 @@ SET QUOTED_IDENTIFIER ON
 GO
 
 CREATE TABLE [dbo].[WorkFromHome](
-	[Id] [bigint] NOT NULL,
+	[Id] [bigint] IDENTITY(1,1) NOT NULL,
 	[RefEmployeeId] [int] NOT NULL,
 	[Date] [datetime2](7) NOT NULL,
 	[CreatedDate] [datetime2](7) NOT NULL,
@@ -17,6 +17,7 @@ CREATE TABLE [dbo].[WorkFromHome](
 	[CreatedBy] [int] NULL,
 	[ModifiedBy] [int] NULL,
 	[ModifiedDate] [datetime2](7) NULL,
+	[RefReason] [int] not null
  CONSTRAINT [PK_WorkFromHome] PRIMARY KEY CLUSTERED 
 (
 	[Id] ASC
@@ -41,5 +42,10 @@ GO
 
 ALTER TABLE [dbo].[WorkFromHome] CHECK CONSTRAINT [FK_WorkFromHome_RefStatus]
 GO
+ALTER TABLE [dbo].[WorkFromHome]  WITH CHECK ADD  CONSTRAINT [FK_WorkFromHome_RefReason] FOREIGN KEY([RefReason])
+REFERENCES [dbo].[MasterDataValue] ([Id])
+GO
 
+ALTER TABLE [dbo].[WorkFromHome] CHECK CONSTRAINT [FK_WorkFromHome_RefReason]
+GO
 

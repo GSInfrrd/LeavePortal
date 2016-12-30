@@ -60,4 +60,12 @@ namespace LMS_WebAPP_Utils
         [Description("Level-5")]
         Level5 =19
     }
+
+    public enum WorkFormHomeReasons
+    {
+        [Description("Maintanace at home")]
+        Maintanace = 20,
+        [Description("To avoid Travel")]
+        AvoidTravel = 21,
+    }
 }

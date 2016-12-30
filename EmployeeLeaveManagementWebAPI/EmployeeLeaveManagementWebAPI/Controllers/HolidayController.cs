@@ -14,7 +14,7 @@ namespace EmployeeLeaveManagementWebAPI.Controllers
        HolidayManagement holidayManager = new HolidayManagement();
 
         [System.Web.Http.HttpPost]
-        [System.Web.Http.AllowAnonymous]
+     
         public IList<HolidayModel> AddNewHoliday(HolidayModel model)
         {
             try
@@ -30,7 +30,7 @@ namespace EmployeeLeaveManagementWebAPI.Controllers
         }
 
         [System.Web.Http.HttpGet]
-        [System.Web.Http.AllowAnonymous]
+      
         public IList<HolidayModel> GetHolidayList()
         {
             try
@@ -45,7 +45,7 @@ namespace EmployeeLeaveManagementWebAPI.Controllers
         }
 
         [System.Web.Http.HttpDelete]
-        [System.Web.Http.AllowAnonymous]
+
         public IList<HolidayModel> DeleteHoliday(long Id)
         {
             try
@@ -60,7 +60,7 @@ namespace EmployeeLeaveManagementWebAPI.Controllers
 
 
         [System.Web.Http.HttpPut]
-        [System.Web.Http.AllowAnonymous]
+       
         public IList<HolidayModel> UpdateHoliday(HolidayModel model)
         {
             try

@@ -1,17 +1,69 @@
-﻿using System;
+﻿using LMS_WebAPI_Domain;
+using LMS_WebAPI_ServiceHelpers;
+using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-using System.Web.Mvc;
+using System.Web.Http;
 
 namespace EmployeeLeaveManagementWebAPI.Controllers
 {
-    public class WorkFromHomeController : Controller
+    public class WorkFromHomeController : ApiController
     {
-        // GET: WorkFromHome
-        public ActionResult Index()
+        WorkFromHomeManagement WorkFromHomeManager = new WorkFromHomeManagement();
+
+        [System.Web.Http.HttpPost]
+        public long AddNewWorkFromHome(WorkFromHomeModel model)
         {
-            return View();
+            try
+            {
+                var result = WorkFromHomeManager.AddNewWorkFromHome(model);
+                return result;
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
         }
+
+        [System.Web.Http.HttpGet]
+        public IList<WorkFromHomeModel> GetWorkFromHomeList(int EmpId)
+        {
+            try
+            {
+                var result = WorkFromHomeManager.GetWorkFromHomeList(EmpId);
+                return result;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
+        [System.Web.Http.HttpDelete]
+        public long DeleteWorkFromHome(long Id)
+        {
+            try
+            {
+                return WorkFromHomeManager.DeleteWorkFromHome(Id);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
+        [System.Web.Http.HttpPut]
+        public bool UpdateWorkFromHome(WorkFromHomeModel model)
+        {
+            try
+            {
+                return WorkFromHomeManager.UpdateWorkFromHome(model);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
     }
 }

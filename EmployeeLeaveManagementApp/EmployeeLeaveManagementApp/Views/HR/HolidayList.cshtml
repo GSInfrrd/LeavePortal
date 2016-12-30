@@ -142,20 +142,29 @@
         //$('#datepicker').val("");
         //$('#Description').val("");
     });
+    var totalDate = @Html.Raw(Json.Encode(dateList));
+    var loop=[];
+    for(i = 0;i<totalDate.length;i++)
+    {
+        loop.push(new Date(parseInt( totalDate[i].substr(6, 13))).getTime());
+    }
 
 
-    $('#datepicker').datepicker({
-        autoclose: true,
-        @*onRender: function (date) {
-            debugger;
-            return (date.valueOf() in @dateList ? 'disabled' : '';
-        }*@
-        //beforeShowDay:
-        //  function (dt) {
 
-        //      return available(dt);
-        //  }
-    });
+    $('#datepicker').datepicker({autoclose: true})
+   .on('changeDate', function(ev){
+       var date = ev.date;
+       console.log(ev.date);
+       var newDate = new Date(date).getTime();
+       console.log(newDate);
+          if ($.inArray(newDate, loop) > -1)
+          {
+              showMessage("The selected date is already existing.Please select new date!!", "2", true);
+              $('#datepicker').datepicker('hide');
+              $('#datepicker').val("");
+          }
+
+  });
 
     $(function () {
         $('#example1').DataTable({
@@ -199,7 +208,7 @@
     $(document).on('click', '#btnAddHoliday ', function (e) {
         debugger;
         if (formValidate() == true) {
-            if(DateCheckValidation()==true){
+          
                 $.ajax({
                     cache: false,
                     type: 'post',
@@ -208,6 +217,7 @@
                     dataType: "json",
                     success: function (data) {
                         $('#exampleModal').modal('hide');
+                        loop.push(new Date($('#datepicker').val()).getTime());
                         updateDatatable(data);
                         //  location.reload();
                         showMessage("New holiday added successfully", "1", true);
@@ -218,10 +228,6 @@
                         //Update datatable
                     }
                 });
-            }
-            else{
-                showMessage("The selected date is already existing.Please select new date!!", "2", true);
-            }
         }
         else {
             showMessage("Fields cannot be empty!!", "2", true);
@@ -257,23 +263,8 @@
         }
     }
 
-    function DateCheckValidation(){
-        var loop=[];
-        var totalDate = @Html.Raw(Json.Encode(dateList));
-        for(i = 0;i<totalDate.length;i++)
-        {
-            loop.push(new Date(parseInt( totalDate[i].substr(6, 13))).getTime());
-        }
-        var newdate= new Date(  $('#datepicker').val() ).getTime();
-        if ($.inArray(newdate, loop) > -1) {
-            console.log("date is in the array");
-            return false;
-        }
-        else {
-            console.log("date is not in array");
-            return true;
-        }
-    }
+
+
 
     //Form validate
 
@@ -287,15 +278,12 @@
             return true;
         }
         else { return false; }
-
-
-
     }
 
 
     //    Delete Holiday
     $(document).on('click', '#btnDeleteHoliday', function (e) {
-      
+
         var id = $(this).data("content");
         $.ajax({
             cache: false,
@@ -304,6 +292,7 @@
             data: { Id: id },
             dataType: "json",
             success: function (data) {
+                loop.pop(new Date(updatedDate).getTime());
                 updateDatatable(data);
                 //  location.reload();
                 showMessage("Deleted successfully", "1", true);
@@ -311,17 +300,16 @@
         });
     }
     );
-
     // Edit Holiday
     var Id=0;
-    
-
+    var updatedDate = null ;
     $(document).on('click', '#btnEditHoliday', function (e) {
         debugger;
         e.preventDefault();
         $('#exampleModalLabel').text("Edit Holiday");
         Id = $(this).data("content");
         $('#datepicker').val($(this).parent().parent().find("td:nth-child(1)")[0].innerText);
+        updatedDate = $('#datepicker').val();
         $('#Description').val($(this).parent().parent().find("td:nth-child(2)")[0].innerText);
         // $('input[name=r1]:checked').val($(this).parent().parent().find("td:nth-child(4)")[0].innerText);
         $('#btnAddHoliday').hide();
@@ -333,7 +321,7 @@
     $(document).on('click', '#btnEditHolidaySave', function (e) {
         debugger;
         if (formValidate() == true) {
-            if(DateCheckValidation()==true){
+            var newDate =$('#datepicker').val();
                 $.ajax({
                     cache: false,
                     type: 'post',
@@ -343,6 +331,13 @@
                     success: function (data) {
                         $('#exampleModal').modal('hide');
                         updateDatatable(data);
+                        debugger;
+                       
+                      //if((new Date(updatedDate)).getTime() != (new Date(newDate)).getTime())
+                      //  {
+                                loop.pop((new Date(updatedDate)).getTime());
+                                loop.push((new Date(newDate)).getTime());
+                        //}
                         //  location.reload();
                         showMessage("Successfully done.", "1", true);
                         $('#datepickerYear').val("");
@@ -350,20 +345,12 @@
                         $('#Description').val("");
                     }
                 });
-            }
-            else{
-                showMessage("The selected date is already existing.Please select new date!!", "2", true);
-            }
         }
         else {
             showMessage("Fields cannot be empty!!", "2", true);
         }
     }
     );
-
-
-
-
     function updateDatatable(data) {
         debugger;
         $('#DataTablebody').html('');
@@ -376,6 +363,7 @@
                                  "<tr>" +
                                  "<td>" + data.list[i].FormattedDate +
                                  "</td>";
+            
             //Description
             fixedCartItemsHtml = fixedCartItemsHtml +
 
@@ -413,7 +401,9 @@
             "autoWidth": false,
         });
 
-
+        $('#datepickerYear').val("");
+        $('#datepicker').val("");
+        $('#Description').val("");
     }
 </script>
 

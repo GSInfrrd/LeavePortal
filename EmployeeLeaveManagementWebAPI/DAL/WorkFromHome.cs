@@ -22,8 +22,10 @@ namespace LMS_WebAPI_DAL
         public Nullable<int> CreatedBy { get; set; }
         public Nullable<int> ModifiedBy { get; set; }
         public Nullable<System.DateTime> ModifiedDate { get; set; }
+        public int RefReason { get; set; }
     
         public virtual EmployeeDetail EmployeeDetail { get; set; }
         public virtual MasterDataValue MasterDataValue { get; set; }
+        public virtual MasterDataValue MasterDataValue1 { get; set; }
     }
 }
