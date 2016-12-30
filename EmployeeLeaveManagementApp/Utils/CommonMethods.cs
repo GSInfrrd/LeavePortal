@@ -2,9 +2,10 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
+using System.Net.Mail;
 using System.Security.Cryptography;
 using System.Text;
-using System.Threading.Tasks;
+using LMS_WebAPP_Utils;
 
 namespace LMS_WebAPP_Utils
 {
@@ -100,5 +101,77 @@ namespace LMS_WebAPP_Utils
                 : ((DescriptionAttribute)attributes[0]).Description;
         }
 
+        public static void SendMailWithMultipleAttachments(string ToEmailId , bool IsAttachment ,string subject,string content = "")
+        {
+            var client = new SmtpClient();
+            var message = new MailMessage();
+            try
+            {
+                Logger.Info("Enter in to the SendMailWithMultipleAttachments");
+                message.From = new MailAddress(ReadResouce.GetEmailConstant("FROM_EMAIL_ID"), ReadResouce.GetEmailConstant("MAIL_INBOX_HEADER"));
+                string ccEmailId = ReadResouce.GetEmailConstant("CC_EMAIL_ID");
+                string toEmailId = ToEmailId;
+              
+
+
+                IList<string> toEmailIds = new List<string>();
+                var mailPool = toEmailId.Split(new string[] { ":::" }, StringSplitOptions.None);
+                if (mailPool.Count() > 0)
+                {
+                    foreach (var mail in mailPool)
+                    {
+                        if (!String.IsNullOrEmpty(mail))
+                        {
+                            message.To.Add(new MailAddress(mail));
+                        }
+                    }
+                }
+                else
+                {
+                    Logger.Error("To Mail Id shoulnot be null");
+                    throw new Exception(" To Mail Id shoulnot be null");
+                }
+                if (ccEmailId != null && !ccEmailId.Equals(String.Empty))
+                {
+                    message.CC.Add(new MailAddress(ccEmailId));
+                }
+
+                message.Subject = subject;
+                message.Body = content;
+                message.IsBodyHtml = true;
+                if (IsAttachment)
+                {
+                   //if attach ment is ther add here
+                }
+                client.Host = ReadResouce.GetEmailConstant("EMAIL_HOST");
+                client.Port = Convert.ToInt16(ReadResouce.GetEmailConstant("EMAIL_PORT"));
+                client.UseDefaultCredentials = true;
+                client.Credentials = new System.Net.NetworkCredential(ReadResouce.GetEmailConstant("EMAIL_USER_ID"), ReadResouce.GetEmailConstant("EMAIL_PASSWORD"));
+                client.EnableSsl = true;
+                client.Send(message);
+                Logger.Info("Executed successfully");
+            }
+            catch (Exception ex)
+            {
+                Logger.Error(ex);
+                throw ex;
+            }
+            //finally
+            //{
+            //    Logger.Info("Enter in to the finally bloc of SendMailWithMultipleAttachments() ");
+            //    if (message != null)
+            //    {
+            //        if (message.Attachments != null)
+            //        {
+            //            message.Attachments.Dispose();
+            //        }
+            //        message.Dispose();
+            //    }
+            //    if (client != null)
+            //    {
+            //        client.Dispose();
+            //    }
+            //}
+        }
     }
 }

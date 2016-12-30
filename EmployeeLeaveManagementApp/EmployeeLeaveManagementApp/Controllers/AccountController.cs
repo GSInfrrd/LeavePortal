@@ -22,6 +22,7 @@ namespace EmployeeLeaveManagementApp.Controllers
         [AllowAnonymous]
         public ActionResult Login()
         {
+            Logger.Info("addded new");
             ViewBag.userExist = true;
             return View();
         }
