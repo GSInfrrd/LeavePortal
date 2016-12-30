@@ -44,6 +44,10 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="log4net, Version=2.0.6.0, Culture=neutral, PublicKeyToken=669e0ddf0bb1aa2a, processorArchitecture=MSIL">
+      <HintPath>..\packages\log4net.2.0.6\lib\net45-full\log4net.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="Microsoft.AI.Agent.Intercept, Version=1.2.0.1011, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.ApplicationInsights.Agent.Intercept.1.2.0\lib\net45\Microsoft.AI.Agent.Intercept.dll</HintPath>
       <Private>True</Private>
@@ -336,6 +340,10 @@
     <ProjectReference Include="..\Service\LMS_WebAPI_ServiceHelpers.csproj">
       <Project>{dea9e46f-ba6a-490f-b0c4-764a3a795834}</Project>
       <Name>LMS_WebAPI_ServiceHelpers</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Utils\LMS_WebAPI_Utils.csproj">
+      <Project>{0E52B307-5148-4449-98B0-BA995AF29D25}</Project>
+      <Name>LMS_WebAPI_Utils</Name>
     </ProjectReference>
   </ItemGroup>
   <PropertyGroup>

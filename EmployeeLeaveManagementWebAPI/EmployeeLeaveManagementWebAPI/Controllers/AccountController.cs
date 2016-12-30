@@ -6,7 +6,6 @@ using System.Security.Cryptography;
 using System.Threading.Tasks;
 using System.Web;
 using System.Web.Http;
-using System.Web.Http.ModelBinding;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
 using Microsoft.AspNet.Identity.Owin;
@@ -18,8 +17,7 @@ using EmployeeLeaveManagementWebAPI.Providers;
 using EmployeeLeaveManagementWebAPI.Results;
 using LMS_WebAPI_ServiceHelpers;
 using LMS_WebAPI_Domain;
-using System.Net;
-using System.IO;
+using LMS_WebAPI_Utils;
 
 namespace EmployeeLeaveManagementWebAPI.Controllers
 {
@@ -330,6 +328,7 @@ namespace EmployeeLeaveManagementWebAPI.Controllers
         {
             try
             {
+                Logger.Info("Login as user");
                 var userData = userManager.GetUser(userName, password);
              userData.Imagepath= GetFile(userData.Imagepath);
                 if (null != userData)
