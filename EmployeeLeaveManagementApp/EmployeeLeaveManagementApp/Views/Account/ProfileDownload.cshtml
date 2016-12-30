@@ -1,0 +1,227 @@
+﻿@model LMS_WebAPP_Domain.EmployeeDetailsModel
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    var roleId = ((LMS_WebAPP_Domain.UserAccount)Session[LMS_WebAPP_Utils.Constants.SESSION_OBJ_USER]).RefRoleId;
+    var imagePath = Model.ImagePath;
+}
+  
+<style>
+    @@media (max-width:767px) {
+        .main-header .navbar {
+            display: none;
+        }
+    }
+    .products-list .product-info {
+        margin-left: 0px !important;
+    }
+    #navigationBar{
+        display:none;
+    }
+       #sideToggleBar{
+        display:none;
+    }
+</style>
+<section class="content-header" style="height:41px">
+    <h1 class="col-md-10">
+        User Profile
+    </h1>
+</section>
+<section class="content">
+    <div class="row container" id="divProfile">
+        <div class="col-md-3">
+            <!-- Profile Image -->
+            <div class="box box-primary">
+                <div class="box-body box-profile">
+                    <img class="profile-user-img img-responsive img-circle" style="height:100px" src="@Model.ImagePath" alt="User profile picture">
+                    <h3 class="profile-username text-center">@Model.FirstName</h3>
+                    <p class="text-muted text-center">@Model.RoleName</p>
+                    <p class="text-center" style="align-content:center">@Model.Bio</p>
+                    @*<div class="box box-primary">*@
+                    <div class="box-header with-border" style="padding-left:46px">
+                        <a class="btn btn-social-icon btn-facebook"><i class="fa fa-facebook"></i></a>
+                        <a class="btn btn-social-icon btn-google"><i class="fa fa-google-plus"></i></a>
+                        <a class="btn btn-social-icon btn-instagram"><i class="fa fa-twitter"></i></a>
+                    </div>
+                    <!-- /.box-header -->
+                    <div class="box-body">
+                        <strong><i class="fa fa-book margin-r-5"></i> Education</strong>
+                        <p class="text-muted">
+                            @Model.EmployeeEducationDetails[0].Degree from @Model.EmployeeEducationDetails[0].Institution
+                        </p>
+                        <hr>
+                        <strong><i class="fa fa-map-marker margin-r-5"></i> Location</strong>
+                        <p class="text-muted">@Model.City,@Model.Country</p>
+                        <hr>
+                        <strong><i class="fa fa-flask margin-r-5"></i> Skills</strong>
+                        <p>
+                            @for (int i = 0, j = 0; i < Model.Skills.Count; i++)
+                            {
+                                if (j >= Model.Colors.Count)
+                                {
+                                    j = 0;
+                                }
+
+                                <span class="label label-@Model.Colors[j]">@Model.Skills[i].Trim()</span>
+                                j++;
+                            }
+
+                        </p>
+                        <hr>
+
+                    </div>
+                    <!-- /.box-body -->
+                    @*</div>*@
+                </div>
+                <!-- /.box-body -->
+            </div>
+            <!-- /.box -->
+            <!-- About Me Box -->
+            <!-- /.box -->
+        </div>
+        <!-- /.col -->
+        <div class="col-md-9">
+            <div class="nav-tabs-custom">
+                <div class="tab-content">
+
+                    <div class="active tab-pane" id="profile">
+                        <!-- The timeline -->
+                        @*<div id="profile-tab" class="tab-pane active">*@
+                        <div class="pd-20">
+                            <h3 class="mgbt-xs-15 mgtp-10 font-semibold"><i class="fa fa-user"></i> ABOUT</h3>
+                            <div class="row">
+                                <div class="col-sm-6">
+                                    <div class="row mgbt-xs-0">
+                                        <label class="col-xs-5 control-label">First Name:</label>
+                                        <div class="col-xs-7 controls">@Model.FirstName</div>
+                                        <!-- col-sm-10 -->
+                                    </div>
+                                </div>
+                                <div class="col-sm-6">
+                                    <div class="row mgbt-xs-0">
+                                        <label class="col-xs-5 control-label">Last Name:</label>
+                                        <div class="col-xs-7 controls">@Model.LastName</div>
+                                        <!-- col-sm-10 -->
+                                    </div>
+                                </div>
+                                <div class="col-sm-6">
+                                    <div class="row mgbt-xs-0">
+                                        <label class="col-xs-5 control-label">User Name:</label>
+                                        <div class="col-xs-7 controls">@Model.FirstName</div>
+                                        <!-- col-sm-10 -->
+                                    </div>
+                                </div>
+                                <div class="col-sm-6">
+                                    <div class="row mgbt-xs-0">
+                                        <label class="col-xs-5 control-label">Email:</label>
+                                        <div class="col-xs-7 controls">@Model.Email</div>
+                                        <!-- col-sm-10 -->
+                                    </div>
+                                </div>
+                                <div class="col-sm-6">
+                                    <div class="row mgbt-xs-0">
+                                        <label class="col-xs-5 control-label">City:</label>
+                                        <div class="col-xs-7 controls">@Model.City</div>
+                                        <!-- col-sm-10 -->
+                                    </div>
+                                </div>
+                                <div class="col-sm-6">
+                                    <div class="row mgbt-xs-0">
+                                        <label class="col-xs-5 control-label">Country:</label>
+                                        <div class="col-xs-7 controls">@Model.Country</div>
+                                        <!-- col-sm-10 -->
+                                    </div>
+                                </div>
+                                <div class="col-sm-6">
+                                    <div class="row mgbt-xs-0">
+                                        <label class="col-xs-5 control-label">Birthday:</label>
+                                        <div class="col-xs-7 controls">@Model.DateOfBirthAsString</div>
+                                        <!-- col-sm-10 -->
+                                    </div>
+                                </div>
+                                @*<div class="col-sm-6">
+                                        <div class="row mgbt-xs-0">
+                                            <label class="col-xs-5 control-label">Interests:</label>
+                                            <div class="col-xs-7 controls">Basketball, Web, Design, etc.</div>
+                                            <!-- col-sm-10 -->
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-6">
+                                        <div class="row mgbt-xs-0">
+                                            <label class="col-xs-5 control-label">Website:</label>
+                                            <div class="col-xs-7 controls"><a href="http://Vendroid.venmond.com">Vendroid.venmond.com</a></div>
+                                            <!-- col-sm-10 -->
+                                        </div>
+                                    </div>*@
+                                <div class="col-sm-6">
+                                    <div class="row mgbt-xs-0">
+                                        <label class="col-xs-5 control-label">Phone:</label>
+                                        <div class="col-xs-7 controls">@Model.Telephone</div>
+                                        <!-- col-sm-10 -->
+                                    </div>
+                                </div>
+                            </div>
+                            <hr class="pd-10">
+                            <div class="row">
+                                <div class="col-sm-6 mgbt-xs-20">
+                                    <h3 class="mgbt-xs-15 font-semibold"><i class="fa fa-file-text-o mgr-10 profile-icon"></i> EXPERIENCE</h3>
+                                    <div class="box-body">
+                                        <ul class="products-list product-list-in-box">
+                                            @foreach (var item in Model.EmployeeExperienceDetails)
+                                            {
+
+
+                                                <li class="item">
+                                                    <div class="product-info">
+                                                        <a href="javascript:void(0)" class="product-title">
+                                                            @item.Role
+                                                        </a> at <a href="http://www.venmond.com">
+                                                            @item.Company
+
+                                                        </a>
+                                                        <span class="product-description">
+                                                            @item.TimePeriod
+                                                        </span>
+                                                    </div>
+                                                </li>
+                                            }
+                                        </ul>
+                                    </div>
+                                </div>
+                                <div class="col-sm-6">
+                                    <h3 class="mgbt-xs-15 font-semibold"><i class="fa fa-trophy mgr-10 profile-icon"></i> EDUCATION</h3>
+                                    <div class="box-body">
+                                        <ul class="products-list product-list-in-box">
+                                            @foreach (var item in Model.EmployeeEducationDetails)
+                                            {
+                                                <li class="item">
+                                                    <div class="product-info">
+                                                        <a href="javascript:void(0)" class="product-title">
+
+                                                            @item.Degree at <a href="http://www.venmond.com">@item.Institution</a>
+
+                                                        </a>
+                                                        <span class="product-description">
+                                                            @item.TimePeriod
+                                                        </span>
+                                                    </div>
+                                                </li>
+                                            }
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- pd-20 -->
+                        @*</div>*@
+                    </div>
+                    <!-- /.tab-pane -->
+
+                    <!-- /.tab-pane -->
+                </div>
+                <!-- /.tab-content -->
+            </div>
+            <!-- /.nav-tabs-custom -->
+        </div>
+        <!-- /.col -->
+    </div>
+</section>

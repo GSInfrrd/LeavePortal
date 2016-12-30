@@ -9,6 +9,7 @@ using LMS_WebAPP_Utils;
 using LMS_WebAPP_Domain;
 using System.Threading.Tasks;
 using LMS_WebAPI_Domain;
+using System.Configuration;
 
 namespace EmployeeLeaveManagementApp.Controllers
 {
@@ -194,6 +195,56 @@ namespace EmployeeLeaveManagementApp.Controllers
                 return View("Profile",datares);
             }
             return View("Login");
+        }
+
+        public async Task<ActionResult> DownloadPDF(int userId)
+        {
+
+            try
+            {
+                if (null != Session[Constants.SESSION_OBJ_USER])
+                {
+                    var data = (UserAccount)Session[Constants.SESSION_OBJ_USER];
+                    EmployeeDetailsModel datares = await user.GetUserProfileDetails(data.RefEmployeeId);
+                    List<string> col = new List<string>() { "danger", "info", "warning", "success" };
+                    datares.Colors = col;
+                    return new Rotativa.ViewAsPdf("ProfileDownload", datares)
+                    {
+                        FileName = datares.FirstName+"_Profile.pdf"
+                    };
+
+                }
+                //Use ViewAsPdf Class to generate pdf using GeneratePDF.cshtml view
+                else
+                {
+                    return View("Login");
+                }
+            }
+            catch
+            {
+
+                throw;
+            }
+        }
+
+        public async Task<ActionResult> ProfileDownload()
+        {
+            if (null != Session[Constants.SESSION_OBJ_USER])
+            {
+                var data = (UserAccount)Session[Constants.SESSION_OBJ_USER];
+                EmployeeDetailsModel datares = await user.GetUserProfileDetails(data.RefEmployeeId);
+                List<string> col = new List<string>() { "danger", "info", "warning", "success" };
+                datares.Colors = col;
+                //return new Rotativa.ViewAsPdf("ProfileDownload", datares)
+                //{
+                //    FileName = "test.pdf"
+                //};
+                return View(datares);
+            }
+            else
+            {
+                return View("Login");
+            }
         }
     }
 }

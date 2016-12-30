@@ -1,8 +1,7 @@
-﻿@model LMS_WebAPP_Domain.EmployeeDetailsModel
+﻿@model List<LMS_WebAPP_Domain.EmployeeDetailsModel>
 @{
     ViewBag.Title = "AddEmployeeDetails";
     Layout = "~/Views/Shared/_Layout.cshtml";
-    var model = Model;
 }
 
 @*<h2>Add Employee Details</h2>*@
@@ -45,17 +44,10 @@
                         <label for="txtEmployeeNumber">Employee Number</label>
                         <input type="email" class="form-control" id="txtEmployeeNumber" placeholder="Employee Number">
                     </div>
-                        <div class="form-group col-md-6">
-                            <label for="txtJoiningDate">Date Of Joining</label>
-                            <input type="text" class="form-control" id="txtJoiningDate">
-                        </div>
-                    @*<div class="form-group col-md-6">
-                        <label for="txtGender">Gender</label>
-                        <div>
-                            <input type="radio" name="gender" class="flat-red" value="Male">&nbsp; Male
-                            <input type="radio" name="gender" class="flat-red" value="Female">&nbsp; Female
-                        </div>
-                    </div>*@
+                    <div class="form-group col-md-6">
+                        <label for="txtJoiningDate">Date Of Joining</label>
+                        <input type="text" class="form-control" id="txtJoiningDate">
+                    </div>
                     <div class="form-group col-md-6">
                         <label for="txtBirthday">BirthDay</label>
                         <input type="text" class="form-control" id="txtBirthday">
@@ -72,39 +64,37 @@
                         <label for="txtTelephone">Telephone</label>
                         <input type="tel" class="form-control" id="txtTelephone" placeholder="Telephone">
                     </div>
-                    @*<div class="form-group">
-                            <label for="exampleInputPassword1">Password</label>
-                            <input type="password" class="form-control" id="exampleInputPassword1" placeholder="Enter Email">
-                        </div>*@
-
                     <div class="form-group col-md-6">
                         <label for="ddlDesignation">Designation</label>
-                            <select class="form-control select2" style="width: 100%;" id="ddlDesignation">
-                                <option value="">Select</option>
-                                <option value="@Convert.ToInt16(LMS_WebAPP_Utils.EmployeeRole.Manager)">@LMS_WebAPP_Utils.CommonMethods.Description((LMS_WebAPP_Utils.EmployeeRole.Manager))</option>
-                                <option value="@Convert.ToInt16(LMS_WebAPP_Utils.EmployeeRole.Employee)">@LMS_WebAPP_Utils.CommonMethods.Description((LMS_WebAPP_Utils.EmployeeRole.Employee))</option>
-                            </select>
+                        <select class="form-control select2" style="width: 100%;" id="ddlDesignation">
+                            <option value="">Select</option>
+                            <option value="@Convert.ToInt16(LMS_WebAPP_Utils.EmployeeRole.Manager)">@LMS_WebAPP_Utils.CommonMethods.Description((LMS_WebAPP_Utils.EmployeeRole.Manager))</option>
+                            <option value="@Convert.ToInt16(LMS_WebAPP_Utils.EmployeeRole.Employee)">@LMS_WebAPP_Utils.CommonMethods.Description((LMS_WebAPP_Utils.EmployeeRole.Employee))</option>
+                        </select>
                     </div>
                     <div class="form-group col-md-6">
                         <label>Level</label>
-                            <select class="form-control select2" style="width: 100%;" id="ddlLevel">
-                                <option value="">Select</option>
-                                <option value="@Convert.ToInt16(LMS_WebAPP_Utils.HierarchyLevel.Level0)">@LMS_WebAPP_Utils.CommonMethods.Description((LMS_WebAPP_Utils.HierarchyLevel.Level0))</option>
-                                <option value="@Convert.ToInt16(LMS_WebAPP_Utils.HierarchyLevel.Level1)">@LMS_WebAPP_Utils.CommonMethods.Description((LMS_WebAPP_Utils.HierarchyLevel.Level1))</option>
-                                <option value="@Convert.ToInt16(LMS_WebAPP_Utils.HierarchyLevel.Level2)">@LMS_WebAPP_Utils.CommonMethods.Description((LMS_WebAPP_Utils.HierarchyLevel.Level2))</option>
-                                <option value="@Convert.ToInt16(LMS_WebAPP_Utils.HierarchyLevel.Level3)">@LMS_WebAPP_Utils.CommonMethods.Description((LMS_WebAPP_Utils.HierarchyLevel.Level3))</option>
-                                <option value="@Convert.ToInt16(LMS_WebAPP_Utils.HierarchyLevel.Level4)">@LMS_WebAPP_Utils.CommonMethods.Description((LMS_WebAPP_Utils.HierarchyLevel.Level4))</option>
-                                <option value="@Convert.ToInt16(LMS_WebAPP_Utils.HierarchyLevel.Level5)">@LMS_WebAPP_Utils.CommonMethods.Description((LMS_WebAPP_Utils.HierarchyLevel.Level5))</option>
-                            </select>
+                        <select class="form-control select2" style="width: 100%;" id="ddlLevel">
+                            <option value="">Select</option>
+                            <option value="@Convert.ToInt16(LMS_WebAPP_Utils.HierarchyLevel.Level0)">@LMS_WebAPP_Utils.CommonMethods.Description((LMS_WebAPP_Utils.HierarchyLevel.Level0))</option>
+                            <option value="@Convert.ToInt16(LMS_WebAPP_Utils.HierarchyLevel.Level1)">@LMS_WebAPP_Utils.CommonMethods.Description((LMS_WebAPP_Utils.HierarchyLevel.Level1))</option>
+                            <option value="@Convert.ToInt16(LMS_WebAPP_Utils.HierarchyLevel.Level2)">@LMS_WebAPP_Utils.CommonMethods.Description((LMS_WebAPP_Utils.HierarchyLevel.Level2))</option>
+                            <option value="@Convert.ToInt16(LMS_WebAPP_Utils.HierarchyLevel.Level3)">@LMS_WebAPP_Utils.CommonMethods.Description((LMS_WebAPP_Utils.HierarchyLevel.Level3))</option>
+                            <option value="@Convert.ToInt16(LMS_WebAPP_Utils.HierarchyLevel.Level4)">@LMS_WebAPP_Utils.CommonMethods.Description((LMS_WebAPP_Utils.HierarchyLevel.Level4))</option>
+                            <option value="@Convert.ToInt16(LMS_WebAPP_Utils.HierarchyLevel.Level5)">@LMS_WebAPP_Utils.CommonMethods.Description((LMS_WebAPP_Utils.HierarchyLevel.Level5))</option>
+                        </select>
                     </div>
                     <div class="form-group col-md-6" id="ddlManager">
                         <label for="ddlManagerName">Manager Name</label>
-                    
-                            <select class="form-control select2" style="width: 100%;" id="ddlManagerName">
-                                <option value="">Select</option>
-                                <option>Girija</option>
-                            </select>
-                   
+
+                        <select class="form-control select2" style="width: 100%;" id="ddlManagerName">
+                            <option value="">Select</option>
+                            @foreach (var m in Model)
+                            {
+                                <option value="@m.Id">@m.FirstName</option>
+                            }
+                        </select>
+
                     </div>
 
                 </div>
@@ -199,7 +189,7 @@
 <script src="../../plugins/iCheck/icheck.min.js"></script>
 <script src="../../plugins/select2/select2.full.min.js"></script>
 <script src="~/plugins/daterangepicker/moment.min.js"></script>
-@*<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.11.2/moment.min.js"></script>*@
+<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.11.2/moment.min.js"></script>
 <script src="../../plugins/daterangepicker/daterangepicker.js"></script>
 <script>
     var educationFromDate;
@@ -209,16 +199,35 @@
     var imgpath = "";
     var imgId;
     $(document).ready(function () {
-                $(function () {
+        $(function () {
             //Initialize Select2 Elements
             $(".select2").select2().on('change', function (e) {
-                debugger
                 if ($("#ddlLevel").val() == 13) {
                     $("#ddlManager").hide();
                 }
                 else {
                     $("#ddlManager").show();
+                    debugger
+                    var level = $("#ddlLevel").val();
+                    $("#ddlManagerName option").remove();
+                    $("#ddlManagerName").append($('<option></option>').attr("value", '').text('Select'));
+                    $.ajax({
+                        cache: false,
+                        type: 'post',
+                        url: '/HR/GetManagerList?refLevel=' + level,
+                        dataType: "json",
+                        processData: false,
+                        success: function (data) {
+                            debugger;
+
+                            for (var i = 0; i < data.data.length; i++) {
+                                $("#ddlManagerName").append($('<option></option>').attr("value", data.data[i].Id).text(data.data[i].FirstName));
+                            }
+
+                        }
+                    });
                 }
+                
             });
             $('#educationDatePicker').daterangepicker(
                    {
@@ -226,15 +235,15 @@
             $('#experienceDatePicker').daterangepicker(
                   {
                   });
-                    //Date picker
+            //Date picker
             $('#txtJoiningDate').datepicker({
                 autoclose: true
             });
-                    //Date picker
+            //Date picker
             $('#txtBirthday').datepicker({
                 autoclose: true
             });
-            
+
             $('#educationDatepicker').on('change.daterangepicker', function (ev, picker) {
                 var date = ev.target.value;
                 var dates = [];
@@ -297,7 +306,7 @@
                 experienceFromDate = start.format('YYYY-MM-DD');
                 var end = picker.endDate;
                 experienceToDate = end.format('YYYY-MM-DD');
-         
+
             });
         })
     });
@@ -360,7 +369,7 @@
    );
 
     function ValidateAndUploadImage()
-    {  
+    {
         var file = document.getElementById("employeeImage").value;
         imgPath = document.getElementById("employeeImage").files[0].name;
 
@@ -375,29 +384,29 @@
         reader.readAsDataURL(document.getElementById("employeeImage").files[0]);
 
         var fileUpload = $("#employeeImage").get(0);
-                var files = fileUpload.files;
-                var test = new FormData();
-                for (var i = 0; i < files.length; i++) {
-                    test.append(files[i].name, files[i]);
-                }
-                $.ajax({
-                    url: "../ImageUploadHandler.ashx",
-                    type: "POST",
-                    contentType: false,
-                    processData: false,
-                    data: test,
-                    // dataType: "json",
-                    success: function (result) {
-                        debugger;
-                        imgpath = result;
-                        //alert(result);
-                    },
-                    error: function (err) {
-                        //alert(err.statusText);
-                    }
-                });
+        var files = fileUpload.files;
+        var test = new FormData();
+        for (var i = 0; i < files.length; i++) {
+            test.append(files[i].name, files[i]);
+        }
+        $.ajax({
+            url: "../ImageUploadHandler.ashx",
+            type: "POST",
+            contentType: false,
+            processData: false,
+            data: test,
+            // dataType: "json",
+            success: function (result) {
+                imgpath = result;
+                //alert(result);
+            },
+            error: function (err) {
+                //alert(err.statusText);
+            }
+        });
 
     }
+
 
 
 </script>

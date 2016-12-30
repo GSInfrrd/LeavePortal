@@ -125,5 +125,31 @@ namespace LMS_WebAPI_DAL.Repositories
             }
         }
 
+        public List<EmployeeDetailsModel> GetManagerList(int refLevel)
+        {
+            var list = new List<EmployeeDetailsModel>();
+            try
+            {
+                using (var ctx = new LeaveManagementSystemEntities1())
+                {
+                   var empList = ctx.EmployeeDetails.Where(i=>i.RefHierarchyLevel<refLevel).ToList();
+                    foreach (var item in empList)
+                    {
+                        var listItem = new EmployeeDetailsModel();
+                        listItem.Id = item.Id;
+                        listItem.FirstName = item.FirstName;
+                        listItem.LastName = item.LastName;                    
+                        list.Add(listItem);
+                    }
+
+                }
+                return list;
+            }
+            catch (Exception ex)
+            {
+                throw;
+            }
+        }
+
     }
 }

@@ -58,5 +58,32 @@ namespace LMS_WebAPP_ServiceHelpers
             return null;
         }
 
+        public async Task<List<EmployeeDetailsModel>> GetManagerListAsync(int refLevel)
+        {
+            using (HttpClient client = new HttpClient())
+            {
+                const string URL = "http://localhost:64476/api/HR/GetManagerList";
+                urlParameters = "?refLevel=" + refLevel;
+                client.BaseAddress = new Uri(URL);
+                // Add an Accept header for JSON format.
+                client.DefaultRequestHeaders.Accept.Add(
+                new MediaTypeWithQualityHeaderValue("application/json"));
+
+                // List data response.
+                HttpResponseMessage response = await client.GetAsync(urlParameters);  // Blocking call!
+                if (response.IsSuccessStatusCode)
+                {
+                    // Parse the response body. Blocking!
+                    var dataObjects = response.Content.ReadAsAsync<List<EmployeeDetailsModel>>().Result.ToList();
+                    return dataObjects;
+                }
+                else
+                {
+                    Console.WriteLine("{0} ({1})", (int)response.StatusCode, response.ReasonPhrase);
+                    return null;
+                }
+            }
+        }
+
     }
 }

@@ -57,11 +57,12 @@ namespace EmployeeLeaveManagementApp.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult> DeleteLeaveRequest(int id)
+        public async Task<ActionResult> DeleteLeaveRequest(int leaveId)
         {
+            int empId=((UserAccount)Session[Constants.SESSION_OBJ_USER]).RefEmployeeId;
             EmployeeLeaveTransactionManagement ELTM = new EmployeeLeaveTransactionManagement();
 
-            var res = await ELTM.DeleteLeaveRequestAsync(id);
+            var res = await ELTM.DeleteLeaveRequestAsync(leaveId,empId);
             //return RedirectToAction("ApplyLeave");
             return Json(new { result = res });
         }

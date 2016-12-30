@@ -11,5 +11,7 @@ namespace LMS_WebAPI_DAL.Repositories.Interfaces
     {
         bool SubmitEmployeeDetails(EmployeeDetailsModel model);
         List<EmployeeDetailsModel> GetEmployeeList();
+
+        List<EmployeeDetailsModel> GetManagerList(int refLevel);
     }
 }

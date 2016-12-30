@@ -24,5 +24,30 @@ namespace EmployeeLeaveManagementWebAPI.Controllers
             var result = hrOperations.GetEmployeeList();
             return result;
         }
+
+
+        [AllowAnonymous]
+        [HttpGet]
+        public List<EmployeeDetailsModel> GetManagerList(int refLevel)
+        {
+            try
+            {
+                var empData = hrOperations.GetManagerList(refLevel);
+                if (null != empData)
+                {
+                    return empData;
+                }
+                else
+                {
+                    return null;
+                }
+            }
+            catch (Exception ex)
+            {
+                return null;
+                //throw;
+            }
+        }
+
     }
 }

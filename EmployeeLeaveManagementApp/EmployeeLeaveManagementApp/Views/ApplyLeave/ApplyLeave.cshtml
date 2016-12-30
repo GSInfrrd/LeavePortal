@@ -1,9 +1,4 @@
-﻿
-@{
-    ViewBag.Title = "ApplyLeave";
-    Layout = "~/Views/Shared/_Layout.cshtml";
-}
-@model List<LMS_WebAPP_Domain.LeaveTransaction>
+﻿@model List<LMS_WebAPP_Domain.LeaveTransaction>
 @{
     ViewBag.Title = "LeaveTransaction";
     Layout = "~/Views/Shared/_Layout.cshtml";
@@ -68,7 +63,7 @@
     <div class="row">
         <div class="col-xs-12">
             <div class="box">
-                <div class="box-body">
+                <div class="box-body" id="tblAppliedLeave">
                     <table id="example1" class="table table-bordered table-striped">
                         <thead>
                             <tr>
@@ -78,7 +73,7 @@
                                 <th>Status</th>
                                 <th style="width:160px">Number of working Days</th>
                                 <th>Leave Type</th>
-                                <th>Apply</th>
+                                @*<th>Apply</th>*@
                                 <th>Delete</th>
                             </tr>
                         </thead>
@@ -95,12 +90,12 @@
                                     <td>@(LMS_WebAPP_Utils.CommonMethods.Description((LMS_WebAPP_Utils.LeaveStatus)m.RefStatus))</td>
                                     <td>@m.NumberOfWorkingDays</td>
                                     <td>@(LMS_WebAPP_Utils.CommonMethods.Description((LMS_WebAPP_Utils.LeaveType)m.RefLeaveType))</td>
-                                    <td style="align-content:center">
+                                    @*<td style="align-content:center">
                                         <a href="#" id="btnApplyLeave" class="@btnDisabled" style="color:green" data-content="@m.Id">
                                             <span class="fa fa-check"></span>
                                         </a>
 
-                                    </td>
+                                    </td>*@
                                     <td>
                                         <a href="#" id="btnDeleteLeave" style="color:red" data-content="@m.Id">
                                             <span class="fa fa-close"></span>
@@ -238,15 +233,6 @@
     var fromDate;
     var toDate;
     $(document).ready(function () {
-        debugger;
-        if (localStorage.getItem("leaveApplied") == 1) {
-            showSuccessMessage("Leave request successfully submitted");
-            localStorage.removeItem("leaveApplied");
-        }
-        if (localStorage.getItem("leaveSubmitted") == 1) {
-            showSuccessMessage("Leave request submitted for approval");
-            localStorage.removeItem("leaveSubmitted");
-        }
         if (localStorage.getItem("leaveDeleted") == 1) {
             showSuccessMessage("Leave request deleted");
             localStorage.removeItem("leaveDeleted");
@@ -357,9 +343,9 @@
                 dataType: "json",
                 success: function (data) {
                     $('#AddLeaveModal').modal('hide');
-                    localStorage.setItem("leaveApplied", 1);
-                    location.reload();
-                }
+                    showSuccessMessage("Leave request successfully submitted for approval");
+                    updateLeaveTable(data.result);
+                                        }
             });
         }
     }
@@ -393,12 +379,12 @@
             cache: false,
             type: 'post',
             url: '/ApplyLeave/DeleteLeaveRequest',
-            data: { id: id },
+            data: { leaveId: id },
             //contentType: "application/json; charset=utf-8",
             dataType: "json",
             success: function (data) {
-                localStorage.setItem("leaveDeleted", 1);
-                location.reload();
+                updateLeaveTable(data.result);
+                showSuccessMessage("Leave request successfully deleted");
             }
         });
     }
@@ -412,6 +398,53 @@
         toastr.options.positionClass = 'toast-' + position;
         if (typeof fadeOut !== "undefined" && fadeOut == false) { toastr.options.timeOut = 0; }
         toastr.success(message);
+    }
+
+    function convertToJsonDate(jsonDate) {
+        //var dateFormat = dateTimeFormat;
+        if (jsonDate != undefined && jsonDate != null) {
+            var regex = /-?\d+/;
+            var matches = regex.exec(jsonDate);
+            var date = new Date(parseInt(matches[0]));
+            var d = new Date(date);
+            if (d.getFullYear() < 2000) {
+                return "";
+            }
+            if (!isNaN(d.getDate()) && !isNaN(d.getMonth()) && !isNaN(d.getFullYear())) {
+                formattedDate = d.getDate() + "-" + (d.getMonth() + 1) + "-" + d.getFullYear();
+                return formattedDate;
+            }
+            else {
+                return "";
+            }
+        }
+        else {
+            return "";
+        }
+    }
+
+    function updateLeaveTable(data)
+    {
+        $("#tblAppliedLeave").html("");
+        var html = "<table id='example1' class='table table-bordered table-striped'><thead>" +
+                "<tr><th>From Date</th><th>To Date</th><th>Submitted Date</th><th>Status</th>" +
+                    "<th style=width:160px'>Number of working Days</th><th>Leave Type</th><th>Delete</th></tr></thead><tbody>";
+        for (var i = 0; i < data.length; i++) {
+            html += "<tr><td>" + convertToJsonDate(data[i].FromDate) + "</td><td>" + convertToJsonDate(data[i].ToDate) + "</td>" +
+               "<td>" + convertToJsonDate(data[i].CreatedDate) + "</td>" +
+                       "<td>" + data[i].RefStatus + "</td><td>" + data[i].NumberOfWorkingDays + "</td>" +
+           "<td>" + data[i].RefLeaveType + "</td><td><a href='#' id='btnDeleteLeave' style='color:red' data-content='" + data[i].Id + "'><span class='fa fa-close'></span></a> </td> </tr>"
+        }
+        html += "</tbody></table>";
+        $("#tblAppliedLeave").html(html);
+        $('#example1').DataTable({
+            "paging": true,
+            "lengthChange": true,
+            "searching": false,
+            "ordering": true,
+            "info": true,
+            "autoWidth": false,
+        });
     }
 </script>
 

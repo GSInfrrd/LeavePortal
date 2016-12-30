@@ -372,7 +372,7 @@ namespace EmployeeLeaveManagementWebAPI.Controllers
         {
             try
             {
-                var empData = userManager.GetEmployeeDatailsForDashboard(empId,2016);
+                var empData = userManager.GetEmployeeDatailsForDashboard(empId,DateTime.Now.Year);
                 if (null != empData)
                 {
                     return empData;

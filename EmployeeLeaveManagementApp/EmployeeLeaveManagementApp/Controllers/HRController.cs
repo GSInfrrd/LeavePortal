@@ -29,12 +29,20 @@ namespace EmployeeLeaveManagementApp.Controllers
             }
         }
 
-        public ActionResult Reports()
+        public async Task<ActionResult> GetManagerList(int refLevel)
+        {
+            var model = new List<EmployeeDetailsModel>();
+            model = await hrOperations.GetManagerListAsync(refLevel);
+            return Json(new { data = model });
+
+        }
+
+        public async Task<ActionResult> Reports()
         {
             if (null != Session[Constants.SESSION_OBJ_USER])
             {
-
-                return View();
+                var model = await hrOperations.GetEmployeeListAsync();
+                return View(model);
             }
             else
             {

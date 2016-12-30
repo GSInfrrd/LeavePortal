@@ -1,8 +1,10 @@
-﻿
+﻿@model List<LMS_WebAPP_Domain.EmployeeDetailsModel>
 @{
     ViewBag.Title = "Reports";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
+<link rel="stylesheet" href="../../plugins/select2/select2.min.css">
+<link rel="stylesheet" href="../../dist/css/AdminLTE.min.css">
 <section class="content-header">
     <h1>Reports</h1>
 </section>
@@ -16,18 +18,46 @@
                 <!-- form start -->
                 @*<form role="form">*@
                 <div class="box-body">
+                    <div class="form-group">
+                        <label>Employee Name</label>
+                        <select class="form-control ddlEmployee" multiple="multiple" style="width: 100%;" id="ddlEmployeeName">
+                            <option value="All">All</option>
+                            @foreach (var m in Model)
+                            {
+                                <option id="@m.Id" value="@m.Id">@m.FirstName</option>
+                            }
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <div>
+                            <label>Date range:</label>
+                        </div>
 
-                    <div class="form-group">
-                        <label for="txtFirstName">Employee Name</label>
-                        <input type="text" class="form-control" id="txtFirstName" placeholder="Enter email">
+                        <div class="input-group">
+                            <div class="input-group-addon">
+                                <i class="fa fa-calendar"></i>
+                            </div>
+                            <input type="text" class="form-control pull-right" id="reportDatepicker">
+                        </div>
                     </div>
                     <div class="form-group">
-                        <label for="txtlastname">Leave Type</label>
-                        <input type="text" class="form-control" id="txtLastName" placeholder="Password">
+                        <label>Leave Type</label>
+                        <select class="form-control ddlLeave" multiple="multiple" style="width: 100%;" id="ddlLeaveType">
+                            <option value="All">All</option>                    
+                                <option value="EarnedLeaves">Earned Leaves</option>
+                            <option value="WorkFromHome">Work from Home</option>
+                            <option value="AdvancedLeave">Advanced Leave</option>
+                            <option value="LossofPay">Loss of Pay</option>
+                        </select>
                     </div>
                     <div class="form-group">
-                        <label for="txtlastname">Export</label>
-                        <input type="text" class="form-control" id="txtLastName" placeholder="Password">
+                        <label for="txtlastname">Export As</label>
+                        <select class="form-control select2" style="width: 100%;" id="ddlExportType">
+                            <option value="">Select</option>
+                            <option value="">Excel</option>
+                            <option value="">Share as Attachment</option>
+
+                        </select>
                     </div>
 
                 </div>
@@ -43,3 +73,84 @@
     <!-- /.row -->
 </section>
 
+<script src="../../plugins/select2/select2.full.min.js"></script>
+<script src="~/plugins/daterangepicker/moment.min.js"></script>
+@*<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.11.2/moment.min.js"></script>*@
+<script src="../../plugins/daterangepicker/daterangepicker.js"></script>
+<script>
+    var reportFromDate;
+    var reportToDate;
+    $(document).ready(function () {
+        $(function () {
+            //Initialize Select2 Elements
+            $(".ddlEmployee").select2().on('change', function (e) {
+                debugger;
+                if ($("#ddlEmployeeName").val() == "All" || $.inArray("All", $("#ddlEmployeeName").val()) != -1) {
+         
+                if($("select option:selected").length >2)
+                {
+                    $("#ddlEmployeeName").val('All').trigger("change");
+                };
+                   
+
+                    var allOptions = $("#ddlEmployeeName option");
+                    for (var i = 1; i < allOptions.length; i++) {
+                        //var id = $(allOptions[i]).id;
+                        $("#ddlEmployeeName").find('option[value=' + $(allOptions[i]).val() + ']').attr('disabled', 'disabled');
+                    }                   
+                   
+                } else
+                {
+                    $("#ddlEmployeeName > option").removeAttr("disabled");
+                }
+                $('.ddlEmployee').select2();
+            });
+
+            $(".ddlLeave").select2().on('change', function (e) {
+                debugger;
+                if ($("#ddlLeaveType").val() == "All" || $.inArray("All", $("#ddlLeaveType").val()) != -1) {
+
+                    if ($("select option:selected").length > 2) {
+                        $("#ddlLeaveType").val('All').trigger("change");
+                    };
+
+
+                    var allOptions = $("#ddlLeaveType option");
+                    for (var i = 1; i < allOptions.length; i++) {
+                        //var id = $(allOptions[i]).id;
+                        $("#ddlLeaveType").find('option[value=' + $(allOptions[i]).val() + ']').attr('disabled', 'disabled');
+                    }
+
+                } else {
+                    $("#ddlLeaveType > option").removeAttr("disabled");
+                }
+                $('.ddlLeave').select2();
+            });
+
+            $('#reportDatepicker').daterangepicker(
+                  {
+                  });
+            $('#reportDatepicker').on('change.daterangepicker', function (ev, picker) {
+                var date = ev.target.value;
+                var dates = [];
+                dates = date.split('-');
+                var start = dates[0].trim();
+                var startDate = new Date(start);
+                var startMonth = startDate.getMonth() + 1;
+               reportFromDate = startDate.getFullYear() + "-" + startMonth + "-" + startDate.getDate();
+                var end = dates[1].trim();
+                var endDate = new Date(end);
+                var endMonth = endDate.getMonth() + 1;
+                reportToDate = endDate.getFullYear() + "-" + endMonth + "-" + endDate.getDate();
+            });
+            $('#reportDatepicker').on('apply.daterangepicker', function (ev, picker) {
+
+                var start = picker.startDate;
+                reportFromDate = start.format('YYYY-MM-DD');
+                var end = picker.endDate;
+                reportToDate = end.format('YYYY-MM-DD');
+
+            });
+            });
+    });
+</script>

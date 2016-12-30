@@ -121,7 +121,7 @@ namespace LMS_WebAPP_ServiceHelpers
         }
 
 
-                      public async Task<EmployeeDetailsModel> GetUserProfileDetails(int empId)
+        public async Task<EmployeeDetailsModel> GetUserProfileDetails(int empId)
         {
             using (HttpClient client = new HttpClient())
             {
@@ -147,6 +147,8 @@ namespace LMS_WebAPP_ServiceHelpers
                 }
             }
         }
+
+
     }
 }
 

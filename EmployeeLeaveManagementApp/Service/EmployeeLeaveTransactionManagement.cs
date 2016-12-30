@@ -88,10 +88,10 @@ namespace LMS_WebAPP_ServiceHelpers
         }
 
 
-        public async Task<IList<LeaveTransaction>> DeleteLeaveRequestAsync(int leaveId)
+        public async Task<IList<LeaveTransaction>> DeleteLeaveRequestAsync(int leaveId,int empId)
         {
             HttpClient client = new HttpClient();
-            var urlParameters = "?leaveId=" + leaveId+"&employeeId="+leaveId;
+            var urlParameters = "?leaveId=" + leaveId+"&employeeId="+ empId;
             //URL = URL + "/SubmitLeaveRequest";
             client.BaseAddress = new Uri(URL);
 

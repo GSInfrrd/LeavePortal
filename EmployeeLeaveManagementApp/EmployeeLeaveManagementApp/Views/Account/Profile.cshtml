@@ -2,7 +2,9 @@
 @{
     ViewBag.Title = "Profile";
     Layout = "~/Views/Shared/_Layout.cshtml";
+    var userId = ((LMS_WebAPP_Domain.UserAccount)Session[LMS_WebAPP_Utils.Constants.SESSION_OBJ_USER]).RefEmployeeId;
     var roleId = ((LMS_WebAPP_Domain.UserAccount)Session[LMS_WebAPP_Utils.Constants.SESSION_OBJ_USER]).RefRoleId;
+    var imagePath = Model.ImagePath;
 }
 <style>
     .products-list .product-info {
@@ -14,11 +16,11 @@
         User Profile
     </h1>
     <div style="padding-right:0px" class="pull-right">
-        <button type="button" id="generatePdf" class="btn btn-primary"><i class="fa fa-download"></i> Generate PDF </button>
+        <button type="button" id="generatePdf" class="btn btn-primary"><i class="fa fa-download"></i>@Html.ActionLink(" Generate PDF", "DownloadPDF", new { @userId = userId }, new { style = "color:white" }) </button>
     </div>
 </section>
 <section class="content">
-    <div class="row">
+    <div class="row" id="divProfile">
         <div class="col-md-3">
             <!-- Profile Image -->
             <div class="box box-primary">
@@ -329,11 +331,17 @@
         </div>
         <!-- /.col -->
     </div>
+    <div id="editor"></div>
 </section>
 <script src="~/plugins/daterangepicker/moment.min.js"></script>
 @*<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.11.2/moment.min.js"></script>*@
 <script src="../../plugins/daterangepicker/daterangepicker.js"></script>
+<script src="~/Content/jspdf.js"></script>
+<script src="~/Content/jspdf.debug.js"></script>
+@*<script src="~/Content/addimage.js"></script>*@
+<script src="~/dist/jspdf.min.js"></script>
 <script>
+    var imgData="@imagePath";
     $(document).ready(function () {
         $(function () {
             $('#educationDatePicker').daterangepicker(
@@ -379,18 +387,27 @@
         $("#otherExperienceDetails").show();
     });
 
-    var doc = new jsPDF();
-    var specialElementHandlers = {
-        '#editor': function (element, renderer) {
-            return true;
-        }
-    };
+    //var doc = new jsPDF();
+    //var specialElementHandlers = {
+    //    '#editor': function (element, renderer) {
+    //        return true;
+    //    }
+    //};
 
     $('#generatePdf').click(function () {
-        doc.fromHTML($('#content').html(), 15, 15, {
-            'width': 170,
-            'elementHandlers': specialElementHandlers
+        var id = $(this).data("content");
+        $.ajax({
+            cache: false,
+            type: 'post',
+            url: '/Account/DownloadPDF',
+            //data: { leaveId: id },
+            //contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            success: function (data) {
+                updateLeaveTable(data.result);
+                showSuccessMessage("Leave request successfully deleted");
+            }
         });
-        doc.save('sample-file.pdf');
+ 
     });
 </script>
