@@ -25,7 +25,7 @@
           <Property Name="AppliedLeavesCount" Type="int" />
           <Property Name="WorkFromHomeCount" Type="int" />
           <Property Name="LossofPayCount" Type="int" />
-          <Property Name="CreatedDate" Type="date" Nullable="false" />
+          <Property Name="CreatedBy" Type="date" Nullable="false" />
         </EntityType>
         <EntityType Name="EmployeeContactDetails">
           <Key>
@@ -1325,7 +1325,7 @@
           <Property Name="WorkFromHomeCount" Type="Int32" />
           <Property Name="LossofPayCount" Type="Int32" />
           <NavigationProperty Name="EmployeeDetail" Relationship="LeaveManagementSystemModel.FK_ConsolidatedEmployeeLeaveDetails_EmployeeDetails" FromRole="ConsolidatedEmployeeLeaveDetail" ToRole="EmployeeDetail" />
-          <Property Name="CreatedDate" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="CreatedBy" Type="DateTime" Nullable="false" Precision="0" />
         </EntityType>
         <Association Name="FK_ConsolidatedEmployeeLeaveDetails_EmployeeDetails">
           <End Type="LeaveManagementSystemModel.EmployeeDetail" Role="EmployeeDetail" Multiplicity="1" />
@@ -1572,7 +1572,7 @@
           <EntitySetMapping Name="ConsolidatedEmployeeLeaveDetails">
             <EntityTypeMapping TypeName="LeaveManagementSystemModel.ConsolidatedEmployeeLeaveDetail">
               <MappingFragment StoreEntitySet="ConsolidatedEmployeeLeaveDetails">
-                <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
+                <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
                 <ScalarProperty Name="LossofPayCount" ColumnName="LossofPayCount" />
                 <ScalarProperty Name="WorkFromHomeCount" ColumnName="WorkFromHomeCount" />
                 <ScalarProperty Name="AppliedLeavesCount" ColumnName="AppliedLeavesCount" />

@@ -225,7 +225,8 @@ namespace EmployeeLeaveManagementApp.Controllers
             empModel.LastName = model.LastName;
             empModel.DateOfBirth = model.DateOfBirth;
             empModel.Email = model.Email;
-            empModel.RefRoleId = model.RoleId;        
+            empModel.RefRoleId = model.RoleId;
+            empModel.Skills = model.Skills;
             empModel.DateOfJoining = model.DateOfJoining;
             empModel.City = model.City;
             empModel.Country = model.Country;
@@ -254,14 +255,6 @@ namespace EmployeeLeaveManagementApp.Controllers
                 eExpList.Add(eExpDetails);
             }
             empModel.EmployeeExperienceDetails = eExpList;
-            List<EmployeeSkillDetails> eSkillList = new List<EmployeeSkillDetails>();
-            foreach (var item in model.Skills)
-            {
-                EmployeeSkillDetails eSkills = new EmployeeSkillDetails();                
-                eSkills.SkillName = item.SkillName;
-                eSkillList.Add(eSkills);
-            }
-            empModel.Skills = eSkillList;
             var data = await hrOperations.SubmitEmployeeDetailsAsync(empModel);
             return View();
         }
@@ -271,17 +264,9 @@ namespace EmployeeLeaveManagementApp.Controllers
             if (null != Session[Constants.SESSION_OBJ_USER])
             {
                 var data = (UserAccount)Session[Constants.SESSION_OBJ_USER];
-                var model = new MemoryStream();
-                model = await hrOperations.GenerateReportsAsync(exportAs,employeeId,leaveType);
-                if (exportAs == 1)
-                {
-                    return File(model.GetBuffer(), "application/vnd.ms-excel", "LeavCoeReport.xls");
-                }
-                else
-                {
-                    CommonMethods.SendMailWithMultipleAttachments("alekya@infrrd.ai", true, "Leave Report","",model,"Leave Report File");
-                    return View();
-                }
+                var model = new List<EmployeeDetailsModel>();
+                model = await hrOperations.GetEmployeeListAsync();
+                return View(model);
             }
             else
             {

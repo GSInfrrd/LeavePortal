@@ -6,7 +6,6 @@ using System.Net.Http.Headers;
 using System.Collections.Generic;
 using System.Linq;
 using Newtonsoft.Json;
-using System.IO;
 
 namespace LMS_WebAPP_ServiceHelpers
 {
@@ -64,7 +63,7 @@ namespace LMS_WebAPP_ServiceHelpers
             using (HttpClient client = new HttpClient())
             {
                 const string URL = "http://localhost:64476/api/HR/GetManagerList";
-                urlParameters = "?refLevel=" + refLevel+"&status="+true;
+                urlParameters = "?refLevel=" + refLevel;
                 client.BaseAddress = new Uri(URL);
                 // Add an Accept header for JSON format.
                 client.DefaultRequestHeaders.Accept.Add(
@@ -86,12 +85,12 @@ namespace LMS_WebAPP_ServiceHelpers
             }
         }
 
-        public async Task<MemoryStream> GenerateReportsAsync(int exportAs, int employeeId=0, int leaveType=0)
+        public async Task<List<EmployeeDetailsModel>> GenerateReportsAsync(int employeeId, int leaveType, int exportAs)
         {
             using (HttpClient client = new HttpClient())
             {
                 const string URL = "http://localhost:64476/api/HR/GenerateReports";
-                urlParameters = "?exportAs="+ exportAs+ "&employeeId = " + employeeId+ "&leaveType = "+ leaveType;
+                urlParameters = "?employeeId=" + employeeId+ "&leaveType="+ leaveType+ "&exportAs="+ exportAs;
                 client.BaseAddress = new Uri(URL);
                 // Add an Accept header for JSON format.
                 client.DefaultRequestHeaders.Accept.Add(
@@ -102,7 +101,7 @@ namespace LMS_WebAPP_ServiceHelpers
                 if (response.IsSuccessStatusCode)
                 {
                     // Parse the response body. Blocking!
-                    var dataObjects = response.Content.ReadAsAsync<MemoryStream>().Result;
+                    var dataObjects = response.Content.ReadAsAsync<List<EmployeeDetailsModel>>().Result.ToList();
                     return dataObjects;
                 }
                 else

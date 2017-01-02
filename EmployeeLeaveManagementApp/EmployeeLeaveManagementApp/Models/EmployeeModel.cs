@@ -13,7 +13,7 @@ namespace EmployeeLeaveManagementApp.Models
         public string Email { get; set; }
         public string Imagepath { get; set; }
         public int RoleId { get; set; }
-        public List<EmployeeSkillsModel> Skills { get; set; }
+        public List<string> Skills { get; set; }
 
         public int EmployeeNumber { get; set; }
         public string City { get; set; }
@@ -41,12 +41,5 @@ namespace EmployeeLeaveManagementApp.Models
         public string Role { get; set; }
         public DateTime FromDate { get; set; }
         public DateTime ToDate { get; set; }
-    }
-
-    public class EmployeeSkillsModel
-    {
-        public string Id { get; set; }
-        public string RefEmployeeId { get; set; }
-        public string SkillName { get; set; }
     }
 }
