@@ -30,6 +30,7 @@ namespace LMS_WebAPP_Domain
         public int TotalSpent { get; set; }
         public int TotalLeft { get; set; }
         public string ManagerName { get; set; }
+        public string MangerEmail { get; set; }
         public System.DateTime DateOfJoining { get; set; }
         public List<string> Colors { get; set; }
         public List<Announcement> Announcements { get; set; }
@@ -47,7 +48,7 @@ namespace LMS_WebAPP_Domain
 
         public DateTime DateOfBirth { get; set; }
         public string Email { get; set; }
-
+        public int? ManagerId { get; set; }
         public string ImagePath { get; set; }
         public string Bio { get; set; }
         public int RefRoleId { get; set; }

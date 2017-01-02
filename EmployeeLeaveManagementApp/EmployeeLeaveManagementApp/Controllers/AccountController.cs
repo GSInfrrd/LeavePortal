@@ -33,7 +33,7 @@ namespace EmployeeLeaveManagementApp.Controllers
             {
                 var data = (UserAccount)Session[Constants.SESSION_OBJ_USER];
                 EmployeeDetailsModel datares = await user.GetUserProfileDetails(data.RefEmployeeId);
-                List<string> col = new List<string>() { "danger","info","warning","success" };
+                List<string> col = new List<string>() { "danger", "info", "warning", "success" };
                 datares.Colors = col;
                 //Models.LoginModel model = new Models.LoginModel();
                 //model.EmpName = data.UserName;
@@ -55,9 +55,9 @@ namespace EmployeeLeaveManagementApp.Controllers
 
                 if (null == Session[Constants.SESSION_OBJ_USER])
                 {
-                   // var encryptedPassword = CommonMethods.EncryptDataForLogins(model.UserName, model.Password);
+                    // var encryptedPassword = CommonMethods.EncryptDataForLogins(model.UserName, model.Password);
                     var data = await user.GetUserAsync(model.UserName, model.Password);
-                    if (null != data && data.RefEmployeeId !=0)
+                    if (null != data && data.RefEmployeeId != 0)
                     {
                         // var dataemp = await user.GetUserDetaiilsAsync(data.RefEmployeeId);
                         #region Cookie setup with remember me
@@ -78,11 +78,11 @@ namespace EmployeeLeaveManagementApp.Controllers
                         #endregion
                         Session[Constants.SESSION_OBJ_USER] = data;
                         ViewBag.UserExist = true;
-                        if (data.RefRoleId ==(int) EmployeeRole.Employee || data.RefRoleId==(int) EmployeeRole.Manager)
+                        if (data.RefRoleId == (int)EmployeeRole.Employee || data.RefRoleId == (int)EmployeeRole.Manager)
                         {
                             return RedirectToAction("Dashboard");
                         }
-                        else if(data.RefRoleId==(int)EmployeeRole.HR)
+                        else if (data.RefRoleId == (int)EmployeeRole.HR)
                         {
                             return RedirectToAction("EmployeeDetails", "HR");
                         }
@@ -92,9 +92,9 @@ namespace EmployeeLeaveManagementApp.Controllers
                 }
                 else
                 {
-                 return   RedirectToAction("Dashboard");
+                    return RedirectToAction("Dashboard");
                 }
-                  
+
             }
             ViewBag.userExist = true;
             return View();
@@ -119,14 +119,16 @@ namespace EmployeeLeaveManagementApp.Controllers
             }
         }
 
-       
+
         public async Task<ActionResult> Dashboard()
         {
             if (null != Session[Constants.SESSION_OBJ_USER])
             {
                 var data = (UserAccount)Session[Constants.SESSION_OBJ_USER];
                 EmployeeDetailsModel datares = await user.GetUserDetailsAsync(data.RefEmployeeId);
-                
+                data.ManagerId = datares.ManagerId;
+                data.ManagerEmail = datares.MangerEmail;
+                Session[Constants.SESSION_OBJ_USER] = data;
                 Models.LoginModel model = new Models.LoginModel();
                 model.EmpName = data.UserName;
                 model.UserName = data.UserName;
@@ -184,7 +186,7 @@ namespace EmployeeLeaveManagementApp.Controllers
             {
                 var data = (UserAccount)Session[Constants.SESSION_OBJ_USER];
                 EmployeeDetailsModel datares = await user.GetUserProfileDetails(id);
-                List<string> col = new List<string>() { "danger", "info", "warning", "success","primary"};
+                List<string> col = new List<string>() { "danger", "info", "warning", "success", "primary" };
                 datares.Colors = col;
                 //Models.LoginModel model = new Models.LoginModel();
                 //model.EmpName = data.UserName;
@@ -193,7 +195,7 @@ namespace EmployeeLeaveManagementApp.Controllers
                 //model.ManagerName = datares.ManagerName;
                 //model.DateOfJoining = DateTime.Now;
                 //model.RoleName = datares.RoleName;
-                return View("Profile",datares);
+                return View("Profile", datares);
             }
             return View("Login");
         }
@@ -211,7 +213,7 @@ namespace EmployeeLeaveManagementApp.Controllers
                     datares.Colors = col;
                     return new Rotativa.ViewAsPdf("ProfileDownload", datares)
                     {
-                        FileName = datares.FirstName+"_Profile.pdf"
+                        FileName = datares.FirstName + "_Profile.pdf"
                     };
 
                 }

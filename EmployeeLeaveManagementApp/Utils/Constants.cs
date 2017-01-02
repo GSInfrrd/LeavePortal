@@ -10,5 +10,7 @@ namespace LMS_WebAPP_Utils
     {
         public const string SALT = "N#ithN";
         public const string SESSION_OBJ_USER = "user";
+        public const string Content = "CONTENT";
+        public const string SUBJECT = " SUBJECT";
     }
 }

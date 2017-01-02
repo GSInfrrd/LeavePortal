@@ -42,6 +42,7 @@
   <ItemGroup>
     <Compile Include="AddLeaveManagement.cs" />
     <Compile Include="ApproveLeaveManagement.cs" />
+    <Compile Include="CompoOffManagement.cs" />
     <Compile Include="EmployeeLeaveTransactionManagement.cs" />
     <Compile Include="HolidayManagement.cs" />
     <Compile Include="HRManagement.cs" />

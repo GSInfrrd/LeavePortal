@@ -206,6 +206,7 @@
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\ApplyLeaveController.cs" />
     <Compile Include="Controllers\ApproveLeaveController.cs" />
+    <Compile Include="Controllers\CompoOffController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\HRController.cs" />
     <Compile Include="Controllers\LeaveTransactionController.cs" />
@@ -1196,6 +1197,7 @@
     <Content Include="Views\HR\HolidayList.cshtml" />
     <Content Include="Views\HR\Reports.cshtml" />
     <Content Include="Views\WorkFromHome\Index.cshtml" />
+    <Content Include="Views\CompoOff\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

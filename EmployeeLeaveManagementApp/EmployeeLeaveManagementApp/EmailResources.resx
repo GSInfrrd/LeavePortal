@@ -121,13 +121,13 @@
     <value>anu@infrrd.ai</value>
   </data>
   <data name="CONTENT" xml:space="preserve">
-    <value>Hi,&lt;br/&gt;User detail excel is created successfully.Please find it.&lt;br/&gt;&lt;br/&gt;Regards,&lt;br/&gt;Anu Joseph K</value>
+    <value>Hi,&lt;br/&gt;{0}  is working from home today.&lt;br/&gt;&lt;br/&gt;Regards,&lt;br/&gt;LMS </value>
   </data>
   <data name="EMAIL_HOST" xml:space="preserve">
     <value>smtp.gmail.com</value>
   </data>
   <data name="EMAIL_PASSWORD" xml:space="preserve">
-    <value />
+    <value>ilovemyjob&amp;job</value>
   </data>
   <data name="EMAIL_PORT" xml:space="preserve">
     <value>587</value>
@@ -138,9 +138,6 @@
   <data name="EMAIL_USER_ID" xml:space="preserve">
     <value>anualoor@gmail.com</value>
   </data>
-  <data name="EXCEL_SAVING_LOCATION" xml:space="preserve">
-    <value>D:\ExcelLibrary\SimDataExport.xls</value>
-  </data>
   <data name="FROM_EMAIL_ID" xml:space="preserve">
     <value>anualoor@gmail.com</value>
   </data>
@@ -148,7 +145,7 @@
     <value>Test Mail </value>
   </data>
   <data name="SUBJECT" xml:space="preserve">
-    <value>Test Excel Application</value>
+    <value>Work From Home </value>
   </data>
   <data name="TO_EMAIL_ID" xml:space="preserve">
     <value>anuouseph1991@gmail.com</value>

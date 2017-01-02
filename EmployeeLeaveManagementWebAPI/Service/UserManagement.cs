@@ -61,6 +61,8 @@ namespace LMS_WebAPI_ServiceHelpers
                     VerifiedUser.TotalApplied = userData.TotalApplied;
                     VerifiedUser.TotalSpent = userData.TotalSpent;
                     VerifiedUser.ManagerName = userData.ManagerName;
+                    VerifiedUser.MangerEmail = userData.ManagerEmailId;
+                    VerifiedUser.ManagerId = userData.ManagerId;
                     VerifiedUser.ProjectName = userData.ProjectName;
                     VerifiedUser.DateOfJoining = Convert.ToDateTime(userData.DateOfJoining);
                 }

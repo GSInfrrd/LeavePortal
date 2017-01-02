@@ -52,7 +52,13 @@ namespace EmployeeLeaveManagementApp.Controllers
                     };
 
                     var result = await wfhOperations.AddNewWorkFromHomeDetailsAsync(model);
-                    var resultJson = new { result = result };
+                    //Send mail to first level manager
+                    if (null != data.ManagerEmail & data.ManagerEmail != "")
+                    {
+                        CommonMethods.SendMailWithMultipleAttachments(data.ManagerEmail, false, ReadResouce.GetEmailConstant(Constants.SUBJECT), ReadResouce.GetEmailConstant(Constants.Content));
+                    }
+                    //else send mail to hr?
+                        var resultJson = new { result = result };
                     return Json(resultJson, JsonRequestBehavior.AllowGet);
                 }
                 else

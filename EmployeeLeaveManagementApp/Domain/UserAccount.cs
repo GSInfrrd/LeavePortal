@@ -10,6 +10,8 @@ namespace LMS_WebAPP_Domain
     {
         public int Id { get; set; }
         public string UserName { get; set; }
+
+        public int? ManagerId { get; set; }
         public string Password { get; set; }
         public Nullable<System.DateTime> Lastlogin { get; set; }
         public int RefEmployeeId { get; set; }
@@ -20,6 +22,7 @@ namespace LMS_WebAPP_Domain
         public int? TotalLeaveCount { get; set; }
         public int TotalCountTaken { get; set; }
         public string ManagerName { get; set; }
+        public string ManagerEmail { get; set; }
         public System.DateTime DateOfJoining { get; set; }
 
         public string Imagepath { get; set; }

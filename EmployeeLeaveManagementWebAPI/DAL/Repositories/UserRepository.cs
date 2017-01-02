@@ -58,18 +58,23 @@ namespace LMS_WebAPI_DAL.Repositories
                         empDetails.TotalLeaveCount = LeaveType.Sum(q => q.Count);
 
                         empDetails.TotalSpent = (from c in ctx.EmployeeLeaveTransactions
-                                                      where c.RefEmployeeId == UserEmpId & c.RefStatus==(int)(LeaveStatus.Approved)
-                                                      select c.NumberOfWorkingDays).ToList().Sum();
+                                                 where c.RefEmployeeId == UserEmpId & c.RefStatus == (int)(LeaveStatus.Approved)
+                                                 select c.NumberOfWorkingDays).ToList().Sum();
 
                         empDetails.TotalApplied = (from c in ctx.EmployeeLeaveTransactions
-                                                 where c.RefEmployeeId == UserEmpId & c.RefStatus == (int)(LeaveStatus.Planned)
-                                                 select c.NumberOfWorkingDays).ToList().Sum();
+                                                   where c.RefEmployeeId == UserEmpId & c.RefStatus == (int)(LeaveStatus.Planned)
+                                                   select c.NumberOfWorkingDays).ToList().Sum();
 
                         var empdata = (from n in ctx.EmployeeProjectDetails
                                        where n.RefEmployeeId == UserEmpId
                                        select n).SingleOrDefault();
-                        empDetails.ProjectName = empdata!=null? empdata.MasterDataValue.Value:string.Empty;
-                        empDetails.ManagerName = (from n in ctx.EmployeeDetails where n.Id == empDetails.ManagerId select n.FirstName).SingleOrDefault();
+                        empDetails.ProjectName = empdata != null ? empdata.MasterDataValue.Value : string.Empty;
+                        var managerDetails = (from n in ctx.EmployeeDetails where n.Id == empDetails.ManagerId select n).SingleOrDefault();
+                        if (null != managerDetails)
+                        {
+                            empDetails.ManagerName = managerDetails.FirstName;
+                            empDetails.ManagerEmailId = managerDetails.UserAccounts.FirstOrDefault().UserName;
+                        }
 
                         return empDetails;
                     }
@@ -91,9 +96,9 @@ namespace LMS_WebAPI_DAL.Repositories
                 using (var ctx = new LeaveManagementSystemEntities1())
                 {
                     var announcements = ctx.Announcements.Where(x => x.IsActive == true).ToList();
-                   
-                        return announcements;
-                    }
+
+                    return announcements;
+                }
             }
             catch (Exception ex)
             {
@@ -102,20 +107,20 @@ namespace LMS_WebAPI_DAL.Repositories
             }
         }
 
-        public LeaveReportModel GetLeaveReportDetails(int employeeId,int year)
+        public LeaveReportModel GetLeaveReportDetails(int employeeId, int year)
         {
             try
             {
                 var leaveReport = new LeaveReportModel();
                 using (var ctx = new LeaveManagementSystemEntities1())
                 {
-                    var years = ctx.EmployeeLeaveTransactions.Where(i=>i.RefEmployeeId==employeeId && i.RefStatus==(int)LeaveStatus.Approved && i.FromDate.Year==year && i.ToDate.Year==year).ToList();
-                    foreach(var item in years)
+                    var years = ctx.EmployeeLeaveTransactions.Where(i => i.RefEmployeeId == employeeId && i.RefStatus == (int)LeaveStatus.Approved && i.FromDate.Year == year && i.ToDate.Year == year).ToList();
+                    foreach (var item in years)
                     {
-                       
-                        for (DateTime date=item.FromDate;date<=item.ToDate;date=date.AddDays(1))
+
+                        for (DateTime date = item.FromDate; date <= item.ToDate; date = date.AddDays(1))
                         {
-                            if(date.DayOfWeek!=DayOfWeek.Saturday && date.DayOfWeek!=DayOfWeek.Sunday)
+                            if (date.DayOfWeek != DayOfWeek.Saturday && date.DayOfWeek != DayOfWeek.Sunday)
                             {
                                 switch (date.Month)
                                 {
@@ -126,7 +131,7 @@ namespace LMS_WebAPI_DAL.Repositories
                                     case 2:
                                         leaveReport.Feb++;
                                         break;
-                                            case 3:
+                                    case 3:
                                         leaveReport.Mar++;
                                         break;
                                     case 4:

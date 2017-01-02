@@ -330,7 +330,7 @@ namespace EmployeeLeaveManagementWebAPI.Controllers
             {
                 Logger.Info("Login as user");
                 var userData = userManager.GetUser(userName, password);
-             userData.Imagepath= GetFile(userData.Imagepath);
+                userData.Imagepath = GetFile(userData.Imagepath);
                 if (null != userData)
                 {
                     return userData;
@@ -371,7 +371,7 @@ namespace EmployeeLeaveManagementWebAPI.Controllers
         {
             try
             {
-                var empData = userManager.GetEmployeeDatailsForDashboard(empId,DateTime.Now.Year);
+                var empData = userManager.GetEmployeeDatailsForDashboard(empId, DateTime.Now.Year);
                 if (null != empData)
                 {
                     return empData;
@@ -391,11 +391,11 @@ namespace EmployeeLeaveManagementWebAPI.Controllers
 
         [AllowAnonymous]
         [HttpGet]
-        public LeaveReportModel GetLeaveReportDetails(int empId,int year)
+        public LeaveReportModel GetLeaveReportDetails(int empId, int year)
         {
             try
             {
-                var empData = userManager.GetEmployeeDatailsForDashboard(empId,year);
+                var empData = userManager.GetEmployeeDatailsForDashboard(empId, year);
                 if (null != empData)
                 {
                     return empData.leaveDetails;
@@ -413,7 +413,7 @@ namespace EmployeeLeaveManagementWebAPI.Controllers
         }
 
 
-        
+
         // POST api/Account/Register
         [AllowAnonymous]
         [Route("Register")]

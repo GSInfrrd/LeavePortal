@@ -27,6 +27,8 @@ namespace LMS_WebAPI_Domain
         public int TotalApplied { get; set; }
         public int TotalSpent { get; set; }
         public string ManagerName { get; set; }
+        public string MangerEmail { get; set; }
+        public int? ManagerId { get; set; }
         public System.DateTime DateOfJoining { get; set; }
 
         public List<Announcement> Announcements { get; set; }

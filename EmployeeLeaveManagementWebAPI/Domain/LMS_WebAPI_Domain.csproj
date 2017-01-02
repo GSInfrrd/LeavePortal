@@ -41,6 +41,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ApproveLeaveModel.cs" />
+    <Compile Include="CompoOff.cs" />
     <Compile Include="EmployeeDetailsModel.cs" />
     <Compile Include="EmployeeLeaveTransactionModel.cs" />
     <Compile Include="HolidayModel.cs" />
