@@ -39,4 +39,18 @@ namespace LMS_WebAPI_Utils
         [Description("Employee")]
         Employee = 3
     }
+
+    public enum ReportType
+    {
+        [Description("All")]
+        All = 0,
+        [Description("Earned Leaves")]
+        EarnedLeaves = 1,
+        [Description("Applied Leaves")]
+        AppliedLeaves = 2,
+        [Description("Work From Home")]
+        WorkfromHome = 3,
+        [Description("Loss of Pay")]
+        LossofPay = 4
+    }
 }

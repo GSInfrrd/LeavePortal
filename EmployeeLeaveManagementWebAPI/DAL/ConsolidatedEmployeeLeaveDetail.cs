@@ -20,7 +20,7 @@ namespace LMS_WebAPI_DAL
         public Nullable<int> AppliedLeavesCount { get; set; }
         public Nullable<int> WorkFromHomeCount { get; set; }
         public Nullable<int> LossofPayCount { get; set; }
-        public System.DateTime CreatedBy { get; set; }
+        public System.DateTime CreatedDate { get; set; }
     
         public virtual EmployeeDetail EmployeeDetail { get; set; }
     }

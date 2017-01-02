@@ -6,6 +6,7 @@ using System.Net.Http.Headers;
 using System.Collections.Generic;
 using System.Linq;
 using Newtonsoft.Json;
+using System.IO;
 
 namespace LMS_WebAPP_ServiceHelpers
 {
@@ -63,7 +64,7 @@ namespace LMS_WebAPP_ServiceHelpers
             using (HttpClient client = new HttpClient())
             {
                 const string URL = "http://localhost:64476/api/HR/GetManagerList";
-                urlParameters = "?refLevel=" + refLevel;
+                urlParameters = "?refLevel=" + refLevel + "&status=" + true;
                 client.BaseAddress = new Uri(URL);
                 // Add an Accept header for JSON format.
                 client.DefaultRequestHeaders.Accept.Add(
@@ -85,12 +86,12 @@ namespace LMS_WebAPP_ServiceHelpers
             }
         }
 
-        public async Task<List<EmployeeDetailsModel>> GenerateReportsAsync(int employeeId, int leaveType, int exportAs)
+        public async Task<MemoryStream> GenerateReportsAsync(int exportAs,int employeeId, int leaveType)
         {
             using (HttpClient client = new HttpClient())
             {
                 const string URL = "http://localhost:64476/api/HR/GenerateReports";
-                urlParameters = "?employeeId=" + employeeId+ "&leaveType="+ leaveType+ "&exportAs="+ exportAs;
+                urlParameters = "?exportAs=" + exportAs+"&employeeId=" + employeeId+ "&leaveType="+ leaveType;
                 client.BaseAddress = new Uri(URL);
                 // Add an Accept header for JSON format.
                 client.DefaultRequestHeaders.Accept.Add(
@@ -101,7 +102,7 @@ namespace LMS_WebAPP_ServiceHelpers
                 if (response.IsSuccessStatusCode)
                 {
                     // Parse the response body. Blocking!
-                    var dataObjects = response.Content.ReadAsAsync<List<EmployeeDetailsModel>>().Result.ToList();
+                    var dataObjects = response.Content.ReadAsAsync<MemoryStream>().Result;
                     return dataObjects;
                 }
                 else

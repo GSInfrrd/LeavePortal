@@ -63,8 +63,8 @@ namespace LMS_WebAPP_Utils
 
     public enum WorkFormHomeReasons
     {
-        [Description("Maintanace at home")]
-        Maintanace = 20,
+        [Description("Maintenance at home")]
+        Maintenance = 20,
         [Description("To avoid Travel")]
         AvoidTravel = 21,
     }

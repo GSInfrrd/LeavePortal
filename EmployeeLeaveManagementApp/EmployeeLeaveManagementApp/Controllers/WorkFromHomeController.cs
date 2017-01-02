@@ -55,7 +55,7 @@ namespace EmployeeLeaveManagementApp.Controllers
                     //Send mail to first level manager
                     if (null != data.ManagerEmail & data.ManagerEmail != "")
                     {
-                        CommonMethods.SendMailWithMultipleAttachments(data.ManagerEmail, false, ReadResouce.GetEmailConstant(Constants.SUBJECT), ReadResouce.GetEmailConstant(Constants.Content));
+                        CommonMethods.SendMailWithMultipleAttachments(data.ManagerEmail, false, ReadResource.GetEmailConstant(Constants.SUBJECT), ReadResource.GetEmailConstant(Constants.Content),null,string.Empty);
                     }
                     //else send mail to hr?
                         var resultJson = new { result = result };

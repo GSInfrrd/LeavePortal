@@ -74,10 +74,10 @@
                     <label>Leave Type</label>
                     <select class="form-control ddlLeave" multiple="multiple" style="width: 100%;" id="ddlLeaveType">
                         <option value="0">All</option>
-                        <option value="EarnedLeaves">Earned Leaves</option>
-                        <option value="WorkFromHome">Work from Home</option>
-                        <option value="AdvancedLeave">Advanced Leave</option>
-                        <option value="LossofPay">Loss of Pay</option>
+                        <option value="1">Earned Leaves</option>
+                        <option value="2">Applied Leaves</option>
+                        <option value="3">Work from Home</option>               
+                        <option value="4">Loss of Pay</option>
                     </select>
                 </div>
                 <div class="form-group">
@@ -155,7 +155,7 @@
             $(".ddlEmployee").select2().on('change', function (e) {
                 if ($("#ddlEmployeeName").val() == "0" || $.inArray("0", $("#ddlEmployeeName").val()) != -1) {
 
-                    if ($("select option:selected").length > 2) {
+                    if ($("#ddlEmployeeName option:selected").length > 1) {
                         $("#ddlEmployeeName").val('0').trigger("change");
                     };
 
@@ -175,7 +175,7 @@
             $(".ddlLeave").select2().on('change', function (e) {
                 if ($("#ddlLeaveType").val() == "0" || $.inArray("0", $("#ddlLeaveType").val()) != -1) {
 
-                    if ($("select option:selected").length > 2) {
+                    if ($("#ddlLeaveType option:selected").length > 1) {
                         $("#ddlLeaveType").val('0').trigger("change");
                     };
 
@@ -221,18 +221,11 @@
 
     
     $(document).on('click', '#btnGenerateReport', function (e) {
-        var employeeId=$("#$ddlEmployeeName").val();
-        var leaveType=$("ddlLeaveType").val();
+        var employeeId=$("#ddlEmployeeName").val();
+        var leaveType=$("#ddlLeaveType").val();
         var exportAs=$("#ddlExportType").val();
-        $.ajax({
-            cache: false,
-            type: 'post',
-            url: '/HR/GenerateReports',
-            data: {employeeId:employeeId,leaveType:leaveType,exportAs: exportAs},
-            dataType: "json",
-            success: function (data) {
-            }
-        });
+        window.location.href = "/HR/GenerateReports/?employeeId=" + employeeId + "&leaveType=" + leaveType + "&exportAs=" + exportAs;
+
     }
     );
 </script>

@@ -15,6 +15,7 @@ namespace LMS_WebAPP_Domain
             this.LeaveDetails = new LeaveReportModel();
             this.EmployeeEducationDetails = new List<EmployeeEducationDetails>();
             this.EmployeeExperienceDetails = new List<EmployeeExperienceDetails>();
+            this.Skills = new List<EmployeeSkillDetails>();
             this.Colors = new List<string>();
         }
         public int Id { get; set; }
@@ -53,7 +54,7 @@ namespace LMS_WebAPP_Domain
         public string Bio { get; set; }
         public int RefRoleId { get; set; }
 
-        public List<string> Skills { get; set; }
+        public List<EmployeeSkillDetails> Skills { get; set; }
         public int EmployeeNumber { get; set; }
         public int RefHierarchyLevel { get; set; }
     }
@@ -81,6 +82,14 @@ namespace LMS_WebAPP_Domain
         public string Company { get; set; }
         public string Role { get; set; }
         public string TimePeriod { get; set; }
+
+    }
+
+    public class EmployeeSkillDetails
+    {
+        public int Id { get; set; }
+        public string SkillName { get; set; }
+        public string RefEmployeeId { get; set; }
 
     }
 }
