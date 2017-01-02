@@ -50,7 +50,7 @@ namespace LMS_WebAPI_Domain
         public string ImagePath { get; set; }
         public string Bio { get; set; }
         public int RefRoleId { get; set; }
-        public List<string> Skills { get; set; }
+        public List<EmployeeSkillDetails> Skills { get; set; }
         public int EmployeeNumber { get; set; }
         public int RefHierarchyLevel { get; set; }
 
@@ -72,7 +72,8 @@ namespace LMS_WebAPI_Domain
         public string Institution { get; set; }
         public string Degree { get; set; }
         public string TimePeriod { get; set; }
-
+        public DateTime FromDate { get; set; }
+        public DateTime ToDate { get; set; }
     }
 
     public class EmployeeExperienceDetails
@@ -81,6 +82,17 @@ namespace LMS_WebAPI_Domain
         public string Company { get; set; }
         public string Role { get; set; }
         public string TimePeriod { get; set; }
+        public DateTime FromDate { get; set; }
+        public DateTime ToDate { get; set; }
+
+    }
+
+    public class EmployeeSkillDetails
+    {
+        public int Id { get; set; }
+
+        public int RefEmployeeId { get; set; }
+        public string SkillName { get; set; }
 
     }
 

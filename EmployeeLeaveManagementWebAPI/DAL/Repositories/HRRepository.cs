@@ -68,7 +68,7 @@ namespace LMS_WebAPI_DAL.Repositories
                     {
                         var empSkill = new EmployeeSkill();
                         empSkill.RefEmployeeId = id;
-                        empSkill.Skill = skill;
+                        empSkill.Skill = skill.SkillName;
                         ctx.EmployeeSkills.Add(empSkill);
                         ctx.SaveChanges();
                     }
