@@ -88,6 +88,7 @@ namespace LMS_WebAPI_ServiceHelpers
                 profileDetails.Telephone = userData.PhoneNumber;
                 profileDetails.RefRoleId = userData.RefRoleId;
                 profileDetails.RoleName = userData.MasterDataValue.Value;
+           
                 profileDetails.DateOfBirthAsString = userData.DateOfBirth.ToString("MMM dd");
                 profileDetails.Email = userData.UserAccounts.FirstOrDefault(i => i.RefEmployeeId == EmpId).UserName;
                 profileDetails.ImagePath = userData.ImagePath;
@@ -98,6 +99,8 @@ namespace LMS_WebAPI_ServiceHelpers
                     var edet = new EmployeeEducationDetails();
                     edet.Degree = item.Degree;
                     edet.Institution = item.Institution;
+                    edet.FromDate = item.FromDate;
+                    edet.ToDate = item.ToDate;
                     edet.TimePeriod = item.FromDate.ToString("MMMM yyyy")+"~" +item.ToDate.ToString("MMMM yyyy");
                     EEdetails.Add(edet);
                 }
@@ -108,15 +111,20 @@ namespace LMS_WebAPI_ServiceHelpers
                     var exdet = new EmployeeExperienceDetails();
                     exdet.Company = item.CompanyName;
                     exdet.Role = item.Role;
+                    exdet.FromDate = item.FromDate;
+                    exdet.ToDate = item.ToDate;
                     exdet.TimePeriod = item.FromDate.ToString("MMMM yyyy") + "~" + item.ToDate.ToString("MMMM yyyy");
                     EExpdetails.Add(exdet);
                 }
                 profileDetails.EmployeeExperienceDetails = EExpdetails;
-                List<string> employeeSkills = new List<string>();
+                List<EmployeeSkillDetails> employeeSkills = new List<EmployeeSkillDetails>();
                 foreach (var item in userData.EmployeeSkills)
                 {
-                    //var employeeSkill =string.Empty;
-                    employeeSkills.Add(item.Skill);
+                    var employeeSkill =new EmployeeSkillDetails();
+                    employeeSkill.SkillName = item.Skill;
+                    employeeSkill.RefEmployeeId = item.RefEmployeeId;
+                    employeeSkill.Id = item.Id;
+                    employeeSkills.Add(employeeSkill);
                    
                 }
                 profileDetails.Skills = employeeSkills;

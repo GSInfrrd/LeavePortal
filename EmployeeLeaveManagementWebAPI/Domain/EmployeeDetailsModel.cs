@@ -31,6 +31,10 @@ namespace LMS_WebAPI_Domain
         public int? ManagerId { get; set; }
         public System.DateTime DateOfJoining { get; set; }
 
+        public System.DateTime FromDate { get; set; }
+
+        public System.DateTime ToDate { get; set; }
+
         public List<Announcement> Announcements { get; set; }
 
         public LeaveReportModel leaveDetails { get; set; }
@@ -50,7 +54,7 @@ namespace LMS_WebAPI_Domain
         public string ImagePath { get; set; }
         public string Bio { get; set; }
         public int RefRoleId { get; set; }
-        public List<string> Skills { get; set; }
+        public List<EmployeeSkillDetails> Skills { get; set; }
         public int EmployeeNumber { get; set; }
         public int RefHierarchyLevel { get; set; }
 
@@ -81,6 +85,15 @@ namespace LMS_WebAPI_Domain
         public string Company { get; set; }
         public string Role { get; set; }
         public string TimePeriod { get; set; }
+
+    }
+
+    public class EmployeeSkillDetails
+    {
+        public int Id { get; set; }
+
+        public int RefEmployeeId { get; set; }
+        public string SkillName { get; set; }
 
     }
 

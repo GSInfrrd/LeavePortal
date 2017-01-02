@@ -36,9 +36,9 @@ namespace LMS_WebAPI_ServiceHelpers
             return result;
         }
 
-        public List<EmployeeDetailsModel> GetReportData(int employeeId, int leaveType, int exportAs)
+        public List<ConsolidatedEmployeeLeaveDetailsModel> GetReportData(int employeeId=0, int leaveType=0)
         {
-            var result = hrRepo.GetReportData(employeeId,leaveType,exportAs);
+            var result = hrRepo.GetReportData(employeeId,leaveType);
             return result;
         }
     }

@@ -32,7 +32,7 @@ namespace LMS_WebAPI_DAL.Repositories
                         EmpNumber = model.EmployeeNumber.ToString(),
                         PhoneNumber=model.Telephone,
                         RefHierarchyLevel=model.RefHierarchyLevel,
-                        ManagerId=ctx.EmployeeDetails.FirstOrDefault(x=>x.FirstName== model.ManagerName).Id,
+                        ManagerId=Convert.ToInt32(model.ManagerName),
                         DateOfJoining=model.DateOfJoining,
                         ImagePath=model.ImagePath
                         
@@ -68,7 +68,7 @@ namespace LMS_WebAPI_DAL.Repositories
                     {
                         var empSkill = new EmployeeSkill();
                         empSkill.RefEmployeeId = id;
-                        empSkill.Skill = skill;
+                        empSkill.Skill = skill.SkillName;
                         ctx.EmployeeSkills.Add(empSkill);
                         ctx.SaveChanges();
                     }
@@ -151,9 +151,9 @@ namespace LMS_WebAPI_DAL.Repositories
             }
         }
 
-        public List<EmployeeDetailsModel> GetReportData(int employeeId, int leaveType, int exportAs)
+        public List<ConsolidatedEmployeeLeaveDetailsModel> GetReportData(int employeeId=0, int leaveType=0)
         {
-            var list = new List<EmployeeDetailsModel>();
+            var list = new List<ConsolidatedEmployeeLeaveDetailsModel>();
             try
             {
                 var dataList = new List<ConsolidatedEmployeeLeaveDetail>();
@@ -163,21 +163,19 @@ namespace LMS_WebAPI_DAL.Repositories
                     {
                          dataList = ctx.ConsolidatedEmployeeLeaveDetails.ToList();
                             }
-                    //foreach (var item in dataList)
-                    //{
-                    //    var listItem = new EmployeeDetailsModel();
-                    //    listItem.Id = item.Id;
-                    //    listItem.FirstName = item.FirstName;
-                    //    listItem.LastName = item.LastName;
-                    //    listItem.ManagerName = item.ManagerId != null ? ctx.EmployeeDetails.FirstOrDefault(i => i.Id == item.ManagerId).FirstName : string.Empty;
-                    //    listItem.DateOfJoining = Convert.ToDateTime(item.DateOfJoining);
-                    //    listItem.EmployeeNumber = Convert.ToInt32(item.EmpNumber);
-                    //    listItem.RoleName = item.RefRoleId != 0 ? ctx.MasterDataValues.FirstOrDefault(i => i.Id == item.RefRoleId).Value : string.Empty;
-                    //    list.Add(listItem);
-                    //}
-                    var leaveDetails = ctx.EmployeeLeaveTransactions.GroupBy(x => x.CreatedDate.Month).ToList();
-
-                }
+                    foreach (var item in dataList)
+                    {
+                        var listItem = new ConsolidatedEmployeeLeaveDetailsModel();
+                        listItem.Id = item.Id;
+                        listItem.RefEmployeeId = item.RefEmployeeId;
+                        listItem.EmployeeName = ctx.EmployeeDetails.FirstOrDefault(i => i.Id == item.RefEmployeeId).FirstName;
+                        listItem.EarnedLeavesCount = item.EarnedLeavesCount;
+                        listItem.LossofPayCount = item.LossofPayCount;
+                        listItem.AppliedLeavesCount = item.AppliedLeavesCount;
+                        listItem.WorkFromHomeCount = item.WorkFromHomeCount;
+                        list.Add(listItem);
+                    }
+                                }
                 return list;
             }
             catch (Exception ex)
