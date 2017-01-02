@@ -27,6 +27,7 @@ namespace LMS_WebAPI_DAL
             this.EmployeeExperienceDetails = new HashSet<EmployeeExperienceDetail>();
             this.EmployeeSkills = new HashSet<EmployeeSkill>();
             this.WorkFromHomes = new HashSet<WorkFromHome>();
+            this.ConsolidatedEmployeeLeaveDetails = new HashSet<ConsolidatedEmployeeLeaveDetail>();
         }
     
         public int Id { get; set; }
@@ -71,5 +72,7 @@ namespace LMS_WebAPI_DAL
         public virtual ICollection<EmployeeSkill> EmployeeSkills { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<WorkFromHome> WorkFromHomes { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<ConsolidatedEmployeeLeaveDetail> ConsolidatedEmployeeLeaveDetails { get; set; }
     }
 }

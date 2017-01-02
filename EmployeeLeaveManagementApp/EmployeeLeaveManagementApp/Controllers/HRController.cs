@@ -17,11 +17,13 @@ namespace EmployeeLeaveManagementApp.Controllers
         UserManagement userMgt = new UserManagement();
         HolidayManagement holidayManager = new HolidayManagement();
         // GET: HR
-        public ActionResult AddEmployeeDetails()
+        public  async Task<ActionResult> AddEmployeeDetails()
         {
             if (null != Session[Constants.SESSION_OBJ_USER])
             {
-                return View();
+                var model = new List<EmployeeDetailsModel>();
+                model = await hrOperations.GetManagerListAsync(19);
+                return View(model);
             }
             else
             {
@@ -42,6 +44,7 @@ namespace EmployeeLeaveManagementApp.Controllers
             if (null != Session[Constants.SESSION_OBJ_USER])
             {
                 var model = await hrOperations.GetEmployeeListAsync();
+
                 return View(model);
             }
             else
@@ -255,6 +258,22 @@ namespace EmployeeLeaveManagementApp.Controllers
             var data = await hrOperations.SubmitEmployeeDetailsAsync(empModel);
             return View();
         }
+
+        public async Task<ActionResult> GenerateReports(int employeeId,int leaveType,int exportAs)
+        {
+            if (null != Session[Constants.SESSION_OBJ_USER])
+            {
+                var data = (UserAccount)Session[Constants.SESSION_OBJ_USER];
+                var model = new List<EmployeeDetailsModel>();
+                model = await hrOperations.GetEmployeeListAsync();
+                return View(model);
+            }
+            else
+            {
+                return RedirectToAction("Login", "Account");
+            }
+        }
+
 
     }
 }

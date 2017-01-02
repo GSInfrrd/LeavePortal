@@ -87,7 +87,7 @@
                     <div class="form-group col-md-6" id="ddlManager">
                         <label for="ddlManagerName">Manager Name</label>
 
-                        <select class="form-control select2" style="width: 100%;" id="ddlManagerName">
+                        <select class="form-control managerSelect" style="width: 100%;" id="ddlManagerName">
                             <option value="">Select</option>
                             @foreach (var m in Model)
                             {
@@ -201,13 +201,13 @@
     $(document).ready(function () {
         $(function () {
             //Initialize Select2 Elements
-            $(".select2").select2().on('change', function (e) {
+            $(".select2").select2()
+            $(".managerSelect").select2().on('change', function (e) {
                 if ($("#ddlLevel").val() == 13) {
                     $("#ddlManager").hide();
                 }
                 else {
                     $("#ddlManager").show();
-                    debugger
                     var level = $("#ddlLevel").val();
                     $("#ddlManagerName option").remove();
                     $("#ddlManagerName").append($('<option></option>').attr("value", '').text('Select'));
@@ -218,8 +218,6 @@
                         dataType: "json",
                         processData: false,
                         success: function (data) {
-                            debugger;
-
                             for (var i = 0; i < data.data.length; i++) {
                                 $("#ddlManagerName").append($('<option></option>').attr("value", data.data[i].Id).text(data.data[i].FirstName));
                             }

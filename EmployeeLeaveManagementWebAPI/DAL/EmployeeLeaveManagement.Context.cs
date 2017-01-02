@@ -43,6 +43,7 @@ namespace LMS_WebAPI_DAL
         public virtual DbSet<EmployeeExperienceDetail> EmployeeExperienceDetails { get; set; }
         public virtual DbSet<EmployeeSkill> EmployeeSkills { get; set; }
         public virtual DbSet<WorkFromHome> WorkFromHomes { get; set; }
+        public virtual DbSet<ConsolidatedEmployeeLeaveDetail> ConsolidatedEmployeeLeaveDetails { get; set; }
     
         public virtual ObjectResult<GetLeaveReportProcedure_Result> GetLeaveReportProcedure(string year)
         {

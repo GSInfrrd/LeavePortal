@@ -3,68 +3,34 @@
     ViewBag.Title = "Reports";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
+
 <link rel="stylesheet" href="../../plugins/select2/select2.min.css">
 <link rel="stylesheet" href="../../dist/css/AdminLTE.min.css">
-<section class="content-header">
-    <h1>Reports</h1>
+<!-- Morris chart -->
+<link rel="stylesheet" href="../plugins/morris/morris.css">
+
+<section class="content-header" style="height:41px">
+    <h1 class="col-md-9" style="padding-left:0px">
+      Reports
+    </h1>
+    <div style="float:right;padding-right:0px" class="col-md-2">
+        <button type="button" id="btnaddleave" class="btn btn-block bg-black" data-toggle="modal" data-target=".bs-generate-report-modal" style="background-color:#222d32 !important"><i class="fa fa-plus"></i>&nbsp;Generate Report</button>
+
+    </div>
 </section>
 <section class="content">
     <div class="row">
 
         <div class="col-md-12">
-            <!-- general form elements -->
-            <div class="box">
-                <!-- /.box-header -->
-                <!-- form start -->
-                @*<form role="form">*@
-                <div class="box-body">
-                    <div class="form-group">
-                        <label>Employee Name</label>
-                        <select class="form-control ddlEmployee" multiple="multiple" style="width: 100%;" id="ddlEmployeeName">
-                            <option value="All">All</option>
-                            @foreach (var m in Model)
-                            {
-                                <option id="@m.Id" value="@m.Id">@m.FirstName</option>
-                            }
-                        </select>
-                    </div>
-                    <div class="form-group">
-                        <div>
-                            <label>Date range:</label>
-                        </div>
-
-                        <div class="input-group">
-                            <div class="input-group-addon">
-                                <i class="fa fa-calendar"></i>
-                            </div>
-                            <input type="text" class="form-control pull-right" id="reportDatepicker">
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label>Leave Type</label>
-                        <select class="form-control ddlLeave" multiple="multiple" style="width: 100%;" id="ddlLeaveType">
-                            <option value="All">All</option>                    
-                                <option value="EarnedLeaves">Earned Leaves</option>
-                            <option value="WorkFromHome">Work from Home</option>
-                            <option value="AdvancedLeave">Advanced Leave</option>
-                            <option value="LossofPay">Loss of Pay</option>
-                        </select>
-                    </div>
-                    <div class="form-group">
-                        <label for="txtlastname">Export As</label>
-                        <select class="form-control select2" style="width: 100%;" id="ddlExportType">
-                            <option value="">Select</option>
-                            <option value="">Excel</option>
-                            <option value="">Share as Attachment</option>
-
-                        </select>
-                    </div>
-
+            <div class="box box-solid bg-teal-gradient">
+                <div class="box-header">
+                    <i class="fa fa-th"></i>
+                    <h3 class="box-title">Leave Report</h3>
                 </div>
-                <div class="box-footer">
-                    <button type="submit" id="btnSubmitEmployeeDetails" class="btn btn-primary">Submit</button>
+                <div class="box-body border-radius-none">
+                    <div class="chart" id="line-chart" style="height: 250px;"></div>
                 </div>
-                @*</form>*@
+                <!-- /.box-body -->
 
             </div>
         </div>
@@ -72,46 +38,145 @@
 
     <!-- /.row -->
 </section>
+<div class="modal bs-generate-report-modal" id="GenerateReportModal" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+                <h4 class="modal-title">Generate Report</h4>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <label>Employee Name</label>
+                    <select class="form-control ddlEmployee" multiple="multiple" style="width: 100%;" id="ddlEmployeeName">
+                        <option value="0">All</option>
+                        @foreach (var m in Model)
+                        {
+                            <option id="@m.Id" value="@m.Id">@m.FirstName</option>
+                        }
+                    </select>
+                </div>
+                <div class="form-group">
+                    <div>
+                        <label>Date range:</label>
+                    </div>
+
+                    <div class="input-group">
+                        <div class="input-group-addon">
+                            <i class="fa fa-calendar"></i>
+                        </div>
+                        <input type="text" class="form-control pull-right" id="reportDatepicker">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label>Leave Type</label>
+                    <select class="form-control ddlLeave" multiple="multiple" style="width: 100%;" id="ddlLeaveType">
+                        <option value="0">All</option>
+                        <option value="EarnedLeaves">Earned Leaves</option>
+                        <option value="WorkFromHome">Work from Home</option>
+                        <option value="AdvancedLeave">Advanced Leave</option>
+                        <option value="LossofPay">Loss of Pay</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="txtlastname">Export As</label>
+                    <select class="form-control select2" style="width: 100%;" id="ddlExportType">
+                        <option value="0">Select</option>
+                        <option value="1">Excel</option>
+                        <option value="2">Share as Attachment</option>
+
+                    </select>
+                </div>
+            </div>
+
+            <div class="modal-footer">
+                <button type="button" id="btnGenerateReport" style="background-color:#222d32 !important" class="btn btn-primary">Submit</button>
+                <button type="button" class="btn btn-default pull-right" data-dismiss="modal">Cancel</button>
+
+            </div>
+        </div>
+        <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+</div>
+<!-- Morris.js charts -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/raphael/2.1.0/raphael-min.js"></script>
+<script src="../plugins/morris/morris.min.js"></script>
+<!-- jQuery Knob Chart -->
+<script src="../plugins/knob/jquery.knob.js"></script>
 
 <script src="../../plugins/select2/select2.full.min.js"></script>
 <script src="~/plugins/daterangepicker/moment.min.js"></script>
 @*<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.11.2/moment.min.js"></script>*@
 <script src="../../plugins/daterangepicker/daterangepicker.js"></script>
+
 <script>
     var reportFromDate;
     var reportToDate;
+    var date=new Date();
+    var year=date.getFullYear();
     $(document).ready(function () {
         $(function () {
+            var line = new Morris.Line({
+                element: 'line-chart',
+                resize: true,
+                data: [
+                  { y:year+'-1', item1:@Model[0].LeaveDetails.Jan },
+                  { y: year+'-2', item1: @Model[0].LeaveDetails.Feb },
+                  { y: year+'-3', item1: @Model[0].LeaveDetails.Mar },
+                  { y: year+'-4', item1: @Model[0].LeaveDetails.Apr },
+                  { y: year+'-5', item1: @Model[0].LeaveDetails.May },
+                  { y: year+'-6', item1: @Model[0].LeaveDetails.Jun },
+                  { y: year+'-7', item1: @Model[0].LeaveDetails.Jul },
+                  { y: year+'-8', item1: @Model[0].LeaveDetails.Aug },
+                  { y: year+'-9', item1: @Model[0].LeaveDetails.Sep },
+                  { y: year+'-10', item1: @Model[0].LeaveDetails.Oct },
+                  { y: year+'-11', item1: @Model[0].LeaveDetails.Nov },
+                  { y: year+'-12', item1: @Model[0].LeaveDetails.Dec }
+                ],
+                xkey: 'y',
+                ykeys: ['item1'],
+                labels: ['Leave Count'],
+                lineColors: ['#efefef'],
+                lineWidth: 2,
+                hideHover: 'auto',
+                gridTextColor: "#fff",
+                gridStrokeWidth: 0.4,
+                pointSize: 4,
+                pointStrokeColors: ["#efefef"],
+                gridLineColor: "#efefef",
+                gridTextFamily: "Open Sans",
+                gridTextSize: 10
+            });
+
             //Initialize Select2 Elements
             $(".ddlEmployee").select2().on('change', function (e) {
-                debugger;
-                if ($("#ddlEmployeeName").val() == "All" || $.inArray("All", $("#ddlEmployeeName").val()) != -1) {
-         
-                if($("select option:selected").length >2)
-                {
-                    $("#ddlEmployeeName").val('All').trigger("change");
-                };
-                   
+                if ($("#ddlEmployeeName").val() == "0" || $.inArray("0", $("#ddlEmployeeName").val()) != -1) {
+
+                    if ($("select option:selected").length > 2) {
+                        $("#ddlEmployeeName").val('0').trigger("change");
+                    };
+
 
                     var allOptions = $("#ddlEmployeeName option");
                     for (var i = 1; i < allOptions.length; i++) {
                         //var id = $(allOptions[i]).id;
                         $("#ddlEmployeeName").find('option[value=' + $(allOptions[i]).val() + ']').attr('disabled', 'disabled');
-                    }                   
-                   
-                } else
-                {
+                    }
+
+                } else {
                     $("#ddlEmployeeName > option").removeAttr("disabled");
                 }
                 $('.ddlEmployee').select2();
             });
 
             $(".ddlLeave").select2().on('change', function (e) {
-                debugger;
-                if ($("#ddlLeaveType").val() == "All" || $.inArray("All", $("#ddlLeaveType").val()) != -1) {
+                if ($("#ddlLeaveType").val() == "0" || $.inArray("0", $("#ddlLeaveType").val()) != -1) {
 
                     if ($("select option:selected").length > 2) {
-                        $("#ddlLeaveType").val('All').trigger("change");
+                        $("#ddlLeaveType").val('0').trigger("change");
                     };
 
 
@@ -137,7 +202,7 @@
                 var start = dates[0].trim();
                 var startDate = new Date(start);
                 var startMonth = startDate.getMonth() + 1;
-               reportFromDate = startDate.getFullYear() + "-" + startMonth + "-" + startDate.getDate();
+                reportFromDate = startDate.getFullYear() + "-" + startMonth + "-" + startDate.getDate();
                 var end = dates[1].trim();
                 var endDate = new Date(end);
                 var endMonth = endDate.getMonth() + 1;
@@ -151,6 +216,23 @@
                 reportToDate = end.format('YYYY-MM-DD');
 
             });
-            });
+        });
     });
+
+    
+    $(document).on('click', '#btnGenerateReport', function (e) {
+        var employeeId=$("#$ddlEmployeeName").val();
+        var leaveType=$("ddlLeaveType").val();
+        var exportAs=$("#ddlExportType").val();
+        $.ajax({
+            cache: false,
+            type: 'post',
+            url: '/HR/GenerateReports',
+            data: {employeeId:employeeId,leaveType:leaveType,exportAs: exportAs},
+            dataType: "json",
+            success: function (data) {
+            }
+        });
+    }
+    );
 </script>

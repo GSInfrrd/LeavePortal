@@ -42,7 +42,7 @@ namespace LMS_WebAPI_ServiceHelpers
             {
                 var userData = user.GetUserDetails(EmpId);
                 var announcements = user.GetAnnouncements();
-                var leaveReportDetails = user.GetLeaveReportDetails(EmpId,year);
+                var leaveReportDetails = user.GetLeaveReportDetails(year,EmpId);
                 var VerifiedUser = new EmployeeDetailsModel();
                 VerifiedUser.leaveDetails = leaveReportDetails;
                 foreach (var item in announcements)

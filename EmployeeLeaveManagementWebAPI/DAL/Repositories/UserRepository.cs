@@ -107,14 +107,24 @@ namespace LMS_WebAPI_DAL.Repositories
             }
         }
 
-        public LeaveReportModel GetLeaveReportDetails(int employeeId, int year)
+
+        public LeaveReportModel GetLeaveReportDetails(int year, int employeeId = 0)
         {
             try
             {
                 var leaveReport = new LeaveReportModel();
+                var years = new List<EmployeeLeaveTransaction>();
                 using (var ctx = new LeaveManagementSystemEntities1())
                 {
-                    var years = ctx.EmployeeLeaveTransactions.Where(i => i.RefEmployeeId == employeeId && i.RefStatus == (int)LeaveStatus.Approved && i.FromDate.Year == year && i.ToDate.Year == year).ToList();
+                    if (employeeId != 0)
+                    {
+                        years = ctx.EmployeeLeaveTransactions.Where(i => i.RefEmployeeId == employeeId && i.RefStatus == (int)LeaveStatus.Approved && i.FromDate.Year == year && i.ToDate.Year == year).ToList();
+                    }
+                    else
+                    {
+
+                        years = ctx.EmployeeLeaveTransactions.Where(i => i.RefStatus == (int)LeaveStatus.Approved && i.FromDate.Year == year && i.ToDate.Year == year).ToList();
+                    }
                     foreach (var item in years)
                     {
 
@@ -165,9 +175,6 @@ namespace LMS_WebAPI_DAL.Repositories
                             }
                         }
                     }
-
-                    //var Year = new SqlParameter("@Year", 2016);
-                    //var data= ctx.Database.SqlQuery<LeaveReportModel>("dbo.GetLeaveReportProcedure @Year", Year).ToList();
                     return leaveReport;
                 }
             }

@@ -13,5 +13,8 @@ namespace LMS_WebAPI_DAL.Repositories.Interfaces
         List<EmployeeDetailsModel> GetEmployeeList();
 
         List<EmployeeDetailsModel> GetManagerList(int refLevel);
+
+        List<EmployeeDetailsModel> GetReportData(int employeeId, int leaveType, int exportAs);
+
     }
 }

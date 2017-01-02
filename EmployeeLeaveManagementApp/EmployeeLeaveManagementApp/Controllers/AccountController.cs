@@ -78,14 +78,8 @@ namespace EmployeeLeaveManagementApp.Controllers
                         #endregion
                         Session[Constants.SESSION_OBJ_USER] = data;
                         ViewBag.UserExist = true;
-                        if (data.RefRoleId == (int)EmployeeRole.Employee || data.RefRoleId == (int)EmployeeRole.Manager)
-                        {
                             return RedirectToAction("Dashboard");
-                        }
-                        else if (data.RefRoleId == (int)EmployeeRole.HR)
-                        {
-                            return RedirectToAction("EmployeeDetails", "HR");
-                        }
+                    
                     }
                     ViewBag.UserExist = false;
                     return View();

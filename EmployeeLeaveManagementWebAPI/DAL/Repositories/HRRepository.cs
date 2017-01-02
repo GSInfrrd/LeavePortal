@@ -112,9 +112,9 @@ namespace LMS_WebAPI_DAL.Repositories
                         listItem.DateOfJoining =Convert.ToDateTime(item.DateOfJoining);
                         listItem.EmployeeNumber =Convert.ToInt32(item.EmpNumber);
                         listItem.RoleName= item.RefRoleId != 0 ? ctx.MasterDataValues.FirstOrDefault(i => i.Id == item.RefRoleId).Value : string.Empty;
-
                         list.Add(listItem);
                     }
+                    var leaveDetails = ctx.EmployeeLeaveTransactions.GroupBy(x=>x.CreatedDate.Month).ToList();
 
                 }
                 return list;
@@ -141,6 +141,41 @@ namespace LMS_WebAPI_DAL.Repositories
                         listItem.LastName = item.LastName;                    
                         list.Add(listItem);
                     }
+
+                }
+                return list;
+            }
+            catch (Exception ex)
+            {
+                throw;
+            }
+        }
+
+        public List<EmployeeDetailsModel> GetReportData(int employeeId, int leaveType, int exportAs)
+        {
+            var list = new List<EmployeeDetailsModel>();
+            try
+            {
+                var dataList = new List<ConsolidatedEmployeeLeaveDetail>();
+                using (var ctx = new LeaveManagementSystemEntities1())
+                {
+                    if (employeeId == 0 && leaveType == 0)
+                    {
+                         dataList = ctx.ConsolidatedEmployeeLeaveDetails.ToList();
+                            }
+                    //foreach (var item in dataList)
+                    //{
+                    //    var listItem = new EmployeeDetailsModel();
+                    //    listItem.Id = item.Id;
+                    //    listItem.FirstName = item.FirstName;
+                    //    listItem.LastName = item.LastName;
+                    //    listItem.ManagerName = item.ManagerId != null ? ctx.EmployeeDetails.FirstOrDefault(i => i.Id == item.ManagerId).FirstName : string.Empty;
+                    //    listItem.DateOfJoining = Convert.ToDateTime(item.DateOfJoining);
+                    //    listItem.EmployeeNumber = Convert.ToInt32(item.EmpNumber);
+                    //    listItem.RoleName = item.RefRoleId != 0 ? ctx.MasterDataValues.FirstOrDefault(i => i.Id == item.RefRoleId).Value : string.Empty;
+                    //    list.Add(listItem);
+                    //}
+                    var leaveDetails = ctx.EmployeeLeaveTransactions.GroupBy(x => x.CreatedDate.Month).ToList();
 
                 }
                 return list;

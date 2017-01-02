@@ -15,6 +15,18 @@
           <Property Name="ImagePath" Type="varchar(max)" />
           <Property Name="IsActive" Type="bit" />
         </EntityType>
+        <EntityType Name="ConsolidatedEmployeeLeaveDetails">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="RefEmployeeId" Type="int" Nullable="false" />
+          <Property Name="EarnedLeavesCount" Type="int" />
+          <Property Name="AppliedLeavesCount" Type="int" />
+          <Property Name="WorkFromHomeCount" Type="int" />
+          <Property Name="LossofPayCount" Type="int" />
+          <Property Name="CreatedBy" Type="date" Nullable="false" />
+        </EntityType>
         <EntityType Name="EmployeeContactDetails">
           <Key>
             <PropertyRef Name="Id" />
@@ -47,10 +59,10 @@
           <Property Name="Country" Type="varchar" MaxLength="50" />
           <Property Name="LastName" Type="varchar" MaxLength="50" />
           <Property Name="PhoneNumber" Type="varchar" MaxLength="20" />
-          <Property Name="ImagePath" Type="varchar" MaxLength="250" />
           <Property Name="Bio" Type="varchar" MaxLength="250" />
           <Property Name="RefHierarchyLevel" Type="int" />
           <Property Name="DateOfBirth" Type="date" Nullable="false" />
+          <Property Name="ImagePath" Type="varchar" MaxLength="250" />
         </EntityType>
         <EntityType Name="EmployeeEducationDetails">
           <Key>
@@ -213,6 +225,18 @@
           <Property Name="ModifiedDate" Type="datetime2" Precision="7" />
           <Property Name="RefReason" Type="int" Nullable="false" />
         </EntityType>
+        <Association Name="FK_ConsolidatedEmployeeLeaveDetails_EmployeeDetails">
+          <End Role="EmployeeDetails" Type="Self.EmployeeDetails" Multiplicity="1" />
+          <End Role="ConsolidatedEmployeeLeaveDetails" Type="Self.ConsolidatedEmployeeLeaveDetails" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="EmployeeDetails">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="ConsolidatedEmployeeLeaveDetails">
+              <PropertyRef Name="RefEmployeeId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_EmpDetails_EmployeeContactDetails">
           <End Role="EmployeeDetails" Type="Self.EmployeeDetails" Multiplicity="1" />
           <End Role="EmployeeContactDetails" Type="Self.EmployeeContactDetails" Multiplicity="*" />
@@ -489,11 +513,9 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Function Name="GetLeaveReportProcedure" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
-          <Parameter Name="Year" Type="nvarchar" Mode="In" />
-        </Function>
         <EntityContainer Name="LeaveManagementSystemModelStoreContainer">
           <EntitySet Name="Announcements" EntityType="Self.Announcements" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="ConsolidatedEmployeeLeaveDetails" EntityType="Self.ConsolidatedEmployeeLeaveDetails" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="EmployeeContactDetails" EntityType="Self.EmployeeContactDetails" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="EmployeeDetails" EntityType="Self.EmployeeDetails" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="EmployeeEducationDetails" EntityType="Self.EmployeeEducationDetails" Schema="dbo" store:Type="Tables" />
@@ -509,6 +531,10 @@
           <EntitySet Name="UserAccount" EntityType="Self.UserAccount" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Workflow" EntityType="Self.Workflow" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="WorkFromHome" EntityType="Self.WorkFromHome" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_ConsolidatedEmployeeLeaveDetails_EmployeeDetails" Association="Self.FK_ConsolidatedEmployeeLeaveDetails_EmployeeDetails">
+            <End Role="EmployeeDetails" EntitySet="EmployeeDetails" />
+            <End Role="ConsolidatedEmployeeLeaveDetails" EntitySet="ConsolidatedEmployeeLeaveDetails" />
+          </AssociationSet>
           <AssociationSet Name="FK_EmpDetails_EmployeeContactDetails" Association="Self.FK_EmpDetails_EmployeeContactDetails">
             <End Role="EmployeeDetails" EntitySet="EmployeeDetails" />
             <End Role="EmployeeContactDetails" EntitySet="EmployeeContactDetails" />
@@ -656,6 +682,7 @@
           <NavigationProperty Name="MasterDataValue1" Relationship="LeaveManagementSystemModel.FK_EmployeeDetails_MasterDataValue" FromRole="EmployeeDetail" ToRole="MasterDataValue" />
           <NavigationProperty Name="EmployeeSkills" Relationship="LeaveManagementSystemModel.FK_EmployeeSkills_EmployeeDetails" FromRole="EmployeeDetail" ToRole="EmployeeSkill" />
           <NavigationProperty Name="WorkFromHomes" Relationship="LeaveManagementSystemModel.FK_WorkFromHome_refEmpID" FromRole="EmployeeDetail" ToRole="WorkFromHome" />
+          <NavigationProperty Name="ConsolidatedEmployeeLeaveDetails" Relationship="LeaveManagementSystemModel.FK_ConsolidatedEmployeeLeaveDetails_EmployeeDetails" FromRole="EmployeeDetail" ToRole="ConsolidatedEmployeeLeaveDetail" />
         </EntityType>
         <EntityType Name="EmployeeLeaveTransaction">
           <Key>
@@ -1122,6 +1149,11 @@
             <End Role="MasterDataValue" EntitySet="MasterDataValues" />
             <End Role="WorkFromHome" EntitySet="WorkFromHomes" />
           </AssociationSet>
+          <EntitySet Name="ConsolidatedEmployeeLeaveDetails" EntityType="LeaveManagementSystemModel.ConsolidatedEmployeeLeaveDetail" />
+          <AssociationSet Name="FK_ConsolidatedEmployeeLeaveDetails_EmployeeDetails" Association="LeaveManagementSystemModel.FK_ConsolidatedEmployeeLeaveDetails_EmployeeDetails">
+            <End Role="EmployeeDetail" EntitySet="EmployeeDetails" />
+            <End Role="ConsolidatedEmployeeLeaveDetail" EntitySet="ConsolidatedEmployeeLeaveDetails" />
+          </AssociationSet>
         </EntityContainer>
         <EntityType Name="Announcement">
           <Key>
@@ -1279,6 +1311,31 @@
             </Principal>
             <Dependent Role="WorkFromHome">
               <PropertyRef Name="RefReason" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="ConsolidatedEmployeeLeaveDetail">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="RefEmployeeId" Type="Int32" Nullable="false" />
+          <Property Name="EarnedLeavesCount" Type="Int32" />
+          <Property Name="AppliedLeavesCount" Type="Int32" />
+          <Property Name="WorkFromHomeCount" Type="Int32" />
+          <Property Name="LossofPayCount" Type="Int32" />
+          <NavigationProperty Name="EmployeeDetail" Relationship="LeaveManagementSystemModel.FK_ConsolidatedEmployeeLeaveDetails_EmployeeDetails" FromRole="ConsolidatedEmployeeLeaveDetail" ToRole="EmployeeDetail" />
+          <Property Name="CreatedBy" Type="DateTime" Nullable="false" Precision="0" />
+        </EntityType>
+        <Association Name="FK_ConsolidatedEmployeeLeaveDetails_EmployeeDetails">
+          <End Type="LeaveManagementSystemModel.EmployeeDetail" Role="EmployeeDetail" Multiplicity="1" />
+          <End Type="LeaveManagementSystemModel.ConsolidatedEmployeeLeaveDetail" Role="ConsolidatedEmployeeLeaveDetail" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="EmployeeDetail">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="ConsolidatedEmployeeLeaveDetail">
+              <PropertyRef Name="RefEmployeeId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -1512,25 +1569,19 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <FunctionImportMapping FunctionImportName="GetLeaveReportProcedure" FunctionName="LeaveManagementSystemModel.Store.GetLeaveReportProcedure">
-            <ResultMapping>
-              <ComplexTypeMapping TypeName="LeaveManagementSystemModel.GetLeaveReportProcedure_Result">
-                <ScalarProperty Name="Year" ColumnName="Year" />
-                <ScalarProperty Name="Jan" ColumnName="Jan" />
-                <ScalarProperty Name="Feb" ColumnName="Feb" />
-                <ScalarProperty Name="Mar" ColumnName="Mar" />
-                <ScalarProperty Name="Apr" ColumnName="Apr" />
-                <ScalarProperty Name="May" ColumnName="May" />
-                <ScalarProperty Name="Jun" ColumnName="Jun" />
-                <ScalarProperty Name="Jul" ColumnName="Jul" />
-                <ScalarProperty Name="Aug" ColumnName="Aug" />
-                <ScalarProperty Name="Sep" ColumnName="Sep" />
-                <ScalarProperty Name="Oct" ColumnName="Oct" />
-                <ScalarProperty Name="Nov" ColumnName="Nov" />
-                <ScalarProperty Name="Dec" ColumnName="Dec" />
-              </ComplexTypeMapping>
-            </ResultMapping>
-          </FunctionImportMapping>
+          <EntitySetMapping Name="ConsolidatedEmployeeLeaveDetails">
+            <EntityTypeMapping TypeName="LeaveManagementSystemModel.ConsolidatedEmployeeLeaveDetail">
+              <MappingFragment StoreEntitySet="ConsolidatedEmployeeLeaveDetails">
+                <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
+                <ScalarProperty Name="LossofPayCount" ColumnName="LossofPayCount" />
+                <ScalarProperty Name="WorkFromHomeCount" ColumnName="WorkFromHomeCount" />
+                <ScalarProperty Name="AppliedLeavesCount" ColumnName="AppliedLeavesCount" />
+                <ScalarProperty Name="EarnedLeavesCount" ColumnName="EarnedLeavesCount" />
+                <ScalarProperty Name="RefEmployeeId" ColumnName="RefEmployeeId" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
         </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>

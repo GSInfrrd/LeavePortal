@@ -24,12 +24,21 @@ namespace LMS_WebAPI_ServiceHelpers
         public List<EmployeeDetailsModel> GetEmployeeList()
         {
             var result = hrRepo.GetEmployeeList();
+            IUser usr = new UserRepository();
+            var leaveReport = usr.GetLeaveReportDetails(DateTime.Now.Year);       
+            result[0].leaveDetails = leaveReport;
             return result;
         }
 
         public List<EmployeeDetailsModel> GetManagerList(int refLevel)
         {
             var result = hrRepo.GetManagerList(refLevel);
+            return result;
+        }
+
+        public List<EmployeeDetailsModel> GetReportData(int employeeId, int leaveType, int exportAs)
+        {
+            var result = hrRepo.GetReportData(employeeId,leaveType,exportAs);
             return result;
         }
     }
