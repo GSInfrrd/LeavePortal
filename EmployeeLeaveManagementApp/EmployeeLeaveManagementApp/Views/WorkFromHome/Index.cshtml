@@ -1,8 +1,12 @@
-﻿@model IList<LMS_WebAPP_Domain.WorkFromHomeModel>
+﻿
+
+
+@model IList<LMS_WebAPP_Domain.WorkFromHomeModel>
 @{
     ViewBag.Title = "Index";
     Layout = "~/Views/Shared/_Layout.cshtml";
-    var dateList = (from n in Model select n.Date).ToList();
+    IList<DateTime> dateList = new List<DateTime>();
+    dateList = (from n in Model select n.Date).ToList();
 }
 
 <link href="~/plugins/Toastr/toastr.css" rel="stylesheet" />
@@ -13,11 +17,14 @@
 
 <section class="content-header" style="height:41px">
     <h1 class="col-md-9">
-        Add Work From Home
+        Apply Work From Home
     </h1>
-    <div style="float:right;padding-right:0px" class="col-md-2">
-        <button type="button" id="btnAddNewWorkFromHome" class="btn btn-block bg-black" data-toggle="modal" data-target="#exampleModal"><i class="fa fa-plus"></i>Add New</button>
-    </div>
+    @if (!dateList.Contains(DateTime.Now.Date))
+    {
+        <div style="float:right;padding-right:0px" class="col-md-2">
+            <button type="button" id="btnAddNewWorkFromHome" class="btn btn-block bg-black" data-toggle="modal" data-target="#exampleModal"><i class="fa fa-plus"></i>Add New</button>
+        </div>
+    }
 </section>
 
 <section class="content">
@@ -58,7 +65,7 @@
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                <h4 class="modal-title" id="exampleModalLabel">Add Work From Home</h4>
+                <h4 class="modal-title" id="exampleModalLabel">Apply Work From Home</h4>
             </div>
             <div class="modal-body">
                 <form>
@@ -101,14 +108,25 @@
     $('#exampleModal').on('show.bs.modal', function (event) {
     });
 
-    var totalDate = @Html.Raw(Json.Encode(dateList));
+
+    function formatDate(date) {
+        var mm = date.getMonth() + 1;
+        var dd = date.getDate();
+        var yyyy = date.getFullYear();
+        mm = (mm < 10) ? '0' + mm : mm;
+        return mm + "-" + dd + "-" + yyyy;
+    }
+    var today = (formatDate(new Date()));
+    $('#datepicker').val(today);
+
+    @*var totalDate = @Html.Raw(Json.Encode(dateList));
     var loop = [];
     for (i = 0; i < totalDate.length; i++) {
         loop.push(new Date(parseInt(totalDate[i].substr(6, 13))).getTime());
     }
-   
+
     $('#datepicker').datepicker({autoclose: true})
-   .on('changeDate', function(ev){
+    .on('changeDate', function(ev){
        var date = ev.date;
        console.log(ev.date);
        var newDate = new Date(date).getTime();
@@ -119,8 +137,8 @@
               $('#datepicker').datepicker('hide');
               $('#datepicker').val("");
           }
-     
-  });
+
+  });*@
 
     $(function () {
         $('#example1').DataTable({
@@ -138,7 +156,7 @@
     $(document).on('click', '#btnAddWorkFromHome ', function (e) {
         debugger;
         if (formValidate() == true) {
-           
+
                 $.ajax({
                     cache: false,
                     type: 'post',
@@ -146,7 +164,7 @@
                     data: { date: $('#datepicker').val(), reason: $('#SelectReason').val() },
                     dataType: "json",
                     success: function (data) {
-                        loop.push( new Date($('#datepicker').val()).getTime());
+                        //loop.push( new Date($('#datepicker').val()).getTime());
                         $('#exampleModal').modal('hide');
                         $.ajax({
                             cache: false,
@@ -154,7 +172,6 @@
                             url: '/WorkFromHome/GetWorkFromHomeList',
                             dataType: "json",
                             success: function (data) {
-                                debugger;
                                 $('#exampleModal').modal('hide');
                                 updateDatatable(data, true);
                                 showMessage("New WorkFromHome added successfully", "1", true);
@@ -163,7 +180,8 @@
                             }
                         });
                         $('#datepicker').val("");
-                        $('#datepicker').datepicker();
+                        $('#btnAddNewWorkFromHome').hide();
+                        //$('#datepicker').datepicker();
                         $('#SelectReason').val("");
                     }
                 });
@@ -176,7 +194,6 @@
 
     $(document).on('click', '#btnClose,.close', function (e) {
         debugger;
-        $('#datepicker').val("");
         $('#SelectReason').val("");
     });
 
@@ -201,23 +218,16 @@
         }
     }
 
-
-
-
-    
-
     //Form validate
-    
     function formValidate() {
+        debugger;
         if (
-
         $('#datepicker').val() != "" &&
         $('#SelectReason').val() != "") {
             return true;
         }
         else { return false; }
     }
-
 
 
     // Edit WorkFromHome
@@ -252,9 +262,9 @@
             "autoWidth": false,
         });
 
-        $('#datepickerYear').val("");
+        //$('#datepickerYear').val("");
         $('#datepicker').val("");
-        $('#Description').val("");
+        $('#SelectReason').val("");
     }
 </script>
 
