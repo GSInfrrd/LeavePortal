@@ -52,12 +52,10 @@
     <!-- Bootstrap 3.3.6 -->
     <!-- AdminLTE App -->
     <script src="~/dist/js/app.min.js"></script>
-    <!-- AdminLTE for demo purposes -->
-    <script src="~/dist/js/demo.js"></script>
     <div class="wrapper">
         <header class="main-header">
             <!-- Logo -->
-            <a href="../../index2.html" class="logo">
+            <a href="http://www.infrrd.ai/" class="logo">
                 <!-- mini logo for sidebar mini 50x50 pixels -->
 
                 <span class="logo-mini">
@@ -172,13 +170,13 @@
                     }
                    @if ((roleId == (int)EmployeeRole.Employee) || (roleId == (int)EmployeeRole.Manager) || roleId==(int)EmployeeRole.HR)
                    {
-                        <li>
+                        <li class="treeview">
                             <a href="@Url.Action("ApplyLeave", "ApplyLeave")">
                                 <i class="fa fa-calendar-plus-o"></i> <span>Apply Leave</span>
 
                             </a>
                         </li>
-                        <li>
+                        <li class="treeview">
                             <a href="@Url.Action("Index", "WorkFromHome")">
                                 <i class="fa fa-calendar-plus-o"></i> <span>Apply WFH</span>
 
@@ -187,7 +185,7 @@
                    }
                     @if ((roleId == (int)EmployeeRole.Employee)|| (roleId == (int)EmployeeRole.Manager) || roleId==(int)EmployeeRole.HR)
                     {
-                        <li>
+                        <li class="treeview">
                             <a href="@Url.Action("LeaveTransaction", "LeaveTransaction")">
                                 <i class="fa fa-history"></i> <span>Leave History</span>
 
@@ -196,7 +194,7 @@
                     }
 @if ((roleId == (int)EmployeeRole.Manager))
 {
-                    <li>
+                    <li class="treeview">
                         <a href="@Url.Action("ApproveLeave", "ApproveLeave")">
                             <i class="fa fa-calendar-check-o"></i> <span>Take Action</span>
 
@@ -205,7 +203,7 @@
   }
                     @if (roleId == (int)EmployeeRole.HR || roleId==(int)EmployeeRole.Manager)
                     {
-                        <li>
+                        <li class="treeview">
                             <a href="@Url.Action("EmployeeDetails", "HR")">
                                 <i class="fa fa-database"></i> <span>Employee Details</span>
 
@@ -214,7 +212,7 @@
                     }
                     @if (roleId == (int)EmployeeRole.HR)
                     {
-                        <li>
+                        <li class="treeview">
                             <a href="@Url.Action("HolidayList", "HR")">
                                 <i class="fa fa-th"></i> <span>Add Holidays</span>
 
@@ -223,7 +221,7 @@
                     }
                     @if (roleId == (int)EmployeeRole.HR)
                     {
-                        <li>
+                        <li class="treeview">
                             <a href="@Url.Action("AddLeaves", "HR")">
                                 <i class="fa fa-th"></i> <span>Add Leaves</span>
 
@@ -232,7 +230,7 @@
                     }
                     @if (roleId == (int)EmployeeRole.HR)
                     {
-                        <li>
+                        <li class="treeview">
                             <a href="@Url.Action("CompanyAnnouncements", "HR")">
                                 <i class="fa fa-volume-up"></i> <span>Company Announcements</span>
 
@@ -241,7 +239,7 @@
                     }
                     @if (roleId == (int)EmployeeRole.HR)
                     {
-                        <li>
+                        <li class="treeview">
                             <a href="@Url.Action("Broadcast", "HR")">
                                 <i class="fa fa-th"></i> <span>Broadcast</span>
 
@@ -250,7 +248,7 @@
                     }
                     @if (roleId == (int)EmployeeRole.HR)
                     {
-                        <li>
+                        <li class="treeview">
                             <a href="@Url.Action("Reports", "HR")">
                                 <i class="fa fa-th"></i> <span>Reports</span>
 

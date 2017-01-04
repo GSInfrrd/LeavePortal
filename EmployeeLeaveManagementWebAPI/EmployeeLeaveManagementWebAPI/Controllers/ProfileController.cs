@@ -22,7 +22,7 @@ namespace EmployeeLeaveManagementWebAPI.Controllers
             try
             {
                 var empData = userManager.GetUserProfileDetails(empId);
-                empData.ImagePath = accController.GetFile(empData.ImagePath);
+             // empData.ImagePath = accController.GetFile(empData.ImagePath);
                 if (null != empData)
                 {
                     return empData;

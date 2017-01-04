@@ -267,21 +267,21 @@ namespace EmployeeLeaveManagementApp.Controllers
             return View();
         }
 
-        public async Task<ActionResult> GenerateReports(int employeeId, int leaveType, int exportAs)
+        public async Task<ActionResult> GenerateReports(string employeeId,string leaveType, int exportAs,string fromDate,string toDate)
         {
             if (null != Session[Constants.SESSION_OBJ_USER])
             {
-                var data = (UserAccount)Session[Constants.SESSION_OBJ_USER];
-                var model = new MemoryStream();
-                model = await hrOperations.GenerateReportsAsync(exportAs, employeeId, leaveType);
+                var model = new MemoryStream();            
+
+                model = await hrOperations.GenerateReportsAsync(exportAs,employeeId , leaveType,fromDate,toDate);
                 if (exportAs == 1)
                 {
-                    return File(model.GetBuffer(), "application/vnd.ms-excel", "LeaveReport.xls");
+                    return File(model.GetBuffer(), "application/vnd.ms-excel", "LeaveReport_"+DateTime.Now.Day+"/"+DateTime.Now.Month+"/"+DateTime.Now.Year+".xls");
                 }
                 else
                 {
-                    CommonMethods.SendMailWithMultipleAttachments("alekya@infrrd.ai", true, "Leave Report", "", model, "Leave Report File");
-                    return View();
+                    CommonMethods.SendMailWithMultipleAttachments("alekya@infrrd.ai", true, "Leave Report", "", model, "LeaveReportFile_"+DateTime.Now.Day+"/"+DateTime.Now.Month+"/"+DateTime.Now.Year);
+                    return Json(new { result = true });
                 }
             }
             else
@@ -289,6 +289,20 @@ namespace EmployeeLeaveManagementApp.Controllers
                 return RedirectToAction("Login", "Account");
             }
         }
+
+        public async Task<JsonResult> GetChartDetails(int employeeId)
+        {
+            var model = new ConsolidatedEmployeeLeaveDetailsModel();
+
+            if (null != Session[Constants.SESSION_OBJ_USER])
+            {
+                 model = await hrOperations.GetChartDetailsAsync(employeeId);
+            
+            }
+            return Json(new { result = model });
+        }
+
+
 
 
     }

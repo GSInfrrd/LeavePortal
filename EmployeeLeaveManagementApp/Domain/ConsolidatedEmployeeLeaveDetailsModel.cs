@@ -10,10 +10,12 @@ namespace LMS_WebAPP_Domain
     {
         public int Id { get; set; }
         public int RefEmployeeId { get; set; }
-        public Nullable<int> EarnedLeavesCount { get; set; }
         public Nullable<int> AppliedLeavesCount { get; set; }
         public Nullable<int> WorkFromHomeCount { get; set; }
         public Nullable<int> LossofPayCount { get; set; }
+
+        public Nullable<int> AdvancedLeavesCount { get; set; }
+        public Nullable<int> CompOffCount { get; set; }
         public System.DateTime CreatedBy { get; set; }
     }
 }

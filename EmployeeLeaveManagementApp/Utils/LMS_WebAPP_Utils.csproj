@@ -7,8 +7,8 @@
     <ProjectGuid>{388E3F39-1CB3-4BB0-BCA0-45F8560CA768}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Utils</RootNamespace>
-    <AssemblyName>Utils</AssemblyName>
+    <RootNamespace>LMS_WebAPP_Utils</RootNamespace>
+    <AssemblyName>LMS_WebAPP_Utils</AssemblyName>
     <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>

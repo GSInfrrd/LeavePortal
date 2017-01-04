@@ -19,7 +19,8 @@ namespace LMS_WebAPI_DAL.Repositories
             {
                 using (var ctx = new LeaveManagementSystemEntities1())
                 {
-
+                    byte[] imageByteData = System.IO.File.ReadAllBytes(model.ImagePath);
+                    string imageBase64Data = Convert.ToBase64String(imageByteData);
                     var employeeDetails = new EmployeeDetail
                     {
                         FirstName = model.FirstName,
@@ -33,9 +34,9 @@ namespace LMS_WebAPI_DAL.Repositories
                         PhoneNumber=model.Telephone,
                         RefHierarchyLevel=model.RefHierarchyLevel,
                         ManagerId=Convert.ToInt32(model.ManagerName),
-                        DateOfJoining=model.DateOfJoining,
-                        ImagePath=model.ImagePath
-                        
+                        DateOfJoining=model.DateOfJoining,                    
+                    ImagePath = imageBase64Data
+
 
                     };
                     ctx.EmployeeDetails.Add(employeeDetails);
@@ -151,36 +152,74 @@ namespace LMS_WebAPI_DAL.Repositories
             }
         }
 
-        public List<ConsolidatedEmployeeLeaveDetailsModel> GetReportData(int employeeId=0, int leaveType=0)
+        public List<ConsolidatedEmployeeLeaveDetailsModel> GetReportData(string fromDate,string toDate,List<int> employeeId,out List<DetailedLeaveReport> detailsList)
         {
             var list = new List<ConsolidatedEmployeeLeaveDetailsModel>();
+            var ddList = new List<DetailedLeaveReport>();
             try
             {
-                var dataList = new List<ConsolidatedEmployeeLeaveDetail>();
+                var reportFromDate = Convert.ToDateTime(fromDate);
+                var reportToDate = Convert.ToDateTime(toDate);
+
+                var dataList = new List<EmployeeDetail>();
+                var empDatalist = new EmployeeDetail();
+                var detailedDataList = new List<EmployeeLeaveTransactionHistory>();
+                var detailedWfhList = new List<WorkFromHome>();
                 using (var ctx = new LeaveManagementSystemEntities1())
                 {
-                    if (employeeId == 0)
+                    var totalLeaves = ctx.LeaveMasters.Select(x => x.Count).Sum();
+                    if (employeeId[0]==0)
                     {
-                         dataList = ctx.ConsolidatedEmployeeLeaveDetails.ToList();
-                            }
-                    else if(employeeId!=0)
+                        dataList = ctx.EmployeeDetails.Include("EmployeeLeaveTransactionHistories").Include("WorkFromHomes").ToList();
+                        detailedDataList = ctx.EmployeeLeaveTransactionHistories.Where(i => i.FromDate >= reportFromDate && i.ToDate <= reportToDate).ToList();
+                        detailedWfhList= ctx.WorkFromHomes.Where(i => i.Date >= reportFromDate && i.Date <= reportToDate).ToList();
+                    }
+                    else if(employeeId[0]!=0)
                     {
-                        dataList = ctx.ConsolidatedEmployeeLeaveDetails.Where(x=>x.RefEmployeeId==employeeId).ToList();
+                        foreach (var item in employeeId)
+                        {
+
+                            empDatalist = ctx.EmployeeDetails.Include("EmployeeLeaveTransactionHistories").Include("WorkFromHomes").FirstOrDefault(x => x.Id == item);
+                            detailedDataList = ctx.EmployeeLeaveTransactionHistories.Where(i=>i.RefEmployeeId==item && i.FromDate>=reportFromDate && i.ToDate<=reportToDate).ToList();
+                            detailedWfhList = ctx.WorkFromHomes.Where(i =>i.RefEmployeeId== item && i.Date >= reportFromDate && i.Date <= reportToDate).ToList();
+
+                            dataList.Add(empDatalist);
+                        }
+                    }
+                    foreach (var item in detailedDataList)
+                    {
+                        var detailedList = new DetailedLeaveReport();
+                        detailedList.EmpoyeeName = item.EmployeeDetail.FirstName;
+                        detailedList.LeaveType = item.MasterDataValue.Value;
+                        detailedList.FromDate = item.FromDate;
+                        detailedList.ToDate = item.ToDate;
+                        ddList.Add(detailedList);
+                    }
+                    foreach (var item in detailedWfhList)
+                    {
+                        var detailedList = new DetailedLeaveReport();
+                        detailedList.EmpoyeeName = item.EmployeeDetail.FirstName;
+                        detailedList.LeaveType = item.MasterDataValue.Value;
+                        detailedList.FromDate = item.Date;
+                        detailedList.ToDate = item.Date;
+                        ddList.Add(detailedList);
                     }
                     foreach (var item in dataList)
                     {
                         var listItem = new ConsolidatedEmployeeLeaveDetailsModel();
-                        listItem.Id = item.Id;
-                        listItem.RefEmployeeId = item.RefEmployeeId;
-                        listItem.EmployeeName = ctx.EmployeeDetails.FirstOrDefault(i => i.Id == item.RefEmployeeId).FirstName;
-                        listItem.EarnedLeavesCount = item.EarnedLeavesCount;
-                        listItem.LossofPayCount = item.LossofPayCount;
-                        listItem.AppliedLeavesCount = item.AppliedLeavesCount;
-                        listItem.WorkFromHomeCount = item.WorkFromHomeCount;
+                        listItem.RefEmployeeId = item.Id;
+                        listItem.EmployeeName = item.FirstName;                
+                        listItem.AppliedLeavesCount =(int)item.EmployeeLeaveTransactionHistories.Where(i=>i.RefEmployeeId==item.Id && i.FromDate>=reportFromDate && i.ToDate<=reportToDate).Select(i=>i.NumberOfWorkingDays).Sum();
+                        listItem.LossofPayCount =listItem.AppliedLeavesCount>totalLeaves? listItem.AppliedLeavesCount-totalLeaves:0;
+                    listItem.WorkFromHomeCount = item.WorkFromHomes.Where(i=>i.RefEmployeeId==item.Id && i.Date>=reportFromDate && i.Date<=reportToDate).ToList().Count;
+                        listItem.CompOffCount = (int)item.EmployeeLeaveTransactionHistories.Where(i => i.RefEmployeeId == item.Id && i.RefLeaveType==(int)LeaveType.CompOff && i.FromDate >= reportFromDate && i.ToDate <= reportToDate).Select(i=>i.NumberOfWorkingDays).Sum();
+                        listItem.AdvancedLeavesCount = (int)item.EmployeeLeaveTransactionHistories.Where(i => i.RefEmployeeId == item.Id && i.RefLeaveType == (int)LeaveType.AdvancedLeave && i.FromDate >= reportFromDate && i.ToDate <= reportToDate).Select(i=>i.NumberOfWorkingDays).Sum();
                         list.Add(listItem);
                     }
-               
+              
+                  
                 }
+                detailsList = ddList;
                 return list;
             }
             catch (Exception ex)
@@ -188,6 +227,39 @@ namespace LMS_WebAPI_DAL.Repositories
                 throw;
             }
         }
+
+        public ConsolidatedEmployeeLeaveDetailsModel GetChartDetails(int employeeId)
+        {
+            var listItem = new ConsolidatedEmployeeLeaveDetailsModel();
+            try
+            {
+                var empDatalist = new EmployeeDetail();
+
+                using (var ctx = new LeaveManagementSystemEntities1())
+                {
+                    var totalLeaves = ctx.LeaveMasters.Select(x => x.Count).Sum();
+                            empDatalist = ctx.EmployeeDetails.Include("EmployeeLeaveTransactionHistories").Include("WorkFromHomes").FirstOrDefault(x => x.Id == employeeId);
+
+
+
+                        listItem.RefEmployeeId = empDatalist.Id;
+                        listItem.EmployeeName = empDatalist.FirstName;
+                        listItem.AppliedLeavesCount =(int) empDatalist.EmployeeLeaveTransactionHistories.Where(i => i.RefEmployeeId == empDatalist.Id && (i.RefLeaveType!=(int)LeaveType.AdvancedLeave || i.RefLeaveType != (int)LeaveType.CompOff)).Select(i => i.NumberOfWorkingDays).Sum();
+                        listItem.LossofPayCount = listItem.AppliedLeavesCount > totalLeaves ? listItem.AppliedLeavesCount - totalLeaves : 0;
+                        listItem.WorkFromHomeCount = empDatalist.WorkFromHomes.Where(i => i.RefEmployeeId == empDatalist.Id).ToList().Count;
+                        listItem.CompOffCount = (int)empDatalist.EmployeeLeaveTransactionHistories.Where(i => i.RefEmployeeId == empDatalist.Id && i.RefLeaveType == (int)LeaveType.CompOff ).Select(i => i.NumberOfWorkingDays).Sum();
+                        listItem.AdvancedLeavesCount =(int) empDatalist.EmployeeLeaveTransactionHistories.Where(i => i.RefEmployeeId == empDatalist.Id && i.RefLeaveType == (int)LeaveType.AdvancedLeave).Select(i => i.NumberOfWorkingDays).Sum();
+
+
+                }
+                return listItem;
+            }
+            catch (Exception ex)
+            {
+                throw;
+            }
+        }
+
 
     }
 }

@@ -144,7 +144,8 @@ namespace LMS_WebAPP_Utils
                 message.IsBodyHtml = true;
                 if (IsAttachment)
                 {
-                    var attachment = new Attachment(attachmentPath,attachmentName+".xls", "application/vnd.ms-excel");
+                    attachmentPath.Position = 0;
+                    var attachment = new Attachment(attachmentPath,attachmentName+".xls");
                     // message.Attachments.Add(new Attachment(attachment,attachmentName+".xls"));      
                     message.Attachments.Add(attachment);  
                 }

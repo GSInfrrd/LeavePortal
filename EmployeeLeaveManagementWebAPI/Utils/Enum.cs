@@ -13,7 +13,11 @@ namespace LMS_WebAPI_Utils
         [Description("Casual Leave")]
         CasualLeave = 8,
         [Description("Sick Leave")]
-        SickLeave = 7
+        SickLeave = 7,
+             [Description("Comp Off")]
+        CompOff = 25,
+             [Description("Advanced Leave")]
+        AdvancedLeave = 26
     }
 
     public enum LeaveStatus
@@ -42,15 +46,16 @@ namespace LMS_WebAPI_Utils
 
     public enum ReportType
     {
-        [Description("All")]
-        All = 0,
-        [Description("Earned Leaves")]
-        EarnedLeaves = 1,
+      
         [Description("Applied Leaves")]
-        AppliedLeaves = 2,
+        AppliedLeaves = 1,
         [Description("Work From Home")]
-        WorkfromHome = 3,
+        WorkfromHome = 2,
         [Description("Loss of Pay")]
-        LossofPay = 4
+        LossofPay = 3,
+        [Description("Advanced Leaves")]
+        AdvancedLeaves = 4,
+        [Description("Comp Off")]
+        CompOff = 5
     }
 }

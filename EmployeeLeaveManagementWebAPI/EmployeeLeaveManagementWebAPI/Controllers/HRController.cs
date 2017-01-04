@@ -51,16 +51,23 @@ namespace EmployeeLeaveManagementWebAPI.Controllers
         }
 
         [System.Web.Http.HttpGet]
-        public MemoryStream GenerateReports(int exportAs, int employeeId =0, int leaveType = 0)
+        public MemoryStream GenerateReports(string fromDate,string toDate,string employeeId, string leaveType)
         {
             try
             {
-                var empData = hrOperations.GetReportData(employeeId, leaveType);
+                var detailsList = new List<DetailedLeaveReport>();
+                var data = Array.ConvertAll(employeeId.TrimEnd(':').Split(':'), int.Parse);
+                var leaveData = Array.ConvertAll(leaveType.TrimEnd(':').Split(':'), int.Parse);
+                var empData = hrOperations.GetReportData(fromDate,toDate, data.ToList(),out detailsList);
                 string filterValue = String.Empty;
                 var filtersList = new List<ExcelDownloadFilterList>();
-                if (leaveType != 0)
+                if (leaveData.Count()>=1 && leaveData[0]!= 0)
                 {
-                    filterValue = ((ReportType)leaveType).Description();
+                    foreach(var item in leaveData)
+                    { 
+                    filterValue =filterValue+ ((ReportType)item).Description()+",";
+                        }
+                    filterValue = filterValue.TrimEnd(',');
                 }
                 else
                 {
@@ -70,6 +77,8 @@ namespace EmployeeLeaveManagementWebAPI.Controllers
                     }
                     filterValue = filterValue.Substring(0, filterValue.LastIndexOf(", "));
                 }
+         
+
                 if (!String.IsNullOrEmpty(filterValue))
                 {
                     filtersList.Add(new ExcelDownloadFilterList()
@@ -79,30 +88,38 @@ namespace EmployeeLeaveManagementWebAPI.Controllers
                     });
                 }
                 string include = "RefEmployeeId,EmployeeName,";
-                if (leaveType == 0)
+                if (leaveData[0] == 0)
                 {
-                    include += "EarnedLeavesCount,AppliedLeavesCount,WorkFromHomeCount,LossofPayCount";
+                    include += "AppliedLeavesCount,WorkFromHomeCount,LossofPayCount,CompOffCount,AdvancedLeavesCount";
                 }
-                else if (leaveType != 0)
+                else if (leaveData[0] != 0)
                 {
-                    switch (leaveType)
+                    foreach (var item in leaveData)
                     {
-                        case 1:
-                            include += "EarnedLeavesCount";
-                            break;
-                        case 2:
-                            include += "AppliedLeavesCount";
-                            break;
-                        case 3:
-                            include += "WorkFromHomeCount";
-                            break;
-                        case 4:
-                            include += "LossofPayCount";
-                            break;
+                        switch (item)
+                        {
+
+                            case 1:
+                                include += "AppliedLeavesCount,";
+                                break;
+                            case 2:
+                                include += "WorkFromHomeCount,";
+                                break;
+                            case 3:
+                                include += "LossofPayCount,";
+                                break;
+                            case 4:
+                                include += "CompOffCount,";
+                                break;
+                            case 5:
+                                include += "AdvancedLeavesCount,";
+                                break;
+                        }
                     }
                 }
+                include = include.TrimEnd(',');
 
-                var file = CommonMethods.CreateDownloadExcel(empData, include, "", "Report", "Leave Report", filtersList);
+                var file = CommonMethods.CreateDownloadExcel(empData,detailsList, include, "", "Report", "Leave Report", filtersList);
                 // return File(file.GetBuffer(), "application/vnd.ms-excel", "LeaveReport.xls");
 
                 return file;
@@ -113,6 +130,22 @@ namespace EmployeeLeaveManagementWebAPI.Controllers
                 //throw;
             }
         }
+
+        [System.Web.Http.HttpGet]
+        public ConsolidatedEmployeeLeaveDetailsModel GetChartDetails(int employeeId)
+        {
+            try
+            {
+                 var empData = hrOperations.GetChartDetails(employeeId);
+                return empData;
+            }
+            catch (Exception ex)
+            {
+                return null;
+                //throw;
+            }
+        }
+
 
 
     }

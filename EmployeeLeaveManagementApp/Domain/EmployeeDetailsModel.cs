@@ -74,6 +74,11 @@ namespace LMS_WebAPP_Domain
         public string Degree { get; set; }
         public string TimePeriod { get; set; }
 
+        public DateTime FromDate { get; set; }
+
+        public DateTime ToDate { get; set; }
+
+
     }
 
     public class EmployeeExperienceDetails
@@ -82,6 +87,11 @@ namespace LMS_WebAPP_Domain
         public string Company { get; set; }
         public string Role { get; set; }
         public string TimePeriod { get; set; }
+
+        public DateTime FromDate { get; set; }
+
+        public DateTime ToDate { get; set; }
+
 
     }
 

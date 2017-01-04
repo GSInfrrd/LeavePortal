@@ -5,7 +5,10 @@
     var userId = ((LMS_WebAPP_Domain.UserAccount)Session[LMS_WebAPP_Utils.Constants.SESSION_OBJ_USER]).RefEmployeeId;
     var roleId = ((LMS_WebAPP_Domain.UserAccount)Session[LMS_WebAPP_Utils.Constants.SESSION_OBJ_USER]).RefRoleId;
     var imagePath = Model.ImagePath;
+    var skills = Model.Skills;
 }
+<link rel="stylesheet" href="../../plugins/select2/select2.min.css">
+<link rel="stylesheet" href="../../dist/css/AdminLTE.min.css">
 <style>
     .products-list .product-info {
         margin-left: 0px !important;
@@ -246,7 +249,7 @@
                             <div class="form-group">
                                 <label for="inputEmail" class="col-sm-2 control-label">Date Of Birth</label>
                                 <div class="col-sm-10">
-                                    <input type="date" class="form-control" id="inputEmail" value="@Model.DateOfBirth">
+                                    <input type="text" class="form-control" id="dateOfBirthDatePicker" value="@Model.DateOfBirth.Date.ToString("MM/dd/yyyy")">
                                 </div>
                             </div>
                             <div class="form-group">
@@ -271,7 +274,7 @@
                             <div class="form-group">
                                 <label for="inputEmail" class="col-sm-2 control-label">Duration</label>
                                 <div class="col-sm-10">
-                                    <input type="text" class="form-control" id="educationDatePicker">
+                                    <input type="text" class="form-control" id="educationDatePicker" value="@Model.EmployeeEducationDetails[0].FromDate.Date.ToString("MM/dd/yyyy")-@Model.EmployeeEducationDetails[0].ToDate.Date.ToString("MM/dd/yyyy")">
                                 </div>
                             </div>
 
@@ -304,7 +307,15 @@
                             <div class="form-group">
                                 <label for="inputSkills" class="col-sm-2 control-label">Skills</label>
                                 <div class="col-sm-10">
-                                    <input type="text" class="form-control" id="inputSkills" value="@Model.Skills" placeholder="Skills">
+                              
+
+                                        <select id="ddlSkills" multiple="multiple" class="form-control skills" style="width: 100%;">
+                                            <option>.Net</option>
+                                            <option>Java</option>
+                                            <option>Html</option>
+                                        </select>
+                                 
+
                                 </div>
                             </div>
                             <div class="form-group">
@@ -336,16 +347,26 @@
 <script src="~/plugins/daterangepicker/moment.min.js"></script>
 @*<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.11.2/moment.min.js"></script>*@
 <script src="../../plugins/daterangepicker/daterangepicker.js"></script>
+<script src="../../plugins/select2/select2.full.min.js"></script>
 <script>
-    var imgData="@imagePath";
+    var imgData = "@imagePath";
     $(document).ready(function () {
+        @*var values=@skills;
+      for(var)
+            $("#ddlSkills option[value='" + e + "']").prop("selected", true);
+        });*@
         $(function () {
+            $(".skills").select2();
             $('#educationDatePicker').daterangepicker(
                    {
+
                    });
             $('#experienceDatePicker').daterangepicker(
                   {
                   });
+            $('#dateOfBirthDatePicker').datepicker(
+                 {
+                 });
 
             var colorClass = ["label-success", "label-danger", "label-info", "label-warning", "label-primary"];
 
@@ -371,6 +392,10 @@
 "<label for='inputEmail' class='col-sm-2 control-label'>Duration</label><div class='col-sm-10'>" +
 "<input type='text' class='form-control' id='educationDatePicker'></div>");
         $("#divEducationDetails").show();
+        $('#educationDatePicker').daterangepicker(
+                 {
+
+                 });
         //$("#lnkAddEducationDetails").hide();
     });
     $("#lnkAddExperienceDetails").click(function (e) {
@@ -381,29 +406,9 @@
 "<label for='inputEmail' class='col-sm-2 control-label'>Duration</label><div class='col-sm-10'>" +
 "<input type='text' class='form-control' id='experienceDatePicker'></div></div></div>");
         $("#otherExperienceDetails").show();
+        $('#experienceDatePicker').daterangepicker(
+             {
+             });
     });
 
-    //var doc = new jsPDF();
-    //var specialElementHandlers = {
-    //    '#editor': function (element, renderer) {
-    //        return true;
-    //    }
-    //};
-
-    $('#generatePdf').click(function () {
-        var id = $(this).data("content");
-        $.ajax({
-            cache: false,
-            type: 'post',
-            url: '/Account/DownloadPDF',
-            //data: { leaveId: id },
-            //contentType: "application/json; charset=utf-8",
-            dataType: "json",
-            success: function (data) {
-                updateLeaveTable(data.result);
-                showSuccessMessage("Leave request successfully deleted");
-            }
-        });
- 
-    });
 </script>

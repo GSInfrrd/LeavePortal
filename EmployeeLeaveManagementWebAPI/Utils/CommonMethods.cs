@@ -14,6 +14,7 @@ using NPOI.SS.Util;
 using NPOI.HSSF.Util;
 using System.Globalization;
 using System.ComponentModel.DataAnnotations;
+using LMS_WebAPI_Domain;
 
 namespace LMS_WebAPI_Utils
 {
@@ -30,7 +31,7 @@ namespace LMS_WebAPI_Utils
                 : ((DescriptionAttribute)attributes[0]).Description;
         }
 
-        public static MemoryStream CreateDownloadExcel<T>(List<T> list, string include = "", string exclude = "", string sheetName = "Sheet1", string excelHeading = "Report", List<ExcelDownloadFilterList> filtersList = null)
+        public static MemoryStream CreateDownloadExcel<T>(List<T> list,List<DetailedLeaveReport> detailedList, string include = "", string exclude = "", string sheetName = "Sheet1", string excelHeading = "Report", List<ExcelDownloadFilterList> filtersList = null)
         {
             var stream = new MemoryStream();
             try
@@ -191,7 +192,6 @@ namespace LMS_WebAPI_Utils
                             {
                                 runningCell.SetCellValue("");
                             }
-                            //runningCell.CellStyle.WrapText = true;
                         }
                     }
                     for (int col = 1; col <= propList.Count; col++)
@@ -205,6 +205,145 @@ namespace LMS_WebAPI_Utils
                         else
                         {
                             mySheet.SetColumnWidth(col, 25600);
+                        }
+                    }
+                    ISheet mySheet2 = hssfWorkBook.GetSheet("Sheet2");
+                    hssfWorkBook.SetSheetName(hssfWorkBook.GetSheetIndex("Sheet2"), "Detailed Report");
+                    int detailedListCount = typeof(DetailedLeaveReport).GetProperties().Count();
+                    PropertyInfo[] detailedListProps = typeof(DetailedLeaveReport).GetProperties();
+                    List<PropertyInfo> detailedListPropList = GetSelectedProperties(detailedListProps, "","");
+                    int l = 1, m = 1;
+
+                    mySheet2.AddMergedRegion(new CellRangeAddress(l, l + 2, m, detailedListPropList.Count));
+                    IRow detailedReportHeading = mySheet2.CreateRow(mySheet2.LastRowNum + 1);
+                    ICell detailedReportHeadingCell = detailedReportHeading.CreateCell(m);
+                    detailedReportHeadingCell.SetCellValue("Detailed Report");
+                    ICellStyle detailedReportCellStyleHeading = mySheet2.Workbook.CreateCellStyle();
+                    IFont detailedReportHeadingFont = mySheet2.Workbook.CreateFont();
+                    detailedReportHeadingFont.Boldweight = (short)FontBoldWeight.Bold;
+                    detailedReportHeadingFont.FontHeightInPoints = 16;
+                    detailedReportCellStyleHeading.SetFont(headingFont);
+                    detailedReportCellStyleHeading.VerticalAlignment = VerticalAlignment.Center;
+                    detailedReportHeadingCell.CellStyle = detailedReportCellStyleHeading;
+
+                    l = l + 3;
+                    mySheet2.AddMergedRegion(new CellRangeAddress(l, l, m, detailedListPropList.Count));
+                    IRow detailedReportSummary = mySheet2.CreateRow(l);
+                    ICell detailedReportSummaryCell = detailedReportSummary.CreateCell(m);
+                    ICellStyle detailedReportCellStyleSummary = mySheet2.Workbook.CreateCellStyle();
+                    detailedReportCellStyleSummary.FillForegroundColor = HSSFColor.Grey50Percent.Index;
+                    detailedReportCellStyleSummary.FillPattern = FillPattern.SolidForeground;
+                    IFont detailedReportSummaryFont = mySheet2.Workbook.CreateFont();
+                    detailedReportSummaryFont.Color = HSSFColor.White.Index;
+                    detailedReportSummaryFont.Boldweight = (short)FontBoldWeight.Bold;
+                    detailedReportCellStyleSummary.SetFont(summaryFont);
+                    detailedReportSummaryCell.CellStyle = detailedReportCellStyleSummary;
+
+                    detailedReportSummaryCell.SetCellValue("No filters applied");
+
+                    l = mySheet2.LastRowNum + 2;
+                    IRow runningRow2 = mySheet2.CreateRow(l);
+                    ICell runningCell2 = null;
+                    foreach (var prop in detailedListPropList)
+                    {
+                        IEnumerable<DisplayAttribute> displayAttributes = prop.GetCustomAttributes(typeof(DisplayAttribute), false).Cast<DisplayAttribute>();
+                        var disAtt = "";
+                        //foreach (DisplayAttribute displayAttribute in displayAttributes)
+                        //{
+                            disAtt = prop.Name;
+                        //}
+                        ICellStyle cellStyle = mySheet2.Workbook.CreateCellStyle();
+                        cellStyle.FillForegroundColor = HSSFColor.Grey50Percent.Index;
+                        cellStyle.FillPattern = FillPattern.SolidForeground;
+                        IFont font = mySheet2.Workbook.CreateFont();
+                        font.Color = HSSFColor.White.Index;
+                        font.Boldweight = (short)FontBoldWeight.Bold;
+                        cellStyle.SetFont(font);
+                        runningCell2 = runningRow2.CreateCell(m++);
+                        runningCell2.SetCellValue(disAtt.ToString());
+                        runningCell2.CellStyle = cellStyle;
+                    }
+                    foreach (var item in detailedList)
+                    {
+                        IRow runningRow = mySheet2.CreateRow(++l);
+                        ICell runningCell = null;
+                      
+                        //Iterate through property collection for columns
+                        m = 1;
+                        foreach (var prop in detailedListPropList)
+                        {
+                            ICell value = mySheet2.GetRow(l - 1).GetCell(1);
+                            var propVal = item.GetType().GetProperty(prop.Name).GetValue(item);
+                            if(value!=null &&  propVal.ToString()==value.StringCellValue)
+                            {
+                                mySheet2.AddMergedRegion(new CellRangeAddress(l-1,l,1,1));
+                                    }
+                            // create cell content
+                            var dataType = item.GetType().GetProperty(prop.Name).PropertyType.GetTypeInfo();
+                            runningCell = runningRow.CreateCell(m++);
+                            if (propVal != null)
+                            {
+                                if (dataType == typeof(string))
+                                {
+                                    string cellVal = Convert.ToString(Convert.ChangeType(propVal, dataType));
+                                    runningCell.SetCellValue(cellVal);
+                                }
+                                else if (dataType == typeof(Int64))
+                                {
+                                    long cellVal = Convert.ToInt64(Convert.ChangeType(propVal, dataType));
+                                    runningCell.SetCellValue(cellVal);
+                                }
+                                else if (dataType == typeof(Int16))
+                                {
+                                    short cellVal = Convert.ToInt16(Convert.ChangeType(propVal, dataType));
+                                    runningCell.SetCellValue(cellVal);
+                                }
+                                else if (dataType == typeof(Int32))
+                                {
+                                    int cellVal = Convert.ToInt32(Convert.ChangeType(propVal, dataType));
+                                    runningCell.SetCellValue(cellVal);
+                                }
+                                else if (dataType == typeof(bool))
+                                {
+                                    bool cellVal = Convert.ToBoolean(Convert.ChangeType(propVal, dataType));
+                                    runningCell.SetCellValue(cellVal);
+                                }
+                                else if (dataType == typeof(DateTime) || dataType == typeof(Nullable<DateTime>))
+                                {
+                                    Nullable<DateTime> cellVal = (Nullable<DateTime>)(propVal);
+                                    runningCell.SetCellValue(cellVal.GetValueOrDefault());
+                                    runningCell.CellStyle = cellDateStyle;
+                                }
+                                else if (dataType == typeof(double) || dataType == typeof(float) || dataType == typeof(decimal))
+                                {
+                                    double cellVal = Convert.ToDouble(Convert.ChangeType(propVal, dataType));
+                                    runningCell.SetCellValue(cellVal);
+                                    runningCell.CellStyle = cellDoubleStyle;
+                                }
+                                else
+                                {
+                                    runningCell.SetCellValue(propVal.ToString());
+                                
+                                }
+                                runningCell.CellStyle.WrapText = true;
+                            }
+                            else
+                            {
+                                runningCell.SetCellValue("");
+                            }
+                        }
+                    }
+                    for (int col = 1; col <= detailedListPropList.Count; col++)
+                    {
+                        mySheet2.AutoSizeColumn(col, true);
+                        var width = mySheet2.GetColumnWidth(col);
+                        if (width <= 25600)
+                        {
+                            mySheet2.SetColumnWidth(col, width + 256);
+                        }
+                        else
+                        {
+                            mySheet2.SetColumnWidth(col, 25600);
                         }
                     }
                     hssfWorkBook.Write(stream);

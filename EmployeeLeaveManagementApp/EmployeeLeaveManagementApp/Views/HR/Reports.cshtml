@@ -7,150 +7,360 @@
 <link rel="stylesheet" href="../../plugins/select2/select2.min.css">
 <link rel="stylesheet" href="../../dist/css/AdminLTE.min.css">
 <!-- Morris chart -->
-<link rel="stylesheet" href="../plugins/morris/morris.css">
 
 <section class="content-header" style="height:41px">
     <h1 class="col-md-9" style="padding-left:0px">
-      Reports
+        Reports
     </h1>
-    <div style="float:right;padding-right:0px" class="col-md-2">
-        <button type="button" id="btnaddleave" class="btn btn-block bg-black" data-toggle="modal" data-target=".bs-generate-report-modal" style="background-color:#222d32 !important"><i class="fa fa-plus"></i>&nbsp;Generate Report</button>
-
-    </div>
 </section>
 <section class="content">
     <div class="row">
 
-        <div class="col-md-12">
-            <div class="box box-solid bg-teal-gradient">
-                <div class="box-header">
-                    <i class="fa fa-th"></i>
-                    <h3 class="box-title">Leave Report</h3>
+        <div class="col-md-6">
+            <!-- general form elements -->
+            <div class="box box-primary">
+                <div class="box-header with-border">
+                    <h3 class="box-title">Generate Report</h3>
                 </div>
-                <div class="box-body border-radius-none">
-                    <div class="chart" id="line-chart" style="height: 250px;"></div>
-                </div>
-                <!-- /.box-body -->
+                <div class="box-body">
+                    <div class="form-group">
+                        <label>Employee Name</label>
+                        <select class="form-control ddlEmployee" multiple="multiple" style="width: 100%;" id="ddlEmployeeName">
+                            <option value="0">All</option>
+                            @foreach (var m in Model)
+                            {
+                                <option id="@m.Id" value="@m.Id">@m.FirstName</option>
+                            }
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <div>
+                            <label>Date range:</label>
+                        </div>
 
+                        <div class="input-group">
+                            <div class="input-group-addon">
+                                <i class="fa fa-calendar"></i>
+                            </div>
+                            <input type="text" class="form-control pull-right" id="reportDatepicker">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label>Leave Type</label>
+                        <select class="form-control ddlLeave" multiple="multiple" style="width: 100%;" id="ddlLeaveType">
+                            <option value="0">All</option>
+                            <option value="1">Applied Leaves</option>
+                            <option value="2">Work from Home</option>
+                            <option value="3">Loss of Pay</option>
+                            <option value="3">Advanced Leaves</option>
+                            <option value="3">Comp Off</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="txtlastname">Export As</label>
+                        <select class="form-control select2" style="width: 100%;" id="ddlExportType">
+                            <option value="0">Select</option>
+                            <option value="1">Excel</option>
+                            <option value="2">Share as Attachment</option>
+
+                        </select>
+                    </div>
+                </div>
+                <div class="box-footer">
+                    <button type="button" id="btnGenerateReport" style="background-color:#222d32 !important" class="btn btn-primary">Submit</button>
+                </div>
+            </div>
+            </div>
+        <div class="col-md-6">
+            <div class="box box-primary">
+                <div class="box-header with-border">
+                    <h3 class="box-title">Employee Individual Report</h3>
+                </div>
+                <div class="box-body">
+                    <div class="form-group">
+                        <label>Employee Name</label>
+                        <select class="form-control ddlEmployeeSelect" style="width: 100%;" id="ddlEmployeeId">
+                            <option value="0">Select</option>
+                            @foreach (var m in Model)
+                            {
+                                <option id="@m.Id" value="@m.Id">@m.FirstName</option>
+                            }
+                        </select>
+                    </div>
+                    @*<div id="donut-chart" style="height: 300px;"></div>*@
+                        <div class="row">
+                            <div class="col-md-8">
+                                <div class="chart-responsive" id="pieChartContent">
+                                    <canvas id="pieChart" height="260" width="380"></canvas>
+                                </div>
+                                <!-- ./chart-responsive -->
+                            </div>
+                            <!-- /.col -->
+                            <div class="col-md-4">
+                                <ul class="chart-legend clearfix">
+                                    <li><i class="fa fa-circle-o text-red"></i> Loss of Pay</li>
+                                    <li><i class="fa fa-circle-o text-green"></i> Comp Off</li>
+                                    <li><i class="fa fa-circle-o text-yellow"></i> Advanced Leaves</li>
+                                    <li><i class="fa fa-circle-o text-aqua"></i> Work from Home</li>
+                                    <li><i class="fa fa-circle-o text-light-blue"></i> Applied Leaves</li>
+                                </ul>
+                            </div>
+                            &nbsp;&nbsp;&nbsp;&nbsp;<br /><br />
+                            <div class="col-md-4" style="padding-left:0px">
+                                <ul class="chart-legend clearfix">
+                                    <li> Loss of Pay : <text id="lopText"></text></li> 
+                                    <li>Comp Off :<text id="compOffText"></text></li>
+                                    <li>Advanced Leaves :<text id="advancedLeavesText"></text></li>
+                                    <li> Work from Home :<text id="wfhText"></text></li>
+                                    <li>Applied Leaves :<text id="appliedLeavesText"></text></li>
+                                </ul>
+                            </div>
+                            <!-- /.col -->
+                        </div>
+                        <!-- /.row -->
+
+                </div>
+                <!-- /.box-body-->
             </div>
         </div>
     </div>
 
     <!-- /.row -->
 </section>
-<div class="modal bs-generate-report-modal" id="GenerateReportModal" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-                <h4 class="modal-title">Generate Report</h4>
-            </div>
-            <div class="modal-body">
-                <div class="form-group">
-                    <label>Employee Name</label>
-                    <select class="form-control ddlEmployee" multiple="multiple" style="width: 100%;" id="ddlEmployeeName">
-                        <option value="0">All</option>
-                        @foreach (var m in Model)
-                        {
-                            <option id="@m.Id" value="@m.Id">@m.FirstName</option>
-                        }
-                    </select>
-                </div>
-                <div class="form-group">
-                    <div>
-                        <label>Date range:</label>
-                    </div>
-
-                    <div class="input-group">
-                        <div class="input-group-addon">
-                            <i class="fa fa-calendar"></i>
-                        </div>
-                        <input type="text" class="form-control pull-right" id="reportDatepicker">
-                    </div>
-                </div>
-                <div class="form-group">
-                    <label>Leave Type</label>
-                    <select class="form-control ddlLeave" multiple="multiple" style="width: 100%;" id="ddlLeaveType">
-                        <option value="0">All</option>
-                        <option value="1">Earned Leaves</option>
-                        <option value="2">Applied Leaves</option>
-                        <option value="3">Work from Home</option>               
-                        <option value="4">Loss of Pay</option>
-                    </select>
-                </div>
-                <div class="form-group">
-                    <label for="txtlastname">Export As</label>
-                    <select class="form-control select2" style="width: 100%;" id="ddlExportType">
-                        <option value="0">Select</option>
-                        <option value="1">Excel</option>
-                        <option value="2">Share as Attachment</option>
-
-                    </select>
-                </div>
-            </div>
-
-            <div class="modal-footer">
-                <button type="button" id="btnGenerateReport" style="background-color:#222d32 !important" class="btn btn-primary">Submit</button>
-                <button type="button" class="btn btn-default pull-right" data-dismiss="modal">Cancel</button>
-
-            </div>
-        </div>
-        <!-- /.modal-content -->
-    </div>
-    <!-- /.modal-dialog -->
-</div>
-<!-- Morris.js charts -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/raphael/2.1.0/raphael-min.js"></script>
-<script src="../plugins/morris/morris.min.js"></script>
-<!-- jQuery Knob Chart -->
-<script src="../plugins/knob/jquery.knob.js"></script>
 
 <script src="../../plugins/select2/select2.full.min.js"></script>
 <script src="~/plugins/daterangepicker/moment.min.js"></script>
 @*<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.11.2/moment.min.js"></script>*@
 <script src="../../plugins/daterangepicker/daterangepicker.js"></script>
+<script src="~/plugins/chartjs/Chart.min.js"></script>
+<!-- FLOT CHARTS -->
+<script src="../../plugins/flot/jquery.flot.min.js"></script>
+<!-- FLOT PIE PLUGIN - also used to draw donut charts -->
+<script src="~/plugins/flot/jquery.flot.pie.min.js"></script>
+
 
 <script>
     var reportFromDate;
     var reportToDate;
-    var date=new Date();
-    var year=date.getFullYear();
+    var date = new Date();
+    var year = date.getFullYear();
     $(document).ready(function () {
         $(function () {
-            var line = new Morris.Line({
-                element: 'line-chart',
-                resize: true,
-                data: [
-                  { y:year+'-1', item1:@Model[0].LeaveDetails.Jan },
-                  { y: year+'-2', item1: @Model[0].LeaveDetails.Feb },
-                  { y: year+'-3', item1: @Model[0].LeaveDetails.Mar },
-                  { y: year+'-4', item1: @Model[0].LeaveDetails.Apr },
-                  { y: year+'-5', item1: @Model[0].LeaveDetails.May },
-                  { y: year+'-6', item1: @Model[0].LeaveDetails.Jun },
-                  { y: year+'-7', item1: @Model[0].LeaveDetails.Jul },
-                  { y: year+'-8', item1: @Model[0].LeaveDetails.Aug },
-                  { y: year+'-9', item1: @Model[0].LeaveDetails.Sep },
-                  { y: year+'-10', item1: @Model[0].LeaveDetails.Oct },
-                  { y: year+'-11', item1: @Model[0].LeaveDetails.Nov },
-                  { y: year+'-12', item1: @Model[0].LeaveDetails.Dec }
-                ],
-                xkey: 'y',
-                ykeys: ['item1'],
-                labels: ['Leave Count'],
-                lineColors: ['#efefef'],
-                lineWidth: 2,
-                hideHover: 'auto',
-                gridTextColor: "#fff",
-                gridStrokeWidth: 0.4,
-                pointSize: 4,
-                pointStrokeColors: ["#efefef"],
-                gridLineColor: "#efefef",
-                gridTextFamily: "Open Sans",
-                gridTextSize: 10
-            });
+            var pieChartCanvas = $("#pieChart").get(0).getContext("2d");
+            var pieChart = new Chart(pieChartCanvas);
+            var PieData = [
+                              {
+                                  value: 1,
+                                  color: "grey",
+                                  highlight: "grey",
+                                  label: "No Data"
+                              },                           
+                            
+            ];
+            var pieOptions = {
+                //Boolean - Whether we should show a stroke on each segment
+                segmentShowStroke: true,
+                //String - The colour of each segment stroke
+                segmentStrokeColor: "#fff",
+                //Number - The width of each segment stroke
+                segmentStrokeWidth: 1,
+                //Number - The percentage of the chart that we cut out of the middle
+                percentageInnerCutout: 50, // This is 0 for Pie charts
+                //Number - Amount of animation steps
+                animationSteps: 100,
+                //String - Animation easing effect
+                animationEasing: "easeOutBounce",
+                //Boolean - Whether we animate the rotation of the Doughnut
+                animateRotate: true,
+                //Boolean - Whether we animate scaling the Doughnut from the centre
+                animateScale: false,
+                //Boolean - whether to make the chart responsive to window resizing
+                responsive: true,
+                // Boolean - whether to maintain the starting aspect ratio or not when responsive, if set to false, will take up entire container
+                maintainAspectRatio: false,
+                //String - A legend template
+                legendTemplate: "<ul class=\"<%=name.toLowerCase()%>-legend\"><% for (var i=0; i<segments.length; i++){%><li><span style=\"background-color:<%=segments[i].fillColor%>\"></span><%if(segments[i].label){%><%=segments[i].label%><%}%></li><%}%></ul>",
+                //String - A tooltip template
+                tooltipTemplate: "<%=label%>"
+            };
+            //Create pie or douhnut chart
+            // You can switch between pie and douhnut using the method below.
+            pieChart.Doughnut(PieData, pieOptions);
+            $(".ddlEmployeeSelect").select2().on('change', function (e) {
+                var empId = $("#ddlEmployeeId").val();
+                if (empId != 0) {
+                    $.ajax({
+                        cache: false,
+                        type: 'post',
+                        url: '/HR/GetChartDetails?employeeId=' + empId,
+                        dataType: "json",
+                        processData: false,
+                        success: function (data) {
+                            $("#lopText").html(data.result.LossofPayCount);
+                            $("#wfhText").html(data.result.WorkFromHomeCount);
+                            $("#advancedLeavesText").html(data.result.AdvancedLeavesCount);
+                            $("#appliedLeavesText").html(data.result.AppliedLeavesCount);
+                            $("#compOffText").html(data.result.CompOffCount);
+                            if (data.result.LossofPayCount == 0 && data.result.WorkFromHomeCount == 0 && data.result.AdvancedLeavesCount == 0 && data.result.AppliedLeavesCount == 0 && data.result.CompOffCount == 0) {
+                                var pieChartContent = document.getElementById('pieChartContent');
+                                pieChartContent.innerHTML = '&nbsp;';
+                                $('#pieChartContent').append('<canvas id="pieChart" height="220" width="360"><canvas>');
+                                var pieChartCanvas = $("#pieChart").get(0).getContext("2d");
+                                var pieChart = new Chart(pieChartCanvas);
+                                var PieData = [
+                                  {
+                                      value: 1,
+                                      color: "grey",
+                                      highlight: "grey",
+                                      label: "No Data"
+                                  },
+                                ]
+                                var pieOptions = {
+                                    //Boolean - Whether we should show a stroke on each segment
+                                    segmentShowStroke: true,
+                                    //String - The colour of each segment stroke
+                                    segmentStrokeColor: "#fff",
+                                    //Number - The width of each segment stroke
+                                    segmentStrokeWidth: 1,
+                                    //Number - The percentage of the chart that we cut out of the middle
+                                    percentageInnerCutout: 50, // This is 0 for Pie charts
+                                    //Number - Amount of animation steps
+                                    animationSteps: 100,
+                                    //String - Animation easing effect
+                                    animationEasing: "easeOutBounce",
+                                    //Boolean - Whether we animate the rotation of the Doughnut
+                                    animateRotate: true,
+                                    //Boolean - Whether we animate scaling the Doughnut from the centre
+                                    animateScale: false,
+                                    //Boolean - whether to make the chart responsive to window resizing
+                                    responsive: true,
+                                    // Boolean - whether to maintain the starting aspect ratio or not when responsive, if set to false, will take up entire container
+                                    maintainAspectRatio: false,
 
+                                    //String - A legend template
+                                    legendTemplate: "<ul class=\"<%=name.toLowerCase()%>-legend\"><% for (var i=0; i<segments.length; i++){%><li><span style=\"background-color:<%=segments[i].fillColor%>\"></span><%if(segments[i].label){%><%=segments[i].label%><%}%></li><%}%></ul>",
+                                    //String - A tooltip template
+                                    tooltipTemplate: "<%=label%>"
+                                };
+                                pieChart.Doughnut(PieData, pieOptions);
+                            }
+                            else {
+                                var pieChartContent = document.getElementById('pieChartContent');
+                                pieChartContent.innerHTML = '&nbsp;';
+                                $('#pieChartContent').append('<canvas id="pieChart" height="220" width="360"><canvas>');
+                                var pieChartCanvas = $("#pieChart").get(0).getContext("2d");
+                                var pieChart = new Chart(pieChartCanvas);
+                                var PieData = [
+                                  {
+                                      value: data.result.LossofPayCount,
+                                      color: "#f56954",
+                                      highlight: "#f56954",
+                                      label: "Loss Of Pay"
+                                  },
+                                  {
+                                      value: data.result.CompOffCount,
+                                      color: "#00a65a",
+                                      highlight: "#00a65a",
+                                      label: "Comp Off"
+                                  },
+                                  {
+                                      value: data.result.AdvancedLeavesCount,
+                                      color: "#f39c12",
+                                      highlight: "#f39c12",
+                                      label: "Advanced Leaves"
+                                  },
+                                  {
+                                      value: data.result.WorkFromHomeCount,
+                                      color: "#00c0ef",
+                                      highlight: "#00c0ef",
+                                      label: "Work From Home"
+                                  },
+                                  {
+                                      value: data.result.AppliedLeavesCount,
+                                      color: "#3c8dbc",
+                                      highlight: "#3c8dbc",
+                                      label: "Applied Leaves"
+                                  }
+                                ];
+                                var pieOptions = {
+                                    //Boolean - Whether we should show a stroke on each segment
+                                    segmentShowStroke: true,
+                                    //String - The colour of each segment stroke
+                                    segmentStrokeColor: "#fff",
+                                    //Number - The width of each segment stroke
+                                    segmentStrokeWidth: 1,
+                                    //Number - The percentage of the chart that we cut out of the middle
+                                    percentageInnerCutout: 50, // This is 0 for Pie charts
+                                    //Number - Amount of animation steps
+                                    animationSteps: 100,
+                                    //String - Animation easing effect
+                                    animationEasing: "easeOutBounce",
+                                    //Boolean - Whether we animate the rotation of the Doughnut
+                                    animateRotate: true,
+                                    //Boolean - Whether we animate scaling the Doughnut from the centre
+                                    animateScale: false,
+                                    //Boolean - whether to make the chart responsive to window resizing
+                                    responsive: true,
+                                    // Boolean - whether to maintain the starting aspect ratio or not when responsive, if set to false, will take up entire container
+                                    maintainAspectRatio: false,
+
+                                    //String - A legend template
+                                    legendTemplate: "<ul class=\"<%=name.toLowerCase()%>-legend\"><% for (var i=0; i<segments.length; i++){%><li><span style=\"background-color:<%=segments[i].fillColor%>\"></span><%if(segments[i].label){%><%=segments[i].label%><%}%></li><%}%></ul>",
+                                    //String - A tooltip template
+                                    tooltipTemplate: "<%=value %> <%=label%>"
+                                };
+                                //Create pie or douhnut chart
+                                // You can switch between pie and douhnut using the method below.
+                                pieChart.Doughnut(PieData, pieOptions);
+                            }
+                        }
+                    });
+                }
+                else
+                {
+                    var pieChartContent = document.getElementById('pieChartContent');
+                    pieChartContent.innerHTML = '&nbsp;';
+                    $('#pieChartContent').append('<canvas id="pieChart" height="220" width="360"><canvas>');
+                    var pieChartCanvas = $("#pieChart").get(0).getContext("2d");
+                    var pieChart = new Chart(pieChartCanvas);
+                    var PieData = [
+                      {
+                          value: 1,
+                          color: "grey",
+                          highlight: "grey",
+                          label: "No Data"
+                      },   
+                      ]
+                    var pieOptions = {
+                        //Boolean - Whether we should show a stroke on each segment
+                        segmentShowStroke: true,
+                        //String - The colour of each segment stroke
+                        segmentStrokeColor: "#fff",
+                        //Number - The width of each segment stroke
+                        segmentStrokeWidth: 1,
+                        //Number - The percentage of the chart that we cut out of the middle
+                        percentageInnerCutout: 50, // This is 0 for Pie charts
+                        //Number - Amount of animation steps
+                        animationSteps: 100,
+                        //String - Animation easing effect
+                        animationEasing: "easeOutBounce",
+                        //Boolean - Whether we animate the rotation of the Doughnut
+                        animateRotate: true,
+                        //Boolean - Whether we animate scaling the Doughnut from the centre
+                        animateScale: false,
+                        //Boolean - whether to make the chart responsive to window resizing
+                        responsive: true,
+                        // Boolean - whether to maintain the starting aspect ratio or not when responsive, if set to false, will take up entire container
+                        maintainAspectRatio: false,
+             
+                        //String - A legend template
+                        legendTemplate: "<ul class=\"<%=name.toLowerCase()%>-legend\"><% for (var i=0; i<segments.length; i++){%><li><span style=\"background-color:<%=segments[i].fillColor%>\"></span><%if(segments[i].label){%><%=segments[i].label%><%}%></li><%}%></ul>",
+                        //String - A tooltip template
+                        tooltipTemplate: "<%=label%>"
+                    };
+                                
+                }
+            });
             //Initialize Select2 Elements
             $(".ddlEmployee").select2().on('change', function (e) {
                 if ($("#ddlEmployeeName").val() == "0" || $.inArray("0", $("#ddlEmployeeName").val()) != -1) {
@@ -194,6 +404,9 @@
 
             $('#reportDatepicker').daterangepicker(
                   {
+                      //locale: {
+                      //    format: "MMM YYYY"
+                      //}
                   });
             $('#reportDatepicker').on('change.daterangepicker', function (ev, picker) {
                 var date = ev.target.value;
@@ -219,13 +432,33 @@
         });
     });
 
-    
+
     $(document).on('click', '#btnGenerateReport', function (e) {
-        var employeeId=$("#ddlEmployeeName").val();
-        var leaveType=$("#ddlLeaveType").val();
-        var exportAs=$("#ddlExportType").val();
-        window.location.href = "/HR/GenerateReports/?employeeId=" + employeeId + "&leaveType=" + leaveType + "&exportAs=" + exportAs;
+        if ($("#ddlEmployeeName").val()==null && $("#ddlLeaveType").val()==null && $("#ddlExportType").val()=="0" && reportFromDate==undefined && reportToDate==undefined)
+        {
+
+        }
+        var employeeId = $("#ddlEmployeeName").val();
+        var leaveType = $("#ddlLeaveType").val();
+        var exportAs = $("#ddlExportType").val();
+        var fromDate = reportFromDate;
+        var toDate = reportToDate;
+        var data = "";
+        var leaveData = "";
+        for (var i = 0; i < employeeId.length; i++) {
+            data += employeeId[i] + ":";
+        }
+        for (var i = 0; i < leaveType.length; i++) {
+            leaveData += leaveType[i] + ":";
+        }
+        window.location.href = "/HR/GenerateReports/?employeeId=" + data + "&leaveType=" + leaveData + "&exportAs=" + exportAs + "&fromDate=" + fromDate + "&toDate=" + toDate;
 
     }
     );
+    function labelFormatter(label, series) {
+        return '<div style="font-size:13px; text-align:center; padding:2px; color: #fff; font-weight: 600;position:absolute">'
+            + label
+            + "<br>"
+            + Math.round(series.percent) + "%</div>";
+    }
 </script>

@@ -330,7 +330,7 @@ namespace EmployeeLeaveManagementWebAPI.Controllers
             {
                 Logger.Info("Login as user");
                 var userData = userManager.GetUser(userName, password);
-                userData.Imagepath = GetFile(userData.Imagepath);
+              // userData.Imagepath = GetFile(userData.Imagepath);
                 if (null != userData)
                 {
                     return userData;

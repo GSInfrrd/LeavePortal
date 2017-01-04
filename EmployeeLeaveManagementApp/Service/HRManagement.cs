@@ -86,12 +86,12 @@ namespace LMS_WebAPP_ServiceHelpers
             }
         }
 
-        public async Task<MemoryStream> GenerateReportsAsync(int exportAs,int employeeId, int leaveType)
+        public async Task<MemoryStream> GenerateReportsAsync(int exportAs,string employeeId, string leaveType,string fromDate,string toDate)
         {
             using (HttpClient client = new HttpClient())
             {
                 const string URL = "http://localhost:64476/api/HR/GenerateReports";
-                urlParameters = "?exportAs=" + exportAs+"&employeeId=" + employeeId+ "&leaveType="+ leaveType;
+                urlParameters = "?fromDate=" + fromDate+ "&toDate="+toDate+ "&employeeId=" + employeeId+ "&leaveType="+ leaveType;
                 client.BaseAddress = new Uri(URL);
                 // Add an Accept header for JSON format.
                 client.DefaultRequestHeaders.Accept.Add(
@@ -112,6 +112,34 @@ namespace LMS_WebAPP_ServiceHelpers
                 }
             }
         }
+
+        public async Task<ConsolidatedEmployeeLeaveDetailsModel> GetChartDetailsAsync(int employeeId)
+        {
+            using (HttpClient client = new HttpClient())
+            {
+                const string URL = "http://localhost:64476/api/HR/GetChartDetails";
+                urlParameters = "?employeeId=" + employeeId;
+                client.BaseAddress = new Uri(URL);
+                // Add an Accept header for JSON format.
+                client.DefaultRequestHeaders.Accept.Add(
+                new MediaTypeWithQualityHeaderValue("application/json"));
+
+                // List data response.
+                HttpResponseMessage response = await client.GetAsync(urlParameters);  // Blocking call!
+                if (response.IsSuccessStatusCode)
+                {
+                    // Parse the response body. Blocking!
+                    var dataObjects = response.Content.ReadAsAsync<ConsolidatedEmployeeLeaveDetailsModel>().Result;
+                    return dataObjects;
+                }
+                else
+                {
+                    Console.WriteLine("{0} ({1})", (int)response.StatusCode, response.ReasonPhrase);
+                    return null;
+                }
+            }
+        }
+
 
     }
 }
