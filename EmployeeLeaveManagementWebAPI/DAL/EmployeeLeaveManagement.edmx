@@ -93,10 +93,10 @@
           <Property Name="Id" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="RefEmployeeId" Type="int" Nullable="false" />
           <Property Name="FromDate" Type="date" Nullable="false" />
-          <Property Name="ToDate" Type="date" Nullable="false" />
+          <Property Name="ToDate" Type="datetime2" Precision="7" Nullable="false" />
           <Property Name="CreatedDate" Type="datetime2" Precision="7" Nullable="false" />
           <Property Name="RefStatus" Type="int" Nullable="false" />
-          <Property Name="NumberOfWorkingDays" Type="int" Nullable="false" />
+          <Property Name="NumberOfWorkingDays" Type="float" Nullable="false" />
           <Property Name="RefLeaveType" Type="int" Nullable="false" />
           <Property Name="EmployeeComment" Type="nvarchar(max)" />
           <Property Name="ModifiedDate" Type="datetime2" Precision="7" />
@@ -113,7 +113,7 @@
           <Property Name="ToDate" Type="datetime2" Precision="7" Nullable="false" />
           <Property Name="CreatedDate" Type="datetime2" Precision="7" Nullable="false" />
           <Property Name="RefStatus" Type="int" Nullable="false" />
-          <Property Name="NumberOfWorkingDays" Type="int" Nullable="false" />
+          <Property Name="NumberOfWorkingDays" Type="float" Nullable="false" />
           <Property Name="RefLeaveType" Type="int" Nullable="false" />
           <Property Name="EmployeeComment" Type="nvarchar(max)" />
           <Property Name="ManagerComment" Type="nvarchar(max)" />
@@ -662,8 +662,6 @@
           <Property Name="ModifiedBy" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="EmpNumber" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <NavigationProperty Name="EmployeeContactDetails" Relationship="Self.FK_EmpDetails_EmployeeContactDetails" FromRole="EmployeeDetails" ToRole="EmployeeContactDetails" />
-          <NavigationProperty Name="EmployeeLeaveTransactions" Relationship="Self.FK_EmployeeDetails_EmployeeLeaveTransaction" FromRole="EmployeeDetails" ToRole="EmployeeLeaveTransaction" />
-          <NavigationProperty Name="EmployeeLeaveTransactionHistories" Relationship="Self.FK_EmployeeDetails_EmployeeLeaveTransactionHistory" FromRole="EmployeeDetails" ToRole="EmployeeLeaveTransactionHistory" />
           <NavigationProperty Name="EmployeeProjectDetails" Relationship="Self.FK_EmployeeDetails_EmployeeProjectDetail" FromRole="EmployeeDetails" ToRole="EmployeeProjectDetail" />
           <NavigationProperty Name="UserAccounts" Relationship="Self.FK_EmployeeDetails_UserAccount" FromRole="EmployeeDetails" ToRole="UserAccount" />
           <NavigationProperty Name="Workflows" Relationship="Self.FK_EmployeeDetailsId_Workflow" FromRole="EmployeeDetails" ToRole="Workflow" />
@@ -683,48 +681,8 @@
           <NavigationProperty Name="EmployeeSkills" Relationship="LeaveManagementSystemModel.FK_EmployeeSkills_EmployeeDetails" FromRole="EmployeeDetail" ToRole="EmployeeSkill" />
           <NavigationProperty Name="WorkFromHomes" Relationship="LeaveManagementSystemModel.FK_WorkFromHome_refEmpID" FromRole="EmployeeDetail" ToRole="WorkFromHome" />
           <NavigationProperty Name="ConsolidatedEmployeeLeaveDetails" Relationship="LeaveManagementSystemModel.FK_ConsolidatedEmployeeLeaveDetails_EmployeeDetails" FromRole="EmployeeDetail" ToRole="ConsolidatedEmployeeLeaveDetail" />
-        </EntityType>
-        <EntityType Name="EmployeeLeaveTransaction">
-          <Key>
-            <PropertyRef Name="Id" />
-          </Key>
-          <Property Name="Id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="RefEmployeeId" Type="Int32" Nullable="false" />
-          <Property Name="FromDate" Type="DateTime" Precision="0" Nullable="false" />
-          <Property Name="ToDate" Type="DateTime" Precision="0" Nullable="false" />
-          <Property Name="CreatedDate" Type="DateTime" Nullable="false" Precision="7" />
-          <Property Name="RefStatus" Type="Int32" Nullable="false" />
-          <Property Name="NumberOfWorkingDays" Type="Int32" Nullable="false" />
-          <Property Name="RefLeaveType" Type="Int32" Nullable="false" />
-          <Property Name="EmployeeComment" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Name="ModifiedDate" Type="DateTime" Precision="7" />
-          <Property Name="CreatedBy" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="ModifiedBy" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <NavigationProperty Name="EmployeeDetail" Relationship="Self.FK_EmployeeDetails_EmployeeLeaveTransaction" FromRole="EmployeeLeaveTransaction" ToRole="EmployeeDetails" />
-          <NavigationProperty Name="Workflows" Relationship="Self.FK_EmployeeLeaveTransaction_Workflow" FromRole="EmployeeLeaveTransaction" ToRole="Workflow" />
-          <NavigationProperty Name="MasterDataValue" Relationship="Self.FK_MasterDataValue_EmployeeLeaveTransaction" FromRole="EmployeeLeaveTransaction" ToRole="MasterDataValue" />
-          <NavigationProperty Name="MasterDataValue1" Relationship="Self.FK_MasterDataValueStatus_EmployeeLeaveTransaction" FromRole="EmployeeLeaveTransaction" ToRole="MasterDataValue" />
-        </EntityType>
-        <EntityType Name="EmployeeLeaveTransactionHistory">
-          <Key>
-            <PropertyRef Name="Id" />
-          </Key>
-          <Property Name="Id" Type="Int64" Nullable="false" />
-          <Property Name="RefEmployeeId" Type="Int32" Nullable="false" />
-          <Property Name="FromDate" Type="DateTime" Nullable="false" Precision="7" />
-          <Property Name="ToDate" Type="DateTime" Nullable="false" Precision="7" />
-          <Property Name="CreatedDate" Type="DateTime" Nullable="false" Precision="7" />
-          <Property Name="RefStatus" Type="Int32" Nullable="false" />
-          <Property Name="NumberOfWorkingDays" Type="Int32" Nullable="false" />
-          <Property Name="RefLeaveType" Type="Int32" Nullable="false" />
-          <Property Name="EmployeeComment" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Name="ManagerComment" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Name="ModifiedDate" Type="DateTime" Precision="7" />
-          <Property Name="CreatedBy" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="ModifiedBy" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
-          <NavigationProperty Name="EmployeeDetail" Relationship="Self.FK_EmployeeDetails_EmployeeLeaveTransactionHistory" FromRole="EmployeeLeaveTransactionHistory" ToRole="EmployeeDetails" />
-          <NavigationProperty Name="MasterDataValue" Relationship="Self.FK_MasterDataValue_EmployeeLeaveTransactionHistory" FromRole="EmployeeLeaveTransactionHistory" ToRole="MasterDataValue" />
-          <NavigationProperty Name="MasterDataValue1" Relationship="Self.FK_MasterDataValueStatus_EmployeeLeaveTransactionHistory" FromRole="EmployeeLeaveTransactionHistory" ToRole="MasterDataValue" />
+          <NavigationProperty Name="EmployeeLeaveTransactions" Relationship="LeaveManagementSystemModel.FK_EmployeeDetails_EmployeeLeaveTransaction" FromRole="EmployeeDetail" ToRole="EmployeeLeaveTransaction" />
+          <NavigationProperty Name="EmployeeLeaveTransactionHistories" Relationship="LeaveManagementSystemModel.FK_EmployeeDetails_EmployeeLeaveTransactionHistory" FromRole="EmployeeDetail" ToRole="EmployeeLeaveTransactionHistory" />
         </EntityType>
         <EntityType Name="EmployeeProjectDetail">
           <Key>
@@ -785,10 +743,6 @@
           <Property Name="Value" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
           <NavigationProperty Name="EmployeeContactDetails" Relationship="Self.FK_MasterDataValue_EmployeeContactDetails" FromRole="MasterDataValue" ToRole="EmployeeContactDetails" />
           <NavigationProperty Name="EmployeeDetails" Relationship="Self.FK_MasterDataValue_EmployeeDetails" FromRole="MasterDataValue" ToRole="EmployeeDetails" />
-          <NavigationProperty Name="EmployeeLeaveTransactions" Relationship="Self.FK_MasterDataValue_EmployeeLeaveTransaction" FromRole="MasterDataValue" ToRole="EmployeeLeaveTransaction" />
-          <NavigationProperty Name="EmployeeLeaveTransactions1" Relationship="Self.FK_MasterDataValueStatus_EmployeeLeaveTransaction" FromRole="MasterDataValue" ToRole="EmployeeLeaveTransaction" />
-          <NavigationProperty Name="EmployeeLeaveTransactionHistories" Relationship="Self.FK_MasterDataValue_EmployeeLeaveTransactionHistory" FromRole="MasterDataValue" ToRole="EmployeeLeaveTransactionHistory" />
-          <NavigationProperty Name="EmployeeLeaveTransactionHistories1" Relationship="Self.FK_MasterDataValueStatus_EmployeeLeaveTransactionHistory" FromRole="MasterDataValue" ToRole="EmployeeLeaveTransactionHistory" />
           <NavigationProperty Name="EmployeeProjectDetails" Relationship="Self.FK_MasterDataValue_EmployeeProjectDetail1" FromRole="MasterDataValue" ToRole="EmployeeProjectDetail" />
           <NavigationProperty Name="LeaveMasters" Relationship="Self.FK_MasterDataValue_LeaveMaster" FromRole="MasterDataValue" ToRole="LeaveMaster" />
           <NavigationProperty Name="MasterDataType" Relationship="Self.FK_MasterDataType_MasterDataValue" FromRole="MasterDataValue" ToRole="MasterDataType" />
@@ -796,6 +750,10 @@
           <NavigationProperty Name="EmployeeDetails1" Relationship="LeaveManagementSystemModel.FK_EmployeeDetails_MasterDataValue" FromRole="MasterDataValue" ToRole="EmployeeDetail" />
           <NavigationProperty Name="WorkFromHomes" Relationship="LeaveManagementSystemModel.FK_WorkFromHome_RefStatus" FromRole="MasterDataValue" ToRole="WorkFromHome" />
           <NavigationProperty Name="WorkFromHomes1" Relationship="LeaveManagementSystemModel.FK_WorkFromHome_RefReason" FromRole="MasterDataValue" ToRole="WorkFromHome" />
+          <NavigationProperty Name="EmployeeLeaveTransactions" Relationship="LeaveManagementSystemModel.FK_MasterDataValue_EmployeeLeaveTransaction" FromRole="MasterDataValue" ToRole="EmployeeLeaveTransaction" />
+          <NavigationProperty Name="EmployeeLeaveTransactions1" Relationship="LeaveManagementSystemModel.FK_MasterDataValueStatus_EmployeeLeaveTransaction" FromRole="MasterDataValue" ToRole="EmployeeLeaveTransaction" />
+          <NavigationProperty Name="EmployeeLeaveTransactionHistories" Relationship="LeaveManagementSystemModel.FK_MasterDataValue_EmployeeLeaveTransactionHistory" FromRole="MasterDataValue" ToRole="EmployeeLeaveTransactionHistory" />
+          <NavigationProperty Name="EmployeeLeaveTransactionHistories1" Relationship="LeaveManagementSystemModel.FK_MasterDataValueStatus_EmployeeLeaveTransactionHistory" FromRole="MasterDataValue" ToRole="EmployeeLeaveTransactionHistory" />
         </EntityType>
         <EntityType Name="UserAccount">
           <Key>
@@ -826,8 +784,8 @@
           <Property Name="ModifiedBy" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="ManagerComments" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <NavigationProperty Name="EmployeeDetail" Relationship="Self.FK_EmployeeDetailsId_Workflow" FromRole="Workflow" ToRole="EmployeeDetails" />
-          <NavigationProperty Name="EmployeeLeaveTransaction" Relationship="Self.FK_EmployeeLeaveTransaction_Workflow" FromRole="Workflow" ToRole="EmployeeLeaveTransaction" />
           <NavigationProperty Name="MasterDataValue" Relationship="Self.FK_MasterDataValueStatus_Workflow" FromRole="Workflow" ToRole="MasterDataValue" />
+          <NavigationProperty Name="EmployeeLeaveTransaction" Relationship="LeaveManagementSystemModel.FK_EmployeeLeaveTransaction_Workflow" FromRole="Workflow" ToRole="EmployeeLeaveTransaction" />
         </EntityType>
         <Association Name="FK_EmpDetails_EmployeeContactDetails">
           <End Role="EmployeeDetails" Type="Self.EmployeeDetail" Multiplicity="1" />
@@ -850,30 +808,6 @@
             </Principal>
             <Dependent Role="EmployeeContactDetails">
               <PropertyRef Name="RefContactType" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_EmployeeDetails_EmployeeLeaveTransaction">
-          <End Role="EmployeeDetails" Type="Self.EmployeeDetail" Multiplicity="1" />
-          <End Role="EmployeeLeaveTransaction" Type="Self.EmployeeLeaveTransaction" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="EmployeeDetails">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="EmployeeLeaveTransaction">
-              <PropertyRef Name="RefEmployeeId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_EmployeeDetails_EmployeeLeaveTransactionHistory">
-          <End Role="EmployeeDetails" Type="Self.EmployeeDetail" Multiplicity="1" />
-          <End Role="EmployeeLeaveTransactionHistory" Type="Self.EmployeeLeaveTransactionHistory" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="EmployeeDetails">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="EmployeeLeaveTransactionHistory">
-              <PropertyRef Name="RefEmployeeId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -922,66 +856,6 @@
             </Principal>
             <Dependent Role="EmployeeDetails">
               <PropertyRef Name="RefRoleId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_EmployeeLeaveTransaction_Workflow">
-          <End Role="EmployeeLeaveTransaction" Type="Self.EmployeeLeaveTransaction" Multiplicity="1" />
-          <End Role="Workflow" Type="Self.Workflow" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="EmployeeLeaveTransaction">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="Workflow">
-              <PropertyRef Name="RefLeaveTransactionId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_MasterDataValue_EmployeeLeaveTransaction">
-          <End Role="MasterDataValue" Type="Self.MasterDataValue" Multiplicity="1" />
-          <End Role="EmployeeLeaveTransaction" Type="Self.EmployeeLeaveTransaction" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="MasterDataValue">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="EmployeeLeaveTransaction">
-              <PropertyRef Name="RefLeaveType" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_MasterDataValueStatus_EmployeeLeaveTransaction">
-          <End Role="MasterDataValue" Type="Self.MasterDataValue" Multiplicity="1" />
-          <End Role="EmployeeLeaveTransaction" Type="Self.EmployeeLeaveTransaction" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="MasterDataValue">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="EmployeeLeaveTransaction">
-              <PropertyRef Name="RefStatus" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_MasterDataValue_EmployeeLeaveTransactionHistory">
-          <End Role="MasterDataValue" Type="Self.MasterDataValue" Multiplicity="1" />
-          <End Role="EmployeeLeaveTransactionHistory" Type="Self.EmployeeLeaveTransactionHistory" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="MasterDataValue">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="EmployeeLeaveTransactionHistory">
-              <PropertyRef Name="RefLeaveType" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_MasterDataValueStatus_EmployeeLeaveTransactionHistory">
-          <End Role="MasterDataValue" Type="Self.MasterDataValue" Multiplicity="1" />
-          <End Role="EmployeeLeaveTransactionHistory" Type="Self.EmployeeLeaveTransactionHistory" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="MasterDataValue">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="EmployeeLeaveTransactionHistory">
-              <PropertyRef Name="RefStatus" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -1036,8 +910,6 @@
         <EntityContainer Name="LeaveManagementSystemEntities1" annotation:LazyLoadingEnabled="true">
           <EntitySet Name="EmployeeContactDetails" EntityType="Self.EmployeeContactDetail" />
           <EntitySet Name="EmployeeDetails" EntityType="Self.EmployeeDetail" />
-          <EntitySet Name="EmployeeLeaveTransactions" EntityType="Self.EmployeeLeaveTransaction" />
-          <EntitySet Name="EmployeeLeaveTransactionHistories" EntityType="Self.EmployeeLeaveTransactionHistory" />
           <EntitySet Name="EmployeeProjectDetails" EntityType="Self.EmployeeProjectDetail" />
           <EntitySet Name="Holidays" EntityType="Self.Holiday" />
           <EntitySet Name="LeaveMasters" EntityType="Self.LeaveMaster" />
@@ -1052,14 +924,6 @@
           <AssociationSet Name="FK_MasterDataValue_EmployeeContactDetails" Association="Self.FK_MasterDataValue_EmployeeContactDetails">
             <End Role="MasterDataValue" EntitySet="MasterDataValues" />
             <End Role="EmployeeContactDetails" EntitySet="EmployeeContactDetails" />
-          </AssociationSet>
-          <AssociationSet Name="FK_EmployeeDetails_EmployeeLeaveTransaction" Association="Self.FK_EmployeeDetails_EmployeeLeaveTransaction">
-            <End Role="EmployeeDetails" EntitySet="EmployeeDetails" />
-            <End Role="EmployeeLeaveTransaction" EntitySet="EmployeeLeaveTransactions" />
-          </AssociationSet>
-          <AssociationSet Name="FK_EmployeeDetails_EmployeeLeaveTransactionHistory" Association="Self.FK_EmployeeDetails_EmployeeLeaveTransactionHistory">
-            <End Role="EmployeeDetails" EntitySet="EmployeeDetails" />
-            <End Role="EmployeeLeaveTransactionHistory" EntitySet="EmployeeLeaveTransactionHistories" />
           </AssociationSet>
           <AssociationSet Name="FK_EmployeeDetails_EmployeeProjectDetail" Association="Self.FK_EmployeeDetails_EmployeeProjectDetail">
             <End Role="EmployeeDetails" EntitySet="EmployeeDetails" />
@@ -1076,26 +940,6 @@
           <AssociationSet Name="FK_MasterDataValue_EmployeeDetails" Association="Self.FK_MasterDataValue_EmployeeDetails">
             <End Role="MasterDataValue" EntitySet="MasterDataValues" />
             <End Role="EmployeeDetails" EntitySet="EmployeeDetails" />
-          </AssociationSet>
-          <AssociationSet Name="FK_EmployeeLeaveTransaction_Workflow" Association="Self.FK_EmployeeLeaveTransaction_Workflow">
-            <End Role="EmployeeLeaveTransaction" EntitySet="EmployeeLeaveTransactions" />
-            <End Role="Workflow" EntitySet="Workflows" />
-          </AssociationSet>
-          <AssociationSet Name="FK_MasterDataValue_EmployeeLeaveTransaction" Association="Self.FK_MasterDataValue_EmployeeLeaveTransaction">
-            <End Role="MasterDataValue" EntitySet="MasterDataValues" />
-            <End Role="EmployeeLeaveTransaction" EntitySet="EmployeeLeaveTransactions" />
-          </AssociationSet>
-          <AssociationSet Name="FK_MasterDataValueStatus_EmployeeLeaveTransaction" Association="Self.FK_MasterDataValueStatus_EmployeeLeaveTransaction">
-            <End Role="MasterDataValue" EntitySet="MasterDataValues" />
-            <End Role="EmployeeLeaveTransaction" EntitySet="EmployeeLeaveTransactions" />
-          </AssociationSet>
-          <AssociationSet Name="FK_MasterDataValue_EmployeeLeaveTransactionHistory" Association="Self.FK_MasterDataValue_EmployeeLeaveTransactionHistory">
-            <End Role="MasterDataValue" EntitySet="MasterDataValues" />
-            <End Role="EmployeeLeaveTransactionHistory" EntitySet="EmployeeLeaveTransactionHistories" />
-          </AssociationSet>
-          <AssociationSet Name="FK_MasterDataValueStatus_EmployeeLeaveTransactionHistory" Association="Self.FK_MasterDataValueStatus_EmployeeLeaveTransactionHistory">
-            <End Role="MasterDataValue" EntitySet="MasterDataValues" />
-            <End Role="EmployeeLeaveTransactionHistory" EntitySet="EmployeeLeaveTransactionHistories" />
           </AssociationSet>
           <AssociationSet Name="FK_MasterDataValue_EmployeeProjectDetail1" Association="Self.FK_MasterDataValue_EmployeeProjectDetail1">
             <End Role="MasterDataValue" EntitySet="MasterDataValues" />
@@ -1153,6 +997,36 @@
           <AssociationSet Name="FK_ConsolidatedEmployeeLeaveDetails_EmployeeDetails" Association="LeaveManagementSystemModel.FK_ConsolidatedEmployeeLeaveDetails_EmployeeDetails">
             <End Role="EmployeeDetail" EntitySet="EmployeeDetails" />
             <End Role="ConsolidatedEmployeeLeaveDetail" EntitySet="ConsolidatedEmployeeLeaveDetails" />
+          </AssociationSet>
+          <EntitySet Name="EmployeeLeaveTransactions" EntityType="LeaveManagementSystemModel.EmployeeLeaveTransaction" />
+          <EntitySet Name="EmployeeLeaveTransactionHistories" EntityType="LeaveManagementSystemModel.EmployeeLeaveTransactionHistory" />
+          <AssociationSet Name="FK_EmployeeDetails_EmployeeLeaveTransaction" Association="LeaveManagementSystemModel.FK_EmployeeDetails_EmployeeLeaveTransaction">
+            <End Role="EmployeeDetail" EntitySet="EmployeeDetails" />
+            <End Role="EmployeeLeaveTransaction" EntitySet="EmployeeLeaveTransactions" />
+          </AssociationSet>
+          <AssociationSet Name="FK_EmployeeDetails_EmployeeLeaveTransactionHistory" Association="LeaveManagementSystemModel.FK_EmployeeDetails_EmployeeLeaveTransactionHistory">
+            <End Role="EmployeeDetail" EntitySet="EmployeeDetails" />
+            <End Role="EmployeeLeaveTransactionHistory" EntitySet="EmployeeLeaveTransactionHistories" />
+          </AssociationSet>
+          <AssociationSet Name="FK_EmployeeLeaveTransaction_Workflow" Association="LeaveManagementSystemModel.FK_EmployeeLeaveTransaction_Workflow">
+            <End Role="EmployeeLeaveTransaction" EntitySet="EmployeeLeaveTransactions" />
+            <End Role="Workflow" EntitySet="Workflows" />
+          </AssociationSet>
+          <AssociationSet Name="FK_MasterDataValue_EmployeeLeaveTransaction" Association="LeaveManagementSystemModel.FK_MasterDataValue_EmployeeLeaveTransaction">
+            <End Role="MasterDataValue" EntitySet="MasterDataValues" />
+            <End Role="EmployeeLeaveTransaction" EntitySet="EmployeeLeaveTransactions" />
+          </AssociationSet>
+          <AssociationSet Name="FK_MasterDataValueStatus_EmployeeLeaveTransaction" Association="LeaveManagementSystemModel.FK_MasterDataValueStatus_EmployeeLeaveTransaction">
+            <End Role="MasterDataValue" EntitySet="MasterDataValues" />
+            <End Role="EmployeeLeaveTransaction" EntitySet="EmployeeLeaveTransactions" />
+          </AssociationSet>
+          <AssociationSet Name="FK_MasterDataValue_EmployeeLeaveTransactionHistory" Association="LeaveManagementSystemModel.FK_MasterDataValue_EmployeeLeaveTransactionHistory">
+            <End Role="MasterDataValue" EntitySet="MasterDataValues" />
+            <End Role="EmployeeLeaveTransactionHistory" EntitySet="EmployeeLeaveTransactionHistories" />
+          </AssociationSet>
+          <AssociationSet Name="FK_MasterDataValueStatus_EmployeeLeaveTransactionHistory" Association="LeaveManagementSystemModel.FK_MasterDataValueStatus_EmployeeLeaveTransactionHistory">
+            <End Role="MasterDataValue" EntitySet="MasterDataValues" />
+            <End Role="EmployeeLeaveTransactionHistory" EntitySet="EmployeeLeaveTransactionHistories" />
           </AssociationSet>
         </EntityContainer>
         <EntityType Name="Announcement">
@@ -1339,6 +1213,132 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <EntityType Name="EmployeeLeaveTransaction">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="RefEmployeeId" Type="Int32" Nullable="false" />
+          <Property Name="FromDate" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="ToDate" Type="DateTime" Nullable="false" Precision="7" />
+          <Property Name="CreatedDate" Type="DateTime" Nullable="false" Precision="7" />
+          <Property Name="RefStatus" Type="Int32" Nullable="false" />
+          <Property Name="NumberOfWorkingDays" Type="Double" Nullable="false" />
+          <Property Name="RefLeaveType" Type="Int32" Nullable="false" />
+          <Property Name="EmployeeComment" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="ModifiedDate" Type="DateTime" Precision="7" />
+          <Property Name="CreatedBy" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="ModifiedBy" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="EmployeeDetail" Relationship="LeaveManagementSystemModel.FK_EmployeeDetails_EmployeeLeaveTransaction" FromRole="EmployeeLeaveTransaction" ToRole="EmployeeDetail" />
+          <NavigationProperty Name="Workflows" Relationship="LeaveManagementSystemModel.FK_EmployeeLeaveTransaction_Workflow" FromRole="EmployeeLeaveTransaction" ToRole="Workflow" />
+          <NavigationProperty Name="MasterDataValue" Relationship="LeaveManagementSystemModel.FK_MasterDataValue_EmployeeLeaveTransaction" FromRole="EmployeeLeaveTransaction" ToRole="MasterDataValue" />
+          <NavigationProperty Name="MasterDataValue1" Relationship="LeaveManagementSystemModel.FK_MasterDataValueStatus_EmployeeLeaveTransaction" FromRole="EmployeeLeaveTransaction" ToRole="MasterDataValue" />
+        </EntityType>
+        <EntityType Name="EmployeeLeaveTransactionHistory">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int64" Nullable="false" />
+          <Property Name="RefEmployeeId" Type="Int32" Nullable="false" />
+          <Property Name="FromDate" Type="DateTime" Nullable="false" Precision="7" />
+          <Property Name="ToDate" Type="DateTime" Nullable="false" Precision="7" />
+          <Property Name="CreatedDate" Type="DateTime" Nullable="false" Precision="7" />
+          <Property Name="RefStatus" Type="Int32" Nullable="false" />
+          <Property Name="NumberOfWorkingDays" Type="Double" Nullable="false" />
+          <Property Name="RefLeaveType" Type="Int32" Nullable="false" />
+          <Property Name="EmployeeComment" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="ManagerComment" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="ModifiedDate" Type="DateTime" Precision="7" />
+          <Property Name="CreatedBy" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="ModifiedBy" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="EmployeeDetail" Relationship="LeaveManagementSystemModel.FK_EmployeeDetails_EmployeeLeaveTransactionHistory" FromRole="EmployeeLeaveTransactionHistory" ToRole="EmployeeDetail" />
+          <NavigationProperty Name="MasterDataValue" Relationship="LeaveManagementSystemModel.FK_MasterDataValue_EmployeeLeaveTransactionHistory" FromRole="EmployeeLeaveTransactionHistory" ToRole="MasterDataValue" />
+          <NavigationProperty Name="MasterDataValue1" Relationship="LeaveManagementSystemModel.FK_MasterDataValueStatus_EmployeeLeaveTransactionHistory" FromRole="EmployeeLeaveTransactionHistory" ToRole="MasterDataValue" />
+        </EntityType>
+        <Association Name="FK_EmployeeDetails_EmployeeLeaveTransaction">
+          <End Type="LeaveManagementSystemModel.EmployeeDetail" Role="EmployeeDetail" Multiplicity="1" />
+          <End Type="LeaveManagementSystemModel.EmployeeLeaveTransaction" Role="EmployeeLeaveTransaction" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="EmployeeDetail">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="EmployeeLeaveTransaction">
+              <PropertyRef Name="RefEmployeeId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_EmployeeDetails_EmployeeLeaveTransactionHistory">
+          <End Type="LeaveManagementSystemModel.EmployeeDetail" Role="EmployeeDetail" Multiplicity="1" />
+          <End Type="LeaveManagementSystemModel.EmployeeLeaveTransactionHistory" Role="EmployeeLeaveTransactionHistory" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="EmployeeDetail">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="EmployeeLeaveTransactionHistory">
+              <PropertyRef Name="RefEmployeeId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_EmployeeLeaveTransaction_Workflow">
+          <End Type="LeaveManagementSystemModel.EmployeeLeaveTransaction" Role="EmployeeLeaveTransaction" Multiplicity="1" />
+          <End Type="LeaveManagementSystemModel.Workflow" Role="Workflow" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="EmployeeLeaveTransaction">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Workflow">
+              <PropertyRef Name="RefLeaveTransactionId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_MasterDataValue_EmployeeLeaveTransaction">
+          <End Type="LeaveManagementSystemModel.MasterDataValue" Role="MasterDataValue" Multiplicity="1" />
+          <End Type="LeaveManagementSystemModel.EmployeeLeaveTransaction" Role="EmployeeLeaveTransaction" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="MasterDataValue">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="EmployeeLeaveTransaction">
+              <PropertyRef Name="RefLeaveType" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_MasterDataValueStatus_EmployeeLeaveTransaction">
+          <End Type="LeaveManagementSystemModel.MasterDataValue" Role="MasterDataValue" Multiplicity="1" />
+          <End Type="LeaveManagementSystemModel.EmployeeLeaveTransaction" Role="EmployeeLeaveTransaction" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="MasterDataValue">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="EmployeeLeaveTransaction">
+              <PropertyRef Name="RefStatus" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_MasterDataValue_EmployeeLeaveTransactionHistory">
+          <End Type="LeaveManagementSystemModel.MasterDataValue" Role="MasterDataValue" Multiplicity="1" />
+          <End Type="LeaveManagementSystemModel.EmployeeLeaveTransactionHistory" Role="EmployeeLeaveTransactionHistory" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="MasterDataValue">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="EmployeeLeaveTransactionHistory">
+              <PropertyRef Name="RefLeaveType" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_MasterDataValueStatus_EmployeeLeaveTransactionHistory">
+          <End Type="LeaveManagementSystemModel.MasterDataValue" Role="MasterDataValue" Multiplicity="1" />
+          <End Type="LeaveManagementSystemModel.EmployeeLeaveTransactionHistory" Role="EmployeeLeaveTransactionHistory" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="MasterDataValue">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="EmployeeLeaveTransactionHistory">
+              <PropertyRef Name="RefStatus" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -1381,43 +1381,6 @@
                 <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
                 <ScalarProperty Name="ModifiedBy" ColumnName="ModifiedBy" />
                 <ScalarProperty Name="EmpNumber" ColumnName="EmpNumber" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="EmployeeLeaveTransactions">
-            <EntityTypeMapping TypeName="LeaveManagementSystemModel.EmployeeLeaveTransaction">
-              <MappingFragment StoreEntitySet="EmployeeLeaveTransaction">
-                <ScalarProperty Name="Id" ColumnName="Id" />
-                <ScalarProperty Name="RefEmployeeId" ColumnName="RefEmployeeId" />
-                <ScalarProperty Name="FromDate" ColumnName="FromDate" />
-                <ScalarProperty Name="ToDate" ColumnName="ToDate" />
-                <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
-                <ScalarProperty Name="RefStatus" ColumnName="RefStatus" />
-                <ScalarProperty Name="NumberOfWorkingDays" ColumnName="NumberOfWorkingDays" />
-                <ScalarProperty Name="RefLeaveType" ColumnName="RefLeaveType" />
-                <ScalarProperty Name="EmployeeComment" ColumnName="EmployeeComment" />
-                <ScalarProperty Name="ModifiedDate" ColumnName="ModifiedDate" />
-                <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
-                <ScalarProperty Name="ModifiedBy" ColumnName="ModifiedBy" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="EmployeeLeaveTransactionHistories">
-            <EntityTypeMapping TypeName="LeaveManagementSystemModel.EmployeeLeaveTransactionHistory">
-              <MappingFragment StoreEntitySet="EmployeeLeaveTransactionHistory">
-                <ScalarProperty Name="Id" ColumnName="Id" />
-                <ScalarProperty Name="RefEmployeeId" ColumnName="RefEmployeeId" />
-                <ScalarProperty Name="FromDate" ColumnName="FromDate" />
-                <ScalarProperty Name="ToDate" ColumnName="ToDate" />
-                <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
-                <ScalarProperty Name="RefStatus" ColumnName="RefStatus" />
-                <ScalarProperty Name="NumberOfWorkingDays" ColumnName="NumberOfWorkingDays" />
-                <ScalarProperty Name="RefLeaveType" ColumnName="RefLeaveType" />
-                <ScalarProperty Name="EmployeeComment" ColumnName="EmployeeComment" />
-                <ScalarProperty Name="ManagerComment" ColumnName="ManagerComment" />
-                <ScalarProperty Name="ModifiedDate" ColumnName="ModifiedDate" />
-                <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
-                <ScalarProperty Name="ModifiedBy" ColumnName="ModifiedBy" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -1577,6 +1540,43 @@
                 <ScalarProperty Name="WorkFromHomeCount" ColumnName="WorkFromHomeCount" />
                 <ScalarProperty Name="AppliedLeavesCount" ColumnName="AppliedLeavesCount" />
                 <ScalarProperty Name="EarnedLeavesCount" ColumnName="EarnedLeavesCount" />
+                <ScalarProperty Name="RefEmployeeId" ColumnName="RefEmployeeId" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="EmployeeLeaveTransactions">
+            <EntityTypeMapping TypeName="LeaveManagementSystemModel.EmployeeLeaveTransaction">
+              <MappingFragment StoreEntitySet="EmployeeLeaveTransaction">
+                <ScalarProperty Name="ModifiedBy" ColumnName="ModifiedBy" />
+                <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
+                <ScalarProperty Name="ModifiedDate" ColumnName="ModifiedDate" />
+                <ScalarProperty Name="EmployeeComment" ColumnName="EmployeeComment" />
+                <ScalarProperty Name="RefLeaveType" ColumnName="RefLeaveType" />
+                <ScalarProperty Name="NumberOfWorkingDays" ColumnName="NumberOfWorkingDays" />
+                <ScalarProperty Name="RefStatus" ColumnName="RefStatus" />
+                <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
+                <ScalarProperty Name="ToDate" ColumnName="ToDate" />
+                <ScalarProperty Name="FromDate" ColumnName="FromDate" />
+                <ScalarProperty Name="RefEmployeeId" ColumnName="RefEmployeeId" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="EmployeeLeaveTransactionHistories">
+            <EntityTypeMapping TypeName="LeaveManagementSystemModel.EmployeeLeaveTransactionHistory">
+              <MappingFragment StoreEntitySet="EmployeeLeaveTransactionHistory">
+                <ScalarProperty Name="ModifiedBy" ColumnName="ModifiedBy" />
+                <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
+                <ScalarProperty Name="ModifiedDate" ColumnName="ModifiedDate" />
+                <ScalarProperty Name="ManagerComment" ColumnName="ManagerComment" />
+                <ScalarProperty Name="EmployeeComment" ColumnName="EmployeeComment" />
+                <ScalarProperty Name="RefLeaveType" ColumnName="RefLeaveType" />
+                <ScalarProperty Name="NumberOfWorkingDays" ColumnName="NumberOfWorkingDays" />
+                <ScalarProperty Name="RefStatus" ColumnName="RefStatus" />
+                <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
+                <ScalarProperty Name="ToDate" ColumnName="ToDate" />
+                <ScalarProperty Name="FromDate" ColumnName="FromDate" />
                 <ScalarProperty Name="RefEmployeeId" ColumnName="RefEmployeeId" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
               </MappingFragment>

@@ -13,21 +13,35 @@ namespace LMS_WebAPI_DAL.Repositories
 {
     public class EmployeeLeaveTransactionRepository : IEmployeeLeaveTransaction
     {
-        public List<EmployeeLeaveTransactionModel> GetEmployeeLeaveTransaction(int id)
+        public List<EmployeeLeaveTransactionModel> GetEmployeeLeaveTransaction(int id, int leaveType = 0)
         {
-            using (var ctx = new LeaveManagementSystemEntities1())
+            try
+            {
+                using (var ctx = new LeaveManagementSystemEntities1())
+                {
+                    List<EmployeeLeaveTransactionModel> retResult = new List<EmployeeLeaveTransactionModel>();
+                    if (leaveType != 0)
+                    {
+                        var EmployeeLeaveTransactions = ctx.EmployeeLeaveTransactions.Where(m => m.RefEmployeeId == id && m.RefLeaveType == leaveType).OrderByDescending(m => m.CreatedDate).ToList();
+                        retResult = ToModel(EmployeeLeaveTransactions);
+                    }
+                    else
+                    {
+                        var EmployeeLeaveTransactions = ctx.EmployeeLeaveTransactions.Where(m => m.RefEmployeeId == id).OrderByDescending(m => m.CreatedDate).ToList();
+                        retResult = ToModel(EmployeeLeaveTransactions);
+                    }
+                    if (retResult != null)
+                    {
+                        return retResult;
+                    }
+                    else
+                        return null;
+                }
+            }
+            catch (Exception)
             {
 
-
-                var EmployeeLeaveTransactions = ctx.EmployeeLeaveTransactions.Where(m => m.RefEmployeeId == id).OrderByDescending(m=>m.CreatedDate).ToList();
-                var retResult = ToModel(EmployeeLeaveTransactions);
-
-                if (retResult != null)
-                {
-                    return retResult;
-                }
-                else
-                    return null;
+                throw;
             }
         }
 

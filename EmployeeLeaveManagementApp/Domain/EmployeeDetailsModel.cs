@@ -27,8 +27,8 @@ namespace LMS_WebAPP_Domain
         public string ProjectName { get; set; }
         public String RoleName { get; set; }
         public int? TotalLeaveCount { get; set; }
-        public int TotalApplied { get; set; }
-        public int TotalSpent { get; set; }
+        public double TotalApplied { get; set; }
+        public double TotalSpent { get; set; }
         public int TotalLeft { get; set; }
         public string ManagerName { get; set; }
         public string MangerEmail { get; set; }

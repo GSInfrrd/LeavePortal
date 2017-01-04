@@ -5,22 +5,23 @@
 }
 <style>
     .disabled {
-   pointer-events: none;
-   cursor: default;
-   color:gray !important;
-}
+        pointer-events: none;
+        cursor: default;
+        color: gray !important;
+    }
+
     .pagination > .active > a,
-.pagination > .active > span,
-.pagination > .active > a:hover,
-.pagination > .active > span:hover,
-.pagination > .active > a:focus,
-.pagination > .active > span:focus {
-  z-index: 3;
-  color: #fff;
-  cursor: default;
-  background-color: black !important;
-  border-color: black !important;
-}
+    .pagination > .active > span,
+    .pagination > .active > a:hover,
+    .pagination > .active > span:hover,
+    .pagination > .active > a:focus,
+    .pagination > .active > span:focus {
+        z-index: 3;
+        color: #fff;
+        cursor: default;
+        background-color: black !important;
+        border-color: black !important;
+    }
 </style>
 <!-- Font Awesome -->
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.5.0/css/font-awesome.min.css">
@@ -31,7 +32,7 @@
 <!-- iCheck for checkboxes and radio inputs -->
 <link rel="stylesheet" href="../../plugins/iCheck/all.css">
 <link href="~/plugins/Toastr/toastr.css" rel="stylesheet" />
-
+<link href="~/plugins/BootstrapToggle/bootstrap-toggle.min.css" rel="stylesheet" />
 
 @*<style>
         .paginate_button{
@@ -80,11 +81,11 @@
                                     <td>@m.NumberOfWorkingDays</td>
                                     <td>@(LMS_WebAPP_Utils.CommonMethods.Description((LMS_WebAPP_Utils.LeaveType)m.RefLeaveType))</td>
                                     @*<td style="align-content:center">
-                                        <a href="#" id="btnApplyLeave" class="@btnDisabled" style="color:green" data-content="@m.Id">
-                                            <span class="fa fa-check"></span>
-                                        </a>
+                                            <a href="#" id="btnApplyLeave" class="@btnDisabled" style="color:green" data-content="@m.Id">
+                                                <span class="fa fa-check"></span>
+                                            </a>
 
-                                    </td>*@
+                                        </td>*@
                                     <td>
                                         <a href="#" id="btnDeleteLeave" style="color:red" data-content="@m.Id">
                                             <span class="fa fa-close"></span>
@@ -118,7 +119,7 @@
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
-                <h4 class="modal-title">Add Leave</h4>
+                <h4 class="modal-title">Apply Leave</h4>
             </div>
             <div class="modal-body">
                 <div class="form-group" style="padding-bottom:20px">
@@ -128,21 +129,28 @@
                     </div>
                     <span class="form-group has-error" style="display:none" id="divLeaveTypeError">
                         <label class="control-label" for="inputError">
-                            <i class="fa fa-times-circle-o"></i> Please select leave type
+                            <i class="fa fa-times-circle-o"></i> Please select leave type:
                         </label>
                     </span>
 
-                    <div>
+                    <div id="rddiv">
                         @foreach (var value in Enum.GetValues(typeof(LMS_WebAPP_Utils.LeaveType)))
                         {
-                            <div class="col-md-6">
-                                <input type="radio" name="r1" class="flat-red" value="@Convert.ToInt16((LMS_WebAPP_Utils.LeaveType)value)">&nbsp; @(LMS_WebAPP_Utils.CommonMethods.Description((LMS_WebAPP_Utils.LeaveType)Convert.ToInt16((LMS_WebAPP_Utils.LeaveType)value)))
+                            <div class="col-md-3">
+                                <input type="radio" name="r1" id="RdLeaveType_@Convert.ToInt16((LMS_WebAPP_Utils.LeaveType)value)" class="flat-red" value="@Convert.ToInt16((LMS_WebAPP_Utils.LeaveType)value)">&nbsp; @(LMS_WebAPP_Utils.CommonMethods.Description((LMS_WebAPP_Utils.LeaveType)Convert.ToInt16((LMS_WebAPP_Utils.LeaveType)value)))
                             </div>
                         }
 
                     </div>
                 </div>
-                <div class="form-group">
+                <div class="form-group" id="divHalfDay">
+                    <div>
+                        <label>Please Select:</label>
+                    </div>
+
+                    <input type="checkbox" checked data-toggle="toggle" id="toggleOne" data-on="Full Day" data-off="Half Day" data-width="100" style="background-color:black !important">
+                </div>
+                <div class="form-group" id="divDateRange" style="display:none">
                     <div>
                         <label>Date range:</label>
                     </div>
@@ -162,15 +170,41 @@
 
                     </div>
                 </div>
-                <div class="form-group">
+                <div class="form-group" id="divNoOfWorking" style="display:none">
                     <div>
                         <label>Number Of Working Days:</label>
                         <span id="lblTotalWorkingDays"></span>
                     </div>
                 </div>
+                <div class="form-group" id="CompoDatePicker" style="display:none">
+                    <label>Date:</label>
+                    <div class="input-group date">
+                        <div class="input-group-addon">
+                            <i class="fa fa-calendar"></i>
+                        </div>
+                        <input type="text" class="form-control pull-right" id="datepicker" readonly="readonly">
+                    </div>
+                    <!-- /.input error -->
+                    <div class="form-group has-error" style="display:none" id="divDateError">
+                        <label class="control-label" for="datepicker">
+                            <i class="fa fa-times-circle-o"></i> Please select Date
+                        </label>
+
+                    </div>
+                </div>
+                <div class="form-group" id="SickDatePicker" style="display:none">
+                    <label>Date:</label>
+                    <div class="input-group date">
+                        <div class="input-group-addon">
+                            <i class="fa fa-calendar"></i>
+                        </div>
+                        <input type="text" class="form-control pull-right" id="sickDate" readonly="readonly">
+                    </div>
+                    <!-- /.input group -->
+                </div>
                 <div class="form-group">
                     <div>
-                        <label>Leave Comments:</label>
+                        <label>Reason:</label>
                     </div>
 
                     <div>
@@ -178,7 +212,7 @@
                     </div>
                     <div class="form-group has-error" style="display:none" id="divCommentError">
                         <label class="control-label" for="leaveComment">
-                            <i class="fa fa-times-circle-o"></i> Please enter the comments
+                            <i class="fa fa-times-circle-o"></i> Please enter the reason
                         </label>
 
                     </div>
@@ -188,7 +222,7 @@
 
             <div class="modal-footer">
                 <button type="button" id="btnLeaveRequestSubmit" style="background-color:#222d32 !important" class="btn btn-primary">Submit</button>
-                <button type="button" class="btn btn-default pull-right" data-dismiss="modal">Cancel</button>
+                <button type="button" class="btn btn-default pull-right Close" data-dismiss="modal">Cancel</button>
 
             </div>
         </div>
@@ -211,6 +245,7 @@
 <!-- AdminLTE for demo purposes -->
 <script src="../../dist/js/demo.js"></script>
 <!-- page script -->
+<script src="~/plugins/BootstrapToggle/bootstrap-toggle.min.js"></script>
 <script src="~/plugins/daterangepicker/moment.min.js"></script>
 @*<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.11.2/moment.min.js"></script>*@
 <script src="../../plugins/daterangepicker/daterangepicker.js"></script>
@@ -221,11 +256,33 @@
 <script>
     var fromDate;
     var toDate;
+    var IsFullDay;
+    var workingDays;
+    var sickLeaveId = '@Convert.ToInt16((LMS_WebAPP_Utils.LeaveType.SickLeave))';
+    var sickleavename = "r1_RdLeaveType_" + sickLeaveId;
+    //set default
+
+    function formatDate(date) {
+        var mm = date.getMonth() + 1;
+        var dd = date.getDate();
+        var yyyy = date.getFullYear();
+        mm = (mm < 10) ? '0' + mm : mm;
+        return mm + "-" + dd + "-" + yyyy;
+    }
+    var today = (formatDate(new Date()));
+
+    $("#RdLeaveType_" + sickLeaveId).attr('checked', true);
+    $('#SickDatePicker').show();
+    $('#sickDate').val(today);
+
     $(document).ready(function () {
         if (localStorage.getItem("leaveDeleted") == 1) {
             showSuccessMessage("Leave request deleted");
             localStorage.removeItem("leaveDeleted");
         }
+
+        $('.toggle-on').css("background-color", "Black");
+
         $(function () {
             $('#example1').DataTable({
                 "paging": true,
@@ -285,56 +342,216 @@
             });
         });
         $('#AddLeaveModal').on('hidden.bs.modal', function () {
+            debugger;
             $(this).find("textarea#leaveComment").val('').end();
             //$("#leaveDatepicker").daterangepicker("destroy");
             //$("#leaveDatepicker").daterangepicker("refresh");
-            $(this).find("input.flat-red:checked").parent().removeClass('checked');
-            $("#divCommentError").hide();
-            $("#divLeaveTypeError").hide();
 
+            $("#divCommentError").hide();
+            $('#sickDate').val(today);
+            $("#divLeaveTypeError").hide();
+            $(this).find("input.flat-red:checked").parent().removeClass('checked');
+            $("#RdLeaveType_" + sickLeaveId).parent().addClass('checked');
+            //  $('#RdLeaveType_" + sickLeaveId'+" 'input'").iCheck('check');
         });
+    });
+    $(function () {
+        $('#toggleOne').bootstrapToggle({
+            on: 'Full Day',
+            off: 'Half Day'
+        });
+    })
+
+    $(function () {
+        $('#toggle-event').change(function () {
+            if ($(this).prop('checked')) {
+                IsFullDay = true;
+            }
+            else {
+                IsFullDay = false;
+            }
+        })
+    })
+    $(document).on('click', '#btnClose,.close,.Close', function (e) {
+        debugger;
+        $("#RdLeaveType_" + sickLeaveId).attr('checked', true);
+        $('#SickDatePicker').show();
+        $('#sickDate').val(today);
+        $('#divDateRange').hide();
+        $('#divNoOfWorking').hide();
+        $('#CompoDatePicker').hide();
+        $('#leaveComment').val("");
+    });
+
+
+
+
+    $('input').on('ifChecked', function (event) {
+        debugger;
+        //  alert(event.type + ' callback');
+        var clickedradioButton = $('input[name=r1]:checked').val();
+        switch (clickedradioButton) {
+            case '@Convert.ToInt16((LMS_WebAPP_Utils.LeaveType.SickLeave))':
+                console.log("SickLeave");
+                $('#divDateRange').hide();
+                $('#divNoOfWorking').hide();
+                $('#leaveComment').val("");
+                $('#CompoDatePicker').hide();
+                $('#divDateError').hide();
+                $('#toggleOne').bootstrapToggle('on');
+                $('#divCommentError').hide();
+                $("#divLeaveTypeError").hide();
+                $('#SickDatePicker').show();
+                $('#divHalfDay').show();
+                break;
+            case '@Convert.ToInt16((LMS_WebAPP_Utils.LeaveType.CasualLeave))':
+                $('#divDateRange').show();
+                $('#divNoOfWorking').show();
+                $('#CompoDatePicker').hide();
+                $('#SickDatePicker').hide();
+                $('#divDateError').hide();
+                $('#leaveComment').val("");
+                $('#toggleOne').bootstrapToggle('on');
+                $('#divCommentError').hide();
+                $("#divLeaveTypeError").hide();
+                $('#divHalfDay').show();
+                break;
+            case '@Convert.ToInt16((LMS_WebAPP_Utils.LeaveType.AdvanceLeave))':
+                $('#divDateRange').show();
+                $('#divNoOfWorking').show();
+                $('#CompoDatePicker').hide();
+                $('#divDateError').hide();
+                $('#divCommentError').hide();
+                $('#leaveComment').val("");
+                $("#divLeaveTypeError").hide();
+                $('#SickDatePicker').hide();
+                $('#divHalfDay').hide();
+                break;
+            case '@Convert.ToInt16((LMS_WebAPP_Utils.LeaveType.CompoOff))':
+                $('#divDateRange').hide();
+                $('#divNoOfWorking').hide();
+                $('#CompoDatePicker').show();
+                $("#datepicker").val() != "";
+                $('#divCommentError').hide();
+                $('#leaveComment').val("");
+                $('#divDateError').hide();
+                $("#divLeaveTypeError").hide();
+                $('#SickDatePicker').hide();
+                $('#divHalfDay').hide();
+                break;
+            default:
+                break;
+
+        }
+        console.log("sick leave clicked;");
     });
 
     $("#leaveComment").keypress(function (e) {
-        $("#divCommentError").hide();
+        $('#divCommentError').hide();
     });
     $('input[name=r1]').parent().click(function (e) {
         $("#divLeaveTypeError").hide();
     });
-    $(document).on('click', '#btnLeaveRequestSubmit', function (e) {
-        $("#divCommentError").hide();
-        $("#divLeaveTypeError").hide();
-        if ($("#leaveComment").val() == "" && $('input[name=r1]:checked').val() == undefined) {
-            $("#divCommentError").show();
-            $("#divLeaveTypeError").show();
-        }
-        else if ($("#leaveComment").val() == "") {
-            $("#divCommentError").show();
-        }
-        else if ($('input[name="r1"]').val() == undefined) {
-            $("#divLeaveTypeError").show();
-        }
 
-        else {
-            $("#divCommentError").hide();
-            $("#divLeaveTypeError").hide();
+    //Form validation
+
+    function FormValidate() {
+        var clickedradioButton = $('input[name=r1]:checked').val();
+        switch (clickedradioButton) {
+            case '@Convert.ToInt16((LMS_WebAPP_Utils.LeaveType.SickLeave))':
+                //check comments
+                if ($("#leaveComment").val() != "") {
+                    //set from date to date IsFullDay,noof working days
+                    fromDate = $("#sickDate").val();
+                    toDate = fromDate;
+                    workingDays = 1;
+                    return true;
+                }
+                else {
+                    $('#divCommentError').show();
+                    return false;
+                }
+
+                break;
+            case '@Convert.ToInt16((LMS_WebAPP_Utils.LeaveType.CompoOff))':
+                //check date
+                if ($("#leaveComment").val() != "" && $("#datepicker").val() != "") {
+                    fromDate = $("#datepicker").val();
+                    toDate = fromDate;
+                    workingDays = 1;
+                    return true;
+                }
+                else if ($("#leaveComment").val() == "" && $("#datepicker").val() == "") {
+                    $('#divCommentError').show();
+                    $('#divDateError').show();
+                    return false;
+                }
+                else {
+                    if ($("#leaveComment").val() == "") {
+                        $('#divCommentError').show();
+                        return false;
+                    }
+                    else if ($("#datepicker").val() == "") {
+                        $('#divDateError').show();
+                        return false;
+                    }
+                }
+                //check comment
+                break;
+            case '@Convert.ToInt16((LMS_WebAPP_Utils.LeaveType.CasualLeave))':
+            case '@Convert.ToInt16((LMS_WebAPP_Utils.LeaveType.AdvanceLeave))':
+
+                //check date range
+                //check comment
+                if ($("#leaveComment").val() != "" && $("#leaveDatepicker").val() != "") {
+                    //set values
+                    fromDate = fromDate;
+                    toDate = toDate;
+                    workingDays = $("#lblTotalWorkingDays").html();
+                    return true;
+                }
+                else if ($("#leaveComment").val() == "" && $("#leaveDatepicker").val() == "") {
+                    $('#divCommentError').show();
+                    $('#divDatePickerError').show();
+                    return false;
+                }
+                else {
+                    if ($("#leaveComment").val() == "") {
+                        $('#divCommentError').show();
+                        return false;
+                    }
+                    else if ($("#leaveDatepicker").val() == "") {
+                        $('#divDatePickerError').show();
+                        return false;
+                    }
+                }
+                break;
+            default:
+                return true;
+                break;
+        }
+    }
+
+
+    // submitting leave request
+
+    $(document).on('click', '#btnLeaveRequestSubmit', function (e) {
+        debugger;
+        if (FormValidate()) {
             var comments = $("#leaveComment").val();
-            fromDate = fromDate;
-            toDate = toDate;
             var leaveType = $('input[name=r1]:checked').val();
-            var workingDays = $("#lblTotalWorkingDays").html();
             $.ajax({
                 cache: false,
                 type: 'post',
                 url: '/ApplyLeave/SubmitLeaveRequest',
-                data: { leaveType: leaveType, fromDate: fromDate, toDate: toDate, comments: comments, workingDays: workingDays },
+                data: { leaveType: leaveType, fromDate: fromDate, toDate: toDate, comments: comments, workingDays: workingDays, isFullDay: IsFullDay },
                 //contentType: "application/json; charset=utf-8",
                 dataType: "json",
                 success: function (data) {
                     $('#AddLeaveModal').modal('hide');
                     showSuccessMessage("Leave request successfully submitted for approval");
                     updateLeaveTable(data.result);
-                                        }
+                }
             });
         }
     }
@@ -343,6 +560,16 @@
         checkboxClass: 'icheckbox_flat-green',
         radioClass: 'iradio_flat-green'
     });
+
+    $('#datepicker').datepicker({
+        autoclose: true,
+        setDate: today
+    })
+    .on('changeDate', function (ev) {
+        $('#divDateError').hide();
+    });
+
+    // $('#datepicker').datepicker('setDate', today);
 
     $(document).on('click', '#btnApplyLeave', function (e) {
         var id = $(this).data("content");
@@ -412,8 +639,7 @@
         }
     }
 
-    function updateLeaveTable(data)
-    {
+    function updateLeaveTable(data) {
         $("#tblAppliedLeave").html("");
         var html = "<table id='example1' class='table table-bordered table-striped'><thead>" +
                 "<tr><th>From Date</th><th>To Date</th><th>Submitted Date</th><th>Status</th>" +
@@ -436,6 +662,3 @@
         });
     }
 </script>
-
-
-

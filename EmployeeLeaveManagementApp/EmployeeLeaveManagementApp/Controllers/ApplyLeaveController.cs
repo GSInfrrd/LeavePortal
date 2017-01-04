@@ -26,7 +26,7 @@ namespace EmployeeLeaveManagementApp.Controllers
             }
             else
             {
-                return RedirectToAction("Login","Account");
+                return RedirectToAction("Login", "Account");
             }
         }
 
@@ -36,14 +36,27 @@ namespace EmployeeLeaveManagementApp.Controllers
 
         }
         [HttpPost]
-        public async  Task<ActionResult> SubmitLeaveRequest(int leaveType,string fromDate,string toDate,string comments,int workingDays)
+        public async Task<ActionResult> SubmitLeaveRequest(int leaveType, string fromDate, string toDate, string comments, int workingDays, bool isFullDay = true)
         {
             var data = (UserAccount)Session[Constants.SESSION_OBJ_USER];
-            EmployeeLeaveTransactionManagement ELTM = new EmployeeLeaveTransactionManagement();
             int id = data.RefEmployeeId;
-            var res =await  ELTM.SubmitLeaveRequestAsync(id,leaveType, fromDate,toDate,comments,workingDays);
+            double WorkingDays = Convert.ToDouble(workingDays);
+            EmployeeLeaveTransactionManagement ELTM = new EmployeeLeaveTransactionManagement();
+            switch ((LeaveType)leaveType)
+            {
+                case LeaveType.SickLeave:
+                case LeaveType.CasualLeave:
+                    if (!isFullDay)
+                    {
+                        WorkingDays = 0.5;
+                    }
+                    break;
+                default:
+                    break;
+            }
+            var res = await ELTM.SubmitLeaveRequestAsync(id, leaveType, fromDate, toDate, comments, WorkingDays);
             //return RedirectToAction("ApplyLeave");
-             return Json(new { result = res });
+            return Json(new { result = res });
         }
 
         [HttpPost]
@@ -59,10 +72,10 @@ namespace EmployeeLeaveManagementApp.Controllers
         [HttpPost]
         public async Task<ActionResult> DeleteLeaveRequest(int leaveId)
         {
-            int empId=((UserAccount)Session[Constants.SESSION_OBJ_USER]).RefEmployeeId;
+            int empId = ((UserAccount)Session[Constants.SESSION_OBJ_USER]).RefEmployeeId;
             EmployeeLeaveTransactionManagement ELTM = new EmployeeLeaveTransactionManagement();
 
-            var res = await ELTM.DeleteLeaveRequestAsync(leaveId,empId);
+            var res = await ELTM.DeleteLeaveRequestAsync(leaveId, empId);
             //return RedirectToAction("ApplyLeave");
             return Json(new { result = res });
         }

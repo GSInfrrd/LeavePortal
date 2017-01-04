@@ -25,7 +25,7 @@ namespace LMS_WebAPI_DAL
         public string ManagerComments { get; set; }
     
         public virtual EmployeeDetail EmployeeDetail { get; set; }
-        public virtual EmployeeLeaveTransaction EmployeeLeaveTransaction { get; set; }
         public virtual MasterDataValue MasterDataValue { get; set; }
+        public virtual EmployeeLeaveTransaction EmployeeLeaveTransaction { get; set; }
     }
 }

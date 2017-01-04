@@ -117,14 +117,12 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Repositories\AddLeaveRepository.cs" />
     <Compile Include="Repositories\ApproveLeaveRepository.cs" />
-    <Compile Include="Repositories\CompoOff.cs" />
     <Compile Include="Repositories\EmployeeLeaveTransactionRepository.cs" />
     <Compile Include="Repositories\GenericRepository.cs" />
     <Compile Include="Repositories\HolidayRepository.cs" />
     <Compile Include="Repositories\HRRepository.cs" />
     <Compile Include="Repositories\Interfaces\IApproveLeaveRepository.cs" />
     <Compile Include="Repositories\Interfaces\IAddLeaveRepository.cs" />
-    <Compile Include="Repositories\Interfaces\ICompoOff.cs" />
     <Compile Include="Repositories\Interfaces\IEmployeeLeaveTransaction.cs" />
     <Compile Include="Repositories\Interfaces\IGenericRepository.cs" />
     <Compile Include="Repositories\Interfaces\IHoliday.cs" />

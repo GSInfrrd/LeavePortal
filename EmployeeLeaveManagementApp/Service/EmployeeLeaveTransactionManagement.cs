@@ -12,15 +12,15 @@ namespace LMS_WebAPP_ServiceHelpers
     {
         static HttpClient client = new HttpClient();
 
-
         private string URL = "http://localhost:64476/api/EmployeeLeaveTrans";
         private string urlParameters;
 
-        public async Task<IList<LeaveTransaction>> GetProductAsync(int empid)
+        public async Task<IList<LeaveTransaction>> GetProductAsync(int empid, int? leaveType = 0)
         {
             HttpClient client = new HttpClient();
             client.BaseAddress = new Uri(URL);
-            urlParameters = "?id=" + empid;
+            urlParameters = "/Get?id=" + empid + "&leaveType=" + leaveType;
+           
             URL += urlParameters;
             // Add an Accept header for JSON format.
             client.DefaultRequestHeaders.Accept.Add(
@@ -31,21 +31,21 @@ namespace LMS_WebAPP_ServiceHelpers
             if (response.IsSuccessStatusCode)
             {
                 // Parse the response body. Blocking!
-                var dataObjects =  response.Content.ReadAsAsync<IList<LeaveTransaction>>().Result.ToList();
+                var dataObjects = response.Content.ReadAsAsync<IList<LeaveTransaction>>().Result.ToList();
                 return dataObjects;
 
             }
             return null;
         }
 
-        public async Task<IList<LeaveTransaction>> SubmitLeaveRequestAsync(int id, int leaveType,string fromDate,string toDate,string comments,int workingDays)
+        public async Task<IList<LeaveTransaction>> SubmitLeaveRequestAsync(int id, int leaveType, string fromDate, string toDate, string comments, double workingDays)
         {
             HttpClient client = new HttpClient();
             client.BaseAddress = new Uri(URL);
-            var urlParameters = "?Id=" + id + "&leaveType=" + leaveType + "&fromDate=" + fromDate + "&toDate="+ toDate+"&comments="+comments+"&workingDays="+workingDays;
+            var urlParameters = "?Id=" + id + "&leaveType=" + leaveType + "&fromDate=" + fromDate + "&toDate=" + toDate + "&comments=" + comments + "&workingDays=" + workingDays;
             URL += urlParameters;
             //URL = URL + "/SubmitLeaveRequest";
-            
+
 
             // Add an Accept header for JSON format.
             client.DefaultRequestHeaders.Accept.Add(
@@ -88,10 +88,10 @@ namespace LMS_WebAPP_ServiceHelpers
         }
 
 
-        public async Task<IList<LeaveTransaction>> DeleteLeaveRequestAsync(int leaveId,int empId)
+        public async Task<IList<LeaveTransaction>> DeleteLeaveRequestAsync(int leaveId, int empId)
         {
             HttpClient client = new HttpClient();
-            var urlParameters = "?leaveId=" + leaveId+"&employeeId="+ empId;
+            var urlParameters = "?leaveId=" + leaveId + "&employeeId=" + empId;
             //URL = URL + "/SubmitLeaveRequest";
             client.BaseAddress = new Uri(URL);
 

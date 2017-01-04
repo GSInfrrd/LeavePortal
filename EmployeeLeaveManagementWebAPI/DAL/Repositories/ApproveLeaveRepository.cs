@@ -16,10 +16,7 @@ namespace LMS_WebAPI_DAL.Repositories
             try
             {
                 using (var ctx = new LeaveManagementSystemEntities1())
-
                 {
-
-
                     var ManagersDetails = ctx.EmployeeDetails.Where(m => ((m.RefRoleId == 1) || (m.RefRoleId == 2))&&(m.Id != id) ).ToList();
                     var retResult = ToModelMasterDetails(ManagersDetails);
 
@@ -172,10 +169,7 @@ namespace LMS_WebAPI_DAL.Repositories
             ApproveLeaveModel Empres = new ApproveLeaveModel();
             try
             {
-
                 var m = employeeLeaveTransaction;
-
-
                 Empres.Id = m.Id;
                 Empres.EmployeeName = m.EmployeeDetail.FirstName + " " + m.EmployeeDetail.LastName;
                 Empres.RefEmployeeId = m.RefEmployeeId;
@@ -190,10 +184,6 @@ namespace LMS_WebAPI_DAL.Repositories
                 Empres.StatusName = m.MasterDataValue1.Value;
                 //newTrans.ManagerComments = m.ManagerComments;
                 Empres.ModifiedDate = m.ModifiedDate;
-
-
-
-
             }
             catch (Exception)
             {

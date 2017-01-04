@@ -14,7 +14,7 @@ namespace LMS_WebAPI_Domain
         public Nullable<System.DateTime> ToDate { get; set; }
         public System.DateTime CreatedDate { get; set; }
         public int RefStatus { get; set; }
-        public int NumberOfWorkingDays { get; set; }
+        public double NumberOfWorkingDays { get; set; }
         public int RefLeaveType { get; set; }
 
         public string LeaveTypeName { get; set; }

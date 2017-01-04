@@ -13,13 +13,12 @@ namespace EmployeeLeaveManagementWebAPI.Controllers
     {
 
         // GET api/values
-        public List<EmployeeLeaveTransactionModel> Get(int id)
+        public List<EmployeeLeaveTransactionModel> Get(int id, int? leaveType = 0)
         {
             EmployeeLeaveTransactionManagement ELTM = new EmployeeLeaveTransactionManagement();
-            var res=ELTM.GetEmployeeLeaveTransaction(id);
-
+           int leaveTypeConverted =  Convert.ToInt16(leaveType);
+            var res = ELTM.GetEmployeeLeaveTransaction(id, leaveTypeConverted);
             return res;
-            
         }
 
         // GET api/values/5
@@ -28,15 +27,15 @@ namespace EmployeeLeaveManagementWebAPI.Controllers
         //    return "value";
         //}
 
-        public List<EmployeeLeaveTransactionModel> Get(int id, int leaveType, string fromDate, string toDate, string comments, int workingDays)
+        public List<EmployeeLeaveTransactionModel> Get(int id, int leaveType, string fromDate, string toDate, string comments, double workingDays)
         {
             EmployeeLeaveTransactionManagement ELTM = new EmployeeLeaveTransactionManagement();
-            var detailsInserted = ELTM.InsertEmployeeLeaveDetails(id,leaveType,fromDate,toDate,comments,workingDays);
+            var detailsInserted = ELTM.InsertEmployeeLeaveDetails(id, leaveType, fromDate, toDate, comments, workingDays);
             var res = new List<EmployeeLeaveTransactionModel>();
-            if(detailsInserted)
-            {
-                res = ELTM.GetEmployeeLeaveTransaction(id);
-            }
+            //if (detailsInserted)
+            //{
+            //    res = ELTM.GetEmployeeLeaveTransaction(id);
+            //}
             return res;
         }
 
@@ -52,7 +51,7 @@ namespace EmployeeLeaveManagementWebAPI.Controllers
             return res;
         }
 
-        public List<EmployeeLeaveTransactionModel> Get(int leaveId,int employeeId)
+        public List<EmployeeLeaveTransactionModel> Get(int leaveId, int employeeId)
         {
             EmployeeLeaveTransactionManagement ELTM = new EmployeeLeaveTransactionManagement();
             var detailsInserted = ELTM.DeleteLeaveRequest(leaveId);

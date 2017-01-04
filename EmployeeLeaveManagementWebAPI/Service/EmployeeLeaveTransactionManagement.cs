@@ -15,18 +15,15 @@ namespace LMS_WebAPI_ServiceHelpers
     {
         private IEmployeeLeaveTransaction EmployeeLeaves  = new EmployeeLeaveTransactionRepository();
         private IAddLeaveRepository addLeaveRepository = new AddLeaveRepository();
-        public List<EmployeeLeaveTransactionModel> GetEmployeeLeaveTransaction(int id)
+        public List<EmployeeLeaveTransactionModel> GetEmployeeLeaveTransaction(int id,int leaveType = 0)
         {
-            var EmployeeLeaveTransaction = EmployeeLeaves.GetEmployeeLeaveTransaction(id);
-            // var leaveType = addLeaveRepository.GetLeaveType();
-           // var retResult = ToModel(EmployeeLeaveTransaction);
-   
+            var EmployeeLeaveTransaction = EmployeeLeaves.GetEmployeeLeaveTransaction(id,leaveType);
             return EmployeeLeaveTransaction;
         }
 
        
 
-        public bool InsertEmployeeLeaveDetails(int empId,int leaveType, string fromDate, string toDate, string comments, int workingDays)
+        public bool InsertEmployeeLeaveDetails(int empId,int leaveType, string fromDate, string toDate, string comments, double workingDays)
         {
             var insertEmployeeDetails = addLeaveRepository.InsertEmployeeLeaveDetails(empId,leaveType, fromDate, toDate, comments, workingDays);
 

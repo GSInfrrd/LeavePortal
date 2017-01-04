@@ -13,7 +13,11 @@ namespace LMS_WebAPP_Utils
         [Description("Casual Leave")]
         CasualLeave=8,
         [Description("Sick Leave")]
-        SickLeave=7
+        SickLeave=7,
+        [Description("Compo Off")]
+        CompoOff = 25,
+        [Description("Advance Leave")]
+        AdvanceLeave = 26
     }
 
     public enum LeaveStatus
@@ -64,8 +68,8 @@ namespace LMS_WebAPP_Utils
     public enum WorkFormHomeReasons
     {
         [Description("Maintenance at home")]
-        Maintenance = 20,
+        Maintenance = 23,
         [Description("To avoid Travel")]
-        AvoidTravel = 21,
+        AvoidTravel = 24,
     }
 }

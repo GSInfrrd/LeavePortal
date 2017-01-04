@@ -10,9 +10,8 @@ using System.Net.Mail;
 
 namespace LMS_WebAPI_DAL.Repositories
 {
-    public class AddLeaveRepository :IAddLeaveRepository
+    public class AddLeaveRepository : IAddLeaveRepository
     {
-       
         public List<string> GetLeaveType()
         {
             using (var ctx = new LeaveManagementSystemEntities1())
@@ -29,11 +28,9 @@ namespace LMS_WebAPI_DAL.Repositories
             }
         }
 
-        public bool InsertEmployeeLeaveDetails(int empId, int leaveType, string fromDate, string toDate, string comments, int workingDays)
+        public bool InsertEmployeeLeaveDetails(int empId, int leaveType, string fromDate, string toDate, string comments, double workingDays)
         {
-           
             var result = false;
-
             try
             {
                 using (var ctx = new LeaveManagementSystemEntities1())
@@ -47,54 +44,52 @@ namespace LMS_WebAPI_DAL.Repositories
                         CreatedDate = DateTime.Now,
                         NumberOfWorkingDays = workingDays,
                         RefLeaveType = leaveType,
-                        RefStatus = (int)LeaveStatus.Planned,
+                        RefStatus = (int)LeaveStatus.Submitted,
                         RefEmployeeId = empId,
                         CreatedBy = ctx.EmployeeDetails.FirstOrDefault(i => i.Id == empId).FirstName
                     };
-                 ctx.EmployeeLeaveTransactions.Add(employeeLeaveDetails);
+                    var newID = ctx.EmployeeLeaveTransactions.Add(employeeLeaveDetails);
                     ctx.SaveChanges();
-                   
-                    }
-                    result = true;
-         
+                    var newId = Convert.ToInt16(newID.Id);
+                    //on apply leave the status go to submitted
+                    //Adding workflow table insertions
+                    SubmitLeaveForApproval(newId);
+                }
+                result = true;
             }
             catch (Exception ex)
             {
-                  throw;
+                throw;
             }
-               return result;
+            return result;
         }
-
 
         public bool SubmitLeaveForApproval(int id)
         {
-
             var result = false;
-
             try
             {
                 using (var ctx = new LeaveManagementSystemEntities1())
                 {
-
                     var leaveDetails = ctx.EmployeeLeaveTransactions.FirstOrDefault(x => x.Id == id);
-                    leaveDetails.RefStatus =(int) LeaveStatus.Submitted;
+                    leaveDetails.RefStatus = (int)LeaveStatus.Submitted;
                     ctx.SaveChanges();
-                    var mailFrom =ctx.UserAccounts.FirstOrDefault(i => i.RefEmployeeId == leaveDetails.RefEmployeeId);
+                    var mailFrom = ctx.UserAccounts.FirstOrDefault(i => i.RefEmployeeId == leaveDetails.RefEmployeeId);
                     var fromEmail = ctx.UserAccounts.FirstOrDefault(i => i.RefEmployeeId == mailFrom.Id).UserName;
-                    var toEmail= ctx.UserAccounts.FirstOrDefault(i => i.RefEmployeeId == mailFrom.EmployeeDetail.ManagerId).UserName;
+                    var toEmail = ctx.UserAccounts.FirstOrDefault(i => i.RefEmployeeId == mailFrom.EmployeeDetail.ManagerId).UserName;
                     var workFlow = new Workflow
                     {
                         RefLeaveTransactionId = leaveDetails.Id,
-                        RefApproverId =(int)ctx.EmployeeDetails.FirstOrDefault(x => x.Id == leaveDetails.RefEmployeeId).ManagerId,
+                        RefApproverId = (int)ctx.EmployeeDetails.FirstOrDefault(x => x.Id == leaveDetails.RefEmployeeId).ManagerId,
                         ModifiedDate = DateTime.Now,
                         RefStatus = (int)LeaveStatus.Submitted,
-                        CreatedDate=DateTime.Now,
-                        CreatedBy=leaveDetails.EmployeeDetail.FirstName
+                        CreatedDate = DateTime.Now,
+                        CreatedBy = leaveDetails.EmployeeDetail.FirstName
                     };
                     ctx.Workflows.Add(workFlow);
                     ctx.SaveChanges();
 
-                    var op = SendMail(leaveDetails.EmployeeDetail.FirstName,fromEmail, toEmail);
+                    var op = SendMail(leaveDetails.EmployeeDetail.FirstName, fromEmail, toEmail);
 
                 }
                 result = true;
@@ -106,6 +101,7 @@ namespace LMS_WebAPI_DAL.Repositories
             }
             return result;
         }
+
         public bool DeleteLeaveRequest(int id)
         {
 
@@ -130,17 +126,17 @@ namespace LMS_WebAPI_DAL.Repositories
             return result;
         }
 
-        public bool SendMail(string firstName, string fromEmail,string toEmail)
+        public bool SendMail(string firstName, string fromEmail, string toEmail)
         {
 
             var message = new MailMessage();
-            message.From=new MailAddress(fromEmail);
+            message.From = new MailAddress(fromEmail);
 
             message.To.Add(new MailAddress("alekhya.kk9@gmail.com"));
             message.CC.Add(new MailAddress("alekya@infrrd.ai"));
             message.Subject = "Leave Notification";
             message.IsBodyHtml = true;
-            message.Body = @"Hi,<br/><b>"+firstName+"</b> has applied for leave.Login to your account to approve/reject.<br/><br/>Best Regards,<br/><b>Infrrd Leave Management<b>";
+            message.Body = @"Hi,<br/><b>" + firstName + "</b> has applied for leave.Login to your account to approve/reject.<br/><br/>Best Regards,<br/><b>Infrrd Leave Management<b>";
 
 
 
@@ -150,14 +146,13 @@ namespace LMS_WebAPI_DAL.Repositories
                 client.Port = 587;
                 client.EnableSsl = true;
                 client.UseDefaultCredentials = false;
-                client.Credentials = new System.Net.NetworkCredential("alekya@infrrd.ai","alkvyS9.");
+                client.Credentials = new System.Net.NetworkCredential("alekya@infrrd.ai", "alkvyS9.");
 
                 client.Send(message);
             }
 
-                return true;
-            }
-
+            return true;
         }
     }
+}
 

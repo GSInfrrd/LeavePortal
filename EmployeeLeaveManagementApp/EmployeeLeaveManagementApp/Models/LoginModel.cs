@@ -30,12 +30,12 @@ namespace EmployeeLeaveManagementApp.Models
         public string Projectname { get; set; }
         public String RoleName { get; set; }
         public int TotalLeaveCount { get; set; }
-        public int TotalLeft { get; set; }
+        public double TotalLeft { get; set; }
         [DisplayFormat(DataFormatString = "{0:dd MMM yyyy}")]
         public DateTime DateOfJoining { get; set; }
-        public int TotalApplied { get; set; }
+        public double TotalApplied { get; set; }
 
-        public int TotalSpent { get; set; }
+        public double TotalSpent { get; set; }
         public string FormattedDate
         {
             get
