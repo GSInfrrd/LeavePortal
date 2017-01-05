@@ -219,6 +219,7 @@
       <DependentUpon>ImageUploadHandler.ashx</DependentUpon>
     </Compile>
     <Compile Include="Models\EmployeeModel.cs" />
+    <Compile Include="Models\IdentityModel.cs" />
     <Compile Include="Models\LoginModel.cs" />
     <Compile Include="Models\WorkFromHomeModel.cs" />
     <Compile Include="obj\Debug\TemporaryGeneratedFile_036C0B5B-1481-4323-8D20-8F5ADCB23D92.cs" />
@@ -1200,6 +1201,9 @@
     <Content Include="Views\HR\Reports.cshtml" />
     <Content Include="Views\WorkFromHome\Index.cshtml" />
     <Content Include="Views\CompoOff\Index.cshtml" />
+    <Content Include="Views\Account\ExternalLoginConfirmation.cshtml" />
+    <Content Include="Views\Account\ExternalLoginFailure.cshtml" />
+    <Content Include="Views\Account\_ExternalLoginsList.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
