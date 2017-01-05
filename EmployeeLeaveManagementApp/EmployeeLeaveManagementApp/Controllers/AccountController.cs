@@ -10,18 +10,58 @@ using LMS_WebAPP_Domain;
 using System.Threading.Tasks;
 using LMS_WebAPI_Domain;
 using System.Configuration;
+using Microsoft.Owin.Security;
+using Microsoft.AspNet.Identity;
+using Microsoft.AspNet.Identity.Owin;
+using EmployeeLeaveManagementApp.Models;
 
 namespace EmployeeLeaveManagementApp.Controllers
 {
     public class AccountController : Controller
     {
+        private ApplicationSignInManager _signInManager;
+        private ApplicationUserManager _userManager;
+        public AccountController()
+        {
+        }
+
+        public AccountController(ApplicationUserManager userManager, ApplicationSignInManager signInManager)
+        {
+            UserManager = userManager;
+            SignInManager = signInManager;
+        }
+
+        public ApplicationSignInManager SignInManager
+        {
+            get
+            {
+                return _signInManager ?? HttpContext.GetOwinContext().Get<ApplicationSignInManager>();
+            }
+            private set
+            {
+                _signInManager = value;
+            }
+        }
+
+        public ApplicationUserManager UserManager
+        {
+            get
+            {
+                return _userManager ?? HttpContext.GetOwinContext().GetUserManager<ApplicationUserManager>();
+            }
+            private set
+            {
+                _userManager = value;
+            }
+        }
 
         UserManagement user = new UserManagement();
         // GET: Account
         [HttpGet]
         [AllowAnonymous]
-        public ActionResult Login()
+        public ActionResult Login(string returnUrl)
         {
+            ViewBag.ReturnUrl = returnUrl;
             Logger.Info("addded new");
             ViewBag.userExist = true;
             return View();
@@ -29,18 +69,18 @@ namespace EmployeeLeaveManagementApp.Controllers
 
         public async Task<ActionResult> Profile()
         {
-            if (null != Session[Constants.SESSION_OBJ_USER])
+            if (null != Session[LMS_WebAPP_Utils.Constants.SESSION_OBJ_USER])
             {
-                var data = (UserAccount)Session[Constants.SESSION_OBJ_USER];
+                var data = (UserAccount)Session[LMS_WebAPP_Utils.Constants.SESSION_OBJ_USER];
                 EmployeeDetailsModel datares = await user.GetUserProfileDetails(data.RefEmployeeId);
                 List<string> col = new List<string>() { "danger", "info", "warning", "success" };
                 datares.Colors = col;
-                //Models.LoginModel model = new Models.LoginModel();
-                //model.EmpName = data.UserName;
-                //model.UserName = data.UserName;
+                Models.LoginModel model = new Models.LoginModel();
+                model.EmpName = data.UserName;
+                model.UserName = data.UserName;
                 //model.Projectname = datares.ProjectName;
                 //model.ManagerName = datares.ManagerName;
-                //model.DateOfJoining = DateTime.Now;
+                model.DateOfJoining = DateTime.Now;
                 //model.RoleName = datares.RoleName;
                 return View(datares);
             }
@@ -53,7 +93,7 @@ namespace EmployeeLeaveManagementApp.Controllers
             if (ModelState.IsValid)
             {
 
-                if (null == Session[Constants.SESSION_OBJ_USER])
+                if (null == Session[LMS_WebAPP_Utils.Constants.SESSION_OBJ_USER])
                 {
                     // var encryptedPassword = CommonMethods.EncryptDataForLogins(model.UserName, model.Password);
                     var data = await user.GetUserAsync(model.UserName, model.Password);
@@ -76,7 +116,7 @@ namespace EmployeeLeaveManagementApp.Controllers
                             Response.Cookies.Add(myCookie);
                         }
                         #endregion
-                        Session[Constants.SESSION_OBJ_USER] = data;
+                        Session[LMS_WebAPP_Utils.Constants.SESSION_OBJ_USER] = data;
                         ViewBag.UserExist = true;
                             return RedirectToAction("Dashboard");
                     
@@ -116,13 +156,13 @@ namespace EmployeeLeaveManagementApp.Controllers
 
         public async Task<ActionResult> Dashboard()
         {
-            if (null != Session[Constants.SESSION_OBJ_USER])
+            if (null != Session[LMS_WebAPP_Utils.Constants.SESSION_OBJ_USER])
             {
-                var data = (UserAccount)Session[Constants.SESSION_OBJ_USER];
+                var data = (UserAccount)Session[LMS_WebAPP_Utils.Constants.SESSION_OBJ_USER];
                 EmployeeDetailsModel datares = await user.GetUserDetailsAsync(data.RefEmployeeId);
                 data.ManagerId = datares.ManagerId;
                 data.ManagerEmail = datares.MangerEmail;
-                Session[Constants.SESSION_OBJ_USER] = data;
+                Session[LMS_WebAPP_Utils.Constants.SESSION_OBJ_USER] = data;
                 Models.LoginModel model = new Models.LoginModel();
                 model.EmpName = data.UserName;
                 model.UserName = data.UserName;
@@ -152,9 +192,9 @@ namespace EmployeeLeaveManagementApp.Controllers
 
         public async Task<ActionResult> GetLeaveReportDetails(int year)
         {
-            if (null != Session[Constants.SESSION_OBJ_USER])
+            if (null != Session[LMS_WebAPP_Utils.Constants.SESSION_OBJ_USER])
             {
-                var data = (UserAccount)Session[Constants.SESSION_OBJ_USER];
+                var data = (UserAccount)Session[LMS_WebAPP_Utils.Constants.SESSION_OBJ_USER];
                 LeaveReportModel datares = await user.GetLeaveReportDetails(data.RefEmployeeId, year);
                 // model.Announcements = (Models.Announcement)datares.Announcements;
                 return Json(new { result = datares });
@@ -176,9 +216,9 @@ namespace EmployeeLeaveManagementApp.Controllers
 
         public async Task<ActionResult> ProfileDetails(int id)
         {
-            if (null != Session[Constants.SESSION_OBJ_USER])
+            if (null != Session[LMS_WebAPP_Utils.Constants.SESSION_OBJ_USER])
             {
-                var data = (UserAccount)Session[Constants.SESSION_OBJ_USER];
+                var data = (UserAccount)Session[LMS_WebAPP_Utils.Constants.SESSION_OBJ_USER];
                 EmployeeDetailsModel datares = await user.GetUserProfileDetails(id);
                 List<string> col = new List<string>() { "danger", "info", "warning", "success", "primary" };
                 datares.Colors = col;
@@ -199,9 +239,9 @@ namespace EmployeeLeaveManagementApp.Controllers
 
             try
             {
-                if (null != Session[Constants.SESSION_OBJ_USER])
+                if (null != Session[LMS_WebAPP_Utils.Constants.SESSION_OBJ_USER])
                 {
-                    var data = (UserAccount)Session[Constants.SESSION_OBJ_USER];
+                    var data = (UserAccount)Session[LMS_WebAPP_Utils.Constants.SESSION_OBJ_USER];
                     EmployeeDetailsModel datares = await user.GetUserProfileDetails(data.RefEmployeeId);
                     List<string> col = new List<string>() { "danger", "info", "warning", "success" };
                     datares.Colors = col;
@@ -226,9 +266,9 @@ namespace EmployeeLeaveManagementApp.Controllers
 
         public async Task<ActionResult> ProfileDownload()
         {
-            if (null != Session[Constants.SESSION_OBJ_USER])
+            if (null != Session[LMS_WebAPP_Utils.Constants.SESSION_OBJ_USER])
             {
-                var data = (UserAccount)Session[Constants.SESSION_OBJ_USER];
+                var data = (UserAccount)Session[LMS_WebAPP_Utils.Constants.SESSION_OBJ_USER];
                 EmployeeDetailsModel datares = await user.GetUserProfileDetails(data.RefEmployeeId);
                 List<string> col = new List<string>() { "danger", "info", "warning", "success" };
                 datares.Colors = col;
@@ -241,6 +281,133 @@ namespace EmployeeLeaveManagementApp.Controllers
             else
             {
                 return View("Login");
+            }
+        }
+
+        [AllowAnonymous]
+        public async Task<ActionResult> ExternalLoginCallback(string returnUrl)
+        {
+            var loginInfo = await AuthenticationManager.GetExternalLoginInfoAsync();
+            if (loginInfo == null)
+            {
+                return RedirectToAction("Login");
+            }
+
+            // Sign in the user with this external login provider if the user already has a login
+            var result = await SignInManager.ExternalSignInAsync(loginInfo, isPersistent: false);
+            switch (result)
+            {
+                case SignInStatus.Success:
+                    return RedirectToLocal(returnUrl);
+                case SignInStatus.LockedOut:
+                    return View("Lockout");
+                case SignInStatus.RequiresVerification:
+                    return RedirectToAction("SendCode", new { ReturnUrl = returnUrl, RememberMe = false });
+                case SignInStatus.Failure:
+                default:
+                    // If the user does not have an account, then prompt the user to create an account
+                    ViewBag.ReturnUrl = returnUrl;
+                    ViewBag.LoginProvider = loginInfo.Login.LoginProvider;
+                    return View("ExternalLoginConfirmation", new ExternalLoginConfirmationViewModel { Email = loginInfo.Email });
+            }
+        }
+
+    
+        [AllowAnonymous]
+        [ValidateAntiForgeryToken]
+        public async Task<ActionResult> ExternalLoginConfirmation(ExternalLoginConfirmationViewModel model, string returnUrl)
+        {
+            if (User.Identity.IsAuthenticated)
+            {
+                //model.
+                return RedirectToAction("Dashboard", "Account");
+            }
+
+            if (ModelState.IsValid)
+            {
+                // Get the information about the user from the external login provider
+                var info = await AuthenticationManager.GetExternalLoginInfoAsync();
+                if (info == null)
+                {
+                    return View("ExternalLoginFailure");
+                }
+                var user = new ApplicationUser { UserName = model.Email, Email = model.Email };
+                var result = await UserManager.CreateAsync(user);
+                if (result.Succeeded)
+                {
+                    result = await UserManager.AddLoginAsync(user.Id, info.Login);
+                    if (result.Succeeded)
+                    {
+                        await SignInManager.SignInAsync(user, isPersistent: false, rememberBrowser: false);
+                        return RedirectToLocal(returnUrl);
+                    }
+                }
+                AddErrors(result);
+            }
+
+            ViewBag.ReturnUrl = returnUrl;
+            return View(model);
+        }
+
+
+        private ActionResult RedirectToLocal(string returnUrl)
+        {
+            if (Url.IsLocalUrl(returnUrl))
+            {
+                return Redirect(returnUrl);
+            }
+            return RedirectToAction("Dashboard", "Account");
+        }
+
+        public ActionResult ExternalLogin(string provider, string returnUrl)
+        {
+            // Request a redirect to the external login provider
+            return new ChallengeResult(provider, Url.Action("ExternalLoginCallback", "Account", new { ReturnUrl = returnUrl }));
+        }
+        private const string XsrfKey = "XsrfId";
+
+        private IAuthenticationManager AuthenticationManager
+        {
+            get
+            {
+                return HttpContext.GetOwinContext().Authentication;
+            }
+        }
+
+        private void AddErrors(IdentityResult result)
+        {
+            foreach (var error in result.Errors)
+            {
+                ModelState.AddModelError("", error);
+            }
+        }
+        internal class ChallengeResult : HttpUnauthorizedResult
+        {
+            public ChallengeResult(string provider, string redirectUri)
+                : this(provider, redirectUri, null)
+            {
+            }
+
+            public ChallengeResult(string provider, string redirectUri, string userId)
+            {
+                LoginProvider = provider;
+                RedirectUri = redirectUri;
+                UserId = userId;
+            }
+
+            public string LoginProvider { get; set; }
+            public string RedirectUri { get; set; }
+            public string UserId { get; set; }
+
+            public override void ExecuteResult(ControllerContext context)
+            {
+                var properties = new AuthenticationProperties { RedirectUri = RedirectUri };
+                properties.Dictionary.Add("hd", "infrrd.ai");
+                if (UserId != null)
+                {
+                    properties.Dictionary[XsrfKey] = UserId;
+                }
+                context.HttpContext.GetOwinContext().Authentication.Challenge(properties, LoginProvider);
             }
         }
     }

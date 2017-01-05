@@ -1,4 +1,5 @@
-﻿@model EmployeeLeaveManagementApp.Models.LoginModel
+﻿@using EmployeeLeaveManagementApp.Models
+@model EmployeeLeaveManagementApp.Models.LoginModel
 @{
     Layout = null;
     bool userExist = Convert.ToBoolean(ViewBag.UserExist);
@@ -67,6 +68,9 @@
                     <!-- /.col -->
                 </div>
            }
+            <div class="col-xs-4">
+                @Html.Partial("_ExternalLoginsList", new ExternalLoginListViewModel { ReturnUrl = ViewBag.ReturnUrl })
+            </div>
             <!-- /.social-auth-links -->
             <a href="#">I forgot my password</a><br>
            
