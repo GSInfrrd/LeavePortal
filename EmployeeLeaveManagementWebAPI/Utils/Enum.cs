@@ -56,4 +56,9 @@ namespace LMS_WebAPI_Utils
         [Description("Comp Off")]
         CompOff = 5
     }
+    public enum SkillsProjects
+    {
+        [Description("Skills")]
+        Skills = 7
+    }
 }

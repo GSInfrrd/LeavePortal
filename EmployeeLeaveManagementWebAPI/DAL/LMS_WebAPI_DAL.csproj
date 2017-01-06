@@ -127,8 +127,10 @@
     <Compile Include="Repositories\Interfaces\IGenericRepository.cs" />
     <Compile Include="Repositories\Interfaces\IHoliday.cs" />
     <Compile Include="Repositories\Interfaces\IHRRepository.cs" />
+    <Compile Include="Repositories\Interfaces\IResourceRequestRepository.cs" />
     <Compile Include="Repositories\Interfaces\IUser.cs" />
     <Compile Include="Repositories\Interfaces\IWorkFromHome.cs" />
+    <Compile Include="Repositories\ResourceRequestRepository.cs" />
     <Compile Include="Repositories\UserRepository.cs" />
     <Compile Include="Repositories\WorkFromHomeRepository.cs" />
     <Compile Include="UserAccount.cs">
