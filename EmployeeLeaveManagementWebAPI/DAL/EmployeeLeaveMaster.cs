@@ -12,16 +12,20 @@ namespace LMS_WebAPI_DAL
     using System;
     using System.Collections.Generic;
     
-    public partial class ConsolidatedEmployeeLeaveDetail
+    public partial class EmployeeLeaveMaster
     {
         public int Id { get; set; }
         public int RefEmployeeId { get; set; }
-        public Nullable<int> EarnedLeavesCount { get; set; }
+        public Nullable<int> LeaveBalance { get; set; }
         public Nullable<int> AppliedLeavesCount { get; set; }
         public Nullable<int> WorkFromHomeCount { get; set; }
         public Nullable<int> LossofPayCount { get; set; }
-        public System.DateTime CreatedDate { get; set; }
+        public Nullable<int> AdvancedLeaveCount { get; set; }
+        public Nullable<int> RewardedLeaveCount { get; set; }
+        public Nullable<System.DateTime> ModifiedDate { get; set; }
+        public Nullable<int> ModifiedBy { get; set; }
     
         public virtual EmployeeDetail EmployeeDetail { get; set; }
+        public virtual EmployeeDetail EmployeeDetail1 { get; set; }
     }
 }

@@ -61,6 +61,10 @@ namespace EmployeeLeaveManagementApp.Controllers
         [AllowAnonymous]
         public ActionResult Login(string returnUrl)
         {
+            if(TempData["LoginError"]!=null)
+            {
+                TempData["GLoginError"]= TempData["LoginError"];
+            }
             ViewBag.ReturnUrl = returnUrl;
             Logger.Info("addded new");
             ViewBag.userExist = true;
@@ -144,7 +148,7 @@ namespace EmployeeLeaveManagementApp.Controllers
                 // Session.Abandon();
                 Session.Abandon();
                 Session.Clear();
-                FormsAuthentication.SignOut();
+                //FormsAuthentication.SignOut();
                 return View("Login");
             }
             catch (Exception e)
@@ -272,10 +276,6 @@ namespace EmployeeLeaveManagementApp.Controllers
                 EmployeeDetailsModel datares = await user.GetUserProfileDetails(data.RefEmployeeId);
                 List<string> col = new List<string>() { "danger", "info", "warning", "success" };
                 datares.Colors = col;
-                //return new Rotativa.ViewAsPdf("ProfileDownload", datares)
-                //{
-                //    FileName = "test.pdf"
-                //};
                 return View(datares);
             }
             else
@@ -298,6 +298,8 @@ namespace EmployeeLeaveManagementApp.Controllers
             switch (result)
             {
                 case SignInStatus.Success:
+                    var data = await user.GetUserAsync(loginInfo.Email, string.Empty);
+                    Session[LMS_WebAPP_Utils.Constants.SESSION_OBJ_USER] = data;
                     return RedirectToLocal(returnUrl);
                 case SignInStatus.LockedOut:
                     return View("Lockout");
@@ -308,19 +310,36 @@ namespace EmployeeLeaveManagementApp.Controllers
                     // If the user does not have an account, then prompt the user to create an account
                     ViewBag.ReturnUrl = returnUrl;
                     ViewBag.LoginProvider = loginInfo.Login.LoginProvider;
-                    return View("ExternalLoginConfirmation", new ExternalLoginConfirmationViewModel { Email = loginInfo.Email });
+                    return RedirectToAction("ExternalLoginConfirmation", new ExternalLoginConfirmationViewModel { Email = loginInfo.Email });
             }
         }
 
     
         [AllowAnonymous]
-        [ValidateAntiForgeryToken]
         public async Task<ActionResult> ExternalLoginConfirmation(ExternalLoginConfirmationViewModel model, string returnUrl)
         {
             if (User.Identity.IsAuthenticated)
             {
-                //model.
-                return RedirectToAction("Dashboard", "Account");
+                var emailDomain = model.Email.Split('@')[1];
+                if (emailDomain == "infrrd.ai")
+                {
+                    var data = await user.GetUserAsync(model.Email, string.Empty);
+                    if (data.Id != 0)
+                    {
+                        Session[LMS_WebAPP_Utils.Constants.SESSION_OBJ_USER] = data;
+                        return RedirectToAction("Dashboard");
+                    }
+                    else
+                    {
+                        TempData["LoginError"] = "Account has not been Registered.Please Contact HR!";
+                        return RedirectToAction("Login");
+                    }
+                }
+                else
+                {
+                    TempData["LoginError"] = "Kindly login with Infrrd Email(eg:xxxx@infrrd.ai)";
+                    return RedirectToAction("Login");
+                }
             }
 
             if (ModelState.IsValid)

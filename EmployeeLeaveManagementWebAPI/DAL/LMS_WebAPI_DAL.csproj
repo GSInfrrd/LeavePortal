@@ -54,9 +54,6 @@
     <Compile Include="Announcement.cs">
       <DependentUpon>EmployeeLeaveManagement.tt</DependentUpon>
     </Compile>
-    <Compile Include="ConsolidatedEmployeeLeaveDetail.cs">
-      <DependentUpon>EmployeeLeaveManagement.tt</DependentUpon>
-    </Compile>
     <Compile Include="EmployeeContactDetail.cs">
       <DependentUpon>EmployeeLeaveManagement.tt</DependentUpon>
     </Compile>
@@ -83,6 +80,9 @@
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>EmployeeLeaveManagement.edmx</DependentUpon>
+    </Compile>
+    <Compile Include="EmployeeLeaveMaster.cs">
+      <DependentUpon>EmployeeLeaveManagement.tt</DependentUpon>
     </Compile>
     <Compile Include="EmployeeLeaveTransaction.cs">
       <DependentUpon>EmployeeLeaveManagement.tt</DependentUpon>

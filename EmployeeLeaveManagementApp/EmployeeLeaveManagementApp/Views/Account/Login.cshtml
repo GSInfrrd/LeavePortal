@@ -4,6 +4,8 @@
     Layout = null;
     bool userExist = Convert.ToBoolean(ViewBag.UserExist);
 }
+
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -68,7 +70,13 @@
                     <!-- /.col -->
                 </div>
            }
-            <div class="col-xs-4">
+            <div style="color:red">
+                @if ((string)TempData["GLoginError"] != null)
+            {
+                  @TempData["GLoginError"];
+            }
+            </div>
+            <div class="col-xs-12">
                 @Html.Partial("_ExternalLoginsList", new ExternalLoginListViewModel { ReturnUrl = ViewBag.ReturnUrl })
             </div>
             <!-- /.social-auth-links -->

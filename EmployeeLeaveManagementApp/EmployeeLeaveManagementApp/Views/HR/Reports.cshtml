@@ -21,6 +21,14 @@
             <div class="box box-primary">
                 <div class="box-header with-border">
                     <h3 class="box-title">Generate Report</h3>
+                    <div class="pull-right box-tools">
+                        <button class="btn" data-toggle="tooltip" id="btnExportDetails" data-content="1" title="Export">
+                            <i class="fa fa-file-excel-o"></i>
+                        </button>
+                        <button class="btn" data-toggle="tooltip" id="btnSendMail" data-content="2" title="Share as attachment">
+                            <i class="fa fa-envelope"></i>
+                        </button>
+                    </div>
                 </div>
                 <div class="box-body">
                     <div class="form-group">
@@ -75,7 +83,12 @@
             <div class="box box-primary">
                 <div class="box-header with-border">
                     <h3 class="box-title">Employee Individual Report</h3>
-                </div>
+                    <div class="pull-right box-tools">
+                        <button class="btn" data-toggle="tooltip" title="Export">
+                            <i class="fa fa-file-excel-o"></i>
+                        </button>
+                        </div>
+                    </div>
                 <div class="box-body">
                     <div class="form-group">
                         <label>Employee Name</label>
@@ -98,21 +111,11 @@
                             <!-- /.col -->
                             <div class="col-md-4">
                                 <ul class="chart-legend clearfix">
-                                    <li><i class="fa fa-circle-o text-red"></i> Loss of Pay</li>
-                                    <li><i class="fa fa-circle-o text-green"></i> Comp Off</li>
-                                    <li><i class="fa fa-circle-o text-yellow"></i> Advanced Leaves</li>
-                                    <li><i class="fa fa-circle-o text-aqua"></i> Work from Home</li>
-                                    <li><i class="fa fa-circle-o text-light-blue"></i> Applied Leaves</li>
-                                </ul>
-                            </div>
-                            &nbsp;&nbsp;&nbsp;&nbsp;<br /><br />
-                            <div class="col-md-4" style="padding-left:0px">
-                                <ul class="chart-legend clearfix">
-                                    <li> Loss of Pay : <text id="lopText"></text></li> 
-                                    <li>Comp Off :<text id="compOffText"></text></li>
-                                    <li>Advanced Leaves :<text id="advancedLeavesText"></text></li>
-                                    <li> Work from Home :<text id="wfhText"></text></li>
-                                    <li>Applied Leaves :<text id="appliedLeavesText"></text></li>
+                                    <li><i class="fa fa-circle-o text-red"></i> Loss of Pay :<text id="lopText">0</text></li>
+                                    <li><i class="fa fa-circle-o text-green"></i> Comp Off : <text id="compOffText">0</text></li>
+                                    <li><i class="fa fa-circle-o text-yellow"></i> Advanced Leaves :<text id="advancedLeavesText">0</text></li>
+                                    <li><i class="fa fa-circle-o text-aqua"></i> Work from Home :<text id="wfhText">0</text></li>
+                                    <li><i class="fa fa-circle-o text-light-blue"></i> Applied Leaves :<text id="appliedLeavesText">0</text></li>
                                 </ul>
                             </div>
                             <!-- /.col -->
@@ -358,7 +361,7 @@
                         //String - A tooltip template
                         tooltipTemplate: "<%=label%>"
                     };
-                                
+                    pieChart.Doughnut(PieData, pieOptions);
                 }
             });
             //Initialize Select2 Elements
@@ -433,14 +436,15 @@
     });
 
 
-    $(document).on('click', '#btnGenerateReport', function (e) {
+    $(document).on('click', '#btnSendMail', function (e) {
         if ($("#ddlEmployeeName").val()==null && $("#ddlLeaveType").val()==null && $("#ddlExportType").val()=="0" && reportFromDate==undefined && reportToDate==undefined)
         {
 
         }
         var employeeId = $("#ddlEmployeeName").val();
         var leaveType = $("#ddlLeaveType").val();
-        var exportAs = $("#ddlExportType").val();
+        //var exportAs = $("#ddlExportType").val();
+        var exportAs = $(this).data("content");
         var fromDate = reportFromDate;
         var toDate = reportToDate;
         var data = "";
@@ -455,6 +459,26 @@
 
     }
     );
+    $(document).on('click', '#btnExportDetails', function (e) {
+        var exportAs = $(this).data("content");
+        if ($("#ddlEmployeeName").val() == null && $("#ddlLeaveType").val() == null && $("#ddlExportType").val() == "0" && reportFromDate == undefined && reportToDate == undefined) {
+
+        }
+        var employeeId = $("#ddlEmployeeName").val();
+        var leaveType = $("#ddlLeaveType").val();
+        //var exportAs = $("#ddlExportType").val();
+        var fromDate = reportFromDate;
+        var toDate = reportToDate;
+        var data = "";
+        var leaveData = "";
+        for (var i = 0; i < employeeId.length; i++) {
+            data += employeeId[i] + ":";
+        }
+        for (var i = 0; i < leaveType.length; i++) {
+            leaveData += leaveType[i] + ":";
+        }
+        window.location.href = "/HR/GenerateReports/?employeeId=" + data + "&leaveType=" + leaveData + "&exportAs=" + exportAs + "&fromDate=" + fromDate + "&toDate=" + toDate;
+    })
     function labelFormatter(label, series) {
         return '<div style="font-size:13px; text-align:center; padding:2px; color: #fff; font-weight: 600;position:absolute">'
             + label

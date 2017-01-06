@@ -25,9 +25,10 @@ namespace LMS_WebAPI_DAL
             this.EmployeeExperienceDetails = new HashSet<EmployeeExperienceDetail>();
             this.EmployeeSkills = new HashSet<EmployeeSkill>();
             this.WorkFromHomes = new HashSet<WorkFromHome>();
-            this.ConsolidatedEmployeeLeaveDetails = new HashSet<ConsolidatedEmployeeLeaveDetail>();
             this.EmployeeLeaveTransactions = new HashSet<EmployeeLeaveTransaction>();
             this.EmployeeLeaveTransactionHistories = new HashSet<EmployeeLeaveTransactionHistory>();
+            this.EmployeeLeaveMasters = new HashSet<EmployeeLeaveMaster>();
+            this.EmployeeLeaveMasters1 = new HashSet<EmployeeLeaveMaster>();
         }
     
         public int Id { get; set; }
@@ -69,10 +70,12 @@ namespace LMS_WebAPI_DAL
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<WorkFromHome> WorkFromHomes { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<ConsolidatedEmployeeLeaveDetail> ConsolidatedEmployeeLeaveDetails { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<EmployeeLeaveTransaction> EmployeeLeaveTransactions { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<EmployeeLeaveTransactionHistory> EmployeeLeaveTransactionHistories { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<EmployeeLeaveMaster> EmployeeLeaveMasters { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<EmployeeLeaveMaster> EmployeeLeaveMasters1 { get; set; }
     }
 }
