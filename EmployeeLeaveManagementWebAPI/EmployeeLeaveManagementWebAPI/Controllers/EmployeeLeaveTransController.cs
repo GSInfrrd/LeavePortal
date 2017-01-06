@@ -11,7 +11,6 @@ namespace EmployeeLeaveManagementWebAPI.Controllers
 {
     public class EmployeeLeaveTransController : ApiController
     {
-
         // GET api/values
         public List<EmployeeLeaveTransactionModel> Get(int id, int? leaveType = 0)
         {
@@ -62,6 +61,5 @@ namespace EmployeeLeaveManagementWebAPI.Controllers
             }
             return res;
         }
-
     }
 }

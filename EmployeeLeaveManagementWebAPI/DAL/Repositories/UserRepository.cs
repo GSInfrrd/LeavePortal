@@ -54,15 +54,19 @@ namespace LMS_WebAPI_DAL.Repositories
                                       }).FirstOrDefault();
                     if (null != empDetails)
                     {
-                        var LeaveType = ctx.LeaveMasters.ToList();
-                        empDetails.TotalLeaveCount = LeaveType.Sum(q => q.Count);
+                        var leaveType = ctx.LeaveMasters.ToList();
+                        var sickLeaveint = Convert.ToInt16(LeaveType.SickLeave);
+                        var CasualLeaveint = Convert.ToInt16(LeaveType.CasualLeave);
+                        empDetails.TotalSickLeave = (from n in leaveType where n.RefLeaveType == sickLeaveint select n.Count).SingleOrDefault();
+                        empDetails.TotalCasualLeave = (from n in leaveType where n.RefLeaveType == CasualLeaveint select n.Count).SingleOrDefault();
+                        empDetails.TotalLeaveCount = leaveType.Sum(q => q.Count);
 
                         empDetails.TotalSpent = (from c in ctx.EmployeeLeaveTransactions
                                                  where c.RefEmployeeId == UserEmpId & c.RefStatus == (int)(LeaveStatus.Approved)
                                                  select c.NumberOfWorkingDays).ToList().Sum();
 
                         empDetails.TotalApplied = (from c in ctx.EmployeeLeaveTransactions
-                                                   where c.RefEmployeeId == UserEmpId & c.RefStatus == (int)(LeaveStatus.Planned)
+                                                   where c.RefEmployeeId == UserEmpId & c.RefStatus == (int)(LeaveStatus.Submitted)
                                                    select c.NumberOfWorkingDays).ToList().Sum();
 
                         var empdata = (from n in ctx.EmployeeProjectDetails

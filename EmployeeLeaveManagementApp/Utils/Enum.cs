@@ -14,7 +14,7 @@ namespace LMS_WebAPP_Utils
         CasualLeave=8,
         [Description("Sick Leave")]
         SickLeave=7,
-        [Description("Compo Off")]
+        [Description("CompOff")]
         CompoOff = 25,
         [Description("Advance Leave")]
         AdvanceLeave = 26

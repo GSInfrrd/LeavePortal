@@ -5,13 +5,15 @@ using System.Threading.Tasks;
 using System;
 using LMS_WebAPP_Utils;
 using LMS_WebAPP_Domain;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace EmployeeLeaveManagementApp.Controllers
 {
     public class ApplyLeaveController : Controller
     {
         static HttpClient client = new HttpClient();
-
+        EmployeeLeaveTransactionManagement ELTM = new EmployeeLeaveTransactionManagement();
 
         // GET: LeaveTransection
         public async Task<ActionResult> ApplyLeave()
@@ -19,10 +21,19 @@ namespace EmployeeLeaveManagementApp.Controllers
             if (null != Session[Constants.SESSION_OBJ_USER])
             {
                 var data = (UserAccount)Session[Constants.SESSION_OBJ_USER];
-                EmployeeLeaveTransactionManagement ELTM = new EmployeeLeaveTransactionManagement();
-                var res = await ELTM.GetProductAsync(data.RefEmployeeId);
+                IList<LeaveTransaction> les = new List<LeaveTransaction>();
+               les = await ELTM.GetProductAsync(data.RefEmployeeId);
+               // var datas = (LMS_WebAPP_Domain.UserAccount)Session[LMS_WebAPP_Utils.Constants.SESSION_OBJ_USER];
+                var toTalcasualLeave = data.TotalCasualLeave;
+                var refLeaveTypeCasual = @Convert.ToInt16((LMS_WebAPP_Utils.LeaveType.CasualLeave));
+                var LeaveStatusIn = @Convert.ToInt16((LMS_WebAPP_Utils.LeaveStatus.Approved));
+
+
+                var totalCasualApproved = (from n in les where n.RefLeaveType == refLeaveTypeCasual && n.RefStatus == LeaveStatusIn select n).ToList().Count();
+                var totalLeft = toTalcasualLeave - totalCasualApproved;
+
                 //var values = Enum.GetValues(typeof(LeaveType));
-                return View(res);
+                return View(les);
             }
             else
             {
@@ -36,7 +47,7 @@ namespace EmployeeLeaveManagementApp.Controllers
 
         }
         [HttpPost]
-        public async Task<ActionResult> SubmitLeaveRequest(int leaveType, string fromDate, string toDate, string comments, int workingDays, bool isFullDay = true)
+        public async Task<JsonResult> SubmitLeaveRequest(int leaveType, string fromDate, string toDate, string comments, double workingDays, bool isFullDay = true)
         {
             var data = (UserAccount)Session[Constants.SESSION_OBJ_USER];
             int id = data.RefEmployeeId;
@@ -78,6 +89,27 @@ namespace EmployeeLeaveManagementApp.Controllers
             var res = await ELTM.DeleteLeaveRequestAsync(leaveId, empId);
             //return RedirectToAction("ApplyLeave");
             return Json(new { result = res });
+        }
+
+
+        public async Task<JsonResult> GetEmployeeLeaveList()
+        {
+            try
+            {
+                if (null != Session[Constants.SESSION_OBJ_USER])
+                {
+                    var data = (UserAccount)Session[Constants.SESSION_OBJ_USER];
+                    var res = await ELTM.GetProductAsync(data.RefEmployeeId);
+
+                    var resultJson = new { result = res };
+                    return Json(resultJson, JsonRequestBehavior.AllowGet);
+                }
+                return null;
+            }
+            catch (Exception)
+            {
+                return null;
+            }
         }
 
     }

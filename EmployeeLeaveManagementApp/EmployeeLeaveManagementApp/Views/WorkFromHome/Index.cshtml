@@ -3,7 +3,6 @@
     ViewBag.Title = "Index";
     Layout = "~/Views/Shared/_Layout.cshtml";
     IList<DateTime> dateList = new List<DateTime>();
-    dateList = (from n in Model select n.Date).ToList();
 }
 
 <link href="~/plugins/Toastr/toastr.css" rel="stylesheet" />

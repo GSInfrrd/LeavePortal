@@ -1042,6 +1042,8 @@
     <Content Include="plugins\jvectormap\jquery-jvectormap-usa-en.js" />
     <Content Include="plugins\jvectormap\jquery-jvectormap-world-mill-en.js" />
     <Content Include="plugins\knob\jquery.knob.js" />
+    <Content Include="plugins\loader\jquery.loading.min.css" />
+    <Content Include="plugins\loader\jquery.loading.min.js" />
     <Content Include="plugins\morris\morris.css" />
     <Content Include="plugins\morris\morris.js" />
     <Content Include="plugins\morris\morris.min.js" />

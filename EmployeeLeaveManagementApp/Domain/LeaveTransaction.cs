@@ -31,6 +31,47 @@ namespace LMS_WebAPP_Domain
                 }
             }
         }
+        public string FormattedCreated
+        {
+            get
+            {
+                if (FromDate != null)
+                    return Convert.ToDateTime(CreatedDate).ToString("dd MMM yyyy");
+                else
+                {
+                    return "";
+                }
+            }
+        }
+
+        public string FormattedToDate
+        {
+            get
+            {
+                if (FromDate != null)
+                    return Convert.ToDateTime(ToDate).ToString("dd MMM yyyy");
+                else
+                {
+                    return "";
+                }
+            }
+        }
+
+
+        public string LeaveTypeName
+        {
+            get
+            {
+                if (RefStatus != 0)
+                    return (CommonMethods.Description((LeaveType)RefLeaveType));
+                else
+                {
+                    return "";
+                }
+            }
+        }
+
+
         public string StatusName
         {
             get

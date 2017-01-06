@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace LMS_WebAPI_Domain
 {
- public class EmployeeDetailsModel
+    public class EmployeeDetailsModel
     {
         public EmployeeDetailsModel()
         {
@@ -24,6 +24,8 @@ namespace LMS_WebAPI_Domain
         public string ProjectName { get; set; }
         public String RoleName { get; set; }
         public int? TotalLeaveCount { get; set; }
+        public int? TotalCasualLeave { get; set; }
+        public int? TotalSickLeave { get; set; }
         public double TotalApplied { get; set; }
         public double TotalSpent { get; set; }
         public string ManagerName { get; set; }

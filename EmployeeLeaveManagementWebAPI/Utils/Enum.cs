@@ -9,17 +9,15 @@ namespace LMS_WebAPI_Utils
 {
     public enum LeaveType
     {
-
         [Description("Casual Leave")]
         CasualLeave = 8,
         [Description("Sick Leave")]
         SickLeave = 7,
-             [Description("Comp Off")]
+        [Description("Compo Off")]
         CompOff = 25,
-             [Description("Advanced Leave")]
-        AdvancedLeave = 26
+        [Description("Advance Leave")]
+        AdvanceLeave = 26
     }
-
     public enum LeaveStatus
     {
 
