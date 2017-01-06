@@ -200,7 +200,12 @@
 
                         </a>
                     </li>
-  }
+                    <li>
+                        <a href="@Url.Action("RequestForResources", "ResourceRequest")">
+                            <i class="fa fa-user-plus"></i> <span>Resource Request</span>
+                        </a>
+                    </li>
+}
                     @if (roleId == (int)EmployeeRole.HR || roleId==(int)EmployeeRole.Manager)
                     {
                         <li class="treeview">

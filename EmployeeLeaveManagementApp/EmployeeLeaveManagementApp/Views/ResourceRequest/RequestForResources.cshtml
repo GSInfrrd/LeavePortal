@@ -1,0 +1,337 @@
+﻿@model EmployeeLeaveManagementApp.Models.ResourceDetailsModel
+@{
+    ViewBag.Title = "AddEmployeeDetails";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+@*<h2>Add Employee Details</h2>*@
+<link rel="stylesheet" href="../../plugins/iCheck/all.css">
+<link rel="stylesheet" href="../../plugins/select2/select2.min.css">
+<link rel="stylesheet" href="../../dist/css/AdminLTE.min.css">
+<link rel="stylesheet" href="../../plugins/FooTable/footable.core.min.css">
+<link href="~/Content/style.css" rel="stylesheet" />
+<section class="content-header">
+    <h1>
+        Resource Request
+    </h1>
+</section>
+<section class="content">
+    <div class="row">
+        <div class="col-md-12">
+            <!-- general form elements -->
+            <div class="box box-primary">
+                <div class="box-header with-border">
+                    <h3 class="box-title">Resource Details</h3>
+                </div>
+                <div class="box-body">
+                    <div class="form-group col-md-6">
+                        <label for="txtRequestTitle">Request Title</label>
+                        <input type="text" class="form-control" id="txtRequestTitle" placeholder="Enter Request Title">
+                    </div>
+                    <div class="form-group col-md-6">
+                        <label for="txtNoOfResourcesRequired">No of Resources Required</label>
+                        <input type="number" class="form-control" id="txtResourcesRequired">
+                    </div>
+                    <div class="form-group col-md-6">
+                        <label for="ddlSkills">Skills</label>
+                        <select id="ddlSkills" multiple="multiple" class="form-control skills" style="width: 100%;">
+                            <option>.Net</option>
+                            <option>Java</option>
+                            <option>Html</option>
+                        </select>
+                    </div>
+                    <div class="form-group col-md-6" id="ddlRequestToDiv">
+                        <label>Request send to</label>
+                        <select class="form-control" style="width: 100%;" id="ddlRequestSendToSel">
+                            <option value="selectA">SelectA</option>
+                            <option value="selectB">SelectB</option>
+                            <option value="selectC">SelectC</option>
+                        </select>
+                    </div>
+                </div>
+                <!-- /.box-body -->
+                <div class="box-footer">
+                    <div class="form-group col-md-6 margin-bottom-0">
+                        <button type="submit" id="btnSendResourceRequest" class="btn btn-primary">Send request</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-12">
+            <!-- general form elements -->
+            <div class="box box-primary">
+                <div class="box-header with-border">
+                    <h3 class="box-title">Resource Request History</h3>
+                </div>
+                <!-- /.box-header -->
+                <!-- form start -->
+                <table class="table tableGrid footable toggle-arrow margin-rgt-lft-15" id="resourceRequest-table">
+                    <thead>
+                        <tr>
+                            <th class="tableGrid-header text-align-left" data-hide="phone">
+                                Ticket
+                            </th>
+                            <th class="tableGrid-header cursor-pointer text-align-left" data-sortdirection="3">
+                                Request
+                            </th>
+                            <th class="tableGrid-header text-align-left" data-hide="phone">
+                                Status
+                            </th>
+                            @*<th class="tableGrid-header text-align-right" data-hide="phone,tabletPortrait">
+                                    @PRGX.SIMTrax.Domain.Util.ReadResource.GetResourceForGlobalization(PRGX.SIMTrax.Domain.Util.Constants.VERIFIED, userCulture).ToString()
+                                </th>*@
+                        </tr>
+                    </thead>
+                    <tbody id="resourceRequest-body"></tbody>
+                </table>
+            </div>
+        </div>
+
+    </div>
+    <!-- /.row -->
+</section>
+<div class="modal requestResourceDetails-modal" id="RequestResourceDetailsModal" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+                <h4 class="modal-title">Resource Details</h4>
+            </div>
+            <div class="modal-body">
+                <div class="form-group" style="padding-bottom:20px">
+                    <div>
+                        <label>Leave Type</label>
+                    </div>
+                    <span class="form-group has-error" style="display:none" id="divLeaveTypeError">
+                        <label class="control-label" for="inputError">
+                            <i class="fa fa-times-circle-o"></i> Please select leave type
+                        </label>
+                    </span>
+                    <div>
+                        @foreach (var value in Enum.GetValues(typeof(LMS_WebAPP_Utils.LeaveType)))
+                        {
+                            <div class="col-md-6">
+                                <input type="radio" name="r1" class="flat-red" value="@Convert.ToInt16((LMS_WebAPP_Utils.LeaveType)value)">&nbsp; @(LMS_WebAPP_Utils.CommonMethods.Description((LMS_WebAPP_Utils.LeaveType)Convert.ToInt16((LMS_WebAPP_Utils.LeaveType)value)))
+                            </div>
+                        }
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div>
+                        <label>Date range:</label>
+                    </div>
+                    <div class="input-group">
+                        <div class="input-group-addon">
+                            <i class="fa fa-calendar"></i>
+                        </div>
+                        <input type="text" class="form-control pull-right" id="leaveDatepicker">
+                    </div>
+
+                    <div class="form-group has-error" style="display:none" id="divDatePickerError">
+                        <label class="control-label" for="inputError">
+                            <i class="fa fa-times-circle-o"></i> Please select a valid date range.
+                        </label>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div>
+                        <label>Number Of Working Days:</label>
+                        <span id="lblTotalWorkingDays"></span>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div>
+                        <label>Leave Comments:</label>
+                    </div>
+                    <div>
+                        <textarea id="leaveComment" rows="3" style="width:568px" placeholder="Enter ..."></textarea>
+                    </div>
+                    <div class="form-group has-error" style="display:none" id="divCommentError">
+                        <label class="control-label" for="leaveComment">
+                            <i class="fa fa-times-circle-o"></i> Please enter the comments
+                        </label>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" id="btnLeaveRequestSubmit" style="background-color:#222d32 !important" class="btn btn-primary">Submit</button>
+                <button type="button" class="btn btn-default pull-right" data-dismiss="modal">Cancel</button>
+            </div>
+        </div>
+        <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+</div>
+<script src="../../plugins/iCheck/icheck.min.js"></script>
+<script src="../../plugins/select2/select2.full.min.js"></script>
+<script src="~/plugins/daterangepicker/moment.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.11.2/moment.min.js"></script>
+<script src="../../plugins/daterangepicker/daterangepicker.js"></script>
+<script src="~/plugins/FooTable/footable.js"></script>
+
+<script>
+    var educationFromDate;
+    var educationToDate;
+    var experienceFromDate;
+    var experienceToDate;
+    var imgpath = "";
+    var imgId;
+    $(document).ready(function () {
+        $(function () {
+            //Initialize Select2 Elements
+            $(".designation").select2();
+            $(".graduation").select2();
+            $(".specialization").select2();
+            $(".skills").select2();
+
+            $(".managerSelect").select2();
+            $(".level").select2().on('change', function (e) {
+                if ($("#ddlLevel").val() == 13) {
+                    $("#ddlManager").hide();
+                }
+                else {
+                    $("#ddlManager").show();
+                    var level = $("#ddlLevel").val();
+                    $("#ddlManagerName option").remove();
+                    $("#ddlManagerName").append($('<option></option>').attr("value", '').text('Select'));
+                    $.ajax({
+                        cache: false,
+                        type: 'post',
+                        url: '/HR/GetManagerList?refLevel=' + level,
+                        dataType: "json",
+                        processData: false,
+                        success: function (data) {
+                            for (var i = 0; i < data.data.length; i++) {
+                                $("#ddlManagerName").append($('<option></option>').attr("value", data.data[i].Id).text(data.data[i].FirstName));
+                            }
+
+                        }
+                    });
+                }
+
+            });
+            $('#educationDatePicker').daterangepicker(
+                   {
+                   });
+            $('#experienceDatePicker').daterangepicker(
+                  {
+                  });
+            //Date picker
+            $('#txtJoiningDate').datepicker({
+                autoclose: true
+            });
+            //Date picker
+            $('#txtBirthday').datepicker({
+                autoclose: true
+            });
+
+            $('#educationDatepicker').on('change.daterangepicker', function (ev, picker) {
+                var date = ev.target.value;
+                var dates = [];
+                dates = date.split('-');
+                var start = dates[0].trim();
+                var startDate = new Date(start);
+                var startMonth = startDate.getMonth() + 1;
+                educationFromDate = startDate.getFullYear() + "-" + startMonth + "-" + startDate.getDate();
+                var end = dates[1].trim();
+                var endDate = new Date(end);
+                var endMonth = endDate.getMonth() + 1;
+                educationToDate = endDate.getFullYear() + "-" + endMonth + "-" + endDate.getDate();
+                //toDate = end.toString("YYYY-MM-DD");
+                //var days = (endDate - startDate) / (1000 * 60 * 60 * 24);
+                //days += 1;
+                //var weekend_count = 0;
+                //for (i = startDate.valueOf() ; i <= endDate.valueOf() ; i += 86400000) {
+                //    var temp = new Date(i);
+                //    if (temp.getDay() == 0 || temp.getDay() == 6) {
+                //        weekend_count++;
+                //    }
+                //}
+                //days = days - weekend_count;
+                //$("#lblTotalWorkingDays").html(Math.round(days));
+            });
+            $('#educationDatePicker').on('apply.daterangepicker', function (ev, picker) {
+
+                var start = picker.startDate;
+                educationFromDate = start.format('YYYY-MM-DD');
+                var end = picker.endDate;
+                educationToDate = end.format('YYYY-MM-DD');
+                //var days = (end - start) / (1000 * 60 * 60 * 24);
+
+                //var weekend_count = 0;
+                //for (i = start.valueOf() ; i <= end.valueOf() ; i += 86400000) {
+                //    var temp = new Date(i);
+                //    if (temp.getDay() == 0 || temp.getDay() == 6) {
+                //        weekend_count++;
+                //    }
+                //}
+                //days = days - weekend_count
+                //$("#lblTotalWorkingDays").html(Math.round(days));
+            });
+            $('#experienceDatePicker').on('change.daterangepicker', function (ev, picker) {
+                var date = ev.target.value;
+                var dates = [];
+                dates = date.split('-');
+                var start = dates[0].trim();
+                var startDate = new Date(start);
+                var startMonth = startDate.getMonth() + 1;
+                experienceFromDate = startDate.getFullYear() + "-" + startMonth + "-" + startDate.getDate();
+                var end = dates[1].trim();
+                var endDate = new Date(end);
+                var endMonth = endDate.getMonth() + 1;
+                experienceToDate = endDate.getFullYear() + "-" + endMonth + "-" + endDate.getDate();
+            });
+            $('#experienceDatePicker').on('apply.daterangepicker', function (ev, picker) {
+
+                var start = picker.startDate;
+                experienceFromDate = start.format('YYYY-MM-DD');
+                var end = picker.endDate;
+                experienceToDate = end.format('YYYY-MM-DD');
+
+            });
+        })
+
+        table = '<tr class="even">';
+        table += '<td><a href="#" onClick="getResourceDetails(4)">Lorem</a></td>';
+        table += "<td>Ipsum</td>";
+        table += "</tr>";
+        table += '<tr class="odd">';
+        table += '<td><a href="#">Lorem</a></td>';
+        table += "<td>Ipsum</td>";
+        table += "</tr>";
+        $("#resourceRequest-body").append(table);
+    });
+
+    $(document).on('click', '#btnSendResourceRequest', function (e) {
+        debugger
+        var requestTitle = $("#txtRequestTitle").val();
+        var noOfResourcesRequested = $("#txtResourcesRequired").val();
+        var skills = [];
+        for (i = 0; i < $("#ddlSkills").val().length; i++) {
+            skill = {
+                SkillName: $("#ddlSkills").val()[i]
+            }
+            skills.push(skill);
+        }
+        var requestSendTo = $("#ddlRequestSendToSel option:selected").val();
+        var model = {
+            RequestTitle: $("#txtFirstName").val(),
+            NumberOfResourceRequested: $("#txtLastName").val(),
+            Skills: $("#txtEmail").val(),
+            Roles: $("#txtBirthday").val()
+        };
+        $.ajax({
+            cache: false,
+            type: 'post',
+            url: '/ResourceRequest/SendRequestForResources',
+            data: JSON.stringify(model),
+            contentType: "application/json",
+            dataType: "json",
+            processData:false,
+            success: function (data) {
+            }
+        });
+    }
+   );
+</script>
