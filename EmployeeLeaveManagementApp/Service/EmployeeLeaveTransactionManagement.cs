@@ -13,7 +13,7 @@ namespace LMS_WebAPP_ServiceHelpers
         static HttpClient client = new HttpClient();
 
         private string URL = "http://localhost:64476/api/EmployeeLeaveTrans";
-        private string urlParameters;
+        private string urlParameters ="";
 
         public async Task<IList<LeaveTransaction>> GetProductAsync(int empid, int? leaveType = 0)
         {
@@ -40,8 +40,11 @@ namespace LMS_WebAPP_ServiceHelpers
 
         public async Task<IList<LeaveTransaction>> SubmitLeaveRequestAsync(int id, int leaveType, string fromDate, string toDate, string comments, double workingDays)
         {
-            HttpClient client = new HttpClient();
+             string URL = "http://localhost:64476/api/EmployeeLeaveTrans";
+         //string urlParameters = "";
+        HttpClient client = new HttpClient();
             client.BaseAddress = new Uri(URL);
+
             var urlParameters = "?Id=" + id + "&leaveType=" + leaveType + "&fromDate=" + fromDate + "&toDate=" + toDate + "&comments=" + comments + "&workingDays=" + workingDays;
             URL += urlParameters;
             //URL = URL + "/SubmitLeaveRequest";

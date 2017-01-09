@@ -25,7 +25,7 @@ namespace LMS_WebAPI_Utils
         public double TotalApplied { get; set; }
         public double TotalSpent { get; set; }
         public string ManagerEmailId { get; set; }
-        public int? TotalSickLeave { get; set; }
+        public int? TotalAdvanceLeaveToTake { get; set; }
         public int? TotalCasualLeave { get; set; }
         public IDictionary<string,int> MonthlyLeaveReport { get; set; }
     }

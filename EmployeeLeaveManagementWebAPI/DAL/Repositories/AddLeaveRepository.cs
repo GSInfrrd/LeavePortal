@@ -113,7 +113,7 @@ namespace LMS_WebAPI_DAL.Repositories
                     ctx.Workflows.Add(workFlow);
                     ctx.SaveChanges();
 
-                    var op = SendMail(leaveDetails.EmployeeDetail.FirstName, fromEmail, toEmail);
+                //    var op = SendMail(leaveDetails.EmployeeDetail.FirstName, fromEmail, toEmail);
 
                 }
                 result = true;

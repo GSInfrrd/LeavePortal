@@ -166,7 +166,7 @@ namespace EmployeeLeaveManagementApp.Controllers
                 EmployeeDetailsModel datares = await user.GetUserDetailsAsync(data.RefEmployeeId);
                 data.ManagerId = datares.ManagerId;
                 data.TotalCasualLeave = datares.TotalCasualLeave;
-                data.TotalSickLeave = datares.TotalSickLeave;
+                data.TotalAdvanceLeaveTotake = datares.TotalAdvanceLeaveTotake;
                 data.ManagerEmail = datares.MangerEmail;
                 Session[LMS_WebAPP_Utils.Constants.SESSION_OBJ_USER] = data;
                 Models.LoginModel model = new Models.LoginModel();

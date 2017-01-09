@@ -35,7 +35,7 @@ namespace LMS_WebAPP_Domain
         public System.DateTime DateOfJoining { get; set; }
         public List<string> Colors { get; set; }
         public int? TotalCasualLeave { get; set; }
-        public int? TotalSickLeave { get; set; }
+        public int? TotalAdvanceLeaveTotake { get; set; }
 
         public List<Announcement> Announcements { get; set; }
 

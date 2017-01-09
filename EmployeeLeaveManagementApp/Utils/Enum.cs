@@ -17,7 +17,9 @@ namespace LMS_WebAPP_Utils
         [Description("CompOff")]
         CompoOff = 25,
         [Description("Advance Leave")]
-        AdvanceLeave = 26
+        AdvanceLeave = 26,
+        [Description("LOP")]
+        LOP=27
     }
 
     public enum LeaveStatus

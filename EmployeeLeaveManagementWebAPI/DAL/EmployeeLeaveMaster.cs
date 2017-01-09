@@ -22,8 +22,9 @@ namespace LMS_WebAPI_DAL
         public Nullable<int> LossofPayCount { get; set; }
         public Nullable<int> AdvancedLeaveCount { get; set; }
         public Nullable<int> RewardedLeaveCount { get; set; }
-        public Nullable<System.DateTime> ModifiedDate { get; set; }
         public Nullable<int> ModifiedBy { get; set; }
+        public System.DateTime CreatedDate { get; set; }
+        public Nullable<System.DateTime> ModifiiedDate { get; set; }
     
         public virtual EmployeeDetail EmployeeDetail { get; set; }
         public virtual EmployeeDetail EmployeeDetail1 { get; set; }

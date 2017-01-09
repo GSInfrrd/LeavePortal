@@ -61,4 +61,10 @@ namespace LMS_WebAPI_Utils
         [Description("Skills")]
         Skills = 7
     }
+
+    public enum AdvanceLeaveLimit
+    {
+        [Description("LeaveLimit")]
+        limit = 8
+    }
 }

@@ -80,13 +80,14 @@
           </Key>
           <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="RefEmployeeId" Type="int" Nullable="false" />
-          <Property Name="LeaveBalance" Type="int" />
           <Property Name="AppliedLeavesCount" Type="int" />
           <Property Name="WorkFromHomeCount" Type="int" />
           <Property Name="LossofPayCount" Type="int" />
+          <Property Name="CreatedDate" Type="date" Nullable="false" />
+          <Property Name="LeaveBalance" Type="int" />
           <Property Name="AdvancedLeaveCount" Type="int" />
           <Property Name="RewardedLeaveCount" Type="int" />
-          <Property Name="ModifiedDate" Type="date" />
+          <Property Name="ModifiiedDate" Type="date" />
           <Property Name="ModifiedBy" Type="int" />
         </EntityType>
         <EntityType Name="EmployeeLeaveTransaction">
@@ -96,7 +97,7 @@
           <Property Name="Id" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="RefEmployeeId" Type="int" Nullable="false" />
           <Property Name="FromDate" Type="date" Nullable="false" />
-          <Property Name="ToDate" Type="date" Nullable="false" />
+          <Property Name="ToDate" Type="datetime2" Precision="7" Nullable="false" />
           <Property Name="CreatedDate" Type="datetime2" Precision="7" Nullable="false" />
           <Property Name="RefStatus" Type="int" Nullable="false" />
           <Property Name="NumberOfWorkingDays" Type="float" Nullable="false" />
@@ -1203,7 +1204,7 @@
           <Property Name="Id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="RefEmployeeId" Type="Int32" Nullable="false" />
           <Property Name="FromDate" Type="DateTime" Nullable="false" Precision="0" />
-          <Property Name="ToDate" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="ToDate" Type="DateTime" Nullable="false" Precision="7" />
           <Property Name="CreatedDate" Type="DateTime" Nullable="false" Precision="7" />
           <Property Name="RefStatus" Type="Int32" Nullable="false" />
           <Property Name="NumberOfWorkingDays" Type="Double" Nullable="false" />
@@ -1334,10 +1335,11 @@
           <Property Name="LossofPayCount" Type="Int32" />
           <Property Name="AdvancedLeaveCount" Type="Int32" />
           <Property Name="RewardedLeaveCount" Type="Int32" />
-          <Property Name="ModifiedDate" Type="DateTime" Precision="0" />
           <Property Name="ModifiedBy" Type="Int32" />
           <NavigationProperty Name="EmployeeDetail" Relationship="LeaveManagementSystemModel.FK_ConsolidatedEmployeeLeaveDetails_EmployeeDetails1" FromRole="EmployeeLeaveMaster" ToRole="EmployeeDetail" />
           <NavigationProperty Name="EmployeeDetail1" Relationship="LeaveManagementSystemModel.FK_ConsolidatedEmployeeLeaveDetails_EmployeeDetails" FromRole="EmployeeLeaveMaster" ToRole="EmployeeDetail" />
+          <Property Name="CreatedDate" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="ModifiiedDate" Type="DateTime" Precision="0" />
         </EntityType>
         <Association Name="FK_ConsolidatedEmployeeLeaveDetails_EmployeeDetails1">
           <End Type="LeaveManagementSystemModel.EmployeeDetail" Role="EmployeeDetail" Multiplicity="0..1" />
@@ -1596,8 +1598,9 @@
           <EntitySetMapping Name="EmployeeLeaveMasters">
             <EntityTypeMapping TypeName="LeaveManagementSystemModel.EmployeeLeaveMaster">
               <MappingFragment StoreEntitySet="EmployeeLeaveMaster">
+                <ScalarProperty Name="ModifiiedDate" ColumnName="ModifiiedDate" />
+                <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
                 <ScalarProperty Name="ModifiedBy" ColumnName="ModifiedBy" />
-                <ScalarProperty Name="ModifiedDate" ColumnName="ModifiedDate" />
                 <ScalarProperty Name="RewardedLeaveCount" ColumnName="RewardedLeaveCount" />
                 <ScalarProperty Name="AdvancedLeaveCount" ColumnName="AdvancedLeaveCount" />
                 <ScalarProperty Name="LossofPayCount" ColumnName="LossofPayCount" />

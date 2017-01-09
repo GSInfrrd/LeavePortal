@@ -22,8 +22,8 @@ namespace EmployeeLeaveManagementApp.Controllers
             {
                 var data = (UserAccount)Session[Constants.SESSION_OBJ_USER];
                 IList<LeaveTransaction> les = new List<LeaveTransaction>();
-               les = await ELTM.GetProductAsync(data.RefEmployeeId);
-               // var datas = (LMS_WebAPP_Domain.UserAccount)Session[LMS_WebAPP_Utils.Constants.SESSION_OBJ_USER];
+                les = await ELTM.GetProductAsync(data.RefEmployeeId);
+                // var datas = (LMS_WebAPP_Domain.UserAccount)Session[LMS_WebAPP_Utils.Constants.SESSION_OBJ_USER];
                 var toTalcasualLeave = data.TotalCasualLeave;
                 var refLeaveTypeCasual = @Convert.ToInt16((LMS_WebAPP_Utils.LeaveType.CasualLeave));
                 var LeaveStatusIn = @Convert.ToInt16((LMS_WebAPP_Utils.LeaveStatus.Approved));
@@ -70,6 +70,38 @@ namespace EmployeeLeaveManagementApp.Controllers
             return Json(new { result = res });
         }
 
+
+        [HttpPost]
+        public async Task<JsonResult> SubmitLeaveRequestForCasualORAdvance(int CasualleaveCount, int AdvanceLeaveCount, int LOP, string fromDate, string toDate, string comments)
+        {
+            var data = (UserAccount)Session[Constants.SESSION_OBJ_USER];
+            int id = data.RefEmployeeId;
+            string fromDay = fromDate;
+            string toDay = toDate;
+            IList<LeaveTransaction> res = new List<LeaveTransaction>();
+            EmployeeLeaveTransactionManagement ELTM = new EmployeeLeaveTransactionManagement();
+            //Add advance leave
+            if (CasualleaveCount != 0)
+            {
+                fromDay = fromDate;
+                toDay = Convert.ToDateTime(fromDay).AddDays(CasualleaveCount).ToString();
+                res = await ELTM.SubmitLeaveRequestAsync(id, Convert.ToInt16(LeaveType.CasualLeave), fromDay, toDay, comments, Convert.ToDouble(CasualleaveCount));
+            }
+            if (AdvanceLeaveCount != 0)
+            {
+                fromDay = toDay;
+                toDay = Convert.ToDateTime(fromDay).AddDays(AdvanceLeaveCount).ToString();
+                res = await ELTM.SubmitLeaveRequestAsync(id, Convert.ToInt16(LeaveType.AdvanceLeave), fromDay, toDay, comments, Convert.ToDouble(AdvanceLeaveCount));
+            }
+            if (LOP != 0)
+            {
+                fromDay = toDay;
+                toDay = Convert.ToDateTime(fromDay).AddDays(LOP).ToString();
+                res = await ELTM.SubmitLeaveRequestAsync(id, Convert.ToInt16(LeaveType.LOP), fromDate, toDate, comments, Convert.ToDouble(LOP));
+            }
+            //return RedirectToAction("ApplyLeave");
+            return Json(new { result = res });
+        }
         [HttpPost]
         public async Task<ActionResult> SubmitLeaveForApproval(int id)
         {

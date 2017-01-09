@@ -7,12 +7,21 @@
     var CompoLeavetype = @Convert.ToInt16((LMS_WebAPP_Utils.LeaveType.CompoOff));
     var refLeaveTypeCasual = @Convert.ToInt16((LMS_WebAPP_Utils.LeaveType.CasualLeave));
     var LeaveStatusIn = @Convert.ToInt16((LMS_WebAPP_Utils.LeaveStatus.Approved));
+    var advanceLeaveType = @Convert.ToInt16((LMS_WebAPP_Utils.LeaveType.AdvanceLeave));
+    var LeaveCasualSubmitted = @Convert.ToInt16((LMS_WebAPP_Utils.LeaveStatus.Submitted));
+    var totalCasualSubmitted = (from n in Model where (n.RefLeaveType == refLeaveTypeCasual || n.RefLeaveType == advanceLeaveType) && n.RefStatus == LeaveCasualSubmitted select n).ToList().Count();
+
+    var totalCombboSubmitted = (from n in Model where n.RefLeaveType == CompoLeavetype && n.RefStatus == LeaveCasualSubmitted select n).ToList().Count();
+
     var newDay = DateTime.Now.Date;
+    var totalAdvanceLeaveLeft = data.TotalAdvanceLeaveTotake;
+    //var advanceLeaveLimit = 6;
     var totalCasualApproved = (from n in Model where n.RefLeaveType == refLeaveTypeCasual && n.RefStatus == LeaveStatusIn select n.NumberOfWorkingDays).ToList().Sum();
     var TotalSickLeaveToday = (from n in Model where n.RefLeaveType == sickLeaveType && n.FromDate == newDay select n.NumberOfWorkingDays).ToList().Sum();
     var ComboDateList = (from n in Model where n.RefLeaveType == CompoLeavetype select n.FromDate).ToList();
     double isSickApplied = 1;
-    var totalLeft = toTalcasualLeave - totalCasualApproved;
+    var totalCasualLeaveLeft = toTalcasualLeave;// 2;// toTalcasualLeave - totalCasualApproved;
+    var totalLeft = 1;
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 @{
@@ -27,10 +36,9 @@
 }
 
 <style>
-    /*.disabled {
-        pointer-events: none;
-        cursor: default;
-        color: gray !important;
+    .toglediv {
+        background-color: rgba(109, 108, 108, 0.117647);
+        padding: 25px;
     }
 
     .pagination > .active > a,
@@ -44,7 +52,7 @@
         cursor: default;
         background-color: black !important;
         border-color: black !important;
-    }*/
+    }
 </style>
 <!-- Font Awesome -->
 @*<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.5.0/css/font-awesome.min.css">*@
@@ -171,14 +179,18 @@
                     <div id="rddiv">
                         @foreach (var value in Enum.GetValues(typeof(LMS_WebAPP_Utils.LeaveType)))
                         {
-                            <div class="col-md-3">
-                                <input type="radio" name="r1" id="RdLeaveType_@Convert.ToInt16((LMS_WebAPP_Utils.LeaveType)value)" class="flat-red" value="@Convert.ToInt16((LMS_WebAPP_Utils.LeaveType)value)">&nbsp; @(LMS_WebAPP_Utils.CommonMethods.Description((LMS_WebAPP_Utils.LeaveType)Convert.ToInt16((LMS_WebAPP_Utils.LeaveType)value)))
-                            </div>
+                            if (Convert.ToInt16(LMS_WebAPP_Utils.LeaveType.AdvanceLeave) != @Convert.ToInt16((LMS_WebAPP_Utils.LeaveType)value) &&
+                                Convert.ToInt16(LMS_WebAPP_Utils.LeaveType.LOP) != @Convert.ToInt16((LMS_WebAPP_Utils.LeaveType)value))
+                            {
+                                <div class="col-md-4">
+                                    <input type="radio" name="r1" id="RdLeaveType_@Convert.ToInt16((LMS_WebAPP_Utils.LeaveType)value)" class="flat-red" value="@Convert.ToInt16((LMS_WebAPP_Utils.LeaveType)value)">&nbsp; @(LMS_WebAPP_Utils.CommonMethods.Description((LMS_WebAPP_Utils.LeaveType)Convert.ToInt16((LMS_WebAPP_Utils.LeaveType)value)))
+                                </div>
+                            }
                         }
 
                     </div>
                 </div>
-                <div id="toggelDiv">
+                <div id="toggelDiv" class="toglediv">
                     <div class="form-group" id="divHalfDay">
                         <div>
                             <label>Please Select:</label>
@@ -244,7 +256,7 @@
                         </div>
 
                         <div>
-                            <textarea id="leaveComment" rows="3" style="width:568px" placeholder="Enter ..."></textarea>
+                            <textarea id="leaveComment" rows="3" style="width:520px" placeholder="Enter ..."></textarea>
                         </div>
                         <div class="form-group has-error" style="display:none" id="divCommentError">
                             <label class="control-label" for="leaveComment">
@@ -254,13 +266,25 @@
                         </div>
 
                     </div>
+                    <div id="toggle-advance" style="display:none">
+                        <div class="form-group" id="divNoOfWorking">
+                            <div>
+                                <label style="color:red">No enough casual leaves are left.Go for Advance leave/LOP</label>
+                                @*// <div> <label>TotalWorking days Applied:</label> <span id="lblTotalWorkingDaysApplied">0</span></div>*@
+                                <div id="TtCasual"> <label>Total casual Leave :</label><span id="TotalCasualLeave" style="padding-left:5px;"></span></div>
+                                <div id="TtAdvnce">  <label>Total Advance Leave :</label><span id="totalAdvanceLeave" style="padding-left:5px;"></span></div>
+                                <div id="TtLOP"> <label>Total LOP:</label><span id="LOP" style="padding-left:5px;"></span></div>
+                                <label style="color:red">Do you want to continue?</label>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
 
             <div class="modal-footer">
                 <button type="button" id="btnLeaveRequestSubmit" style="background-color:#45b397 !important" class="btn btn-primary">Submit</button>
+                <button type="button" id="btnCasualAdvanceLeaveSubmit" style="background-color:#45b397 !important;display:none;" class="btn btn-primary">Yes</button>
                 <button type="button" class="btn btn-default pull-right Close" data-dismiss="modal">Cancel</button>
-
             </div>
         </div>
         <!-- /.modal-content -->
@@ -269,6 +293,28 @@
 </div>
 <!-- /.modal -->
 <!-- /.content -->
+@*<div class="modal modal-success">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">×</span>
+                    </button>
+                    <h4 class="modal-title">Info</h4>
+                </div>
+                <div class="modal-body">
+                    <p>One fine body…</p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-outline pull-left" data-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-outline">Save changes</button>
+                </div>
+            </div>
+            <!-- /.modal-content -->
+        </div>
+        <!-- /.modal-dialog -->
+    </div>*@
+
 <!-- ./wrapper -->
 <!-- DataTables -->
 <script src="../../plugins/datatables/jquery.dataTables.min.js"></script>
@@ -296,11 +342,18 @@
     var toDate;
     var IsFullDay =true;
     var workingDays;
-    var totalcasualLeft = '@totalLeft';
+    var totalcasualLeft = '@totalCasualLeaveLeft';
     var sickLeaveId = '@Convert.ToInt16((LMS_WebAPP_Utils.LeaveType.SickLeave))';
-   
+    var totalAdvanceLeaveLeft = '@totalAdvanceLeaveLeft';
     var sickleavename = "r1_RdLeaveType_" + sickLeaveId;
     var isPossibleToApplyLeave = '@isSickApplied';
+    var totalLOP= 0;
+    //////
+    var isPossibleToApplyCompo ='@totalCombboSubmitted';
+    var isPossibleToApplyCasual='@totalCasualSubmitted';
+    var totalCasualCountAppliedFor = 0;
+    var totalAdvanceLeaveCountAppliedFor = 0;
+    var totalLopAppliedFor = 0 ;
     //set default
 
     function formatDate(date) {
@@ -319,7 +372,49 @@
     $('#SickDatePicker').show();
     $('#sickDate').val(today);
 
+    function CalculteCasualAdvnceCutOffLeavesCalc(workingdays)
+    {
+        debugger;
+        var isCasulOnlyPossible =(totalcasualLeft >= workingdays) ?  true : false;
 
+        if(isCasulOnlyPossible)
+        {
+            $("#toggle-advance").hide();
+            $("#btnLeaveRequestSubmit").show();
+            $("#btnCasualAdvanceLeaveSubmit").hide();
+        }
+        else{
+
+            if(totalcasualLeft != 0)
+            {
+
+                totalCasualCountAppliedFor = (totalcasualLeft);
+                $("#TtCasual").show();
+                $("#TotalCasualLeave").html(totalCasualCountAppliedFor);
+                totalAdvanceLeaveCountAppliedFor = workingdays - totalcasualLeft;
+                if(totalAdvanceLeaveCountAppliedFor > totalAdvanceLeaveLeft)
+                {
+
+                    totalLOP= totalAdvanceLeaveCountAppliedFor - totalAdvanceLeaveLeft;
+                    totalAdvanceLeaveCountAppliedFor = totalAdvanceLeaveLeft;
+                    $("#TtAdvnce").show();
+                    $("#totalAdvanceLeave").html(totalAdvanceLeaveCountAppliedFor);
+                    $("#TtLOP").show();
+                    $("#LOP").html(totalLOP);
+                }
+                else{
+                    totalLOP =0;
+                    totalAdvanceLeaveCountAppliedFor =totalAdvanceLeaveCountAppliedFor;
+                    $("#TtAdvnce").show();
+                    $("#totalAdvanceLeave").html(totalAdvanceLeaveCountAppliedFor);
+                    $("#TtLOP").hide();
+                }
+            }
+            $("#btnLeaveRequestSubmit").hide();
+            $("#btnCasualAdvanceLeaveSubmit").show();
+            $("#toggle-advance").slideToggle("slow");
+        }
+    }
 
     var totalCompOffDate = @Html.Raw(Json.Encode(ComboDateList));
     var loop=[];
@@ -332,6 +427,12 @@
         //if (isPossibleToApplyLeave == 0) {
         //    $('.modal-footer').hide();
         //}
+        $("#toggle-advance").hide();
+        totalCasualCountAppliedFor = 0;
+        totalAdvanceLeaveCountAppliedFor = 0;
+        totalLopAppliedFor = 0 ;
+        $("#btnLeaveRequestSubmit").show();
+        $("#btnCasualAdvanceLeaveSubmit").hide();
         $("#RdLeaveType_" + sickLeaveId).attr('checked', true);
         $('#sickDate').val(today);
         $('#divDateRange').hide();
@@ -396,6 +497,7 @@
                 }
                 days = days - weekend_count;
                 $("#lblTotalWorkingDays").html(Math.round(days));
+                $("#toggle-advance").hide();
             });
             $('#leaveDatepicker').on('apply.daterangepicker', function (ev, picker) {
                 debugger;
@@ -425,6 +527,9 @@
                 }
 
                 $("#lblTotalWorkingDays").html(Math.round(days));
+                //calculate how much casual leaves are left?how many taken as advace and lop div should show.
+                CalculteCasualAdvnceCutOffLeavesCalc(Math.round(days));
+
             });
         });
         $('#AddLeaveModal').on('hidden.bs.modal', function () {
@@ -465,7 +570,7 @@
             }
             else {
                 IsFullDay = false;
-               
+
                 switch (clickedradioButton) {
                     case '@Convert.ToInt16((LMS_WebAPP_Utils.LeaveType.CasualLeave))':
                         $("#lblTotalWorkingDays").html("0.5");
@@ -473,7 +578,7 @@
                     default:
                         break;
                 }
-              
+
             }
         })
     })
@@ -507,8 +612,16 @@
         switch (clickedradioButton) {
             case '@Convert.ToInt16((LMS_WebAPP_Utils.LeaveType.SickLeave))':
                 console.log("SickLeave");
+                $("#toggelDiv").hide();
+                $("#toggle-advance").hide();
                 $('#divDateRange').hide();
                 $('#divNoOfWorking').hide();
+                //clear values
+                totalCasualCountAppliedFor = 0;
+                totalAdvanceLeaveCountAppliedFor = 0;
+                totalLopAppliedFor = 0 ;
+                $("#btnLeaveRequestSubmit").show();
+                $("#btnCasualAdvanceLeaveSubmit").hide();
                 $('#leaveComment').val("");
                 $('#CompoDatePicker').hide();
                 $('.modal-footer').show();
@@ -521,15 +634,23 @@
                 }
                 $("#divLeaveTypeError").hide();
                 $('#SickDatePicker').show();
+                $("#toggelDiv").slideToggle("slow");
                 $('#divHalfDay').show();
                 break;
             case '@Convert.ToInt16((LMS_WebAPP_Utils.LeaveType.CasualLeave))':
-             
+                $("#toggelDiv").hide();
                 $('#divDateRange').show();
+                $("#toggle-advance").hide();
                 $('#divNoOfWorking').show();
                 $('#CompoDatePicker').hide();
                 $('.modal-footer').show();
                 $('#divHalfDay').hide();
+                //clear values
+                totalCasualCountAppliedFor = 0;
+                totalAdvanceLeaveCountAppliedFor = 0;
+                totalLopAppliedFor = 0 ;
+                $("#btnLeaveRequestSubmit").show();
+                $("#btnCasualAdvanceLeaveSubmit").hide();
                 $('#leaveDatepicker').val('');
                 $('#SickDatePicker').hide();
                 $("#lblTotalWorkingDays").html("0");
@@ -538,11 +659,11 @@
                 $('#toggleOne').bootstrapToggle('on');
                 $('#divCommentError').hide();
                 $("#divLeaveTypeError").hide();
-                if (totalcasualLeft == 0) {
+                if (isPossibleToApplyCasual > 0) {
                     $('.modal-footer').hide();
-                    showMessage("Sorry!!You cannot Apply for Casual leave since no leaves are left.Please go for AdvanceLeave", "2", true);
+                    showMessage("Sorry!!  You cannot Apply for Casual/Advance leave since you manger approves the submitted one", "2", true);
                 }
-                $( "#toggleDiv" ).toggle( "slow" );
+                $("#toggelDiv").slideToggle("slow");
                 break;
             case '@Convert.ToInt16((LMS_WebAPP_Utils.LeaveType.AdvanceLeave))':
                 $( "#toggleDiv" ).hide();
@@ -554,25 +675,45 @@
                 $('#divDateError').hide();
                 $('.modal-footer').show();
                 $('#divCommentError').hide();
+                //clear values
+                totalCasualCountAppliedFor = 0;
+                totalAdvanceLeaveCountAppliedFor = 0;
+                totalLopAppliedFor = 0 ;
+                $("#btnLeaveRequestSubmit").show();
+                $("#btnCasualAdvanceLeaveSubmit").hide();
                 $('#leaveComment').val("");
                 $("#divLeaveTypeError").hide();
+                $("#toggle-advance").hide();
                 $('#SickDatePicker').hide();
                 $('#divHalfDay').hide();
-                $( "#toggleDiv" ).toggle( "slow" );
+                $("#toggelDiv").slideToggle("slow");
                 break;
             case '@Convert.ToInt16((LMS_WebAPP_Utils.LeaveType.CompoOff))':
+                $("#toggelDiv").hide();
                 $('#divDateRange').hide();
                 $('#divNoOfWorking').hide();
                 $('#CompoDatePicker').show();
+                $("#toggle-advance").hide();
                 $("#datepicker").val("");
                 $('#divCommentError').hide();
                 $('.modal-footer').show();
                 $('.modal - footer').show();
+                //clear values
+                totalCasualCountAppliedFor = 0;
+                totalAdvanceLeaveCountAppliedFor = 0;
+                totalLopAppliedFor = 0 ;
+                $("#btnLeaveRequestSubmit").show();
+                $("#btnCasualAdvanceLeaveSubmit").hide();
                 $('#leaveComment').val("");
                 $('#divDateError').hide();
                 $("#divLeaveTypeError").hide();
                 $('#SickDatePicker').hide();
                 $('#divHalfDay').hide();
+                $("#toggelDiv").slideToggle("slow");
+                if (isPossibleToApplyCompo > 0) {
+                    $('.modal-footer').hide();
+                    showMessage("Sorry!!  You cannot Apply for Comp Off leave since you manger approves the submitted one", "2", true);
+                }
                 break;
             default:
                 break;
@@ -666,8 +807,46 @@
                 break;
         }
     }
+    //submitting Leavecasual/Advance both together
 
+    $(document).on('click', '#btnCasualAdvanceLeaveSubmit', function (e) {
 
+        if (FormValidate()) {
+            $('#AddLeaveModal').modal('hide');
+            $('body').loading({
+                stoppable: true,
+                message: 'Working...',
+                //overlay: $("#ajaxloader")
+            });
+
+            var comments = $("#leaveComment").val();
+
+            $.ajax({
+                cache: false,
+                type: 'post',
+                url: '/ApplyLeave/SubmitLeaveRequestForCasualORAdvance',
+                data: { CasualleaveCount: totalCasualCountAppliedFor, AdvanceLeaveCount: totalAdvanceLeaveCountAppliedFor, LOP: totalLopAppliedFor, fromDate: fromDate, toDate: toDate, comments:comments},
+                dataType: "json",
+                success: function (data) {
+
+                    $.ajax({
+                        cache: false,
+                        type: 'get',
+                        url: '/ApplyLeave/GetEmployeeLeaveList',
+                        dataType: "json",
+                        success: function (data) {
+                            isPossibleToApplyCasual = isPossibleToApplyCasual + 2;
+                            $('#AddLeaveModal').modal('hide');
+                            updateLeaveTable(data.result);
+                            $('body').loading('stop');
+                            $('#datepicker').val("");
+                            $('#SelectReason').val("");
+                        }
+                    });
+                }
+            });
+        }
+    });
     // submitting leave request
 
     $(document).on('click', '#btnLeaveRequestSubmit', function (e) {
@@ -690,37 +869,41 @@
                 //contentType: "application/json; charset=utf-8",
                 dataType: "json",
                 success: function (data) {
-            
+
                     $.ajax({
                         cache: false,
                         type: 'get',
                         url: '/ApplyLeave/GetEmployeeLeaveList',
                         dataType: "json",
                         success: function (data) {
-                        
+                            debugger;
                             $('#AddLeaveModal').modal('hide');
                             updateLeaveTable(data.result);
                             switch (leaveType) {
                                 case '@Convert.ToInt16((LMS_WebAPP_Utils.LeaveType.SickLeave))':
-                                 
+
                                     if (IsFullDay == true) {
                                         isPossibleToApplyLeave = 0;
                                     }
-                                   
+
                                     break;
                                     showMessage("Leave request added successfully", "1", true);
                                 case '@Convert.ToInt16((LMS_WebAPP_Utils.LeaveType.CompoOff))':
-                                        loop.push(new Date($('#datepicker').val()).getTime());
+                                    loop.push(new Date($('#datepicker').val()).getTime());
+                                    isPossibleToApplyCompo = isPossibleToApplyCompo + 1 ;
+                                    break;
+                                case '@Convert.ToInt16((LMS_WebAPP_Utils.LeaveType.CasualLeave))':
+                                    isPossibleToApplyCasual = isPossibleToApplyCasual + 1;
                                     break;
                                 default:
                                     showMessage("Leave request successfully submitted for approval", "1", true);
                                     break;
                             }
-                            
-                           
+
+
                             $('body').loading('stop');
 
-                            
+
                             $('#datepicker').val("");
                             $('#SelectReason').val("");
                         }
@@ -754,7 +937,7 @@
     });
 
 
-   
+
 
 
     // $('#datepicker').datepicker('setDate', today);
@@ -791,17 +974,24 @@
             dataType: "json",
             success: function (data) {
                 switch (leaveTypes) {
-                    
+
                     case '@(LMS_WebAPP_Utils.CommonMethods.Description(LMS_WebAPP_Utils.LeaveType.CompoOff))':
                         debugger;
-                            loop.pop(new Date(deletedDate).getTime());
+                        loop.pop(new Date(deletedDate).getTime());
+                        isPossibleToApplyCompo = isPossibleToApplyCompo - 1 ;
+                        break;
+                    case '@(LMS_WebAPP_Utils.CommonMethods.Description(LMS_WebAPP_Utils.LeaveType.CasualLeave))':
+                        isPossibleToApplyCasual = isPossibleToApplyCasual - 1;
+                        break;
+                    case '@(LMS_WebAPP_Utils.CommonMethods.Description(LMS_WebAPP_Utils.LeaveType.AdvanceLeave))':
+                        isPossibleToApplyCasual = isPossibleToApplyCasual - 1;
                         break;
                     default:
-                                   
+
                         break;
                 }
                 updateLeaveTable(data.result);
-                showSuccessMessage("Leave request successfully deleted","1",true);
+                showMessage("Leave request successfully deleted","1",true);
             }
         });
     }

@@ -64,12 +64,17 @@ namespace LMS_WebAPI_DAL.Repositories
                                       }).FirstOrDefault();
                     if (null != empDetails)
                     {
-                        var leaveType = ctx.LeaveMasters.ToList();
-                        var sickLeaveint = Convert.ToInt16(LeaveType.SickLeave);
-                        var CasualLeaveint = Convert.ToInt16(LeaveType.CasualLeave);
-                        empDetails.TotalSickLeave = (from n in leaveType where n.RefLeaveType == sickLeaveint select n.Count).SingleOrDefault();
-                        empDetails.TotalCasualLeave = (from n in leaveType where n.RefLeaveType == CasualLeaveint select n.Count).SingleOrDefault();
-                        empDetails.TotalLeaveCount = leaveType.Sum(q => q.Count);
+                        var leaveType = (from n in ctx.EmployeeLeaveMasters where n.RefEmployeeId == UserEmpId select n).SingleOrDefault();
+                        if (null != leaveType)
+                        {
+                            int ad = Convert.ToInt16(AdvanceLeaveLimit.limit);
+                            var advanceLimit = (from n in ctx.MasterDataValues where n.RefMasterType == ad select n).FirstOrDefault();
+                            var sickLeaveint = Convert.ToInt16(LeaveType.SickLeave);
+                            var CasualLeaveint = Convert.ToInt16(LeaveType.CasualLeave);
+                            empDetails.TotalAdvanceLeaveToTake = (Convert.ToInt16(advanceLimit.Value) < leaveType.AdvancedLeaveCount) ? Convert.ToInt16(advanceLimit.Value) : leaveType.AdvancedLeaveCount;
+                            empDetails.TotalCasualLeave = leaveType.LeaveBalance + leaveType.RewardedLeaveCount;
+                            empDetails.TotalLeaveCount = leaveType.AdvancedLeaveCount + leaveType.LeaveBalance + leaveType.RewardedLeaveCount;
+                        }
 
                         empDetails.TotalSpent = (from c in ctx.EmployeeLeaveTransactions
                                                  where c.RefEmployeeId == UserEmpId & c.RefStatus == (int)(LeaveStatus.Approved)
