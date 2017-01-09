@@ -22,5 +22,7 @@ namespace LMS_WebAPI_DAL.Repositories.Interfaces
         bool EditEmployeeEducationDetails(List<EmployeeEducationDetails> educationDetails,int employeeId);
 
         bool EditEmployeeExperienceDetails(List<EmployeeExperienceDetails> experienceDetails, int employeeId);
+
+        string getUserProfileImage(int employeeId);
     }
 }

@@ -188,6 +188,19 @@ namespace LMS_WebAPI_ServiceHelpers
             }
         }
 
+        public string getUserProfileImage(int empId)
+        {
+            try
+            {
+                var profileImageByteArray = user.getUserProfileImage(empId);
+                return profileImageByteArray;
+            }
+            catch
+            {
+                throw;
+            }
+        }
+
 
     }
 }

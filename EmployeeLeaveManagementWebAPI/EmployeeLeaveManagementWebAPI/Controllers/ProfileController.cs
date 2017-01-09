@@ -60,5 +60,33 @@ namespace EmployeeLeaveManagementWebAPI.Controllers
             var result = userManager.EditEmployeeExperienceDetails(experienceDetails, employeeId);
             return true;
         }
+
+
+        [AllowAnonymous]
+        [HttpGet]
+        [Route("getProfileImage")]
+        public string getProfileImage(int empId)
+        {
+            try
+            {
+                var profileImage = userManager.getUserProfileImage(empId);
+                if (null != profileImage)
+                {
+                    //MemoryStream ms = new MemoryStream(profileImage);
+                    //HttpResponseMessage response = new HttpResponseMessage(HttpStatusCode.OK);
+                    //response.Content = new StreamContent(ms);
+                    //response.Content.Headers.ContentType = new System.Net.Http.Headers.MediaTypeHeaderValue("image/png");
+                    return profileImage;
+                }
+                else
+                {
+                    return null;
+                }
+            }
+            catch (Exception ex)
+            {
+                return null;
+            }
+        }
     }
 }

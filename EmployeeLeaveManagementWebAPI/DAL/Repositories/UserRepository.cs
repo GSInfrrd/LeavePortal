@@ -335,5 +335,22 @@ namespace LMS_WebAPI_DAL.Repositories
             }
         }
 
+        public string getUserProfileImage(int employeeId)
+        {
+            try
+            {
+                using (var ctx = new LeaveManagementSystemEntities1())
+                {
+                    var profileDetails = ctx.EmployeeDetails.FirstOrDefault(i => i.Id == employeeId);
+                    //return Convert.FromBase64String(profileDetails.ImagePath);
+
+                    return profileDetails.ImagePath;
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
     }
 }
