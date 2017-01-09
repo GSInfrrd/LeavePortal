@@ -178,6 +178,25 @@ namespace LMS_WebAPI_DAL.Repositories
 
             return true;
         }
+
+        public EmployeeDetail CheckLeaveAvailability(int employeeId, out List<Holiday> holidayList)
+        {
+
+            try
+            {
+                using (var ctx = new LeaveManagementSystemEntities1())
+                {
+                    var data = ctx.EmployeeDetails.Include("EmployeeLeaveMasters1").Include("EmployeeLeaveTransactions").FirstOrDefault(i => i.Id == employeeId);
+                    holidayList = ctx.Holidays.ToList();
+
+                    return data;
+                }
+            }
+            catch
+            {
+                throw;
+            }
+        }
     }
 }
 

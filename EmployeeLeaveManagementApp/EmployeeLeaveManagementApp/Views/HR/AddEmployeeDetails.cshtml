@@ -319,7 +319,6 @@
     });
 
     $(document).on('click', '#btnSubmitEmployeeDetails', function (e) {
-        debugger
         var imagepath = imgpath != "" ? imgpath : "";
         var educationDetails = {
 
@@ -335,7 +334,6 @@
             FromDate: experienceFromDate,
             ToDate: experienceToDate
         }
-        debugger
         var skills = [];
         for (i = 0; i < $("#ddlSkills").val().length; i++) {
             skill = {

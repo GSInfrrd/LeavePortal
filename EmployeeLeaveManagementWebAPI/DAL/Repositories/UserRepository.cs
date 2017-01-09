@@ -15,9 +15,19 @@ namespace LMS_WebAPI_DAL.Repositories
         {
             try
             {
+                var userData = new UserAccount();
                 using (var ctx = new LeaveManagementSystemEntities1())
                 {
-                    var userData = ctx.UserAccounts.Include("EmployeeDetail").FirstOrDefault(x => x.UserName == emailId && x.Password == password);
+                    if (!string.IsNullOrEmpty(password))
+                    {
+                        userData = ctx.UserAccounts.Include("EmployeeDetail").FirstOrDefault(x => x.UserName == emailId && x.Password == password);
+
+                    }
+                    else
+                    {
+                        userData = ctx.UserAccounts.Include("EmployeeDetail").FirstOrDefault(x => x.UserName == emailId);
+
+                    }
                     //var userData = (from c in ctx.UserAccounts
                     //                where c.UserName == emailId && c.Password == password
                     //                select c).FirstOrDefault();
@@ -201,6 +211,124 @@ namespace LMS_WebAPI_DAL.Repositories
                 }
             }
             catch (Exception ex)
+            {
+
+                throw ex;
+            }
+        }
+
+        public bool EditEmployeeDetails(EmployeeDetailsModel model)
+        {
+            try
+            {
+
+                using (var ctx = new LeaveManagementSystemEntities1())
+                {
+                    var empData = new EmployeeDetail();
+                    empData = ctx.EmployeeDetails.FirstOrDefault(i => i.Id == model.Id);
+                    empData.FirstName = model.FirstName;
+                    empData.LastName = model.LastName;
+                    empData.City = model.City;
+                    empData.Country = model.Country;
+                    empData.DateOfBirth = model.DateOfBirth;
+                    empData.PhoneNumber = model.Telephone;
+                    empData.ModifiedDate = DateTime.Now;
+                    empData.ModifiedBy = model.FirstName;
+                    ctx.SaveChanges();
+                    return true;
+                }
+            }
+            catch (System.Exception ex)
+            {
+
+                throw ex;
+            }
+        }
+
+        public bool EditEmployeeEducationDetails(List<EmployeeEducationDetails> educationDetails, int employeeId)
+        {
+            try
+            {
+
+                using (var ctx = new LeaveManagementSystemEntities1())
+                {
+                    var eduDetails = ctx.EmployeeEducationDetails.Where(i => i.RefEmployeeId == employeeId).ToList();
+                    foreach (var item in educationDetails)
+                    {
+                        foreach (var eduItem in eduDetails)
+                        {
+                            if (item.Id == eduItem.Id)
+                            {
+                                eduItem.Degree = item.Degree;
+                                eduItem.Institution = item.Institution;
+                                eduItem.FromDate = item.FromDate;
+                                eduItem.ToDate = item.ToDate;
+                                ctx.SaveChanges();
+
+                            }
+                            else
+                            {
+                                eduItem.Degree = item.Degree;
+                                eduItem.Institution = item.Institution;
+                                eduItem.FromDate = item.FromDate;
+                                eduItem.ToDate = item.ToDate;
+                                eduItem.RefEmployeeId = employeeId;
+                                ctx.EmployeeEducationDetails.Add(eduItem);
+                                ctx.SaveChanges();
+                            }
+                        }
+
+                    }
+
+                    return true;
+                }
+            }
+            catch (System.Exception ex)
+            {
+
+                throw ex;
+            }
+        }
+
+        public bool EditEmployeeExperienceDetails(List<EmployeeExperienceDetails> experienceDetails, int employeeId)
+        {
+            try
+            {
+
+                using (var ctx = new LeaveManagementSystemEntities1())
+                {
+                    var expDetails = ctx.EmployeeExperienceDetails.Where(i => i.RefEmployeeId == employeeId).ToList();
+                    foreach (var item in experienceDetails)
+                    {
+                        foreach (var expItem in expDetails)
+                        {
+                            if (item.Id == expItem.Id)
+                            {
+                                expItem.CompanyName = item.Company;
+                                expItem.Role = item.Role;
+                                expItem.FromDate = item.FromDate;
+                                expItem.ToDate = item.ToDate;
+                                ctx.SaveChanges();
+
+                            }
+                            else
+                            {
+                                expItem.CompanyName = item.Company;
+                                expItem.Role = item.Role;
+                                expItem.FromDate = item.FromDate;
+                                expItem.ToDate = item.ToDate;
+                                expItem.RefEmployeeId = employeeId;
+                                ctx.EmployeeExperienceDetails.Add(expItem);
+                                ctx.SaveChanges();
+                            }
+                        }
+
+                    }
+
+                    return true;
+                }
+            }
+            catch (System.Exception ex)
             {
 
                 throw ex;

@@ -6,6 +6,8 @@
     var roleId = ((LMS_WebAPP_Domain.UserAccount)Session[LMS_WebAPP_Utils.Constants.SESSION_OBJ_USER]).RefRoleId;
     var imagePath = Model.ImagePath;
     var skills = Model.Skills;
+    var educationDatePickerCount =Model.EmployeeEducationDetails.Count-1;
+    var experienceDatePickerCount = Model.EmployeeExperienceDetails.Count-1;
 }
 <link rel="stylesheet" href="../../plugins/select2/select2.min.css">
 <link rel="stylesheet" href="../../dist/css/AdminLTE.min.css">
@@ -57,7 +59,7 @@
                                     j = 0;
                                 }
 
-                                <span class="label label-@Model.Colors[j]">@Model.Skills[i].SkillName.Trim()</span>
+                            <span class="label label-@Model.Colors[j]">@Model.Skills[i].SkillName.Trim()</span>
                                 j++;
                             }
 
@@ -80,7 +82,10 @@
                 <ul class="nav nav-tabs">
                     @*<li class="active"><a href="#activity" data-toggle="tab">Activity</a></li>*@
                     <li class="active"><a href="#profile" id="tabProfile" data-toggle="tab">Profile</a></li>
-                    <li><a href="#editDetails" id="tabEditDetails" data-toggle="tab" style="display:none">Edit</a></li>
+                    <li><a href="#personalDetails" id="tabPersonalDetails" data-toggle="tab" style="display:none">Personal Details</a></li>
+                    <li><a href="#educationDetails" id="tabEducationDetails" data-toggle="tab" style="display:none">Education Details</a></li>
+                    <li><a href="#experienceDetails" id="tabExperienceDetails" data-toggle="tab" style="display:none">Experience Details</a></li>
+                    <li><a href="#skills" id="tabSkills" data-toggle="tab" style="display:none">Skills</a></li>
                 </ul>
                 <div class="tab-content">
 
@@ -144,19 +149,19 @@
                                     </div>
                                 </div>
                                 @*<div class="col-sm-6">
-                                        <div class="row mgbt-xs-0">
-                                            <label class="col-xs-5 control-label">Interests:</label>
-                                            <div class="col-xs-7 controls">Basketball, Web, Design, etc.</div>
-                                            <!-- col-sm-10 -->
-                                        </div>
-                                    </div>
-                                    <div class="col-sm-6">
-                                        <div class="row mgbt-xs-0">
-                                            <label class="col-xs-5 control-label">Website:</label>
-                                            <div class="col-xs-7 controls"><a href="http://Vendroid.venmond.com">Vendroid.venmond.com</a></div>
-                                            <!-- col-sm-10 -->
-                                        </div>
-                                    </div>*@
+                            <div class="row mgbt-xs-0">
+                                <label class="col-xs-5 control-label">Interests:</label>
+                                <div class="col-xs-7 controls">Basketball, Web, Design, etc.</div>
+                                <!-- col-sm-10 -->
+                            </div>
+                        </div>
+                        <div class="col-sm-6">
+                            <div class="row mgbt-xs-0">
+                                <label class="col-xs-5 control-label">Website:</label>
+                                <div class="col-xs-7 controls"><a href="http://Vendroid.venmond.com">Vendroid.venmond.com</a></div>
+                                <!-- col-sm-10 -->
+                            </div>
+                        </div>*@
                                 <div class="col-sm-6">
                                     <div class="row mgbt-xs-0">
                                         <label class="col-xs-5 control-label">Phone:</label>
@@ -220,118 +225,161 @@
                         @*</div>*@
                     </div>
                     <!-- /.tab-pane -->
-                    <div class="tab-pane" id="editDetails">
+                    <div class="tab-pane" id="personalDetails">
                         <form class="form-horizontal">
-                            <div class="form-group">
-                                <label for="inputName" class="col-sm-2 control-label">First Name</label>
-                                <div class="col-sm-10">
-                                    <input type="text" class="form-control" id="inputName" placeholder="First Name" value="@Model.FirstName">
-                                </div>
-                            </div>
-                            <div class="form-group">
-                                <label for="inputName" class="col-sm-2 control-label">Last Name</label>
-                                <div class="col-sm-10">
-                                    <input type="text" class="form-control" id="inputName" value="@Model.LastName" placeholder="Last Name">
-                                </div>
-                            </div>
-                            <div class="form-group">
-                                <label for="inputEmail" class="col-sm-2 control-label">City</label>
-                                <div class="col-sm-10">
-                                    <input type="text" class="form-control" id="inputEmail" value="@Model.City" placeholder="City">
-                                </div>
-                            </div>
-                            <div class="form-group">
-                                <label for="inputEmail" class="col-sm-2 control-label">Country</label>
-                                <div class="col-sm-10">
-                                    <input type="text" class="form-control" id="inputEmail" value="@Model.Country" placeholder="Country">
-                                </div>
-                            </div>
-                            <div class="form-group">
-                                <label for="inputEmail" class="col-sm-2 control-label">Date Of Birth</label>
-                                <div class="col-sm-10">
-                                    <input type="text" class="form-control" id="dateOfBirthDatePicker" value="@Model.DateOfBirth.Date.ToString("MM/dd/yyyy")">
-                                </div>
-                            </div>
-                            <div class="form-group">
-                                <label for="inputEmail" class="col-sm-2 control-label">Telephone</label>
-                                <div class="col-sm-10">
-                                    <input type="tel" class="form-control" id="inputEmail" value="@Model.Telephone" placeholder="Telephone">
-                                </div>
-                            </div>
-                            <h3>Education Details</h3>
-                            <div class="form-group">
-                                <label for="inputEmail" class="col-sm-2 control-label">Graduation</label>
-                                <div class="col-sm-10">
-                                    <input type="text" class="form-control" id="inputEmail" value="@Model.EmployeeEducationDetails[0].Degree" placeholder="Graduation">
-                                </div>
-                            </div>
-                            <div class="form-group">
-                                <label for="inputEmail" class="col-sm-2 control-label">Institution</label>
-                                <div class="col-sm-10">
-                                    <input type="text" class="form-control" id="inputEmail" value="@Model.EmployeeEducationDetails[0].Institution" placeholder="Institution">
-                                </div>
-                            </div>
-                            <div class="form-group">
-                                <label for="inputEmail" class="col-sm-2 control-label">Duration</label>
-                                <div class="col-sm-10">
-                                    <input type="text" class="form-control" id="educationDatePicker" value="@Model.EmployeeEducationDetails[0].FromDate.Date.ToString("MM/dd/yyyy")-@Model.EmployeeEducationDetails[0].ToDate.Date.ToString("MM/dd/yyyy")">
-                                </div>
-                            </div>
+                            <div id="divPersonalInfo">
+                                <h3>Personal Details</h3>
+                                <div class="form-group">
+                                    <label for="inputName" class="col-sm-2 control-label">First Name</label>
+                                    <div class="col-sm-10">
+                                        <input type="hidden" class="form-control" id="txtEmployeeID" placeholder="First Name" value="@Model.Id">
 
-                            <div id="divEducationDetails" style="display:none">
-                            </div>
-
-                            <a class="btn" style="color:#3c8dbc" id="lnkAddEducationDetails">Add more Education Details</a>
-                            <h3>Experience Details</h3>
-                            <div class="form-group">
-                                <label for="inputExperience" class="col-sm-2 control-label">Employer</label>
-                                <div class="col-sm-10">
-                                    <input type="text" class="form-control" id="inputExperience" value="@Model.EmployeeExperienceDetails[0].Company" placeholder="Employer">
+                                        <input type="text" class="form-control" id="txtEditFirstName" placeholder="First Name" value="@Model.FirstName">
+                                    </div>
                                 </div>
-                            </div>
-                            <div class="form-group">
-                                <label for="inputExperience" class="col-sm-2 control-label">Designation</label>
-                                <div class="col-sm-10">
-                                    <input type="text" class="form-control" id="inputExperience" value="@Model.EmployeeExperienceDetails[0].Role" placeholder="Designation">
+                                <div class="form-group">
+                                    <label for="inputName" class="col-sm-2 control-label">Last Name</label>
+                                    <div class="col-sm-10">
+                                        <input type="text" class="form-control" id="txtEditLastName" value="@Model.LastName" placeholder="Last Name">
+                                    </div>
                                 </div>
-                            </div>
-                            <div class="form-group">
-                                <label for="inputEmail" class="col-sm-2 control-label">Duration</label>
-                                <div class="col-sm-10">
-                                    <input type="text" class="form-control" id="experienceDatePicker">
+                                <div class="form-group">
+                                    <label for="inputEmail" class="col-sm-2 control-label">City</label>
+                                    <div class="col-sm-10">
+                                        <input type="text" class="form-control" id="txtEditCity" value="@Model.City" placeholder="City">
+                                    </div>
                                 </div>
-                            </div>
-                            <div id="otherExperienceDetails" style="display:none">
-                            </div>
-                            <a class="btn" id="lnkAddExperienceDetails">Add more Experience Details</a>
-                            <div class="form-group">
-                                <label for="inputSkills" class="col-sm-2 control-label">Skills</label>
-                                <div class="col-sm-10">
-                              
-
-                                        <select id="ddlSkills" multiple="multiple" class="form-control skills" style="width: 100%;">
-                                            <option>.Net</option>
-                                            <option>Java</option>
-                                            <option>Html</option>
-                                        </select>
-                                 
-
+                                <div class="form-group">
+                                    <label for="inputEmail" class="col-sm-2 control-label">Country</label>
+                                    <div class="col-sm-10">
+                                        <input type="text" class="form-control" id="txtEditCountry" value="@Model.Country" placeholder="Country">
+                                    </div>
                                 </div>
-                            </div>
-                            <div class="form-group">
-                                <div class="col-sm-offset-2 col-sm-10">
-                                    <div class="checkbox">
-                                        <label>
-                                            <input type="checkbox"> I agree to the <a href="#">terms and conditions</a>
-                                        </label>
+                                <div class="form-group">
+                                    <label for="inputEmail" class="col-sm-2 control-label">Date Of Birth</label>
+                                    <div class="col-sm-10">
+                                        <input type="text" class="form-control" id="dateOfBirthDatePicker" value="@Model.DateOfBirth.Date.ToString("MM/dd/yyyy")">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="inputEmail" class="col-sm-2 control-label">Telephone</label>
+                                    <div class="col-sm-10">
+                                        <input type="tel" class="form-control" id="txtEditTelephone" value="@Model.Telephone" placeholder="Telephone">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <div class="col-sm-offset-2 col-sm-10">
+                                        <button type="submit" id="btnSubmitPersonalDetails" class="btn btn-danger">Submit</button>
                                     </div>
                                 </div>
                             </div>
-                            <div class="form-group">
-                                <div class="col-sm-offset-2 col-sm-10">
-                                    <button type="submit" class="btn btn-danger">Submit</button>
+                        </form>
+                    </div>
+                    <div class="tab-pane" id="educationDetails">
+                        <form class="form-horizontal">
+                                <h3>Education Details</h3>
+<div id="divEducationDetails" data-content="@Model.EmployeeEducationDetails.Count">
+    @for (int i = 0; i < Model.EmployeeEducationDetails.Count; i++)
+    {
+
+        <div class="form-group">
+            <label class="col-sm-2 control-label">Graduation</label>
+            <div class="col-sm-10">
+                <input type="hidden" class="form-control" id="Id_@i" value="@Model.EmployeeEducationDetails[i].Id">
+                <input type="text" class="form-control" id="txtGraduation_@i" value="@Model.EmployeeEducationDetails[i].Degree" placeholder="Graduation">
+            </div>
+        </div>
+                                    <div class="form-group">
+                                        <label class="col-sm-2 control-label">Institution</label>
+                                        <div class="col-sm-10">
+                                            <input type="text" class="form-control" id="txtInstitution_@i" value="@Model.EmployeeEducationDetails[i].Institution" placeholder="Institution">
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="inputEmail" class="col-sm-2 control-label">Duration</label>
+                                        <div class="col-sm-10">
+                                            <input type="text" class="form-control" id="educationDatePicker_@i" value="@Model.EmployeeEducationDetails[i].FromDate.Date.ToString("MM/dd/yyyy")-@Model.EmployeeEducationDetails[i].ToDate.Date.ToString("MM/dd/yyyy")">
+                                        </div>
+                                    </div>
+                                    <hr />
+                              
+    }
+               </div>                 
+                                <a class="btn" style="color:#3c8dbc" id="lnkAddEducationDetails">Add more Education Details</a>
+                                <div class="form-group">
+                                    <div class="col-sm-offset-2 col-sm-10">
+                                        <button type="submit" id="btnSubmitEducationDetails" class="btn btn-danger">Submit</button>
+                                    </div>
                                 </div>
+
+</form>
+                    </div>
+                    <div class="tab-pane" id="experienceDetails">
+                        <form class="form-horizontal">
+                            <h3>Experience Details</h3>
+                            <div id="otherExperienceDetails" data-content="@Model.EmployeeExperienceDetails.Count">
+                               @for (int j = 0; j < Model.EmployeeExperienceDetails.Count; j++)
+                               {
+                                <div class="form-group">
+                                    <label class="col-sm-2 control-label">Employer</label>
+                                    <div class="col-sm-10">
+                                        <input type="hidden" class="form-control" id="Id_@j" value="@Model.EmployeeExperienceDetails[j].Id">
+                                        <input type="text" class="form-control" id="txtEmployer_@j" value="@Model.EmployeeExperienceDetails[j].Company" placeholder="Employer">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-sm-2 control-label">Designation</label>
+                                    <div class="col-sm-10">
+                                        <input type="text" class="form-control" id="txtDesignation_@j" value="@Model.EmployeeExperienceDetails[j].Role" placeholder="Designation">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-sm-2 control-label">Duration</label>
+                                    <div class="col-sm-10">
+                                        <input type="text" class="form-control" id="experienceDatePicker_@j" value="@Model.EmployeeExperienceDetails[j].FromDate.Date.ToString("MM/dd/yyyy")-@Model.EmployeeExperienceDetails[j].ToDate.Date.ToString("MM/dd/yyyy")">
+                                    </div>
+                                </div>
+                                <hr />
+                               }
                             </div>
+                                <a class="btn" id="lnkAddExperienceDetails">Add more Experience Details</a>
+                                <div class="form-group">
+                                    <div class="col-sm-offset-2 col-sm-10">
+                                        <button type="submit" id="btnSubmitExperienceDetails" class="btn btn-danger">Submit</button>
+                                    </div>
+                                </div>
+                       
+                        </form>
+                    </div>
+                    <div class="tab-pane" id="skills">
+                        <form class="form-horizontal">
+                         <h3>Skills</h3>
+                                <div class="form-group">
+                                    <label for="inputSkills" class="col-sm-2 control-label">Skills</label>
+                                    <div class="col-sm-10">
+                                        @{ 
+                                            var selectedClass = "";
+                                        }
+                                        @foreach (var item in Model.Skills)
+                                        {
+
+                                        <select id="ddlSkills" multiple="multiple" class="form-control skills" style="width: 100%;">
+                                            <option class="@selectedClass">.Net</option>
+                                            <option>Java</option>
+                                            <option>Html</option>
+                                        </select>
+
+                                        }
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <div class="col-sm-offset-2 col-sm-10">
+                                        <button type="submit" id="btnSubmitSkills" class="btn btn-danger">Submit</button>
+                                    </div>
+                                </div>
+                   
+
                         </form>
                     </div>
                     <!-- /.tab-pane -->
@@ -351,64 +399,224 @@
 <script>
     var imgData = "@imagePath";
     $(document).ready(function () {
-        @*var values=@skills;
-      for(var)
-            $("#ddlSkills option[value='" + e + "']").prop("selected", true);
-        });*@
         $(function () {
             $(".skills").select2();
-            $('#educationDatePicker').daterangepicker(
-                   {
+            for (var i = 0; i <= @educationDatePickerCount;i++)
+            {
+                if (!i > educationDatePickerCount)
+                    { 
+                $("#educationDatePicker_" + i).daterangepicker(
+                               {
 
-                   });
-            $('#experienceDatePicker').daterangepicker(
-                  {
-                  });
+                        });
+                    }
+                }
+            for(var j=0;j<=@experienceDatePickerCount;j++)
+            {
+                $('#experienceDatePicker_'+j).daterangepicker(
+                      {
+                      });
+            }
             $('#dateOfBirthDatePicker').datepicker(
                  {
                  });
-
-            var colorClass = ["label-success", "label-danger", "label-info", "label-warning", "label-primary"];
-
-            $('.sd-list').each(function () {
-                var index = $(this).index();
-                if (index < colors.length) {
-                    $(this).addClass(colorClass[index]);
-                }
-            })
         })
     });
     $("#editEmployeeDetails").on('click', function (e) {
-        $("#tabEditDetails").show();
+        $("#tabPersonalDetails").parent().addClass('active');
+        $("#tabPersonalDetails").show();
+        $("#tabEducationDetails").show();
+        $("#tabExperienceDetails").show();
+        $("#tabSkills").show();
         $("#tabProfile").hide();
-        $("#editDetails").show();
+        $("#personalDetails").show();
         $("#profile").hide();
     })
+    $("#tabEducationDetails").on('click', function (e) {
+        $("#tabPersonalDetails").show();
+        $("#tabEducationDetails").show();
+        $("#tabExperienceDetails").show();
+        $("#tabSkills").show();
+        $("#tabProfile").hide();
+        $("#personalDetails").hide();
+        $("#skills").hide();
+        $("#experienceDetails").hide();
+        $("#educationDetails").show();
+        $("#profile").hide();
+    })
+    $("#tabPersonalDetails").on('click', function (e) {
+        $("#tabPersonalDetails").show();
+        $("#tabEducationDetails").show();
+        $("#tabExperienceDetails").show();
+        $("#tabSkills").show();
+        $("#tabProfile").hide();
+        $("#personalDetails").show();
+        $("#skills").hide();
+        $("#experienceDetails").hide();
+        $("#educationDetails").hide();
+        $("#profile").hide();
+    })
+    $("#tabExperienceDetails").on('click', function (e) {
+        $("#tabPersonalDetails").show();
+        $("#tabEducationDetails").show();
+        $("#tabExperienceDetails").show();
+        $("#tabSkills").show();
+        $("#tabProfile").hide();
+        $("#personalDetails").hide();
+        $("#educationDetails").hide();
+        $("#skills").hide();
+        $("#experienceDetails").show();
+        $("#profile").hide();
+    })
+    $("#tabSkills").on('click', function (e) {
+        $("#tabPersonalDetails").show();
+        $("#tabEducationDetails").show();
+        $("#tabExperienceDetails").show();
+        $("#tabSkills").show();
+        $("#tabProfile").hide();
+        $("#personalDetails").hide();
+        $("#educationDetails").hide();
+        $("#experienceDetails").hide();
+        $("#skills").show();
+        $("#profile").hide();
+    })
+
     $("#lnkAddEducationDetails").click(function (e) {
-        $("#divEducationDetails").prepend("<hr><div class='form-group'><label for='inputEmail' class='col-sm-2 control-label'>Graduation</label> <div class='col-sm-10'>" +
-            "<input type='text' class='form-control' id='inputEmail' placeholder='Graduation'></div></div> <div class='form-group'>" +
-"<label for='inputEmail' class='col-sm-2 control-label'>Institution</label><div class='col-sm-10'>" +
-"<input type='text' class='form-control' id='inputEmail' placeholder='Institution'></div></div> <div class='form-group'>" +
-"<label for='inputEmail' class='col-sm-2 control-label'>Duration</label><div class='col-sm-10'>" +
-"<input type='text' class='form-control' id='educationDatePicker'></div>");
-        $("#divEducationDetails").show();
-        $('#educationDatePicker').daterangepicker(
+        var i = parseInt($("#divEducationDetails").data('content')) + 1;
+        $("#divEducationDetails").data('content',i);
+        var data = "<hr><div class='form-group'><label class='col-sm-2 control-label'>Graduation</label> <div class='col-sm-10'>" +
+            "  <input type='hidden' class='form-control' id='Id_"+i+"' value='0'>"+
+            "<input type='text' class='form-control' id='txtGraduation_"+i+"' placeholder='Graduation'></div></div> <div class='form-group'>" +
+"<label class='col-sm-2 control-label'>Institution</label><div class='col-sm-10'>" +
+"<input type='text' class='form-control' id='txtInstitution_"+i+"' placeholder='Institution'></div></div> <div class='form-group'>" +
+"<label class='col-sm-2 control-label'>Duration</label><div class='col-sm-10'>" +
+"<input type='text' class='form-control' id='educationDatePicker_"+i+"'></div>";
+    $("#divEducationDetails").append(data);
+        $('#educationDatePicker_'+i).daterangepicker(
                  {
 
                  });
         //$("#lnkAddEducationDetails").hide();
     });
     $("#lnkAddExperienceDetails").click(function (e) {
-        $("#otherExperienceDetails").prepend("<hr><div class='form-group'><label for='inputEmail' class='col-sm-2 control-label'>Employer</label> <div class='col-sm-10'>" +
-           "<input type='text' class='form-control' id='inputEmail' placeholder='Employer'></div></div> <div class='form-group'>" +
-"<label for='inputEmail' class='col-sm-2 control-label'>Designation</label><div class='col-sm-10'>" +
-"<input type='text' class='form-control' id='inputEmail' placeholder='Designation'></div></div> <div class='form-group'>" +
-"<label for='inputEmail' class='col-sm-2 control-label'>Duration</label><div class='col-sm-10'>" +
-"<input type='text' class='form-control' id='experienceDatePicker'></div></div></div>");
-        $("#otherExperienceDetails").show();
-        $('#experienceDatePicker').daterangepicker(
+        var j = parseInt($("#otherExperienceDetails").data('content')) + 1;
+        $("#otherExperienceDetails").data('content',j);
+       var expDiv="<hr><div class='form-group'><label class='col-sm-2 control-label'>Employer</label> <div class='col-sm-10'>" +
+           "<input type='text' class='form-control' id='txtEmployer_"+j+"' placeholder='Employer'></div></div> <div class='form-group'>" +
+"<label class='col-sm-2 control-label'>Designation</label><div class='col-sm-10'>" +
+"<input type='text' class='form-control' id='txtDesignation_"+j+"' placeholder='Designation'></div></div> <div class='form-group'>" +
+"<label class='col-sm-2 control-label'>Duration</label><div class='col-sm-10'>" +
+"<input type='text' class='form-control' id='experienceDatePicker_"+j+"'></div>";
+       $("#otherExperienceDetails").append(expDiv);
+        $('#experienceDatePicker_'+j).daterangepicker(
              {
              });
     });
 
+    $("#btnSubmitPersonalDetails").click(function (e) {
+        var model=
+            {
+                Id: $("#txtEmployeeID").val(),
+                FirstName: $("#txtEditFirstName").val(),
+                LastName: $("#txtEditLastName").val(),
+                DateOfBirth: $("#dateOfBirthDatePicker").val(),
+                City: $("#txtEditCity").val(),
+                Country: $("#txtEditCountry").val(),
+                Telephone: $("#txtEditTelephone").val(),
+            }
+        $.ajax({
+            cache: false,
+            type: 'post',
+            url: '/Profile/EditEmployeeDetails',
+            data:JSON.stringify(model),
+            contentType: "application/json",
+            dataType: "json",
+            processData: false,
+            success: function (data) {
+                $("#tabPersonalDetails").hide();
+                $("#tabEducationDetails").hide();
+                $("#tabExperienceDetails").hide();
+                $("#tabSkills").hide();
+                $("#tabProfile").show();
+                $("#personalDetails").hide();
+                $("#skills").hide();
+                $("#experienceDetails").hide();
+                $("#educationDetails").hide();
+                $("#profile").show();
+            }
+        });
+    });
+
+    $("#btnSubmitEducationDetails").click(function (e) {
+        var total = $("#divEducationDetails").data('content');
+        var educationDetails = [];
+        for (var j = 0; j <= total; j++) {
+            var details = {
+                Id: $("#Id_" + j).val(),
+                Institution: $("#txtInstitution_" + j).val(),
+                Degree: $("#txtGraduation_" + j).val(),
+                TimePeriod:$("#educationDatePicker_"+j).val()
+
+            }
+            educationDetails.push(details);
+        }
+        $.ajax({
+            cache: false,
+            type: 'post',
+            url: '/Profile/EditEmployeeEducationDetails',
+            data: JSON.stringify(educationDetails),
+            contentType: "application/json",
+            dataType: "json",
+            processData: false,
+            success: function (data) {
+                $("#tabPersonalDetails").hide();
+                $("#tabEducationDetails").hide();
+                $("#tabExperienceDetails").hide();
+                $("#tabSkills").hide();
+                $("#tabProfile").show();
+                $("#personalDetails").hide();
+                $("#skills").hide();
+                $("#experienceDetails").hide();
+                $("#educationDetails").hide();
+                $("#profile").show();
+            }
+        });
+    });
+
+    
+    $("#btnSubmitExperienceDetails").click(function (e) {
+        var total = $("#otherExperienceDetails").data('content');
+        var experienceDetails = [];
+        for (var j = 0; j <= total; j++) {
+            var details = {
+                Id: $("#Id_" + j).val(),
+                Company: $("#txtEmployer_" + j).val(),
+                Role: $("#txtDesignation_" + j).val(),
+                TimePeriod:$("#experienceDatePicker_"+j).val()
+
+            }
+            experienceDetails.push(details);
+        }
+        $.ajax({
+            cache: false,
+            type: 'post',
+            url: '/Profile/EditEmployeeExperienceDetails',
+            data: JSON.stringify(experienceDetails),
+            contentType: "application/json",
+            dataType: "json",
+            processData: false,
+            success: function (data) {
+                $("#tabPersonalDetails").hide();
+                $("#tabEducationDetails").hide();
+                $("#tabExperienceDetails").hide();
+                $("#tabSkills").hide();
+                $("#tabProfile").show();
+                $("#personalDetails").hide();
+                $("#skills").hide();
+                $("#experienceDetails").hide();
+                $("#educationDetails").hide();
+                $("#profile").show();
+            }
+        });
+    });
 </script>

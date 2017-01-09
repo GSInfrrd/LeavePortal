@@ -141,5 +141,53 @@ namespace LMS_WebAPI_ServiceHelpers
                 throw ex;
             }
 }
+
+
+        public bool EditEmployeeDetails(EmployeeDetailsModel model)
+        {
+            try
+            {
+
+                var result = user.EditEmployeeDetails(model);
+
+                return result;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
+        public bool EditEmployeeEducationDetails(List<EmployeeEducationDetails> educationDetails, int employeeId)
+        {
+            try
+            {
+
+                var result = user.EditEmployeeEducationDetails(educationDetails, employeeId);
+
+                return result;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
+        public bool EditEmployeeExperienceDetails(List<EmployeeExperienceDetails> experienceDetails, int employeeId)
+        {
+            try
+            {
+
+                var result = user.EditEmployeeExperienceDetails(experienceDetails, employeeId);
+
+                return result;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
+
     }
 }

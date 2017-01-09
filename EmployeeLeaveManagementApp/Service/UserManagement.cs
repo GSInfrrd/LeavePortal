@@ -7,6 +7,7 @@ using System.Net.Http;
 using System.Net.Http.Headers;
 using LMS_WebAPP_Domain;
 using LMS_WebAPI_Domain;
+using Newtonsoft.Json;
 
 namespace LMS_WebAPP_ServiceHelpers
 {
@@ -148,6 +149,97 @@ namespace LMS_WebAPP_ServiceHelpers
             }
         }
 
+        public async Task<bool> EditEmployeeDetailsAsync(EmployeeDetailsModel model)
+        {
+            using (HttpClient client = new HttpClient())
+            {
+                const string URL = "http://localhost:64476/api/Profile/EditEmployeeDetails";
+                urlParameters = "?model=" + model;
+                client.BaseAddress = new Uri(URL);
+
+                // Add an Accept header for JSON format.
+                client.DefaultRequestHeaders.Accept.Add(
+                new MediaTypeWithQualityHeaderValue("application/json"));
+
+                // List data response.
+                HttpResponseMessage response = await client.PostAsJsonAsync(URL,model);  // Blocking call!
+                if (response.IsSuccessStatusCode)
+                {
+                    // Parse the response body. Blocking!
+                    var dataObjects = await response.Content.ReadAsAsync<bool>();
+                    return dataObjects;
+                }
+                else
+                {
+                    Console.WriteLine("{0} ({1})", (int)response.StatusCode, response.ReasonPhrase);
+                    return false;
+                }
+            }
+        }
+
+        public async Task<bool> EditEmployeeEducationDetailsAsync(List<EmployeeEducationDetails> educationDetails,int employeeId)
+        {
+            using (HttpClient client = new HttpClient())
+            {
+                string json = JsonConvert.SerializeObject(educationDetails);
+                StringContent sc = new StringContent(json, Encoding.UTF8, "application/json");
+
+                 string URL = "http://localhost:64476/api/Profile/EditEmployeeEducationDetails?employeeId=";
+                //urlParameters = "?employeeId="+employeeId;
+                URL=URL+ employeeId;
+                client.BaseAddress = new Uri(URL);
+
+                // Add an Accept header for JSON format.
+                client.DefaultRequestHeaders.Accept.Add(
+                new MediaTypeWithQualityHeaderValue("application/json"));
+
+                // List data response.
+                HttpResponseMessage response = await client.PostAsync(URL,sc);  // Blocking call!
+                if (response.IsSuccessStatusCode)
+                {
+                    // Parse the response body. Blocking!
+                    var dataObjects = await response.Content.ReadAsAsync<bool>();
+                    return dataObjects;
+                }
+                else
+                {
+                    Console.WriteLine("{0} ({1})", (int)response.StatusCode, response.ReasonPhrase);
+                    return false;
+                }
+            }
+        }
+
+        public async Task<bool> EditEmployeeExperienceDetailsAsync(List<EmployeeExperienceDetails> experienceDetails, int employeeId)
+        {
+            using (HttpClient client = new HttpClient())
+            {
+                string json = JsonConvert.SerializeObject(experienceDetails);
+                StringContent sc = new StringContent(json, Encoding.UTF8, "application/json");
+
+                string URL = "http://localhost:64476/api/Profile/EditEmployeeExperienceDetails";
+               // urlParameters = "?employeeId="+employeeId;
+                URL = URL + "?employeeId=" + employeeId;
+                client.BaseAddress = new Uri(URL);
+
+                // Add an Accept header for JSON format.
+                //client.DefaultRequestHeaders.Accept.Add(
+                //new MediaTypeWithQualityHeaderValue("application/json"));
+
+                // List data response.
+                HttpResponseMessage response = await client.PostAsJsonAsync(URL, experienceDetails);  // Blocking call!
+                if (response.IsSuccessStatusCode)
+                {
+                    // Parse the response body. Blocking!
+                    var dataObjects = await response.Content.ReadAsAsync<bool>();
+                    return dataObjects;
+                }
+                else
+                {
+                    Console.WriteLine("{0} ({1})", (int)response.StatusCode, response.ReasonPhrase);
+                    return false;
+                }
+            }
+        }
 
     }
 }

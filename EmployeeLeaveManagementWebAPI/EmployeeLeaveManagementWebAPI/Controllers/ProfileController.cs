@@ -9,7 +9,7 @@ using System.Web.Http;
 
 namespace EmployeeLeaveManagementWebAPI.Controllers
 {
-
+    [RoutePrefix("api/profile")]
     public class ProfileController : ApiController
     {
         private const string LocalLoginProvider = "Local";
@@ -37,6 +37,28 @@ namespace EmployeeLeaveManagementWebAPI.Controllers
                 return null;
                 //throw;
             }
+        }
+
+        public bool Post(EmployeeDetailsModel model)
+        {
+           var result = userManager.EditEmployeeDetails(model);
+            return result;
+        }
+
+        [HttpPost]
+        [Route("EditEmployeeEducationDetails")]
+        public bool EditEmployeeEducationDetails(List<EmployeeEducationDetails> educationDetails,int employeeId)
+        {
+           var result = userManager.EditEmployeeEducationDetails(educationDetails,employeeId);
+            return true;
+        }
+
+        [HttpPost]
+        [Route("EditEmployeeExperienceDetails")]
+        public bool EditEmployeeExperienceDetails(List<EmployeeExperienceDetails> experienceDetails, int employeeId)
+        {
+            var result = userManager.EditEmployeeExperienceDetails(experienceDetails, employeeId);
+            return true;
         }
     }
 }

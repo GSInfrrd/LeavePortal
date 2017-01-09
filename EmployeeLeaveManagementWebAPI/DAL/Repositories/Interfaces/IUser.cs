@@ -18,5 +18,9 @@ namespace LMS_WebAPI_DAL.Repositories.Interfaces
         LeaveReportModel GetLeaveReportDetails(int year, int employeeId = 0);
 
         EmployeeDetail GetUserProfileDetails(int employeeId);
+        bool EditEmployeeDetails(EmployeeDetailsModel model);
+        bool EditEmployeeEducationDetails(List<EmployeeEducationDetails> educationDetails,int employeeId);
+
+        bool EditEmployeeExperienceDetails(List<EmployeeExperienceDetails> experienceDetails, int employeeId);
     }
 }

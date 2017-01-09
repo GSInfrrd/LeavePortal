@@ -222,6 +222,7 @@
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\HRController.cs" />
     <Compile Include="Controllers\LeaveTransactionController.cs" />
+    <Compile Include="Controllers\ProfileController.cs" />
     <Compile Include="Controllers\ResourceRequestController.cs" />
     <Compile Include="Controllers\WorkFromHomeController.cs" />
     <Compile Include="EmailResources.Designer.cs" />
@@ -1221,6 +1222,7 @@
     <Content Include="Views\Account\ExternalLoginFailure.cshtml" />
     <Content Include="Views\Account\_ExternalLoginsList.cshtml" />
     <Content Include="Views\ResourceRequest\RequestForResources.cshtml" />
+    <Content Include="Views\Account\ProfileDownload.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
