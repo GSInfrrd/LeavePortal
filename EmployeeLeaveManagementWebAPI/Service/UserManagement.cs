@@ -60,6 +60,7 @@ namespace LMS_WebAPI_ServiceHelpers
                     VerifiedUser.TotalLeaveCount = userData.TotalLeaveCount;
                     VerifiedUser.TotalApplied = userData.TotalApplied;
                     VerifiedUser.TotalSpent = userData.TotalSpent;
+                    VerifiedUser.TotalWorkFromHome = userData.TotalWorkFromHome;
                     VerifiedUser.ManagerName = userData.ManagerName;
                     VerifiedUser.TotalCasualLeave = userData.TotalCasualLeave;
                     VerifiedUser.TotalAdvanceLeaveTotake = userData.TotalAdvanceLeaveToTake;

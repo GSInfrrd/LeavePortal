@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace LMS_WebAPI_Utils
 {
-    public class EmployeeCommon
+    public class EmployeeCommonDetails
     {
         public int Id { get; set; }
         public string Name { get; set; }
@@ -27,6 +27,8 @@ namespace LMS_WebAPI_Utils
         public string ManagerEmailId { get; set; }
         public int? TotalAdvanceLeaveToTake { get; set; }
         public int? TotalCasualLeave { get; set; }
+
+        public int? TotalWorkFromHome { get; set; }
         public IDictionary<string,int> MonthlyLeaveReport { get; set; }
     }
 }

@@ -177,6 +177,7 @@ namespace EmployeeLeaveManagementApp.Controllers
                 model.TotalLeaveCount = Convert.ToInt16(datares.TotalLeaveCount);
                 model.TotalApplied = datares.TotalApplied;
                 model.TotalSpent = datares.TotalSpent;
+                model.TotalWorkFromHome = (datares.TotalWorkFromHome != null) ? Convert.ToInt16(datares.TotalWorkFromHome) : 0;
                 model.TotalLeft = Convert.ToInt16(datares.TotalLeaveCount - datares.TotalSpent);
                 model.DateOfJoining = DateTime.Now;
                 model.RoleName = datares.RoleName;

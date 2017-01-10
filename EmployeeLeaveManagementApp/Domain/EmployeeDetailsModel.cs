@@ -36,7 +36,7 @@ namespace LMS_WebAPP_Domain
         public List<string> Colors { get; set; }
         public int? TotalCasualLeave { get; set; }
         public int? TotalAdvanceLeaveTotake { get; set; }
-
+        public int? TotalWorkFromHome { get; set; }
         public List<Announcement> Announcements { get; set; }
 
         public LeaveReportModel LeaveDetails { get; set; }

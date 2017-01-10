@@ -12,7 +12,7 @@ namespace LMS_WebAPI_DAL.Repositories.Interfaces
     {
         UserAccount  GetUser(string emailId, string password);
 
-        EmployeeCommon GetUserDetails(int UserEmpId);
+        EmployeeCommonDetails GetUserDetails(int UserEmpId);
 
         List<Announcement> GetAnnouncements();
         LeaveReportModel GetLeaveReportDetails(int year, int employeeId = 0);

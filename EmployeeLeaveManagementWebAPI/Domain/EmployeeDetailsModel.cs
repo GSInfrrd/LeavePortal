@@ -25,6 +25,7 @@ namespace LMS_WebAPI_Domain
         public String RoleName { get; set; }
         public int? TotalLeaveCount { get; set; }
         public int? TotalCasualLeave { get; set; }
+        public int? TotalWorkFromHome { get; set; }
         public int? TotalAdvanceLeaveTotake { get; set; }
         public double TotalApplied { get; set; }
         public double TotalSpent { get; set; }

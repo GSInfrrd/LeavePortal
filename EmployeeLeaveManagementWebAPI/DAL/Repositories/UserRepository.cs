@@ -45,7 +45,7 @@ namespace LMS_WebAPI_DAL.Repositories
             }
         }
 
-        public EmployeeCommon GetUserDetails(int UserEmpId)
+        public EmployeeCommonDetails GetUserDetails(int UserEmpId)
         {
             try
             {
@@ -53,7 +53,7 @@ namespace LMS_WebAPI_DAL.Repositories
                 {
                     var empDetails = (from n in ctx.EmployeeDetails
                                       where n.Id == UserEmpId
-                                      select new EmployeeCommon()
+                                      select new EmployeeCommonDetails()
                                       {
                                           Id = n.Id,
                                           Name = n.FirstName,
@@ -83,6 +83,8 @@ namespace LMS_WebAPI_DAL.Repositories
                         empDetails.TotalApplied = (from c in ctx.EmployeeLeaveTransactions
                                                    where c.RefEmployeeId == UserEmpId & c.RefStatus == (int)(LeaveStatus.Submitted)
                                                    select c.NumberOfWorkingDays).ToList().Sum();
+
+                        empDetails.TotalWorkFromHome = (from w in ctx.WorkFromHomes where w.RefEmployeeId == UserEmpId select w).ToList().Count();
 
                         var empdata = (from n in ctx.EmployeeProjectDetails
                                        where n.RefEmployeeId == UserEmpId
