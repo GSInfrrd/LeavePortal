@@ -30,6 +30,7 @@ namespace LMS_WebAPI_DAL
             this.EmployeeLeaveTransactionHistories = new HashSet<EmployeeLeaveTransactionHistory>();
             this.EmployeeLeaveTransactionHistories1 = new HashSet<EmployeeLeaveTransactionHistory>();
             this.Notifications = new HashSet<Notification>();
+            this.EmployeeDetails11 = new HashSet<EmployeeDetail>();
         }
     
         public int Id { get; set; }
@@ -63,5 +64,7 @@ namespace LMS_WebAPI_DAL
         public virtual ICollection<EmployeeLeaveTransactionHistory> EmployeeLeaveTransactionHistories1 { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Notification> Notifications { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<EmployeeDetail> EmployeeDetails11 { get; set; }
     }
 }

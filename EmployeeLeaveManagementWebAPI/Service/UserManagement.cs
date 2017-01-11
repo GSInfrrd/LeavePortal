@@ -81,7 +81,9 @@ namespace LMS_WebAPI_ServiceHelpers
         {
             try
             {
-                var userData = user.GetUserProfileDetails(EmpId);
+                var skills = new List<MasterDataModel>();
+              //  var projects = new List<ProjectsList>();
+                var userData = user.GetUserProfileDetails(EmpId, out skills);
                 var profileDetails = new EmployeeDetailsModel();
                 List<EmployeeEducationDetails> EEdetails = new List<EmployeeEducationDetails>();
                 profileDetails.FirstName = userData.FirstName;
@@ -97,6 +99,9 @@ namespace LMS_WebAPI_ServiceHelpers
                 profileDetails.ImagePath = string.Format("data:image/png;base64,{0}", userData.ImagePath);
                 profileDetails.Bio = userData.Bio;
                 profileDetails.Id = userData.Id;
+                profileDetails.FacebookLink = userData.FacebookLink;
+                profileDetails.TwitterLink = userData.TwitterLink;
+                profileDetails.GooglePlusLink = userData.GooglePlusLink;
                 foreach (var item in userData.EmployeeEducationDetails)
                 {
                     var edet = new EmployeeEducationDetails();
@@ -105,7 +110,7 @@ namespace LMS_WebAPI_ServiceHelpers
                     edet.FromDate = item.FromDate;
                     edet.ToDate = item.ToDate;
                     edet.Id = item.Id;
-                    edet.TimePeriod = item.FromDate.ToString("MMMM yyyy")+"~" +item.ToDate.ToString("MMMM yyyy");
+                    edet.TimePeriod = item.FromDate.ToString("MMMM yyyy") + "~" + item.ToDate.ToString("MMMM yyyy");
                     EEdetails.Add(edet);
                 }
                 profileDetails.EmployeeEducationDetails = EEdetails;
@@ -123,17 +128,20 @@ namespace LMS_WebAPI_ServiceHelpers
                 }
                 profileDetails.EmployeeExperienceDetails = EExpdetails;
                 List<EmployeeSkillDetails> employeeSkills = new List<EmployeeSkillDetails>();
-                foreach (var item in userData.EmployeeSkills)
-                {;
+
+                foreach (var skill in skills)
+                {
                     var employeeSkill = new EmployeeSkillDetails();
-                    employeeSkill.SkillName = item.Skill;
-                    employeeSkill.RefEmployeeId = item.RefEmployeeId;
-                    employeeSkill.Id = item.Id;
+                    employeeSkill.IsSelected = userData.EmployeeSkills.FirstOrDefault(i => i.Skill.Trim() == skill.Value.Trim()) != null ? true : false;
+                    employeeSkill.SkillName = skill.Value;
+                    employeeSkill.RefEmployeeId = userData.EmployeeSkills.FirstOrDefault(i => i.Skill.Trim() == skill.Value.Trim()) != null ? userData.Id : 0;
+                    employeeSkill.Id = userData.EmployeeSkills.FirstOrDefault(i => i.Skill.Trim() == skill.Value.Trim()) != null ? userData.EmployeeSkills.FirstOrDefault(i => i.Skill.Trim() == skill.Value.Trim()).Id : 0;
                     employeeSkills.Add(employeeSkill);
 
                 }
                 profileDetails.Skills = employeeSkills;
-
+              //  profileDetails.Projects = projects;
+             
 
                 return profileDetails;
             }
@@ -141,7 +149,7 @@ namespace LMS_WebAPI_ServiceHelpers
             {
                 throw ex;
             }
-}
+        }
 
 
         public bool EditEmployeeDetails(EmployeeDetailsModel model)
@@ -180,6 +188,21 @@ namespace LMS_WebAPI_ServiceHelpers
             {
 
                 var result = user.EditEmployeeExperienceDetails(experienceDetails, employeeId);
+
+                return result;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
+        public bool EditEmployeeSkills(List<EmployeeSkillDetails> skills, int employeeId)
+        {
+            try
+            {
+
+                var result = user.EditEmployeeSkills(skills, employeeId);
 
                 return result;
             }

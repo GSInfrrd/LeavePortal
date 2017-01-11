@@ -62,6 +62,15 @@ namespace EmployeeLeaveManagementWebAPI.Controllers
         }
 
 
+        [HttpPost]
+        [Route("EditEmployeeSkills")]
+        public bool EditEmployeeSkills(List<EmployeeSkillDetails> skills, int employeeId)
+        {
+            var result = userManager.EditEmployeeSkills(skills, employeeId);
+            return true;
+        }
+
+
         [AllowAnonymous]
         [HttpGet]
         [Route("getProfileImage")]

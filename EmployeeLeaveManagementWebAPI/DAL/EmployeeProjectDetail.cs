@@ -21,8 +21,12 @@ namespace LMS_WebAPI_DAL
         public Nullable<System.DateTime> ModifiedDate { get; set; }
         public string CreatedBy { get; set; }
         public string ModifiedBy { get; set; }
+        public Nullable<bool> IsActive { get; set; }
+        public Nullable<System.DateTime> StartDate { get; set; }
+        public Nullable<System.DateTime> EndDate { get; set; }
     
         public virtual EmployeeDetail EmployeeDetail { get; set; }
         public virtual MasterDataValue MasterDataValue { get; set; }
+        public virtual ProjectMaster ProjectMaster { get; set; }
     }
 }

@@ -9,9 +9,11 @@ using System.Web.Mvc;
 
 namespace EmployeeLeaveManagementWebAPI.Controllers
 {
+    [System.Web.Http.RoutePrefix("api/Holiday")]
     public class HolidayController : ApiController
     {
        HolidayManagement holidayManager = new HolidayManagement();
+        EmployeeLeaveTransactionManagement eltm = new EmployeeLeaveTransactionManagement();
 
         [System.Web.Http.HttpPost]
      
@@ -71,6 +73,31 @@ namespace EmployeeLeaveManagementWebAPI.Controllers
             {
                 throw ex;
             }
+        }
+
+        [System.Web.Http.Route("GetCalendarEvents")]
+        public List<CalendarEvents> GetCalendarEvents(int employeeId)
+        {
+            var calendarEvents = new List<CalendarEvents>();
+            var holidayList = holidayManager.GetHolidayList();
+            var leaveList = eltm.GetEmployeeLeaveTransaction(employeeId, 0);
+            
+            foreach(var item in holidayList)
+            {
+                var events = new CalendarEvents();
+                events.Title = item.Description;
+                events.StartDate =item.Date.Value.ToShortDateString();
+                calendarEvents.Add(events);
+            }
+            foreach(var leave in leaveList)
+            {
+                var events = new CalendarEvents();
+                events.Title = leave.LeaveTypeName;
+                events.StartDate = leave.FromDate.ToShortDateString();
+                events.EndDate = leave.ToDate.Value.ToShortDateString();
+                calendarEvents.Add(events);
+            }
+            return calendarEvents;
         }
 
     }

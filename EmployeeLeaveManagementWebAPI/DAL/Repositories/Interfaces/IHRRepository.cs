@@ -16,5 +16,9 @@ namespace LMS_WebAPI_DAL.Repositories.Interfaces
 
         List<ConsolidatedEmployeeLeaveDetailsModel> GetReportData(string fromDate,string toDate,List<int> employeeId, out List<DetailedLeaveReport> detailsList);
        ConsolidatedEmployeeLeaveDetailsModel GetChartDetails(int employeeId);
+
+        bool AddNewMasterDataValues(int masterDataType, string masterDataValue);
+        bool AddNewProjectInfo(string projectName, string description, string technology, DateTime startDate, int refManager);
+        List<ProjectsList> GetProjectsList();
     }
 }

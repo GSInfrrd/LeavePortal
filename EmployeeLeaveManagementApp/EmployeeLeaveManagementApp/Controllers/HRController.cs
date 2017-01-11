@@ -22,7 +22,7 @@ namespace EmployeeLeaveManagementApp.Controllers
             if (null != Session[Constants.SESSION_OBJ_USER])
             {
                 var model = new List<EmployeeDetailsModel>();
-                model = await hrOperations.GetManagerListAsync(19);
+                model = await hrOperations.GetManagerListAsync(19);              
                 return View(model);
             }
             else
@@ -35,6 +35,14 @@ namespace EmployeeLeaveManagementApp.Controllers
         {
             var model = new List<EmployeeDetailsModel>();
             model = await hrOperations.GetManagerListAsync(refLevel);
+            return Json(new { data = model });
+
+        }
+
+        public async Task<JsonResult> GetProjectsList()
+        {
+            var model = new List<ProjectsList>();
+            model = await hrOperations.GetProjectsListAsync();
             return Json(new { data = model });
 
         }
@@ -76,7 +84,7 @@ namespace EmployeeLeaveManagementApp.Controllers
             }
         }
 
-        public ActionResult AddLeaves()
+        public ActionResult AddMasterData()
         {
             if (null != Session[Constants.SESSION_OBJ_USER])
             {
@@ -87,7 +95,11 @@ namespace EmployeeLeaveManagementApp.Controllers
                 return RedirectToAction("Login", "Account");
             }
         }
-
+        public async Task<JsonResult> AddNewMasterDataValues(int masterDataType,string masterDataValue)
+        {
+            var result =await hrOperations.AddNewMasterDataValuesAsync(masterDataType, masterDataValue);
+            return Json(new { result = result });
+        }
 
         public async Task<JsonResult> AddHolidays(DateTime date, string description, bool? active = true)
         {
@@ -302,7 +314,17 @@ namespace EmployeeLeaveManagementApp.Controllers
             return Json(new { result = model });
         }
 
+        public async Task<JsonResult> AddNewProjectInfo(string projectName,string description,string technology,DateTime startDate,int refManager)
+        {
+            var model = false;
 
+            if (null != Session[Constants.SESSION_OBJ_USER])
+            {
+                 model = await hrOperations.AddNewProjectInfoAsync(projectName,description,technology,startDate,refManager);
+
+            }
+            return Json(new { result = model });
+        }
 
 
     }

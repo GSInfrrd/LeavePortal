@@ -31,11 +31,12 @@ namespace LMS_WebAPI_DAL.Repositories
                         Country = model.Country,
                         CreatedDate = DateTime.Now,
                         EmpNumber = model.EmployeeNumber.ToString(),
-                        PhoneNumber=model.Telephone,
-                        RefHierarchyLevel=model.RefHierarchyLevel,
-                        ManagerId=Convert.ToInt32(model.ManagerName),
-                        DateOfJoining=model.DateOfJoining,                    
-                    ImagePath = imageBase64Data
+                        PhoneNumber = model.Telephone,
+                        RefHierarchyLevel = model.RefHierarchyLevel,
+                        ManagerId = Convert.ToInt32(model.ManagerName),
+                        DateOfJoining = model.DateOfJoining,
+                        ImagePath = imageBase64Data,
+                        RefEmployeeType = model.EmployeeType
 
 
                     };
@@ -64,13 +65,21 @@ namespace LMS_WebAPI_DAL.Repositories
                     };
                     ctx.EmployeeExperienceDetails.Add(employeeExperienceDetails);
                     ctx.SaveChanges();
-                    //List<EmployeeSkill> empSkillList = new List<EmployeeSkill>();
                     foreach (var skill in model.Skills)
                     {
                         var empSkill = new EmployeeSkill();
                         empSkill.RefEmployeeId = id;
                         empSkill.Skill = skill.SkillName;
                         ctx.EmployeeSkills.Add(empSkill);
+                        ctx.SaveChanges();
+                    }
+                    if (model.Projects != null)
+                    {
+                        var projectDetails = new EmployeeProjectDetail();
+                        projectDetails.RefEmployeeId = id;
+                        projectDetails.RefProjectId = model.Projects[0].Id;
+                        projectDetails.CreatedDate = DateTime.Now;
+                        ctx.EmployeeProjectDetails.Add(projectDetails);
                         ctx.SaveChanges();
                     }
                     var userDetails = new UserAccount
@@ -102,20 +111,20 @@ namespace LMS_WebAPI_DAL.Repositories
             {
                 using (var ctx = new LeaveManagementSystemEntities1())
                 {
-                  var empList   = ctx.EmployeeDetails.ToList();
-                    foreach(var item in empList)
+                    var empList = ctx.EmployeeDetails.ToList();
+                    foreach (var item in empList)
                     {
                         var listItem = new EmployeeDetailsModel();
                         listItem.Id = item.Id;
                         listItem.FirstName = item.FirstName;
                         listItem.LastName = item.LastName;
-                        listItem.ManagerName =item.ManagerId!=null?ctx.EmployeeDetails.FirstOrDefault(i => i.Id == item.ManagerId).FirstName:string.Empty;
-                        listItem.DateOfJoining =Convert.ToDateTime(item.DateOfJoining);
-                        listItem.EmployeeNumber =Convert.ToInt32(item.EmpNumber);
-                        listItem.RoleName= item.RefRoleId != 0 ? ctx.MasterDataValues.FirstOrDefault(i => i.Id == item.RefRoleId).Value : string.Empty;
+                        listItem.ManagerName = item.ManagerId != null ? ctx.EmployeeDetails.FirstOrDefault(i => i.Id == item.ManagerId).FirstName : string.Empty;
+                        listItem.DateOfJoining = Convert.ToDateTime(item.DateOfJoining);
+                        listItem.EmployeeNumber = Convert.ToInt32(item.EmpNumber);
+                        listItem.RoleName = item.RefRoleId != 0 ? ctx.MasterDataValues.FirstOrDefault(i => i.Id == item.RefRoleId).Value : string.Empty;
                         list.Add(listItem);
                     }
-                    var leaveDetails = ctx.EmployeeLeaveTransactions.GroupBy(x=>x.CreatedDate.Month).ToList();
+                    var leaveDetails = ctx.EmployeeLeaveTransactions.GroupBy(x => x.CreatedDate.Month).ToList();
 
                 }
                 return list;
@@ -133,13 +142,13 @@ namespace LMS_WebAPI_DAL.Repositories
             {
                 using (var ctx = new LeaveManagementSystemEntities1())
                 {
-                   var empList = ctx.EmployeeDetails.Where(i=>i.RefHierarchyLevel<refLevel).ToList();
+                    var empList = ctx.EmployeeDetails.Where(i => i.RefHierarchyLevel < refLevel).ToList();
                     foreach (var item in empList)
                     {
                         var listItem = new EmployeeDetailsModel();
                         listItem.Id = item.Id;
                         listItem.FirstName = item.FirstName;
-                        listItem.LastName = item.LastName;                    
+                        listItem.LastName = item.LastName;
                         list.Add(listItem);
                     }
 
@@ -152,7 +161,7 @@ namespace LMS_WebAPI_DAL.Repositories
             }
         }
 
-        public List<ConsolidatedEmployeeLeaveDetailsModel> GetReportData(string fromDate,string toDate,List<int> employeeId,out List<DetailedLeaveReport> detailsList)
+        public List<ConsolidatedEmployeeLeaveDetailsModel> GetReportData(string fromDate, string toDate, List<int> employeeId, out List<DetailedLeaveReport> detailsList)
         {
             var list = new List<ConsolidatedEmployeeLeaveDetailsModel>();
             var ddList = new List<DetailedLeaveReport>();
@@ -168,20 +177,20 @@ namespace LMS_WebAPI_DAL.Repositories
                 using (var ctx = new LeaveManagementSystemEntities1())
                 {
                     var totalLeaves = ctx.LeaveMasters.Select(x => x.Count).Sum();
-                    if (employeeId[0]==0)
+                    if (employeeId[0] == 0)
                     {
                         dataList = ctx.EmployeeDetails.Include("EmployeeLeaveTransactionHistories").Include("WorkFromHomes").ToList();
                         detailedDataList = ctx.EmployeeLeaveTransactionHistories.Where(i => i.FromDate >= reportFromDate && i.ToDate <= reportToDate).ToList();
-                        detailedWfhList= ctx.WorkFromHomes.Where(i => i.Date >= reportFromDate && i.Date <= reportToDate).ToList();
+                        detailedWfhList = ctx.WorkFromHomes.Where(i => i.Date >= reportFromDate && i.Date <= reportToDate).ToList();
                     }
-                    else if(employeeId[0]!=0)
+                    else if (employeeId[0] != 0)
                     {
                         foreach (var item in employeeId)
                         {
 
                             empDatalist = ctx.EmployeeDetails.Include("EmployeeLeaveTransactionHistories").Include("WorkFromHomes").FirstOrDefault(x => x.Id == item);
-                            detailedDataList = ctx.EmployeeLeaveTransactionHistories.Where(i=>i.RefEmployeeId==item && i.FromDate>=reportFromDate && i.ToDate<=reportToDate).ToList();
-                            detailedWfhList = ctx.WorkFromHomes.Where(i =>i.RefEmployeeId== item && i.Date >= reportFromDate && i.Date <= reportToDate).ToList();
+                            detailedDataList = ctx.EmployeeLeaveTransactionHistories.Where(i => i.RefEmployeeId == item && i.FromDate >= reportFromDate && i.ToDate <= reportToDate).ToList();
+                            detailedWfhList = ctx.WorkFromHomes.Where(i => i.RefEmployeeId == item && i.Date >= reportFromDate && i.Date <= reportToDate).ToList();
 
                             dataList.Add(empDatalist);
                         }
@@ -208,16 +217,16 @@ namespace LMS_WebAPI_DAL.Repositories
                     {
                         var listItem = new ConsolidatedEmployeeLeaveDetailsModel();
                         listItem.RefEmployeeId = item.Id;
-                        listItem.EmployeeName = item.FirstName;                
-                        listItem.AppliedLeavesCount =(int)item.EmployeeLeaveTransactionHistories.Where(i=>i.RefEmployeeId==item.Id && i.FromDate>=reportFromDate && i.ToDate<=reportToDate).Select(i=>i.NumberOfWorkingDays).Sum();
-                        listItem.LossofPayCount =listItem.AppliedLeavesCount>totalLeaves? listItem.AppliedLeavesCount-totalLeaves:0;
-                    listItem.WorkFromHomeCount = item.WorkFromHomes.Where(i=>i.RefEmployeeId==item.Id && i.Date>=reportFromDate && i.Date<=reportToDate).ToList().Count;
-                        listItem.CompOffCount = (int)item.EmployeeLeaveTransactionHistories.Where(i => i.RefEmployeeId == item.Id && i.RefLeaveType==(int)LeaveType.CompOff && i.FromDate >= reportFromDate && i.ToDate <= reportToDate).Select(i=>i.NumberOfWorkingDays).Sum();
-                        listItem.AdvancedLeavesCount = (int)item.EmployeeLeaveTransactionHistories.Where(i => i.RefEmployeeId == item.Id && i.RefLeaveType == (int)LeaveType.AdvanceLeave && i.FromDate >= reportFromDate && i.ToDate <= reportToDate).Select(i=>i.NumberOfWorkingDays).Sum();
+                        listItem.EmployeeName = item.FirstName;
+                        listItem.AppliedLeavesCount = (int)item.EmployeeLeaveTransactionHistories.Where(i => i.RefEmployeeId == item.Id && i.FromDate >= reportFromDate && i.ToDate <= reportToDate).Select(i => i.NumberOfWorkingDays).Sum();
+                        listItem.LossofPayCount = listItem.AppliedLeavesCount > totalLeaves ? listItem.AppliedLeavesCount - totalLeaves : 0;
+                        listItem.WorkFromHomeCount = item.WorkFromHomes.Where(i => i.RefEmployeeId == item.Id && i.Date >= reportFromDate && i.Date <= reportToDate).ToList().Count;
+                        listItem.CompOffCount = (int)item.EmployeeLeaveTransactionHistories.Where(i => i.RefEmployeeId == item.Id && i.RefLeaveType == (int)LeaveType.CompOff && i.FromDate >= reportFromDate && i.ToDate <= reportToDate).Select(i => i.NumberOfWorkingDays).Sum();
+                        listItem.AdvancedLeavesCount = (int)item.EmployeeLeaveTransactionHistories.Where(i => i.RefEmployeeId == item.Id && i.RefLeaveType == (int)LeaveType.AdvanceLeave && i.FromDate >= reportFromDate && i.ToDate <= reportToDate).Select(i => i.NumberOfWorkingDays).Sum();
                         list.Add(listItem);
                     }
-              
-                  
+
+
                 }
                 detailsList = ddList;
                 return list;
@@ -238,17 +247,17 @@ namespace LMS_WebAPI_DAL.Repositories
                 using (var ctx = new LeaveManagementSystemEntities1())
                 {
                     var totalLeaves = ctx.LeaveMasters.Select(x => x.Count).Sum();
-                            empDatalist = ctx.EmployeeDetails.Include("EmployeeLeaveTransactionHistories").Include("WorkFromHomes").FirstOrDefault(x => x.Id == employeeId);
+                    empDatalist = ctx.EmployeeDetails.Include("EmployeeLeaveTransactionHistories").Include("WorkFromHomes").FirstOrDefault(x => x.Id == employeeId);
 
 
 
-                        listItem.RefEmployeeId = empDatalist.Id;
-                        listItem.EmployeeName = empDatalist.FirstName;
-                        listItem.AppliedLeavesCount =(int) empDatalist.EmployeeLeaveTransactionHistories.Where(i => i.RefEmployeeId == empDatalist.Id && (i.RefLeaveType!=(int)LeaveType.AdvanceLeave || i.RefLeaveType != (int)LeaveType.CompOff)).Select(i => i.NumberOfWorkingDays).Sum();
-                        listItem.LossofPayCount = listItem.AppliedLeavesCount > totalLeaves ? listItem.AppliedLeavesCount - totalLeaves : 0;
-                        listItem.WorkFromHomeCount = empDatalist.WorkFromHomes.Where(i => i.RefEmployeeId == empDatalist.Id).ToList().Count;
-                        listItem.CompOffCount = (int)empDatalist.EmployeeLeaveTransactionHistories.Where(i => i.RefEmployeeId == empDatalist.Id && i.RefLeaveType == (int)LeaveType.CompOff ).Select(i => i.NumberOfWorkingDays).Sum();
-                        listItem.AdvancedLeavesCount =(int) empDatalist.EmployeeLeaveTransactionHistories.Where(i => i.RefEmployeeId == empDatalist.Id && i.RefLeaveType == (int)LeaveType.AdvanceLeave).Select(i => i.NumberOfWorkingDays).Sum();
+                    listItem.RefEmployeeId = empDatalist.Id;
+                    listItem.EmployeeName = empDatalist.FirstName;
+                    listItem.AppliedLeavesCount = (int)empDatalist.EmployeeLeaveTransactionHistories.Where(i => i.RefEmployeeId == empDatalist.Id && (i.RefLeaveType != (int)LeaveType.AdvanceLeave || i.RefLeaveType != (int)LeaveType.CompOff)).Select(i => i.NumberOfWorkingDays).Sum();
+                    listItem.LossofPayCount = listItem.AppliedLeavesCount > totalLeaves ? listItem.AppliedLeavesCount - totalLeaves : 0;
+                    listItem.WorkFromHomeCount = empDatalist.WorkFromHomes.Where(i => i.RefEmployeeId == empDatalist.Id).ToList().Count;
+                    listItem.CompOffCount = (int)empDatalist.EmployeeLeaveTransactionHistories.Where(i => i.RefEmployeeId == empDatalist.Id && i.RefLeaveType == (int)LeaveType.CompOff).Select(i => i.NumberOfWorkingDays).Sum();
+                    listItem.AdvancedLeavesCount = (int)empDatalist.EmployeeLeaveTransactionHistories.Where(i => i.RefEmployeeId == empDatalist.Id && i.RefLeaveType == (int)LeaveType.AdvanceLeave).Select(i => i.NumberOfWorkingDays).Sum();
 
 
                 }
@@ -260,6 +269,78 @@ namespace LMS_WebAPI_DAL.Repositories
             }
         }
 
+        public bool AddNewMasterDataValues(int masterDataType, string masterDataValue)
+        {
+            try
+            {
 
+                using (var ctx = new LeaveManagementSystemEntities1())
+                {
+                    var data = new MasterDataValue();
+                    data.Value = masterDataValue;
+                    data.RefMasterType = masterDataType;
+                    ctx.MasterDataValues.Add(data);
+                    ctx.SaveChanges();
+                }
+                return true;
+            }
+            catch
+            {
+                throw;
+            }
+        }
+
+        public bool AddNewProjectInfo(string projectName, string description, string technology, DateTime startDate, int refManager)
+        {
+            try
+            {
+                using (var ctx = new LeaveManagementSystemEntities1())
+                {
+                    var projectInfo = new ProjectMaster();
+                    projectInfo.ProjectName = projectName;
+                    projectInfo.Description = description;
+                    projectInfo.IsActive = true;
+                    projectInfo.StartDate = startDate;
+                    projectInfo.Technology = technology;
+                    projectInfo.RefManagerId = refManager;
+                    ctx.ProjectMasters.Add(projectInfo);
+                    ctx.SaveChanges();
+
+                }
+                return true;
+            }
+            catch
+            {
+                throw;
+            }
+        }
+
+        public List<ProjectsList> GetProjectsList()
+        {
+            try
+            {
+                var projectsList = new List<ProjectsList>();
+                using (var ctx = new LeaveManagementSystemEntities1())
+                {
+                    var list = ctx.ProjectMasters.ToList();
+                    foreach (var item in list)
+                    {
+                        var project = new ProjectsList();
+                        if (item.IsActive)
+                        {
+                            project.Id = item.Id;
+                            project.ProjectName = item.ProjectName;
+                            projectsList.Add(project);
+                        }
+                    }
+                }
+                return projectsList;
+            }
+            catch
+            {
+                throw;
+            }
+
+        }
     }
 }

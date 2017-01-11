@@ -67,4 +67,12 @@ namespace LMS_WebAPI_Utils
         [Description("LeaveLimit")]
         limit = 8
     }
+
+    public enum ResponseCodes
+    {
+        OK = 1000,
+        DateAlreadyExists = 1001,
+        NoLeaveBalance = 1002
+
+    }
 }

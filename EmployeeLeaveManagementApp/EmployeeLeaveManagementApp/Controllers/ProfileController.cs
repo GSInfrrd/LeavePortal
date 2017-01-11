@@ -16,7 +16,7 @@ namespace EmployeeLeaveManagementApp.Controllers
         // GET: Profile
         public async Task<JsonResult> EditEmployeeDetails(EmployeeDetailsModel model)
         {
-            var result = usrManagement.EditEmployeeDetailsAsync(model);
+            var result =await usrManagement.EditEmployeeDetailsAsync(model);
             return Json(new { result=result});
         }
 
@@ -30,7 +30,7 @@ namespace EmployeeLeaveManagementApp.Controllers
                 item.ToDate = Convert.ToDateTime(toDate);
             }
             var employeeId = ((UserAccount)Session[Constants.SESSION_OBJ_USER]).RefEmployeeId;
-            var result = usrManagement.EditEmployeeEducationDetailsAsync(educationDetails,employeeId);
+            var result = await usrManagement.EditEmployeeEducationDetailsAsync(educationDetails,employeeId);
             return Json(new { result = result });
         }
 
@@ -46,9 +46,15 @@ namespace EmployeeLeaveManagementApp.Controllers
                 item.ToDate = Convert.ToDateTime(toDate);
             }
             var employeeId = ((UserAccount)Session[Constants.SESSION_OBJ_USER]).RefEmployeeId;
-            var result = usrManagement.EditEmployeeExperienceDetailsAsync(experienceDetails, employeeId);
+            var result = await usrManagement.EditEmployeeExperienceDetailsAsync(experienceDetails, employeeId);
             return Json(new { result = result });
         }
 
+        public async Task<JsonResult> EditEmployeeSkills(List<EmployeeSkillDetails> skills)
+        {
+            var employeeId = ((UserAccount)Session[Constants.SESSION_OBJ_USER]).RefEmployeeId;
+            var result = await usrManagement.EditEmployeeSkillsAsync(skills, employeeId);
+            return Json(new { result = result });
+        }
     }
 }

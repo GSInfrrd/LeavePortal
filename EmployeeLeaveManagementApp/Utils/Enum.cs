@@ -80,4 +80,22 @@ namespace LMS_WebAPP_Utils
         LeaveNotification = 27,
 
     }
+
+    public enum MasterDataType
+    {
+        [Description("Roles")]
+        Role = 1,
+        [Description("Projects")]
+        ProjectName = 2,
+        [Description("Leave Type")]
+        LeaveType = 3,
+        [Description("Leave Status")]
+        LeaveStatus = 4,
+        [Description("Hierarchy Level")]
+        HierarchyLevel = 5,
+        [Description("Work From Home Reasons")]
+        WorkFromHomeReason = 6,
+        [Description("Skills")]
+        Skills = 7
+    }
 }

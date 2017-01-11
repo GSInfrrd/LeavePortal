@@ -93,13 +93,13 @@ namespace LMS_WebAPP_ServiceHelpers
             }
         }
 
-        
-                 public async Task<LeaveReportModel> GetLeaveReportDetails(int empId,int year)
+
+        public async Task<LeaveReportModel> GetLeaveReportDetails(int empId, int year)
         {
             using (HttpClient client = new HttpClient())
             {
                 const string URL = "http://localhost:64476/api/Account/GetUserDetails";
-                urlParameters = "?empId=" + empId+"&year="+year;
+                urlParameters = "?empId=" + empId + "&year=" + year;
                 client.BaseAddress = new Uri(URL);
                 // Add an Accept header for JSON format.
                 client.DefaultRequestHeaders.Accept.Add(
@@ -162,7 +162,7 @@ namespace LMS_WebAPP_ServiceHelpers
                 new MediaTypeWithQualityHeaderValue("application/json"));
 
                 // List data response.
-                HttpResponseMessage response = await client.PostAsJsonAsync(URL,model);  // Blocking call!
+                HttpResponseMessage response = await client.PostAsJsonAsync(URL, model);  // Blocking call!
                 if (response.IsSuccessStatusCode)
                 {
                     // Parse the response body. Blocking!
@@ -177,16 +177,16 @@ namespace LMS_WebAPP_ServiceHelpers
             }
         }
 
-        public async Task<bool> EditEmployeeEducationDetailsAsync(List<EmployeeEducationDetails> educationDetails,int employeeId)
+        public async Task<bool> EditEmployeeEducationDetailsAsync(List<EmployeeEducationDetails> educationDetails, int employeeId)
         {
             using (HttpClient client = new HttpClient())
             {
                 string json = JsonConvert.SerializeObject(educationDetails);
                 StringContent sc = new StringContent(json, Encoding.UTF8, "application/json");
 
-                 string URL = "http://localhost:64476/api/Profile/EditEmployeeEducationDetails?employeeId=";
+                string URL = "http://localhost:64476/api/Profile/EditEmployeeEducationDetails?employeeId=";
                 //urlParameters = "?employeeId="+employeeId;
-                URL=URL+ employeeId;
+                URL = URL + employeeId;
                 client.BaseAddress = new Uri(URL);
 
                 // Add an Accept header for JSON format.
@@ -194,7 +194,7 @@ namespace LMS_WebAPP_ServiceHelpers
                 new MediaTypeWithQualityHeaderValue("application/json"));
 
                 // List data response.
-                HttpResponseMessage response = await client.PostAsync(URL,sc);  // Blocking call!
+                HttpResponseMessage response = await client.PostAsync(URL, sc);  // Blocking call!
                 if (response.IsSuccessStatusCode)
                 {
                     // Parse the response body. Blocking!
@@ -213,11 +213,9 @@ namespace LMS_WebAPP_ServiceHelpers
         {
             using (HttpClient client = new HttpClient())
             {
-                string json = JsonConvert.SerializeObject(experienceDetails);
-                StringContent sc = new StringContent(json, Encoding.UTF8, "application/json");
-
+               
                 string URL = "http://localhost:64476/api/Profile/EditEmployeeExperienceDetails";
-               // urlParameters = "?employeeId="+employeeId;
+                // urlParameters = "?employeeId="+employeeId;
                 URL = URL + "?employeeId=" + employeeId;
                 client.BaseAddress = new Uri(URL);
 
@@ -240,6 +238,36 @@ namespace LMS_WebAPP_ServiceHelpers
                 }
             }
         }
+
+        public async Task<bool> EditEmployeeSkillsAsync(List<EmployeeSkillDetails> skills, int employeeId)
+        {
+            using (HttpClient client = new HttpClient())
+            {
+                string URL = "http://localhost:64476/api/Profile/EditEmployeeSkills";
+                // urlParameters = "?employeeId="+employeeId;
+                URL = URL + "?employeeId=" + employeeId;
+                client.BaseAddress = new Uri(URL);
+
+                // Add an Accept header for JSON format.
+                //client.DefaultRequestHeaders.Accept.Add(
+                //new MediaTypeWithQualityHeaderValue("application/json"));
+
+                // List data response.
+                HttpResponseMessage response = await client.PostAsJsonAsync(URL, skills);  // Blocking call!
+                if (response.IsSuccessStatusCode)
+                {
+                    // Parse the response body. Blocking!
+                    var dataObjects = await response.Content.ReadAsAsync<bool>();
+                    return dataObjects;
+                }
+                else
+                {
+                    Console.WriteLine("{0} ({1})", (int)response.StatusCode, response.ReasonPhrase);
+                    return false;
+                }
+            }
+        }
+
 
     }
 }

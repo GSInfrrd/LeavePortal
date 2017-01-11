@@ -6,7 +6,7 @@
 
 <link rel="stylesheet" href="../../plugins/select2/select2.min.css">
 <link rel="stylesheet" href="../../dist/css/AdminLTE.min.css">
-<!-- Morris chart -->
+<link href="~/plugins/Toastr/toastr.css" rel="stylesheet" />
 
 <section class="content-header" style="height:41px">
     <h1 class="col-md-9" style="padding-left:0px">
@@ -64,7 +64,7 @@
                             <option value="3">Comp Off</option>
                         </select>
                     </div>
-                    <div class="form-group">
+                    @*<div class="form-group">
                         <label for="txtlastname">Export As</label>
                         <select class="form-control select2" style="width: 100%;" id="ddlExportType">
                             <option value="0">Select</option>
@@ -72,11 +72,11 @@
                             <option value="2">Share as Attachment</option>
 
                         </select>
-                    </div>
+                    </div>*@
                 </div>
-                <div class="box-footer">
+                @*<div class="box-footer">
                     <button type="button" id="btnGenerateReport" style="background-color:#222d32 !important" class="btn btn-primary">Submit</button>
-                </div>
+                </div>*@
             </div>
             </div>
         <div class="col-md-6">
@@ -141,7 +141,7 @@
 <!-- FLOT PIE PLUGIN - also used to draw donut charts -->
 <script src="~/plugins/flot/jquery.flot.pie.min.js"></script>
 
-
+<script src="../../plugins/Toastr/toastr.js"></script>
 <script>
     var reportFromDate;
     var reportToDate;
@@ -154,8 +154,8 @@
             var PieData = [
                               {
                                   value: 1,
-                                  color: "grey",
-                                  highlight: "grey",
+                                  color: "#d7d9dd",
+                                  highlight: "#d7d9dd",
                                   label: "No Data"
                               },                           
                             
@@ -213,8 +213,8 @@
                                 var PieData = [
                                   {
                                       value: 1,
-                                      color: "grey",
-                                      highlight: "grey",
+                                      color: "#d7d9dd",
+                                      highlight: "#d7d9dd",
                                       label: "No Data"
                                   },
                                 ]
@@ -329,8 +329,8 @@
                     var PieData = [
                       {
                           value: 1,
-                          color: "grey",
-                          highlight: "grey",
+                          color: "#d7d9dd",
+                          highlight: "#d7d9dd",
                           label: "No Data"
                       },   
                       ]
@@ -437,10 +437,6 @@
 
 
     $(document).on('click', '#btnSendMail', function (e) {
-        if ($("#ddlEmployeeName").val()==null && $("#ddlLeaveType").val()==null && $("#ddlExportType").val()=="0" && reportFromDate==undefined && reportToDate==undefined)
-        {
-
-        }
         var employeeId = $("#ddlEmployeeName").val();
         var leaveType = $("#ddlLeaveType").val();
         //var exportAs = $("#ddlExportType").val();
@@ -455,8 +451,18 @@
         for (var i = 0; i < leaveType.length; i++) {
             leaveData += leaveType[i] + ":";
         }
-        window.location.href = "/HR/GenerateReports/?employeeId=" + data + "&leaveType=" + leaveData + "&exportAs=" + exportAs + "&fromDate=" + fromDate + "&toDate=" + toDate;
+        $.ajax({
+            cache: false,
+            type: 'post',
+            url: '/HR/GenerateReports',
+            data: { employeeId:data,leaveType:leaveData,exportAs: exportAs,fromDate:fromDate,toDate:toDate },
+            dataType: "json",
+            success: function (data) {
+                debugger;
+                showMessage("Mail sent successfully", "1", true);
 
+            }
+        });
     }
     );
     $(document).on('click', '#btnExportDetails', function (e) {
@@ -484,5 +490,25 @@
             + label
             + "<br>"
             + Math.round(series.percent) + "%</div>";
+    }
+
+    function showMessage(message, Type, fadeOut) {
+        //To clear existing toastr
+        toastr.clear();
+        //fadeOut = false;
+        var position = "bottom-full-width";
+        toastr.options.positionClass = 'toast-' + position;
+        if (typeof fadeOut !== "undefined" && fadeOut == false) { toastr.options.timeOut = 0; }
+        else {
+            toastr.options.timeOut = 5000;
+        }
+        switch (Type) {
+            case "1":
+                toastr.success(message);
+                break;
+            case "2":
+                toastr.error(message);
+                break;
+        }
     }
 </script>

@@ -1,0 +1,170 @@
+﻿
+@{
+    ViewBag.Title = "Add Master Data";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<link href="~/plugins/Toastr/toastr.css" rel="stylesheet" />
+<section class="content-header">
+    <h1>Add Master Data</h1>
+</section>
+<section class="content">
+    <div class="row">
+
+        <div class="col-md-12">
+            <!-- general form elements -->
+            <div class="box">
+                <!-- /.box-header -->
+           
+                <div class="box-body">
+
+                    <div class="form-group">
+                        <label for="txtFirstName">Master Data Type</label>
+                        <select id="ddlMasterData" class="form-control skills" style="width: 100%;">
+                            <option value="0">Select</option>
+                          @foreach (var value in Enum.GetValues(typeof(LMS_WebAPP_Utils.MasterDataType)))
+                          {
+                              <option value="@Convert.ToInt16((LMS_WebAPP_Utils.MasterDataType)value)">@(LMS_WebAPP_Utils.CommonMethods.Description((LMS_WebAPP_Utils.MasterDataType)Convert.ToInt16((LMS_WebAPP_Utils.MasterDataType)value)))</option>
+                          }
+                        </select>
+                    </div>
+                    <div class="form-group" id="divMasterDataValue">
+                        <label>Master Data Value</label>
+                        <input type="text" class="form-control" id="txtMasterDataValue" placeholder="Value">
+                    </div>
+                    <div id="divProjectInfo" style="display:none">
+                        <div class="form-group">
+                            <label>Project Name</label>
+                            <input type="text" class="form-control" id="txtProjectName" placeholder="Project Name">
+                        </div>
+                        <div class="form-group">
+                            <label>Description</label>
+                            <input type="text" class="form-control" id="txtProjectDescription" placeholder="Project Description">
+                        </div>
+                        <div class="form-group">
+                            <label>Technology</label>
+                            <input type="text" class="form-control" id="txtTechnology" placeholder="Technology">
+                        </div>
+                        <div class="form-group">
+                            <label>Start Date</label>
+                            <input type="text" class="form-control" id="txtStartDate">
+                        </div>
+                        <div class="form-group">
+                            <label>Manager</label>
+                            <select class="form-control managerSelect" style="width: 100%;" id="ddlManagerName">
+                                <option value="">Select</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <div class="box-footer">
+                    <button type="submit" id="btnSubmitMasterData" class="btn btn-primary">Submit</button>
+                    <button type="submit" id="btnProjectInfoSubmit" class="btn btn-primary" style="display:none">Submit</button>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <!-- /.row -->
+</section>
+<script src="../../plugins/Toastr/toastr.js"></script>
+<script>
+    $(document).ready(function () {
+        $(function () {
+            $('#txtStartDate').datepicker({
+                autoclose: true
+            });
+        });
+    });
+    $(document).on('change', "#ddlMasterData", function (e) {
+        if($("#ddlMasterData").val()==2)
+        {
+            $.ajax({
+                cache: false,
+                type: 'post',
+                url: '/HR/GetManagerList',
+                data:{refLevel:19},
+                 dataType: "json",
+                success: function (data) {
+                    for (var i = 0; i < data.data.length; i++) {
+                        $("#ddlManagerName").append($('<option></option>').attr("value", data.data[i].Id).text(data.data[i].FirstName));
+                    }
+                }
+            });
+            $("#divMasterDataValue").hide();
+            $("#divProjectInfo").show();
+            $("#btnProjectInfoSubmit").show();
+            $("#btnSubmitMasterData").hide();
+        }
+        else
+        {
+            $("#divMasterDataValue").show();
+            $("#divProjectInfo").hide();
+            $("#btnProjectInfoSubmit").hide();
+            $("#btnSubmitMasterData").show();
+        }
+    });
+
+    $(document).on('click', "#btnSubmitMasterData", function (e) {
+        $.ajax({
+            cache: false,
+            type: 'post',
+            url: '/HR/AddNewMasterDataValues',
+            data: { masterDataType: $("#ddlMasterData").val(),masterDataValue:$("#txtMasterDataValue").val() },
+            dataType: "json",
+            success: function (data) {
+                $("#ddlMasterData").val(0);
+                $("#txtMasterDataValue").val("");
+                showMessage("Master data value added successfully", "1", true);
+
+            }
+        });
+
+    });
+
+    $(document).on('click', "#btnProjectInfoSubmit", function (e) {
+        $.ajax({
+            cache: false,
+            type: 'post',
+            url: '/HR/AddNewProjectInfo',
+            data: { projectName: $("#txtProjectName").val(),description:$("#txtProjectDescription").val(),technology:$("#txtTechnology").val(),startDate:$("#txtStartDate").val(),refManager:$("#ddlManagerName").val() },
+            dataType: "json",
+            success: function (data) {
+                $("#divMasterDataValue").show();
+                $("#divProjectInfo").hide();
+                $("#btnProjectInfoSubmit").hide();
+                $("#btnSubmitMasterData").show();
+                $("#ddlMasterData").val(0);
+                $("#txtProjectName").val("");
+                $("#txtProjectDescription").val("");
+                $("#txtTechnology").val("");
+                $("#ddlManagerName").val(0);
+                $("#txtStartDate").val("");
+                $("#txtMasterDataValue").val("");
+                showMessage("Project details added successfully", "1", true);
+
+            }
+        });
+
+    });
+
+    function showMessage(message, Type, fadeOut) {
+        //To clear existing toastr
+        toastr.clear();
+        //fadeOut = false;
+        var position = "bottom-full-width";
+        toastr.options.positionClass = 'toast-' + position;
+        if (typeof fadeOut !== "undefined" && fadeOut == false) { toastr.options.timeOut = 0; }
+        else {
+            toastr.options.timeOut = 5000;
+        }
+        switch (Type) {
+            case "1":
+                toastr.success(message);
+                break;
+            case "2":
+                toastr.error(message);
+                break;
+        }
+    }
+</script>

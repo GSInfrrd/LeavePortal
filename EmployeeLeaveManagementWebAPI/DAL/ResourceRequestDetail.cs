@@ -12,16 +12,17 @@ namespace LMS_WebAPI_DAL
     using System;
     using System.Collections.Generic;
     
-    public partial class ConsolidatedEmployeeLeaveDetail
+    public partial class ResourceRequestDetail
     {
-        public int Id { get; set; }
-        public int RefEmployeeId { get; set; }
-        public Nullable<int> EarnedLeavesCount { get; set; }
-        public Nullable<int> AppliedLeavesCount { get; set; }
-        public Nullable<int> WorkFromHomeCount { get; set; }
-        public Nullable<int> LossofPayCount { get; set; }
+        public long Id { get; set; }
+        public int RequestFromId { get; set; }
+        public int RequestToId { get; set; }
+        public string ResourceRequestTitle { get; set; }
+        public int NumberRequestedResources { get; set; }
+        public string Skills { get; set; }
+        public string Ticket { get; set; }
         public System.DateTime CreatedDate { get; set; }
-    
-        public virtual EmployeeDetail EmployeeDetail { get; set; }
+        public System.DateTime UpdatedDate { get; set; }
+        public string Status { get; set; }
     }
 }

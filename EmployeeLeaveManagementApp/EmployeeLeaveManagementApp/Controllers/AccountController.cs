@@ -157,6 +157,16 @@ namespace EmployeeLeaveManagementApp.Controllers
             }
         }
 
+        public ActionResult Calender()
+        {
+            var data = new List<CalendarEvents>();
+            var holidayMgt = new HolidayManagement();
+
+            var employeeId = ((UserAccount)Session[LMS_WebAPP_Utils.Constants.SESSION_OBJ_USER]).RefEmployeeId;
+            Task.Run(async () => { data = await holidayMgt.GetCalendarEventsAsync(employeeId); }).Wait();
+            return PartialView("_Calender", data);
+
+        }
 
         public async Task<ActionResult> Dashboard()
         {

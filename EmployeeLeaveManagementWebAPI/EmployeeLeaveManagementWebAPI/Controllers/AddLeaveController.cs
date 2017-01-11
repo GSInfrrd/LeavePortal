@@ -24,11 +24,11 @@ namespace EmployeeLeaveManagementWebAPI.Controllers
         }
         [System.Web.Http.AllowAnonymous]
         [System.Web.Http.HttpGet]
-        public bool CheckLeaveAvailability(int employeeId,bool status, DateTime fromDate, DateTime toDate)
+        public LeaveTransactionResponse CheckLeaveAvailability(int employeeId,DateTime fromDate, DateTime toDate)
         {
             AddLeaveManagement addLeaveMgt = new AddLeaveManagement();
             var result = addLeaveMgt.CheckLeaveAvailability(employeeId,fromDate,toDate);
-            return true;  
+            return result;  
         }
     }
 }

@@ -128,5 +128,34 @@ namespace LMS_WebAPP_ServiceHelpers
                 throw ex;
             }
         }
+
+        public async Task<List<CalendarEvents>> GetCalendarEventsAsync(int employeeId)
+        {
+            try
+            {
+                string URL = "http://localhost:64476/api/Holiday/GetCalendarEvents";
+                URL += "?employeeId=" + employeeId;
+                HttpClient client = new HttpClient();
+                client.BaseAddress = new Uri(URL);
+                // Add an Accept header for JSON format.
+                //client.DefaultRequestHeaders.Accept.Add(
+                //new MediaTypeWithQualityHeaderValue("application/json"));
+
+                // List data response.
+                HttpResponseMessage response = await client.GetAsync(URL); // Blocking call!
+                if (response.IsSuccessStatusCode)
+                {
+                    // Parse the response body. Blocking!
+                    var dataObjects = response.Content.ReadAsAsync<List<CalendarEvents>>().Result.ToList();
+                    return dataObjects;
+
+                }
+                return null;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
     }
 }

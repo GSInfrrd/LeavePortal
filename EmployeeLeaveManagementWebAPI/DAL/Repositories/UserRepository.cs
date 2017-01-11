@@ -71,9 +71,9 @@ namespace LMS_WebAPI_DAL.Repositories
                             var advanceLimit = (from n in ctx.MasterDataValues where n.RefMasterType == ad select n).FirstOrDefault();
                             var sickLeaveint = Convert.ToInt16(LeaveType.SickLeave);
                             var CasualLeaveint = Convert.ToInt16(LeaveType.CasualLeave);
-                            empDetails.TotalAdvanceLeaveToTake = (Convert.ToInt16(advanceLimit.Value) < leaveType.AdvancedLeaveCount) ? Convert.ToInt16(advanceLimit.Value) : leaveType.AdvancedLeaveCount;
-                            empDetails.TotalCasualLeave = leaveType.LeaveBalance + leaveType.RewardedLeaveCount;
-                            empDetails.TotalLeaveCount = leaveType.AdvancedLeaveCount + leaveType.LeaveBalance + leaveType.RewardedLeaveCount;
+                            empDetails.TotalAdvanceLeaveToTake = (Convert.ToInt16(advanceLimit.Value) < leaveType.SpentAdvanceLeave) ? Convert.ToInt16(advanceLimit.Value) : leaveType.SpentAdvanceLeave;
+                            empDetails.TotalCasualLeave = leaveType.EarnedCasualLeave + leaveType.RewardedLeaveCount;
+                            empDetails.TotalLeaveCount = leaveType.SpentAdvanceLeave + leaveType.EarnedCasualLeave + leaveType.RewardedLeaveCount;
                         }
 
                         empDetails.TotalSpent = (from c in ctx.EmployeeLeaveTransactions
@@ -127,7 +127,6 @@ namespace LMS_WebAPI_DAL.Repositories
                 throw ex;
             }
         }
-
 
         public LeaveReportModel GetLeaveReportDetails(int year, int employeeId = 0)
         {
@@ -206,14 +205,34 @@ namespace LMS_WebAPI_DAL.Repositories
             }
         }
 
-        public EmployeeDetail GetUserProfileDetails(int employeeId)
+        public EmployeeDetail GetUserProfileDetails(int employeeId, out List<MasterDataModel> skills)
         {
             try
             {
                 using (var ctx = new LeaveManagementSystemEntities1())
                 {
+                    var Skills = new List<MasterDataModel>();
                     var profileDetails = ctx.EmployeeDetails.Include("EmployeeEducationDetails").Include("EmployeeExperienceDetails").Include("UserAccounts").Include("EmployeeSkills").Include("MasterDataValue").FirstOrDefault(i => i.Id == employeeId);
-
+                    var allSkills = ctx.MasterDataValues.Where(i => i.RefMasterType == 7).ToList();
+                    foreach (var item in allSkills)
+                    {
+                        var skill = new MasterDataModel();
+                        skill.Id = item.Id;
+                        skill.Value = item.Value;
+                        skill.RefMasterType = item.RefMasterType;
+                        Skills.Add(skill);
+                    }
+                    skills = Skills;
+                    //var ProjectList = new List<ProjectsList>();
+                    //var projectDetails = ctx.ProjectMasters.ToList();
+                    //foreach ( var item in projectDetails)
+                    //{
+                    //    var project = new ProjectsList();
+                    //    project.Id = item.Id;
+                    //    project.ProjectName = item.ProjectName;
+                    //    ProjectList.Add(project);
+                    //}
+                    //projects = ProjectList;
                     return profileDetails;
                 }
             }
@@ -241,6 +260,9 @@ namespace LMS_WebAPI_DAL.Repositories
                     empData.PhoneNumber = model.Telephone;
                     empData.ModifiedDate = DateTime.Now;
                     empData.ModifiedBy = model.FirstName;
+                    empData.FacebookLink = model.FacebookLink;
+                    empData.TwitterLink = model.TwitterLink;
+                    empData.GooglePlusLink = model.GooglePlusLink;
                     ctx.SaveChanges();
                     return true;
                 }
@@ -259,30 +281,28 @@ namespace LMS_WebAPI_DAL.Repositories
 
                 using (var ctx = new LeaveManagementSystemEntities1())
                 {
-                    var eduDetails = ctx.EmployeeEducationDetails.Where(i => i.RefEmployeeId == employeeId).ToList();
                     foreach (var item in educationDetails)
                     {
-                        foreach (var eduItem in eduDetails)
+                        var employeeEdDetails = ctx.EmployeeEducationDetails.FirstOrDefault(i => i.Id == item.Id);
+                        if (employeeEdDetails != null)
                         {
-                            if (item.Id == eduItem.Id)
-                            {
-                                eduItem.Degree = item.Degree;
-                                eduItem.Institution = item.Institution;
-                                eduItem.FromDate = item.FromDate;
-                                eduItem.ToDate = item.ToDate;
-                                ctx.SaveChanges();
 
-                            }
-                            else
-                            {
-                                eduItem.Degree = item.Degree;
-                                eduItem.Institution = item.Institution;
-                                eduItem.FromDate = item.FromDate;
-                                eduItem.ToDate = item.ToDate;
-                                eduItem.RefEmployeeId = employeeId;
-                                ctx.EmployeeEducationDetails.Add(eduItem);
-                                ctx.SaveChanges();
-                            }
+                            employeeEdDetails.Degree = item.Degree;
+                            employeeEdDetails.Institution = item.Institution;
+                            employeeEdDetails.FromDate = item.FromDate;
+                            employeeEdDetails.ToDate = item.ToDate;
+                            ctx.SaveChanges();
+                        }
+                        else
+                        {
+                            var edDetails = new EmployeeEducationDetail();
+                            edDetails.Degree = item.Degree;
+                            edDetails.Institution = item.Institution;
+                            edDetails.FromDate = item.FromDate;
+                            edDetails.ToDate = item.ToDate;
+                            edDetails.RefEmployeeId = employeeId;
+                            ctx.EmployeeEducationDetails.Add(edDetails);
+                            ctx.SaveChanges();
                         }
 
                     }
@@ -304,32 +324,61 @@ namespace LMS_WebAPI_DAL.Repositories
 
                 using (var ctx = new LeaveManagementSystemEntities1())
                 {
-                    var expDetails = ctx.EmployeeExperienceDetails.Where(i => i.RefEmployeeId == employeeId).ToList();
                     foreach (var item in experienceDetails)
                     {
-                        foreach (var expItem in expDetails)
-                        {
-                            if (item.Id == expItem.Id)
-                            {
-                                expItem.CompanyName = item.Company;
-                                expItem.Role = item.Role;
-                                expItem.FromDate = item.FromDate;
-                                expItem.ToDate = item.ToDate;
-                                ctx.SaveChanges();
+                        var expDetails = ctx.EmployeeExperienceDetails.FirstOrDefault(i => i.Id == item.Id);
 
-                            }
-                            else
-                            {
-                                expItem.CompanyName = item.Company;
-                                expItem.Role = item.Role;
-                                expItem.FromDate = item.FromDate;
-                                expItem.ToDate = item.ToDate;
-                                expItem.RefEmployeeId = employeeId;
-                                ctx.EmployeeExperienceDetails.Add(expItem);
-                                ctx.SaveChanges();
-                            }
+                        if (expDetails != null)
+                        {
+                            expDetails.CompanyName = item.Company;
+                            expDetails.Role = item.Role;
+                            expDetails.FromDate = item.FromDate;
+                            expDetails.ToDate = item.ToDate;
+                            ctx.SaveChanges();
+
+                        }
+                        else
+                        {
+                            var employeeExpdetails = new EmployeeExperienceDetail();
+                            employeeExpdetails.CompanyName = item.Company;
+                            employeeExpdetails.Role = item.Role;
+                            employeeExpdetails.FromDate = item.FromDate;
+                            employeeExpdetails.ToDate = item.ToDate;
+                            employeeExpdetails.RefEmployeeId = employeeId;
+                            ctx.EmployeeExperienceDetails.Add(employeeExpdetails);
+                            ctx.SaveChanges();
                         }
 
+                    }
+
+                    return true;
+                }
+            }
+            catch (System.Exception ex)
+            {
+
+                throw ex;
+            }
+        }
+        public bool EditEmployeeSkills(List<EmployeeSkillDetails> skills, int employeeId)
+        {
+            try
+            {
+                using (var ctx = new LeaveManagementSystemEntities1())
+                {
+                    var empSkills = ctx.EmployeeSkills.Where(i => i.RefEmployeeId == employeeId).ToList();
+                    foreach (var item in empSkills)
+                    {
+                        ctx.EmployeeSkills.Remove(item);
+                        ctx.SaveChanges();
+                    }
+                    foreach (var item in skills)
+                    {
+                        var skill = new EmployeeSkill();
+                        skill.RefEmployeeId = employeeId;
+                        skill.Skill = item.SkillName;
+                        ctx.EmployeeSkills.Add(skill);
+                        ctx.SaveChanges();
                     }
 
                     return true;

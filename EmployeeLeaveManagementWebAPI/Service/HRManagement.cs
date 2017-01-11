@@ -48,5 +48,23 @@ namespace LMS_WebAPI_ServiceHelpers
             var result = hrRepo.GetChartDetails(employeeId);
             return result;
         }
+
+        public bool AddNewMasterDataValues(int masterDataType,string masterDataValue)
+        {
+            var result = hrRepo.AddNewMasterDataValues(masterDataType,masterDataValue);
+            return result;
+        }
+
+        public bool AddNewProjectInfo(string projectName, string description, string technology, DateTime startDate, int refManager)
+        {
+            var result = hrRepo.AddNewProjectInfo(projectName, description, technology, startDate, refManager);
+            return result;
+        }
+
+        public List<ProjectsList> GetProjectsList()
+        {
+            var result = hrRepo.GetProjectsList();
+            return result;
+        }
     }
 }

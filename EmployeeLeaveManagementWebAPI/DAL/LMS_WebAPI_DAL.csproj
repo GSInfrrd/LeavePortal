@@ -78,12 +78,6 @@
     <Compile Include="Announcement.cs">
       <DependentUpon>EmployeeLeaveManagement.tt</DependentUpon>
     </Compile>
-    <Compile Include="ConsolidatedEmployeeLeaveDetail.cs">
-      <DependentUpon>EmployeeLeaveManagement.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Contact.cs">
-      <DependentUpon>EmployeeLeaveManagement.tt</DependentUpon>
-    </Compile>
     <Compile Include="EmployeeContactDetail.cs">
       <DependentUpon>EmployeeLeaveManagement.tt</DependentUpon>
     </Compile>
@@ -126,6 +120,9 @@
     <Compile Include="EmployeeProjectDetail.cs">
       <DependentUpon>EmployeeLeaveManagement.tt</DependentUpon>
     </Compile>
+    <Compile Include="EmployeeRewardedLeaveDetail.cs">
+      <DependentUpon>EmployeeLeaveManagement.tt</DependentUpon>
+    </Compile>
     <Compile Include="EmployeeSkill.cs">
       <DependentUpon>EmployeeLeaveManagement.tt</DependentUpon>
     </Compile>
@@ -145,6 +142,9 @@
       <DependentUpon>EmployeeLeaveManagement.tt</DependentUpon>
     </Compile>
     <Compile Include="Notification.cs">
+      <DependentUpon>EmployeeLeaveManagement.tt</DependentUpon>
+    </Compile>
+    <Compile Include="ProjectMaster.cs">
       <DependentUpon>EmployeeLeaveManagement.tt</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -168,6 +168,9 @@
     <Compile Include="Repositories\ResourceRequestRepository.cs" />
     <Compile Include="Repositories\UserRepository.cs" />
     <Compile Include="Repositories\WorkFromHomeRepository.cs" />
+    <Compile Include="ResourceRequestDetail.cs">
+      <DependentUpon>EmployeeLeaveManagement.tt</DependentUpon>
+    </Compile>
     <Compile Include="UserAccount.cs">
       <DependentUpon>EmployeeLeaveManagement.tt</DependentUpon>
     </Compile>

@@ -16,13 +16,13 @@ namespace LMS_WebAPI_DAL.Repositories.Interfaces
 
         List<Announcement> GetAnnouncements();
         LeaveReportModel GetLeaveReportDetails(int year, int employeeId = 0);
-
-        EmployeeDetail GetUserProfileDetails(int employeeId);
+        EmployeeDetail GetUserProfileDetails(int employeeId, out List<MasterDataModel> skills);
         bool EditEmployeeDetails(EmployeeDetailsModel model);
         bool EditEmployeeEducationDetails(List<EmployeeEducationDetails> educationDetails,int employeeId);
 
         bool EditEmployeeExperienceDetails(List<EmployeeExperienceDetails> experienceDetails, int employeeId);
 
+        bool EditEmployeeSkills(List<EmployeeSkillDetails> skills, int employeeId);
         string getUserProfileImage(int employeeId);
     }
 }

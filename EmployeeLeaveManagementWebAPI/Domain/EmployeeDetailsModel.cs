@@ -14,6 +14,7 @@ namespace LMS_WebAPI_Domain
             this.leaveDetails = new LeaveReportModel();
             this.EmployeeEducationDetails = new List<EmployeeEducationDetails>();
             this.EmployeeExperienceDetails = new List<EmployeeExperienceDetails>();
+            this.Projects = new List<ProjectsList>();
         }
         public int Id { get; set; }
 
@@ -56,8 +57,13 @@ namespace LMS_WebAPI_Domain
         public List<EmployeeSkillDetails> Skills { get; set; }
         public int EmployeeNumber { get; set; }
         public int RefHierarchyLevel { get; set; }
+        public string FacebookLink { get; set; }
+        public string TwitterLink { get; set; }
+        public string GooglePlusLink { get; set; }
 
-        public int RefImageId { get; set; }
+        public List<ProjectsList> Projects { get; set; }
+
+        public int EmployeeType { get; set; }
 
     }
 
@@ -96,7 +102,23 @@ namespace LMS_WebAPI_Domain
 
         public int RefEmployeeId { get; set; }
         public string SkillName { get; set; }
+        public bool IsSelected { get; set; }
 
+    }
+
+    public class MasterDataModel
+    {
+        public int Id { get; set; }
+
+        public int RefMasterType { get; set; }
+        public string Value { get; set; }
+
+    }
+
+    public class ProjectsList
+    {
+        public int Id { get; set; }
+        public string ProjectName { get; set; }
     }
 
 }

@@ -11,6 +11,7 @@ using System.Web.Http;
 
 namespace EmployeeLeaveManagementWebAPI.Controllers
 {
+    [RoutePrefix("api/HR")]
     public class HRController : ApiController
     {
         HRManagement hrOperations = new HRManagement();
@@ -21,7 +22,10 @@ namespace EmployeeLeaveManagementWebAPI.Controllers
             return result;
         }
 
-        public List<EmployeeDetailsModel> Get()
+        [HttpGet]
+        [AcceptVerbs("GET")]
+        [Route("")]
+        public List<EmployeeDetailsModel> GetEmployeeList()
         {
             var result = hrOperations.GetEmployeeList();
             return result;
@@ -29,7 +33,7 @@ namespace EmployeeLeaveManagementWebAPI.Controllers
 
 
         [HttpGet]
-        public List<EmployeeDetailsModel> GetManagerList(int refLevel,bool status)
+        public List<EmployeeDetailsModel> GetManagerList(int refLevel, bool status)
         {
             try
             {
@@ -51,22 +55,22 @@ namespace EmployeeLeaveManagementWebAPI.Controllers
         }
 
         [System.Web.Http.HttpGet]
-        public MemoryStream GenerateReports(string fromDate,string toDate,string employeeId, string leaveType)
+        public MemoryStream GenerateReports(string fromDate, string toDate, string employeeId, string leaveType)
         {
             try
             {
                 var detailsList = new List<DetailedLeaveReport>();
                 var data = Array.ConvertAll(employeeId.TrimEnd(':').Split(':'), int.Parse);
                 var leaveData = Array.ConvertAll(leaveType.TrimEnd(':').Split(':'), int.Parse);
-                var empData = hrOperations.GetReportData(fromDate,toDate, data.ToList(),out detailsList);
+                var empData = hrOperations.GetReportData(fromDate, toDate, data.ToList(), out detailsList);
                 string filterValue = String.Empty;
                 var filtersList = new List<ExcelDownloadFilterList>();
-                if (leaveData.Count()>=1 && leaveData[0]!= 0)
+                if (leaveData.Count() >= 1 && leaveData[0] != 0)
                 {
-                    foreach(var item in leaveData)
-                    { 
-                    filterValue =filterValue+ ((ReportType)item).Description()+",";
-                        }
+                    foreach (var item in leaveData)
+                    {
+                        filterValue = filterValue + ((ReportType)item).Description() + ",";
+                    }
                     filterValue = filterValue.TrimEnd(',');
                 }
                 else
@@ -77,7 +81,7 @@ namespace EmployeeLeaveManagementWebAPI.Controllers
                     }
                     filterValue = filterValue.Substring(0, filterValue.LastIndexOf(", "));
                 }
-         
+
 
                 if (!String.IsNullOrEmpty(filterValue))
                 {
@@ -119,7 +123,7 @@ namespace EmployeeLeaveManagementWebAPI.Controllers
                 }
                 include = include.TrimEnd(',');
 
-                var file = CommonMethods.CreateDownloadExcel(empData,detailsList, include, "", "Report", "Leave Report", filtersList);
+                var file = CommonMethods.CreateDownloadExcel(empData, detailsList, include, "", "Report", "Leave Report", filtersList);
                 // return File(file.GetBuffer(), "application/vnd.ms-excel", "LeaveReport.xls");
 
                 return file;
@@ -136,7 +140,7 @@ namespace EmployeeLeaveManagementWebAPI.Controllers
         {
             try
             {
-                 var empData = hrOperations.GetChartDetails(employeeId);
+                var empData = hrOperations.GetChartDetails(employeeId);
                 return empData;
             }
             catch (Exception ex)
@@ -147,6 +151,42 @@ namespace EmployeeLeaveManagementWebAPI.Controllers
         }
 
 
+        [System.Web.Http.HttpGet]
+        public bool AddNewMasterDataValues(int masterDataType, string masterDataValue)
+        {
+            try
+            {
+                var empData = hrOperations.AddNewMasterDataValues(masterDataType, masterDataValue);
+                return empData;
+            }
+            catch
+            {
+                throw;
+                //throw;
+            }
+        }
 
+        [System.Web.Http.HttpGet]
+        public bool AddNewProjectInfo(string projectName, string description, string technology, DateTime startDate, int refManager)
+        {
+            try
+            {
+                var empData = hrOperations.AddNewProjectInfo(projectName, description, technology, startDate, refManager);
+                return empData;
+            }
+            catch
+            {
+                throw;
+                //throw;
+            }
+        }
+
+        [HttpGet]
+        [Route("GetProjectsList")]
+        public List<ProjectsList> GetProjectsList()
+        {
+            var result = hrOperations.GetProjectsList();
+            return result;
+        }
     }
 }

@@ -168,7 +168,7 @@
                 <!-- /.box-header -->
                 <div class="box-body no-padding">
                     <!--The calendar -->
-                    <div id="calendar" style="width: 100%"><div class="datepicker datepicker-inline"></div>
+                    <div id="calendar1" style="width: 100%"><div class="datepicker datepicker-inline"></div>
                                    </div>
                 <!-- /.box-body -->
                
@@ -257,6 +257,10 @@
 
  
     </div>
+
+    <div class="row">
+        @Html.Action("Calender", "Account")
+    </div>
    
 </section>
 <script type="text/javascript">
@@ -267,7 +271,7 @@
             SelectedDates[new Date('05/04/2016')] = new Date('05/04/2016');
             SelectedDates[new Date('06/06/2016')] = new Date('06/06/2016');
 
-            $('#calendar').datepicker({
+            $('#calendar1').datepicker({
                 todayHighlight: true,
                 beforeShowDay: function (date) {
                     var Highlight = SelectedDates[date];

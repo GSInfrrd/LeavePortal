@@ -17,6 +17,7 @@ namespace LMS_WebAPP_Domain
             this.EmployeeExperienceDetails = new List<EmployeeExperienceDetails>();
             this.Skills = new List<EmployeeSkillDetails>();
             this.Colors = new List<string>();
+            this.Projects = new List<ProjectsList>();
         }
         public int Id { get; set; }
 
@@ -60,6 +61,12 @@ namespace LMS_WebAPP_Domain
         public List<EmployeeSkillDetails> Skills { get; set; }
         public int EmployeeNumber { get; set; }
         public int RefHierarchyLevel { get; set; }
+
+        public string FacebookLink { get; set; }
+        public string TwitterLink { get; set; }
+        public string GooglePlusLink { get; set; }
+
+        public List<ProjectsList> Projects { get; set; }
     }
 
     public class Announcement
@@ -103,6 +110,12 @@ namespace LMS_WebAPP_Domain
         public int Id { get; set; }
         public string SkillName { get; set; }
         public string RefEmployeeId { get; set; }
+        public bool IsSelected { get; set; }
+    }
 
+    public class ProjectsList
+    {
+        public int Id { get; set; }
+        public string ProjectName { get; set; }
     }
 }

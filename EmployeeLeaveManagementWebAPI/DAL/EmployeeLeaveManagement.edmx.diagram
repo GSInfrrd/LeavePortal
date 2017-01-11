@@ -45,15 +45,21 @@
         <AssociationConnector Association="LeaveManagementSystemModel.FK_MasterDataValueStatus_EmployeeLeaveTransaction" />
         <AssociationConnector Association="LeaveManagementSystemModel.FK_MasterDataValue_EmployeeLeaveTransactionHistory" />
         <AssociationConnector Association="LeaveManagementSystemModel.FK_MasterDataValueStatus_EmployeeLeaveTransactionHistory" />
-        <EntityTypeShape EntityType="LeaveManagementSystemModel.EmployeeLeaveMaster" Width="1.5" PointX="7.5" PointY="31.5" />
-        <AssociationConnector Association="LeaveManagementSystemModel.FK_ConsolidatedEmployeeLeaveDetails_EmployeeDetails1" />
-        <AssociationConnector Association="LeaveManagementSystemModel.FK_ConsolidatedEmployeeLeaveDetails_EmployeeDetails" />
-        <EntityTypeShape EntityType="LeaveManagementSystemModel.ConsolidatedEmployeeLeaveDetail" Width="1.5" PointX="7.5" PointY="4" />
-        <EntityTypeShape EntityType="LeaveManagementSystemModel.Contact" Width="1.5" PointX="5.375" PointY="0.75" />
         <EntityTypeShape EntityType="LeaveManagementSystemModel.Notification" Width="1.5" PointX="12.5" PointY="9.25" />
-        <AssociationConnector Association="LeaveManagementSystemModel.FK_ConsolidatedEmployeeLeaveDetails_EmployeeDetails2" />
         <AssociationConnector Association="LeaveManagementSystemModel.FK_EmployeeDetails_Notification" />
         <AssociationConnector Association="LeaveManagementSystemModel.FK_MasterDataValue_Notification" />
+        <EntityTypeShape EntityType="LeaveManagementSystemModel.ProjectMaster" Width="1.5" PointX="7.5" PointY="36.5" />
+        <EntityTypeShape EntityType="LeaveManagementSystemModel.ResourceRequestDetail" Width="1.5" PointX="3.375" PointY="7.75" />
+        <AssociationConnector Association="LeaveManagementSystemModel.FK_EmployeeDetails_MasterDataValue1" />
+        <AssociationConnector Association="LeaveManagementSystemModel.FK_ProjectMaster_EmployeeDetails" />
+        <AssociationConnector Association="LeaveManagementSystemModel.FK_EmployeeProjectDetail_ProjectMaster" />
+        <EntityTypeShape EntityType="LeaveManagementSystemModel.EmployeeLeaveMaster" Width="1.5" PointX="7.5" PointY="3.125" />
+        <AssociationConnector Association="LeaveManagementSystemModel.FK_ConsolidatedEmployeeLeaveDetails_EmployeeDetails" />
+        <AssociationConnector Association="LeaveManagementSystemModel.FK_EmployeeLeaveMaster_EmployeeDetails" />
+        <EntityTypeShape EntityType="LeaveManagementSystemModel.EmployeeRewardedLeaveDetail" Width="1.5" PointX="9.75" PointY="25.125" />
+        <AssociationConnector Association="LeaveManagementSystemModel.FK_EmployeeRewardedLeaveDetails_EmployeeDetails" />
+        <AssociationConnector Association="LeaveManagementSystemModel.FK_EmployeeRewardedLeaveDetails_EmployeeDetails1" />
+        <AssociationConnector Association="LeaveManagementSystemModel.FK_EmployeeRewardedLeaveDetails_ProjectMaster" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

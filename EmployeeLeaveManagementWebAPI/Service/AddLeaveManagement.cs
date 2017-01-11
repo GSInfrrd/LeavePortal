@@ -1,6 +1,7 @@
 ﻿using LMS_WebAPI_DAL;
 using LMS_WebAPI_DAL.Repositories;
 using LMS_WebAPI_DAL.Repositories.Interfaces;
+using LMS_WebAPI_Domain;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,40 +13,50 @@ namespace LMS_WebAPI_ServiceHelpers
     public class AddLeaveManagement
     {
         private IAddLeaveRepository addLeaveRepo = new AddLeaveRepository();
-        public bool CheckLeaveAvailability(int employeeId,DateTime fromDate,DateTime toDate)
+        public LeaveTransactionResponse CheckLeaveAvailability(int employeeId,DateTime fromDate,DateTime toDate)
         {
             var result = new EmployeeDetail();
-            bool dateAlreadyExists = false;
-            bool noLeaveBalance = false;
             var holidayList = new List<Holiday>();
+            var response = new LeaveTransactionResponse();
             result = addLeaveRepo.CheckLeaveAvailability(employeeId, out holidayList);
             var noOfWorkingDays = 0;
-            for (DateTime date = fromDate; date <= toDate; date = date.AddDays(1))
-            {
-                var isHoliday = holidayList.FirstOrDefault(i => i.Date == date) != null ? true : false;
-                if (date.DayOfWeek != DayOfWeek.Saturday && date.DayOfWeek != DayOfWeek.Sunday && !isHoliday)
-                {
-                    noOfWorkingDays++;
-                }
-            }
-            var availableLeaves = result.EmployeeLeaveMasters1.FirstOrDefault(i => i.RefEmployeeId == employeeId).LeaveBalance;
-            if(noOfWorkingDays>availableLeaves)
-            {
-                noLeaveBalance = true;
-            }
             foreach (var item in result.EmployeeLeaveTransactions)
             {
                 for (DateTime date = item.FromDate; date <= item.ToDate; date = date.AddDays(1))
                 {
-                    if (fromDate == date|| toDate==date )
+                    for (DateTime givenDate = fromDate; givenDate <= toDate; givenDate = givenDate.AddDays(1))
                     {
-                        dateAlreadyExists = true;
-                        break;
+                        if (givenDate == date)
+                        {
+                            response.responseCode = (int)LMS_WebAPI_Utils.ResponseCodes.DateAlreadyExists;
+                            break;
+                        }
                     }
                 }
 
             }
-            return true;
+            if (response.responseCode == 0)
+            {
+                for (DateTime date = fromDate; date <= toDate; date = date.AddDays(1))
+                {
+                    var isHoliday = holidayList.FirstOrDefault(i => i.Date == date) != null ? true : false;
+                    if (date.DayOfWeek != DayOfWeek.Saturday && date.DayOfWeek != DayOfWeek.Sunday && !isHoliday)
+                    {
+                        noOfWorkingDays++;
+                    }
+                }
+          
+            response.noOfWorkingDays = noOfWorkingDays;
+            var availableLeaves = result.EmployeeLeaveMasters1.FirstOrDefault(i => i.RefEmployeeId == employeeId).EarnedCasualLeave;
+            if(availableLeaves==null || noOfWorkingDays>availableLeaves)
+            {
+                response.responseCode = (int)LMS_WebAPI_Utils.ResponseCodes.NoLeaveBalance;
+                    response.availableLeaveBalance =(int)(availableLeaves!=null?availableLeaves:0);
+                    response.advanceLeaveBalance=(int)result.EmployeeLeaveMasters1.FirstOrDefault(i => i.RefEmployeeId == employeeId).SpentAdvanceLeave;
+
+                }
+            }
+            return response;
         }
     }
     }

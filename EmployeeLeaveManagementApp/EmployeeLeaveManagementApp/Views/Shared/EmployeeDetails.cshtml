@@ -31,8 +31,6 @@
                                 <th>Date Of Joining</th>
                                 <th>Role</th>
                                 <th>Manager</th>
-                                @*<th>Apply</th>
-                                <th>Delete</th>*@
                             </tr>
                         </thead>
                         <tbody>
@@ -46,27 +44,12 @@
                                     <td>@m.DateOfJoining.Date.ToString("dd/MM/yyyy")</td>
                                     <td>@m.RoleName </td>
                                     <td>@m.ManagerName</td>
-                                    @*<td style="align-content:center">
-                                        <a href="#" id="btnApplyLeave" class="@btnDisabled" style="color:green" data-content="@m.Id">
-                                            <span class="fa fa-check"></span>
-                                        </a>
-
-                                    </td>
-                                    <td>
-                                        <a href="#" id="btnDeleteLeave" style="color:red" data-content="@m.Id">
-                                            <span class="fa fa-close"></span>
-                                        </a>
-
-                                    </td>*@
                                 </tr>
 
 
                             }
                         </tbody>
                         <tfoot>
-                            <tr>
-                                <td></td>
-                            </tr>
                         </tfoot>
                     </table>
                 </div>

@@ -41,6 +41,7 @@ namespace LMS_WebAPP_ServiceHelpers
 
         public async Task<List<EmployeeDetailsModel>> GetEmployeeListAsync()
         {
+           // const string URL = "http://localhost:64476/api/HR/GetEmployeeList";
             HttpClient client = new HttpClient();
             client.BaseAddress = new Uri(URL);
             // Add an Accept header for JSON format.
@@ -140,6 +141,84 @@ namespace LMS_WebAPP_ServiceHelpers
             }
         }
 
+        public async Task<bool> AddNewMasterDataValuesAsync(int masterDataType,string masterDataValue)
+        {
+            using (HttpClient client = new HttpClient())
+            {
+                const string URL = "http://localhost:64476/api/HR/AddNewMasterDataValues";
+                urlParameters = "?masterDataType=" + masterDataType + "&masterDataValue=" + masterDataValue;
+                client.BaseAddress = new Uri(URL);
+                // Add an Accept header for JSON format.
+                client.DefaultRequestHeaders.Accept.Add(
+                new MediaTypeWithQualityHeaderValue("application/json"));
 
+                // List data response.
+                HttpResponseMessage response = await client.GetAsync(urlParameters);  // Blocking call!
+                if (response.IsSuccessStatusCode)
+                {
+                    // Parse the response body. Blocking!
+                    var dataObjects = response.Content.ReadAsAsync<bool>().Result;
+                    return dataObjects;
+                }
+                else
+                {
+                    Console.WriteLine("{0} ({1})", (int)response.StatusCode, response.ReasonPhrase);
+                    return false;
+                }
+            }
+        }
+
+        public async Task<bool> AddNewProjectInfoAsync(string projectName, string description, string technology, DateTime startDate, int refManager)
+        {
+            using (HttpClient client = new HttpClient())
+            {
+                const string URL = "http://localhost:64476/api/HR/AddNewMasterDataValues";
+                urlParameters = "?projectName=" + projectName + "&description=" + description+ "&technology="+ technology+ "&startDate="+ startDate+ "&refManager="+ refManager;
+                client.BaseAddress = new Uri(URL);
+                // Add an Accept header for JSON format.
+                client.DefaultRequestHeaders.Accept.Add(
+                new MediaTypeWithQualityHeaderValue("application/json"));
+
+                // List data response.
+                HttpResponseMessage response = await client.GetAsync(urlParameters);  // Blocking call!
+                if (response.IsSuccessStatusCode)
+                {
+                    // Parse the response body. Blocking!
+                    var dataObjects = response.Content.ReadAsAsync<bool>().Result;
+                    return dataObjects;
+                }
+                else
+                {
+                    Console.WriteLine("{0} ({1})", (int)response.StatusCode, response.ReasonPhrase);
+                    return false;
+                }
+            }
+        }
+
+        public async Task<List<ProjectsList>> GetProjectsListAsync()
+        {
+            using (HttpClient client = new HttpClient())
+            {
+                const string URL = "http://localhost:64476/api/HR/GetProjectsList";
+                client.BaseAddress = new Uri(URL);
+                // Add an Accept header for JSON format.
+                client.DefaultRequestHeaders.Accept.Add(
+                new MediaTypeWithQualityHeaderValue("application/json"));
+
+                // List data response.
+                HttpResponseMessage response = await client.GetAsync(URL);  // Blocking call!
+                if (response.IsSuccessStatusCode)
+                {
+                    // Parse the response body. Blocking!
+                    var dataObjects = response.Content.ReadAsAsync<List<ProjectsList>>().Result.ToList();
+                    return dataObjects;
+                }
+                else
+                {
+                    Console.WriteLine("{0} ({1})", (int)response.StatusCode, response.ReasonPhrase);
+                    return null;
+                }
+            }
+        }
     }
 }

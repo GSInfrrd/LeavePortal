@@ -9,6 +9,8 @@
     <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
     <!-- Bootstrap 3.3.6 -->
     <link href="~/bootstrap/css/bootstrap.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="~/plugins/fullcalendar/fullcalendar.min.css">
+    <link rel="stylesheet" href="~/plugins/fullcalendar/fullcalendar.print.css" media="print">
     <script async="" src="//www.google-analytics.com/analytics.js"></script>
     <!-- Font Awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.5.0/css/font-awesome.min.css">
@@ -54,6 +56,8 @@
     <script src="~/dist/js/app.min.js"></script>
     <!-- AdminLTE for demo purposes -->
     <script src="~/dist/js/demo.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.11.2/moment.min.js"></script>
+    <script src="~/plugins/fullcalendar/fullcalendar.min.js"></script>
     <div class="wrapper">
         <header class="main-header">
             <!-- Logo -->
@@ -153,8 +157,6 @@
                 <!-- /.search form -->
                 <!-- sidebar menu: : style can be found in sidebar.less -->
                 <ul class="sidebar-menu">
-                    @if ((roleId == (int)EmployeeRole.Employee) || (roleId == (int)EmployeeRole.Manager))
-                    {
                         <li class="treeview">
                             <a href="@Url.Action("Dashboard", "Account")">
                                 <i class="fa fa-dashboard"></i> <span>Dashboard</span>
@@ -168,7 +170,6 @@
                                 <span>Profile</span>
                             </a>
                         </li>
-                    }
                     @if ((roleId == (int)EmployeeRole.Employee) || (roleId == (int)EmployeeRole.Manager) || roleId == (int)EmployeeRole.HR)
                     {
                         <li>
@@ -299,8 +300,7 @@
     <script src="~/Scripts/jquery.signalR-2.2.1.min.js"></script>
     <script src="~/signalr/hubs"></script>
     <script src="http://localhost:64476/signalr/hubs"></script>
-
-    @* Add jquery code for Get Notification & setup signalr *@
+      @* Add jquery code for Get Notification & setup signalr *@
     <script type="text/javascript">
 
         if (typeof console !== 'undefined') {
@@ -427,6 +427,7 @@
             var notificationHub = $.connection.notificationHub;
             $.connection.hub.url = "http://localhost:64476/signalr/";
             $.connection.hub.start({ withCredentials: false }).done(function () {
+                debugger;
                 console.log('Notification hub started');
             });
 
