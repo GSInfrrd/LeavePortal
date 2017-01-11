@@ -16,7 +16,9 @@ namespace LMS_WebAPI_Utils
         [Description("Compo Off")]
         CompOff = 25,
         [Description("Advance Leave")]
-        AdvanceLeave = 26
+        AdvanceLeave = 26,
+        [Description("LOP")]
+        LOP = 27
     }
     public enum LeaveStatus
     {
@@ -44,7 +46,7 @@ namespace LMS_WebAPI_Utils
 
     public enum ReportType
     {
-      
+
         [Description("Applied Leaves")]
         AppliedLeaves = 1,
         [Description("Work From Home")]
@@ -75,4 +77,11 @@ namespace LMS_WebAPI_Utils
         NoLeaveBalance = 1002
 
     }
+
+    public enum LOPLeaveLimit
+    {
+        [Description("LeaveLimit")]
+        limit = 11
+    }
+
 }

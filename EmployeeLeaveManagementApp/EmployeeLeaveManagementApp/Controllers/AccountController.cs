@@ -178,6 +178,7 @@ namespace EmployeeLeaveManagementApp.Controllers
                 data.TotalCasualLeave = datares.TotalCasualLeave;
                 data.TotalAdvanceLeaveTotake = datares.TotalAdvanceLeaveTotake;
                 data.ManagerEmail = datares.MangerEmail;
+                data.TotalLOPLImit = datares.TotalLOPLImit;
                 Session[LMS_WebAPP_Utils.Constants.SESSION_OBJ_USER] = data;
                 Models.LoginModel model = new Models.LoginModel();
                 model.EmpName = data.UserName;

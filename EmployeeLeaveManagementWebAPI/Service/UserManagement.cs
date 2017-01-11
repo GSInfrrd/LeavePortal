@@ -62,6 +62,7 @@ namespace LMS_WebAPI_ServiceHelpers
                     VerifiedUser.TotalSpent = userData.TotalSpent;
                     VerifiedUser.TotalWorkFromHome = userData.TotalWorkFromHome;
                     VerifiedUser.ManagerName = userData.ManagerName;
+                    VerifiedUser.TotalLOPLImit = userData.LOPLeaveLimit;
                     VerifiedUser.TotalCasualLeave = userData.TotalCasualLeave;
                     VerifiedUser.TotalAdvanceLeaveTotake = userData.TotalAdvanceLeaveToTake;
                     VerifiedUser.MangerEmail = userData.ManagerEmailId;

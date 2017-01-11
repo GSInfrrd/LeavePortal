@@ -68,12 +68,16 @@ namespace LMS_WebAPI_DAL.Repositories
                         if (null != leaveType)
                         {
                             int ad = Convert.ToInt16(AdvanceLeaveLimit.limit);
+                            int lo = Convert.ToInt16(LOPLeaveLimit.limit);
                             var advanceLimit = (from n in ctx.MasterDataValues where n.RefMasterType == ad select n).FirstOrDefault();
+                            var lopLimit = (from n in ctx.MasterDataValues where n.RefMasterType == lo select n).FirstOrDefault();
                             var sickLeaveint = Convert.ToInt16(LeaveType.SickLeave);
                             var CasualLeaveint = Convert.ToInt16(LeaveType.CasualLeave);
-                            empDetails.TotalAdvanceLeaveToTake = (Convert.ToInt16(advanceLimit.Value) < leaveType.SpentAdvanceLeave) ? Convert.ToInt16(advanceLimit.Value) : leaveType.SpentAdvanceLeave;
+
+                            empDetails.TotalAdvanceLeaveToTake = ((leaveType.SpentAdvanceLeave == 0) || (leaveType.SpentAdvanceLeave == null)) ? Convert.ToInt16(advanceLimit.Value) : (Convert.ToInt16(advanceLimit.Value)-leaveType.SpentAdvanceLeave);
                             empDetails.TotalCasualLeave = leaveType.EarnedCasualLeave + leaveType.RewardedLeaveCount;
-                            empDetails.TotalLeaveCount = leaveType.SpentAdvanceLeave + leaveType.EarnedCasualLeave + leaveType.RewardedLeaveCount;
+                            empDetails.TotalLeaveCount = leaveType.EarnedCasualLeave + leaveType.RewardedLeaveCount;
+                            empDetails.LOPLeaveLimit = Convert.ToInt32(lopLimit.Value);
                         }
 
                         empDetails.TotalSpent = (from c in ctx.EmployeeLeaveTransactions

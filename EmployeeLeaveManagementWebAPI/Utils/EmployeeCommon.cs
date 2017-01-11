@@ -24,6 +24,7 @@ namespace LMS_WebAPI_Utils
         public int? TotalLeaveCount { get; set; }
         public double TotalApplied { get; set; }
         public double TotalSpent { get; set; }
+        public int? LOPLeaveLimit { get; set; }
         public string ManagerEmailId { get; set; }
         public int? TotalAdvanceLeaveToTake { get; set; }
         public int? TotalCasualLeave { get; set; }

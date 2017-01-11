@@ -32,6 +32,7 @@ namespace LMS_WebAPP_Domain
         public double TotalSpent { get; set; }
         public int TotalLeft { get; set; }
         public string ManagerName { get; set; }
+        public int? TotalLOPLImit { get; set; }
         public string MangerEmail { get; set; }
         public System.DateTime DateOfJoining { get; set; }
         public List<string> Colors { get; set; }

@@ -18,26 +18,25 @@ namespace EmployeeLeaveManagementApp.Controllers
         // GET: LeaveTransection
         public async Task<ActionResult> ApplyLeave()
         {
-            if (null != Session[Constants.SESSION_OBJ_USER])
+            try
             {
-                var data = (UserAccount)Session[Constants.SESSION_OBJ_USER];
-                IList<LeaveTransaction> les = new List<LeaveTransaction>();
-                les = await ELTM.GetProductAsync(data.RefEmployeeId);
-                // var datas = (LMS_WebAPP_Domain.UserAccount)Session[LMS_WebAPP_Utils.Constants.SESSION_OBJ_USER];
-                var toTalcasualLeave = data.TotalCasualLeave;
-                var refLeaveTypeCasual = @Convert.ToInt16((LMS_WebAPP_Utils.LeaveType.CasualLeave));
-                var LeaveStatusIn = @Convert.ToInt16((LMS_WebAPP_Utils.LeaveStatus.Approved));
+                if (null != Session[Constants.SESSION_OBJ_USER])
+                {
+                    var data = (UserAccount)Session[Constants.SESSION_OBJ_USER];
+                    IList<LeaveTransaction> les = new List<LeaveTransaction>();
+                    les = await ELTM.GetProductAsync(data.RefEmployeeId);
+                    return View(les);
+                }
+                else
+                {
+                    return RedirectToAction("Login", "Account");
+                }
 
-
-                var totalCasualApproved = (from n in les where n.RefLeaveType == refLeaveTypeCasual && n.RefStatus == LeaveStatusIn select n).ToList().Count();
-                var totalLeft = toTalcasualLeave - totalCasualApproved;
-
-                //var values = Enum.GetValues(typeof(LeaveType));
-                return View(les);
             }
-            else
+            catch (Exception ex)
             {
-                return RedirectToAction("Login", "Account");
+                Logger.Error(ex);
+                return RedirectToAction("Error", "Home");
             }
         }
 
@@ -46,61 +45,77 @@ namespace EmployeeLeaveManagementApp.Controllers
             return View();
 
         }
+
         [HttpPost]
         public async Task<JsonResult> SubmitLeaveRequest(int leaveType, string fromDate, string toDate, string comments, double workingDays, bool isFullDay = true)
         {
-            var data = (UserAccount)Session[Constants.SESSION_OBJ_USER];
-            int id = data.RefEmployeeId;
-            double WorkingDays = Convert.ToDouble(workingDays);
-            EmployeeLeaveTransactionManagement ELTM = new EmployeeLeaveTransactionManagement();
-            switch ((LeaveType)leaveType)
+            try
             {
-                case LeaveType.SickLeave:
-                case LeaveType.CasualLeave:
-                    if (!isFullDay)
-                    {
-                        WorkingDays = 0.5;
-                    }
-                    break;
-                default:
-                    break;
+                var data = (UserAccount)Session[Constants.SESSION_OBJ_USER];
+                int id = data.RefEmployeeId;
+                double WorkingDays = Convert.ToDouble(workingDays);
+                EmployeeLeaveTransactionManagement ELTM = new EmployeeLeaveTransactionManagement();
+                switch ((LeaveType)leaveType)
+                {
+                    case LeaveType.SickLeave:
+                    case LeaveType.CasualLeave:
+                        if (!isFullDay)
+                        {
+                            WorkingDays = 0.5;
+                        }
+                        break;
+                    default:
+                        break;
+                }
+                var res = await ELTM.SubmitLeaveRequestAsync(id, leaveType, fromDate, toDate, comments, WorkingDays);
+                return Json(new { result = res });
             }
-            var res = await ELTM.SubmitLeaveRequestAsync(id, leaveType, fromDate, toDate, comments, WorkingDays);
-            //return RedirectToAction("ApplyLeave");
-            return Json(new { result = res });
+            catch (Exception ex)
+            {
+                Logger.Error(ex);
+                return null;
+            }
         }
 
 
         [HttpPost]
         public async Task<JsonResult> SubmitLeaveRequestForCasualORAdvance(int CasualleaveCount, int AdvanceLeaveCount, int LOP, string fromDate, string toDate, string comments)
         {
-            var data = (UserAccount)Session[Constants.SESSION_OBJ_USER];
-            int id = data.RefEmployeeId;
-            string fromDay = fromDate;
-            string toDay = toDate;
-            IList<LeaveTransaction> res = new List<LeaveTransaction>();
-            EmployeeLeaveTransactionManagement ELTM = new EmployeeLeaveTransactionManagement();
-            //Add advance leave
-            if (CasualleaveCount != 0)
+            try
             {
-                fromDay = fromDate;
-                toDay = Convert.ToDateTime(fromDay).AddDays(CasualleaveCount).ToString();
-                res = await ELTM.SubmitLeaveRequestAsync(id, Convert.ToInt16(LeaveType.CasualLeave), fromDay, toDay, comments, Convert.ToDouble(CasualleaveCount));
+                var data = (UserAccount)Session[Constants.SESSION_OBJ_USER];
+                int id = data.RefEmployeeId;
+                string fromDay = fromDate;
+                string toDay = toDate;
+                IList<LeaveTransaction> res = new List<LeaveTransaction>();
+                //Add advance leave
+                if (CasualleaveCount != 0)
+                {
+                    fromDay = fromDate;
+                    toDay = CommonMethods.AddBusinessDays(Convert.ToDateTime(fromDay), CasualleaveCount).ToString();
+                    res = await ELTM.SubmitLeaveRequestAsync(id, Convert.ToInt16(LeaveType.CasualLeave), fromDay, toDay, comments, Convert.ToDouble(CasualleaveCount));
+                }
+                if (AdvanceLeaveCount != 0)
+                {
+                    var temtoday = toDay;
+                    toDay = CommonMethods.AddBusinessDays(Convert.ToDateTime(toDay), AdvanceLeaveCount).ToString();
+                    fromDay = Convert.ToDateTime(temtoday).AddDays(1).ToString();
+                    res = await ELTM.SubmitLeaveRequestAsync(id, Convert.ToInt16(LeaveType.AdvanceLeave), fromDay, toDay, comments, Convert.ToDouble(AdvanceLeaveCount));
+                }
+                if (LOP != 0)
+                {
+                    var temtoday = toDay;
+                    toDay = CommonMethods.AddBusinessDays(Convert.ToDateTime(toDay), LOP).ToString();
+                    fromDay = Convert.ToDateTime(temtoday).AddDays(1).ToString();//toDay;
+                    res = await ELTM.SubmitLeaveRequestAsync(id, Convert.ToInt16(LeaveType.LOP), fromDay, toDay, comments, Convert.ToDouble(LOP));
+                }
+                return Json(new { result = res });
             }
-            if (AdvanceLeaveCount != 0)
+            catch (Exception ex)
             {
-                fromDay = toDay;
-                toDay = Convert.ToDateTime(fromDay).AddDays(AdvanceLeaveCount).ToString();
-                res = await ELTM.SubmitLeaveRequestAsync(id, Convert.ToInt16(LeaveType.AdvanceLeave), fromDay, toDay, comments, Convert.ToDouble(AdvanceLeaveCount));
+                Logger.Error(ex);
+                return null;
             }
-            if (LOP != 0)
-            {
-                fromDay = toDay;
-                toDay = Convert.ToDateTime(fromDay).AddDays(LOP).ToString();
-                res = await ELTM.SubmitLeaveRequestAsync(id, Convert.ToInt16(LeaveType.LOP), fromDate, toDate, comments, Convert.ToDouble(LOP));
-            }
-            //return RedirectToAction("ApplyLeave");
-            return Json(new { result = res });
         }
         [HttpPost]
         public async Task<ActionResult> SubmitLeaveForApproval(int id)
@@ -115,14 +130,19 @@ namespace EmployeeLeaveManagementApp.Controllers
         [HttpPost]
         public async Task<ActionResult> DeleteLeaveRequest(int leaveId)
         {
-            int empId = ((UserAccount)Session[Constants.SESSION_OBJ_USER]).RefEmployeeId;
-            EmployeeLeaveTransactionManagement ELTM = new EmployeeLeaveTransactionManagement();
-
-            var res = await ELTM.DeleteLeaveRequestAsync(leaveId, empId);
-            //return RedirectToAction("ApplyLeave");
-            return Json(new { result = res });
+            try
+            {
+                int empId = ((UserAccount)Session[Constants.SESSION_OBJ_USER]).RefEmployeeId;
+                var res = await ELTM.DeleteLeaveRequestAsync(leaveId, empId);
+                //return RedirectToAction("ApplyLeave");
+                return Json(new { result = res });
+            }
+            catch (Exception ex)
+            {
+                Logger.Error(ex);
+                return RedirectToAction("Error", "Home");
+            }
         }
-
 
         public async Task<JsonResult> GetEmployeeLeaveList()
         {

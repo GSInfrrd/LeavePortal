@@ -56,7 +56,7 @@ namespace EmployeeLeaveManagementApp.Models
     }
     public class Announcement
     {
-public string Title { get; set; }
+        public string Title { get; set; }
         public string CarouselContent { get; set; }
         public string ImagePath { get; set; }
     }

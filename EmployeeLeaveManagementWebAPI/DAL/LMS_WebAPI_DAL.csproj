@@ -101,12 +101,14 @@
       <DependentUpon>EmployeeLeaveManagement.tt</DependentUpon>
     </Compile>
     <Compile Include="EmployeeLeaveManagement.Designer.cs">
+      <DependentUpon>EmployeeLeaveManagement.edmx</DependentUpon>
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
-      <DependentUpon>EmployeeLeaveManagement.edmx</DependentUpon>
     </Compile>
-    <Compile Include="EmployeeLeaveMaster.cs">
-      <DependentUpon>EmployeeLeaveManagement.tt</DependentUpon>
+    <Compile Include="EmployeeLeaveMaster.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>EmployeeLeaveMaster.cs</DependentUpon>
     </Compile>
     <Compile Include="EmployeeLeaveTransaction.cs">
       <DependentUpon>EmployeeLeaveManagement.tt</DependentUpon>
@@ -183,14 +185,20 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="App.Config" />
+    <Compile Include="EmployeeLeaveMaster.cs">
+      <Generator>EntityModelCodeGenerator</Generator>
+      <LastGenOutput>EmployeeLeaveMaster.Designer.cs</LastGenOutput>
+    </Compile>
     <EntityDeploy Include="EmployeeLeaveManagement.edmx">
       <Generator>EntityModelCodeGenerator</Generator>
       <LastGenOutput>EmployeeLeaveManagement.Designer.cs</LastGenOutput>
     </EntityDeploy>
     <None Include="EmployeeLeaveManagement.edmx.diagram">
-      <DependentUpon>EmployeeLeaveManagement.edmx</DependentUpon>
+      <DependentUpon>EmployeeLeaveMaster.cs</DependentUpon>
     </None>
-    <None Include="packages.config" />
+    <None Include="packages.config">
+      <SubType>Designer</SubType>
+    </None>
     <None Include="Scripts\jquery-3.1.1.min.map" />
     <None Include="Scripts\jquery-3.1.1.slim.min.map" />
   </ItemGroup>
@@ -210,12 +218,13 @@
   <ItemGroup>
     <Content Include="EmployeeLeaveManagement.Context.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
-      <DependentUpon>EmployeeLeaveManagement.edmx</DependentUpon>
+      <DependentUpon>EmployeeLeaveMaster.cs</DependentUpon>
       <LastGenOutput>EmployeeLeaveManagement.Context.cs</LastGenOutput>
     </Content>
+    <Content Include="EmployeeLeaveManagement.edmx.sql" />
     <Content Include="EmployeeLeaveManagement.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
-      <DependentUpon>EmployeeLeaveManagement.edmx</DependentUpon>
+      <DependentUpon>EmployeeLeaveMaster.cs</DependentUpon>
       <LastGenOutput>EmployeeLeaveManagement.cs</LastGenOutput>
     </Content>
     <Content Include="Scripts\jquery-1.6.4-vsdoc.js" />
