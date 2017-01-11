@@ -35,53 +35,29 @@ namespace LMS_WebAPI_DAL.Repositories
             {
                 using (var ctx = new LeaveManagementSystemEntities1())
                 {
-                    switch ((LeaveType)leaveType)
+
+                    var employeeLeaveDetails = new EmployeeLeaveTransaction
                     {
-                        case LeaveType.AdvanceLeave:
-                        case LeaveType.CasualLeave:
-                        case LeaveType.CompOff:
-                            //go for approval
-                            var employeeLeaveDetails = new EmployeeLeaveTransaction
-                            {
-                                EmployeeComment = comments,
-                                FromDate = Convert.ToDateTime(fromDate),
-                                ToDate = Convert.ToDateTime(toDate),
-                                CreatedDate = DateTime.Now,
-                                NumberOfWorkingDays = workingDays,
-                                RefLeaveType = leaveType,
-                                RefStatus = (int)LeaveStatus.Submitted,
-                                RefEmployeeId = empId,
-                                CreatedBy = ctx.EmployeeDetails.FirstOrDefault(i => i.Id == empId).FirstName
-                            };
-                            var newID = ctx.EmployeeLeaveTransactions.Add(employeeLeaveDetails);
-                            ctx.SaveChanges();
-                            var newId = Convert.ToInt16(newID.Id);
-                            //on apply leave the status go to submitted
-                            //Adding workflow table insertions
-                            SubmitLeaveForApproval(newId);
-                            break;
-                        case LeaveType.SickLeave:
-                            //auto approval
-                            var employeeLeaveDetailsSick = new EmployeeLeaveTransaction
-                            {
-                                EmployeeComment = comments,
-                                FromDate = Convert.ToDateTime(fromDate),
-                                ToDate = Convert.ToDateTime(toDate),
-                                CreatedDate = DateTime.Now,
-                                NumberOfWorkingDays = workingDays,
-                                RefLeaveType = leaveType,
-                                RefStatus = (int)LeaveStatus.Approved,
-                                RefEmployeeId = empId,
-                                CreatedBy = ctx.EmployeeDetails.FirstOrDefault(i => i.Id == empId).FirstName
-                            };
-                            ctx.EmployeeLeaveTransactions.Add(employeeLeaveDetailsSick);
-                            ctx.SaveChanges();
-                            break;
-                    }
+                        EmployeeComment = comments,
+                        FromDate = Convert.ToDateTime(fromDate),
+                        ToDate = Convert.ToDateTime(toDate),
+                        CreatedDate = DateTime.Now,
+                        NumberOfWorkingDays = workingDays,
+                        RefLeaveType = leaveType,
+                        RefStatus = (int)LeaveStatus.Submitted,
+                        RefEmployeeId = empId,
+                        CreatedBy = ctx.EmployeeDetails.FirstOrDefault(i => i.Id == empId).FirstName
+                    };
+                    var newID = ctx.EmployeeLeaveTransactions.Add(employeeLeaveDetails);
+                    ctx.SaveChanges();
+                    var newId = Convert.ToInt16(newID.Id);
+                    //on apply leave the status go to submitted
+                    //Adding workflow table insertions
+                    SubmitLeaveForApproval(newId);
                 }
                 result = true;
             }
-            catch (Exception)
+            catch (Exception ex)
             {
                 throw;
             }
@@ -113,8 +89,25 @@ namespace LMS_WebAPI_DAL.Repositories
                     ctx.Workflows.Add(workFlow);
                     ctx.SaveChanges();
 
-                //    var op = SendMail(leaveDetails.EmployeeDetail.FirstName, fromEmail, toEmail);
+                    var op = SendMail(leaveDetails.EmployeeDetail.FirstName, fromEmail, toEmail);
 
+                    //Send notification to manager
+                    int RefApproverId = (int)ctx.EmployeeDetails.FirstOrDefault(x => x.Id == leaveDetails.RefEmployeeId).ManagerId;
+                    string Firstname = ctx.EmployeeDetails.FirstOrDefault(x => x.Id == leaveDetails.RefEmployeeId).FirstName;
+                    string Lastname = ctx.EmployeeDetails.FirstOrDefault(x => x.Id == leaveDetails.RefEmployeeId).LastName;
+
+                    string Text = Firstname;
+                    if (Lastname != null)
+                    {
+                        Text += " ";
+                        Text += Lastname;
+                    }
+
+                    Text += " has applied for leave.";
+                    int Status = 1;
+                    int NotificationType = 27;
+                    ApproveLeaveRepository alr = new ApproveLeaveRepository();
+                    alr.insertNotification(RefApproverId, Text, Status, NotificationType);
                 }
                 result = true;
 
@@ -135,9 +128,8 @@ namespace LMS_WebAPI_DAL.Repositories
             {
                 using (var ctx = new LeaveManagementSystemEntities1())
                 {
+
                     var leaveDetails = ctx.EmployeeLeaveTransactions.FirstOrDefault(x => x.Id == id);
-                    var workFlowDet = ctx.Workflows.FirstOrDefault(x => x.RefLeaveTransactionId == leaveDetails.Id);
-                    ctx.Workflows.Remove(workFlowDet);
                     ctx.EmployeeLeaveTransactions.Remove(leaveDetails);
                     ctx.SaveChanges();
                 }

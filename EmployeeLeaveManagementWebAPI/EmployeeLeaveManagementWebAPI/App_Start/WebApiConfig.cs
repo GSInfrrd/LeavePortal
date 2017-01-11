@@ -5,6 +5,8 @@ using System.Net.Http;
 using System.Web.Http;
 using Microsoft.Owin.Security.OAuth;
 using Newtonsoft.Json.Serialization;
+using Microsoft.Owin.Cors;
+using Microsoft.AspNet.SignalR;
 
 namespace EmployeeLeaveManagementWebAPI
 {
@@ -16,9 +18,10 @@ namespace EmployeeLeaveManagementWebAPI
             // Configure Web API to use only bearer token authentication.
             config.SuppressDefaultHostAuthentication();
             config.Filters.Add(new HostAuthenticationFilter(OAuthDefaults.AuthenticationType));
-
+           
             // Web API routes
             config.MapHttpAttributeRoutes();
+            config.EnableCors();
 
             config.Routes.MapHttpRoute(
                 name: "DefaultApi",

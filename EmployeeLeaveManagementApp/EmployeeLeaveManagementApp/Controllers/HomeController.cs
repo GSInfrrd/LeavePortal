@@ -1,4 +1,5 @@
-﻿using System;
+﻿using EmployeeLeaveManagementApp.Models;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -26,5 +27,7 @@ namespace EmployeeLeaveManagementApp.Controllers
 
             return View();
         }
+
+        
     }
 }

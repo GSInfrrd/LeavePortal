@@ -38,6 +38,30 @@
       <HintPath>..\packages\EntityFramework.6.1.3\lib\net45\EntityFramework.SqlServer.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="Microsoft.Owin, Version=3.0.1.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Owin.3.0.1\lib\net45\Microsoft.Owin.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.Owin.Host.HttpListener, Version=3.0.1.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Owin.Host.HttpListener.3.0.1\lib\net45\Microsoft.Owin.Host.HttpListener.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.Owin.Host.SystemWeb, Version=3.0.1.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Owin.Host.SystemWeb.3.0.1\lib\net45\Microsoft.Owin.Host.SystemWeb.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.Owin.Hosting, Version=3.0.1.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Owin.Hosting.3.0.1\lib\net45\Microsoft.Owin.Hosting.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.Owin.Security, Version=3.0.1.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Owin.Security.3.0.1\lib\net45\Microsoft.Owin.Security.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Newtonsoft.Json, Version=9.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.9.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Core" />
@@ -52,6 +76,12 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Announcement.cs">
+      <DependentUpon>EmployeeLeaveManagement.tt</DependentUpon>
+    </Compile>
+    <Compile Include="ConsolidatedEmployeeLeaveDetail.cs">
+      <DependentUpon>EmployeeLeaveManagement.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Contact.cs">
       <DependentUpon>EmployeeLeaveManagement.tt</DependentUpon>
     </Compile>
     <Compile Include="EmployeeContactDetail.cs">
@@ -114,6 +144,9 @@
     <Compile Include="MasterDataValue.cs">
       <DependentUpon>EmployeeLeaveManagement.tt</DependentUpon>
     </Compile>
+    <Compile Include="Notification.cs">
+      <DependentUpon>EmployeeLeaveManagement.tt</DependentUpon>
+    </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Repositories\AddLeaveRepository.cs" />
     <Compile Include="Repositories\ApproveLeaveRepository.cs" />
@@ -127,9 +160,11 @@
     <Compile Include="Repositories\Interfaces\IGenericRepository.cs" />
     <Compile Include="Repositories\Interfaces\IHoliday.cs" />
     <Compile Include="Repositories\Interfaces\IHRRepository.cs" />
+    <Compile Include="Repositories\Interfaces\INotificationRepository.cs" />
     <Compile Include="Repositories\Interfaces\IResourceRequestRepository.cs" />
     <Compile Include="Repositories\Interfaces\IUser.cs" />
     <Compile Include="Repositories\Interfaces\IWorkFromHome.cs" />
+    <Compile Include="Repositories\NotificationRepository.cs" />
     <Compile Include="Repositories\ResourceRequestRepository.cs" />
     <Compile Include="Repositories\UserRepository.cs" />
     <Compile Include="Repositories\WorkFromHomeRepository.cs" />
@@ -153,6 +188,8 @@
       <DependentUpon>EmployeeLeaveManagement.edmx</DependentUpon>
     </None>
     <None Include="packages.config" />
+    <None Include="Scripts\jquery-3.1.1.min.map" />
+    <None Include="Scripts\jquery-3.1.1.slim.min.map" />
   </ItemGroup>
   <ItemGroup>
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
@@ -178,6 +215,16 @@
       <DependentUpon>EmployeeLeaveManagement.edmx</DependentUpon>
       <LastGenOutput>EmployeeLeaveManagement.cs</LastGenOutput>
     </Content>
+    <Content Include="Scripts\jquery-1.6.4-vsdoc.js" />
+    <Content Include="Scripts\jquery-1.6.4.js" />
+    <Content Include="Scripts\jquery-1.6.4.min.js" />
+    <Content Include="Scripts\jquery-3.1.1.intellisense.js" />
+    <Content Include="Scripts\jquery-3.1.1.js" />
+    <Content Include="Scripts\jquery-3.1.1.min.js" />
+    <Content Include="Scripts\jquery-3.1.1.slim.js" />
+    <Content Include="Scripts\jquery-3.1.1.slim.min.js" />
+    <Content Include="Scripts\jquery.signalR-2.2.1.js" />
+    <Content Include="Scripts\jquery.signalR-2.2.1.min.js" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

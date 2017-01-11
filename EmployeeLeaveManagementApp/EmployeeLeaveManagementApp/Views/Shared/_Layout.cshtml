@@ -30,7 +30,7 @@
     @using LMS_WebAPP_Utils
     @{
         var userName = ((LMS_WebAPP_Domain.UserAccount)Session[Constants.SESSION_OBJ_USER]).UserName;
-        var imagePath= ((LMS_WebAPP_Domain.UserAccount)Session[Constants.SESSION_OBJ_USER]).Imagepath;
+        var imagePath = ((LMS_WebAPP_Domain.UserAccount)Session[Constants.SESSION_OBJ_USER]).Imagepath;
         var joiningDate = ((LMS_WebAPP_Domain.UserAccount)Session[Constants.SESSION_OBJ_USER]).DateOfJoining;
         var roleId = ((LMS_WebAPP_Domain.UserAccount)Session[Constants.SESSION_OBJ_USER]).RefRoleId;
         var userRole = LMS_WebAPP_Utils.CommonMethods.Description((LMS_WebAPP_Utils.EmployeeRole)roleId);
@@ -52,10 +52,12 @@
     <!-- Bootstrap 3.3.6 -->
     <!-- AdminLTE App -->
     <script src="~/dist/js/app.min.js"></script>
+    <!-- AdminLTE for demo purposes -->
+    <script src="~/dist/js/demo.js"></script>
     <div class="wrapper">
         <header class="main-header">
             <!-- Logo -->
-            <a href="http://www.infrrd.ai/" class="logo">
+            <a href="../../index2.html" class="logo">
                 <!-- mini logo for sidebar mini 50x50 pixels -->
 
                 <span class="logo-mini">
@@ -75,35 +77,34 @@
                     <span class="icon-bar"></span>
                 </a>
                 <div class="navbar-custom-menu" id="navigationBar">
+                    @*<span class=" glyphicon glyphicon-bell"><span class="count">&nbsp;</span></span>
+                        <div class="noti-content">
+                            <div class="noti-top-arrow"></div>
+                            <ul id="notiContent"></ul>
+                        </div>*@
                     <ul class="nav navbar-nav">
                         <!-- Messages: style can be found in dropdown.less-->
                         <!-- Notifications: style can be found in dropdown.less -->
                         <li class="dropdown notifications-menu">
-                            <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                            <a href="#" class="dropdown-toggle noti" data-toggle="dropdown" aria-expanded="true">
                                 <i class="fa fa-bell-o"></i>
-                                <span class="label label-warning">10</span>
+                                <span id="notificationcount" class=" label label-warning">&nbsp;</span>
                             </a>
                             <ul class="dropdown-menu">
-                                <li class="header">You have 10 notifications</li>
+
                                 <li>
-                                    <!-- inner menu: contains the actual data -->
-                                    <ul class="menu">
-                                        <li>
-                                            <a href="#">
-                                                <i class="fa fa-users text-aqua"></i> 5 new members joined today
-                                            </a>
-                                        </li>
-                                    </ul>
+                                    <ul class="menu" id="notiContent"></ul>
                                 </li>
-                                <li class="footer"><a href="#">View all</a></li>
+                                @*<li class="footer"><a href="#">View all</a></li>*@
                             </ul>
                         </li>
+
                         <!-- Tasks: style can be found in dropdown.less -->
                         <!-- User Account: style can be found in dropdown.less -->
                         <li class="dropdown user user-menu">
-                            <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown" style="height:50px">
                                 <img src="@imagePath" class="user-image" alt="User Image">
-                                <span class="hidden-xs Login_Name">@userName</span>
+                                <span class="hidden-xs Login_Name" style="float:left">@userName</span>
                             </a>
                             <ul class="dropdown-menu">
                                 <!-- User image -->
@@ -161,54 +162,49 @@
                             </a>
 
                         </li>
-                     <li class="treeview">
+                        <li class="treeview">
                             <a href="@Url.Action("Profile", "Account")">
                                 <i class="fa fa-files-o"></i>
                                 <span>Profile</span>
                             </a>
                         </li>
                     }
-                   @if ((roleId == (int)EmployeeRole.Employee) || (roleId == (int)EmployeeRole.Manager) || roleId==(int)EmployeeRole.HR)
-                   {
-                        <li class="treeview">
+                    @if ((roleId == (int)EmployeeRole.Employee) || (roleId == (int)EmployeeRole.Manager) || roleId == (int)EmployeeRole.HR)
+                    {
+                        <li>
                             <a href="@Url.Action("ApplyLeave", "ApplyLeave")">
                                 <i class="fa fa-calendar-plus-o"></i> <span>Apply Leave</span>
 
                             </a>
                         </li>
-                        <li class="treeview">
+                        <li>
                             <a href="@Url.Action("Index", "WorkFromHome")">
                                 <i class="fa fa-calendar-plus-o"></i> <span>Apply WFH</span>
 
                             </a>
                         </li>
-                   }
-                    @if ((roleId == (int)EmployeeRole.Employee)|| (roleId == (int)EmployeeRole.Manager) || roleId==(int)EmployeeRole.HR)
+                    }
+                    @if ((roleId == (int)EmployeeRole.Employee) || (roleId == (int)EmployeeRole.Manager) || roleId == (int)EmployeeRole.HR)
                     {
-                        <li class="treeview">
+                        <li>
                             <a href="@Url.Action("LeaveTransaction", "LeaveTransaction")">
                                 <i class="fa fa-history"></i> <span>Leave History</span>
 
                             </a>
                         </li>
                     }
-@if ((roleId == (int)EmployeeRole.Manager))
-{
-                    <li class="treeview">
-                        <a href="@Url.Action("ApproveLeave", "ApproveLeave")">
-                            <i class="fa fa-calendar-check-o"></i> <span>Take Action</span>
-
-                        </a>
-                    </li>
-                    <li>
-                        <a href="@Url.Action("RequestForResources", "ResourceRequest")">
-                            <i class="fa fa-user-plus"></i> <span>Resource Request</span>
-                        </a>
-                    </li>
-}
-                    @if (roleId == (int)EmployeeRole.HR || roleId==(int)EmployeeRole.Manager)
+                    @if ((roleId == (int)EmployeeRole.Manager))
                     {
-                        <li class="treeview">
+                        <li>
+                            <a href="@Url.Action("ApproveLeave", "ApproveLeave")">
+                                <i class="fa fa-calendar-check-o"></i> <span>Take Action</span>
+
+                            </a>
+                        </li>
+                    }
+                    @if (roleId == (int)EmployeeRole.HR || roleId == (int)EmployeeRole.Manager)
+                    {
+                        <li>
                             <a href="@Url.Action("EmployeeDetails", "HR")">
                                 <i class="fa fa-database"></i> <span>Employee Details</span>
 
@@ -217,7 +213,7 @@
                     }
                     @if (roleId == (int)EmployeeRole.HR)
                     {
-                        <li class="treeview">
+                        <li>
                             <a href="@Url.Action("HolidayList", "HR")">
                                 <i class="fa fa-th"></i> <span>Add Holidays</span>
 
@@ -226,7 +222,7 @@
                     }
                     @if (roleId == (int)EmployeeRole.HR)
                     {
-                        <li class="treeview">
+                        <li>
                             <a href="@Url.Action("AddLeaves", "HR")">
                                 <i class="fa fa-th"></i> <span>Add Leaves</span>
 
@@ -235,7 +231,7 @@
                     }
                     @if (roleId == (int)EmployeeRole.HR)
                     {
-                        <li class="treeview">
+                        <li>
                             <a href="@Url.Action("CompanyAnnouncements", "HR")">
                                 <i class="fa fa-volume-up"></i> <span>Company Announcements</span>
 
@@ -244,7 +240,7 @@
                     }
                     @if (roleId == (int)EmployeeRole.HR)
                     {
-                        <li class="treeview">
+                        <li>
                             <a href="@Url.Action("Broadcast", "HR")">
                                 <i class="fa fa-th"></i> <span>Broadcast</span>
 
@@ -253,7 +249,7 @@
                     }
                     @if (roleId == (int)EmployeeRole.HR)
                     {
-                        <li class="treeview">
+                        <li>
                             <a href="@Url.Action("Reports", "HR")">
                                 <i class="fa fa-th"></i> <span>Reports</span>
 
@@ -299,10 +295,151 @@
     </div>
     <!-- ./wrapper -->
     <!-- jQuery 2.2.3 -->
+    @* Add Jquery Library *@
+    <script src="~/Scripts/jquery.signalR-2.2.1.min.js"></script>
+    <script src="~/signalr/hubs"></script>
+    <script src="http://localhost:64476/signalr/hubs"></script>
 
+    @* Add jquery code for Get Notification & setup signalr *@
+    <script type="text/javascript">
+
+        if (typeof console !== 'undefined') {
+            console = {};
+            console.log = function () { };
+        }
+        $(document).ready(function () {
+
+            updateNotificationCount();
+        });
+
+
+        // update notification count
+        function updateNotificationCount() {
+            var notifycount = 0;
+            $.ajax({
+
+                type: 'POST',
+                url: '/Notification/GetNotifications',
+                dataType: 'json',
+                success: function (response) {
+                    $('#notiContent').empty();
+                    if (response.result.length == 0) {
+                        $('#notiContent').append($('<li>No data available</li>'));
+                    }
+                    for (var i = 0; i < response.result.length; i++) {
+
+                        var opti = "<li><a href='javascript:void(0);' onclick='notificationSeen(" + response.result[i].Id + " , " + response.result[i].RefNotificationType + ");return false' ><i class='fa fa-bell text-aqua'></i>" + response.result[i].Text + "</a></li>";
+                        //var opt = new Option(response.result[i].Text);
+                        $('#notiContent').append(opti);
+                        notifycount++;
+                    }
+
+                    if (notifycount > 0) {
+                        $('#notificationcount').show();
+                        $('#notificationcount').html(notifycount);
+                    }
+                    else {
+                        $('#notificationcount').hide();
+
+                    }
+
+                },
+                error: function (error) {
+                    console.log(error);
+                }
+            })
+
+        }
+
+        function notificationSeen(Id, NotificationType) {
+            $.ajax({
+                type: 'POST',
+                url: '/Notification/NotificationSeen',
+                data: { Id: Id, NotificationType: NotificationType },
+                dataType: "json",
+                success: function (response) {
+                    updateNotificationCount();
+                },
+                error: function (error) {
+                    console.log(error);
+                }
+            });
+
+       window.location.href = "/Notification/NotificationRedirect?NotificationType=" + NotificationType;
+        }
+
+        $(function () {
+
+
+
+            // Click on notification icon for show notification
+            $('a.noti').click(function (e) {
+                e.stopPropagation();
+                $('.noti-content').show();
+                var count = 0;
+                count = parseInt($('span.count').html()) || 0;
+                //only load notification if not already loaded
+                if (count > 0) {
+                    updateNotification();
+                }
+                if ($('a.noti').parent().hasClass("open")) {
+                    $('a.noti').parent().removeClass("open");
+                } else {
+                    $('a.noti').parent().addClass("open");
+                }
+                //$('span.count', this).html('&nbsp;');
+            })
+            // hide notifications
+            $('html').click(function () {
+                $('.noti-content').hide();
+            })
+            // update notification
+            function updateNotification() {
+                $('#notiContent').empty();
+                $('#notiContent').append($('<li>Loading...</li>'));
+
+                $.ajax({
+                    type: 'POST',
+                    url: '/Notification/GetNotifications',
+                    dataType: "json",
+                    success: function (response) {
+                        $('#notiContent').empty();
+                        if (response.length == 0) {
+                            $('#notiContent').append($('<li>No data available</li>'));
+                        }
+                        for (var i = 0; i < response.result.length; i++) {
+                            var opti = "<li><a href='javascript:void(0);' onclick='notificationSeen(" + response.result[i].Id + " , " + response.result[i].RefNotificationType + ");return false' ><i class='fa fa-users text-aqua'></i>" + response.result[i].Text + "</a></li>";
+                            //var opt = new Option(response.result[i].Text);
+                            $('#notiContent').append(opti);
+                        }
+                    },
+                    error: function (error) {
+                        console.log(error);
+                    }
+                })
+            }
+
+
+
+
+
+            // signalr js code for start hub and send receive notification
+            var notificationHub = $.connection.notificationHub;
+            $.connection.hub.url = "http://localhost:64476/signalr/";
+            $.connection.hub.start({ withCredentials: false }).done(function () {
+                console.log('Notification hub started');
+            });
+
+            //signalr method for push server message to client
+            notificationHub.client.notify = function (message) {
+                if (message && message.toLowerCase() == "added") {
+                    updateNotificationCount();
+                }
+            }
+
+        })
+    </script>
 
 </body>
 </html>
-<script>
 
-</script>

@@ -11,13 +11,17 @@ namespace LMS_WebAPI_DAL.Repositories
     public class ApproveLeaveRepository : IApproveLeaveRepository
     {
 
-        public List<EmployeeDetailsModel> GetAllManagers(int id , int st)
+        public List<EmployeeDetailsModel> GetAllManagers(int id, int st)
         {
             try
             {
                 using (var ctx = new LeaveManagementSystemEntities1())
+
                 {
-                    var ManagersDetails = ctx.EmployeeDetails.Where(m => ((m.RefRoleId == 1) || (m.RefRoleId == 2))&&(m.Id != id) ).ToList();
+
+                    var EmployeeDetails = ctx.EmployeeDetails.Where(m => m.Id == id).FirstOrDefault();
+                    var level = EmployeeDetails.RefHierarchyLevel;
+                    var ManagersDetails = ctx.EmployeeDetails.Where(m => (m.RefHierarchyLevel >= level) && (m.Id != id)).ToList();
                     var retResult = ToModelMasterDetails(ManagersDetails);
 
                     if (retResult != null)
@@ -42,7 +46,7 @@ namespace LMS_WebAPI_DAL.Repositories
                 {
 
 
-                    var ApproveLeaves = ctx.Workflows.Where(m => (m.RefApproverId == id) &&((m.RefStatus == 10)|| (m.RefStatus == 21))).ToList();
+                    var ApproveLeaves = ctx.Workflows.Where(m => (m.RefApproverId == id) && ((m.RefStatus == 10) || (m.RefStatus == 21))).ToList();
                     var retResult = ToModel(ApproveLeaves);
 
                     if (retResult != null)
@@ -59,7 +63,7 @@ namespace LMS_WebAPI_DAL.Repositories
             }
         }
 
-        public bool ApproveEmployeeLeave(int id, string comments, int st , int apid)
+        public bool ApproveEmployeeLeave(int id, string comments, int st, int apid)
         {
 
             var result = false;
@@ -70,6 +74,10 @@ namespace LMS_WebAPI_DAL.Repositories
                 {
 
                     var leaveDetails = ctx.Workflows.FirstOrDefault(x => x.EmployeeLeaveTransaction.Id == id);
+                    var EmployeeId = leaveDetails.EmployeeLeaveTransaction.EmployeeDetail.Id;
+                    var ApproverId = leaveDetails.RefApproverId;
+                    int Status = 1;
+                    int NotificationType = 27;
                     if (st == 1)
                     {
                         leaveDetails.EmployeeLeaveTransaction.RefStatus = 12;
@@ -77,6 +85,20 @@ namespace LMS_WebAPI_DAL.Repositories
                         ctx.SaveChanges();
                         insertintoLeaveHistory(leaveDetails);
                         deletefromworkflow(id);
+
+                        var ManagerDetails = ctx.EmployeeDetails.FirstOrDefault(x => x.Id == ApproverId);
+                        string ManagerName = ManagerDetails.FirstName;
+                        if (ManagerDetails.LastName != null)
+                        {
+                            ManagerName += " ";
+                            ManagerName += ManagerDetails.LastName;
+                        }
+
+                        string Text = "Your Manager " + ManagerName + " has approved your leaves.";
+                        insertNotification(EmployeeId, Text , Status , NotificationType);
+
+
+
                     }
                     if (st == 0)
                     {
@@ -85,6 +107,17 @@ namespace LMS_WebAPI_DAL.Repositories
                         ctx.SaveChanges();
                         insertintoLeaveHistory(leaveDetails);
                         deletefromworkflow(id);
+
+                        var ManagerDetails = ctx.EmployeeDetails.FirstOrDefault(x => x.Id == ApproverId);
+                        string ManagerName = ManagerDetails.FirstName;
+                        if (ManagerDetails.LastName != null)
+                        {
+                            ManagerName += " ";
+                            ManagerName += ManagerDetails.LastName;
+                        }
+
+                        string Text = "Your Manager " + ManagerName + " has rejected your leaves.";
+                        insertNotification(EmployeeId, Text , Status , NotificationType);
                     }
                     if (st == 2)
                     {
@@ -93,6 +126,17 @@ namespace LMS_WebAPI_DAL.Repositories
                         ctx.SaveChanges();
                         insertintoLeaveHistory(leaveDetails);
                         deletefromworkflow(id);
+
+                        var ManagerDetails = ctx.EmployeeDetails.FirstOrDefault(x => x.Id == ApproverId);
+                        string ManagerName = ManagerDetails.FirstName;
+                        if (ManagerDetails.LastName != null)
+                        {
+                            ManagerName += " ";
+                            ManagerName += ManagerDetails.LastName;
+                        }
+
+                        string Text = "Your Manager " + ManagerName + " has Cancelled your leaves.";
+                        insertNotification(EmployeeId, Text , Status, NotificationType);
                     }
                     if (st == 3)
                     {
@@ -100,10 +144,31 @@ namespace LMS_WebAPI_DAL.Repositories
                         leaveDetails.RefApproverId = apid;
                         leaveDetails.ManagerComments = comments;
                         ctx.SaveChanges();
-                       // insertintoLeaveHistory(leaveDetails);
-                       // deletefromworkflow(id);
+
+                        var ManagerDetails = ctx.EmployeeDetails.FirstOrDefault(x => x.Id == ApproverId);
+                        string ManagerName = ManagerDetails.FirstName;
+                        if (ManagerDetails.LastName != null)
+                        {
+                            ManagerName += " ";
+                            ManagerName += ManagerDetails.LastName;
+                        }
+
+                        var assignedManager = ctx.EmployeeDetails.FirstOrDefault(x => x.Id == apid);
+
+                        string assignedManagerName = assignedManager.FirstName;
+
+                        if (assignedManager.LastName != null)
+                        {
+                            assignedManagerName += " ";
+                            assignedManagerName += assignedManager.LastName;
+                        }
+
+                        string Text = "Your Manager " + ManagerName + " has reassigned your leaves to " + assignedManagerName + ".";
+                        insertNotification(EmployeeId, Text, Status, NotificationType);
+                        // insertintoLeaveHistory(leaveDetails);
+                        // deletefromworkflow(id);
                     }
-                    
+
 
                 }
                 result = true;
@@ -117,6 +182,32 @@ namespace LMS_WebAPI_DAL.Repositories
 
         }
 
+        public void insertNotification(int id, string Text , int status, int notificationType)
+        {
+            try
+            {
+
+                using (var ctx = new LeaveManagementSystemEntities1())
+                {
+                    Notification N = new Notification();
+                    var m = N;
+                    m.RefEmployeeId = id;
+                    m.Text = Text;
+                    m.CreatedDate = Convert.ToDateTime(DateTime.Now);
+                    m.Status = status;
+                    m.RefNotificationType = notificationType;
+
+                    ctx.Notifications.Add(m);
+                    ctx.SaveChanges();
+                }
+            }
+            catch (Exception ex)
+            {
+                throw;
+
+            }
+
+        }
         public void insertintoLeaveHistory(Workflow leaveDetails)
         {
             try
@@ -169,7 +260,10 @@ namespace LMS_WebAPI_DAL.Repositories
             ApproveLeaveModel Empres = new ApproveLeaveModel();
             try
             {
+
                 var m = employeeLeaveTransaction;
+
+
                 Empres.Id = m.Id;
                 Empres.EmployeeName = m.EmployeeDetail.FirstName + " " + m.EmployeeDetail.LastName;
                 Empres.RefEmployeeId = m.RefEmployeeId;
@@ -184,6 +278,10 @@ namespace LMS_WebAPI_DAL.Repositories
                 Empres.StatusName = m.MasterDataValue1.Value;
                 //newTrans.ManagerComments = m.ManagerComments;
                 Empres.ModifiedDate = m.ModifiedDate;
+
+
+
+
             }
             catch (Exception)
             {

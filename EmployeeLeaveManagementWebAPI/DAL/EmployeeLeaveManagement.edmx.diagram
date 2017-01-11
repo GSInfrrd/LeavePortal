@@ -48,6 +48,12 @@
         <EntityTypeShape EntityType="LeaveManagementSystemModel.EmployeeLeaveMaster" Width="1.5" PointX="7.5" PointY="31.5" />
         <AssociationConnector Association="LeaveManagementSystemModel.FK_ConsolidatedEmployeeLeaveDetails_EmployeeDetails1" />
         <AssociationConnector Association="LeaveManagementSystemModel.FK_ConsolidatedEmployeeLeaveDetails_EmployeeDetails" />
+        <EntityTypeShape EntityType="LeaveManagementSystemModel.ConsolidatedEmployeeLeaveDetail" Width="1.5" PointX="7.5" PointY="4" />
+        <EntityTypeShape EntityType="LeaveManagementSystemModel.Contact" Width="1.5" PointX="5.375" PointY="0.75" />
+        <EntityTypeShape EntityType="LeaveManagementSystemModel.Notification" Width="1.5" PointX="12.5" PointY="9.25" />
+        <AssociationConnector Association="LeaveManagementSystemModel.FK_ConsolidatedEmployeeLeaveDetails_EmployeeDetails2" />
+        <AssociationConnector Association="LeaveManagementSystemModel.FK_EmployeeDetails_Notification" />
+        <AssociationConnector Association="LeaveManagementSystemModel.FK_MasterDataValue_Notification" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

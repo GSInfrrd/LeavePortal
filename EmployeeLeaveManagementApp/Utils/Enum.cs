@@ -7,19 +7,18 @@ using System.Threading.Tasks;
 
 namespace LMS_WebAPP_Utils
 {
- public enum LeaveType
+    public enum LeaveType
     {
 
         [Description("Casual Leave")]
-        CasualLeave=8,
+        CasualLeave = 8,
         [Description("Sick Leave")]
-        SickLeave=7,
-        [Description("CompOff")]
+        SickLeave = 7,
+        [Description("Compo Off")]
         CompoOff = 25,
         [Description("Advance Leave")]
         AdvanceLeave = 26,
-        [Description("LOP")]
-        LOP=27
+        LOP = 27
     }
 
     public enum LeaveStatus
@@ -30,7 +29,7 @@ namespace LMS_WebAPP_Utils
         [Description("Submitted")]
         Submitted = 10,
         [Description("Rejected")]
-        Rejected =11,
+        Rejected = 11,
         [Description("Approved")]
         Approved = 12,
         [Description("Reassigned")]
@@ -54,17 +53,17 @@ namespace LMS_WebAPP_Utils
     public enum HierarchyLevel
     {
         [Description("Level-0")]
-        Level0 =13,
+        Level0 = 13,
         [Description("Level-1")]
-        Level1 =15,
+        Level1 = 15,
         [Description("Level-2")]
-        Level2 =16,
+        Level2 = 16,
         [Description("Level-3")]
-        Level3 =17,
+        Level3 = 17,
         [Description("Level-4")]
-        Level4 =18,
+        Level4 = 18,
         [Description("Level-5")]
-        Level5 =19
+        Level5 = 19
     }
 
     public enum WorkFormHomeReasons
@@ -73,5 +72,12 @@ namespace LMS_WebAPP_Utils
         Maintenance = 23,
         [Description("To avoid Travel")]
         AvoidTravel = 24,
+    }
+
+    public enum NotificationTypes
+    {
+        [Description("LeaveNotification")]
+        LeaveNotification = 27,
+
     }
 }

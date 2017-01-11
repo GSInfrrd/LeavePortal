@@ -47,6 +47,8 @@
     <Compile Include="HolidayModel.cs" />
     <Compile Include="LeaveReportModel.cs" />
     <Compile Include="LeaveTransaction.cs" />
+    <Compile Include="Messages.cs" />
+    <Compile Include="Notification.cs" />
     <Compile Include="ResourceDetails.cs" />
     <Compile Include="UserAccount.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
