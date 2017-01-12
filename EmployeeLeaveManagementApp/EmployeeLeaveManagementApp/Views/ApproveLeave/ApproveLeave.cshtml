@@ -140,10 +140,20 @@
                     <h4 class="modal-title">View Leave</h4>
                 </div>
                 <div class="modal-body">
-                    <div class="form-group">
-                        <div>
-                            <label>Employee Name :  </label> &nbsp;<span id="MdlName"></span>
-                            <label style="padding-left:100px">Leave Type :  </label> &nbsp;<span id="MdlLeaveType"></span>
+                    <div class="form-group" style="padding-left: 20px;">
+                        <div >
+                            <table width="100%">
+                                <tr>
+                                    <td width="50%">
+                                        <label>Employee Name :  </label> &nbsp;
+                                        <span id="MdlName"></span>
+                                    </td>
+                                    <td style="padding-left: 48px;">
+                                        <label>Leave Type :  </label> &nbsp;
+                                        <span id="MdlLeaveType"></span>
+                                    </td>
+                                </tr>
+                            </table>
                         </div>
                         <div>
                             
@@ -166,13 +176,13 @@
                             <label style="padding-top:20px">Employee Comments :</label> &nbsp;<span id="MdlEmployeeComments"></span>
                         </div>
                     </div>
-                    <div class="form-group">
+                    <div class="form-group" style="padding-left: 20px;">
                         <div>
                             <label id="managercomments" style="padding-top:20px">Manager Comments :</label>
                         </div>
                         
                         <div>
-                            <textarea id="leaveComment" rows="3" style="width:568px" placeholder="Enter ..."></textarea>
+                            <textarea id="leaveComment" rows="3" style="width:100%" placeholder="Enter ..."></textarea>
                         </div>
                         <div class="form-group has-error" style="display:none" id="divCommentError">
                             <label class="control-label" for="managercomments">
