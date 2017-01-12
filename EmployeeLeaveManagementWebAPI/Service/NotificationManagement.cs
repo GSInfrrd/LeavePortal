@@ -2,6 +2,7 @@
 using LMS_WebAPI_DAL.Repositories;
 using LMS_WebAPI_DAL.Repositories.Interfaces;
 using LMS_WebAPI_Domain;
+using LMS_WebAPI_Utils;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -17,13 +18,33 @@ namespace LMS_WebAPI_ServiceHelpers
 
         public List<NotificationModel> GetNotifications(int id)
         {
-            var NotificationDetails = EmployeeNotifications.GetNotifications(id);
-            return NotificationDetails;
+            Logger.Info("Entering into NotificationManagement Service helper GetNotifications method ");
+            try
+            {
+                var NotificationDetails = EmployeeNotifications.GetNotifications(id);
+                Logger.Info("Exiting from into NotificationManagement Service helper GetNotifications method ");
+                return NotificationDetails;
+            }
+            catch
+            {
+                Logger.Info("Exception occured at NotificationManagement Service helper GetNotifications method ");
+                throw;
+            }
         }
 
         public void NotificationSeen(int id, int NotificationType)
         {
-            EmployeeNotifications.NotificationSeen(id, NotificationType);
+            Logger.Info("Entering into NotificationManagement Service helper NotificationSeen method ");
+            try
+            {
+                EmployeeNotifications.NotificationSeen(id, NotificationType);
+                Logger.Info("Exiting from into NotificationManagement Service helper NotificationSeen method ");
+            }
+            catch
+            {
+                Logger.Info("Exception occured at NotificationManagement Service helper NotificationSeen method ");
+                throw;
+            }
         }
     }
 }

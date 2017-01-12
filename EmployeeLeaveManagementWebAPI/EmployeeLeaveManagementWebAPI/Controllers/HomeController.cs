@@ -1,4 +1,5 @@
-﻿using System;
+﻿using LMS_WebAPI_Utils;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -10,9 +11,18 @@ namespace EmployeeLeaveManagementWebAPI.Controllers
     {
         public ActionResult Index()
         {
-            ViewBag.Title = "Home Page";
-
-            return View();
+            try
+            {
+                Logger.Info("Entering in HomeController API Index method");
+                ViewBag.Title = "Home Page";
+                Logger.Info("Successfully exiting from HomeController API Index method");
+                return View();
+            }
+            catch (Exception ex)
+            {
+                Logger.Error("Error at HomeController API Index method.", ex);
+                return null;
+            }
         }
     }
 }

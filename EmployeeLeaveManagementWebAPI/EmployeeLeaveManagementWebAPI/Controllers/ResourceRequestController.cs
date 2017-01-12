@@ -1,4 +1,5 @@
 ﻿using Domain;
+using LMS_WebAPI_Utils;
 using Service;
 using System;
 using System.Collections.Generic;
@@ -16,14 +17,15 @@ namespace EmployeeLeaveManagementWebAPI.Controllers
         {
             try
             {
+                Logger.Info("Entering in ResourceRequestController API Get method");
                 var resourceDetails = new ResourceDetails();
                 resourceDetails = resourceRequestmanagement.GetResourceRequestFormDetails();
-
+                Logger.Info("Successfully exiting from ResourceRequestController API Get method");
                 return resourceDetails;
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-
+                Logger.Error("Error at ResourceRequestController API Get method.", ex);
                 throw;
             }
         }

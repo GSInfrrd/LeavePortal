@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using LMS_WebAPI_DAL.Repositories;
 using LMS_WebAPI_Domain;
+using LMS_WebAPI_Utils;
 
 namespace LMS_WebAPI_ServiceHelpers
 {
@@ -12,6 +13,7 @@ namespace LMS_WebAPI_ServiceHelpers
         private IHoliday holiday = new HolidayRepository();
         public IList<HolidayModel> AddNewHoliday(HolidayModel model)
         {
+            Logger.Info("Entering into HolidayManagement Service helper AddNewHoliday method ");
             try
             {
                 LMS_WebAPI_DAL.Holiday newholiday = new LMS_WebAPI_DAL.Holiday()
@@ -23,20 +25,23 @@ namespace LMS_WebAPI_ServiceHelpers
                     Id = model.Id
 
                 };
+                Logger.Info("Exiting from into HolidayManagement Service helper AddNewHoliday method ");
                 if (holiday.AddHoliday(newholiday) == true) { return GetHolidayList(); }
                 else
                 {
                     throw new Exception("Something went wrong");
                 }
             }
-            catch (Exception ex)
+            catch
             {
-                throw ex;
+                Logger.Info("Exception occured at HolidayManagement Service helper AddNewHoliday method ");
+                throw;
             }
         }
 
         public IList<HolidayModel> GetHolidayList()
         {
+            Logger.Info("Entering into HolidayManagement Service helper GetHolidayList method ");
             try
             {
                 var resultList = holiday.GetHolidayList();
@@ -50,16 +55,19 @@ namespace LMS_WebAPI_ServiceHelpers
                                    Description = holi.Description,
                                    IsActive = holi.IsActive
                                }).ToList();
+                Logger.Info("Exiting from into HolidayManagement Service helper GetHolidayList method ");
                 return holidayList;
             }
-            catch (Exception ex)
+            catch
             {
-                throw ex;
+                Logger.Info("Exception occured at HolidayManagement Service helper GetHolidayList method ");
+                throw;
             }
         }
 
         public IList<HolidayModel> UpdateHoliday(HolidayModel model)
         {
+            Logger.Info("Entering into HolidayManagement Service helper UpdateHoliday method ");
             try
             {
                 LMS_WebAPI_DAL.Holiday newholiday = new LMS_WebAPI_DAL.Holiday()
@@ -75,27 +83,32 @@ namespace LMS_WebAPI_ServiceHelpers
                 {
                     return GetHolidayList();
                 }
+                Logger.Info("Exiting from into HolidayManagement Service helper UpdateHoliday method ");
                 return null;
             }
-            catch (Exception ex)
+            catch
             {
-                throw ex;
+                Logger.Info("Exception occured at HolidayManagement Service helper UpdateHoliday method ");
+                throw;
             }
         }
 
         public IList<HolidayModel> DeleteHoliday(long id)
         {
+            Logger.Info("Entering into HolidayManagement Service helper DeleteHoliday method ");
             try
             {
                 if (holiday.DeleteHolidayRequest(id))
                 {
                     return GetHolidayList();
                 }
+                Logger.Info("Exiting from into HolidayManagement Service helper DeleteHoliday method ");
                 return null;
             }
-            catch (Exception ex)
+            catch
             {
-                throw ex;
+                Logger.Info("Exception occured at HolidayManagement Service helper DeleteHoliday method ");
+                throw;
             }
         }
     }

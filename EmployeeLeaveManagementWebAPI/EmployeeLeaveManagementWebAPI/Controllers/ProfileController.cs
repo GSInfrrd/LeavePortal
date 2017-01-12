@@ -1,5 +1,6 @@
 ﻿using LMS_WebAPI_Domain;
 using LMS_WebAPI_ServiceHelpers;
+using LMS_WebAPI_Utils;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -21,44 +22,70 @@ namespace EmployeeLeaveManagementWebAPI.Controllers
             var accController = new AccountController();
             try
             {
+                Logger.Info("Entering in ProfileController API GetUserProfileDetails method");
                 var empData = userManager.GetUserProfileDetails(empId);
-             // empData.ImagePath = accController.GetFile(empData.ImagePath);
-                if (null != empData)
-                {
-                    return empData;
-                }
-                else
-                {
-                    return null;
-                }
+                // empData.ImagePath = accController.GetFile(empData.ImagePath);
+                Logger.Info("Successfully exiting from ProfileController API GetUserProfileDetails method");
+                return empData;
+                
             }
             catch (Exception ex)
             {
+                Logger.Error("Error at ProfileController API GetUserProfileDetails method.", ex);
                 return null;
-                //throw;
             }
         }
 
         public bool Post(EmployeeDetailsModel model)
         {
-           var result = userManager.EditEmployeeDetails(model);
-            return result;
+            try
+            {
+                Logger.Info("Entering in ProfileController API Post method");
+                var result = userManager.EditEmployeeDetails(model);
+                Logger.Info("Successfully exiting from ProfileController API Post method");
+                return result;
+            }
+            catch (Exception ex)
+            {
+                Logger.Error("Error at ProfileController API Post method.", ex);
+                return false;
+            }
         }
 
         [HttpPost]
         [Route("EditEmployeeEducationDetails")]
         public bool EditEmployeeEducationDetails(List<EmployeeEducationDetails> educationDetails,int employeeId)
         {
-           var result = userManager.EditEmployeeEducationDetails(educationDetails,employeeId);
-            return true;
+            try
+            {
+                Logger.Info("Entering in ProfileController API EditEmployeeEducationDetails method");
+                var result = userManager.EditEmployeeEducationDetails(educationDetails,employeeId);
+                Logger.Info("Successfully exiting from ProfileController API EditEmployeeEducationDetails method");
+                return true;
+            }
+            catch (Exception ex)
+            {
+                Logger.Error("Error at ProfileController API EditEmployeeEducationDetails method.", ex);
+                return false;
+            }
         }
 
         [HttpPost]
         [Route("EditEmployeeExperienceDetails")]
         public bool EditEmployeeExperienceDetails(List<EmployeeExperienceDetails> experienceDetails, int employeeId)
         {
-            var result = userManager.EditEmployeeExperienceDetails(experienceDetails, employeeId);
-            return true;
+            try
+            {
+                Logger.Info("Entering in ProfileController API EditEmployeeExperienceDetails method");
+                var result = userManager.EditEmployeeExperienceDetails(experienceDetails, employeeId);
+                Logger.Info("Successfully exiting from ProfileController API EditEmployeeExperienceDetails method");
+                return true;
+            }
+            catch (Exception ex)
+            {
+                Logger.Error("Error at ProfileController API EditEmployeeExperienceDetails method.", ex);
+                return false;
+            }
         }
 
 
@@ -66,8 +93,18 @@ namespace EmployeeLeaveManagementWebAPI.Controllers
         [Route("EditEmployeeSkills")]
         public bool EditEmployeeSkills(List<EmployeeSkillDetails> skills, int employeeId)
         {
-            var result = userManager.EditEmployeeSkills(skills, employeeId);
-            return true;
+            try
+            {
+                Logger.Info("Entering in ProfileController API EditEmployeeSkills method");
+                var result = userManager.EditEmployeeSkills(skills, employeeId);
+                Logger.Info("Successfully exiting from ProfileController API EditEmployeeSkills method");
+                return true;
+            }
+            catch (Exception ex)
+            {
+                Logger.Error("Error at ProfileController API EditEmployeeSkills method.", ex);
+                return false;
+            }
         }
 
 
@@ -78,22 +115,15 @@ namespace EmployeeLeaveManagementWebAPI.Controllers
         {
             try
             {
+                Logger.Info("Entering in ProfileController API getProfileImage method");
                 var profileImage = userManager.getUserProfileImage(empId);
-                if (null != profileImage)
-                {
-                    //MemoryStream ms = new MemoryStream(profileImage);
-                    //HttpResponseMessage response = new HttpResponseMessage(HttpStatusCode.OK);
-                    //response.Content = new StreamContent(ms);
-                    //response.Content.Headers.ContentType = new System.Net.Http.Headers.MediaTypeHeaderValue("image/png");
-                    return profileImage;
-                }
-                else
-                {
-                    return null;
-                }
+                Logger.Info("Successfully exiting from ProfileController API getProfileImage method");
+                return profileImage;
+                
             }
             catch (Exception ex)
             {
+                Logger.Error("Error at ProfileController API getProfileImage method.", ex);
                 return null;
             }
         }

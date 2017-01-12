@@ -1,5 +1,6 @@
 ﻿using LMS_WebAPI_DAL.Repositories.Interfaces;
 using LMS_WebAPI_Domain;
+using LMS_WebAPI_Utils;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -15,25 +16,20 @@ namespace LMS_WebAPI_DAL.Repositories
         {
             try
             {
+                Logger.Info("Entering in ApproveLeaveRepository API GetAllManagers method");
                 using (var ctx = new LeaveManagementSystemEntities1())
-
                 {
-
                     var EmployeeDetails = ctx.EmployeeDetails.Where(m => m.Id == id).FirstOrDefault();
                     var level = EmployeeDetails.RefHierarchyLevel;
                     var ManagersDetails = ctx.EmployeeDetails.Where(m => (m.RefHierarchyLevel >= level) && (m.Id != id)).ToList();
                     var retResult = ToModelMasterDetails(ManagersDetails);
-
-                    if (retResult != null)
-                    {
-                        return retResult;
-                    }
-                    else
-                        return null;
+                    Logger.Info("Successfully exiting from ApproveLeaveRepository API GetAllManagers method");
+                    return retResult;
                 }
             }
-            catch (Exception ex)
+            catch
             {
+                Logger.Info("Exception occured at ApproveLeaveRepository API GetAllManagers method ");
                 throw;
             }
         }
@@ -41,38 +37,30 @@ namespace LMS_WebAPI_DAL.Repositories
         {
             try
             {
+                Logger.Info("Entering in ApproveLeaveRepository API GetApproveLeave method");
                 using (var ctx = new LeaveManagementSystemEntities1())
-
                 {
-
-
                     var ApproveLeaves = ctx.Workflows.Where(m => (m.RefApproverId == id) && ((m.RefStatus == 10) || (m.RefStatus == 21))).ToList();
                     var retResult = ToModel(ApproveLeaves);
-
-                    if (retResult != null)
-                    {
-                        return retResult;
-                    }
-                    else
-                        return null;
+                    Logger.Info("Successfully exiting from ApproveLeaveRepository API GetApproveLeave method");
+                    return retResult;
                 }
             }
-            catch (Exception ex)
+            catch
             {
+                Logger.Info("Exception occured at ApproveLeaveRepository API GetApproveLeave method ");
                 throw;
             }
         }
 
         public bool ApproveEmployeeLeave(int id, string comments, int st, int apid)
         {
-
             var result = false;
-
             try
             {
+                Logger.Info("Entering in ApproveLeaveRepository API ApproveEmployeeLeave method");
                 using (var ctx = new LeaveManagementSystemEntities1())
                 {
-
                     var leaveDetails = ctx.Workflows.FirstOrDefault(x => x.EmployeeLeaveTransaction.Id == id);
                     var EmployeeId = leaveDetails.EmployeeLeaveTransaction.EmployeeDetail.Id;
                     var ApproverId = leaveDetails.RefApproverId;
@@ -168,14 +156,13 @@ namespace LMS_WebAPI_DAL.Repositories
                         // insertintoLeaveHistory(leaveDetails);
                         // deletefromworkflow(id);
                     }
-
-
+                    Logger.Info("Successfully exiting from ApproveLeaveRepository API ApproveEmployeeLeave method");
                 }
                 result = true;
-
             }
-            catch (Exception ex)
+            catch
             {
+                Logger.Info("Exception occured at ApproveLeaveRepository API ApproveEmployeeLeave method ");
                 throw;
             }
             return result;
@@ -186,7 +173,7 @@ namespace LMS_WebAPI_DAL.Repositories
         {
             try
             {
-
+                Logger.Info("Entering in ApproveLeaveRepository API insertNotification method");
                 using (var ctx = new LeaveManagementSystemEntities1())
                 {
                     Notification N = new Notification();
@@ -196,15 +183,15 @@ namespace LMS_WebAPI_DAL.Repositories
                     m.CreatedDate = Convert.ToDateTime(DateTime.Now);
                     m.Status = status;
                     m.RefNotificationType = notificationType;
-
                     ctx.Notifications.Add(m);
                     ctx.SaveChanges();
                 }
+                Logger.Info("Successfully exiting from ApproveLeaveRepository API insertNotification method");
             }
-            catch (Exception ex)
+            catch
             {
+                Logger.Info("Exception occured at ApproveLeaveRepository API insertNotification method ");
                 throw;
-
             }
 
         }
@@ -212,6 +199,7 @@ namespace LMS_WebAPI_DAL.Repositories
         {
             try
             {
+                Logger.Info("Entering in ApproveLeaveRepository API insertintoLeaveHistory method");
                 using (var ctx = new LeaveManagementSystemEntities1())
                 {
                     EmployeeLeaveTransactionHistory elth = new EmployeeLeaveTransactionHistory();
@@ -230,9 +218,11 @@ namespace LMS_WebAPI_DAL.Repositories
                     ctx.EmployeeLeaveTransactionHistories.Add(m);
                     ctx.SaveChanges();
                 }
+                Logger.Info("Successfully exiting from ApproveLeaveRepository API insertintoLeaveHistory method");
             }
-            catch (Exception ex)
+            catch
             {
+                Logger.Info("Exception occured at ApproveLeaveRepository API insertintoLeaveHistory method ");
                 throw;
             }
         }
@@ -241,16 +231,18 @@ namespace LMS_WebAPI_DAL.Repositories
         {
             try
             {
-
+                Logger.Info("Entering in ApproveLeaveRepository API deletefromworkflow method");
                 using (var ctx = new LeaveManagementSystemEntities1())
                 {
                     var leaveDetails = ctx.Workflows.FirstOrDefault(x => x.EmployeeLeaveTransaction.Id == id);
                     ctx.Workflows.Remove(leaveDetails);
                     ctx.SaveChanges();
                 }
+                Logger.Info("Successfully exiting from ApproveLeaveRepository API deletefromworkflow method");
             }
-            catch (Exception ex)
+            catch
             {
+                Logger.Info("Exception occured at ApproveLeaveRepository API deletefromworkflow method ");
                 throw;
             }
         }
@@ -260,10 +252,8 @@ namespace LMS_WebAPI_DAL.Repositories
             ApproveLeaveModel Empres = new ApproveLeaveModel();
             try
             {
-
+                Logger.Info("Entering in ApproveLeaveRepository API ToModelSingle method");
                 var m = employeeLeaveTransaction;
-
-
                 Empres.Id = m.Id;
                 Empres.EmployeeName = m.EmployeeDetail.FirstName + " " + m.EmployeeDetail.LastName;
                 Empres.RefEmployeeId = m.RefEmployeeId;
@@ -278,58 +268,45 @@ namespace LMS_WebAPI_DAL.Repositories
                 Empres.StatusName = m.MasterDataValue1.Value;
                 //newTrans.ManagerComments = m.ManagerComments;
                 Empres.ModifiedDate = m.ModifiedDate;
-
-
-
-
+                Logger.Info("Successfully exiting from ApproveLeaveRepository API ToModelSingle method");
             }
-            catch (Exception)
+            catch
             {
-
+                Logger.Info("Exception occured at ApproveLeaveRepository API ToModelSingle method ");
                 throw;
             }
             return Empres;
-
-
-
         }
 
         private List<EmployeeDetailsModel> ToModelMasterDetails(List<EmployeeDetail> EmployeeDetails)
         {
+            Logger.Info("Entering in ApproveLeaveRepository API ToModelMasterDetails method");
             List<EmployeeDetailsModel> Empres = new List<EmployeeDetailsModel>();
             try
             {
-
-
                 foreach (var m in EmployeeDetails)
                 {
-
                     var newTrans = new EmployeeDetailsModel();
                     newTrans.Id = m.Id;
                     newTrans.FirstName = m.FirstName;
                     newTrans.LastName = m.LastName;
                     Empres.Add(newTrans);
                 }
-
-
-
+                Logger.Info("Successfully exiting from ApproveLeaveRepository API ToModelMasterDetails method");
             }
-            catch (Exception)
+            catch
             {
-
+                Logger.Info("Exception occured at ApproveLeaveRepository API ToModelMasterDetails method ");
                 throw;
             }
             return Empres;
-
-
-
         }
         private List<ApproveLeaveModel> ToModel(List<Workflow> LeaveWorkflow)
         {
+            Logger.Info("Entering in ApproveLeaveRepository API ToModel method");
             List<ApproveLeaveModel> Empres = new List<ApproveLeaveModel>();
             try
             {
-
                 foreach (var m in LeaveWorkflow)
                 {
                     var newTrans = new ApproveLeaveModel();
@@ -348,19 +325,15 @@ namespace LMS_WebAPI_DAL.Repositories
                     //newTrans.ManagerComments = m.ManagerComments;
                     newTrans.ModifiedDate = m.ModifiedDate;
                     Empres.Add(newTrans);
-
-
                 }
+                Logger.Info("Successfully exiting from ApproveLeaveRepository API ToModel method");
             }
-            catch (Exception)
+            catch 
             {
-
+                Logger.Info("Exception occured at ApproveLeaveRepository API ToModel method ");
                 throw;
             }
             return Empres;
-
-
-
         }
     }
 }

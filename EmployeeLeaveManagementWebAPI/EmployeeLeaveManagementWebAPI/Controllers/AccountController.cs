@@ -59,168 +59,231 @@ namespace EmployeeLeaveManagementWebAPI.Controllers
         [Route("UserInfo")]
         public UserInfoViewModel GetUserInfo()
         {
-            ExternalLoginData externalLogin = ExternalLoginData.FromIdentity(User.Identity as ClaimsIdentity);
-
-            return new UserInfoViewModel
+            try
             {
-                Email = User.Identity.GetUserName(),
-                HasRegistered = externalLogin == null,
-                LoginProvider = externalLogin != null ? externalLogin.LoginProvider : null
-            };
+                Logger.Info("Entering in AccountController API GetUserInfo method");
+                ExternalLoginData externalLogin = ExternalLoginData.FromIdentity(User.Identity as ClaimsIdentity);
+                Logger.Info("Successfully exiting from AccountController API GetUserInfo method");
+                return new UserInfoViewModel
+                {
+                    Email = User.Identity.GetUserName(),
+                    HasRegistered = externalLogin == null,
+                    LoginProvider = externalLogin != null ? externalLogin.LoginProvider : null
+                };
+            }
+            catch (Exception ex)
+            {
+                Logger.Error("Error at AccountController API GetUserInfo method.", ex);
+                return null;
+            }
         }
 
         // POST api/Account/Logout
         [Route("Logout")]
         public IHttpActionResult Logout()
         {
-            Authentication.SignOut(CookieAuthenticationDefaults.AuthenticationType);
-            return Ok();
+            try
+            {
+                Logger.Info("Entering in AccountController API Logout method");
+                Authentication.SignOut(CookieAuthenticationDefaults.AuthenticationType);
+                Logger.Info("Successfully exiting from AccountController API Logout method");
+                return Ok();
+            }
+            catch (Exception ex)
+            {
+                Logger.Error("Error at AccountController API Logout method.", ex);
+                return BadRequest();
+            }
         }
 
         // GET api/Account/ManageInfo?returnUrl=%2F&generateState=true
         [Route("ManageInfo")]
         public async Task<ManageInfoViewModel> GetManageInfo(string returnUrl, bool generateState = false)
         {
-            IdentityUser user = await UserManager.FindByIdAsync(User.Identity.GetUserId());
-
-            if (user == null)
+            try
             {
+                Logger.Info("Entering in AccountController API GetManageInfo method");
+                IdentityUser user = await UserManager.FindByIdAsync(User.Identity.GetUserId());
+
+                if (user == null)
+                {
+                    return null;
+                }
+
+                List<UserLoginInfoViewModel> logins = new List<UserLoginInfoViewModel>();
+
+                foreach (IdentityUserLogin linkedAccount in user.Logins)
+                {
+                    logins.Add(new UserLoginInfoViewModel
+                    {
+                        LoginProvider = linkedAccount.LoginProvider,
+                        ProviderKey = linkedAccount.ProviderKey
+                    });
+                }
+
+                if (user.PasswordHash != null)
+                {
+                    logins.Add(new UserLoginInfoViewModel
+                    {
+                        LoginProvider = LocalLoginProvider,
+                        ProviderKey = user.UserName,
+                    });
+                }
+                Logger.Info("Successfully exiting from AccountController API GetManageInfo method");
+                return new ManageInfoViewModel
+                {
+                    LocalLoginProvider = LocalLoginProvider,
+                    Email = user.UserName,
+                    Logins = logins,
+                    ExternalLoginProviders = GetExternalLogins(returnUrl, generateState)
+                };
+            }
+            catch (Exception ex)
+            {
+                Logger.Error("Error at AccountController API GetManageInfo method.", ex);
                 return null;
             }
-
-            List<UserLoginInfoViewModel> logins = new List<UserLoginInfoViewModel>();
-
-            foreach (IdentityUserLogin linkedAccount in user.Logins)
-            {
-                logins.Add(new UserLoginInfoViewModel
-                {
-                    LoginProvider = linkedAccount.LoginProvider,
-                    ProviderKey = linkedAccount.ProviderKey
-                });
-            }
-
-            if (user.PasswordHash != null)
-            {
-                logins.Add(new UserLoginInfoViewModel
-                {
-                    LoginProvider = LocalLoginProvider,
-                    ProviderKey = user.UserName,
-                });
-            }
-
-            return new ManageInfoViewModel
-            {
-                LocalLoginProvider = LocalLoginProvider,
-                Email = user.UserName,
-                Logins = logins,
-                ExternalLoginProviders = GetExternalLogins(returnUrl, generateState)
-            };
         }
 
         // POST api/Account/ChangePassword
         [Route("ChangePassword")]
         public async Task<IHttpActionResult> ChangePassword(ChangePasswordBindingModel model)
         {
-            if (!ModelState.IsValid)
+            try
             {
-                return BadRequest(ModelState);
+                Logger.Info("Entering in AccountController API ChangePassword method");
+                if (!ModelState.IsValid)
+                {
+                    return BadRequest(ModelState);
+                }
+
+                IdentityResult result = await UserManager.ChangePasswordAsync(User.Identity.GetUserId(), model.OldPassword,
+                    model.NewPassword);
+
+                if (!result.Succeeded)
+                {
+                    return GetErrorResult(result);
+                }
+                Logger.Info("Successfully exiting from AccountController API ChangePassword method");
+                return Ok();
             }
-
-            IdentityResult result = await UserManager.ChangePasswordAsync(User.Identity.GetUserId(), model.OldPassword,
-                model.NewPassword);
-
-            if (!result.Succeeded)
+            catch (Exception ex)
             {
-                return GetErrorResult(result);
+                Logger.Error("Error at AccountController API ChangePassword method.", ex);
+                return BadRequest();
             }
-
-            return Ok();
         }
 
         // POST api/Account/SetPassword
         [Route("SetPassword")]
         public async Task<IHttpActionResult> SetPassword(SetPasswordBindingModel model)
         {
-            if (!ModelState.IsValid)
+            try
             {
-                return BadRequest(ModelState);
+                Logger.Info("Entering in AccountController API SetPassword method");
+                if (!ModelState.IsValid)
+                {
+                    return BadRequest(ModelState);
+                }
+
+                IdentityResult result = await UserManager.AddPasswordAsync(User.Identity.GetUserId(), model.NewPassword);
+
+                if (!result.Succeeded)
+                {
+                    return GetErrorResult(result);
+                }
+                Logger.Info("Successfully exiting from AccountController API SetPassword method");
+                return Ok();
             }
-
-            IdentityResult result = await UserManager.AddPasswordAsync(User.Identity.GetUserId(), model.NewPassword);
-
-            if (!result.Succeeded)
+            catch (Exception ex)
             {
-                return GetErrorResult(result);
+                Logger.Error("Error at AccountController API SetPassword method.", ex);
+                return BadRequest();
             }
-
-            return Ok();
         }
 
         // POST api/Account/AddExternalLogin
         [Route("AddExternalLogin")]
         public async Task<IHttpActionResult> AddExternalLogin(AddExternalLoginBindingModel model)
         {
-            if (!ModelState.IsValid)
+            try
             {
-                return BadRequest(ModelState);
+                Logger.Info("Entering in AccountController API AddExternalLogin method");
+                if (!ModelState.IsValid)
+                {
+                    return BadRequest(ModelState);
+                }
+
+                Authentication.SignOut(DefaultAuthenticationTypes.ExternalCookie);
+
+                AuthenticationTicket ticket = AccessTokenFormat.Unprotect(model.ExternalAccessToken);
+
+                if (ticket == null || ticket.Identity == null || (ticket.Properties != null
+                    && ticket.Properties.ExpiresUtc.HasValue
+                    && ticket.Properties.ExpiresUtc.Value < DateTimeOffset.UtcNow))
+                {
+                    return BadRequest("External login failure.");
+                }
+
+                ExternalLoginData externalData = ExternalLoginData.FromIdentity(ticket.Identity);
+
+                if (externalData == null)
+                {
+                    return BadRequest("The external login is already associated with an account.");
+                }
+
+                IdentityResult result = await UserManager.AddLoginAsync(User.Identity.GetUserId(),
+                    new UserLoginInfo(externalData.LoginProvider, externalData.ProviderKey));
+
+                if (!result.Succeeded)
+                {
+                    return GetErrorResult(result);
+                }
+                Logger.Info("Successfully exiting from AccountController API AddExternalLogin method");
+                return Ok();
             }
-
-            Authentication.SignOut(DefaultAuthenticationTypes.ExternalCookie);
-
-            AuthenticationTicket ticket = AccessTokenFormat.Unprotect(model.ExternalAccessToken);
-
-            if (ticket == null || ticket.Identity == null || (ticket.Properties != null
-                && ticket.Properties.ExpiresUtc.HasValue
-                && ticket.Properties.ExpiresUtc.Value < DateTimeOffset.UtcNow))
+            catch
             {
-                return BadRequest("External login failure.");
+                throw;
             }
-
-            ExternalLoginData externalData = ExternalLoginData.FromIdentity(ticket.Identity);
-
-            if (externalData == null)
-            {
-                return BadRequest("The external login is already associated with an account.");
-            }
-
-            IdentityResult result = await UserManager.AddLoginAsync(User.Identity.GetUserId(),
-                new UserLoginInfo(externalData.LoginProvider, externalData.ProviderKey));
-
-            if (!result.Succeeded)
-            {
-                return GetErrorResult(result);
-            }
-
-            return Ok();
         }
 
         // POST api/Account/RemoveLogin
         [Route("RemoveLogin")]
         public async Task<IHttpActionResult> RemoveLogin(RemoveLoginBindingModel model)
         {
-            if (!ModelState.IsValid)
+            try
             {
-                return BadRequest(ModelState);
+                Logger.Info("Entering in AccountController API RemoveLogin method");
+                if (!ModelState.IsValid)
+                {
+                    return BadRequest(ModelState);
+                }
+
+                IdentityResult result;
+
+                if (model.LoginProvider == LocalLoginProvider)
+                {
+                    result = await UserManager.RemovePasswordAsync(User.Identity.GetUserId());
+                }
+                else
+                {
+                    result = await UserManager.RemoveLoginAsync(User.Identity.GetUserId(),
+                        new UserLoginInfo(model.LoginProvider, model.ProviderKey));
+                }
+
+                if (!result.Succeeded)
+                {
+                    return GetErrorResult(result);
+                }
+                Logger.Info("Successfully exiting from AccountController API RemoveLogin method");
+                return Ok();
             }
-
-            IdentityResult result;
-
-            if (model.LoginProvider == LocalLoginProvider)
+            catch (Exception ex)
             {
-                result = await UserManager.RemovePasswordAsync(User.Identity.GetUserId());
+                Logger.Error("Error at AccountController API RemoveLogin method.", ex);
+                return BadRequest();
             }
-            else
-            {
-                result = await UserManager.RemoveLoginAsync(User.Identity.GetUserId(),
-                    new UserLoginInfo(model.LoginProvider, model.ProviderKey));
-            }
-
-            if (!result.Succeeded)
-            {
-                return GetErrorResult(result);
-            }
-
-            return Ok();
         }
 
         // GET api/Account/ExternalLogin
@@ -230,54 +293,63 @@ namespace EmployeeLeaveManagementWebAPI.Controllers
         [Route("ExternalLogin", Name = "ExternalLogin")]
         public async Task<IHttpActionResult> GetExternalLogin(string provider, string error = null)
         {
-            if (error != null)
+            try
             {
-                return Redirect(Url.Content("~/") + "#error=" + Uri.EscapeDataString(error));
-            }
+                Logger.Info("Entering in AccountController API GetExternalLogin method");
+                if (error != null)
+                {
+                    return Redirect(Url.Content("~/") + "#error=" + Uri.EscapeDataString(error));
+                }
 
-            if (!User.Identity.IsAuthenticated)
+                if (!User.Identity.IsAuthenticated)
+                {
+                    return new ChallengeResult(provider, this);
+                }
+
+                ExternalLoginData externalLogin = ExternalLoginData.FromIdentity(User.Identity as ClaimsIdentity);
+
+                if (externalLogin == null)
+                {
+                    return InternalServerError();
+                }
+
+                if (externalLogin.LoginProvider != provider)
+                {
+                    Authentication.SignOut(DefaultAuthenticationTypes.ExternalCookie);
+                    return new ChallengeResult(provider, this);
+                }
+
+                ApplicationUser user = await UserManager.FindAsync(new UserLoginInfo(externalLogin.LoginProvider,
+                    externalLogin.ProviderKey));
+
+                bool hasRegistered = user != null;
+
+                if (hasRegistered)
+                {
+                    Authentication.SignOut(DefaultAuthenticationTypes.ExternalCookie);
+
+                    ClaimsIdentity oAuthIdentity = await user.GenerateUserIdentityAsync(UserManager,
+                       OAuthDefaults.AuthenticationType);
+                    ClaimsIdentity cookieIdentity = await user.GenerateUserIdentityAsync(UserManager,
+                        CookieAuthenticationDefaults.AuthenticationType);
+
+                    AuthenticationProperties properties = ApplicationOAuthProvider.CreateProperties(user.UserName);
+                    Authentication.SignIn(properties, oAuthIdentity, cookieIdentity);
+                }
+                else
+                {
+                    IEnumerable<Claim> claims = externalLogin.GetClaims();
+                    ClaimsIdentity identity = new ClaimsIdentity(claims, OAuthDefaults.AuthenticationType);
+                    Authentication.SignIn(identity);
+                }
+                Logger.Info("Successfully exiting from AccountController API GetExternalLogin method");
+                return Ok();
+            }
+            catch (Exception ex)
             {
-                return new ChallengeResult(provider, this);
+                Logger.Error("Error at AccountController API GetExternalLogin method.", ex);
+                return BadRequest();
             }
-
-            ExternalLoginData externalLogin = ExternalLoginData.FromIdentity(User.Identity as ClaimsIdentity);
-
-            if (externalLogin == null)
-            {
-                return InternalServerError();
-            }
-
-            if (externalLogin.LoginProvider != provider)
-            {
-                Authentication.SignOut(DefaultAuthenticationTypes.ExternalCookie);
-                return new ChallengeResult(provider, this);
-            }
-
-            ApplicationUser user = await UserManager.FindAsync(new UserLoginInfo(externalLogin.LoginProvider,
-                externalLogin.ProviderKey));
-
-            bool hasRegistered = user != null;
-
-            if (hasRegistered)
-            {
-                Authentication.SignOut(DefaultAuthenticationTypes.ExternalCookie);
-
-                ClaimsIdentity oAuthIdentity = await user.GenerateUserIdentityAsync(UserManager,
-                   OAuthDefaults.AuthenticationType);
-                ClaimsIdentity cookieIdentity = await user.GenerateUserIdentityAsync(UserManager,
-                    CookieAuthenticationDefaults.AuthenticationType);
-
-                AuthenticationProperties properties = ApplicationOAuthProvider.CreateProperties(user.UserName);
-                Authentication.SignIn(properties, oAuthIdentity, cookieIdentity);
-            }
-            else
-            {
-                IEnumerable<Claim> claims = externalLogin.GetClaims();
-                ClaimsIdentity identity = new ClaimsIdentity(claims, OAuthDefaults.AuthenticationType);
-                Authentication.SignIn(identity);
-            }
-
-            return Ok();
         }
 
         // GET api/Account/ExternalLogins?returnUrl=%2F&generateState=true
@@ -285,40 +357,49 @@ namespace EmployeeLeaveManagementWebAPI.Controllers
         [Route("ExternalLogins")]
         public IEnumerable<ExternalLoginViewModel> GetExternalLogins(string returnUrl, bool generateState = false)
         {
-            IEnumerable<AuthenticationDescription> descriptions = Authentication.GetExternalAuthenticationTypes();
-            List<ExternalLoginViewModel> logins = new List<ExternalLoginViewModel>();
-
-            string state;
-
-            if (generateState)
+            try
             {
-                const int strengthInBits = 256;
-                state = RandomOAuthStateGenerator.Generate(strengthInBits);
-            }
-            else
-            {
-                state = null;
-            }
+                Logger.Info("Entering in AccountController API GetExternalLogins method");
+                IEnumerable<AuthenticationDescription> descriptions = Authentication.GetExternalAuthenticationTypes();
+                List<ExternalLoginViewModel> logins = new List<ExternalLoginViewModel>();
 
-            foreach (AuthenticationDescription description in descriptions)
-            {
-                ExternalLoginViewModel login = new ExternalLoginViewModel
+                string state;
+
+                if (generateState)
                 {
-                    Name = description.Caption,
-                    Url = Url.Route("ExternalLogin", new
-                    {
-                        provider = description.AuthenticationType,
-                        response_type = "token",
-                        client_id = Startup.PublicClientId,
-                        redirect_uri = new Uri(Request.RequestUri, returnUrl).AbsoluteUri,
-                        state = state
-                    }),
-                    State = state
-                };
-                logins.Add(login);
-            }
+                    const int strengthInBits = 256;
+                    state = RandomOAuthStateGenerator.Generate(strengthInBits);
+                }
+                else
+                {
+                    state = null;
+                }
 
-            return logins;
+                foreach (AuthenticationDescription description in descriptions)
+                {
+                    ExternalLoginViewModel login = new ExternalLoginViewModel
+                    {
+                        Name = description.Caption,
+                        Url = Url.Route("ExternalLogin", new
+                        {
+                            provider = description.AuthenticationType,
+                            response_type = "token",
+                            client_id = Startup.PublicClientId,
+                            redirect_uri = new Uri(Request.RequestUri, returnUrl).AbsoluteUri,
+                            state = state
+                        }),
+                        State = state
+                    };
+                    logins.Add(login);
+                }
+                Logger.Info("Successfully exiting from AccountController API GetExternalLogins method");
+                return logins;
+            }
+            catch (Exception ex)
+            {
+                Logger.Error("Error at AccountController API GetExternalLogins method.", ex);
+                return null;
+            }
         }
 
         //GET api/Account/Login?username=abcd&password=234234#434ndfh@323
@@ -328,45 +409,33 @@ namespace EmployeeLeaveManagementWebAPI.Controllers
         {
             try
             {
-                Logger.Info("Login as user");
+                Logger.Info("Entering in AccountController API Login method");
                 var userData = userManager.GetUser(userName, password);
-              // userData.Imagepath = GetFile(userData.Imagepath);
-                if (null != userData)
-                {
-                    return userData;
-                }
-                else
-                {
-                    return null;
-                }
+                Logger.Info("Successfully exiting from AccountController API Login method");
+                return userData;
             }
             catch (Exception ex)
             {
+                Logger.Error("Error at AccountController API Login method.", ex);
                 return null;
-
             }
         }
-        
+
         [AllowAnonymous]
         [HttpGet]
         public EmployeeDetailsModel GetUserDetails(int empId)
         {
             try
             {
+                Logger.Info("Entering in AccountController API GetUserDetails method");
                 var empData = userManager.GetEmployeeDatailsForDashboard(empId, DateTime.Now.Year);
-                if (null != empData)
-                {
-                    return empData;
-                }
-                else
-                {
-                    return null;
-                }
+                Logger.Info("Successfully exiting from AccountController API GetUserDetails method");
+                return empData;
             }
             catch (Exception ex)
             {
+                Logger.Error("Error at AccountController API GetUserDetails method.", ex);
                 return null;
-                //throw;
             }
         }
 
@@ -377,20 +446,15 @@ namespace EmployeeLeaveManagementWebAPI.Controllers
         {
             try
             {
+                Logger.Info("Entering in AccountController API GetLeaveReportDetails method");
                 var empData = userManager.GetEmployeeDatailsForDashboard(empId, year);
-                if (null != empData)
-                {
-                    return empData.leaveDetails;
-                }
-                else
-                {
-                    return null;
-                }
+                Logger.Info("Successfully exiting from AccountController API GetLeaveReportDetails method");
+                return empData.leaveDetails;
             }
             catch (Exception ex)
             {
+                Logger.Error("Error at AccountController API GetLeaveReportDetails method.", ex);
                 return null;
-                //throw;
             }
         }
 
@@ -401,21 +465,30 @@ namespace EmployeeLeaveManagementWebAPI.Controllers
         [Route("Register")]
         public async Task<IHttpActionResult> Register(RegisterBindingModel model)
         {
-            if (!ModelState.IsValid)
+            try
             {
-                return BadRequest(ModelState);
+                Logger.Info("Entering in AccountController API Register method");
+                if (!ModelState.IsValid)
+                {
+                    return BadRequest(ModelState);
+                }
+
+                var user = new ApplicationUser() { UserName = model.Email, Email = model.Email };
+
+                IdentityResult result = await UserManager.CreateAsync(user, model.Password);
+
+                if (!result.Succeeded)
+                {
+                    return GetErrorResult(result);
+                }
+                Logger.Info("Successfully exiting from AccountController API Register method");
+                return Ok();
             }
-
-            var user = new ApplicationUser() { UserName = model.Email, Email = model.Email };
-
-            IdentityResult result = await UserManager.CreateAsync(user, model.Password);
-
-            if (!result.Succeeded)
+            catch (Exception ex)
             {
-                return GetErrorResult(result);
+                Logger.Error("Error at AccountController API Register method.", ex);
+                return BadRequest();
             }
-
-            return Ok();
         }
 
         // POST api/Account/RegisterExternal
@@ -424,31 +497,41 @@ namespace EmployeeLeaveManagementWebAPI.Controllers
         [Route("RegisterExternal")]
         public async Task<IHttpActionResult> RegisterExternal(RegisterExternalBindingModel model)
         {
-            if (!ModelState.IsValid)
+            try
             {
-                return BadRequest(ModelState);
-            }
+                Logger.Info("Entering in AccountController API RegisterExternal method");
+                if (!ModelState.IsValid)
+                {
+                    return BadRequest(ModelState);
+                }
 
-            var info = await Authentication.GetExternalLoginInfoAsync();
-            if (info == null)
+                var info = await Authentication.GetExternalLoginInfoAsync();
+                if (info == null)
+                {
+                    return InternalServerError();
+                }
+
+                var user = new ApplicationUser() { UserName = model.Email, Email = model.Email };
+
+                IdentityResult result = await UserManager.CreateAsync(user);
+                if (!result.Succeeded)
+                {
+                    return GetErrorResult(result);
+                }
+
+                result = await UserManager.AddLoginAsync(user.Id, info.Login);
+                if (!result.Succeeded)
+                {
+                    return GetErrorResult(result);
+                }
+                Logger.Info("Successfully exiting from AccountController API RegisterExternal method");
+                return Ok();
+            }
+            catch (Exception ex)
             {
-                return InternalServerError();
+                Logger.Error("Error at AccountController API RegisterExternal method.", ex);
+                return BadRequest();
             }
-
-            var user = new ApplicationUser() { UserName = model.Email, Email = model.Email };
-
-            IdentityResult result = await UserManager.CreateAsync(user);
-            if (!result.Succeeded)
-            {
-                return GetErrorResult(result);
-            }
-
-            result = await UserManager.AddLoginAsync(user.Id, info.Login);
-            if (!result.Succeeded)
-            {
-                return GetErrorResult(result);
-            }
-            return Ok();
         }
 
         protected override void Dispose(bool disposing)

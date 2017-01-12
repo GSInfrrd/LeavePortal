@@ -1,4 +1,5 @@
 ﻿using LMS_WebAPI_DAL.Repositories.Interfaces;
+using LMS_WebAPI_Utils;
 using System;
 using System.Collections.Generic;
 using System.Data.Entity;
@@ -12,6 +13,7 @@ namespace LMS_WebAPI_DAL.Repositories
     {
         public IList<Holiday> GetHolidayList()
         {
+            Logger.Info("Entering in HolidayRepository API GetHolidayList method");
             var list = new List<Holiday>();
             try
             {
@@ -19,35 +21,39 @@ namespace LMS_WebAPI_DAL.Repositories
                 {
                     list = ctx.Holidays.ToList();
                 }
+                Logger.Info("Successfully exiting from HolidayRepository API GetHolidayList method");
                 return list;
             }
-            catch (Exception ex)
+            catch
             {
-                throw ex;
+                Logger.Info("Exception occured at HolidayRepository API GetHolidayList method ");
+                throw;
             }
         }
 
         public bool AddHoliday(Holiday newHoliday)
         {
+            Logger.Info("Entering in HolidayRepository API AddHoliday method");
             try
             {
                 using (var ctx = new LeaveManagementSystemEntities1())
                 {
                     ctx.Holidays.Add(newHoliday);
                     ctx.SaveChanges();
+                    Logger.Info("Successfully exiting from HolidayRepository API AddHoliday method");
                     return true;
                 }
             }
-            catch (Exception ex)
+            catch 
             {
-
-                throw ex;
+                Logger.Info("Exception occured at HolidayRepository API AddHoliday method ");
+                throw;
             }
-
         }
 
         public bool DeleteHolidayRequest(long id)
         {
+            Logger.Info("Entering in HolidayRepository API DeleteHolidayRequest method");
             try
             {
                 using (var ctx = new LeaveManagementSystemEntities1())
@@ -59,17 +65,20 @@ namespace LMS_WebAPI_DAL.Repositories
                         ctx.SaveChanges();
                         return true;
                     }
+                    Logger.Info("Successfully exiting from HolidayRepository API DeleteHolidayRequest method");
                     return false;
                 }
             }
-            catch (Exception ex)
+            catch
             {
-                throw ex;
+                Logger.Info("Exception occured at HolidayRepository API DeleteHolidayRequest method ");
+                throw;
             }
         }
 
         public bool UpdateHoliday(Holiday holiday)
         {
+            Logger.Info("Entering in HolidayRepository API UpdateHoliday method");
             try
             {
                 using (var ctx = new LeaveManagementSystemEntities1())
@@ -87,12 +96,14 @@ namespace LMS_WebAPI_DAL.Repositories
                         ctx.Entry(holidaySelected).State = EntityState.Modified;
                         ctx.SaveChanges();
                     }
+                    Logger.Info("Successfully exiting from HolidayRepository API UpdateHoliday method");
                     return true;
                 }
             }
-            catch (Exception ex)
+            catch
             {
-                throw ex;
+                Logger.Info("Exception occured at HolidayRepository API UpdateHoliday method ");
+                throw;
             }
         }
     }

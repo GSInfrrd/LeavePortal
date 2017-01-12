@@ -14,17 +14,20 @@ namespace LMS_WebAPI_DAL.Repositories
     {
         public List<string> GetLeaveType()
         {
-            using (var ctx = new LeaveManagementSystemEntities1())
+            try
             {
-
-                //var leavetypeid  = (from s in ctx.MasterDataTypes
-                //                    where s.Type=="LeaveType"
-                //                    select s).SingleOrDefault();
-
-                var leaveType = ctx.MasterDataValues.Where(x => x.RefMasterType == 3).Select(x => x.Value).ToList();
-
-                return leaveType;
-
+                Logger.Info("Entering in AddLeaveRepository API GetLeaveType method");
+                using (var ctx = new LeaveManagementSystemEntities1())
+                {
+                    var leaveType = ctx.MasterDataValues.Where(x => x.RefMasterType == 3).Select(x => x.Value).ToList();
+                    Logger.Info("Successfully exiting from AddLeaveRepository API AddLeaveRepository method");
+                    return leaveType;
+                }
+            }
+            catch 
+            {
+                Logger.Info("Exception occured at AddLeaveRepository API AddLeaveRepository method ");
+                throw;
             }
         }
 
@@ -32,6 +35,7 @@ namespace LMS_WebAPI_DAL.Repositories
         {
             try
             {
+                Logger.Info("Entering in AddLeaveRepository API InsertEmployeeLeaveDetails method");
                 using (var ctx = new LeaveManagementSystemEntities1())
                 {
                     switch ((LeaveType)leaveType)
@@ -86,11 +90,13 @@ namespace LMS_WebAPI_DAL.Repositories
                             ctx.SaveChanges();
                             break;
                     }
+                    Logger.Info("Successfully exiting from AddLeaveRepository API InsertEmployeeLeaveDetails method");
                     return true;
                 }
             }
-            catch (Exception)
+            catch 
             {
+                Logger.Info("Exception occured at AddLeaveRepository API InsertEmployeeLeaveDetails method ");
                 throw;
             }
         }
@@ -100,6 +106,7 @@ namespace LMS_WebAPI_DAL.Repositories
             var result = false;
             try
             {
+                Logger.Info("Entering in AddLeaveRepository API SubmitLeaveForApproval method");
                 using (var ctx = new LeaveManagementSystemEntities1())
                 {
                     var leaveDetails = ctx.EmployeeLeaveTransactions.FirstOrDefault(x => x.Id == id);
@@ -140,11 +147,13 @@ namespace LMS_WebAPI_DAL.Repositories
                     ApproveLeaveRepository alr = new ApproveLeaveRepository();
                     alr.insertNotification(RefApproverId, Text, Status, NotificationType);
                 }
+                Logger.Info("Successfully exiting from AddLeaveRepository API SubmitLeaveForApproval method");
                 result = true;
 
             }
-            catch (Exception ex)
+            catch 
             {
+                Logger.Info("Exception occured at AddLeaveRepository API SubmitLeaveForApproval method ");
                 throw;
             }
             return result;
@@ -154,9 +163,9 @@ namespace LMS_WebAPI_DAL.Repositories
         {
 
             var result = false;
-
             try
             {
+                Logger.Info("Entering in AddLeaveRepository API DeleteLeaveRequest method");
                 using (var ctx = new LeaveManagementSystemEntities1())
                 {
                     var leaveDetails = ctx.EmployeeLeaveTransactions.FirstOrDefault(x => x.Id == id);
@@ -165,11 +174,13 @@ namespace LMS_WebAPI_DAL.Repositories
                     ctx.Workflows.Remove(workFlowDet);
                     ctx.SaveChanges();
                 }
+                Logger.Info("Successfully exiting from AddLeaveRepository API DeleteLeaveRequest method");
                 result = true;
 
             }
-            catch (Exception ex)
+            catch
             {
+                Logger.Info("Exception occured at AddLeaveRepository API DeleteLeaveRequest method ");
                 throw;
             }
             return result;
@@ -177,29 +188,37 @@ namespace LMS_WebAPI_DAL.Repositories
 
         public bool SendMail(string firstName, string fromEmail, string toEmail)
         {
-
-            var message = new MailMessage();
-            message.From = new MailAddress(fromEmail);
-
-            message.To.Add(new MailAddress("alekhya.kk9@gmail.com"));
-            message.CC.Add(new MailAddress("alekya@infrrd.ai"));
-            message.Subject = "Leave Notification";
-            message.IsBodyHtml = true;
-            message.Body = @"Hi,<br/><b>" + firstName + "</b> has applied for leave.Login to your account to approve/reject.<br/><br/>Best Regards,<br/><b>Infrrd Leave Management<b>";
-
-
-
-            using (var client = new SmtpClient())
+            try
             {
-                client.Host = "smtp.gmail.com";
-                client.Port = 587;
-                client.EnableSsl = true;
-                client.UseDefaultCredentials = false;
-                client.Credentials = new System.Net.NetworkCredential("alekya@infrrd.ai", "alkvyS9.");
+                Logger.Info("Entering in AddLeaveRepository API SendMail method");
+                var message = new MailMessage();
+                message.From = new MailAddress(fromEmail);
 
-                client.Send(message);
+                message.To.Add(new MailAddress("alekhya.kk9@gmail.com"));
+                message.CC.Add(new MailAddress("alekya@infrrd.ai"));
+                message.Subject = "Leave Notification";
+                message.IsBodyHtml = true;
+                message.Body = @"Hi,<br/><b>" + firstName + "</b> has applied for leave.Login to your account to approve/reject.<br/><br/>Best Regards,<br/><b>Infrrd Leave Management<b>";
+
+
+
+                using (var client = new SmtpClient())
+                {
+                    client.Host = "smtp.gmail.com";
+                    client.Port = 587;
+                    client.EnableSsl = true;
+                    client.UseDefaultCredentials = false;
+                    client.Credentials = new System.Net.NetworkCredential("alekya@infrrd.ai", "alkvyS9.");
+
+                    client.Send(message);
+                }
+                Logger.Info("Successfully exiting from AddLeaveRepository API SendMail method");
             }
-
+            catch
+            {
+                Logger.Info("Exception occured at AddLeaveRepository API SendMail method ");
+                throw;
+            }
             return true;
         }
 
@@ -208,16 +227,18 @@ namespace LMS_WebAPI_DAL.Repositories
 
             try
             {
+                Logger.Info("Entering in AddLeaveRepository API CheckLeaveAvailability method");
                 using (var ctx = new LeaveManagementSystemEntities1())
                 {
                     var data = ctx.EmployeeDetails.Include("EmployeeLeaveMasters1").Include("EmployeeLeaveTransactions").FirstOrDefault(i => i.Id == employeeId);
                     holidayList = ctx.Holidays.ToList();
-
+                    Logger.Info("Successfully exiting from AddLeaveRepository API CheckLeaveAvailability method");
                     return data;
                 }
             }
             catch
             {
+                Logger.Info("Exception occured at AddLeaveRepository API CheckLeaveAvailability method ");
                 throw;
             }
         }

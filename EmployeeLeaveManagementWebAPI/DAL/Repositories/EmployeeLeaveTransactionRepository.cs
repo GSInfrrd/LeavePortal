@@ -5,9 +5,8 @@ using System.Text;
 using System.Threading.Tasks;
 using LMS_WebAPI_DAL.Repositories.Interfaces;
 using LMS_WebAPI_Domain;
-
-
 using LMS_WebAPI_DAL;
+using LMS_WebAPI_Utils;
 
 namespace LMS_WebAPI_DAL.Repositories
 {
@@ -17,6 +16,7 @@ namespace LMS_WebAPI_DAL.Repositories
         {
             try
             {
+                Logger.Info("Entering in EmployeeLeaveTransactionRepository API GetEmployeeLeaveTransaction method");
                 using (var ctx = new LeaveManagementSystemEntities1())
                 {
                     List<EmployeeLeaveTransactionModel> retResult = new List<EmployeeLeaveTransactionModel>();
@@ -30,17 +30,13 @@ namespace LMS_WebAPI_DAL.Repositories
                         var EmployeeLeaveTransactions = ctx.EmployeeLeaveTransactions.Where(m => m.RefEmployeeId == id).OrderByDescending(m => m.CreatedDate).ToList();
                         retResult = ToModel(EmployeeLeaveTransactions);
                     }
-                    if (retResult != null)
-                    {
-                        return retResult;
-                    }
-                    else
-                        return null;
+                    Logger.Info("Successfully exiting from EmployeeLeaveTransactionRepository API GetEmployeeLeaveTransaction method");
+                    return retResult;
                 }
             }
-            catch (Exception)
+            catch
             {
-
+                Logger.Info("Exception occured at EmployeeLeaveTransactionRepository API GetEmployeeLeaveTransaction method ");
                 throw;
             }
         }
@@ -50,7 +46,7 @@ namespace LMS_WebAPI_DAL.Repositories
             List<EmployeeLeaveTransactionModel> Empres = new List<EmployeeLeaveTransactionModel>();
             try
             {
-
+                Logger.Info("Entering in EmployeeLeaveTransactionRepository API ToModel method");
                 foreach (var m in employeeLeaveTransaction)
                 {
                     var newTrans = new EmployeeLeaveTransactionModel();
@@ -68,19 +64,15 @@ namespace LMS_WebAPI_DAL.Repositories
                     //newTrans.ManagerComments = m.ManagerComments;
                     newTrans.ModifiedDate = m.ModifiedDate;
                     Empres.Add(newTrans);
-
-
                 }
+                Logger.Info("Successfully exiting from EmployeeLeaveTransactionRepository API ToModel method");
             }
-            catch (Exception)
+            catch
             {
-
+                Logger.Info("Exception occured at EmployeeLeaveTransactionRepository API ToModel method ");
                 throw;
             }
             return Empres;
-
-
-
         }
     }
 }

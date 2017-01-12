@@ -13,8 +13,8 @@ namespace LMS_WebAPI_DAL.Repositories
     {
         public bool SubmitEmployeeDetails(EmployeeDetailsModel model)
         {
+            Logger.Info("Entering in HRRepository API SubmitEmployeeDetails method");
             var result = false;
-
             try
             {
                 using (var ctx = new LeaveManagementSystemEntities1())
@@ -92,12 +92,14 @@ namespace LMS_WebAPI_DAL.Repositories
 
                     ctx.UserAccounts.Add(userDetails);
                     ctx.SaveChanges();
+                    Logger.Info("Successfully exiting from HRRepository API SubmitEmployeeDetails method");
                 }
                 result = true;
 
             }
-            catch (Exception ex)
+            catch 
             {
+                Logger.Info("Exception occured at HRRepository API SubmitEmployeeDetails method ");
                 throw;
             }
             return result;
@@ -106,6 +108,7 @@ namespace LMS_WebAPI_DAL.Repositories
 
         public List<EmployeeDetailsModel> GetEmployeeList()
         {
+            Logger.Info("Entering in HRRepository API GetEmployeeList method");
             var list = new List<EmployeeDetailsModel>();
             try
             {
@@ -127,16 +130,19 @@ namespace LMS_WebAPI_DAL.Repositories
                     var leaveDetails = ctx.EmployeeLeaveTransactions.GroupBy(x => x.CreatedDate.Month).ToList();
 
                 }
+                Logger.Info("Successfully exiting from HRRepository API GetEmployeeList method");
                 return list;
             }
-            catch (Exception ex)
+            catch
             {
+                Logger.Info("Exception occured at HRRepository API GetEmployeeList method ");
                 throw;
             }
         }
 
         public List<EmployeeDetailsModel> GetManagerList(int refLevel)
         {
+            Logger.Info("Entering in HRRepository API GetManagerList method");
             var list = new List<EmployeeDetailsModel>();
             try
             {
@@ -153,16 +159,19 @@ namespace LMS_WebAPI_DAL.Repositories
                     }
 
                 }
+                Logger.Info("Successfully exiting from HRRepository API GetManagerList method");
                 return list;
             }
-            catch (Exception ex)
+            catch
             {
+                Logger.Info("Exception occured at HRRepository API GetManagerList method ");
                 throw;
             }
         }
 
         public List<ConsolidatedEmployeeLeaveDetailsModel> GetReportData(string fromDate, string toDate, List<int> employeeId, out List<DetailedLeaveReport> detailsList)
         {
+            Logger.Info("Entering in HRRepository API GetReportData method");
             var list = new List<ConsolidatedEmployeeLeaveDetailsModel>();
             var ddList = new List<DetailedLeaveReport>();
             try
@@ -225,20 +234,21 @@ namespace LMS_WebAPI_DAL.Repositories
                         listItem.AdvancedLeavesCount = (int)item.EmployeeLeaveTransactionHistories.Where(i => i.RefEmployeeId == item.Id && i.RefLeaveType == (int)LeaveType.AdvanceLeave && i.FromDate >= reportFromDate && i.ToDate <= reportToDate).Select(i => i.NumberOfWorkingDays).Sum();
                         list.Add(listItem);
                     }
-
-
                 }
                 detailsList = ddList;
+                Logger.Info("Successfully exiting from HRRepository API GetReportData method");
                 return list;
             }
-            catch (Exception ex)
+            catch
             {
+                Logger.Info("Exception occured at HRRepository API GetReportData method ");
                 throw;
             }
         }
 
         public ConsolidatedEmployeeLeaveDetailsModel GetChartDetails(int employeeId)
         {
+            Logger.Info("Entering in HRRepository API GetChartDetails method");
             var listItem = new ConsolidatedEmployeeLeaveDetailsModel();
             try
             {
@@ -261,16 +271,19 @@ namespace LMS_WebAPI_DAL.Repositories
 
 
                 }
+                Logger.Info("Successfully exiting from HRRepository API GetChartDetails method");
                 return listItem;
             }
-            catch (Exception ex)
+            catch 
             {
+                Logger.Info("Exception occured at HRRepository API GetChartDetails method ");
                 throw;
             }
         }
 
         public bool AddNewMasterDataValues(int masterDataType, string masterDataValue)
         {
+            Logger.Info("Entering in HRRepository API AddNewMasterDataValues method");
             try
             {
 
@@ -282,16 +295,19 @@ namespace LMS_WebAPI_DAL.Repositories
                     ctx.MasterDataValues.Add(data);
                     ctx.SaveChanges();
                 }
+                Logger.Info("Successfully exiting from HRRepository API AddNewMasterDataValues method");
                 return true;
             }
             catch
             {
+                Logger.Info("Exception occured at HRRepository API AddNewMasterDataValues method ");
                 throw;
             }
         }
 
         public bool AddNewProjectInfo(string projectName, string description, string technology, DateTime startDate, int refManager)
         {
+            Logger.Info("Entering in HRRepository API AddNewProjectInfo method");
             try
             {
                 using (var ctx = new LeaveManagementSystemEntities1())
@@ -307,16 +323,19 @@ namespace LMS_WebAPI_DAL.Repositories
                     ctx.SaveChanges();
 
                 }
+                Logger.Info("Successfully exiting from HRRepository API AddNewProjectInfo method");
                 return true;
             }
             catch
             {
+                Logger.Info("Exception occured at HRRepository API AddNewProjectInfo method ");
                 throw;
             }
         }
 
         public List<ProjectsList> GetProjectsList()
         {
+            Logger.Info("Entering in HRRepository API GetProjectsList method");
             try
             {
                 var projectsList = new List<ProjectsList>();
@@ -334,10 +353,12 @@ namespace LMS_WebAPI_DAL.Repositories
                         }
                     }
                 }
+                Logger.Info("Successfully exiting from HRRepository API GetProjectsList method");
                 return projectsList;
             }
             catch
             {
+                Logger.Info("Exception occured at HRRepository API GetProjectsList method ");
                 throw;
             }
 

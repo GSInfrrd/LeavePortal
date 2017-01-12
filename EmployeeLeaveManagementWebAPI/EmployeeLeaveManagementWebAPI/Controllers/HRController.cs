@@ -18,8 +18,18 @@ namespace EmployeeLeaveManagementWebAPI.Controllers
 
         public bool Post(EmployeeDetailsModel model)
         {
-            var result = hrOperations.SubmitEmployeeDetails(model);
-            return result;
+            try
+            {
+                Logger.Info("Entering in HRController API Post method");
+                var result = hrOperations.SubmitEmployeeDetails(model);
+                Logger.Info("Successfully exiting from HRController API Post method");
+                return result;
+            }
+            catch (Exception ex)
+            {
+                Logger.Error("Error at HRController API Post method.", ex);
+                return false;
+            }
         }
 
         [HttpGet]
@@ -27,8 +37,18 @@ namespace EmployeeLeaveManagementWebAPI.Controllers
         [Route("")]
         public List<EmployeeDetailsModel> GetEmployeeList()
         {
-            var result = hrOperations.GetEmployeeList();
-            return result;
+            try
+            {
+                Logger.Info("Entering in HRController API GetEmployeeList method");
+                var result = hrOperations.GetEmployeeList();
+                Logger.Info("Successfully exiting from HRController API GetEmployeeList method");
+                return result;
+            }
+            catch (Exception ex)
+            {
+                Logger.Error("Error at HRController API GetEmployeeList method.", ex);
+                return null;
+            }
         }
 
 
@@ -37,20 +57,16 @@ namespace EmployeeLeaveManagementWebAPI.Controllers
         {
             try
             {
+                Logger.Info("Entering in HRController API GetManagerList method");
                 var empData = hrOperations.GetManagerList(refLevel);
-                if (null != empData)
-                {
-                    return empData;
-                }
-                else
-                {
-                    return null;
-                }
+                Logger.Info("Successfully exiting from HRController API GetManagerList method");
+                return empData;
+                
             }
             catch (Exception ex)
             {
+                Logger.Error("Error at HRController API GetManagerList method.", ex);
                 return null;
-                //throw;
             }
         }
 
@@ -59,6 +75,7 @@ namespace EmployeeLeaveManagementWebAPI.Controllers
         {
             try
             {
+                Logger.Info("Entering in HRController API GenerateReports method");
                 var detailsList = new List<DetailedLeaveReport>();
                 var data = Array.ConvertAll(employeeId.TrimEnd(':').Split(':'), int.Parse);
                 var leaveData = Array.ConvertAll(leaveType.TrimEnd(':').Split(':'), int.Parse);
@@ -125,13 +142,13 @@ namespace EmployeeLeaveManagementWebAPI.Controllers
 
                 var file = CommonMethods.CreateDownloadExcel(empData, detailsList, include, "", "Report", "Leave Report", filtersList);
                 // return File(file.GetBuffer(), "application/vnd.ms-excel", "LeaveReport.xls");
-
+                Logger.Info("Successfully exiting from HRController API GenerateReports method");
                 return file;
             }
             catch (Exception ex)
             {
+                Logger.Error("Error at HRController API GenerateReports method.", ex);
                 return null;
-                //throw;
             }
         }
 
@@ -140,13 +157,15 @@ namespace EmployeeLeaveManagementWebAPI.Controllers
         {
             try
             {
+                Logger.Info("Entering in HRController API GetChartDetails method");
                 var empData = hrOperations.GetChartDetails(employeeId);
+                Logger.Info("Successfully exiting from HRController API GetChartDetails method");
                 return empData;
             }
             catch (Exception ex)
             {
+                Logger.Error("Error at HRController API GetChartDetails method.", ex);
                 return null;
-                //throw;
             }
         }
 
@@ -156,13 +175,15 @@ namespace EmployeeLeaveManagementWebAPI.Controllers
         {
             try
             {
+                Logger.Info("Entering in HRController API AddNewMasterDataValues method");
                 var empData = hrOperations.AddNewMasterDataValues(masterDataType, masterDataValue);
+                Logger.Info("Successfully exiting from HRController API AddNewMasterDataValues method");
                 return empData;
             }
-            catch
+            catch (Exception ex)
             {
+                Logger.Error("Error at HRController API AddNewMasterDataValues method.", ex);
                 throw;
-                //throw;
             }
         }
 
@@ -171,13 +192,15 @@ namespace EmployeeLeaveManagementWebAPI.Controllers
         {
             try
             {
+                Logger.Info("Entering in HRController API AddNewProjectInfo method");
                 var empData = hrOperations.AddNewProjectInfo(projectName, description, technology, startDate, refManager);
+                Logger.Info("Successfully exiting from HRController API AddNewProjectInfo method");
                 return empData;
             }
-            catch
+            catch (Exception ex)
             {
+                Logger.Error("Error at HRController API AddNewProjectInfo method.", ex);
                 throw;
-                //throw;
             }
         }
 
@@ -185,8 +208,18 @@ namespace EmployeeLeaveManagementWebAPI.Controllers
         [Route("GetProjectsList")]
         public List<ProjectsList> GetProjectsList()
         {
-            var result = hrOperations.GetProjectsList();
-            return result;
+            try
+            {
+                Logger.Info("Entering in HRController API GetProjectsList method");
+                var result = hrOperations.GetProjectsList();
+                Logger.Info("Successfully exiting from HRController API GetProjectsList method");
+                return result;
+            }
+            catch (Exception ex)
+            {
+                Logger.Error("Error at HRController API GetProjectsList method.", ex);
+                return null;
+            }
         }
     }
 }

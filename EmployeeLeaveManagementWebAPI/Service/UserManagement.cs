@@ -4,6 +4,7 @@ using System.Linq;
 using LMS_WebAPI_DAL.Repositories;
 using LMS_WebAPI_DAL.Repositories.Interfaces;
 using LMS_WebAPI_Domain;
+using LMS_WebAPI_Utils;
 
 namespace LMS_WebAPI_ServiceHelpers
 {
@@ -12,6 +13,7 @@ namespace LMS_WebAPI_ServiceHelpers
         private IUser user = new UserRepository();
         public UserAccountModel GetUser(string UserName, string password)
         {
+            Logger.Info("Entering into UserManagement Service helper GetUser method ");
             try
             {
                 var VerifiedUser = new UserAccountModel();
@@ -28,16 +30,19 @@ namespace LMS_WebAPI_ServiceHelpers
                     VerifiedUser.DateOfJoining =Convert.ToDateTime(userData.EmployeeDetail.DateOfJoining);
 
                 }
+                Logger.Info("Exiting from into UserManagement Service helper GetUser method ");
                 return VerifiedUser;
             }
-            catch (Exception ex)
+            catch
             {
-                throw ex;
+                Logger.Info("Exception occured at UserManagement Service helper GetUser method ");
+                throw;
             }
         }
 
         public EmployeeDetailsModel GetEmployeeDatailsForDashboard(int EmpId,int year)
         {
+            Logger.Info("Entering into UserManagement Service helper GetEmployeeDatailsForDashboard method ");
             try
             {
                 var userData = user.GetUserDetails(EmpId);
@@ -70,16 +75,19 @@ namespace LMS_WebAPI_ServiceHelpers
                     VerifiedUser.ProjectName = userData.ProjectName;
                     VerifiedUser.DateOfJoining = Convert.ToDateTime(userData.DateOfJoining);
                 }
+                Logger.Info("Exiting from into UserManagement Service helper GetEmployeeDatailsForDashboard method ");
                 return VerifiedUser;
             }
-            catch (Exception ex)
+            catch
             {
-                throw ex;
+                Logger.Info("Exception occured at UserManagement Service helper GetEmployeeDatailsForDashboard method ");
+                throw;
             }
         }
 
         public EmployeeDetailsModel GetUserProfileDetails(int EmpId)
         {
+            Logger.Info("Entering into UserManagement Service helper GetUserProfileDetails method ");
             try
             {
                 var skills = new List<MasterDataModel>();
@@ -141,87 +149,95 @@ namespace LMS_WebAPI_ServiceHelpers
 
                 }
                 profileDetails.Skills = employeeSkills;
-              //  profileDetails.Projects = projects;
-             
+                //  profileDetails.Projects = projects;
 
+                Logger.Info("Exiting from into UserManagement Service helper GetUserProfileDetails method ");
                 return profileDetails;
             }
-            catch (Exception ex)
+            catch 
             {
-                throw ex;
+                Logger.Info("Exception occured at UserManagement Service helper GetUserProfileDetails method ");
+                throw;
             }
         }
 
 
         public bool EditEmployeeDetails(EmployeeDetailsModel model)
         {
+            Logger.Info("Entering into UserManagement Service helper EditEmployeeDetails method ");
             try
             {
-
                 var result = user.EditEmployeeDetails(model);
-
+                Logger.Info("Exiting from into UserManagement Service helper EditEmployeeDetails method ");
                 return result;
             }
-            catch (Exception ex)
+            catch 
             {
-                throw ex;
+                Logger.Info("Exception occured at UserManagement Service helper EditEmployeeDetails method ");
+                throw;
             }
         }
 
         public bool EditEmployeeEducationDetails(List<EmployeeEducationDetails> educationDetails, int employeeId)
         {
+            Logger.Info("Entering into UserManagement Service helper EditEmployeeEducationDetails method ");
             try
             {
-
                 var result = user.EditEmployeeEducationDetails(educationDetails, employeeId);
-
+                Logger.Info("Exiting from into UserManagement Service helper EditEmployeeEducationDetails method ");
                 return result;
             }
-            catch (Exception ex)
+            catch
             {
-                throw ex;
+                Logger.Info("Exception occured at UserManagement Service helper EditEmployeeEducationDetails method ");
+                throw;
             }
         }
 
         public bool EditEmployeeExperienceDetails(List<EmployeeExperienceDetails> experienceDetails, int employeeId)
         {
+            Logger.Info("Entering into UserManagement Service helper EditEmployeeExperienceDetails method ");
             try
             {
-
                 var result = user.EditEmployeeExperienceDetails(experienceDetails, employeeId);
-
+                Logger.Info("Exiting from into UserManagement Service helper EditEmployeeExperienceDetails method ");
                 return result;
             }
-            catch (Exception ex)
+            catch
             {
-                throw ex;
+                Logger.Info("Exception occured at UserManagement Service helper EditEmployeeExperienceDetails method ");
+                throw;
             }
         }
 
         public bool EditEmployeeSkills(List<EmployeeSkillDetails> skills, int employeeId)
         {
+            Logger.Info("Entering into UserManagement Service helper EditEmployeeSkills method ");
             try
             {
-
                 var result = user.EditEmployeeSkills(skills, employeeId);
-
+                Logger.Info("Exiting from into UserManagement Service helper EditEmployeeSkills method ");
                 return result;
             }
-            catch (Exception ex)
+            catch
             {
-                throw ex;
+                Logger.Info("Exception occured at UserManagement Service helper EditEmployeeSkills method ");
+                throw;
             }
         }
 
         public string getUserProfileImage(int empId)
         {
+            Logger.Info("Entering into UserManagement Service helper getUserProfileImage method ");
             try
             {
                 var profileImageByteArray = user.getUserProfileImage(empId);
+                Logger.Info("Exiting from into UserManagement Service helper getUserProfileImage method ");
                 return profileImageByteArray;
             }
             catch
             {
+                Logger.Info("Exception occured at UserManagement Service helper getUserProfileImage method ");
                 throw;
             }
         }

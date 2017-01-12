@@ -1,6 +1,7 @@
 ﻿using Domain;
 using LMS_WebAPI_DAL.Repositories;
 using LMS_WebAPI_DAL.Repositories.Interfaces;
+using LMS_WebAPI_Utils;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,15 +15,17 @@ namespace Service
         private IResourceRequestRepository _resourceRequest = new ResourceRequestRepository();
         public ResourceDetails GetResourceRequestFormDetails()
         {
+            Logger.Info("Entering into ResourceRequestManagement Service helper GetResourceRequestFormDetails method ");
             try
             {
                 var resourceDetails = new ResourceDetails();
                 resourceDetails = _resourceRequest.GetResourceRequestFormDetails();
+                Logger.Info("Exiting from into ResourceRequestManagement Service helper GetResourceRequestFormDetails method ");
                 return resourceDetails;
             }
-            catch (Exception)
+            catch 
             {
-
+                Logger.Info("Exception occured at ResourceRequestManagement Service helper GetResourceRequestFormDetails method ");
                 throw;
             }
         }

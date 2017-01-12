@@ -13,6 +13,7 @@ namespace LMS_WebAPI_DAL.Repositories
     {
         public UserAccount GetUser(string emailId, string password)
         {
+            Logger.Info("Entering in UserRepository API GetUser method");
             try
             {
                 var userData = new UserAccount();
@@ -28,25 +29,20 @@ namespace LMS_WebAPI_DAL.Repositories
                         userData = ctx.UserAccounts.Include("EmployeeDetail").FirstOrDefault(x => x.UserName == emailId);
 
                     }
-                    //var userData = (from c in ctx.UserAccounts
-                    //                where c.UserName == emailId && c.Password == password
-                    //                select c).FirstOrDefault();
-                    if (userData != null)
-                    {
-                        return userData;
-                    }
-                    return null;
+                    Logger.Info("Successfully exiting from UserRepository API GetUser method");
+                    return userData;
                 }
             }
-            catch (System.Exception ex)
+            catch
             {
-
-                throw ex;
+                Logger.Info("Exception occured at UserRepository GetUser method ");
+                throw;
             }
         }
 
         public EmployeeCommonDetails GetUserDetails(int UserEmpId)
         {
+            Logger.Info("Entering in UserRepository API GetUserDetails method");
             try
             {
                 using (var ctx = new LeaveManagementSystemEntities1())
@@ -100,40 +96,45 @@ namespace LMS_WebAPI_DAL.Repositories
                             empDetails.ManagerName = managerDetails.FirstName;
                             empDetails.ManagerEmailId = managerDetails.UserAccounts.FirstOrDefault().UserName;
                         }
-
+                        Logger.Info("Successfully exiting from UserRepository API GetUserDetails method");
                         return empDetails;
                     }
                     else
+                    {
+                        Logger.Info("Successfully exiting from UserRepository API GetUserDetails method");
                         return null;
+                    } 
                 }
             }
-            catch (Exception ex)
+            catch 
             {
-
-                throw ex;
+                Logger.Info("Exception occured at UserRepository GetUserDetails method ");
+                throw;
             }
         }
 
         public List<Announcement> GetAnnouncements()
         {
+            Logger.Info("Entering in UserRepository API GetAnnouncements method");
             try
             {
                 using (var ctx = new LeaveManagementSystemEntities1())
                 {
                     var announcements = ctx.Announcements.Where(x => x.IsActive == true).ToList();
-
+                    Logger.Info("Successfully exiting from UserRepository API GetAnnouncements method");
                     return announcements;
                 }
             }
-            catch (Exception ex)
+            catch
             {
-
-                throw ex;
+                Logger.Info("Exception occured at UserRepository GetAnnouncements method ");
+                throw;
             }
         }
 
         public LeaveReportModel GetLeaveReportDetails(int year, int employeeId = 0)
         {
+            Logger.Info("Entering in UserRepository API GetLeaveReportDetails method");
             try
             {
                 var leaveReport = new LeaveReportModel();
@@ -199,18 +200,20 @@ namespace LMS_WebAPI_DAL.Repositories
                             }
                         }
                     }
+                    Logger.Info("Successfully exiting from UserRepository API GetLeaveReportDetails method");
                     return leaveReport;
                 }
             }
-            catch (Exception ex)
+            catch
             {
-
-                throw ex;
+                Logger.Info("Exception occured at UserRepository GetLeaveReportDetails method ");
+                throw;
             }
         }
 
         public EmployeeDetail GetUserProfileDetails(int employeeId, out List<MasterDataModel> skills)
         {
+            Logger.Info("Entering in UserRepository API GetUserProfileDetails method");
             try
             {
                 using (var ctx = new LeaveManagementSystemEntities1())
@@ -237,21 +240,22 @@ namespace LMS_WebAPI_DAL.Repositories
                     //    ProjectList.Add(project);
                     //}
                     //projects = ProjectList;
+                    Logger.Info("Successfully exiting from UserRepository API GetUserProfileDetails method");
                     return profileDetails;
                 }
             }
-            catch (Exception ex)
+            catch
             {
-
-                throw ex;
+                Logger.Info("Exception occured at UserRepository GetUserProfileDetails method ");
+                throw;
             }
         }
 
         public bool EditEmployeeDetails(EmployeeDetailsModel model)
         {
+            Logger.Info("Entering in UserRepository API EditEmployeeDetails method");
             try
             {
-
                 using (var ctx = new LeaveManagementSystemEntities1())
                 {
                     var empData = new EmployeeDetail();
@@ -268,21 +272,22 @@ namespace LMS_WebAPI_DAL.Repositories
                     empData.TwitterLink = model.TwitterLink;
                     empData.GooglePlusLink = model.GooglePlusLink;
                     ctx.SaveChanges();
+                    Logger.Info("Successfully exiting from UserRepository API EditEmployeeDetails method");
                     return true;
                 }
             }
-            catch (System.Exception ex)
+            catch 
             {
-
-                throw ex;
+                Logger.Info("Exception occured at UserRepository EditEmployeeDetails method ");
+                throw;
             }
         }
 
         public bool EditEmployeeEducationDetails(List<EmployeeEducationDetails> educationDetails, int employeeId)
         {
+            Logger.Info("Entering in UserRepository API EditEmployeeEducationDetails method");
             try
             {
-
                 using (var ctx = new LeaveManagementSystemEntities1())
                 {
                     foreach (var item in educationDetails)
@@ -310,22 +315,22 @@ namespace LMS_WebAPI_DAL.Repositories
                         }
 
                     }
-
+                    Logger.Info("Successfully exiting from UserRepository API EditEmployeeEducationDetails method");
                     return true;
                 }
             }
-            catch (System.Exception ex)
+            catch
             {
-
-                throw ex;
+                Logger.Info("Exception occured at UserRepository EditEmployeeEducationDetails method ");
+                throw;
             }
         }
 
         public bool EditEmployeeExperienceDetails(List<EmployeeExperienceDetails> experienceDetails, int employeeId)
         {
+            Logger.Info("Entering in UserRepository API EditEmployeeExperienceDetails method");
             try
             {
-
                 using (var ctx = new LeaveManagementSystemEntities1())
                 {
                     foreach (var item in experienceDetails)
@@ -354,18 +359,19 @@ namespace LMS_WebAPI_DAL.Repositories
                         }
 
                     }
-
+                    Logger.Info("Successfully exiting from UserRepository API EditEmployeeExperienceDetails method");
                     return true;
                 }
             }
-            catch (System.Exception ex)
+            catch
             {
-
-                throw ex;
+                Logger.Info("Exception occured at UserRepository EditEmployeeExperienceDetails method ");
+                throw;
             }
         }
         public bool EditEmployeeSkills(List<EmployeeSkillDetails> skills, int employeeId)
         {
+            Logger.Info("Entering in UserRepository API EditEmployeeSkills method");
             try
             {
                 using (var ctx = new LeaveManagementSystemEntities1())
@@ -384,32 +390,34 @@ namespace LMS_WebAPI_DAL.Repositories
                         ctx.EmployeeSkills.Add(skill);
                         ctx.SaveChanges();
                     }
-
+                    Logger.Info("Successfully exiting from UserRepository API EditEmployeeSkills method");
                     return true;
                 }
             }
-            catch (System.Exception ex)
+            catch 
             {
-
-                throw ex;
+                Logger.Info("Exception occured at UserRepository EditEmployeeSkills method ");
+                throw;
             }
         }
 
         public string getUserProfileImage(int employeeId)
         {
+            Logger.Info("Entering in UserRepository API getUserProfileImage method");
             try
             {
                 using (var ctx = new LeaveManagementSystemEntities1())
                 {
                     var profileDetails = ctx.EmployeeDetails.FirstOrDefault(i => i.Id == employeeId);
                     //return Convert.FromBase64String(profileDetails.ImagePath);
-
+                    Logger.Info("Successfully exiting from UserRepository API getUserProfileImage method");
                     return profileDetails.ImagePath;
                 }
             }
-            catch (Exception ex)
+            catch
             {
-                throw ex;
+                Logger.Info("Exception occured at UserRepository getUserProfileImage method ");
+                throw;
             }
         }
     }

@@ -14,6 +14,7 @@ namespace LMS_WebAPI_DAL.Repositories
     {
         public ResourceDetails GetResourceRequestFormDetails()
         {
+            Logger.Info("Entering in ResourceRequestRepository API GetResourceRequestFormDetails method");
             var resourceDetails = new ResourceDetails();
             try
             {
@@ -35,15 +36,14 @@ namespace LMS_WebAPI_DAL.Repositories
                     }
                     resourceDetails.ListOfHR = lstHR;
                     resourceDetails.Skills = skills;
-
-
-
                 }
+                Logger.Info("Successfully exiting from ResourceRequestRepository API GetResourceRequestFormDetails method");
                 return resourceDetails;
             }
-            catch (Exception ex)
+            catch
             {
-                throw ex;
+                Logger.Info("Exception occured at ResourceRequestRepository GetResourceRequestFormDetails method ");
+                throw;
             }
         }
     }

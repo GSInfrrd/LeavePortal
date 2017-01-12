@@ -13,6 +13,7 @@ namespace LMS_WebAPI_DAL.Repositories
     {
         public IList<WorkFromHomeCommonModel> GetWorkFromHomeList(int EmpId)
         {
+            Logger.Info("Entering in WorkFromHomeRepository API GetWorkFromHomeList method");
             var list = new List<WorkFromHomeCommonModel>();
             try
             {
@@ -37,35 +38,40 @@ namespace LMS_WebAPI_DAL.Repositories
                                 }).ToList();
                     }
                 }
+                Logger.Info("Successfully exiting from WorkFromHomeRepository API GetWorkFromHomeList method");
                 return list;
             }
-            catch (Exception ex)
+            catch
             {
-                throw ex;
+                Logger.Info("Exception occured at WorkFromHomeRepository GetWorkFromHomeList method ");
+                throw;
             }
         }
 
         public long AddWorkFromHome(WorkFromHome newWorkFromHome)
         {
+            Logger.Info("Entering in WorkFromHomeRepository API AddWorkFromHome method");
             try
             {
                 using (var ctx = new LeaveManagementSystemEntities1())
                 {
                     var newRecord = ctx.WorkFromHomes.Add(newWorkFromHome);
                     ctx.SaveChanges();
+                    Logger.Info("Successfully exiting from WorkFromHomeRepository API AddWorkFromHome method");
                     return newRecord.Id;
                 }
             }
-            catch (Exception ex)
+            catch
             {
-
-                throw ex;
+                Logger.Info("Exception occured at WorkFromHomeRepository AddWorkFromHome method ");
+                throw;
             }
 
         }
 
         public long DeleteWorkFromHomeRequest(long id)
         {
+            Logger.Info("Entering in WorkFromHomeRepository API DeleteWorkFromHomeRequest method");
             try
             {
                 using (var ctx = new LeaveManagementSystemEntities1())
@@ -77,17 +83,20 @@ namespace LMS_WebAPI_DAL.Repositories
                         ctx.SaveChanges();
                         return workFromHomeDetails.Id;
                     }
+                    Logger.Info("Successfully exiting from WorkFromHomeRepository API DeleteWorkFromHomeRequest method");
                     return 0;
                 }
             }
-            catch (Exception ex)
+            catch
             {
-                throw ex;
+                Logger.Info("Exception occured at WorkFromHomeRepository DeleteWorkFromHomeRequest method ");
+                throw;
             }
         }
 
         public bool UpdateWorkFromHome(WorkFromHome WorkFromHome)
         {
+            Logger.Info("Entering in WorkFromHomeRepository API UpdateWorkFromHome method");
             try
             {
                 using (var ctx = new LeaveManagementSystemEntities1())
@@ -105,12 +114,14 @@ namespace LMS_WebAPI_DAL.Repositories
                         ctx.Entry(WorkFromHomeSelected).State = EntityState.Modified;
                         ctx.SaveChanges();
                     }
+                    Logger.Info("Successfully exiting from WorkFromHomeRepository API UpdateWorkFromHome method");
                     return true;
                 }
             }
-            catch (Exception ex)
+            catch 
             {
-                throw ex;
+                Logger.Info("Exception occured at WorkFromHomeRepository UpdateWorkFromHome method ");
+                throw;
             }
         }
 
