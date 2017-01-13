@@ -22,41 +22,72 @@ namespace EmployeeLeaveManagementApp.Controllers
         [HttpPost]
         public async Task<ActionResult> GetNotifications()
         {
-            NotificationManagement ELTM = new NotificationManagement();
-            var data = (LMS_WebAPP_Domain.UserAccount)Session[Constants.SESSION_OBJ_USER];
-            // var notificationRegisterTime = Session["LastUpdated"] != null ? Convert.ToDateTime(Session["LastUpdated"]) : DateTime.Now;
-            int id = data.RefEmployeeId;
-            var res = await ELTM.GetNotificationsAsync(id);
-           // Session["LastUpdate"] = DateTime.Now;
-            return Json(new { result = res });
+            Logger.Info("Entering in NotificationController APP GetNotifications method");
+            try
+            {
+                NotificationManagement ELTM = new NotificationManagement();
+                var data = (LMS_WebAPP_Domain.UserAccount)Session[Constants.SESSION_OBJ_USER];
+                // var notificationRegisterTime = Session["LastUpdated"] != null ? Convert.ToDateTime(Session["LastUpdated"]) : DateTime.Now;
+                int id = data.RefEmployeeId;
+                var res = await ELTM.GetNotificationsAsync(id);
+                // Session["LastUpdate"] = DateTime.Now;
+                Logger.Info("Successfully exiting from NotificationController APP GetNotifications method");
+                return Json(new { result = res });
+            }
+            catch (Exception ex)
+            {
+                Logger.Error("Error at NotificationController APP GetNotifications method.", ex);
+                return View("Error");
+            }
         }
 
         [HttpPost]
         public async Task<ActionResult> NotificationSeen(int Id, int NotificationType)
         {
-            NotificationManagement ELTM = new NotificationManagement();
-            var res = await ELTM.NotificationSeenAsync(Id, NotificationType);
-            return Json(new { result = res });
+            Logger.Info("Entering in NotificationController APP NotificationSeen method");
+            try
+            {
+                NotificationManagement ELTM = new NotificationManagement();
+                var res = await ELTM.NotificationSeenAsync(Id, NotificationType);
+                Logger.Info("Successfully exiting from NotificationController APP NotificationSeen method");
+                return Json(new { result = res });
+            }
+            catch (Exception ex)
+            {
+                Logger.Error("Error at NotificationController APP NotificationSeen method.", ex);
+                return View("Error");
+            }
         }
 
 
        
         public ActionResult NotificationRedirect(int NotificationType)
         {
-            if (null != Session[Constants.SESSION_OBJ_USER])
+            Logger.Info("Entering in NotificationController APP NotificationRedirect method");
+            try
+            {
+                if (null != Session[Constants.SESSION_OBJ_USER])
             {
                 if (NotificationType == @Convert.ToInt16(NotificationTypes.LeaveNotification))
                 {
-                    return RedirectToAction("ApplyLeave", "ApplyLeave");
+                        Logger.Info("Successfully exiting from NotificationController APP NotificationRedirect method");
+                        return RedirectToAction("ApplyLeave", "ApplyLeave");
                 }
 
             }
             else
             {
-                return RedirectToAction("Login", "Account");
+                    Logger.Info("Successfully exiting from NotificationController APP NotificationRedirect method");
+                    return RedirectToAction("Login", "Account");
             }
-
-            return null;
+                Logger.Info("Successfully exiting from NotificationController APP NotificationRedirect method");
+                return null;
+            }
+            catch (Exception ex)
+            {
+                Logger.Error("Error at NotificationController APP NotificationRedirect method.", ex);
+                return View("Error");
+            }
 
         }
 

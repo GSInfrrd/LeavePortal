@@ -1,6 +1,7 @@
 ﻿using LMS_WebAPP_Domain;
 using LMS_WebAPP_ServiceHelpers;
 using LMS_WebAPP_Utils;
+using System;
 using System.Net.Http;
 using System.Threading.Tasks;
 using System.Web.Mvc;
@@ -15,40 +16,70 @@ namespace EmployeeLeaveManagementApp.Controllers
         // GET: ApproveLeave
         public async Task<ActionResult> ApproveLeave()
         {
-            if (null != Session[Constants.SESSION_OBJ_USER])
+            Logger.Info("Entering in ApproveLeaveController APP ApproveLeave method");
+            try
             {
-                var data = (UserAccount)Session[Constants.SESSION_OBJ_USER];
-                ApproveLeaveManagement ELTM = new ApproveLeaveManagement();
-                var res = await ELTM.GetAprroveLeaveAsync(data.RefEmployeeId);
-                //var values = Enum.GetValues(typeof(LeaveType));
-                return View(res);
+                if (null != Session[Constants.SESSION_OBJ_USER])
+            {
+                    var data = (UserAccount)Session[Constants.SESSION_OBJ_USER];
+                    ApproveLeaveManagement ELTM = new ApproveLeaveManagement();
+                    var res = await ELTM.GetAprroveLeaveAsync(data.RefEmployeeId);
+                    //var values = Enum.GetValues(typeof(LeaveType));
+                    Logger.Info("Successfully exiting from ApproveLeaveController APP ApproveLeave method");
+                    return View(res);
             }
             else
             {
-                return RedirectToAction("Login", "Account");
+                    Logger.Info("Successfully exiting from ApproveLeaveController APP ApproveLeave method");
+                    return RedirectToAction("Login", "Account");
+            }
+            }
+            catch (Exception ex)
+            {
+                Logger.Error("Error at ApproveLeaveController APP ApproveLeave method.", ex);
+                return View("Error");
             }
         }
 
         [HttpPost]
         public async Task<ActionResult> ApproveEmployeeLeave(int id, string comments , int st , int apid)
         {
-            ApproveLeaveManagement ELTM = new ApproveLeaveManagement();
+            Logger.Info("Entering in ApproveLeaveController APP ApproveEmployeeLeave method");
+            try
+            {
+                ApproveLeaveManagement ELTM = new ApproveLeaveManagement();
 
-            var res = await ELTM.AprroveEmployeeLeaveAsync(id, comments, st, apid);
-            //return RedirectToAction("ApplyLeave");
-            return Json(new { result = res });
+                var res = await ELTM.AprroveEmployeeLeaveAsync(id, comments, st, apid);
+                //return RedirectToAction("ApplyLeave");
+                Logger.Info("Successfully exiting from ApproveLeaveController APP ApproveEmployeeLeave method");
+                return Json(new { result = res });
+            }
+            catch (Exception ex)
+            {
+                Logger.Error("Error at ApproveLeaveController APP ApproveEmployeeLeave method.", ex);
+                return View("Error");
+            }
         }
 
         [HttpPost]
         public async Task<ActionResult> GetAllManagers()
         {
-            ApproveLeaveManagement ELTM = new ApproveLeaveManagement();
-            var data = (UserAccount)Session[Constants.SESSION_OBJ_USER];
-            int id = data.RefEmployeeId;
-            int st = 1;
-            var res = await ELTM.GetAllManagersAsync(id, st);
-            //return RedirectToAction("ApplyLeave");
-            return Json(new { result = res });
+            Logger.Info("Entering in ApproveLeaveController APP GetAllManagers method");
+            try
+            {
+                ApproveLeaveManagement ELTM = new ApproveLeaveManagement();
+                var data = (UserAccount)Session[Constants.SESSION_OBJ_USER];
+                int id = data.RefEmployeeId;
+                int st = 1;
+                var res = await ELTM.GetAllManagersAsync(id, st);
+                Logger.Info("Successfully exiting from ApproveLeaveController APP GetAllManagers method");
+                return Json(new { result = res });
+            }
+            catch (Exception ex)
+            {
+                Logger.Error("Error at ApproveLeaveController APP GetAllManagers method.", ex);
+                return View("Error");
+            }
         }
 
     }

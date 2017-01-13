@@ -4,6 +4,7 @@ using LMS_WebAPP_ServiceHelpers;
 using System.Threading.Tasks;
 using LMS_WebAPP_Domain;
 using LMS_WebAPP_Utils;
+using System;
 
 namespace EmployeeLeaveManagementApp.Controllers
 {
@@ -15,17 +16,28 @@ namespace EmployeeLeaveManagementApp.Controllers
         // GET: LeaveTransection
         public async Task<ActionResult> LeaveTransaction()
         {
-            if (null != Session[Constants.SESSION_OBJ_USER])
+            Logger.Info("Entering in LeaveTransactionController APP LeaveTransaction method");
+            try
             {
-                var data = (UserAccount)Session[Constants.SESSION_OBJ_USER];
-                EmployeeLeaveTransactionManagement ELTM = new EmployeeLeaveTransactionManagement();
-                var res = await ELTM.GetProductAsync(data.RefEmployeeId);
-                //var values = Enum.GetValues(typeof(LeaveType));
-                return View(res);
+                if (null != Session[Constants.SESSION_OBJ_USER])
+            {
+                    var data = (UserAccount)Session[Constants.SESSION_OBJ_USER];
+                    EmployeeLeaveTransactionManagement ELTM = new EmployeeLeaveTransactionManagement();
+                    var res = await ELTM.GetProductAsync(data.RefEmployeeId);
+                    //var values = Enum.GetValues(typeof(LeaveType));
+                    Logger.Info("Successfully exiting from LeaveTransactionController APP LeaveTransaction method");
+                    return View(res);
             }
             else
             {
-                return RedirectToAction("Login", "Account");
+                    Logger.Info("Successfully exiting from LeaveTransactionController APP LeaveTransaction method");
+                    return RedirectToAction("Login", "Account");
+            }
+            }
+            catch (Exception ex)
+            {
+                Logger.Error("Error at LeaveTransactionController APP LeaveTransaction method.", ex);
+                return View("Error");
             }
         }
 

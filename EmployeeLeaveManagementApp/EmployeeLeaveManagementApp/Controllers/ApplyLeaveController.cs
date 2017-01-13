@@ -18,6 +18,7 @@ namespace EmployeeLeaveManagementApp.Controllers
         // GET: LeaveTransection
         public async Task<ActionResult> ApplyLeave()
         {
+            Logger.Info("Entering in ApplyLeaveController APP ApplyLeave method");
             try
             {
                 if (null != Session[Constants.SESSION_OBJ_USER])
@@ -25,18 +26,20 @@ namespace EmployeeLeaveManagementApp.Controllers
                     var data = (UserAccount)Session[Constants.SESSION_OBJ_USER];
                     IList<LeaveTransaction> les = new List<LeaveTransaction>();
                     les = await ELTM.GetProductAsync(data.RefEmployeeId);
+                    Logger.Info("Successfully exiting from ApplyLeaveController APP ApplyLeave method");
                     return View(les);
                 }
                 else
                 {
+                    Logger.Info("Successfully exiting from ApplyLeaveController APP ApplyLeave method");
                     return RedirectToAction("Login", "Account");
                 }
 
             }
             catch (Exception ex)
             {
-                Logger.Error(ex);
-                return RedirectToAction("Error", "Home");
+                Logger.Error("Error at ApplyLeaveController APP ApplyLeave method.", ex);
+                return View("Error");
             }
         }
 
@@ -49,6 +52,7 @@ namespace EmployeeLeaveManagementApp.Controllers
         [HttpPost]
         public async Task<JsonResult> SubmitLeaveRequest(int leaveType, string fromDate, string toDate, string comments, double workingDays, bool isFullDay = true)
         {
+            Logger.Info("Entering in ApplyLeaveController APP SubmitLeaveRequest method");
             try
             {
                 var data = (UserAccount)Session[Constants.SESSION_OBJ_USER];
@@ -68,11 +72,12 @@ namespace EmployeeLeaveManagementApp.Controllers
                         break;
                 }
                 var res = await ELTM.SubmitLeaveRequestAsync(id, leaveType, fromDate, toDate, comments, WorkingDays);
+                Logger.Info("Successfully exiting from ApplyLeaveController APP SubmitLeaveRequest method");
                 return Json(new { result = res });
             }
             catch (Exception ex)
             {
-                Logger.Error(ex);
+                Logger.Error("Error at ApplyLeaveController APP SubmitLeaveRequest method.", ex);
                 return null;
             }
         }
@@ -81,6 +86,7 @@ namespace EmployeeLeaveManagementApp.Controllers
         [HttpPost]
         public async Task<JsonResult> SubmitLeaveRequestForCasualORAdvance(int CasualleaveCount, int AdvanceLeaveCount, int LOP, string fromDate, string toDate, string comments)
         {
+            Logger.Info("Entering in ApplyLeaveController APP SubmitLeaveRequestForCasualORAdvance method");
             try
             {
                 var data = (UserAccount)Session[Constants.SESSION_OBJ_USER];
@@ -109,43 +115,57 @@ namespace EmployeeLeaveManagementApp.Controllers
                     fromDay = Convert.ToDateTime(temtoday).AddDays(1).ToString();//toDay;
                     res = await ELTM.SubmitLeaveRequestAsync(id, Convert.ToInt16(LeaveType.LOP), fromDay, toDay, comments, Convert.ToDouble(LOP));
                 }
+                Logger.Info("Successfully exiting from ApplyLeaveController APP SubmitLeaveRequestForCasualORAdvance method");
                 return Json(new { result = res });
             }
             catch (Exception ex)
             {
-                Logger.Error(ex);
+                Logger.Error("Error at ApplyLeaveController APP SubmitLeaveRequestForCasualORAdvance method.", ex);
                 return null;
             }
         }
         [HttpPost]
         public async Task<ActionResult> SubmitLeaveForApproval(int id)
         {
-            EmployeeLeaveTransactionManagement ELTM = new EmployeeLeaveTransactionManagement();
+            Logger.Info("Entering in ApplyLeaveController APP SubmitLeaveForApproval method");
+            try
+            {
+                EmployeeLeaveTransactionManagement ELTM = new EmployeeLeaveTransactionManagement();
 
             var res = await ELTM.SubmitLeaveForApprovalAsync(id);
-            //return RedirectToAction("ApplyLeave");
-            return Json(new { result = res });
+                //return RedirectToAction("ApplyLeave");
+                Logger.Info("Successfully exiting from ApplyLeaveController APP SubmitLeaveForApproval method");
+                return Json(new { result = res });
+            }
+            catch (Exception ex)
+            {
+                Logger.Error("Error at ApplyLeaveController APP SubmitLeaveForApproval method.", ex);
+                return null;
+            }
         }
 
         [HttpPost]
         public async Task<ActionResult> DeleteLeaveRequest(int leaveId)
         {
+            Logger.Info("Entering in ApplyLeaveController APP DeleteLeaveRequest method");
             try
             {
                 int empId = ((UserAccount)Session[Constants.SESSION_OBJ_USER]).RefEmployeeId;
                 var res = await ELTM.DeleteLeaveRequestAsync(leaveId, empId);
                 //return RedirectToAction("ApplyLeave");
+                Logger.Info("Successfully exiting from ApplyLeaveController APP DeleteLeaveRequest method");
                 return Json(new { result = res });
             }
             catch (Exception ex)
             {
-                Logger.Error(ex);
+                Logger.Error("Error at ApplyLeaveController APP DeleteLeaveRequest method.", ex);
                 return RedirectToAction("Error", "Home");
             }
         }
 
         public async Task<JsonResult> GetEmployeeLeaveList()
         {
+            Logger.Info("Entering in ApplyLeaveController APP GetEmployeeLeaveList method");
             try
             {
                 if (null != Session[Constants.SESSION_OBJ_USER])
@@ -154,12 +174,14 @@ namespace EmployeeLeaveManagementApp.Controllers
                     var res = await ELTM.GetProductAsync(data.RefEmployeeId);
 
                     var resultJson = new { result = res };
+                    Logger.Info("Successfully exiting from ApplyLeaveController APP GetEmployeeLeaveList method");
                     return Json(resultJson, JsonRequestBehavior.AllowGet);
                 }
                 return null;
             }
-            catch (Exception)
+            catch (Exception ex)
             {
+                Logger.Error("Error at ApplyLeaveController APP GetEmployeeLeaveList method.", ex);
                 return null;
             }
         }

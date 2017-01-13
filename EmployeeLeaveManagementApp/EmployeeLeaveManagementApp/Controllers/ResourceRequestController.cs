@@ -18,19 +18,30 @@ namespace EmployeeLeaveManagementApp.Controllers
         ResourceManagement resourceManagementOperations = new ResourceManagement();
         public async Task<ActionResult> RequestForResources()
         {
-            int managerId = ((UserAccount)Session[LMS_WebAPP_Utils.Constants.SESSION_OBJ_USER]).RefEmployeeId;
+            Logger.Info("Entering in ResourceRequestController APP RequestForResources method");
+            try
+            {
+                int managerId = ((UserAccount)Session[LMS_WebAPP_Utils.Constants.SESSION_OBJ_USER]).RefEmployeeId;
             var resourceRequestFormDetails = await resourceManagementOperations.GetResourceRequestFormDetails(managerId);
             foreach (var history in resourceRequestFormDetails.ResourceRequestHistory)
             {
                 history.StatusValue = CommonMethods.Description((ResourceRequestStatus)history.Status);
                 //history.StatusValue = Enum;
             }
-            return View(resourceRequestFormDetails);
+                Logger.Info("Successfully exiting from ResourceRequestController APP RequestForResources method");
+                return View(resourceRequestFormDetails);
+            }
+            catch (Exception ex)
+            {
+                Logger.Error("Error at ResourceRequestController APP RequestForResources method.", ex);
+                return View("Error");
+            }
         }
 
 
         public async Task<ActionResult> SendRequestForResources(ResourceDetailsModel model)
         {
+            Logger.Info("Entering in ResourceRequestController APP SendRequestForResources method");
             try
             {
                 int managerId = ((UserAccount)Session[LMS_WebAPP_Utils.Constants.SESSION_OBJ_USER]).RefEmployeeId;
@@ -61,15 +72,18 @@ namespace EmployeeLeaveManagementApp.Controllers
                 resourceRequestSent.StatusValue = CommonMethods.Description((ResourceRequestStatus)resourceRequestSent.Status);
                 if (null != resourceRequestSent)
                 {
+                    Logger.Info("Successfully exiting from ResourceRequestController APP SendRequestForResources method");
                     return Json(new { result = true, model = resourceRequestSent });
                 }
                 else
                 {
+                    Logger.Info("Successfully exiting from ResourceRequestController APP SendRequestForResources method");
                     return Json(new { result = false });
                 }
             }
-            catch (Exception)
+            catch (Exception ex)
             {
+                Logger.Error("Error at ResourceRequestController APP SendRequestForResources method.", ex);
                 return Json(new { result = false });
             }
         }

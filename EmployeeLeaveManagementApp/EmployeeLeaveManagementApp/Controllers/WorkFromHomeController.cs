@@ -16,27 +16,32 @@ namespace EmployeeLeaveManagementApp.Controllers
         WorkFromHomeManagement wfhOperations = new WorkFromHomeManagement();
         public async Task<ActionResult> Index()
         {
+            Logger.Info("Entering in WorkFromHomeController APP Index method");
             try
             {
                 if (null != Session[Constants.SESSION_OBJ_USER])
                 {
                     var data = (UserAccount)Session[Constants.SESSION_OBJ_USER];
                     var WorkFromHomeList = await wfhOperations.GetWorkFromHomeListAsync(data.RefEmployeeId);
+                    Logger.Info("Successfully exiting from WorkFromHomeController APP Index method");
                     return View(WorkFromHomeList);
                 }
                 else
                 {
+                    Logger.Info("Successfully exiting from WorkFromHomeController APP Index method");
                     return RedirectToAction("Login", "Account");
                 }
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-                return null;
+                Logger.Error("Error at WorkFromHomeController APP Index method.", ex);
+                return View("Error");
             }
         }
 
         public async Task<JsonResult> AddWorkFromHomes(DateTime date, int Reason)
         {
+            Logger.Info("Entering in WorkFromHomeController APP AddWorkFromHomes method");
             try
             {
                 if (null != Session[Constants.SESSION_OBJ_USER])
@@ -59,15 +64,18 @@ namespace EmployeeLeaveManagementApp.Controllers
                     }
                     //else send mail to hr?
                         var resultJson = new { result = result };
+                    Logger.Info("Successfully exiting from WorkFromHomeController APP AddWorkFromHomes method");
                     return Json(resultJson, JsonRequestBehavior.AllowGet);
                 }
                 else
                 {
+                    Logger.Info("Successfully exiting from WorkFromHomeController APP AddWorkFromHomes method");
                     return null;
                 }
             }
-            catch (Exception)
+            catch (Exception ex)
             {
+                Logger.Error("Error at WorkFromHomeController APP AddWorkFromHomes method.", ex);
                 return null;
             }
         }
@@ -75,6 +83,7 @@ namespace EmployeeLeaveManagementApp.Controllers
 
         public async Task<JsonResult> GetWorkFromHomeList()
         {
+            Logger.Info("Entering in WorkFromHomeController APP GetWorkFromHomeList method");
             try
             {
                 if (null != Session[Constants.SESSION_OBJ_USER])
@@ -83,12 +92,15 @@ namespace EmployeeLeaveManagementApp.Controllers
                     var WorkFromHomeList = await wfhOperations.GetWorkFromHomeListAsync(data.RefEmployeeId);
 
                     var resultJson = new { result = WorkFromHomeList };
+                    Logger.Info("Successfully exiting from WorkFromHomeController APP GetWorkFromHomeList method");
                     return Json(resultJson, JsonRequestBehavior.AllowGet);
                 }
+                Logger.Info("Successfully exiting from WorkFromHomeController APP GetWorkFromHomeList method");
                 return null;
             }
-            catch (Exception)
+            catch (Exception ex)
             {
+                Logger.Error("Error at WorkFromHomeController APP GetWorkFromHomeList method.", ex);
                 return null;
             }
         }

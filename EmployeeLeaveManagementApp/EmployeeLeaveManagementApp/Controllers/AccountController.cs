@@ -61,19 +61,32 @@ namespace EmployeeLeaveManagementApp.Controllers
         [AllowAnonymous]
         public ActionResult Login(string returnUrl)
         {
-            if(TempData["LoginError"]!=null)
+            try
             {
-                TempData["GLoginError"]= TempData["LoginError"];
+                Logger.Info("Entering in AccountController APP Login with returnUrl method");
+                if (TempData["LoginError"] != null)
+                {
+                    TempData["GLoginError"] = TempData["LoginError"];
+                }
+                ViewBag.ReturnUrl = returnUrl;
+                Logger.Info("addded new");
+                ViewBag.userExist = true;
+                Logger.Info("Successfully exiting from AccountController APP Login with returnUrl method");
+                return View();
             }
-            ViewBag.ReturnUrl = returnUrl;
-            Logger.Info("addded new");
-            ViewBag.userExist = true;
-            return View();
+            catch (Exception ex)
+            {
+                Logger.Error("Error at AccountController APP Login with returnUrl method.", ex);
+                return View("Error");
+            }
         }
 
         public async Task<ActionResult> Profile()
         {
-            if (null != Session[LMS_WebAPP_Utils.Constants.SESSION_OBJ_USER])
+            try
+            {
+                Logger.Info("Entering in AccountController APP Profile method");
+                if (null != Session[LMS_WebAPP_Utils.Constants.SESSION_OBJ_USER])
             {
                 var data = (UserAccount)Session[LMS_WebAPP_Utils.Constants.SESSION_OBJ_USER];
                 EmployeeDetailsModel datares = await user.GetUserProfileDetails(data.RefEmployeeId);
@@ -86,15 +99,25 @@ namespace EmployeeLeaveManagementApp.Controllers
                 //model.ManagerName = datares.ManagerName;
                 model.DateOfJoining = DateTime.Now;
                 //model.RoleName = datares.RoleName;
+                Logger.Info("Successfully exiting from AccountController APP Profile method");
                 return View(datares);
             }
             return View("Login");
+            }
+            catch (Exception ex)
+            {
+                Logger.Error("Error at AccountController APP Profile method.", ex);
+                return View("Error");
+            }
         }
 
         [HttpPost]
         public async Task<ActionResult> Login(Models.LoginModel model)
         {
-            if (ModelState.IsValid)
+            try
+            {
+                Logger.Info("Entering in AccountController APP Login with loginModel method");
+                if (ModelState.IsValid)
             {
 
                 if (null == Session[LMS_WebAPP_Utils.Constants.SESSION_OBJ_USER])
@@ -135,12 +158,20 @@ namespace EmployeeLeaveManagementApp.Controllers
 
             }
             ViewBag.userExist = true;
-            return View();
+                Logger.Info("Successfully exiting from AccountController APP Login with loginModel method");
+                return View();
+            }
+            catch (Exception ex)
+            {
+                Logger.Error("Error at AccountController APP Login with loginModel method.", ex);
+                return View("Error");
+            }
         }
 
         [AllowAnonymous]
         public ActionResult Logout()
         {
+            Logger.Info("Entering in AccountController APP Logout method");
             try
             {
                 //WebSecurity.
@@ -149,28 +180,43 @@ namespace EmployeeLeaveManagementApp.Controllers
                 Session.Abandon();
                 Session.Clear();
                 //FormsAuthentication.SignOut();
+                Logger.Info("Successfully exiting from AccountController APP Logout method");
                 return View("Login");
             }
-            catch (Exception e)
+            catch (Exception ex)
             {
-                throw e;
+                Logger.Error("Error at AccountController APP Logout method.", ex);
+                return View("Error");
             }
         }
 
         public ActionResult Calender()
         {
+            Logger.Info("Entering in AccountController APP Calender method");
+            try
+            {
             var data = new List<CalendarEvents>();
             var holidayMgt = new HolidayManagement();
 
             var employeeId = ((UserAccount)Session[LMS_WebAPP_Utils.Constants.SESSION_OBJ_USER]).RefEmployeeId;
             Task.Run(async () => { data = await holidayMgt.GetCalendarEventsAsync(employeeId); }).Wait();
+            Logger.Info("Successfully exiting from AccountController APP Calender method");
             return PartialView("_Calender", data);
+            }
+            catch (Exception ex)
+            {
+                Logger.Error("Error at AccountController APP Calender method.", ex);
+                return View("Error");
+            }
 
         }
 
         public async Task<ActionResult> Dashboard()
         {
-            if (null != Session[LMS_WebAPP_Utils.Constants.SESSION_OBJ_USER])
+            Logger.Info("Entering in AccountController APP Dashboard method");
+            try
+            {
+                if (null != Session[LMS_WebAPP_Utils.Constants.SESSION_OBJ_USER])
             {
                 var data = (UserAccount)Session[LMS_WebAPP_Utils.Constants.SESSION_OBJ_USER];
                 EmployeeDetailsModel datares = await user.GetUserDetailsAsync(data.RefEmployeeId);
@@ -205,19 +251,36 @@ namespace EmployeeLeaveManagementApp.Controllers
                 // model.Announcements = (Models.Announcement)datares.Announcements;
                 return View(model);
             }
-            return View("Login");
+                Logger.Info("Successfully exiting from AccountController APP Dashboard method");
+                return View("Login");
+            }
+            catch (Exception ex)
+            {
+                Logger.Error("Error at AccountController APP Dashboard method.", ex);
+                return View("Error");
+            }
         }
 
         public async Task<ActionResult> GetLeaveReportDetails(int year)
         {
-            if (null != Session[LMS_WebAPP_Utils.Constants.SESSION_OBJ_USER])
+            Logger.Info("Entering in AccountController APP GetLeaveReportDetails method");
+            try
+            {
+                if (null != Session[LMS_WebAPP_Utils.Constants.SESSION_OBJ_USER])
             {
                 var data = (UserAccount)Session[LMS_WebAPP_Utils.Constants.SESSION_OBJ_USER];
                 LeaveReportModel datares = await user.GetLeaveReportDetails(data.RefEmployeeId, year);
                 // model.Announcements = (Models.Announcement)datares.Announcements;
                 return Json(new { result = datares });
             }
-            return View("Login");
+                Logger.Info("Successfully exiting from AccountController APP GetLeaveReportDetails method");
+                return View("Login");
+            }
+            catch (Exception ex)
+            {
+                Logger.Error("Error at AccountController APP GetLeaveReportDetails method.", ex);
+                return View("Error");
+            }
         }
 
 
@@ -234,7 +297,10 @@ namespace EmployeeLeaveManagementApp.Controllers
 
         public async Task<ActionResult> ProfileDetails(int id)
         {
-            if (null != Session[LMS_WebAPP_Utils.Constants.SESSION_OBJ_USER])
+            Logger.Info("Entering in AccountController APP ProfileDetails method");
+            try
+            {
+                if (null != Session[LMS_WebAPP_Utils.Constants.SESSION_OBJ_USER])
             {
                 var data = (UserAccount)Session[LMS_WebAPP_Utils.Constants.SESSION_OBJ_USER];
                 EmployeeDetailsModel datares = await user.GetUserProfileDetails(id);
@@ -249,12 +315,20 @@ namespace EmployeeLeaveManagementApp.Controllers
                 //model.RoleName = datares.RoleName;
                 return View("Profile", datares);
             }
-            return View("Login");
+                Logger.Info("Successfully exiting from AccountController APP ProfileDetails method");
+                return View("Login");
+            }
+            catch (Exception ex)
+            {
+                Logger.Error("Error at AccountController APP ProfileDetails method.", ex);
+                return View("Error");
+            }
         }
 
         public async Task<ActionResult> DownloadPDF(int userId)
         {
 
+            Logger.Info("Entering in AccountController APP DownloadPDF method");
             try
             {
                 if (null != Session[LMS_WebAPP_Utils.Constants.SESSION_OBJ_USER])
@@ -263,6 +337,7 @@ namespace EmployeeLeaveManagementApp.Controllers
                     EmployeeDetailsModel datares = await user.GetUserProfileDetails(data.RefEmployeeId);
                     List<string> col = new List<string>() { "danger", "info", "warning", "success" };
                     datares.Colors = col;
+                    Logger.Info("Successfully exiting from AccountController APP DownloadPDF method");
                     return new Rotativa.ViewAsPdf("ProfileDownload", datares)
                     {
                         FileName = datares.FirstName + "_Profile.pdf"
@@ -272,59 +347,84 @@ namespace EmployeeLeaveManagementApp.Controllers
                 //Use ViewAsPdf Class to generate pdf using GeneratePDF.cshtml view
                 else
                 {
+                    Logger.Info("Successfully exiting from AccountController APP DownloadPDF method");
                     return View("Login");
                 }
             }
-            catch
+            catch(Exception ex)
             {
-
-                throw;
+                Logger.Error("Error at AccountController APP DownloadPDF method.", ex);
+                return View("Error");
             }
         }
 
         public async Task<ActionResult> ProfileDownload()
         {
-            if (null != Session[LMS_WebAPP_Utils.Constants.SESSION_OBJ_USER])
+            Logger.Info("Entering in AccountController APP ProfileDownload method");
+            try
+            {
+                if (null != Session[LMS_WebAPP_Utils.Constants.SESSION_OBJ_USER])
             {
                 var data = (UserAccount)Session[LMS_WebAPP_Utils.Constants.SESSION_OBJ_USER];
                 EmployeeDetailsModel datares = await user.GetUserProfileDetails(data.RefEmployeeId);
                 List<string> col = new List<string>() { "danger", "info", "warning", "success" };
                 datares.Colors = col;
-                return View(datares);
+                    Logger.Info("Successfully exiting from AccountController APP ProfileDownload method");
+                    return View(datares);
             }
             else
             {
-                return View("Login");
+                    Logger.Info("Successfully exiting from AccountController APP ProfileDownload method");
+                    return View("Login");
+            }
+            }
+            catch (Exception ex)
+            {
+                Logger.Error("Error at AccountController APP ProfileDownload method.", ex);
+                return View("Error");
             }
         }
 
         [AllowAnonymous]
         public async Task<ActionResult> ExternalLoginCallback(string returnUrl)
         {
-            var loginInfo = await AuthenticationManager.GetExternalLoginInfoAsync();
-            if (loginInfo == null)
+            Logger.Info("Entering in AccountController APP ExternalLoginCallback method");
+            try
             {
-                return RedirectToAction("Login");
-            }
+                var loginInfo = await AuthenticationManager.GetExternalLoginInfoAsync();
+                if (loginInfo == null)
+                {
+                    return RedirectToAction("Login");
+                }
 
-            // Sign in the user with this external login provider if the user already has a login
-            var result = await SignInManager.ExternalSignInAsync(loginInfo, isPersistent: false);
-            switch (result)
+                // Sign in the user with this external login provider if the user already has a login
+                var result = await SignInManager.ExternalSignInAsync(loginInfo, isPersistent: false);
+                switch (result)
+                {
+                    case SignInStatus.Success:
+                        var data = await user.GetUserAsync(loginInfo.Email, string.Empty);
+                        Session[LMS_WebAPP_Utils.Constants.SESSION_OBJ_USER] = data;
+                        Logger.Info("Successfully exiting from AccountController APP ExternalLoginCallback method");
+                        return RedirectToLocal(returnUrl);
+                    case SignInStatus.LockedOut:
+                        Logger.Info("Successfully exiting from AccountController APP ExternalLoginCallback method");
+                        return View("Lockout");
+                    case SignInStatus.RequiresVerification:
+                        Logger.Info("Successfully exiting from AccountController APP ExternalLoginCallback method");
+                        return RedirectToAction("SendCode", new { ReturnUrl = returnUrl, RememberMe = false });
+                    case SignInStatus.Failure:
+                    default:
+                        // If the user does not have an account, then prompt the user to create an account
+                        ViewBag.ReturnUrl = returnUrl;
+                        ViewBag.LoginProvider = loginInfo.Login.LoginProvider;
+                        Logger.Info("Successfully exiting from AccountController APP ExternalLoginCallback method");
+                        return RedirectToAction("ExternalLoginConfirmation", new ExternalLoginConfirmationViewModel { Email = loginInfo.Email });
+                }
+            }
+            catch (Exception ex)
             {
-                case SignInStatus.Success:
-                    var data = await user.GetUserAsync(loginInfo.Email, string.Empty);
-                    Session[LMS_WebAPP_Utils.Constants.SESSION_OBJ_USER] = data;
-                    return RedirectToLocal(returnUrl);
-                case SignInStatus.LockedOut:
-                    return View("Lockout");
-                case SignInStatus.RequiresVerification:
-                    return RedirectToAction("SendCode", new { ReturnUrl = returnUrl, RememberMe = false });
-                case SignInStatus.Failure:
-                default:
-                    // If the user does not have an account, then prompt the user to create an account
-                    ViewBag.ReturnUrl = returnUrl;
-                    ViewBag.LoginProvider = loginInfo.Login.LoginProvider;
-                    return RedirectToAction("ExternalLoginConfirmation", new ExternalLoginConfirmationViewModel { Email = loginInfo.Email });
+                Logger.Error("Error at AccountController APP ExternalLoginCallback method.", ex);
+                return View("Error");
             }
         }
 
@@ -332,7 +432,10 @@ namespace EmployeeLeaveManagementApp.Controllers
         [AllowAnonymous]
         public async Task<ActionResult> ExternalLoginConfirmation(ExternalLoginConfirmationViewModel model, string returnUrl)
         {
-            if (User.Identity.IsAuthenticated)
+            Logger.Info("Entering in AccountController APP ExternalLoginConfirmation method");
+            try
+            {
+                if (User.Identity.IsAuthenticated)
             {
                 var emailDomain = model.Email.Split('@')[1];
                 if (emailDomain == "infrrd.ai")
@@ -379,23 +482,50 @@ namespace EmployeeLeaveManagementApp.Controllers
             }
 
             ViewBag.ReturnUrl = returnUrl;
-            return View(model);
+                Logger.Info("Successfully exiting from AccountController APP ExternalLoginConfirmation method");
+                return View(model);
+            }
+            catch (Exception ex)
+            {
+                Logger.Error("Error at AccountController APP ExternalLoginConfirmation method.", ex);
+                return View("Error");
+            }
         }
 
 
         private ActionResult RedirectToLocal(string returnUrl)
         {
-            if (Url.IsLocalUrl(returnUrl))
+            Logger.Info("Entering in AccountController APP RedirectToLocal method");
+            try
+            {
+                if (Url.IsLocalUrl(returnUrl))
             {
                 return Redirect(returnUrl);
             }
-            return RedirectToAction("Dashboard", "Account");
+                Logger.Info("Successfully exiting from AccountController APP RedirectToLocal method");
+                return RedirectToAction("Dashboard", "Account");
+            }
+            catch (Exception ex)
+            {
+                Logger.Error("Error at AccountController APP RedirectToLocal method.", ex);
+                return View("Error");
+            }
         }
 
         public ActionResult ExternalLogin(string provider, string returnUrl)
         {
-            // Request a redirect to the external login provider
-            return new ChallengeResult(provider, Url.Action("ExternalLoginCallback", "Account", new { ReturnUrl = returnUrl }));
+            Logger.Info("Entering in AccountController APP ExternalLogin method");
+            try
+            {
+                // Request a redirect to the external login provider
+                Logger.Info("Successfully exiting from AccountController APP ExternalLogin method");
+                return new ChallengeResult(provider, Url.Action("ExternalLoginCallback", "Account", new { ReturnUrl = returnUrl }));
+            }
+            catch (Exception ex)
+            {
+                Logger.Error("Error at AccountController APP ExternalLogin method.", ex);
+                return View("Error");
+            }
         }
         private const string XsrfKey = "XsrfId";
 
@@ -409,9 +539,18 @@ namespace EmployeeLeaveManagementApp.Controllers
 
         private void AddErrors(IdentityResult result)
         {
-            foreach (var error in result.Errors)
+            Logger.Info("Entering in AccountController APP AddErrors method");
+            try
+            {
+                foreach (var error in result.Errors)
             {
                 ModelState.AddModelError("", error);
+            }
+                Logger.Info("Successfully exiting from AccountController APP AddErrors method");
+            }
+            catch (Exception ex)
+            {
+                Logger.Error("Error at AccountController APP AddErrors method.", ex);
             }
         }
         internal class ChallengeResult : HttpUnauthorizedResult
@@ -434,13 +573,22 @@ namespace EmployeeLeaveManagementApp.Controllers
 
             public override void ExecuteResult(ControllerContext context)
             {
-                var properties = new AuthenticationProperties { RedirectUri = RedirectUri };
-                properties.Dictionary.Add("hd", "infrrd.ai");
-                if (UserId != null)
+                Logger.Info("Entering in AccountController APP ExecuteResult method");
+                try
                 {
-                    properties.Dictionary[XsrfKey] = UserId;
+                    var properties = new AuthenticationProperties { RedirectUri = RedirectUri };
+                    properties.Dictionary.Add("hd", "infrrd.ai");
+                    if (UserId != null)
+                    {
+                        properties.Dictionary[XsrfKey] = UserId;
+                    }
+                    context.HttpContext.GetOwinContext().Authentication.Challenge(properties, LoginProvider);
+                    Logger.Info("Successfully exiting from AccountController APP ExecuteResult method");
                 }
-                context.HttpContext.GetOwinContext().Authentication.Challenge(properties, LoginProvider);
+                catch (Exception ex)
+                {
+                    Logger.Error("Error at AccountController APP ExecuteResult method.", ex);
+                }
             }
         }
     }
