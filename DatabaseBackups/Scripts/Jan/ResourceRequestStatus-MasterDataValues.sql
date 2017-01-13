@@ -1,0 +1,2 @@
+Insert into [LeaveManagementSystem].[dbo].[MasterDataValue] (RefMasterType,Value) values(16,'In Progress');
+Insert into [LeaveManagementSystem].[dbo].[MasterDataValue] (RefMasterType,Value) values(16,'Approved');

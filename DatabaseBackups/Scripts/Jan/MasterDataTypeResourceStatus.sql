@@ -1,0 +1,1 @@
+Insert into [LeaveManagementSystem].[dbo].[MasterDataType] Values('ResourceRequestStatus');

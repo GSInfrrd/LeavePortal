@@ -1,7 +1,7 @@
 ﻿using Domain;
+using LMS_WebAPI_DAL;
 using LMS_WebAPI_DAL.Repositories;
 using LMS_WebAPI_DAL.Repositories.Interfaces;
-using LMS_WebAPI_Utils;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,23 +10,36 @@ using System.Threading.Tasks;
 
 namespace Service
 {
-    public class ResourceRequestManagement
+    public class ResourceRequestManagemenet
     {
         private IResourceRequestRepository _resourceRequest = new ResourceRequestRepository();
-        public ResourceDetails GetResourceRequestFormDetails()
+        public ResourceDetails GetResourceRequestFormDetails(int managerId)
         {
-            Logger.Info("Entering into ResourceRequestManagement Service helper GetResourceRequestFormDetails method ");
             try
             {
                 var resourceDetails = new ResourceDetails();
-                resourceDetails = _resourceRequest.GetResourceRequestFormDetails();
-                Logger.Info("Exiting from into ResourceRequestManagement Service helper GetResourceRequestFormDetails method ");
+                resourceDetails = _resourceRequest.GetResourceRequestFormDetails(managerId);
                 return resourceDetails;
             }
-            catch 
+            catch (Exception ex)
             {
-                Logger.Info("Exception occured at ResourceRequestManagement Service helper GetResourceRequestFormDetails method ");
-                throw;
+
+                throw ex;
+            }
+        }
+
+        public ResourceRequestDetailModel SubmitResourceRequest(ResourceRequestDetail model)
+        {
+            try
+            {
+                var requestModel = _resourceRequest.SubmitResourceRequest(model);
+
+                return requestModel;
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
             }
         }
     }

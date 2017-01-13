@@ -84,4 +84,12 @@ namespace LMS_WebAPI_Utils
         limit = 11
     }
 
+    public enum ResourceRequestStatus
+    {
+        [Description("In progress")]
+        InProgress = 1,
+        [Description("Approved")]
+        Approved = 2
+    }
+
 }

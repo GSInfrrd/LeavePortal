@@ -10,6 +10,8 @@ namespace LMS_WebAPI_DAL.Repositories.Interfaces
 {
     public interface IResourceRequestRepository
     {
-        ResourceDetails GetResourceRequestFormDetails();
+        ResourceDetails GetResourceRequestFormDetails(int managerId);
+
+        ResourceRequestDetailModel SubmitResourceRequest(ResourceRequestDetail model);
     }
 }
