@@ -1,0 +1,42 @@
+﻿.padding-left-right-20{
+    padding:0 20px;
+}
+.btn-backgroundColor-cinder{
+    background-color:#222d32;
+}
+.margin-left-right-15{
+    margin:0px 15px;
+}
+.pad-right0-pad-right-15{
+    padding-right:0px;
+    padding-left:15px;
+}
+.border-top-bottom-tableDiv{
+    border-top: 1px solid #222d32;
+    border-bottom: 1px solid #222d32;
+}
+.bold-font{
+    font-weight: bold;
+}
+.padding-top-bottom-5{
+    padding:5px 0px;
+}
+.border-bottom-table{
+    border-bottom:1px solid #d2d6de;
+}
+.margin-bottom-5{
+    margin-bottom:5px;
+}
+.padding-top5-bottom20{
+    padding:5px 0px 20px 0px;
+}
+.padding-right-left-15{
+    padding:0px 15px;
+}
+.divBorder{
+    border:1px solid #f4f4f4;
+    border-radius:5px;
+}
+.padding-top-bottom10{
+    padding:10px 0px;
+}

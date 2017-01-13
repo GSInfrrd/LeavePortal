@@ -13,27 +13,69 @@ namespace Service
     {
         static HttpClient client = new HttpClient();
 
-        private string URL = "http://localhost:64476/api/ResourceRequest";
+        private string URLGet = "http://localhost:64476/api/ResourceRequest";
+        private string URLPost = "http://localhost:64476/api/ResourceRequest/SubmitResourceRequest";
         private string urlParameters;
 
-        public async Task<ResourceDetails> GetResourceRequestFormDetails()
+        public async Task<ResourceDetails> GetResourceRequestFormDetails(int managerId)
         {
-            HttpClient client = new HttpClient();
-            client.BaseAddress = new Uri(URL);
-            // Add an Accept header for JSON format.
-            client.DefaultRequestHeaders.Accept.Add(
-            new MediaTypeWithQualityHeaderValue("application/json"));
-            HttpResponseMessage response = await client.GetAsync(URL); // Blocking call!
-            var resourceDetails = new ResourceDetails();
-
-            if (response.IsSuccessStatusCode)
+            try
             {
-                // Parse the response body. Blocking!
-                resourceDetails = response.Content.ReadAsAsync<ResourceDetails>().Result;
-                return resourceDetails;
+                HttpClient client = new HttpClient();
+                client.BaseAddress = new Uri(URLGet);
+                urlParameters = "?id=" + managerId;
+                URLGet += urlParameters;
 
+                client.BaseAddress = new Uri(URLGet);
+                // Add an Accept header for JSON format.
+                client.DefaultRequestHeaders.Accept.Add(
+                new MediaTypeWithQualityHeaderValue("application/json"));
+                HttpResponseMessage response = await client.GetAsync(URLGet); // Blocking call!
+                var resourceDetails = new ResourceDetails();
+
+                if (response.IsSuccessStatusCode)
+                {
+                    // Parse the response body. Blocking!
+                    resourceDetails = response.Content.ReadAsAsync<ResourceDetails>().Result;
+                    return resourceDetails;
+                }
+                return null;
             }
-            return null;
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
+        }
+
+        public async Task<ResourceRequestDetailModel> SubmitResourceRequest(ResourceRequestDetailModel model)
+        {
+            try
+            {
+                var resourceDetailModel = new ResourceRequestDetailModel();
+                HttpClient client = new HttpClient();
+                urlParameters = "?model=" + model;
+                client.BaseAddress = new Uri(URLPost);
+                // Add an Accept header for JSON format.
+                client.DefaultRequestHeaders.Accept.Add(
+                new MediaTypeWithQualityHeaderValue("application/json"));
+
+                // List data response.
+                HttpResponseMessage response = await client.PostAsJsonAsync(URLPost, model); // Blocking call!
+
+                if (response.IsSuccessStatusCode)
+                {
+                    // Parse the response body. Blocking!
+                    resourceDetailModel = response.Content.ReadAsAsync<ResourceRequestDetailModel>().Result;
+                    return resourceDetailModel;
+                }
+                return null;
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
         }
     }
 }

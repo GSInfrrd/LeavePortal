@@ -294,6 +294,7 @@
     <Content Include="Content\Images\computer-vision-ai-enterprise.jpg" />
     <Content Include="Content\Images\error.jpg" />
     <Content Include="Content\Images\New Year.jpg" />
+    <Content Include="Content\Style.css" />
     <Content Include="dist\css\AdminLTE.css" />
     <Content Include="dist\css\AdminLTE.min.css" />
     <Content Include="dist\css\skins\skin-black-light.css" />

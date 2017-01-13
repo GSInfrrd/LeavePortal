@@ -1,14 +1,17 @@
-﻿@model EmployeeLeaveManagementApp.Models.ResourceDetailsModel
+﻿@model LMS_WebAPP_Domain.ResourceDetails
 @{
     ViewBag.Title = "AddEmployeeDetails";
     Layout = "~/Views/Shared/_Layout.cshtml";
+    var test = Model;
 }
 @*<h2>Add Employee Details</h2>*@
 <link rel="stylesheet" href="../../plugins/iCheck/all.css">
 <link rel="stylesheet" href="../../plugins/select2/select2.min.css">
 <link rel="stylesheet" href="../../dist/css/AdminLTE.min.css">
 <link rel="stylesheet" href="../../plugins/FooTable/footable.core.min.css">
-<link href="~/Content/style.css" rel="stylesheet" />
+<link href="~/Content/Style.css" rel="stylesheet" />
+<link href="~/plugins/datatables/jquery.dataTables.min.css" rel="stylesheet" />
+<link href="~/plugins/datatables/dataTables.bootstrap.css" rel="stylesheet" />
 <section class="content-header">
     <h1>
         Resource Request
@@ -19,9 +22,10 @@
         <div class="col-md-12">
             <!-- general form elements -->
             <div class="box box-primary">
-                <div class="box-header with-border">
+                <div class="box-header with-border margin-bottom-5">
                     <h3 class="box-title">Resource Details</h3>
                 </div>
+
                 <div class="box-body">
                     <div class="form-group col-md-6">
                         <label for="txtRequestTitle">Request Title</label>
@@ -34,24 +38,26 @@
                     <div class="form-group col-md-6">
                         <label for="ddlSkills">Skills</label>
                         <select id="ddlSkills" multiple="multiple" class="form-control skills" style="width: 100%;">
-                            <option>.Net</option>
-                            <option>Java</option>
-                            <option>Html</option>
+                            @foreach (var skill in Model.Skills)
+                            {
+                                <option value="@skill">@skill</option>
+                            }
                         </select>
                     </div>
                     <div class="form-group col-md-6" id="ddlRequestToDiv">
                         <label>Request send to</label>
                         <select class="form-control" style="width: 100%;" id="ddlRequestSendToSel">
-                            <option value="selectA">SelectA</option>
-                            <option value="selectB">SelectB</option>
-                            <option value="selectC">SelectC</option>
+                            @foreach (var hr in Model.ListOfHR)
+                            {
+                                <option value="@hr.Id">@hr.FirstName @hr.LastName</option>
+                            }
                         </select>
                     </div>
                 </div>
                 <!-- /.box-body -->
                 <div class="box-footer">
-                    <div class="form-group col-md-6 margin-bottom-0">
-                        <button type="submit" id="btnSendResourceRequest" class="btn btn-primary">Send request</button>
+                    <div class="form-group col-md-6 margin-bottom-0 btn-backgroundColor-dark">
+                        <button type="submit" id="btnSendResourceRequest" class="btn btn-primary bg-black">Send request</button>
                     </div>
                 </div>
             </div>
@@ -64,25 +70,43 @@
                 </div>
                 <!-- /.box-header -->
                 <!-- form start -->
-                <table class="table tableGrid footable toggle-arrow margin-rgt-lft-15" id="resourceRequest-table">
-                    <thead>
-                        <tr>
-                            <th class="tableGrid-header text-align-left" data-hide="phone">
-                                Ticket
-                            </th>
-                            <th class="tableGrid-header cursor-pointer text-align-left" data-sortdirection="3">
-                                Request
-                            </th>
-                            <th class="tableGrid-header text-align-left" data-hide="phone">
-                                Status
-                            </th>
-                            @*<th class="tableGrid-header text-align-right" data-hide="phone,tabletPortrait">
-                                    @PRGX.SIMTrax.Domain.Util.ReadResource.GetResourceForGlobalization(PRGX.SIMTrax.Domain.Util.Constants.VERIFIED, userCulture).ToString()
-                                </th>*@
-                        </tr>
-                    </thead>
-                    <tbody id="resourceRequest-body"></tbody>
-                </table>
+                <div class="reousrceHistoryDiv padding-top5-bottom20 padding-right-left-15">
+
+                    @*@foreach (var resource in Model.ResourceRequestHistory)
+                        {
+                            <div class="row margin-left-right-15 resourceHistoryDetails padding-top-bottom-5 border-bottom-table">
+                                <div class="col-md-4 pad-right0-pad-right-15">@resource.Ticket</div>
+                                <div class="col-md-4 pad-right0-pad-right-15">@resource.ResourceRequestTitle</div>
+                                <div class="col-md-4 pad-right0-pad-right-15">@resource.Status</div>
+                            </div>
+                        }*@
+                    <table id="resourceRequestHistoryTable" class="display" cellspacing="0" width="100%">
+                        <thead>
+                            <tr>
+                                <th>Request Ticket</th>
+                                <th>Request Title</th>
+                                <th>Status</th>
+                            </tr>
+                        </thead>
+                        <tfoot>
+                            <tr>
+                                <th>Request Ticket</th>
+                                <th>Request Title</th>
+                                <th>Status</th>
+                            </tr>
+                        </tfoot>
+                        <tbody class="requestHistoryTableBody">
+                            @foreach (var resource in Model.ResourceRequestHistory)
+                            {
+                                <tr>
+                                    <td><a href="#" data-ticket="@resource.Ticket" data-created="@resource.CreatedDate" data-updated="@resource.UpdatedDate" data-title="@resource.ResourceRequestTitle" data-noRsource="@resource.NumberRequestedResources" data-skills="@resource.Skills" data-sentTo="@resource.RequestToName" data-status="@resource.StatusValue" onclick="ticketClicked(this)">@resource.Ticket</a></td>
+                                    <td>@resource.ResourceRequestTitle</td>
+                                    <td>@resource.StatusValue</td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
             </div>
         </div>
 
@@ -96,67 +120,45 @@
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
-                <h4 class="modal-title">Resource Details</h4>
+                <h3 class="modal-title">Resource Request Status Details</h3>
             </div>
             <div class="modal-body">
                 <div class="form-group" style="padding-bottom:20px">
-                    <div>
-                        <label>Leave Type</label>
-                    </div>
-                    <span class="form-group has-error" style="display:none" id="divLeaveTypeError">
-                        <label class="control-label" for="inputError">
-                            <i class="fa fa-times-circle-o"></i> Please select leave type
-                        </label>
-                    </span>
-                    <div>
-                        @foreach (var value in Enum.GetValues(typeof(LMS_WebAPP_Utils.LeaveType)))
-                        {
-                            <div class="col-md-6">
-                                <input type="radio" name="r1" class="flat-red" value="@Convert.ToInt16((LMS_WebAPP_Utils.LeaveType)value)">&nbsp; @(LMS_WebAPP_Utils.CommonMethods.Description((LMS_WebAPP_Utils.LeaveType)Convert.ToInt16((LMS_WebAPP_Utils.LeaveType)value)))
-                            </div>
-                        }
-                    </div>
-                </div>
-                <div class="form-group">
-                    <div>
-                        <label>Date range:</label>
-                    </div>
-                    <div class="input-group">
-                        <div class="input-group-addon">
-                            <i class="fa fa-calendar"></i>
+                    <div class="divBorder padding-top-bottom10">
+                        <div class="row">
+                            <div class="col-md-4"><label class="">Request Title:</label></div>
+                            <div class="col-md-8"><span class="requestTitle"></span></div>
                         </div>
-                        <input type="text" class="form-control pull-right" id="leaveDatepicker">
-                    </div>
-
-                    <div class="form-group has-error" style="display:none" id="divDatePickerError">
-                        <label class="control-label" for="inputError">
-                            <i class="fa fa-times-circle-o"></i> Please select a valid date range.
-                        </label>
+                        <div class="row">
+                            <div class="col-md-4"><label class="">Request ticket:</label></div>
+                            <div class="col-md-8"><span class="requestTicket"></span></div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-4"><label class="">No of resources required:</label></div>
+                            <div class="col-md-8"><span class="requestResourceNumber"></span></div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-4"><label class="">Skills required:</label></div>
+                            <div class="col-md-8"><span class="requestedSkills"></span></div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-4"><label class="">Request sent to:</label></div>
+                            <div class="col-md-8"><span class="requestSentTo"></span></div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-4"><label class="">Request sent date:</label></div>
+                            <div class="col-md-8"><span class="requestSentDate"></span></div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-4"><label class="">Request response date:</label></div>
+                            <div class="col-md-8"><span class="requestResponseDate"></span></div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-4"><label class="">Status:</label></div>
+                            <div class="col-md-8"><span class="requestStatus"></span></div>
+                        </div>
                     </div>
                 </div>
-                <div class="form-group">
-                    <div>
-                        <label>Number Of Working Days:</label>
-                        <span id="lblTotalWorkingDays"></span>
-                    </div>
-                </div>
-                <div class="form-group">
-                    <div>
-                        <label>Leave Comments:</label>
-                    </div>
-                    <div>
-                        <textarea id="leaveComment" rows="3" style="width:568px" placeholder="Enter ..."></textarea>
-                    </div>
-                    <div class="form-group has-error" style="display:none" id="divCommentError">
-                        <label class="control-label" for="leaveComment">
-                            <i class="fa fa-times-circle-o"></i> Please enter the comments
-                        </label>
-                    </div>
-                </div>
-            </div>
-            <div class="modal-footer">
-                <button type="button" id="btnLeaveRequestSubmit" style="background-color:#222d32 !important" class="btn btn-primary">Submit</button>
-                <button type="button" class="btn btn-default pull-right" data-dismiss="modal">Cancel</button>
             </div>
         </div>
         <!-- /.modal-content -->
@@ -169,6 +171,8 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.11.2/moment.min.js"></script>
 <script src="../../plugins/daterangepicker/daterangepicker.js"></script>
 <script src="~/plugins/FooTable/footable.js"></script>
+<script src="../../plugins/datatables/jquery.dataTables.min.js"></script>
+<script src="../../plugins/datatables/dataTables.bootstrap.min.js"></script>
 
 <script>
     var educationFromDate;
@@ -180,95 +184,11 @@
     $(document).ready(function () {
         $(function () {
             //Initialize Select2 Elements
-            $(".designation").select2();
-            $(".graduation").select2();
-            $(".specialization").select2();
-            $(".skills").select2();
-
-            $(".managerSelect").select2();
-            $(".level").select2().on('change', function (e) {
-                if ($("#ddlLevel").val() == 13) {
-                    $("#ddlManager").hide();
-                }
-                else {
-                    $("#ddlManager").show();
-                    var level = $("#ddlLevel").val();
-                    $("#ddlManagerName option").remove();
-                    $("#ddlManagerName").append($('<option></option>').attr("value", '').text('Select'));
-                    $.ajax({
-                        cache: false,
-                        type: 'post',
-                        url: '/HR/GetManagerList?refLevel=' + level,
-                        dataType: "json",
-                        processData: false,
-                        success: function (data) {
-                            for (var i = 0; i < data.data.length; i++) {
-                                $("#ddlManagerName").append($('<option></option>').attr("value", data.data[i].Id).text(data.data[i].FirstName));
-                            }
-
-                        }
-                    });
-                }
-
+            $(".skills").select2({
+                placeholder: "Select required skills"
             });
-            $('#educationDatePicker').daterangepicker(
-                   {
-                   });
-            $('#experienceDatePicker').daterangepicker(
-                  {
-                  });
-            //Date picker
-            $('#txtJoiningDate').datepicker({
-                autoclose: true
-            });
-            //Date picker
-            $('#txtBirthday').datepicker({
-                autoclose: true
-            });
+            $('#resourceRequestHistoryTable').DataTable();
 
-            $('#educationDatepicker').on('change.daterangepicker', function (ev, picker) {
-                var date = ev.target.value;
-                var dates = [];
-                dates = date.split('-');
-                var start = dates[0].trim();
-                var startDate = new Date(start);
-                var startMonth = startDate.getMonth() + 1;
-                educationFromDate = startDate.getFullYear() + "-" + startMonth + "-" + startDate.getDate();
-                var end = dates[1].trim();
-                var endDate = new Date(end);
-                var endMonth = endDate.getMonth() + 1;
-                educationToDate = endDate.getFullYear() + "-" + endMonth + "-" + endDate.getDate();
-                //toDate = end.toString("YYYY-MM-DD");
-                //var days = (endDate - startDate) / (1000 * 60 * 60 * 24);
-                //days += 1;
-                //var weekend_count = 0;
-                //for (i = startDate.valueOf() ; i <= endDate.valueOf() ; i += 86400000) {
-                //    var temp = new Date(i);
-                //    if (temp.getDay() == 0 || temp.getDay() == 6) {
-                //        weekend_count++;
-                //    }
-                //}
-                //days = days - weekend_count;
-                //$("#lblTotalWorkingDays").html(Math.round(days));
-            });
-            $('#educationDatePicker').on('apply.daterangepicker', function (ev, picker) {
-
-                var start = picker.startDate;
-                educationFromDate = start.format('YYYY-MM-DD');
-                var end = picker.endDate;
-                educationToDate = end.format('YYYY-MM-DD');
-                //var days = (end - start) / (1000 * 60 * 60 * 24);
-
-                //var weekend_count = 0;
-                //for (i = start.valueOf() ; i <= end.valueOf() ; i += 86400000) {
-                //    var temp = new Date(i);
-                //    if (temp.getDay() == 0 || temp.getDay() == 6) {
-                //        weekend_count++;
-                //    }
-                //}
-                //days = days - weekend_count
-                //$("#lblTotalWorkingDays").html(Math.round(days));
-            });
             $('#experienceDatePicker').on('change.daterangepicker', function (ev, picker) {
                 var date = ev.target.value;
                 var dates = [];
@@ -282,14 +202,7 @@
                 var endMonth = endDate.getMonth() + 1;
                 experienceToDate = endDate.getFullYear() + "-" + endMonth + "-" + endDate.getDate();
             });
-            $('#experienceDatePicker').on('apply.daterangepicker', function (ev, picker) {
 
-                var start = picker.startDate;
-                experienceFromDate = start.format('YYYY-MM-DD');
-                var end = picker.endDate;
-                experienceToDate = end.format('YYYY-MM-DD');
-
-            });
         })
 
         table = '<tr class="even">';
@@ -304,22 +217,19 @@
     });
 
     $(document).on('click', '#btnSendResourceRequest', function (e) {
-        debugger
         var requestTitle = $("#txtRequestTitle").val();
         var noOfResourcesRequested = $("#txtResourcesRequired").val();
         var skills = [];
         for (i = 0; i < $("#ddlSkills").val().length; i++) {
-            skill = {
-                SkillName: $("#ddlSkills").val()[i]
-            }
-            skills.push(skill);
+            skills.push($("#ddlSkills").val()[i]);
         }
-        var requestSendTo = $("#ddlRequestSendToSel option:selected").val();
+        var requestSendTo = parseInt($("#ddlRequestSendToSel option:selected").val());
         var model = {
-            RequestTitle: $("#txtFirstName").val(),
-            NumberOfResourceRequested: $("#txtLastName").val(),
-            Skills: $("#txtEmail").val(),
-            Roles: $("#txtBirthday").val()
+            ResourceRequestTitle: $("#txtRequestTitle").val(),
+            RequestToId:requestSendTo,
+            NumberRequestedResources: $("#txtResourcesRequired").val(),
+            Skills: skills,
+            HRId: $("#ddlRequestSendToSel option:selected").val()
         };
         $.ajax({
             cache: false,
@@ -330,8 +240,51 @@
             dataType: "json",
             processData:false,
             success: function (data) {
+                if (data.result == true) {
+                    if ($("#resourceRequestHistoryTable").find('tbody').find('tr').find('td').length == 1) {
+                        $("#resourceRequestHistoryTable").find('tbody').find('tr').remove();
+                    }
+                    $("#txtRequestTitle").val("");
+                    $("#txtResourcesRequired").val("");
+                    $("#ddlSkills").val(null).trigger("change");
+                    var table = $('#resourceRequestHistoryTable').DataTable();
+                    var createdDate = ToJavaScriptDate(data.model.CreatedDate);
+                    var updatedDate = ToJavaScriptDate(data.model.UpdatedDate);
+                    var tableRow = '<tr>';
+                    tableRow += '<td><a href="#" data-ticket="'+data.model.Ticket+'" data-created="'+createdDate+'"' +
+                        ' data-updated="'+updatedDate+'" data-title="'+data.model.ResourceRequestTitle+'"' +
+                        ' data-noRsource="'+data.model.NumberRequestedResources+'" data-skills="'+data.model.Skills+'"' +
+                        ' data-sentTo="' + data.model.RequestToName + '" data-status="' + data.model.StatusValue + '" onclick="ticketClicked(this)">' +
+                        '' + data.model.Ticket + '</a></td>';
+                    tableRow += '<td>' + data.model.ResourceRequestTitle + '</td><td>' + data.model.StatusValue + '</td>';
+                    tableRow += '</tr>';
+
+                    //$("#requestHistoryTableBody").append(tableRow);
+                    $("#resourceRequestHistoryTable").find('tbody').append(tableRow)
+                }
+
             }
         });
     }
    );
+
+    function ticketClicked(id) {
+        $(".requestTitle").html($(id).attr('data-title'));
+        $(".requestTicket").html($(id).attr('data-ticket'));
+        $(".requestResourceNumber").html($(id).attr('data-noRsource'));
+        $(".requestedSkills").html($(id).attr('data-skills'));
+        $(".requestSentTo").html($(id).attr('data-sentTo'));
+        $(".requestStatus").html($(id).attr('data-status'));
+        $(".requestSentDate").html($(id).attr('data-created'));
+        $(".requestResponseDate").html($(id).attr('data-updated'));
+
+        $('#RequestResourceDetailsModal').modal('show');
+    }
+
+    function ToJavaScriptDate(value) {
+        var pattern = /Date\(([^)]+)\)/;
+        var results = pattern.exec(value);
+        var dt = new Date(parseFloat(results[1]));
+        return (dt.getDate() + "/" + dt.getMonth() + 1) + "/" + dt.getFullYear();
+    }
 </script>

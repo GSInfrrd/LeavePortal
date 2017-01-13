@@ -51,6 +51,7 @@
     <Compile Include="Messages.cs" />
     <Compile Include="Notification.cs" />
     <Compile Include="ResourceDetails.cs" />
+    <Compile Include="ResourceRequestDetailModel.cs" />
     <Compile Include="UserAccount.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="WorkFromHomeModel.cs" />

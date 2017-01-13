@@ -98,4 +98,12 @@ namespace LMS_WebAPP_Utils
         [Description("Skills")]
         Skills = 7
     }
+
+    public enum ResourceRequestStatus
+    {
+        [Description("In progress")]
+        InProgress = 1,
+        [Description("Approved")]
+        Approved = 2
+    }
 }
