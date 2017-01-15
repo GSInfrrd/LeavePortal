@@ -13,5 +13,9 @@ namespace LMS_WebAPI_DAL.Repositories.Interfaces
         ResourceDetails GetResourceRequestFormDetails(int managerId);
 
         ResourceRequestDetailModel SubmitResourceRequest(ResourceRequestDetail model);
+
+        List<ResourceRequestDetailModel> GetResourceRequestDetails(int hrId, bool isManager);
+
+        ResourceRequestDetailModel SubmitResourceRequestResponse(ResourceRequestDetail model);
     }
 }

@@ -4,6 +4,7 @@ using LMS_WebAPI_Domain;
 using LMS_WebAPI_Utils;
 using System;
 using System.Collections.Generic;
+using System.Data.Entity;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -37,7 +38,8 @@ namespace LMS_WebAPI_DAL.Repositories
                     resourceDetails.ListOfHR = lstHR;
                     resourceDetails.Skills = skills;
 
-                    resourceDetails.ResourceRequestHistory = GetResourceRequestDetails(managerId);
+                    bool isManager = true;
+                    resourceDetails.ResourceRequestHistory = GetResourceRequestDetails(managerId, isManager);
                 }
                 return resourceDetails;
             }
@@ -47,30 +49,61 @@ namespace LMS_WebAPI_DAL.Repositories
             }
         }
 
-        public List<ResourceRequestDetailModel> GetResourceRequestDetails(int managerId)
+        public List<ResourceRequestDetailModel> GetResourceRequestDetails(int Id,bool isManager)
         {
             try
             {
                 using (var ctx = new LeaveManagementSystemEntities1())
                 {
-                    var resourceRequestHistory = ctx.ResourceRequestDetails.Where(x => x.RequestFromId == managerId).ToList();
                     var lstHR = ctx.EmployeeDetails.Include("MasterDataValue").Where(x => x.MasterDataValue.Id == (Int16)EmployeeRole.HR).ToList();
+                    var lstManagers = ctx.EmployeeDetails.Include("MasterDataValue").Where(x => x.MasterDataValue.Id == (Int16)EmployeeRole.Manager).ToList();
                     var lstResourceDetails = new List<ResourceRequestDetailModel>();
-                    foreach (var resource in resourceRequestHistory)
+                    var resourceRequests = ctx.ResourceRequestDetails.ToList();
+                    if (isManager)
                     {
-                        var resourceRequest = new ResourceRequestDetailModel()
+                        resourceRequests = resourceRequests.Where(x => x.RequestFromId == Id).ToList();
+                        if (null != resourceRequests)
                         {
-                            ResourceRequestTitle = resource.ResourceRequestTitle,
-                            CreatedDate = resource.CreatedDate,
-                            UpdatedDate = resource.UpdatedDate,
-                            Ticket = resource.Ticket,
-                            Status = resource.Status,
-                            NumberRequestedResources = resource.NumberRequestedResources,
-                            Skills = resource.Skills,
-                            RequestToName = lstHR.Where(x => x.Id == resource.RequestToId).Select(x => x.FirstName + x.LastName).FirstOrDefault()
-
-                        };
-                        lstResourceDetails.Add(resourceRequest);
+                            foreach (var resource in resourceRequests)
+                            {
+                                var resourceRequest = new ResourceRequestDetailModel()
+                                {
+                                    Id = resource.Id,
+                                    ResourceRequestTitle = resource.ResourceRequestTitle,
+                                    CreatedDate = resource.CreatedDate,
+                                    UpdatedDate = resource.UpdatedDate,
+                                    Ticket = resource.Ticket,
+                                    Status = resource.Status,
+                                    NumberRequestedResources = resource.NumberRequestedResources,
+                                    Skills = resource.Skills,
+                                    RequestToName = lstHR.Where(x => x.Id == resource.RequestToId).Select(x => x.FirstName + x.LastName).FirstOrDefault()
+                                };
+                                lstResourceDetails.Add(resourceRequest);
+                            }
+                        }
+                    }
+                    else
+                    {
+                        resourceRequests = resourceRequests.Where(x => x.RequestToId == Id).ToList();
+                        if (null != resourceRequests)
+                        {
+                            foreach (var resource in resourceRequests)
+                            {
+                                var resourceRequest = new ResourceRequestDetailModel()
+                                {
+                                    Id = resource.Id,
+                                    ResourceRequestTitle = resource.ResourceRequestTitle,
+                                    CreatedDate = resource.CreatedDate,
+                                    UpdatedDate = resource.UpdatedDate,
+                                    Ticket = resource.Ticket,
+                                    Status = resource.Status,
+                                    NumberRequestedResources = resource.NumberRequestedResources,
+                                    Skills = resource.Skills,
+                                    RequestFromName = lstManagers.Where(x => x.Id == resource.RequestFromId).Select(x => x.FirstName + x.LastName).FirstOrDefault()
+                                };
+                                lstResourceDetails.Add(resourceRequest);
+                            }
+                        }
                     }
                     return lstResourceDetails;
                 }
@@ -107,6 +140,37 @@ namespace LMS_WebAPI_DAL.Repositories
             }
             catch (Exception ex)
             {
+                throw ex;
+            }
+        }
+
+        public ResourceRequestDetailModel SubmitResourceRequestResponse(ResourceRequestDetail model)
+        {
+            try
+            {
+                using (var ctx = new LeaveManagementSystemEntities1())
+                {
+                    var request = ctx.ResourceRequestDetails.FirstOrDefault(x => x.Ticket == model.Ticket);
+                    if (null != request)
+                    {
+                        request.Status = model.Status;
+                        ctx.SaveChanges();
+                    }
+                    else
+                    {
+                        return null;
+                    }
+                    var resourceRequestReponse = new ResourceRequestDetailModel()
+                    {
+                        Ticket = model.Ticket,
+                        Status = model.Status
+                    };
+                    return resourceRequestReponse;
+                }
+            }
+            catch (Exception ex)
+            {
+
                 throw ex;
             }
         }

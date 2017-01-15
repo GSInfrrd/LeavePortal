@@ -11,10 +11,16 @@ using System.Web.Http;
 
 namespace EmployeeLeaveManagementWebAPI.Controllers
 {
+    [RoutePrefix("api/ResourceRequest")]
     public class ResourceRequestController : ApiController
     {
         ResourceRequestManagemenet resourceRequestmanagement = new ResourceRequestManagemenet();
-        public ResourceDetails Get(int id)
+
+
+        [AllowAnonymous]
+        [HttpGet]
+        [Route("GetResourceDetails")]
+        public ResourceDetails GetResourceDetails(int id)
         {
             try
             {
@@ -57,6 +63,47 @@ namespace EmployeeLeaveManagementWebAPI.Controllers
             catch (Exception ex)
             {
 
+                throw ex;
+            }
+        }
+
+        [AllowAnonymous]
+        [HttpGet]
+        [Route("ResourceRequestsToRespond")]
+        public List<ResourceRequestDetailModel> ResourceRequestsToRespond(int id)
+        {
+            try
+            {
+                var lstResourceDetails = new List<ResourceRequestDetailModel>();
+                lstResourceDetails = resourceRequestmanagement.GetResourceRequests(id);
+
+                return lstResourceDetails;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
+        [AllowAnonymous]
+        [HttpPost]
+        [Route("SubmitResourceRequestsResponse")]
+        public ResourceRequestDetailModel SubmitResourceRequestsResponse(ResourceRequestDetailModel model)
+        {
+            try
+            {
+                var resourceRequestResponse = new ResourceRequestDetail() {
+                    Ticket = model.Ticket,
+                    Status = model.Status,
+                    CreatedDate = model.CreatedDate,
+                    UpdatedDate = DateTime.Now
+                };
+
+                var result = resourceRequestmanagement.SubmitResourceRequestResponse(resourceRequestResponse);
+                return result;
+            }
+            catch (Exception ex)
+            {
                 throw ex;
             }
         }

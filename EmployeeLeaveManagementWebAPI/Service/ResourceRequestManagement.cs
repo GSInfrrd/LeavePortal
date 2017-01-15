@@ -42,5 +42,36 @@ namespace Service
                 throw ex;
             }
         }
+
+        public List<ResourceRequestDetailModel> GetResourceRequests(int hrId)
+        {
+            try
+            {
+                bool isManager = false;
+                var requestModel = _resourceRequest.GetResourceRequestDetails(hrId, isManager);
+
+                return requestModel;
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
+        }
+
+        public ResourceRequestDetailModel SubmitResourceRequestResponse(ResourceRequestDetail model)
+        {
+            try
+            {
+                var responseModel = _resourceRequest.SubmitResourceRequestResponse(model);
+
+                return responseModel;
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
+        }
     }
 }
