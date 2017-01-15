@@ -263,6 +263,15 @@
                             </a>
                         </li>
                     }
+                    @if (roleId == (int)EmployeeRole.HR)
+                    {
+                        <li>
+                            <a href="@Url.Action("RequestForResourcesHR", "ResourceRequest")">
+                                <i class="fa fa-user-plus" aria-hidden="true"></i> <span>Resource Request</span>
+
+                            </a>
+                        </li>
+                    }
                 </ul>
             </section>
             <!-- /.sidebar -->

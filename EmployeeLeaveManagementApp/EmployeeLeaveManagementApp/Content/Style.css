@@ -40,3 +40,18 @@
 .padding-top-bottom10{
     padding:10px 0px;
 }
+.text-align_center{
+    text-align:center;
+}
+.text-color-white{
+    color:#fff !important;
+}
+.btn-color-processing{
+    background-color:#00c0ef !important;
+}
+.btn-color-approved{
+    background-color:#5cb85c !important;
+}
+.margin-left-5{
+    margin-left:5px !important;
+}

@@ -1,0 +1,271 @@
+﻿@model List<LMS_WebAPP_Domain.ResourceRequestDetailModel>
+@{ 
+    var lstRequestStatus = new Dictionary<int, string>();
+    foreach (var name in Enum.GetNames(typeof(LMS_WebAPP_Utils.ResourceRequestStatus)))
+    {
+        lstRequestStatus.Add((int)Enum.Parse(typeof(LMS_WebAPP_Utils.ResourceRequestStatus), name), LMS_WebAPP_Utils.CommonMethods.Description((LMS_WebAPP_Utils.ResourceRequestStatus)Enum.Parse(typeof(LMS_WebAPP_Utils.ResourceRequestStatus), name, true)));
+    }
+    var serializedlstRequestStatus = @Html.Raw(Newtonsoft.Json.JsonConvert.SerializeObject(lstRequestStatus));
+}
+
+<link href="~/Content/Style.css" rel="stylesheet" />
+<link href="~/plugins/datatables/jquery.dataTables.min.css" rel="stylesheet" />
+<link href="~/plugins/datatables/dataTables.bootstrap.css" rel="stylesheet" />
+<section class="content">
+    <input id="requestStatusEnum" data-val="@serializedlstRequestStatus" hidden>
+    <div class="col-md-12">
+        <!-- general form elements -->
+        <div class="box box-primary">
+            <div class="box-header with-border">
+                <h3 class="box-title">Resource Request To Respond</h3>
+            </div>
+            <!-- /.box-header -->
+            <!-- form start -->
+            <div class="reousrceHistoryDiv padding-top5-bottom20 padding-right-left-15">
+
+                @*@foreach (var resource in Model.ResourceRequestHistory)
+                    {
+                        <div class="row margin-left-right-15 resourceHistoryDetails padding-top-bottom-5 border-bottom-table">
+                            <div class="col-md-4 pad-right0-pad-right-15">@resource.Ticket</div>
+                            <div class="col-md-4 pad-right0-pad-right-15">@resource.ResourceRequestTitle</div>
+                            <div class="col-md-4 pad-right0-pad-right-15">@resource.Status</div>
+                        </div>
+                    }*@
+                <table id="resourceRequestsTable" class="display" cellspacing="0" width="100%">
+                    <thead>
+                        <tr>
+                            <th>Request Ticket</th>
+                            <th>Request Title</th>
+                            <th>Status</th>
+                        </tr>
+                    </thead>
+                    <tfoot>
+                        <tr>
+                            <th>Request Ticket</th>
+                            <th>Request Title</th>
+                            <th>Status</th>
+                        </tr>
+                    </tfoot>
+                    <tbody class="requestHistoryTableBody">
+                        @foreach (var resource in Model)
+                        {
+                            <tr>
+                                <td><a href="#" onClick="showRequestedDetails(this)" data-ticket="@resource.Ticket" data-created="@resource.CreatedDate" data-updated="@resource.UpdatedDate" data-title="@resource.ResourceRequestTitle" data-noRsource="@resource.NumberRequestedResources" data-skills="@resource.Skills" data-from="@resource.RequestFromName" data-status="@resource.StatusValue" data-statusKey="@resource.Status" onclick="ticketClicked(this)">@resource.Ticket</a></td>
+                                <td>@resource.ResourceRequestTitle</td>
+                                <td>
+                                    <div class="btn-group">
+                                        @if (resource.Status == 1)
+                {
+                                            <button type="button" class="btn btn-info text-color-white dropdown-toggle" data-status="@resource.Status" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                @resource.StatusValue <span class="caret"></span>
+                                            </button>
+                                        }
+                                        else if (resource.Status == 2)
+                                        {
+                                            <button type="button" class="btn btn-success text-color-white dropdown-toggle" data-status="@resource.Status" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                @resource.StatusValue <span class="caret margin-left-5"></span>
+                                            </button>
+                                        }
+                                        <ul class="dropdown-menu">
+                                            @foreach (var requestStatus in lstRequestStatus)
+                                            {
+                                                if (requestStatus.Key != resource.Status)
+                                                {
+                                                    if (requestStatus.Key == 1)
+                                                    {
+                                                        <li><a href="#" class="text-color-white btn-color-processing" data-id="@resource.Id" onclick="respondToRequest(this)" data-createdDate="@resource.CreatedDate" data-ticket="@resource.Ticket" data-statusKey="@requestStatus.Key">@requestStatus.Value</a></li>
+                                                    }
+                                                    else if (requestStatus.Key == 2)
+                                                    {
+                                                        <li><a href="#" class="text-color-white btn-color-approved" data-id="@resource.Id" onclick="respondToRequest(this)" data-createdDate="@resource.CreatedDate" data-ticket="@resource.Ticket" data-statusKey="@requestStatus.Key">@requestStatus.Value</a></li>
+                                                    }
+                                                }
+                                            }
+                                        </ul>
+                                    </div>
+                                </td>
+                            </tr>
+                        }
+
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+</section>
+<div class="modal requestResourceDetails-modal" id="ResourceRequestToRespondModal" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+                <h3 class="modal-title">Resource Request Status Details</h3>
+            </div>
+            <div class="modal-body">
+                <div class="form-group" style="padding-bottom:20px">
+                    <div class="divBorder padding-top-bottom10">
+                        <div class="row">
+                            <div class="col-md-4"><label class="">Request Title:</label></div>
+                            <div class="col-md-8"><span class="requestTitle"></span></div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-4"><label class="">Request ticket:</label></div>
+                            <div class="col-md-8"><span class="requestTicket"></span></div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-4"><label class="">No of resources required:</label></div>
+                            <div class="col-md-8"><span class="requestResourceNumber"></span></div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-4"><label class="">Skills required:</label></div>
+                            <div class="col-md-8"><span class="requestedSkills"></span></div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-4"><label class="">Request from:</label></div>
+                            <div class="col-md-8"><span class="requestFrom"></span></div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-4"><label class="">Request sent date:</label></div>
+                            <div class="col-md-8"><span class="requestSentDate"></span></div>
+                        </div>
+                        @*<div class="row">
+                            <div class="col-md-4"><label class="">Request response date:</label></div>
+                            <div class="col-md-8"><span class="requestResponseDate"></span></div>
+                        </div>*@
+                        <div class="row">
+                            <div class="col-md-4"><label class="">Status:</label></div>
+                            <div class="btn-group">
+                                <button type="button" id="btnModalStatus" class="btn text-color-white dropdown-toggle" data-status="" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    
+                                </button>
+                                <ul class="dropdown-menu statusListDropdown">
+                                    
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+</div>
+<script src="../../plugins/datatables/jquery.dataTables.min.js"></script>
+<script src="../../plugins/datatables/dataTables.bootstrap.min.js"></script>
+<script src="~/Content/Scripts/Common.js"></script>
+<script>
+    $(document).ready(function () {
+        $(function () {
+            $('#resourceRequestsTable').DataTable();
+        });
+    });
+    function showRequestedDetails(id) {
+        debugger;
+        var statusKey = parseInt($(id).attr('data-statusKey'));
+        var requestId = parseInt($(id).attr('data-id'));
+        $(".requestTitle").html($(id).attr('data-title'));
+        $(".requestTicket").html($(id).attr('data-ticket'));
+        $(".requestResourceNumber").html($(id).attr('data-noRsource'));
+        $(".requestedSkills").html($(id).attr('data-skills'));
+        $(".requestFrom").html($(id).attr('data-from'));
+        $(".requestStatus").html($(id).attr('data-status'));
+        $(".requestStatus").attr("status", statusKey);
+        $(".requestSentDate").html($(id).attr('data-created'));
+
+        $(".requestResponseDate").html($(id).attr('data-updated'));
+        if (statusKey == 1) {
+            $("#btnModalStatus").addClass("btn-info");
+            $(".statusListDropdown").html("");
+            $(".statusListDropdown").append('<li><a href="#" class="text-color-white btn-color-approved" data-id="'+id +'" data-createdDate="' + $(id).attr('data-created') + '" data-ticket="' + $(id).attr('data-ticket') + '" data-statusKey="' + statusKey + '" onclick="respondToRequest(this)">' + 'Approved' + '</a></li>');
+        }
+        else if (statusKey == 2) {
+            $("#btnModalStatus").addClass("btn-success");
+            $(".statusListDropdown").html("");
+            $(".statusListDropdown").append('<li><a href="#" class="text-color-white btn-color-approved" data-id="' + id+'" data-createdDate="' + $(id).attr('data-created') + '"  data-ticket="' + $(id).attr('data-ticket') + '" data-statusKey="' + statusKey + '" onclick="respondToRequest(this)">' + 'In Progress' + '</a></li>');
+        }
+        $("#btnModalStatus").html($(id).attr('data-status') + '<span class="caret margin-left-5"></span>');
+        $("#ResourceRequestToRespondModal").modal('show');
+    }
+
+    function respondToRequest(id) {
+        debugger;
+        var ticket = $(id).attr('data-ticket');
+        var status = parseInt($(id).attr('data-statusKey'));
+        var creatdeDateValue = $(id).attr('data-createdDate');
+        var createdDate = new Date(creatdeDateValue);
+        var id = parseInt($(id).attr('data-id'));
+        var model = {
+            Id:id,
+            Ticket: ticket,
+            Status: status,
+            CreatedDate: createdDate
+        };
+        $.ajax({
+            cache: false,
+            type: 'post',
+            url: '/ResourceRequest/RespondToRequestForResourcest',
+            data: JSON.stringify(model),
+            contentType: "application/json",
+            dataType: "json",
+            processData:false,
+            success: function (data) {
+                debugger;
+                if(data.result == true){
+                    $(".requestHistoryTableBody").html("");
+                    @*$.post('@Url.Action("GetUpdatedRequests", "ResourceRequest")').always(function () {
+                        $('.target').load('/Shared/_RequestHistoryTable');
+                    });*@
+                    @*$("#requestHistoryTableBody").load('@(Url.Action("RequestHistoryTable", "ResourceRequest"))');*@
+                    for (i = 0; i < data.model.length; i++) {
+                        var createdDate = ToJavaScriptDate(data.model[i].CreatedDate);
+                        var tableRow = "<tr>";
+                        tableRow += '<td><a href="#" onClick="showRequestedDetails(this)" data-ticket="' + data.model[i].Ticket + '" data-created="' + createdDate + '"' +
+			                        ' data-updated="' + data.model[i].UpdatedDate + '" data-title="' + data.model[i].ResourceRequestTitle + '" ' +
+			                        'data-noRsource="' + data.model[i].NumberRequestedResources + '"' +
+			                        ' data-skills="' + data.model[i].Skills + '" data-from="' + data.model[i].RequestFromName + '" data-status="' + data.model[i].StatusValue + '" ' +
+			                        'data-statusKey="' + data.model[i].Status + '" onclick="ticketClicked(this)">' + data.model[i].Ticket + '</a></td>';
+                        tableRow += '<td>' + data.model[i].ResourceRequestTitle + '</td>';
+                        tableRow += '<td><div class="btn-group">';
+                        if (data.model[i].Status == 1) {
+                            tableRow += '<button type="button" class="btn btn-info text-color-white dropdown-toggle" ' +
+                            'data-status="' + data.model[i].Status + '" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">' +
+                            '' + data.model[i].StatusValue + ' <span class="caret"></span></button>';
+                        }
+                        else if (data.model[i].Status == 2) {
+                            tableRow += '<button type="button" class="btn btn-success text-color-white dropdown-toggle" ' +
+                                'data-status="' + data.model[i].Status + '" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">' +
+                                '' + data.model[i].StatusValue + ' <span class="caret"></span></button>';
+                        }
+                        tableRow += '<ul class="dropdown-menu">';
+                        if (data.model[i].Status == 1) {
+                            tableRow += '<li><a href="#" class="text-color-white btn-color-processing" ' +
+                            'data-id="' + data.model[i].Id + '" onclick="respondToRequest(this)" data-createdDate="' + data.model[i].CreatedDate + '"' +
+                            ' data-ticket="' + data.model[i].Ticket + '" data-statusKey="' + data.model[i].Key + '">' + data.model[i].Value + '</a></li>';
+                        }
+                        else if (data.model[i].Status == 2) {
+                            tableRow += '<li><a href="#" class="text-color-white btn-color-approved" ' +
+                            'data-id="' + data.model[i].Id + '" onclick="respondToRequest(this)" data-createdDate="' + data.model[i].CreatedDate + '"' +
+                            ' data-ticket="' + data.model[i].Ticket + '" data-statusKey="' + data.model[i].Key + '">' + data.model[i].Value + '</a></li>';
+                        }
+                        tableRow += '</ul></div></td></tr>';
+                    }
+                    $("#resourceRequestsTable").find('tbody').append(tableRow);
+
+                }
+            }
+        });
+    }
+
+    function ToJavaScriptDate(value) {
+        var pattern = /Date\(([^)]+)\)/;
+        var results = pattern.exec(value);
+        var dt = new Date(parseFloat(results[1]));
+        return (dt.getDate() + "/" + dt.getMonth() + 1) + "/" + dt.getFullYear();
+    }
+</script>
+<style>
+    
+</style>

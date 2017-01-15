@@ -26,7 +26,6 @@ namespace EmployeeLeaveManagementApp.Controllers
             foreach (var history in resourceRequestFormDetails.ResourceRequestHistory)
             {
                 history.StatusValue = CommonMethods.Description((ResourceRequestStatus)history.Status);
-                //history.StatusValue = Enum;
             }
                 Logger.Info("Successfully exiting from ResourceRequestController APP RequestForResources method");
                 return View(resourceRequestFormDetails);
@@ -79,6 +78,63 @@ namespace EmployeeLeaveManagementApp.Controllers
                 {
                     Logger.Info("Successfully exiting from ResourceRequestController APP SendRequestForResources method");
                     return Json(new { result = false });
+                }
+            }
+            catch (Exception ex)
+            {
+                Logger.Error("Error at ResourceRequestController APP SendRequestForResources method.", ex);
+                return Json(new { result = false });
+            }
+        }
+
+        public async Task<ActionResult> RequestForResourcesHR()
+        {
+            try
+            {
+                int hrId = ((UserAccount)Session[LMS_WebAPP_Utils.Constants.SESSION_OBJ_USER]).RefEmployeeId;
+                var lstRequestsToRespond = new List<ResourceRequestDetailModel>();
+                lstRequestsToRespond = await resourceManagementOperations.GetResourceRequests(hrId);
+                if (null != lstRequestsToRespond)
+                {
+                    foreach (var request in lstRequestsToRespond)
+                    {
+                        request.StatusValue = CommonMethods.Description((ResourceRequestStatus)request.Status);
+                    }
+                    return View(lstRequestsToRespond);
+                }
+                else
+                {
+                    return null;
+                }
+            }
+            catch (Exception ex)
+            {
+                Logger.Error("Error at ResourceRequestController APP SendRequestForResources method.", ex);
+                return Json(new { result = false });
+            }
+        }
+
+        public async Task<ActionResult> RespondToRequestForResourcest(ResourceRequestDetailModel model)
+        {
+            try
+            {
+                bool result = false;
+                var responsemodel = new ResourceRequestDetailModel();
+                responsemodel = await resourceManagementOperations.RespondToResourceRequests(model);
+                int hrId = ((UserAccount)Session[LMS_WebAPP_Utils.Constants.SESSION_OBJ_USER]).RefEmployeeId;
+                var lstRequestsToRespond = new List<ResourceRequestDetailModel>();
+                lstRequestsToRespond = await resourceManagementOperations.GetResourceRequests(hrId);
+                foreach (var request in lstRequestsToRespond)
+                {
+                    request.StatusValue = CommonMethods.Description((ResourceRequestStatus)request.Status);
+                }
+                if (null != responsemodel)
+                {
+                    return Json(new { result = true, model = lstRequestsToRespond });
+                }
+                else
+                {
+                    return Json(new { result });
                 }
             }
             catch (Exception ex)

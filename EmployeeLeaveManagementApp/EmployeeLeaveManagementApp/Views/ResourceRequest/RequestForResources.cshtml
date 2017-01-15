@@ -1,10 +1,8 @@
 ﻿@model LMS_WebAPP_Domain.ResourceDetails
 @{
-    ViewBag.Title = "AddEmployeeDetails";
+    ViewBag.Title = "";
     Layout = "~/Views/Shared/_Layout.cshtml";
-    var test = Model;
 }
-@*<h2>Add Employee Details</h2>*@
 <link rel="stylesheet" href="../../plugins/iCheck/all.css">
 <link rel="stylesheet" href="../../plugins/select2/select2.min.css">
 <link rel="stylesheet" href="../../dist/css/AdminLTE.min.css">
@@ -173,7 +171,7 @@
 <script src="~/plugins/FooTable/footable.js"></script>
 <script src="../../plugins/datatables/jquery.dataTables.min.js"></script>
 <script src="../../plugins/datatables/dataTables.bootstrap.min.js"></script>
-
+<script src="~/Content/Scripts/Common.js"></script>
 <script>
     var educationFromDate;
     var educationToDate;
@@ -280,11 +278,11 @@
 
         $('#RequestResourceDetailsModal').modal('show');
     }
-
     function ToJavaScriptDate(value) {
         var pattern = /Date\(([^)]+)\)/;
         var results = pattern.exec(value);
         var dt = new Date(parseFloat(results[1]));
         return (dt.getDate() + "/" + dt.getMonth() + 1) + "/" + dt.getFullYear();
     }
+    
 </script>
