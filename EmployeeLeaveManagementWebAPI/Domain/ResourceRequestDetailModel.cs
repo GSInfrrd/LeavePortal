@@ -8,6 +8,7 @@ namespace Domain
 {
     public class ResourceRequestDetailModel
     {
+        public long Id { get; set; }
         public int RequestFromId { get; set; }
         public string RequestFromName { get; set; }
         public int RequestToId { get; set; }

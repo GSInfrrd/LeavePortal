@@ -163,7 +163,6 @@
         });
     });
     function showRequestedDetails(id) {
-        debugger;
         var statusKey = parseInt($(id).attr('data-statusKey'));
         var requestId = parseInt($(id).attr('data-id'));
         $(".requestTitle").html($(id).attr('data-title'));
@@ -191,7 +190,6 @@
     }
 
     function respondToRequest(id) {
-        debugger;
         var ticket = $(id).attr('data-ticket');
         var status = parseInt($(id).attr('data-statusKey'));
         var creatdeDateValue = $(id).attr('data-createdDate');
@@ -212,7 +210,6 @@
             dataType: "json",
             processData:false,
             success: function (data) {
-                debugger;
                 if(data.result == true){
                     $(".requestHistoryTableBody").html("");
                     @*$.post('@Url.Action("GetUpdatedRequests", "ResourceRequest")').always(function () {
