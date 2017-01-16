@@ -2,6 +2,7 @@
 using Owin;
 using Microsoft.Owin.Cors;
 using Microsoft.AspNet.SignalR;
+//using System.Web.Http.Cors;
 
 [assembly: OwinStartupAttribute(typeof(EmployeeLeaveManagementApp.Startup))]
 namespace EmployeeLeaveManagementApp
@@ -10,7 +11,7 @@ namespace EmployeeLeaveManagementApp
     {
         public void Configuration(IAppBuilder app)
         {
-            //ConfigureAuth(app);
+            ConfigureAuth(app);
             app.MapSignalR();
             app.Map("/signalr", map =>
             {
