@@ -1,4 +1,5 @@
 ﻿using LMS_WebAPP_Domain;
+using LMS_WebAPP_Utils;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -15,6 +16,7 @@ namespace LMS_WebAPP_ServiceHelpers
         private string urlParameters;
         public async Task<long> AddNewWorkFromHomeDetailsAsync(WorkFromHomeModel model)
         {
+            Logger.Info("Entering into WorkFromHomeManagement APP Service helper AddNewWorkFromHomeDetailsAsync method ");
             try
             {
                 string URL = "http://localhost:64476/api/WorkFromHome/AddNewWorkFromHome";
@@ -32,18 +34,22 @@ namespace LMS_WebAPP_ServiceHelpers
                 {
                     // Parse the response body. Blocking!
                     var dataObjects = response.Content.ReadAsAsync<long>().Result;
+                    Logger.Info("Exiting from into WorkFromHomeManagement APP Service helper AddNewWorkFromHomeDetailsAsync method ");
                     return dataObjects;
                 }
+                Logger.Info("Exiting from into WorkFromHomeManagement APP Service helper AddNewWorkFromHomeDetailsAsync method ");
                 return 0;
             }
-            catch (Exception ex)
+            catch
             {
-                throw ex;
+                Logger.Info("Exception occured at WorkFromHomeManagement APP Service helper AddNewWorkFromHomeDetailsAsync method ");
+                throw;
             }
         }
 
         public async Task<IList<WorkFromHomeModel>> GetWorkFromHomeListAsync(int refEmpId)
         {
+            Logger.Info("Entering into WorkFromHomeManagement APP Service helper GetWorkFromHomeListAsync method ");
             try
             {
                 string URL = "http://localhost:64476/api/WorkFromHome/GetWorkFromHomeList";
@@ -60,19 +66,23 @@ namespace LMS_WebAPP_ServiceHelpers
                 {
                     // Parse the response body. Blocking!
                     var dataObjects = response.Content.ReadAsAsync<List<WorkFromHomeModel>>().Result.ToList();
+                    Logger.Info("Exiting from into WorkFromHomeManagement APP Service helper GetWorkFromHomeListAsync method ");
                     return dataObjects;
 
                 }
+                Logger.Info("Exiting from into WorkFromHomeManagement APP Service helper GetWorkFromHomeListAsync method ");
                 return null;
             }
-            catch (Exception ex)
+            catch
             {
-                throw ex;
+                Logger.Info("Exception occured at WorkFromHomeManagement APP Service helper GetWorkFromHomeListAsync method ");
+                throw;
             }
         }
 
         public async Task<List<WorkFromHomeModel>> UpdateNewWorkFromHomeDetailsAsync(WorkFromHomeModel model)
         {
+            Logger.Info("Entering into WorkFromHomeManagement APP Service helper UpdateNewWorkFromHomeDetailsAsync method ");
             try
             {
                 string URL = "http://localhost:64476/api/WorkFromHome/UpdateWorkFromHome";
@@ -90,18 +100,22 @@ namespace LMS_WebAPP_ServiceHelpers
                 {
                     // Parse the response body. Blocking!
                     var dataObjects = response.Content.ReadAsAsync<List<WorkFromHomeModel>>().Result;
+                    Logger.Info("Exiting from into WorkFromHomeManagement APP Service helper UpdateNewWorkFromHomeDetailsAsync method ");
                     return dataObjects;
                 }
+                Logger.Info("Exiting from into WorkFromHomeManagement APP Service helper UpdateNewWorkFromHomeDetailsAsync method ");
                 return null;
             }
-            catch (Exception ex)
+            catch
             {
-                throw ex;
+                Logger.Info("Exception occured at WorkFromHomeManagement APP Service helper UpdateNewWorkFromHomeDetailsAsync method ");
+                throw;
             }
         }
 
         public async Task<List<WorkFromHomeModel>> DeleteWorkFromHomeDetailsAsync(int Id)
         {
+            Logger.Info("Entering into WorkFromHomeManagement APP Service helper DeleteWorkFromHomeDetailsAsync method ");
             try
             {
                 string URL = "http://localhost:64476/api/WorkFromHome/DeleteWorkFromHome";
@@ -119,13 +133,16 @@ namespace LMS_WebAPP_ServiceHelpers
                 {
                     // Parse the response body. Blocking!
                     var dataObjects = response.Content.ReadAsAsync<List<WorkFromHomeModel>>().Result;
+                    Logger.Info("Exiting from into WorkFromHomeManagement APP Service helper DeleteWorkFromHomeDetailsAsync method ");
                     return dataObjects;
                 }
+                Logger.Info("Exiting from into WorkFromHomeManagement APP Service helper DeleteWorkFromHomeDetailsAsync method ");
                 return null;
             }
-            catch (Exception ex)
+            catch
             {
-                throw ex;
+                Logger.Info("Exception occured at WorkFromHomeManagement APP Service helper DeleteWorkFromHomeDetailsAsync method ");
+                throw;
             }
         }
     }

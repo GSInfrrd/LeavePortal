@@ -1,4 +1,5 @@
 ﻿using LMS_WebAPP_Domain;
+using LMS_WebAPP_Utils;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -19,7 +20,10 @@ namespace LMS_WebAPP_ServiceHelpers
 
         public async Task<IList<Notification>> GetNotificationsAsync(int id)
         {
-            HttpClient client = new HttpClient();
+            Logger.Info("Entering into NotificationManagement APP Service helper GetNotificationsAsync method ");
+            try
+            {
+                HttpClient client = new HttpClient();
             client.BaseAddress = new Uri(URL);
             urlParameters = "?id=" + id;
             URL += urlParameters;
@@ -33,15 +37,26 @@ namespace LMS_WebAPP_ServiceHelpers
             {
                 // Parse the response body. Blocking!
                 var dataObjects = response.Content.ReadAsAsync<IList<Notification>>().Result.ToList();
-                return dataObjects;
+                    Logger.Info("Exiting from into NotificationManagement APP Service helper GetNotificationsAsync method ");
+                    return dataObjects;
 
             }
-            return null;
+                Logger.Info("Exiting from into NotificationManagement APP Service helper GetNotificationsAsync method ");
+                return null;
+            }
+            catch
+            {
+                Logger.Info("Exception occured at NotificationManagement APP Service helper GetNotificationsAsync method ");
+                throw;
+            }
         }
 
         public async Task<bool> NotificationSeenAsync(int Id, int NotificationType)
         {
-            HttpClient client = new HttpClient();
+            Logger.Info("Entering into NotificationManagement APP Service helper NotificationSeenAsync method ");
+            try
+            {
+                HttpClient client = new HttpClient();
             client.BaseAddress = new Uri(URL);
             urlParameters = "?Id=" + Id + "&NotificationType=" + NotificationType;
             URL += urlParameters;
@@ -53,10 +68,17 @@ namespace LMS_WebAPP_ServiceHelpers
             HttpResponseMessage response = await client.GetAsync(URL);  // Blocking call!
             if (response.IsSuccessStatusCode)
             {
-                return true;
-
+                    Logger.Info("Exiting from into NotificationManagement APP Service helper NotificationSeenAsync method ");
+                    return true;
             }
-            return false;
+                Logger.Info("Exiting from into NotificationManagement APP Service helper NotificationSeenAsync method ");
+                return false;
+            }
+            catch
+            {
+                Logger.Info("Exception occured at NotificationManagement APP Service helper NotificationSeenAsync method ");
+                throw;
+            }
         }
     }
 }

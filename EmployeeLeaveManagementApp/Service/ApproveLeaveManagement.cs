@@ -6,6 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using LMS_WebAPP_Domain;
 using System.Net.Http.Headers;
+using LMS_WebAPP_Utils;
 
 namespace LMS_WebAPP_ServiceHelpers
 {
@@ -19,31 +20,45 @@ namespace LMS_WebAPP_ServiceHelpers
 
         public async Task<IList<ApproveLeave>> GetAprroveLeaveAsync(int empid)
         {
-            HttpClient client = new HttpClient();
-            client.BaseAddress = new Uri(URL);
-            urlParameters = "?id=" + empid;
-            URL += urlParameters;
-            // Add an Accept header for JSON format.
-            client.DefaultRequestHeaders.Accept.Add(
-            new MediaTypeWithQualityHeaderValue("application/json"));
-
-            // List data response.
-            HttpResponseMessage response = await client.GetAsync(URL);  // Blocking call!
-            if (response.IsSuccessStatusCode)
+            Logger.Info("Entering into ApproveLeaveManagement APP Service helper GetAprroveLeaveAsync method ");
+            try
             {
-                // Parse the response body. Blocking!
-                var dataObjects = response.Content.ReadAsAsync<IList<ApproveLeave>>().Result.ToList();
-                return dataObjects;
+                HttpClient client = new HttpClient();
+                client.BaseAddress = new Uri(URL);
+                urlParameters = "?id=" + empid;
+                URL += urlParameters;
+                // Add an Accept header for JSON format.
+                client.DefaultRequestHeaders.Accept.Add(
+                new MediaTypeWithQualityHeaderValue("application/json"));
 
+                // List data response.
+                HttpResponseMessage response = await client.GetAsync(URL);  // Blocking call!
+                if (response.IsSuccessStatusCode)
+                {
+                    // Parse the response body. Blocking!
+                    var dataObjects = response.Content.ReadAsAsync<IList<ApproveLeave>>().Result.ToList();
+                    Logger.Info("Exiting from into ApproveLeaveManagement APP Service helper GetAprroveLeaveAsync method ");
+                    return dataObjects;
+
+                }
+                Logger.Info("Exiting from into ApproveLeaveManagement APP Service helper GetAprroveLeaveAsync method ");
+                return null;
             }
-            return null;
+            catch
+            {
+                Logger.Info("Exception occured at ApproveLeaveManagement APP Service helper GetAprroveLeaveAsync method ");
+                throw;
+            }
         }
       
-        public async Task<bool> AprroveEmployeeLeaveAsync(int id , string comments , int st, int apid)
+        public async Task<bool> TakeActionOnEmployeeLeaveAsync(int Leaveid, string Leavecomments, string Leavestatus, int Approverid)
         {
-            HttpClient client = new HttpClient();
+            Logger.Info("Entering into ApproveLeaveManagement APP Service helper AprroveEmployeeLeaveAsync method ");
+            try
+            {
+                HttpClient client = new HttpClient();
             client.BaseAddress = new Uri(URL);
-            urlParameters = "?id=" + id + "&comments=" + comments + "&st=" + st + "&apid=" + apid;
+            urlParameters = "?Leaveid=" + Leaveid + "&Leavecomments=" + Leavecomments + "&Leavestatus=" + Leavestatus + "&Approverid=" + Approverid;
             URL += urlParameters;
             // Add an Accept header for JSON format.
             client.DefaultRequestHeaders.Accept.Add(
@@ -53,15 +68,25 @@ namespace LMS_WebAPP_ServiceHelpers
             HttpResponseMessage response = await client.GetAsync(URL);  // Blocking call!
             if (response.IsSuccessStatusCode)
             {
-                return true;
-
+                    Logger.Info("Exiting from into ApproveLeaveManagement APP Service helper AprroveEmployeeLeaveAsync method ");
+                    return true;
             }
-            return false;
+                Logger.Info("Exiting from into ApproveLeaveManagement APP Service helper AprroveEmployeeLeaveAsync method ");
+                return false;
+            }
+            catch
+            {
+                Logger.Info("Exception occured at ApproveLeaveManagement APP Service helper AprroveEmployeeLeaveAsync method ");
+                throw;
+            }
         }
 
         public async Task<IList<EmployeeDetailsModel>> GetAllManagersAsync(int id, int st)
         {
-            HttpClient client = new HttpClient();
+            Logger.Info("Entering into ApproveLeaveManagement APP Service helper GetAllManagersAsync method ");
+            try
+            {
+                HttpClient client = new HttpClient();
             client.BaseAddress = new Uri(URL);
             urlParameters = "?id=" + id + "&st=" + st;
             URL += urlParameters;
@@ -74,10 +99,18 @@ namespace LMS_WebAPP_ServiceHelpers
             if (response.IsSuccessStatusCode)
             {
                 var dataObjects = response.Content.ReadAsAsync<IList<EmployeeDetailsModel>>().Result.ToList();
-                return dataObjects;
+                    Logger.Info("Exiting from into ApproveLeaveManagement APP Service helper GetAllManagersAsync method ");
+                    return dataObjects;
 
             }
-            return null;
+                Logger.Info("Exiting from into ApproveLeaveManagement APP Service helper GetAllManagersAsync method ");
+                return null;
+            }
+            catch
+            {
+                Logger.Info("Exception occured at ApproveLeaveManagement APP Service helper GetAllManagersAsync method ");
+                throw;
+            }
         }
     }
 }

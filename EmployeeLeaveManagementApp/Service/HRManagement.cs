@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Newtonsoft.Json;
 using System.IO;
+using LMS_WebAPP_Utils;
 
 namespace LMS_WebAPP_ServiceHelpers
 {
@@ -20,7 +21,10 @@ namespace LMS_WebAPP_ServiceHelpers
 
         public async Task<bool> SubmitEmployeeDetailsAsync(EmployeeDetailsModel model)
         {
-            HttpClient client = new HttpClient();       
+            Logger.Info("Entering into HRManagement APP Service helper SubmitEmployeeDetailsAsync method ");
+            try
+            {
+                HttpClient client = new HttpClient();       
             urlParameters = "?model=" + model;
             client.BaseAddress = new Uri(URL);
             // Add an Accept header for JSON format.
@@ -31,18 +35,29 @@ namespace LMS_WebAPP_ServiceHelpers
             HttpResponseMessage response = await client.PostAsJsonAsync(URL, model); // Blocking call!
             if (response.IsSuccessStatusCode)
             {
-                // Parse the response body. Blocking!
-                var dataObjects = response.Content.ReadAsAsync<bool>().Result;
-                return dataObjects;
+                    // Parse the response body. Blocking!
+                    var dataObjects = response.Content.ReadAsAsync<bool>().Result;
+                    Logger.Info("Exiting from into HRManagement APP Service helper SubmitEmployeeDetailsAsync method ");
+                    return dataObjects;
 
             }
-            return false;
+                Logger.Info("Exiting from into HRManagement APP Service helper SubmitEmployeeDetailsAsync method ");
+                return false;
+            }
+            catch
+            {
+                Logger.Info("Exception occured at HRManagement APP Service helper SubmitEmployeeDetailsAsync method ");
+                throw;
+            }
         }
 
         public async Task<List<EmployeeDetailsModel>> GetEmployeeListAsync()
         {
-           // const string URL = "http://localhost:64476/api/HR/GetEmployeeList";
-            HttpClient client = new HttpClient();
+            Logger.Info("Entering into HRManagement APP Service helper GetEmployeeListAsync method ");
+            try
+            {
+                // const string URL = "http://localhost:64476/api/HR/GetEmployeeList";
+                HttpClient client = new HttpClient();
             client.BaseAddress = new Uri(URL);
             // Add an Accept header for JSON format.
             client.DefaultRequestHeaders.Accept.Add(
@@ -52,17 +67,28 @@ namespace LMS_WebAPP_ServiceHelpers
             HttpResponseMessage response = await client.GetAsync(URL); // Blocking call!
             if (response.IsSuccessStatusCode)
             {
-                // Parse the response body. Blocking!
-                var dataObjects = response.Content.ReadAsAsync<List<EmployeeDetailsModel>>().Result.ToList();
-                return dataObjects;
+                    // Parse the response body. Blocking!
+                    var dataObjects = response.Content.ReadAsAsync<List<EmployeeDetailsModel>>().Result.ToList();
+                    Logger.Info("Exiting from into HRManagement APP Service helper GetEmployeeListAsync method ");
+                    return dataObjects;
 
             }
-            return null;
+                Logger.Info("Exiting from into HRManagement APP Service helper GetEmployeeListAsync method ");
+                return null;
+            }
+            catch
+            {
+                Logger.Info("Exception occured at HRManagement APP Service helper GetEmployeeListAsync method ");
+                throw;
+            }
         }
 
         public async Task<List<EmployeeDetailsModel>> GetManagerListAsync(int refLevel)
         {
-            using (HttpClient client = new HttpClient())
+            Logger.Info("Entering into HRManagement APP Service helper GetManagerListAsync method ");
+            try
+            {
+                using (HttpClient client = new HttpClient())
             {
                 const string URL = "http://localhost:64476/api/HR/GetManagerList";
                 urlParameters = "?refLevel=" + refLevel + "&status=" + true;
@@ -75,21 +101,32 @@ namespace LMS_WebAPP_ServiceHelpers
                 HttpResponseMessage response = await client.GetAsync(urlParameters);  // Blocking call!
                 if (response.IsSuccessStatusCode)
                 {
-                    // Parse the response body. Blocking!
-                    var dataObjects = response.Content.ReadAsAsync<List<EmployeeDetailsModel>>().Result.ToList();
-                    return dataObjects;
+                        // Parse the response body. Blocking!
+                        var dataObjects = response.Content.ReadAsAsync<List<EmployeeDetailsModel>>().Result.ToList();
+                        Logger.Info("Exiting from into HRManagement APP Service helper GetManagerListAsync method ");
+                        return dataObjects;
                 }
                 else
                 {
-                    Console.WriteLine("{0} ({1})", (int)response.StatusCode, response.ReasonPhrase);
-                    return null;
+                        Console.WriteLine("{0} ({1})", (int)response.StatusCode, response.ReasonPhrase);
+                        Logger.Info("Exiting from into HRManagement APP Service helper GetManagerListAsync method ");
+                        return null;
                 }
+            }
+            }
+            catch
+            {
+                Logger.Info("Exception occured at HRManagement APP Service helper GetManagerListAsync method ");
+                throw;
             }
         }
 
         public async Task<MemoryStream> GenerateReportsAsync(int exportAs,string employeeId, string leaveType,string fromDate,string toDate)
         {
-            using (HttpClient client = new HttpClient())
+            Logger.Info("Entering into HRManagement APP Service helper GenerateReportsAsync method ");
+            try
+            {
+                using (HttpClient client = new HttpClient())
             {
                 const string URL = "http://localhost:64476/api/HR/GenerateReports";
                 urlParameters = "?fromDate=" + fromDate+ "&toDate="+toDate+ "&employeeId=" + employeeId+ "&leaveType="+ leaveType;
@@ -102,21 +139,32 @@ namespace LMS_WebAPP_ServiceHelpers
                 HttpResponseMessage response = await client.GetAsync(urlParameters);  // Blocking call!
                 if (response.IsSuccessStatusCode)
                 {
-                    // Parse the response body. Blocking!
-                    var dataObjects = response.Content.ReadAsAsync<MemoryStream>().Result;
-                    return dataObjects;
+                        // Parse the response body. Blocking!
+                        var dataObjects = response.Content.ReadAsAsync<MemoryStream>().Result;
+                        Logger.Info("Exiting from into HRManagement APP Service helper GenerateReportsAsync method ");
+                        return dataObjects;
                 }
                 else
                 {
-                    Console.WriteLine("{0} ({1})", (int)response.StatusCode, response.ReasonPhrase);
-                    return null;
+                        Console.WriteLine("{0} ({1})", (int)response.StatusCode, response.ReasonPhrase);
+                        Logger.Info("Exiting from into HRManagement APP Service helper GenerateReportsAsync method ");
+                        return null;
                 }
+            }
+            }
+            catch
+            {
+                Logger.Info("Exception occured at HRManagement APP Service helper GenerateReportsAsync method ");
+                throw;
             }
         }
 
         public async Task<ConsolidatedEmployeeLeaveDetailsModel> GetChartDetailsAsync(int employeeId)
         {
-            using (HttpClient client = new HttpClient())
+            Logger.Info("Entering into HRManagement APP Service helper GetChartDetailsAsync method ");
+            try
+            {
+                using (HttpClient client = new HttpClient())
             {
                 const string URL = "http://localhost:64476/api/HR/GetChartDetails";
                 urlParameters = "?employeeId=" + employeeId;
@@ -129,21 +177,32 @@ namespace LMS_WebAPP_ServiceHelpers
                 HttpResponseMessage response = await client.GetAsync(urlParameters);  // Blocking call!
                 if (response.IsSuccessStatusCode)
                 {
-                    // Parse the response body. Blocking!
-                    var dataObjects = response.Content.ReadAsAsync<ConsolidatedEmployeeLeaveDetailsModel>().Result;
-                    return dataObjects;
+                        // Parse the response body. Blocking!
+                        var dataObjects = response.Content.ReadAsAsync<ConsolidatedEmployeeLeaveDetailsModel>().Result;
+                        Logger.Info("Exiting from into HRManagement APP Service helper GetChartDetailsAsync method ");
+                        return dataObjects;
                 }
                 else
                 {
-                    Console.WriteLine("{0} ({1})", (int)response.StatusCode, response.ReasonPhrase);
-                    return null;
+                        Console.WriteLine("{0} ({1})", (int)response.StatusCode, response.ReasonPhrase);
+                        Logger.Info("Exiting from into HRManagement APP Service helper GetChartDetailsAsync method ");
+                        return null;
                 }
+            }
+            }
+            catch
+            {
+                Logger.Info("Exception occured at HRManagement APP Service helper GetChartDetailsAsync method ");
+                throw;
             }
         }
 
         public async Task<bool> AddNewMasterDataValuesAsync(int masterDataType,string masterDataValue)
         {
-            using (HttpClient client = new HttpClient())
+            Logger.Info("Entering into HRManagement APP Service helper AddNewMasterDataValuesAsync method ");
+            try
+            {
+                using (HttpClient client = new HttpClient())
             {
                 const string URL = "http://localhost:64476/api/HR/AddNewMasterDataValues";
                 urlParameters = "?masterDataType=" + masterDataType + "&masterDataValue=" + masterDataValue;
@@ -156,21 +215,32 @@ namespace LMS_WebAPP_ServiceHelpers
                 HttpResponseMessage response = await client.GetAsync(urlParameters);  // Blocking call!
                 if (response.IsSuccessStatusCode)
                 {
-                    // Parse the response body. Blocking!
-                    var dataObjects = response.Content.ReadAsAsync<bool>().Result;
-                    return dataObjects;
+                        // Parse the response body. Blocking!
+                        var dataObjects = response.Content.ReadAsAsync<bool>().Result;
+                        Logger.Info("Exiting from into HRManagement APP Service helper AddNewMasterDataValuesAsync method ");
+                        return dataObjects;
                 }
                 else
                 {
-                    Console.WriteLine("{0} ({1})", (int)response.StatusCode, response.ReasonPhrase);
-                    return false;
+                        Console.WriteLine("{0} ({1})", (int)response.StatusCode, response.ReasonPhrase);
+                        Logger.Info("Exiting from into HRManagement APP Service helper AddNewMasterDataValuesAsync method ");
+                        return false;
                 }
+            }
+            }
+            catch
+            {
+                Logger.Info("Exception occured at HRManagement APP Service helper AddNewMasterDataValuesAsync method ");
+                throw;
             }
         }
 
         public async Task<bool> AddNewProjectInfoAsync(string projectName, string description, string technology, DateTime startDate, int refManager)
         {
-            using (HttpClient client = new HttpClient())
+            Logger.Info("Entering into HRManagement APP Service helper AddNewProjectInfoAsync method ");
+            try
+            {
+                using (HttpClient client = new HttpClient())
             {
                 const string URL = "http://localhost:64476/api/HR/AddNewMasterDataValues";
                 urlParameters = "?projectName=" + projectName + "&description=" + description+ "&technology="+ technology+ "&startDate="+ startDate+ "&refManager="+ refManager;
@@ -183,21 +253,32 @@ namespace LMS_WebAPP_ServiceHelpers
                 HttpResponseMessage response = await client.GetAsync(urlParameters);  // Blocking call!
                 if (response.IsSuccessStatusCode)
                 {
-                    // Parse the response body. Blocking!
-                    var dataObjects = response.Content.ReadAsAsync<bool>().Result;
-                    return dataObjects;
+                        // Parse the response body. Blocking!
+                        var dataObjects = response.Content.ReadAsAsync<bool>().Result;
+                        Logger.Info("Exiting from into HRManagement APP Service helper AddNewProjectInfoAsync method ");
+                        return dataObjects;
                 }
                 else
                 {
-                    Console.WriteLine("{0} ({1})", (int)response.StatusCode, response.ReasonPhrase);
-                    return false;
+                        Console.WriteLine("{0} ({1})", (int)response.StatusCode, response.ReasonPhrase);
+                        Logger.Info("Exiting from into HRManagement APP Service helper AddNewProjectInfoAsync method ");
+                        return false;
                 }
+            }
+            }
+            catch
+            {
+                Logger.Info("Exception occured at HRManagement APP Service helper AddNewProjectInfoAsync method ");
+                throw;
             }
         }
 
         public async Task<List<ProjectsList>> GetProjectsListAsync()
         {
-            using (HttpClient client = new HttpClient())
+            Logger.Info("Entering into HRManagement APP Service helper GetProjectsListAsync method ");
+            try
+            {
+                using (HttpClient client = new HttpClient())
             {
                 const string URL = "http://localhost:64476/api/HR/GetProjectsList";
                 client.BaseAddress = new Uri(URL);
@@ -209,15 +290,23 @@ namespace LMS_WebAPP_ServiceHelpers
                 HttpResponseMessage response = await client.GetAsync(URL);  // Blocking call!
                 if (response.IsSuccessStatusCode)
                 {
-                    // Parse the response body. Blocking!
-                    var dataObjects = response.Content.ReadAsAsync<List<ProjectsList>>().Result.ToList();
-                    return dataObjects;
+                        // Parse the response body. Blocking!
+                        var dataObjects = response.Content.ReadAsAsync<List<ProjectsList>>().Result.ToList();
+                        Logger.Info("Exiting from into HRManagement APP Service helper GetProjectsListAsync method ");
+                        return dataObjects;
                 }
                 else
                 {
-                    Console.WriteLine("{0} ({1})", (int)response.StatusCode, response.ReasonPhrase);
-                    return null;
+                        Console.WriteLine("{0} ({1})", (int)response.StatusCode, response.ReasonPhrase);
+                        Logger.Info("Exiting from into HRManagement APP Service helper GetProjectsListAsync method ");
+                        return null;
                 }
+            }
+            }
+            catch
+            {
+                Logger.Info("Exception occured at HRManagement APP Service helper GetProjectsListAsync method ");
+                throw;
             }
         }
     }

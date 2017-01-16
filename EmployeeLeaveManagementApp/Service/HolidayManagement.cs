@@ -1,4 +1,5 @@
 ﻿using LMS_WebAPP_Domain;
+using LMS_WebAPP_Utils;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -16,6 +17,7 @@ namespace LMS_WebAPP_ServiceHelpers
 
         public async Task<List<HolidayModel>> AddNewHolidayDetailsAsync(HolidayModel model)
         {
+            Logger.Info("Entering into HolidayManagement APP Service helper AddNewHolidayDetailsAsync method ");
             try
             {
                 string URL = "http://localhost:64476/api/Holiday/AddNewHoliday";
@@ -33,18 +35,22 @@ namespace LMS_WebAPP_ServiceHelpers
                 {
                     // Parse the response body. Blocking!
                     var dataObjects = response.Content.ReadAsAsync<List<HolidayModel>>().Result;
+                    Logger.Info("Exiting from into HolidayManagement APP Service helper AddNewHolidayDetailsAsync method ");
                     return dataObjects;
                 }
+                Logger.Info("Exiting from into HolidayManagement APP Service helper AddNewHolidayDetailsAsync method ");
                 return null;
             }
-            catch (Exception ex)
+            catch
             {
-                throw ex;
+                Logger.Info("Exception occured at HolidayManagement APP Service helper AddNewHolidayDetailsAsync method ");
+                throw;
             }
         }
 
         public async Task<IList<HolidayModel>> GetHolidayListAsync()
         {
+            Logger.Info("Entering into HolidayManagement APP Service helper GetHolidayListAsync method ");
             try
             {
                 string URL = "http://localhost:64476/api/Holiday/GetHolidayList";
@@ -60,19 +66,23 @@ namespace LMS_WebAPP_ServiceHelpers
                 {
                     // Parse the response body. Blocking!
                     var dataObjects = response.Content.ReadAsAsync<List<HolidayModel>>().Result.ToList();
+                    Logger.Info("Exiting from into HolidayManagement APP Service helper GetHolidayListAsync method ");
                     return dataObjects;
 
                 }
+                Logger.Info("Exiting from into HolidayManagement APP Service helper GetHolidayListAsync method ");
                 return null;
             }
-            catch (Exception ex)
+            catch
             {
-                throw ex;
+                Logger.Info("Exception occured at HolidayManagement APP Service helper GetHolidayListAsync method ");
+                throw;
             }
         }
 
         public async Task<List<HolidayModel>> UpdateNewHolidayDetailsAsync(HolidayModel model)
         {
+            Logger.Info("Entering into HolidayManagement APP Service helper UpdateNewHolidayDetailsAsync method ");
             try
             {
                 string URL = "http://localhost:64476/api/Holiday/UpdateHoliday";
@@ -90,18 +100,22 @@ namespace LMS_WebAPP_ServiceHelpers
                 {
                     // Parse the response body. Blocking!
                     var dataObjects = response.Content.ReadAsAsync<List<HolidayModel>>().Result;
+                    Logger.Info("Exiting from into HolidayManagement APP Service helper UpdateNewHolidayDetailsAsync method ");
                     return dataObjects;
                 }
+                Logger.Info("Exiting from into HolidayManagement APP Service helper UpdateNewHolidayDetailsAsync method ");
                 return null;
             }
-            catch (Exception ex)
+            catch
             {
-                throw ex;
+                Logger.Info("Exception occured at HolidayManagement APP Service helper UpdateNewHolidayDetailsAsync method ");
+                throw;
             }
         }
 
         public async Task<List<HolidayModel>> DeleteHolidayDetailsAsync(int Id)
         {
+            Logger.Info("Entering into HolidayManagement APP Service helper DeleteHolidayDetailsAsync method ");
             try
             {
                 string URL = "http://localhost:64476/api/Holiday/DeleteHoliday";
@@ -119,18 +133,22 @@ namespace LMS_WebAPP_ServiceHelpers
                 {
                     // Parse the response body. Blocking!
                     var dataObjects = response.Content.ReadAsAsync<List<HolidayModel>>().Result;
+                    Logger.Info("Exiting from into HolidayManagement APP Service helper DeleteHolidayDetailsAsync method ");
                     return dataObjects;
                 }
+                Logger.Info("Exiting from into HolidayManagement APP Service helper DeleteHolidayDetailsAsync method ");
                 return null;
             }
-            catch (Exception ex)
+            catch
             {
-                throw ex;
+                Logger.Info("Exception occured at HolidayManagement APP Service helper DeleteHolidayDetailsAsync method ");
+                throw;
             }
         }
 
         public async Task<List<CalendarEvents>> GetCalendarEventsAsync(int employeeId)
         {
+            Logger.Info("Entering into HolidayManagement APP Service helper GetCalendarEventsAsync method ");
             try
             {
                 string URL = "http://localhost:64476/api/Holiday/GetCalendarEvents";
@@ -147,14 +165,17 @@ namespace LMS_WebAPP_ServiceHelpers
                 {
                     // Parse the response body. Blocking!
                     var dataObjects = response.Content.ReadAsAsync<List<CalendarEvents>>().Result.ToList();
+                    Logger.Info("Exiting from into HolidayManagement APP Service helper GetCalendarEventsAsync method ");
                     return dataObjects;
 
                 }
+                Logger.Info("Exiting from into HolidayManagement APP Service helper GetCalendarEventsAsync method ");
                 return null;
             }
-            catch (Exception ex)
+            catch
             {
-                throw ex;
+                Logger.Info("Exception occured at HolidayManagement APP Service helper GetCalendarEventsAsync method ");
+                throw;
             }
         }
     }
