@@ -52,7 +52,7 @@ namespace EmployeeLeaveManagementWebAPI.Controllers
                 requestEntity.ResourceRequestTitle = model.ResourceRequestTitle;
                 requestEntity.NumberRequestedResources = model.NumberRequestedResources;
                 requestEntity.Skills = model.Skills;
-                requestEntity.Ticket = model.RequestFromId + randomId;
+                requestEntity.Ticket = "inf-" + model.RequestFromId + randomId;
                 requestEntity.CreatedDate = DateTime.Now;
                 requestEntity.UpdatedDate = DateTime.Now;
                 requestEntity.Status = Convert.ToInt16((Enum)ResourceRequestStatus.InProgress);

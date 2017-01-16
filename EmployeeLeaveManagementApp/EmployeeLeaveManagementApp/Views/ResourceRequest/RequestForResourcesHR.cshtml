@@ -183,7 +183,7 @@
         else if (statusKey == 2) {
             $("#btnModalStatus").addClass("btn-success");
             $(".statusListDropdown").html("");
-            $(".statusListDropdown").append('<li><a href="#" class="text-color-white btn-color-approved" data-id="' + id+'" data-createdDate="' + $(id).attr('data-created') + '"  data-ticket="' + $(id).attr('data-ticket') + '" data-statusKey="' + statusKey + '" onclick="respondToRequest(this)">' + 'In Progress' + '</a></li>');
+            $(".statusListDropdown").append('<li><a href="#" class="text-color-white btn-color-processing" data-id="' + id + '" data-createdDate="' + $(id).attr('data-created') + '"  data-ticket="' + $(id).attr('data-ticket') + '" data-statusKey="' + statusKey + '" onclick="respondToRequest(this)">' + 'In Progress' + '</a></li>');
         }
         $("#btnModalStatus").html($(id).attr('data-status') + '<span class="caret margin-left-5"></span>');
         $("#ResourceRequestToRespondModal").modal('show');
@@ -248,9 +248,8 @@
                             ' data-ticket="' + data.model[i].Ticket + '" data-statusKey="' + data.model[i].Key + '">' + data.model[i].Value + '</a></li>';
                         }
                         tableRow += '</ul></div></td></tr>';
+                        $("#resourceRequestsTable").find('tbody').append(tableRow);
                     }
-                    $("#resourceRequestsTable").find('tbody').append(tableRow);
-
                 }
             }
         });
