@@ -25,7 +25,7 @@ namespace EmployeeLeaveManagementApp.Controllers
                     var data = (UserAccount)Session[Constants.SESSION_OBJ_USER];
             
                     var leaveType = Convert.ToInt16(LeaveType.CompoOff);
-                    var res = await ELTM.GetProductAsync(data.RefEmployeeId, leaveType);
+                    var res = await ELTM.GetEmployeeLeaveTransactionAsync(data.RefEmployeeId, leaveType);
                     Logger.Info("Successfully exiting from CompoOffController APP Index method");
                     return View(res);
                 }
@@ -72,7 +72,7 @@ namespace EmployeeLeaveManagementApp.Controllers
                 {
                     var data = (UserAccount)Session[Constants.SESSION_OBJ_USER];
                     var leaveType = Convert.ToInt16(LeaveType.CompoOff);
-                    var res = await ELTM.GetProductAsync(data.RefEmployeeId, leaveType);
+                    var res = await ELTM.GetEmployeeLeaveTransactionAsync(data.RefEmployeeId, leaveType);
                     var resultJson = new { result = res };
                     Logger.Info("Successfully exiting from CompoOffController APP GetCompoOffList method");
                     return Json(resultJson, JsonRequestBehavior.AllowGet);

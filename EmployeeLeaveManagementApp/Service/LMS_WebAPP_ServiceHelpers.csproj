@@ -64,6 +64,10 @@
       <Project>{2c46a917-dfd8-4209-a858-7ced1fca55ca}</Project>
       <Name>LMS_WebAPP_Domain</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Utils\LMS_WebAPP_Utils.csproj">
+      <Project>{388e3f39-1cb3-4bb0-bca0-45f8560ca768}</Project>
+      <Name>LMS_WebAPP_Utils</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />

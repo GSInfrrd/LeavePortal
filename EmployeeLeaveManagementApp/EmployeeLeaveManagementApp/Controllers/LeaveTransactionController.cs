@@ -23,7 +23,7 @@ namespace EmployeeLeaveManagementApp.Controllers
             {
                     var data = (UserAccount)Session[Constants.SESSION_OBJ_USER];
                     EmployeeLeaveTransactionManagement ELTM = new EmployeeLeaveTransactionManagement();
-                    var res = await ELTM.GetProductAsync(data.RefEmployeeId);
+                    var res = await ELTM.GetEmployeeLeaveTransactionAsync(data.RefEmployeeId);
                     //var values = Enum.GetValues(typeof(LeaveType));
                     Logger.Info("Successfully exiting from LeaveTransactionController APP LeaveTransaction method");
                     return View(res);

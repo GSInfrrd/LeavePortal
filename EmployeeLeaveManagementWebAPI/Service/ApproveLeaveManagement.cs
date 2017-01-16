@@ -46,12 +46,12 @@ namespace LMS_WebAPI_ServiceHelpers
 
         
 
-        public bool ApproveEmployeeLeave(int id, string comments, int st , int apid)
+        public bool TakeActionOnEmployeeLeave(int Leaveid, string Leavecomments, string Leavestatus, int Approverid)
         {
             Logger.Info("Entering into ApproveLeaveManagement Service helper ApproveEmployeeLeave method ");
             try
             {
-                var ApproveLeaves = EmployeeLeaves.ApproveEmployeeLeave(id,comments,st,apid);
+                var ApproveLeaves = EmployeeLeaves.TakeActionOnEmployeeLeave(Leaveid, Leavecomments, Leavestatus, Approverid);
                 Logger.Info("Exiting from into ApproveLeaveManagement Service helper ApproveEmployeeLeave method ");
                 return ApproveLeaves;
             }

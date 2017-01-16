@@ -11,6 +11,6 @@ namespace LMS_WebAPI_DAL.Repositories.Interfaces
     {
         List<ApproveLeaveModel> GetApproveLeave(int id);
         List<EmployeeDetailsModel> GetAllManagers(int id, int st);
-        bool ApproveEmployeeLeave(int id, string comments, int st , int apid);
+        bool TakeActionOnEmployeeLeave(int Leaveid, string Leavecomments, string Leavestatus, int Approverid);
     }
 }

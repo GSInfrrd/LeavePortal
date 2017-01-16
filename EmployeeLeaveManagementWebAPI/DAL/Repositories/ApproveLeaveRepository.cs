@@ -53,7 +53,7 @@ namespace LMS_WebAPI_DAL.Repositories
             }
         }
 
-        public bool ApproveEmployeeLeave(int id, string comments, int st, int apid)
+        public bool TakeActionOnEmployeeLeave(int Leaveid, string Leavecomments, string Leavestatus, int Approverid)
         {
             var result = false;
             try
@@ -61,18 +61,18 @@ namespace LMS_WebAPI_DAL.Repositories
                 Logger.Info("Entering in ApproveLeaveRepository API ApproveEmployeeLeave method");
                 using (var ctx = new LeaveManagementSystemEntities1())
                 {
-                    var leaveDetails = ctx.Workflows.FirstOrDefault(x => x.EmployeeLeaveTransaction.Id == id);
+                    var leaveDetails = ctx.Workflows.FirstOrDefault(x => x.EmployeeLeaveTransaction.Id == Leaveid);
                     var EmployeeId = leaveDetails.EmployeeLeaveTransaction.EmployeeDetail.Id;
                     var ApproverId = leaveDetails.RefApproverId;
                     int Status = 1;
                     int NotificationType = 27;
-                    if (st == 1)
+                    if (Leavestatus == "Approved")
                     {
                         leaveDetails.EmployeeLeaveTransaction.RefStatus = 12;
-                        leaveDetails.ManagerComments = comments;
+                        leaveDetails.ManagerComments = Leavecomments;
                         ctx.SaveChanges();
                         insertintoLeaveHistory(leaveDetails);
-                        deletefromworkflow(id);
+                        deletefromworkflow(Leaveid);
 
                         var ManagerDetails = ctx.EmployeeDetails.FirstOrDefault(x => x.Id == ApproverId);
                         string ManagerName = ManagerDetails.FirstName;
@@ -88,13 +88,13 @@ namespace LMS_WebAPI_DAL.Repositories
 
 
                     }
-                    if (st == 0)
+                    if (Leavestatus == "Rejected")
                     {
                         leaveDetails.EmployeeLeaveTransaction.RefStatus = 11;
-                        leaveDetails.ManagerComments = comments;
+                        leaveDetails.ManagerComments = Leavecomments;
                         ctx.SaveChanges();
                         insertintoLeaveHistory(leaveDetails);
-                        deletefromworkflow(id);
+                        deletefromworkflow(Leaveid);
 
                         var ManagerDetails = ctx.EmployeeDetails.FirstOrDefault(x => x.Id == ApproverId);
                         string ManagerName = ManagerDetails.FirstName;
@@ -107,30 +107,11 @@ namespace LMS_WebAPI_DAL.Repositories
                         string Text = "Your Manager " + ManagerName + " has rejected your leaves.";
                         insertNotification(EmployeeId, Text , Status , NotificationType);
                     }
-                    if (st == 2)
-                    {
-                        leaveDetails.EmployeeLeaveTransaction.RefStatus = 20;
-                        leaveDetails.ManagerComments = comments;
-                        ctx.SaveChanges();
-                        insertintoLeaveHistory(leaveDetails);
-                        deletefromworkflow(id);
-
-                        var ManagerDetails = ctx.EmployeeDetails.FirstOrDefault(x => x.Id == ApproverId);
-                        string ManagerName = ManagerDetails.FirstName;
-                        if (ManagerDetails.LastName != null)
-                        {
-                            ManagerName += " ";
-                            ManagerName += ManagerDetails.LastName;
-                        }
-
-                        string Text = "Your Manager " + ManagerName + " has Cancelled your leaves.";
-                        insertNotification(EmployeeId, Text , Status, NotificationType);
-                    }
-                    if (st == 3)
+                    if (Leavestatus == "Reassigned")
                     {
                         leaveDetails.EmployeeLeaveTransaction.RefStatus = 21;
-                        leaveDetails.RefApproverId = apid;
-                        leaveDetails.ManagerComments = comments;
+                        leaveDetails.RefApproverId = Approverid;
+                        leaveDetails.ManagerComments = Leavecomments;
                         ctx.SaveChanges();
 
                         var ManagerDetails = ctx.EmployeeDetails.FirstOrDefault(x => x.Id == ApproverId);
@@ -141,7 +122,7 @@ namespace LMS_WebAPI_DAL.Repositories
                             ManagerName += ManagerDetails.LastName;
                         }
 
-                        var assignedManager = ctx.EmployeeDetails.FirstOrDefault(x => x.Id == apid);
+                        var assignedManager = ctx.EmployeeDetails.FirstOrDefault(x => x.Id == Approverid);
 
                         string assignedManagerName = assignedManager.FirstName;
 

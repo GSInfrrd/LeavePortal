@@ -446,19 +446,20 @@
                     }
                     else {
                         $("#divCommentError").hide();
-                        var comments = $("#leaveComment").val();
-                        var id = $("#lblHiddenId").html();
-                        var apid = 0;
-                        var st = 1;
-                        var status = 1;
+                        var Leavecomments = $("#leaveComment").val();
+                        var Leaveid = $("#lblHiddenId").html();
+                        var Leavestatus = "Approved";
+                        var Approverid = 0;
+                        debugger;
                         $.ajax({
                             cache: false,
                             type: 'post',
-                            url: '/ApproveLeave/ApproveEmployeeLeave',
-                            data: { id: id, comments: comments, st: st, apid: apid },
+                            url: '/ApproveLeave/TakeActionOnEmployeeLeave',
+                            data: { Leaveid: Leaveid, Leavecomments: Leavecomments, Leavestatus: Leavestatus, Approverid: Approverid },
                             //contentType: "application/json; charset=utf-8",
                             dataType: "json",
                             success: function (data) {
+                                debugger;
                                 if (data) {
                                     $('#ViewLeaveModal').modal('hide');
                                     localStorage.setItem("leaveApproved", 1);
@@ -478,20 +479,18 @@
                     }
                     else {
                         $("#divCommentError").hide();
-                        var comments = $("#leaveComment").val();
-                        var id = $("#lblHiddenId").html();
-                        var apid = 0;
-                        var st = 0;
-                        var status = 1;
+                        var Leavecomments = $("#leaveComment").val();
+                        var Leaveid = $("#lblHiddenId").html();
+                        var Leavestatus = "Rejected";
+                        var Approverid = 0;
                         $.ajax({
                             cache: false,
                             type: 'post',
-                            url: '/ApproveLeave/ApproveEmployeeLeave',
-                            data: { id: id, comments: comments, st: st, apid: apid },
+                            url: '/ApproveLeave/TakeActionOnEmployeeLeave',
+                            data: { Leaveid: Leaveid, Leavecomments: Leavecomments, Leavestatus: Leavestatus, Approverid: Approverid },
                             //contentType: "application/json; charset=utf-8",
                             dataType: "json",
                             success: function (data) {
-
                                 $('#ViewLeaveModal').modal('hide');
                                 localStorage.setItem("leaveRejected", 1);
                                 location.reload();
@@ -500,30 +499,7 @@
                     }
                 }
      );
-                $(document).on('click', '#btnCancelLeave', function (e) {
-
-                    debugger;
-                    var comments = $("#leaveComment").val();
-                    var id = $("#lblHiddenId").html();
-                    var apid = 0;
-                    var st = 2;
-                    var status = 1;
-                    $.ajax({
-                        cache: false,
-                        type: 'post',
-                        url: '/ApproveLeave/ApproveEmployeeLeave',
-                        data: { id: id, comments: comments, st: st, apid: apid },
-                        //contentType: "application/json; charset=utf-8",
-                        dataType: "json",
-                        success: function (data) {
-
-                            $('#ViewLeaveModal').modal('hide');
-                            localStorage.setItem("leaveCanceled", 1);
-                            location.reload();
-                        }
-                    });
-                }
-     );
+               
 
                 $(document).on('click', '#btnAssignTo', function (e) {
 
@@ -533,20 +509,18 @@
                     }
                     else {
                         $("#divselectError").hide();
-                        var comments = $("#leaveComment").val();
-                        var id = $("#lblHiddenId").html();
-                        var apid = $("#dropdownassignto").val();
-                        var st = 3;
-                        var status = 1;
+                        var Leavecomments = $("#leaveComment").val();
+                        var Leaveid = $("#lblHiddenId").html();
+                        var Approverid = $("#dropdownassignto").val();
+                        var Leavestatus = "Reassigned";
                         $.ajax({
                             cache: false,
                             type: 'post',
-                            url: '/ApproveLeave/ApproveEmployeeLeave',
-                            data: { id: id, comments: comments, st: st , apid: apid},
+                            url: '/ApproveLeave/TakeActionOnEmployeeLeave',
+                            data: { Leaveid: Leaveid, Leavecomments: Leavecomments, Leavestatus: Leavestatus, Approverid: Approverid },
                             //contentType: "application/json; charset=utf-8",
                             dataType: "json",
                             success: function (data) {
-
                                 $('#ViewLeaveModal').modal('hide');
                                 localStorage.setItem("leaveAssigned", 1);
                                 location.reload();

@@ -22,8 +22,8 @@ namespace EmployeeLeaveManagementApp.Controllers
                 if (null != Session[Constants.SESSION_OBJ_USER])
             {
                     var data = (UserAccount)Session[Constants.SESSION_OBJ_USER];
-                    ApproveLeaveManagement ELTM = new ApproveLeaveManagement();
-                    var res = await ELTM.GetAprroveLeaveAsync(data.RefEmployeeId);
+                    ApproveLeaveManagement ALM = new ApproveLeaveManagement();
+                    var res = await ALM.GetAprroveLeaveAsync(data.RefEmployeeId);
                     //var values = Enum.GetValues(typeof(LeaveType));
                     Logger.Info("Successfully exiting from ApproveLeaveController APP ApproveLeave method");
                     return View(res);
@@ -42,14 +42,14 @@ namespace EmployeeLeaveManagementApp.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult> ApproveEmployeeLeave(int id, string comments , int st , int apid)
+        public async Task<ActionResult> TakeActionOnEmployeeLeave(int Leaveid, string Leavecomments, string Leavestatus, int Approverid)
         {
             Logger.Info("Entering in ApproveLeaveController APP ApproveEmployeeLeave method");
             try
             {
-                ApproveLeaveManagement ELTM = new ApproveLeaveManagement();
+                ApproveLeaveManagement ALM = new ApproveLeaveManagement();
 
-                var res = await ELTM.AprroveEmployeeLeaveAsync(id, comments, st, apid);
+                var res = await ALM.TakeActionOnEmployeeLeaveAsync(Leaveid, Leavecomments, Leavestatus, Approverid);
                 //return RedirectToAction("ApplyLeave");
                 Logger.Info("Successfully exiting from ApproveLeaveController APP ApproveEmployeeLeave method");
                 return Json(new { result = res });
@@ -67,11 +67,11 @@ namespace EmployeeLeaveManagementApp.Controllers
             Logger.Info("Entering in ApproveLeaveController APP GetAllManagers method");
             try
             {
-                ApproveLeaveManagement ELTM = new ApproveLeaveManagement();
+                ApproveLeaveManagement ALM = new ApproveLeaveManagement();
                 var data = (UserAccount)Session[Constants.SESSION_OBJ_USER];
                 int id = data.RefEmployeeId;
                 int st = 1;
-                var res = await ELTM.GetAllManagersAsync(id, st);
+                var res = await ALM.GetAllManagersAsync(id, st);
                 Logger.Info("Successfully exiting from ApproveLeaveController APP GetAllManagers method");
                 return Json(new { result = res });
             }

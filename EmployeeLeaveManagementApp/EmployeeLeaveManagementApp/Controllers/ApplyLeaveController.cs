@@ -25,7 +25,7 @@ namespace EmployeeLeaveManagementApp.Controllers
                 {
                     var data = (UserAccount)Session[Constants.SESSION_OBJ_USER];
                     IList<LeaveTransaction> les = new List<LeaveTransaction>();
-                    les = await ELTM.GetProductAsync(data.RefEmployeeId);
+                    les = await ELTM.GetEmployeeLeaveTransactionAsync(data.RefEmployeeId);
                     Logger.Info("Successfully exiting from ApplyLeaveController APP ApplyLeave method");
                     return View(les);
                 }
@@ -171,7 +171,7 @@ namespace EmployeeLeaveManagementApp.Controllers
                 if (null != Session[Constants.SESSION_OBJ_USER])
                 {
                     var data = (UserAccount)Session[Constants.SESSION_OBJ_USER];
-                    var res = await ELTM.GetProductAsync(data.RefEmployeeId);
+                    var res = await ELTM.GetEmployeeLeaveTransactionAsync(data.RefEmployeeId);
 
                     var resultJson = new { result = res };
                     Logger.Info("Successfully exiting from ApplyLeaveController APP GetEmployeeLeaveList method");

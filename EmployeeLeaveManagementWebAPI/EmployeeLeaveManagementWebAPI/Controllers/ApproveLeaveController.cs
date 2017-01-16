@@ -18,8 +18,8 @@ namespace EmployeeLeaveManagementWebAPI.Controllers
             try
             {
                 Logger.Info("Entering in ApproveLeaveController API Get method");
-                ApproveLeaveManagement ELTM = new ApproveLeaveManagement();
-                var res = ELTM.GetAllManagers(id, st);
+                ApproveLeaveManagement ALM = new ApproveLeaveManagement();
+                var res = ALM.GetAllManagers(id, st);
                 Logger.Info("Successfully exiting from ApproveLeaveController API Get method");
                 return res;
             }
@@ -35,8 +35,8 @@ namespace EmployeeLeaveManagementWebAPI.Controllers
             try
             {
                 Logger.Info("Entering in ApproveLeaveController API Get method");
-                ApproveLeaveManagement ELTM = new ApproveLeaveManagement();
-                var res = ELTM.GetApproveLeave(id);
+                ApproveLeaveManagement ALM = new ApproveLeaveManagement();
+                var res = ALM.GetApproveLeave(id);
                 Logger.Info("Successfully exiting from ApproveLeaveController API Get method");
                 return res;
             }
@@ -48,18 +48,18 @@ namespace EmployeeLeaveManagementWebAPI.Controllers
 
         }
         
-        public List<ApproveLeaveModel> Get(int id , string comments , int st, int apid)
+        public List<ApproveLeaveModel> GetTakeActionOnEmployeeLeave(int Leaveid, string Leavecomments, string Leavestatus, int Approverid)
         {
             try
             {
                 Logger.Info("Entering in ApproveLeaveController API Get method");
                 ApproveLeaveManagement ALM = new ApproveLeaveManagement();
-                var EmployeeLeaveApproved = ALM.ApproveEmployeeLeave(id, comments, st, apid);
+                var EmployeeLeaveApproved = ALM.TakeActionOnEmployeeLeave(Leaveid, Leavecomments, Leavestatus, Approverid);
 
                 var res = new List<ApproveLeaveModel>();
                 if (EmployeeLeaveApproved)
                 {
-                    res = ALM.GetApproveLeave(id);
+                    res = ALM.GetApproveLeave(Leaveid);
                 }
                 Logger.Info("Successfully exiting from ApproveLeaveController API Get method");
                 return res;
