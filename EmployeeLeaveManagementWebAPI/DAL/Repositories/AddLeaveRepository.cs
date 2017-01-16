@@ -112,9 +112,9 @@ namespace LMS_WebAPI_DAL.Repositories
                     var leaveDetails = ctx.EmployeeLeaveTransactions.FirstOrDefault(x => x.Id == id);
                     leaveDetails.RefStatus = (int)LeaveStatus.Submitted;
                     ctx.SaveChanges();
-                    var mailFrom = ctx.UserAccounts.FirstOrDefault(i => i.RefEmployeeId == leaveDetails.RefEmployeeId);
-                    var fromEmail = ctx.UserAccounts.FirstOrDefault(i => i.RefEmployeeId == mailFrom.Id).UserName;
-                    var toEmail = ctx.UserAccounts.FirstOrDefault(i => i.RefEmployeeId == mailFrom.EmployeeDetail.ManagerId).UserName;
+                    //var mailFrom = ctx.UserAccounts.FirstOrDefault(i => i.RefEmployeeId == leaveDetails.RefEmployeeId);
+                    //var fromEmail = ctx.UserAccounts.FirstOrDefault(i => i.RefEmployeeId == mailFrom.Id).UserName;
+                    //var toEmail = ctx.UserAccounts.FirstOrDefault(i => i.RefEmployeeId == mailFrom.EmployeeDetail.ManagerId).UserName;
                     var workFlow = new Workflow
                     {
                         RefLeaveTransactionId = leaveDetails.Id,
@@ -169,9 +169,12 @@ namespace LMS_WebAPI_DAL.Repositories
                 using (var ctx = new LeaveManagementSystemEntities1())
                 {
                     var leaveDetails = ctx.EmployeeLeaveTransactions.FirstOrDefault(x => x.Id == id);
-                    ctx.EmployeeLeaveTransactions.Remove(leaveDetails);
                     var workFlowDet = ctx.Workflows.FirstOrDefault(x => x.RefLeaveTransactionId == leaveDetails.Id);
-                    ctx.Workflows.Remove(workFlowDet);
+                    if (workFlowDet != null)
+                    {
+                        ctx.Workflows.Remove(workFlowDet);
+                    }
+                    ctx.EmployeeLeaveTransactions.Remove(leaveDetails);             
                     ctx.SaveChanges();
                 }
                 Logger.Info("Successfully exiting from AddLeaveRepository API DeleteLeaveRequest method");
@@ -222,7 +225,7 @@ namespace LMS_WebAPI_DAL.Repositories
             return true;
         }
 
-        public EmployeeDetail CheckLeaveAvailability(int employeeId, out List<Holiday> holidayList)
+        public EmployeeDetail CheckLeaveAvailability(int employeeId, out List<Holiday> holidayList,out int advanceLeaveLimit,out int lopLeaveLimit)
         {
 
             try
@@ -230,8 +233,10 @@ namespace LMS_WebAPI_DAL.Repositories
                 Logger.Info("Entering in AddLeaveRepository API CheckLeaveAvailability method");
                 using (var ctx = new LeaveManagementSystemEntities1())
                 {
-                    var data = ctx.EmployeeDetails.Include("EmployeeLeaveMasters1").Include("EmployeeLeaveTransactions").FirstOrDefault(i => i.Id == employeeId);
+                    var data = ctx.EmployeeDetails.Include("EmployeeLeaveMasters").Include("EmployeeLeaveTransactions").FirstOrDefault(i => i.Id == employeeId);
                     holidayList = ctx.Holidays.ToList();
+                    advanceLeaveLimit =Convert.ToInt32(ctx.MasterDataValues.FirstOrDefault(i => i.RefMasterType == (int)AdvanceLeaveLimit.limit).Value);
+                    lopLeaveLimit = Convert.ToInt32(ctx.MasterDataValues.FirstOrDefault(i => i.RefMasterType == (int)LOPLeaveLimit.limit).Value);
                     Logger.Info("Successfully exiting from AddLeaveRepository API CheckLeaveAvailability method");
                     return data;
                 }

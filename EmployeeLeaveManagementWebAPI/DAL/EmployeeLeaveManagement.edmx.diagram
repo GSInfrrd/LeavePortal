@@ -60,6 +60,7 @@
         <AssociationConnector Association="LeaveManagementSystemModel.FK_EmployeeRewardedLeaveDetails_EmployeeDetails" />
         <AssociationConnector Association="LeaveManagementSystemModel.FK_EmployeeRewardedLeaveDetails_EmployeeDetails1" />
         <AssociationConnector Association="LeaveManagementSystemModel.FK_EmployeeRewardedLeaveDetails_ProjectMaster" />
+        <AssociationConnector Association="LeaveManagementSystemModel.FK_ResourceRequestDetail_EmployeeDetails" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

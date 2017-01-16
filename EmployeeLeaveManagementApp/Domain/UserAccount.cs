@@ -29,6 +29,8 @@ namespace LMS_WebAPP_Domain
         public System.DateTime DateOfJoining { get; set; }
 
         public string Imagepath { get; set; }
+        public int? LOPRemaining { get; set; }
+        public int? CompOffTaken { get; set; } 
 
     }
 }

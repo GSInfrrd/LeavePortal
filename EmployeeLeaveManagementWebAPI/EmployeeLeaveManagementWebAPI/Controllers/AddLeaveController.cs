@@ -34,13 +34,13 @@ namespace EmployeeLeaveManagementWebAPI.Controllers
         }
         [System.Web.Http.AllowAnonymous]
         [System.Web.Http.HttpGet]
-        public LeaveTransactionResponse CheckLeaveAvailability(int employeeId,DateTime fromDate, DateTime toDate)
+        public LeaveTransactionResponse CheckLeaveAvailability(int employeeId,DateTime fromDate, DateTime toDate,int leaveType)
         {
             try
             {
                 Logger.Info("Entering in AddLeaveController API CheckLeaveAvailability method");
                 AddLeaveManagement addLeaveMgt = new AddLeaveManagement();
-                var result = addLeaveMgt.CheckLeaveAvailability(employeeId,fromDate,toDate);
+                var result = addLeaveMgt.CheckLeaveAvailability(employeeId,fromDate,toDate,leaveType);
                 Logger.Info("Successfully exiting from AddLeaveController API CheckLeaveAvailability method");
                 return result;
             }

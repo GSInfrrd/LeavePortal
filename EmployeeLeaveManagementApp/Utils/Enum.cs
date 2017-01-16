@@ -14,10 +14,11 @@ namespace LMS_WebAPP_Utils
         CasualLeave = 8,
         [Description("Sick Leave")]
         SickLeave = 7,
-        [Description("Compo Off")]
+        [Description("Comp Off")]
         CompoOff = 25,
         [Description("Advance Leave")]
         AdvanceLeave = 26,
+        [Description("LOP")]
         LOP = 27
     }
 
@@ -105,5 +106,27 @@ namespace LMS_WebAPP_Utils
         InProgress = 1,
         [Description("Approved")]
         Approved = 2
+    }
+
+    public enum ReportType
+    {
+
+        [Description("Applied Leaves")]
+        AppliedLeaves = 1,
+        [Description("Work From Home")]
+        WorkfromHome = 2,
+        [Description("Loss of Pay")]
+        LossofPay = 3,
+        [Description("Advanced Leaves")]
+        AdvancedLeaves = 4,
+        [Description("Comp Off")]
+        CompOff = 5
+    }
+    public enum ResponseCodes
+    {
+        OK = 1000,
+        DateAlreadyExists = 1001,
+        NoLeaveBalance = 1002
+
     }
 }

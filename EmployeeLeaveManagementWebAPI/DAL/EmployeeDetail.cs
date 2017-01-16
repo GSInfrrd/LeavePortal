@@ -33,6 +33,7 @@ namespace LMS_WebAPI_DAL
             this.EmployeeLeaveMasters1 = new HashSet<EmployeeLeaveMaster>();
             this.EmployeeRewardedLeaveDetails = new HashSet<EmployeeRewardedLeaveDetail>();
             this.EmployeeRewardedLeaveDetails1 = new HashSet<EmployeeRewardedLeaveDetail>();
+            this.ResourceRequestDetails = new HashSet<ResourceRequestDetail>();
         }
     
         public int Id { get; set; }
@@ -94,5 +95,7 @@ namespace LMS_WebAPI_DAL
         public virtual ICollection<EmployeeRewardedLeaveDetail> EmployeeRewardedLeaveDetails { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<EmployeeRewardedLeaveDetail> EmployeeRewardedLeaveDetails1 { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<ResourceRequestDetail> ResourceRequestDetails { get; set; }
     }
 }

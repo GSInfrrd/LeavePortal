@@ -79,6 +79,8 @@ namespace LMS_WebAPI_DAL.Repositories
                         projectDetails.RefEmployeeId = id;
                         projectDetails.RefProjectId = model.Projects[0].Id;
                         projectDetails.CreatedDate = DateTime.Now;
+                        projectDetails.IsActive = true;
+                        projectDetails.StartDate = DateTime.Now;
                         ctx.EmployeeProjectDetails.Add(projectDetails);
                         ctx.SaveChanges();
                     }
@@ -89,9 +91,17 @@ namespace LMS_WebAPI_DAL.Repositories
                         RefEmployeeId = id,
                         CreatedDate = DateTime.Now
                     };
-
                     ctx.UserAccounts.Add(userDetails);
                     ctx.SaveChanges();
+                    var employeeMaster = new EmployeeLeaveMaster
+
+                    {
+                        RefEmployeeId = id,
+                        EarnedCasualLeave = 2
+                    };
+                    ctx.EmployeeLeaveMasters.Add(employeeMaster);
+                    ctx.SaveChanges();
+            
                     Logger.Info("Successfully exiting from HRRepository API SubmitEmployeeDetails method");
                 }
                 result = true;

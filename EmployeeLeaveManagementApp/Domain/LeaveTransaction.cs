@@ -1,5 +1,4 @@
-﻿using LMS_WebAPP_Utils;
-using System;
+﻿using System;
 using System.Collections.Generic;
 
 namespace LMS_WebAPP_Domain
@@ -19,6 +18,9 @@ namespace LMS_WebAPP_Domain
         public Nullable<System.DateTime> ModifiedDate { get; set; }
 
         public List<string> LeaveType { get; set; }
+        public string LeaveTypeName { get; set; }
+        public string StatusName { get; set; } 
+
         public string FormattedDate
         {
             get
@@ -58,31 +60,31 @@ namespace LMS_WebAPP_Domain
         }
 
 
-        public string LeaveTypeName
-        {
-            get
-            {
-                if (RefStatus != 0)
-                    return (CommonMethods.Description((LeaveType)RefLeaveType));
-                else
-                {
-                    return "";
-                }
-            }
-        }
+        //public string LeaveTypeName
+        //{
+        //    get
+        //    {
+        //        if (RefStatus != 0)
+        //            return (CommonMethods.Description((LeaveType)RefLeaveType));
+        //        else
+        //        {
+        //            return "";
+        //        }
+        //    }
+        //}
 
 
-        public string StatusName
-        {
-            get
-            {
-                if (RefStatus != 0)
-                    return (CommonMethods.Description((LeaveStatus)RefStatus));
-                else
-                {
-                    return "";
-                }
-            }
-        }
+        //public string StatusName
+        //{
+        //    get
+        //    {
+        //        if (RefStatus != 0)
+        //            return (CommonMethods.Description((LeaveStatus)RefStatus));
+        //        else
+        //        {
+        //            return "";
+        //        }
+        //    }
+        //}
     }
 }

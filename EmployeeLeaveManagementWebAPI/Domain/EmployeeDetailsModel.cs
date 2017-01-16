@@ -67,6 +67,9 @@ namespace LMS_WebAPI_Domain
 
         public int EmployeeType { get; set; }
 
+        public int LOPRemaining { get; set; }
+        public int? CompOffTaken { get; set; }
+
     }
 
     public class Announcement
@@ -121,6 +124,9 @@ namespace LMS_WebAPI_Domain
     {
         public int Id { get; set; }
         public string ProjectName { get; set; }
+
+        public DateTime StartDate { get; set; }
+        public DateTime EndDate { get; set;}
     }
 
 }

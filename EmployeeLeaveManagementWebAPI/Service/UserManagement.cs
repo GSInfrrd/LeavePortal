@@ -73,6 +73,7 @@ namespace LMS_WebAPI_ServiceHelpers
                     VerifiedUser.MangerEmail = userData.ManagerEmailId;
                     VerifiedUser.ManagerId = userData.ManagerId;
                     VerifiedUser.ProjectName = userData.ProjectName;
+                    VerifiedUser.CompOffTaken = userData.CompOffTaken;
                     VerifiedUser.DateOfJoining = Convert.ToDateTime(userData.DateOfJoining);
                 }
                 Logger.Info("Exiting from into UserManagement Service helper GetEmployeeDatailsForDashboard method ");
@@ -91,8 +92,8 @@ namespace LMS_WebAPI_ServiceHelpers
             try
             {
                 var skills = new List<MasterDataModel>();
-              //  var projects = new List<ProjectsList>();
-                var userData = user.GetUserProfileDetails(EmpId, out skills);
+                var projects = new List<ProjectsList>();
+                var userData = user.GetUserProfileDetails(EmpId, out skills,out projects);
                 var profileDetails = new EmployeeDetailsModel();
                 List<EmployeeEducationDetails> EEdetails = new List<EmployeeEducationDetails>();
                 profileDetails.FirstName = userData.FirstName;
@@ -149,7 +150,7 @@ namespace LMS_WebAPI_ServiceHelpers
 
                 }
                 profileDetails.Skills = employeeSkills;
-                //  profileDetails.Projects = projects;
+                  profileDetails.Projects = projects;
 
                 Logger.Info("Exiting from into UserManagement Service helper GetUserProfileDetails method ");
                 return profileDetails;

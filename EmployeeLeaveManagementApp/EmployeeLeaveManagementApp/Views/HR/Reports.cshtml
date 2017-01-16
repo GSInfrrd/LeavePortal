@@ -84,7 +84,7 @@
                 <div class="box-header with-border">
                     <h3 class="box-title">Employee Individual Report</h3>
                     <div class="pull-right box-tools">
-                        <button class="btn" data-toggle="tooltip" title="Export">
+                        <button class="btn" data-toggle="tooltip" id="btnExportIndividualReport" title="Export">
                             <i class="fa fa-file-excel-o"></i>
                         </button>
                         </div>
@@ -467,8 +467,12 @@
     );
     $(document).on('click', '#btnExportDetails', function (e) {
         var exportAs = $(this).data("content");
-        if ($("#ddlEmployeeName").val() == null && $("#ddlLeaveType").val() == null && $("#ddlExportType").val() == "0" && reportFromDate == undefined && reportToDate == undefined) {
-
+        if ($("#ddlEmployeeName").val() == null && $("#ddlLeaveType").val() == null && reportFromDate == undefined && reportToDate == undefined) {
+            showMessage("Select Employee Name,Leave Type and Date Range", "2", true);
+            $(".ddlEmployee").select2({
+                containerCssClass: "error"
+            });
+            return false;
         }
         var employeeId = $("#ddlEmployeeName").val();
         var leaveType = $("#ddlLeaveType").val();
@@ -484,6 +488,14 @@
             leaveData += leaveType[i] + ":";
         }
         window.location.href = "/HR/GenerateReports/?employeeId=" + data + "&leaveType=" + leaveData + "&exportAs=" + exportAs + "&fromDate=" + fromDate + "&toDate=" + toDate;
+    })
+
+    $(document).on('click', '#btnExportIndividualReport', function (e) {
+         if ($("#ddlEmployeeId").val() == null) {
+             showMessage("Select Employee Name", "2", true);
+        }
+         var employeeId = $("#ddlEmployeeId").val();      
+         window.location.href = "/HR/GenerateIndividualReport/?employeeId=" + employeeId;
     })
     function labelFormatter(label, series) {
         return '<div style="font-size:13px; text-align:center; padding:2px; color: #fff; font-weight: 600;position:absolute">'

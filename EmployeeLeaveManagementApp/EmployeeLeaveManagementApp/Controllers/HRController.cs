@@ -17,23 +17,23 @@ namespace EmployeeLeaveManagementApp.Controllers
         UserManagement userMgt = new UserManagement();
         HolidayManagement holidayManager = new HolidayManagement();
         // GET: HR
-        public  async Task<ActionResult> AddEmployeeDetails()
+        public async Task<ActionResult> AddEmployeeDetails()
         {
             Logger.Info("Entering in HRController APP AddEmployeeDetails method");
             try
             {
                 if (null != Session[Constants.SESSION_OBJ_USER])
-            {
-                var model = new List<EmployeeDetailsModel>();
-                model = await hrOperations.GetManagerListAsync(19);
-                Logger.Info("Successfully exiting from HRController APP AddEmployeeDetails method");
-                return View(model);
-            }
-            else
-            {
+                {
+                    var model = new List<EmployeeDetailsModel>();
+                    model = await hrOperations.GetManagerListAsync(19);
+                    Logger.Info("Successfully exiting from HRController APP AddEmployeeDetails method");
+                    return View(model);
+                }
+                else
+                {
                     Logger.Info("Successfully exiting from HRController APP AddEmployeeDetails method");
                     return RedirectToAction("Login", "Account");
-            }
+                }
             }
             catch (Exception ex)
             {
@@ -84,16 +84,16 @@ namespace EmployeeLeaveManagementApp.Controllers
             try
             {
                 if (null != Session[Constants.SESSION_OBJ_USER])
-            {
-                var model = await hrOperations.GetEmployeeListAsync();
+                {
+                    var model = await hrOperations.GetEmployeeListAsync();
                     Logger.Info("Successfully exiting from HRController APP Reports method");
                     return View(model);
-            }
-            else
-            {
+                }
+                else
+                {
                     Logger.Info("Successfully exiting from HRController APP Reports method");
                     return RedirectToAction("Login", "Account");
-            }
+                }
             }
             catch (Exception ex)
             {
@@ -107,15 +107,15 @@ namespace EmployeeLeaveManagementApp.Controllers
             try
             {
                 if (null != Session[Constants.SESSION_OBJ_USER])
-            {
-                Logger.Info("Successfully exiting from HRController APP CompanyAnnouncements method");
-                return View();
-            }
-            else
-            {
-                Logger.Info("Successfully exiting from HRController APP CompanyAnnouncements method");
-                return RedirectToAction("Login", "Account");
-            }
+                {
+                    Logger.Info("Successfully exiting from HRController APP CompanyAnnouncements method");
+                    return View();
+                }
+                else
+                {
+                    Logger.Info("Successfully exiting from HRController APP CompanyAnnouncements method");
+                    return RedirectToAction("Login", "Account");
+                }
             }
             catch (Exception ex)
             {
@@ -130,15 +130,15 @@ namespace EmployeeLeaveManagementApp.Controllers
             try
             {
                 if (null != Session[Constants.SESSION_OBJ_USER])
-            {
-                Logger.Info("Successfully exiting from HRController APP Broadcast method");
-                return View();
-            }
-            else
-            {
-                Logger.Info("Successfully exiting from HRController APP Broadcast method");
-                return RedirectToAction("Login", "Account");
-            }
+                {
+                    Logger.Info("Successfully exiting from HRController APP Broadcast method");
+                    return View();
+                }
+                else
+                {
+                    Logger.Info("Successfully exiting from HRController APP Broadcast method");
+                    return RedirectToAction("Login", "Account");
+                }
             }
             catch (Exception ex)
             {
@@ -153,15 +153,15 @@ namespace EmployeeLeaveManagementApp.Controllers
             try
             {
                 if (null != Session[Constants.SESSION_OBJ_USER])
-            {
+                {
                     Logger.Info("Successfully exiting from HRController APP AddMasterData method");
                     return View();
-            }
-            else
-            {
+                }
+                else
+                {
                     Logger.Info("Successfully exiting from HRController APP AddMasterData method");
                     return RedirectToAction("Login", "Account");
-            }
+                }
             }
             catch (Exception ex)
             {
@@ -169,12 +169,12 @@ namespace EmployeeLeaveManagementApp.Controllers
                 return View("Error");
             }
         }
-        public async Task<JsonResult> AddNewMasterDataValues(int masterDataType,string masterDataValue)
+        public async Task<JsonResult> AddNewMasterDataValues(int masterDataType, string masterDataValue)
         {
             Logger.Info("Entering in HRController APP AddNewMasterDataValues method");
             try
             {
-                var result =await hrOperations.AddNewMasterDataValuesAsync(masterDataType, masterDataValue);
+                var result = await hrOperations.AddNewMasterDataValuesAsync(masterDataType, masterDataValue);
                 Logger.Info("Successfully exiting from HRController APP AddNewMasterDataValues method");
                 return Json(new { result = result });
             }
@@ -317,18 +317,18 @@ namespace EmployeeLeaveManagementApp.Controllers
             try
             {
                 if (null != Session[Constants.SESSION_OBJ_USER])
-            {
+                {
                     var data = (UserAccount)Session[Constants.SESSION_OBJ_USER];
                     var model = new List<EmployeeDetailsModel>();
                     model = await hrOperations.GetEmployeeListAsync();
                     Logger.Info("Successfully exiting from HRController APP EmployeeDetails method");
                     return View(model);
-            }
-            else
-            {
+                }
+                else
+                {
                     Logger.Info("Successfully exiting from HRController APP EmployeeDetails method");
                     return RedirectToAction("Login", "Account");
-            }
+                }
             }
             catch (Exception ex)
             {
@@ -344,51 +344,62 @@ namespace EmployeeLeaveManagementApp.Controllers
             try
             {
                 LMS_WebAPP_Domain.EmployeeDetailsModel empModel = new LMS_WebAPP_Domain.EmployeeDetailsModel();
-            empModel.FirstName = model.FirstName;
-            empModel.LastName = model.LastName;
-            empModel.DateOfBirth = model.DateOfBirth;
-            empModel.Email = model.Email;
-            empModel.RefRoleId = model.RoleId;
-            empModel.DateOfJoining = model.DateOfJoining;
-            empModel.City = model.City;
-            empModel.Country = model.Country;
-            empModel.ImagePath=model.Imagepath;
-            empModel.EmployeeNumber = model.EmployeeNumber;
-            empModel.RefHierarchyLevel = model.RefHierarchyLevel;
-            empModel.ManagerName = model.ManagerName;
-            empModel.Telephone = model.Telephone;
-            List<EmployeeEducationDetails> eEduList = new List<EmployeeEducationDetails>();
-            foreach (var item in model.EmployeeEducation)
-            {
-                EmployeeEducationDetails eEduDetails = new EmployeeEducationDetails();
-                eEduDetails.Degree = item.Graduation;
-                eEduDetails.Institution = item.Institution;
-                eEduDetails.TimePeriod = item.FromDate + "~" + item.ToDate;
-                eEduList.Add(eEduDetails);
-            }
-            empModel.EmployeeEducationDetails = eEduList;
-            List<EmployeeExperienceDetails> eExpList = new List<EmployeeExperienceDetails>();
-            foreach (var item in model.EmployeeExperience)
-            {
-                EmployeeExperienceDetails eExpDetails = new EmployeeExperienceDetails();
-                eExpDetails.Company = item.CompanyName;
-                eExpDetails.Role = item.Role;
-                eExpDetails.TimePeriod = item.FromDate + "~" + item.ToDate;
-                eExpList.Add(eExpDetails);
-            }
-            empModel.EmployeeExperienceDetails = eExpList;
-            List<EmployeeSkillDetails> eSkillList = new List<EmployeeSkillDetails>();
-            foreach (var item in model.Skills)
-            {
-                EmployeeSkillDetails eSkills = new EmployeeSkillDetails();
-                eSkills.SkillName = item.SkillName;
-                eSkillList.Add(eSkills);
-            }
-            empModel.Skills = eSkillList;
+                empModel.FirstName = model.FirstName;
+                empModel.LastName = model.LastName;
+                empModel.DateOfBirth = model.DateOfBirth;
+                empModel.Email = model.Email;
+                empModel.RefRoleId = model.RoleId;
+                empModel.DateOfJoining = model.DateOfJoining;
+                empModel.City = model.City;
+                empModel.Country = model.Country;
+                empModel.ImagePath = model.Imagepath;
+                empModel.EmployeeNumber = model.EmployeeNumber;
+                empModel.RefHierarchyLevel = model.RefHierarchyLevel;
+                empModel.ManagerName = model.ManagerName;
+                empModel.Telephone = model.Telephone;
+                empModel.EmployeeType = model.EmployeeType;
+                List<EmployeeEducationDetails> eEduList = new List<EmployeeEducationDetails>();
+                foreach (var item in model.EmployeeEducation)
+                {
+                    EmployeeEducationDetails eEduDetails = new EmployeeEducationDetails();
+                    eEduDetails.Degree = item.Graduation;
+                    eEduDetails.Institution = item.Institution;
+                    eEduDetails.TimePeriod = item.FromDate + "~" + item.ToDate;
+                    eEduList.Add(eEduDetails);
+                }
+                empModel.EmployeeEducationDetails = eEduList;
+                List<EmployeeExperienceDetails> eExpList = new List<EmployeeExperienceDetails>();
+                foreach (var item in model.EmployeeExperience)
+                {
+                    EmployeeExperienceDetails eExpDetails = new EmployeeExperienceDetails();
+                    eExpDetails.Company = item.CompanyName;
+                    eExpDetails.Role = item.Role;
+                    eExpDetails.TimePeriod = item.FromDate + "~" + item.ToDate;
+                    eExpList.Add(eExpDetails);
+                }
+                empModel.EmployeeExperienceDetails = eExpList;
+                List<EmployeeSkillDetails> eSkillList = new List<EmployeeSkillDetails>();
+                foreach (var item in model.Skills)
+                {
+                    EmployeeSkillDetails eSkills = new EmployeeSkillDetails();
+                    eSkills.SkillName = item.SkillName;
+                    eSkillList.Add(eSkills);
+                }
+                empModel.Skills = eSkillList;
+                List<ProjectsList> projects = new List<ProjectsList>();
+                foreach (var item in model.Projects)
+                {
+                    ProjectsList project = new ProjectsList();
+                    project.Id = item.Id;
+                    projects.Add(project);
+                }
+                empModel.Projects = projects;
+                var data = await hrOperations.SubmitEmployeeDetailsAsync(empModel);
+                return Json(new { result = data });
 
-            var data = await hrOperations.SubmitEmployeeDetailsAsync(empModel);
-                Logger.Info("Successfully exiting from HRController APP SubmitEmployeeDetails method");
-                return View();
+                //var data = await hrOperations.SubmitEmployeeDetailsAsync(empModel);
+                //    Logger.Info("Successfully exiting from HRController APP SubmitEmployeeDetails method");
+                //    return View();
             }
             catch (Exception ex)
             {
@@ -397,35 +408,97 @@ namespace EmployeeLeaveManagementApp.Controllers
             }
         }
 
-        public async Task<ActionResult> GenerateReports(string employeeId,string leaveType, int exportAs,string fromDate,string toDate)
+        public async Task<ActionResult> GenerateReports(string employeeId, string leaveType, int exportAs, string fromDate, string toDate)
         {
             Logger.Info("Entering in HRController APP GenerateReports method");
             try
             {
                 if (null != Session[Constants.SESSION_OBJ_USER])
-            {
-                var model = new MemoryStream();            
-
-                model = await hrOperations.GenerateReportsAsync(exportAs,employeeId , leaveType,fromDate,toDate);
-                if (exportAs == 1)
                 {
-                        Logger.Info("Successfully exiting from HRController APP GenerateReports method");
-                        return File(model.GetBuffer(), "application/vnd.ms-excel", "LeaveReport_"+DateTime.Now.Day+"/"+DateTime.Now.Month+"/"+DateTime.Now.Year+".xls");
+                    var model = new List<ConsolidatedEmployeeLeaveDetailsModel>();
+                    var data = Array.ConvertAll(employeeId.TrimEnd(':').Split(':'), int.Parse);
+                    var leaveData = Array.ConvertAll(leaveType.TrimEnd(':').Split(':'), int.Parse);
+                    var detailsList = new List<DetailedLeaveReport>();
+                    model = await hrOperations.GenerateReportsAsync(employeeId, fromDate, toDate);
+                    detailsList = model[0].DetailedLeaveReports;
+
+                    string filterValue = String.Empty;
+                    var filtersList = new List<ExcelDownloadFilterList>();
+                    if (leaveData.Count() >= 1 && leaveData[0] != 0)
+                    {
+                        foreach (var item in leaveData)
+                        {
+                            filterValue = filterValue + ((ReportType)item).Description() + ",";
+                        }
+                        filterValue = filterValue.TrimEnd(',');
+                    }
+                    else
+                    {
+                        foreach (var value in Enum.GetValues(typeof(ReportType)).Cast<ReportType>().Select(v => v.Description()).ToList())
+                        {
+                            filterValue = filterValue + value + ", ";
+                        }
+                        filterValue = filterValue.Substring(0, filterValue.LastIndexOf(", "));
+                    }
+
+
+                    if (!String.IsNullOrEmpty(filterValue))
+                    {
+                        filtersList.Add(new ExcelDownloadFilterList()
+                        {
+                            FilterType = "Leave Type",
+                            FilterValue = filterValue
+                        });
+                    }
+                    string include = "RefEmployeeId,EmployeeName,";
+                    if (leaveData[0] == 0)
+                    {
+                        include += "AppliedLeavesCount,WorkFromHomeCount,LossofPayCount,CompOffCount,AdvancedLeavesCount";
+                    }
+                    else if (leaveData[0] != 0)
+                    {
+                        foreach (var item in leaveData)
+                        {
+                            switch (item)
+                            {
+
+                                case 1:
+                                    include += "AppliedLeavesCount,";
+                                    break;
+                                case 2:
+                                    include += "WorkFromHomeCount,";
+                                    break;
+                                case 3:
+                                    include += "LossofPayCount,";
+                                    break;
+                                case 4:
+                                    include += "CompOffCount,";
+                                    break;
+                                case 5:
+                                    include += "AdvancedLeavesCount,";
+                                    break;
+                            }
+                        }
+                    }
+                    include = include.TrimEnd(',');
+                    var file = CommonMethods.CreateDownloadExcel(model, detailsList, include, "", "Report", "Leave Report", filtersList);
+
+                    if (exportAs == 1)
+                    {
+                        return File(file.GetBuffer(), "application/vnd.ms-excel", "LeaveReport_" + DateTime.Now.Day + "/" + DateTime.Now.Month + "/" + DateTime.Now.Year + ".xls");
+                    }
+                    else
+                    {
+                        CommonMethods.SendMailWithMultipleAttachments("alekya@infrrd.ai", true, "Leave Report", "", file, "LeaveReportFile_" + DateTime.Now.Day + "/" + DateTime.Now.Month + "/" + DateTime.Now.Year);
+                        return Json(new { result = true });
+                    }
                 }
                 else
                 {
-                        CommonMethods.SendMailWithMultipleAttachments("alekya@infrrd.ai", true, "Leave Report", "", model, "LeaveReportFile_"+DateTime.Now.Day+"/"+DateTime.Now.Month+"/"+DateTime.Now.Year);
-                        Logger.Info("Successfully exiting from HRController APP GenerateReports method");
-                        return Json(new { result = true });
+                    return RedirectToAction("Login", "Account");
                 }
             }
-            else
-            {
-                    Logger.Info("Successfully exiting from HRController APP GenerateReports method");
-                    return RedirectToAction("Login", "Account");
-            }
-            }
-            catch (Exception ex)
+            catch(Exception ex)
             {
                 Logger.Error("Error at HRController APP GenerateReports method.", ex);
                 return View("Error");
@@ -439,11 +512,11 @@ namespace EmployeeLeaveManagementApp.Controllers
             {
                 var model = new ConsolidatedEmployeeLeaveDetailsModel();
 
-            if (null != Session[Constants.SESSION_OBJ_USER])
-            {
-                 model = await hrOperations.GetChartDetailsAsync(employeeId);
-            
-            }
+                if (null != Session[Constants.SESSION_OBJ_USER])
+                {
+                    model = await hrOperations.GetChartDetailsAsync(employeeId);
+
+                }
                 Logger.Info("Successfully exiting from HRController APP GetChartDetails method");
                 return Json(new { result = model });
             }
@@ -454,18 +527,18 @@ namespace EmployeeLeaveManagementApp.Controllers
             }
         }
 
-        public async Task<JsonResult> AddNewProjectInfo(string projectName,string description,string technology,DateTime startDate,int refManager)
+        public async Task<JsonResult> AddNewProjectInfo(string projectName, string description, string technology, DateTime startDate, int refManager)
         {
             Logger.Info("Entering in HRController APP AddNewProjectInfo method");
             try
             {
                 var model = false;
 
-            if (null != Session[Constants.SESSION_OBJ_USER])
-            {
-                 model = await hrOperations.AddNewProjectInfoAsync(projectName,description,technology,startDate,refManager);
+                if (null != Session[Constants.SESSION_OBJ_USER])
+                {
+                    model = await hrOperations.AddNewProjectInfoAsync(projectName, description, technology, startDate, refManager);
 
-            }
+                }
                 Logger.Info("Successfully exiting from HRController APP AddNewProjectInfo method");
                 return Json(new { result = model });
             }
@@ -476,6 +549,34 @@ namespace EmployeeLeaveManagementApp.Controllers
             }
         }
 
+
+        public async Task<ActionResult> GenerateIndividualReport(int employeeId)
+        {
+            Logger.Info("Entering in HRController APP GenerateIndividualReport method");
+            try
+            {
+                if (null != Session[Constants.SESSION_OBJ_USER])
+                {
+                    var detailsList = new List<DetailedLeaveReport>();
+                    string include = "RefEmployeeId,EmployeeName,AppliedLeavesCount,WorkFromHomeCount,LossofPayCount,CompOffCount,AdvancedLeavesCount";
+
+                    var filtersList = new List<ExcelDownloadFilterList>();
+                    var model = await hrOperations.GenerateIndividualReportAsync(employeeId);
+                    var file = CommonMethods.CreateDownloadExcel(model, detailsList, include, "", "Report", "Individual Leave Report", null);
+
+                    return File(file.GetBuffer(), "application/vnd.ms-excel", "LeaveReport_" + DateTime.Now.Day + "/" + DateTime.Now.Month + "/" + DateTime.Now.Year + ".xls");
+                }
+                else
+                {
+                    return RedirectToAction("Login", "Account");
+                }
+            }
+            catch(Exception ex)
+            {
+                Logger.Error("Error at HRController APP GenerateIndividualReport method.", ex);
+                return View("Error");
+            }
+        }
 
     }
 }

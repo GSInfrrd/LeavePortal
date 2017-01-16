@@ -87,22 +87,22 @@ namespace EmployeeLeaveManagementApp.Controllers
             {
                 Logger.Info("Entering in AccountController APP Profile method");
                 if (null != Session[LMS_WebAPP_Utils.Constants.SESSION_OBJ_USER])
-            {
-                var data = (UserAccount)Session[LMS_WebAPP_Utils.Constants.SESSION_OBJ_USER];
-                EmployeeDetailsModel datares = await user.GetUserProfileDetails(data.RefEmployeeId);
-                List<string> col = new List<string>() { "danger", "info", "warning", "success" };
-                datares.Colors = col;
-                Models.LoginModel model = new Models.LoginModel();
-                model.EmpName = data.UserName;
-                model.UserName = data.UserName;
-                //model.Projectname = datares.ProjectName;
-                //model.ManagerName = datares.ManagerName;
-                model.DateOfJoining = DateTime.Now;
-                //model.RoleName = datares.RoleName;
-                Logger.Info("Successfully exiting from AccountController APP Profile method");
-                return View(datares);
-            }
-            return View("Login");
+                {
+                    var data = (UserAccount)Session[LMS_WebAPP_Utils.Constants.SESSION_OBJ_USER];
+                    EmployeeDetailsModel datares = await user.GetUserProfileDetails(data.RefEmployeeId);
+                    List<string> col = new List<string>() { "danger", "info", "warning", "success" };
+                    datares.Colors = col;
+                    Models.LoginModel model = new Models.LoginModel();
+                    model.EmpName = data.UserName;
+                    model.UserName = data.UserName;
+                    //model.Projectname = datares.ProjectName;
+                    //model.ManagerName = datares.ManagerName;
+                    model.DateOfJoining = DateTime.Now;
+                    //model.RoleName = datares.RoleName;
+                    Logger.Info("Successfully exiting from AccountController APP Profile method");
+                    return View(datares);
+                }
+                return View("Login");
             }
             catch (Exception ex)
             {
@@ -118,46 +118,46 @@ namespace EmployeeLeaveManagementApp.Controllers
             {
                 Logger.Info("Entering in AccountController APP Login with loginModel method");
                 if (ModelState.IsValid)
-            {
-
-                if (null == Session[LMS_WebAPP_Utils.Constants.SESSION_OBJ_USER])
                 {
-                    // var encryptedPassword = CommonMethods.EncryptDataForLogins(model.UserName, model.Password);
-                    var data = await user.GetUserAsync(model.UserName, model.Password);
-                    if (null != data && data.RefEmployeeId != 0)
+
+                    if (null == Session[LMS_WebAPP_Utils.Constants.SESSION_OBJ_USER])
                     {
-                        // var dataemp = await user.GetUserDetaiilsAsync(data.RefEmployeeId);
-                        #region Cookie setup with remember me
-                        if (model.RememberMe) //adding cookies for the user
+                        // var encryptedPassword = CommonMethods.EncryptDataForLogins(model.UserName, model.Password);
+                        var data = await user.GetUserAsync(model.UserName, model.Password);
+                        if (null != data && data.RefEmployeeId != 0)
                         {
-                            var aCookie = new HttpCookie("dguser-" + model.UserName);
-                            aCookie.Values.Add("USER_NAME", CommonMethods.EncryptString(model.UserName));
-                            aCookie.Values.Add("PASS", CommonMethods.EncryptString(model.Password));
-                            aCookie.Expires = DateTime.Now.AddDays(7);
-                            Response.Cookies.Add(aCookie);
-                        }
-                        else //To delete cookies if remember is false
-                        {
-                            var myCookie = new HttpCookie("dguser-" + model.UserName);
-                            myCookie.Expires = DateTime.Now.AddDays(-1d);
-                            Response.Cookies.Add(myCookie);
-                        }
-                        #endregion
-                        Session[LMS_WebAPP_Utils.Constants.SESSION_OBJ_USER] = data;
-                        ViewBag.UserExist = true;
+                            // var dataemp = await user.GetUserDetaiilsAsync(data.RefEmployeeId);
+                            #region Cookie setup with remember me
+                            if (model.RememberMe) //adding cookies for the user
+                            {
+                                var aCookie = new HttpCookie("dguser-" + model.UserName);
+                                aCookie.Values.Add("USER_NAME", CommonMethods.EncryptString(model.UserName));
+                                aCookie.Values.Add("PASS", CommonMethods.EncryptString(model.Password));
+                                aCookie.Expires = DateTime.Now.AddDays(7);
+                                Response.Cookies.Add(aCookie);
+                            }
+                            else //To delete cookies if remember is false
+                            {
+                                var myCookie = new HttpCookie("dguser-" + model.UserName);
+                                myCookie.Expires = DateTime.Now.AddDays(-1d);
+                                Response.Cookies.Add(myCookie);
+                            }
+                            #endregion
+                            Session[LMS_WebAPP_Utils.Constants.SESSION_OBJ_USER] = data;
+                            ViewBag.UserExist = true;
                             return RedirectToAction("Dashboard");
-                    
-                    }
-                    ViewBag.UserExist = false;
-                    return View();
-                }
-                else
-                {
-                    return RedirectToAction("Dashboard");
-                }
 
-            }
-            ViewBag.userExist = true;
+                        }
+                        ViewBag.UserExist = false;
+                        return View();
+                    }
+                    else
+                    {
+                        return RedirectToAction("Dashboard");
+                    }
+
+                }
+                ViewBag.userExist = true;
                 Logger.Info("Successfully exiting from AccountController APP Login with loginModel method");
                 return View();
             }
@@ -195,13 +195,13 @@ namespace EmployeeLeaveManagementApp.Controllers
             Logger.Info("Entering in AccountController APP Calender method");
             try
             {
-            var data = new List<CalendarEvents>();
-            var holidayMgt = new HolidayManagement();
+                var data = new List<CalendarEvents>();
+                var holidayMgt = new HolidayManagement();
 
-            var employeeId = ((UserAccount)Session[LMS_WebAPP_Utils.Constants.SESSION_OBJ_USER]).RefEmployeeId;
-            Task.Run(async () => { data = await holidayMgt.GetCalendarEventsAsync(employeeId); }).Wait();
-            Logger.Info("Successfully exiting from AccountController APP Calender method");
-            return PartialView("_Calender", data);
+                var employeeId = ((UserAccount)Session[LMS_WebAPP_Utils.Constants.SESSION_OBJ_USER]).RefEmployeeId;
+                Task.Run(async () => { data = await holidayMgt.GetCalendarEventsAsync(employeeId); }).Wait();
+                Logger.Info("Successfully exiting from AccountController APP Calender method");
+                return PartialView("_Calender", data);
             }
             catch (Exception ex)
             {
@@ -212,45 +212,48 @@ namespace EmployeeLeaveManagementApp.Controllers
         }
 
         public async Task<ActionResult> Dashboard()
+
         {
             Logger.Info("Entering in AccountController APP Dashboard method");
             try
             {
                 if (null != Session[LMS_WebAPP_Utils.Constants.SESSION_OBJ_USER])
-            {
-                var data = (UserAccount)Session[LMS_WebAPP_Utils.Constants.SESSION_OBJ_USER];
-                EmployeeDetailsModel datares = await user.GetUserDetailsAsync(data.RefEmployeeId);
-                data.ManagerId = datares.ManagerId;
-                data.TotalCasualLeave = datares.TotalCasualLeave;
-                data.TotalAdvanceLeaveTotake = datares.TotalAdvanceLeaveTotake;
-                data.ManagerEmail = datares.MangerEmail;
-                data.TotalLOPLImit = datares.TotalLOPLImit;
-                Session[LMS_WebAPP_Utils.Constants.SESSION_OBJ_USER] = data;
-                Models.LoginModel model = new Models.LoginModel();
-                model.EmpName = data.UserName;
-                model.UserName = data.UserName;
-                model.Projectname = datares.ProjectName;
-                model.ManagerName = datares.ManagerName;
-                model.TotalLeaveCount = Convert.ToInt16(datares.TotalLeaveCount);
-                model.TotalApplied = datares.TotalApplied;
-                model.TotalSpent = datares.TotalSpent;
-                model.TotalWorkFromHome = (datares.TotalWorkFromHome != null) ? Convert.ToInt16(datares.TotalWorkFromHome) : 0;
-                model.TotalLeft = Convert.ToInt16(datares.TotalLeaveCount - datares.TotalSpent);
-                model.DateOfJoining = DateTime.Now;
-                model.RoleName = datares.RoleName;
-                model.Announcements = new List<Models.Announcement>();
-                foreach (var item in datares.Announcements)
                 {
-                    Models.Announcement announceItem = new Models.Announcement();
-                    announceItem.ImagePath = item.ImagePath;
-                    announceItem.CarouselContent = item.CarouselContent;
-                    announceItem.Title = item.Title;
-                    model.Announcements.Add(announceItem);
+                    var data = (UserAccount)Session[LMS_WebAPP_Utils.Constants.SESSION_OBJ_USER];
+                    EmployeeDetailsModel datares = await user.GetUserDetailsAsync(data.RefEmployeeId);
+                    data.ManagerId = datares.ManagerId;
+                    data.TotalCasualLeave = datares.TotalCasualLeave;
+                    data.TotalAdvanceLeaveTotake = datares.TotalAdvanceLeaveTotake;
+                    data.ManagerEmail = datares.MangerEmail;
+                    data.TotalLOPLImit = datares.TotalLOPLImit;
+                    data.LOPRemaining = datares.LOPRemaining;
+                    Session[LMS_WebAPP_Utils.Constants.SESSION_OBJ_USER] = data;
+                    Models.LoginModel model = new Models.LoginModel();
+                    model.EmpName = data.UserName;
+                    model.UserName = data.UserName;
+                    model.Projectname = datares.ProjectName;
+                    model.ManagerName = datares.ManagerName;
+                    model.TotalLeaveCount = Convert.ToInt16(datares.TotalLeaveCount);
+                    model.TotalApplied = datares.TotalApplied;
+                    model.TotalSpent = datares.TotalSpent;
+                    model.CompOffTaken =datares.CompOffTaken!=null? (int) datares.CompOffTaken:0;
+                    model.TotalWorkFromHome = (datares.TotalWorkFromHome != null) ? Convert.ToInt16(datares.TotalWorkFromHome) : 0;
+                    model.TotalLeft = datares.TotalLeaveCount != 0 ? Convert.ToInt16(datares.TotalLeaveCount - datares.TotalSpent) : 0;
+                    model.DateOfJoining = DateTime.Now;
+                    model.RoleName = datares.RoleName;
+                    model.Announcements = new List<Models.Announcement>();
+                    foreach (var item in datares.Announcements)
+                    {
+                        Models.Announcement announceItem = new Models.Announcement();
+                        announceItem.ImagePath = item.ImagePath;
+                        announceItem.CarouselContent = item.CarouselContent;
+                        announceItem.Title = item.Title;
+                        model.Announcements.Add(announceItem);
+                    }
+                    model.LeaveDetails = datares.LeaveDetails;
+                    // model.Announcements = (Models.Announcement)datares.Announcements;
+                    return View(model);
                 }
-                model.LeaveDetails = datares.LeaveDetails;
-                // model.Announcements = (Models.Announcement)datares.Announcements;
-                return View(model);
-            }
                 Logger.Info("Successfully exiting from AccountController APP Dashboard method");
                 return View("Login");
             }
@@ -267,12 +270,12 @@ namespace EmployeeLeaveManagementApp.Controllers
             try
             {
                 if (null != Session[LMS_WebAPP_Utils.Constants.SESSION_OBJ_USER])
-            {
-                var data = (UserAccount)Session[LMS_WebAPP_Utils.Constants.SESSION_OBJ_USER];
-                LeaveReportModel datares = await user.GetLeaveReportDetails(data.RefEmployeeId, year);
-                // model.Announcements = (Models.Announcement)datares.Announcements;
-                return Json(new { result = datares });
-            }
+                {
+                    var data = (UserAccount)Session[LMS_WebAPP_Utils.Constants.SESSION_OBJ_USER];
+                    LeaveReportModel datares = await user.GetLeaveReportDetails(data.RefEmployeeId, year);
+                    // model.Announcements = (Models.Announcement)datares.Announcements;
+                    return Json(new { result = datares });
+                }
                 Logger.Info("Successfully exiting from AccountController APP GetLeaveReportDetails method");
                 return View("Login");
             }
@@ -301,20 +304,20 @@ namespace EmployeeLeaveManagementApp.Controllers
             try
             {
                 if (null != Session[LMS_WebAPP_Utils.Constants.SESSION_OBJ_USER])
-            {
-                var data = (UserAccount)Session[LMS_WebAPP_Utils.Constants.SESSION_OBJ_USER];
-                EmployeeDetailsModel datares = await user.GetUserProfileDetails(id);
-                List<string> col = new List<string>() { "danger", "info", "warning", "success", "primary" };
-                datares.Colors = col;
-                //Models.LoginModel model = new Models.LoginModel();
-                //model.EmpName = data.UserName;
-                //model.UserName = data.UserName;
-                //model.Projectname = datares.ProjectName;
-                //model.ManagerName = datares.ManagerName;
-                //model.DateOfJoining = DateTime.Now;
-                //model.RoleName = datares.RoleName;
-                return View("Profile", datares);
-            }
+                {
+                    var data = (UserAccount)Session[LMS_WebAPP_Utils.Constants.SESSION_OBJ_USER];
+                    EmployeeDetailsModel datares = await user.GetUserProfileDetails(id);
+                    List<string> col = new List<string>() { "danger", "info", "warning", "success", "primary" };
+                    datares.Colors = col;
+                    //Models.LoginModel model = new Models.LoginModel();
+                    //model.EmpName = data.UserName;
+                    //model.UserName = data.UserName;
+                    //model.Projectname = datares.ProjectName;
+                    //model.ManagerName = datares.ManagerName;
+                    //model.DateOfJoining = DateTime.Now;
+                    //model.RoleName = datares.RoleName;
+                    return View("Profile", datares);
+                }
                 Logger.Info("Successfully exiting from AccountController APP ProfileDetails method");
                 return View("Login");
             }
@@ -351,7 +354,7 @@ namespace EmployeeLeaveManagementApp.Controllers
                     return View("Login");
                 }
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 Logger.Error("Error at AccountController APP DownloadPDF method.", ex);
                 return View("Error");
@@ -364,19 +367,19 @@ namespace EmployeeLeaveManagementApp.Controllers
             try
             {
                 if (null != Session[LMS_WebAPP_Utils.Constants.SESSION_OBJ_USER])
-            {
-                var data = (UserAccount)Session[LMS_WebAPP_Utils.Constants.SESSION_OBJ_USER];
-                EmployeeDetailsModel datares = await user.GetUserProfileDetails(data.RefEmployeeId);
-                List<string> col = new List<string>() { "danger", "info", "warning", "success" };
-                datares.Colors = col;
+                {
+                    var data = (UserAccount)Session[LMS_WebAPP_Utils.Constants.SESSION_OBJ_USER];
+                    EmployeeDetailsModel datares = await user.GetUserProfileDetails(data.RefEmployeeId);
+                    List<string> col = new List<string>() { "danger", "info", "warning", "success" };
+                    datares.Colors = col;
                     Logger.Info("Successfully exiting from AccountController APP ProfileDownload method");
                     return View(datares);
-            }
-            else
-            {
+                }
+                else
+                {
                     Logger.Info("Successfully exiting from AccountController APP ProfileDownload method");
                     return View("Login");
-            }
+                }
             }
             catch (Exception ex)
             {
@@ -428,7 +431,7 @@ namespace EmployeeLeaveManagementApp.Controllers
             }
         }
 
-    
+
         [AllowAnonymous]
         public async Task<ActionResult> ExternalLoginConfirmation(ExternalLoginConfirmationViewModel model, string returnUrl)
         {
@@ -436,52 +439,52 @@ namespace EmployeeLeaveManagementApp.Controllers
             try
             {
                 if (User.Identity.IsAuthenticated)
-            {
-                var emailDomain = model.Email.Split('@')[1];
-                if (emailDomain == "infrrd.ai")
                 {
-                    var data = await user.GetUserAsync(model.Email, string.Empty);
-                    if (data.Id != 0)
+                    var emailDomain = model.Email.Split('@')[1];
+                    if (emailDomain == "infrrd.ai")
                     {
-                        Session[LMS_WebAPP_Utils.Constants.SESSION_OBJ_USER] = data;
-                        return RedirectToAction("Dashboard");
+                        var data = await user.GetUserAsync(model.Email, string.Empty);
+                        if (data.Id != 0)
+                        {
+                            Session[LMS_WebAPP_Utils.Constants.SESSION_OBJ_USER] = data;
+                            return RedirectToAction("Dashboard");
+                        }
+                        else
+                        {
+                            TempData["LoginError"] = "Account has not been Registered.Please Contact HR!";
+                            return RedirectToAction("Login");
+                        }
                     }
                     else
                     {
-                        TempData["LoginError"] = "Account has not been Registered.Please Contact HR!";
+                        TempData["LoginError"] = "Kindly login with Infrrd Email(eg:xxxx@infrrd.ai)";
                         return RedirectToAction("Login");
                     }
                 }
-                else
-                {
-                    TempData["LoginError"] = "Kindly login with Infrrd Email(eg:xxxx@infrrd.ai)";
-                    return RedirectToAction("Login");
-                }
-            }
 
-            if (ModelState.IsValid)
-            {
-                // Get the information about the user from the external login provider
-                var info = await AuthenticationManager.GetExternalLoginInfoAsync();
-                if (info == null)
+                if (ModelState.IsValid)
                 {
-                    return View("ExternalLoginFailure");
-                }
-                var user = new ApplicationUser { UserName = model.Email, Email = model.Email };
-                var result = await UserManager.CreateAsync(user);
-                if (result.Succeeded)
-                {
-                    result = await UserManager.AddLoginAsync(user.Id, info.Login);
+                    // Get the information about the user from the external login provider
+                    var info = await AuthenticationManager.GetExternalLoginInfoAsync();
+                    if (info == null)
+                    {
+                        return View("ExternalLoginFailure");
+                    }
+                    var user = new ApplicationUser { UserName = model.Email, Email = model.Email };
+                    var result = await UserManager.CreateAsync(user);
                     if (result.Succeeded)
                     {
-                        await SignInManager.SignInAsync(user, isPersistent: false, rememberBrowser: false);
-                        return RedirectToLocal(returnUrl);
+                        result = await UserManager.AddLoginAsync(user.Id, info.Login);
+                        if (result.Succeeded)
+                        {
+                            await SignInManager.SignInAsync(user, isPersistent: false, rememberBrowser: false);
+                            return RedirectToLocal(returnUrl);
+                        }
                     }
+                    AddErrors(result);
                 }
-                AddErrors(result);
-            }
 
-            ViewBag.ReturnUrl = returnUrl;
+                ViewBag.ReturnUrl = returnUrl;
                 Logger.Info("Successfully exiting from AccountController APP ExternalLoginConfirmation method");
                 return View(model);
             }
@@ -499,9 +502,9 @@ namespace EmployeeLeaveManagementApp.Controllers
             try
             {
                 if (Url.IsLocalUrl(returnUrl))
-            {
-                return Redirect(returnUrl);
-            }
+                {
+                    return Redirect(returnUrl);
+                }
                 Logger.Info("Successfully exiting from AccountController APP RedirectToLocal method");
                 return RedirectToAction("Dashboard", "Account");
             }
@@ -543,9 +546,9 @@ namespace EmployeeLeaveManagementApp.Controllers
             try
             {
                 foreach (var error in result.Errors)
-            {
-                ModelState.AddModelError("", error);
-            }
+                {
+                    ModelState.AddModelError("", error);
+                }
                 Logger.Info("Successfully exiting from AccountController APP AddErrors method");
             }
             catch (Exception ex)

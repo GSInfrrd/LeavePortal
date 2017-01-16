@@ -90,6 +90,7 @@
           <Property Name="SpentAdvanceLeave" Type="int" />
           <Property Name="TakenLossOfPay" Type="int" />
           <Property Name="EarnedCasualLeave" Type="int" />
+          <Property Name="TakenCompOff" Type="int" />
         </EntityType>
         <EntityType Name="EmployeeLeaveTransaction">
           <Key>
@@ -239,7 +240,7 @@
           <Property Name="Ticket" Type="varchar" MaxLength="250" />
           <Property Name="CreatedDate" Type="datetime2" Precision="7" Nullable="false" />
           <Property Name="UpdatedDate" Type="datetime2" Precision="7" Nullable="false" />
-          <Property Name="Status" Type="varchar" MaxLength="250" />
+          <Property Name="Status" Type="int" Nullable="false" />
         </EntityType>
         <EntityType Name="UserAccount">
           <Key>
@@ -631,6 +632,18 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_ResourceRequestDetail_EmployeeDetails">
+          <End Role="EmployeeDetails" Type="Self.EmployeeDetails" Multiplicity="1" />
+          <End Role="ResourceRequestDetail" Type="Self.ResourceRequestDetail" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="EmployeeDetails">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="ResourceRequestDetail">
+              <PropertyRef Name="RequestFromId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_WorkFromHome_refEmpID">
           <End Role="EmployeeDetails" Type="Self.EmployeeDetails" Multiplicity="1" />
           <End Role="WorkFromHome" Type="Self.WorkFromHome" Multiplicity="*" />
@@ -805,6 +818,10 @@
             <End Role="EmployeeDetails" EntitySet="EmployeeDetails" />
             <End Role="ProjectMaster" EntitySet="ProjectMaster" />
           </AssociationSet>
+          <AssociationSet Name="FK_ResourceRequestDetail_EmployeeDetails" Association="Self.FK_ResourceRequestDetail_EmployeeDetails">
+            <End Role="EmployeeDetails" EntitySet="EmployeeDetails" />
+            <End Role="ResourceRequestDetail" EntitySet="ResourceRequestDetail" />
+          </AssociationSet>
           <AssociationSet Name="FK_WorkFromHome_refEmpID" Association="Self.FK_WorkFromHome_refEmpID">
             <End Role="EmployeeDetails" EntitySet="EmployeeDetails" />
             <End Role="WorkFromHome" EntitySet="WorkFromHome" />
@@ -883,6 +900,7 @@
           <NavigationProperty Name="EmployeeLeaveMasters1" Relationship="LeaveManagementSystemModel.FK_EmployeeLeaveMaster_EmployeeDetails" FromRole="EmployeeDetail" ToRole="EmployeeLeaveMaster" />
           <NavigationProperty Name="EmployeeRewardedLeaveDetails" Relationship="LeaveManagementSystemModel.FK_EmployeeRewardedLeaveDetails_EmployeeDetails" FromRole="EmployeeDetail" ToRole="EmployeeRewardedLeaveDetail" />
           <NavigationProperty Name="EmployeeRewardedLeaveDetails1" Relationship="LeaveManagementSystemModel.FK_EmployeeRewardedLeaveDetails_EmployeeDetails1" FromRole="EmployeeDetail" ToRole="EmployeeRewardedLeaveDetail" />
+          <NavigationProperty Name="ResourceRequestDetails" Relationship="LeaveManagementSystemModel.FK_ResourceRequestDetail_EmployeeDetails" FromRole="EmployeeDetail" ToRole="ResourceRequestDetail" />
         </EntityType>
         <EntityType Name="EmployeeProjectDetail">
           <Key>
@@ -1274,6 +1292,10 @@
             <End Role="ProjectMaster" EntitySet="ProjectMasters" />
             <End Role="EmployeeRewardedLeaveDetail" EntitySet="EmployeeRewardedLeaveDetails" />
           </AssociationSet>
+          <AssociationSet Name="FK_ResourceRequestDetail_EmployeeDetails" Association="LeaveManagementSystemModel.FK_ResourceRequestDetail_EmployeeDetails">
+            <End Role="EmployeeDetail" EntitySet="EmployeeDetails" />
+            <End Role="ResourceRequestDetail" EntitySet="ResourceRequestDetails" />
+          </AssociationSet>
         </EntityContainer>
         <EntityType Name="Announcement">
           <Key>
@@ -1626,7 +1648,8 @@
           <Property Name="Ticket" Type="String" MaxLength="250" FixedLength="false" Unicode="false" />
           <Property Name="CreatedDate" Type="DateTime" Nullable="false" Precision="7" />
           <Property Name="UpdatedDate" Type="DateTime" Nullable="false" Precision="7" />
-          <Property Name="Status" Type="String" MaxLength="250" FixedLength="false" Unicode="false" />
+          <Property Name="Status" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="EmployeeDetail" Relationship="LeaveManagementSystemModel.FK_ResourceRequestDetail_EmployeeDetails" FromRole="ResourceRequestDetail" ToRole="EmployeeDetail" />
         </EntityType>
         <Association Name="FK_EmployeeDetails_MasterDataValue1">
           <End Type="LeaveManagementSystemModel.MasterDataValue" Role="MasterDataValue" Multiplicity="1" />
@@ -1678,6 +1701,7 @@
           <Property Name="SpentAdvanceLeave" Type="Int32" />
           <Property Name="TakenLossOfPay" Type="Int32" />
           <Property Name="EarnedCasualLeave" Type="Int32" />
+          <Property Name="TakenCompOff" Type="Int32" />
         </EntityType>
         <Association Name="FK_ConsolidatedEmployeeLeaveDetails_EmployeeDetails">
           <End Type="LeaveManagementSystemModel.EmployeeDetail" Role="EmployeeDetail" Multiplicity="1" />
@@ -1750,6 +1774,18 @@
             </Principal>
             <Dependent Role="EmployeeRewardedLeaveDetail">
               <PropertyRef Name="RefProjectId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ResourceRequestDetail_EmployeeDetails">
+          <End Type="LeaveManagementSystemModel.EmployeeDetail" Role="EmployeeDetail" Multiplicity="1" />
+          <End Type="LeaveManagementSystemModel.ResourceRequestDetail" Role="ResourceRequestDetail" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="EmployeeDetail">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="ResourceRequestDetail">
+              <PropertyRef Name="RequestFromId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -2035,6 +2071,7 @@
           <EntitySetMapping Name="EmployeeLeaveMasters">
             <EntityTypeMapping TypeName="LeaveManagementSystemModel.EmployeeLeaveMaster">
               <MappingFragment StoreEntitySet="EmployeeLeaveMaster">
+                <ScalarProperty Name="TakenCompOff" ColumnName="TakenCompOff" />
                 <ScalarProperty Name="EarnedCasualLeave" ColumnName="EarnedCasualLeave" />
                 <ScalarProperty Name="TakenLossOfPay" ColumnName="TakenLossOfPay" />
                 <ScalarProperty Name="SpentAdvanceLeave" ColumnName="SpentAdvanceLeave" />

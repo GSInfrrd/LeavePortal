@@ -66,14 +66,35 @@ namespace LMS_WebAPI_DAL.Repositories
                     var ApproverId = leaveDetails.RefApproverId;
                     int Status = 1;
                     int NotificationType = 27;
-                    if (Leavestatus == "Approved")
+                    if (Leavestatus ==CommonMethods.Description(LeaveStatus.Approved))
                     {
                         leaveDetails.EmployeeLeaveTransaction.RefStatus = 12;
                         leaveDetails.ManagerComments = Leavecomments;
                         ctx.SaveChanges();
                         insertintoLeaveHistory(leaveDetails);
                         deletefromworkflow(Leaveid);
+                        var leaveMaster = ctx.EmployeeLeaveMasters.FirstOrDefault(i => i.RefEmployeeId == EmployeeId);
+                        if (leaveDetails.EmployeeLeaveTransaction.RefLeaveType == (int)LMS_WebAPI_Utils.LeaveType.CasualLeave || leaveDetails.EmployeeLeaveTransaction.RefLeaveType == (int)LMS_WebAPI_Utils.LeaveType.SickLeave)
+                        {
 
+                            leaveMaster.EarnedCasualLeave = Convert.ToInt32((Double)leaveMaster.EarnedCasualLeave - leaveDetails.EmployeeLeaveTransaction.NumberOfWorkingDays);
+
+                        }
+                        else if (leaveDetails.EmployeeLeaveTransaction.RefLeaveType == (int)LMS_WebAPI_Utils.LeaveType.AdvanceLeave)
+                        {
+                            leaveMaster.EarnedCasualLeave = Convert.ToInt32((Double)leaveMaster.EarnedCasualLeave - leaveDetails.EmployeeLeaveTransaction.NumberOfWorkingDays);
+
+                            leaveMaster.SpentAdvanceLeave = (int)leaveDetails.EmployeeLeaveTransaction.NumberOfWorkingDays;
+                        }
+                        else if (leaveDetails.EmployeeLeaveTransaction.RefLeaveType == (int)LMS_WebAPI_Utils.LeaveType.LOP)
+                        {
+                            leaveMaster.TakenLossOfPay = (int)leaveDetails.EmployeeLeaveTransaction.NumberOfWorkingDays;
+                        }
+                        else if (leaveDetails.EmployeeLeaveTransaction.RefLeaveType == (int)LMS_WebAPI_Utils.LeaveType.CompOff)
+                        {
+                            leaveMaster.TakenCompOff = (int)leaveDetails.EmployeeLeaveTransaction.NumberOfWorkingDays;
+                        }
+                        ctx.SaveChanges();
                         var ManagerDetails = ctx.EmployeeDetails.FirstOrDefault(x => x.Id == ApproverId);
                         string ManagerName = ManagerDetails.FirstName;
                         if (ManagerDetails.LastName != null)

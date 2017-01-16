@@ -159,5 +159,40 @@ namespace LMS_WebAPP_ServiceHelpers
             }
         }
 
+        public async Task<LeaveTransactionResponse> CheckLeaveAvailabilityAsync(int employeeId, DateTime fromDate, DateTime toDate,int leaveType)
+        {
+            Logger.Info("Entering into EmployeeLeaveTransactionManagement APP Service helper CheckLeaveAvailabilityAsync method ");
+
+            try
+            {
+                HttpClient client = new HttpClient();
+                URL = "http://localhost:64476/api/AddLeave/CheckLeaveAvailability";
+                var urlParameters = "?employeeId=" + employeeId + "&fromDate=" + fromDate + "&toDate=" + toDate + "&leaveType=" + leaveType; ;
+
+                client.BaseAddress = new Uri(URL);
+
+                // Add an Accept header for JSON format.
+                client.DefaultRequestHeaders.Accept.Add(
+                new MediaTypeWithQualityHeaderValue("application/json"));
+
+                // List data response.
+                HttpResponseMessage response = await client.GetAsync(urlParameters);  // Blocking call!
+                if (response.IsSuccessStatusCode)
+                {
+                    // Parse the response body. Blocking!
+                    var dataObjects = response.Content.ReadAsAsync<LeaveTransactionResponse>().Result;
+                    return dataObjects;
+
+                }
+                return null;
+            }
+            catch
+            {
+                Logger.Info("Exception occured at EmployeeLeaveTransactionManagement APP Service helper CheckLeaveAvailabilityAsync method ");
+                throw;
+            }
+        }
+       
+
     }
 }

@@ -24,10 +24,10 @@ namespace EmployeeLeaveManagementApp.Controllers
                 if (null != Session[Constants.SESSION_OBJ_USER])
                 {
                     var data = (UserAccount)Session[Constants.SESSION_OBJ_USER];
-                    IList<LeaveTransaction> les = new List<LeaveTransaction>();
-                    les = await ELTM.GetEmployeeLeaveTransactionAsync(data.RefEmployeeId);
+                    IList<LeaveTransaction> leaveTransactionList = new List<LeaveTransaction>();
+                    leaveTransactionList = await ELTM.GetEmployeeLeaveTransactionAsync(data.RefEmployeeId);
                     Logger.Info("Successfully exiting from ApplyLeaveController APP ApplyLeave method");
-                    return View(les);
+                    return View(leaveTransactionList);
                 }
                 else
                 {
@@ -185,6 +185,29 @@ namespace EmployeeLeaveManagementApp.Controllers
                 return null;
             }
         }
+
+        public async Task<JsonResult> CheckLeaveAvailability(DateTime fromDate, DateTime toDate,int leaveType)
+        {
+            Logger.Info("Entering in ApplyLeaveController APP CheckLeaveAvailability method");
+            try
+            {
+                var result = new LeaveTransactionResponse();
+                if (null != Session[Constants.SESSION_OBJ_USER])
+                {
+                    var data = (UserAccount)Session[Constants.SESSION_OBJ_USER];
+                    result = await ELTM.CheckLeaveAvailabilityAsync(data.RefEmployeeId, fromDate, toDate,leaveType);
+                    Logger.Info("Successfully exiting from ApplyLeaveController APP CheckLeaveAvailability method");
+
+                }
+                return Json(new { result = result });
+            }
+            catch (Exception ex)
+            {
+                Logger.Error("Error at ApplyLeaveController APP CheckLeaveAvailability method.", ex);
+                return null;
+            }
+        }
+
 
     }
 }

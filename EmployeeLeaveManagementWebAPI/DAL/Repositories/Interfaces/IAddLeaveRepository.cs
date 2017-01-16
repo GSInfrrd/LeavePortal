@@ -16,6 +16,6 @@ namespace LMS_WebAPI_DAL.Repositories.Interfaces
 
         bool DeleteLeaveRequest(int id);
 
-        EmployeeDetail CheckLeaveAvailability(int employeeId,out List<Holiday> holidayList);
+        EmployeeDetail CheckLeaveAvailability(int employeeId,out List<Holiday> holidayList, out int advanceLeaveLimit, out int lopLeaveLimit);
     }
 }

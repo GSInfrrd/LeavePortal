@@ -14,7 +14,7 @@ namespace LMS_WebAPI_ServiceHelpers
     public class AddLeaveManagement
     {
         private IAddLeaveRepository addLeaveRepo = new AddLeaveRepository();
-        public LeaveTransactionResponse CheckLeaveAvailability(int employeeId, DateTime fromDate, DateTime toDate)
+        public LeaveTransactionResponse CheckLeaveAvailability(int employeeId, DateTime fromDate, DateTime toDate,int leaveType)
         {
             Logger.Info("Entering into AddLeaveManagement Service helper CheckLeaveAvailability method ");
             try
@@ -22,8 +22,12 @@ namespace LMS_WebAPI_ServiceHelpers
                 var result = new EmployeeDetail();
                 var holidayList = new List<Holiday>();
                 var response = new LeaveTransactionResponse();
-                result = addLeaveRepo.CheckLeaveAvailability(employeeId, out holidayList);
+                var advanceLeaveLimit = 0;
+                var lopLeaveLimit = 0;
+                result = addLeaveRepo.CheckLeaveAvailability(employeeId, out holidayList,out advanceLeaveLimit,out lopLeaveLimit);
+            
                 var noOfWorkingDays = 0;
+           
                 foreach (var item in result.EmployeeLeaveTransactions)
                 {
                     for (DateTime date = item.FromDate; date <= item.ToDate; date = date.AddDays(1))
@@ -39,26 +43,42 @@ namespace LMS_WebAPI_ServiceHelpers
                     }
 
                 }
-                if (response.responseCode == 0)
-                {
-                    for (DateTime date = fromDate; date <= toDate; date = date.AddDays(1))
+                    if (response.responseCode == 0)
                     {
-                        var isHoliday = holidayList.FirstOrDefault(i => i.Date == date) != null ? true : false;
-                        if (date.DayOfWeek != DayOfWeek.Saturday && date.DayOfWeek != DayOfWeek.Sunday && !isHoliday)
+                        for (DateTime date = fromDate; date <= toDate; date = date.AddDays(1))
                         {
-                            noOfWorkingDays++;
+                            var isHoliday = holidayList.FirstOrDefault(i => i.Date == date) != null ? true : false;
+                            if (date.DayOfWeek != DayOfWeek.Saturday && date.DayOfWeek != DayOfWeek.Sunday && !isHoliday)
+                            {
+                                noOfWorkingDays++;
+                            }
                         }
-                    }
 
-                    response.noOfWorkingDays = noOfWorkingDays;
-                    var availableLeaves = result.EmployeeLeaveMasters1.FirstOrDefault(i => i.RefEmployeeId == employeeId).EarnedCasualLeave;
-                    if (availableLeaves == null || noOfWorkingDays > availableLeaves)
+                        response.noOfWorkingDays = noOfWorkingDays;
+                        var leaveMaster = result.EmployeeLeaveMasters.FirstOrDefault(i => i.RefEmployeeId == employeeId);
+                        var availableLeaves = leaveMaster.EarnedCasualLeave != null ? leaveMaster.EarnedCasualLeave : 0;
+                    response.availableLeaveBalance = (int)(availableLeaves != null ? availableLeaves : 0);
+                    response.advanceLeaveBalance = (int)(leaveMaster.SpentAdvanceLeave != null ? advanceLeaveLimit-leaveMaster.SpentAdvanceLeave : advanceLeaveLimit-0);
+                    response.lopLeaveBalance = (int)(leaveMaster.TakenLossOfPay != null ? lopLeaveLimit-leaveMaster.TakenLossOfPay : lopLeaveLimit-0);
+
+                    if (leaveType==(int)LeaveType.CasualLeave  && (availableLeaves == null || noOfWorkingDays > availableLeaves))
+                        {
+                            response.responseCode = (int)LMS_WebAPI_Utils.ResponseCodes.NoLeaveBalance;
+                               }
+                    else if(leaveType==(int)LeaveType.AdvanceLeave && noOfWorkingDays > response.advanceLeaveBalance)
                     {
                         response.responseCode = (int)LMS_WebAPI_Utils.ResponseCodes.NoLeaveBalance;
-                        response.availableLeaveBalance = (int)(availableLeaves != null ? availableLeaves : 0);
-                        response.advanceLeaveBalance = (int)result.EmployeeLeaveMasters1.FirstOrDefault(i => i.RefEmployeeId == employeeId).SpentAdvanceLeave;
 
                     }
+                    else if(leaveType == (int)LeaveType.LOP && noOfWorkingDays > response.lopLeaveBalance)
+                    {
+                        response.responseCode = (int)LMS_WebAPI_Utils.ResponseCodes.NoLeaveBalance;
+
+                    }
+                    else
+                        {
+                            response.responseCode = (int)LMS_WebAPI_Utils.ResponseCodes.OK;
+                        }
                 }
                 Logger.Info("Exiting from into AddLeaveManagement Service helper CheckLeaveAvailability method ");
                 return response;

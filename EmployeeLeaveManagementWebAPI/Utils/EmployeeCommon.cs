@@ -30,6 +30,8 @@ namespace LMS_WebAPI_Utils
         public int? TotalCasualLeave { get; set; }
 
         public int? TotalWorkFromHome { get; set; }
+        public int? LOPRemaining { get; set; }
+        public int? CompOffTaken { get; set; }
         public IDictionary<string,int> MonthlyLeaveReport { get; set; }
     }
 }

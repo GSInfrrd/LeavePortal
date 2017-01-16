@@ -71,9 +71,10 @@ namespace LMS_WebAPI_DAL.Repositories
                             var CasualLeaveint = Convert.ToInt16(LeaveType.CasualLeave);
 
                             empDetails.TotalAdvanceLeaveToTake = ((leaveType.SpentAdvanceLeave == 0) || (leaveType.SpentAdvanceLeave == null)) ? Convert.ToInt16(advanceLimit.Value) : (Convert.ToInt16(advanceLimit.Value)-leaveType.SpentAdvanceLeave);
-                            empDetails.TotalCasualLeave = leaveType.EarnedCasualLeave + leaveType.RewardedLeaveCount;
+                            empDetails.TotalCasualLeave = leaveType.EarnedCasualLeave + (leaveType.RewardedLeaveCount!=null?leaveType.RewardedLeaveCount:0);
                             empDetails.TotalLeaveCount = leaveType.EarnedCasualLeave + leaveType.RewardedLeaveCount;
                             empDetails.LOPLeaveLimit = Convert.ToInt32(lopLimit.Value);
+                            empDetails.CompOffTaken = leaveType.TakenCompOff;
                         }
 
                         empDetails.TotalSpent = (from c in ctx.EmployeeLeaveTransactions
@@ -211,7 +212,7 @@ namespace LMS_WebAPI_DAL.Repositories
             }
         }
 
-        public EmployeeDetail GetUserProfileDetails(int employeeId, out List<MasterDataModel> skills)
+        public EmployeeDetail GetUserProfileDetails(int employeeId, out List<MasterDataModel> skills,out List<ProjectsList> projects)
         {
             Logger.Info("Entering in UserRepository API GetUserProfileDetails method");
             try
@@ -230,16 +231,18 @@ namespace LMS_WebAPI_DAL.Repositories
                         Skills.Add(skill);
                     }
                     skills = Skills;
-                    //var ProjectList = new List<ProjectsList>();
-                    //var projectDetails = ctx.ProjectMasters.ToList();
-                    //foreach ( var item in projectDetails)
-                    //{
-                    //    var project = new ProjectsList();
-                    //    project.Id = item.Id;
-                    //    project.ProjectName = item.ProjectName;
-                    //    ProjectList.Add(project);
-                    //}
-                    //projects = ProjectList;
+                    var ProjectList = new List<ProjectsList>();
+                    var projectDetails = ctx.EmployeeProjectDetails.FirstOrDefault(i => i.RefEmployeeId == employeeId);
+                    if (projectDetails != null)
+                    {
+                        var project = new ProjectsList();
+                        project.Id = projectDetails.Id;
+                        project.ProjectName = ctx.ProjectMasters.FirstOrDefault(i => i.Id == projectDetails.RefProjectId).ProjectName;
+                        project.StartDate = projectDetails.StartDate.Value;
+                        project.EndDate = projectDetails.EndDate != null ? projectDetails.EndDate.Value : DateTime.Now;
+                        ProjectList.Add(project);
+                    }
+                    projects = ProjectList;
                     Logger.Info("Successfully exiting from UserRepository API GetUserProfileDetails method");
                     return profileDetails;
                 }

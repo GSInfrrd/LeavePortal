@@ -37,6 +37,8 @@ namespace EmployeeLeaveManagementApp.Models
         public double TotalApplied { get; set; }
 
         public double TotalSpent { get; set; }
+
+        public int CompOffTaken { get; set; }
         public string FormattedDate
         {
             get

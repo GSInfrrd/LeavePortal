@@ -33,7 +33,7 @@
             <div class="small-box bg-aqua">
                 <div class="inner">
                     <h3 class="count" id="txtTotalCount">@Model.TotalLeft</h3>
-                    <p>Avaliable Leaves</p>
+                    <p>Available Leaves</p>
                 </div>
                 <div class="icon">
                     <i class="ion ion-bag"></i>
@@ -60,7 +60,7 @@
             <!-- small box -->
             <div class="small-box bg-yellow">
                 <div class="inner">
-                    <h3  class="count" id="txtSpentLeaves">@Model.TotalSpent</h3>
+                    <h3  class="count" id="txtSpentLeaves">@Model.TotalSpent.ToString("0.00")</h3>
 
                     <p>Leaves Taken</p>
                 </div>
@@ -74,9 +74,9 @@
             <!-- small box -->
             <div class="small-box bg-red">
                 <div class="inner">
-                    <h3  id="txtLeavesTaken" style="min-height: 40px;"></h3>
+                    <h3  id="txtLeavesTaken" style="min-height: 40px;">@Model.CompOffTaken</h3>
 
-                    <p>Apply Leaves</p>
+                    <p>Comp Off Taken</p>
                 </div>
                 <div class="icon">
                     <i class="fa fa-calendar"></i>

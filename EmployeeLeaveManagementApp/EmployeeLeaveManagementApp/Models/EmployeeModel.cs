@@ -25,6 +25,10 @@ namespace EmployeeLeaveManagementApp.Models
 
         public List<EmployeeEducationModel> EmployeeEducation { get; set; }
         public List<EmployeeExperienceModel> EmployeeExperience{ get; set; }
+
+        public List<ProjectsList> Projects { get; set; }
+
+        public int EmployeeType { get; set;}
     }
 
     public class EmployeeEducationModel
@@ -48,6 +52,12 @@ namespace EmployeeLeaveManagementApp.Models
         public string Id { get; set; }
         public string RefEmployeeId { get; set; }
         public string SkillName { get; set; }
+    }
+
+    public class ProjectsList
+    {
+        public int Id { get; set; }
+        public string ProjectName { get; set; }
     }
 
 }

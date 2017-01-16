@@ -24,9 +24,10 @@ namespace LMS_WebAPP_ServiceHelpers
             Logger.Info("Entering into HRManagement APP Service helper SubmitEmployeeDetailsAsync method ");
             try
             {
-                HttpClient client = new HttpClient();       
-            urlParameters = "?model=" + model;
-            client.BaseAddress = new Uri(URL);
+                HttpClient client = new HttpClient();
+                URL = URL + "/SubmitEmployeeDetails";
+                // urlParameters = "?model=" + model;      
+                client.BaseAddress = new Uri(URL);
             // Add an Accept header for JSON format.
             client.DefaultRequestHeaders.Accept.Add(
             new MediaTypeWithQualityHeaderValue("application/json"));
@@ -121,36 +122,38 @@ namespace LMS_WebAPP_ServiceHelpers
             }
         }
 
-        public async Task<MemoryStream> GenerateReportsAsync(int exportAs,string employeeId, string leaveType,string fromDate,string toDate)
+
+        public async Task<List<ConsolidatedEmployeeLeaveDetailsModel>> GenerateReportsAsync(string employeeId, string fromDate, string toDate)
         {
             Logger.Info("Entering into HRManagement APP Service helper GenerateReportsAsync method ");
+
             try
             {
                 using (HttpClient client = new HttpClient())
-            {
-                const string URL = "http://localhost:64476/api/HR/GenerateReports";
-                urlParameters = "?fromDate=" + fromDate+ "&toDate="+toDate+ "&employeeId=" + employeeId+ "&leaveType="+ leaveType;
-                client.BaseAddress = new Uri(URL);
-                // Add an Accept header for JSON format.
-                client.DefaultRequestHeaders.Accept.Add(
-                new MediaTypeWithQualityHeaderValue("application/json"));
+                {
+                    const string URL = "http://localhost:64476/api/HR/GenerateReports";
+                    urlParameters = "?fromDate=" + fromDate + "&toDate=" + toDate + "&employeeId=" + employeeId;
+                    client.BaseAddress = new Uri(URL);
+                    // Add an Accept header for JSON format.
+                    client.DefaultRequestHeaders.Accept.Add(
+                    new MediaTypeWithQualityHeaderValue("application/json"));
 
-                // List data response.
-                HttpResponseMessage response = await client.GetAsync(urlParameters);  // Blocking call!
-                if (response.IsSuccessStatusCode)
-                {
+                    // List data response.
+                    HttpResponseMessage response = await client.GetAsync(urlParameters);  // Blocking call!
+                    if (response.IsSuccessStatusCode)
+                    {
                         // Parse the response body. Blocking!
-                        var dataObjects = response.Content.ReadAsAsync<MemoryStream>().Result;
+                        var dataObjects = response.Content.ReadAsAsync<List<ConsolidatedEmployeeLeaveDetailsModel>>().Result;
                         Logger.Info("Exiting from into HRManagement APP Service helper GenerateReportsAsync method ");
-                        return dataObjects;
-                }
-                else
-                {
+                     return dataObjects;
+                    }
+                    else
+                    {
                         Console.WriteLine("{0} ({1})", (int)response.StatusCode, response.ReasonPhrase);
                         Logger.Info("Exiting from into HRManagement APP Service helper GenerateReportsAsync method ");
-                        return null;
+                       return null;
+                    }
                 }
-            }
             }
             catch
             {
@@ -158,7 +161,6 @@ namespace LMS_WebAPP_ServiceHelpers
                 throw;
             }
         }
-
         public async Task<ConsolidatedEmployeeLeaveDetailsModel> GetChartDetailsAsync(int employeeId)
         {
             Logger.Info("Entering into HRManagement APP Service helper GetChartDetailsAsync method ");
@@ -306,6 +308,46 @@ namespace LMS_WebAPP_ServiceHelpers
             catch
             {
                 Logger.Info("Exception occured at HRManagement APP Service helper GetProjectsListAsync method ");
+                throw;
+            }
+        }
+
+        public async Task<List<ConsolidatedEmployeeLeaveDetailsModel>> GenerateIndividualReportAsync(int employeeId)
+        {
+            Logger.Info("Entering into HRManagement APP Service helper GenerateIndividualReportAsync method ");
+            try
+            {
+                using (HttpClient client = new HttpClient())
+                {
+                    const string URL = "http://localhost:64476/api/HR/GenerateIndividualReport";
+                    urlParameters = "?employeeId=" + employeeId;
+                    client.BaseAddress = new Uri(URL);
+                    // Add an Accept header for JSON format.
+                    client.DefaultRequestHeaders.Accept.Add(
+                    new MediaTypeWithQualityHeaderValue("application/json"));
+
+                    // List data response.
+                    HttpResponseMessage response = await client.GetAsync(urlParameters);  // Blocking call!
+                    if (response.IsSuccessStatusCode)
+                    {
+                        // Parse the response body. Blocking!
+                        var dataObjects = response.Content.ReadAsAsync<List<ConsolidatedEmployeeLeaveDetailsModel>>().Result;
+                        Logger.Info("Exiting from into HRManagement APP Service helper GenerateIndividualReportAsync method ");
+
+                        return dataObjects;
+                    }
+                    else
+                    {
+                        Console.WriteLine("{0} ({1})", (int)response.StatusCode, response.ReasonPhrase);
+                        Logger.Info("Exiting from into HRManagement APP Service helper GenerateIndividualReportAsync method ");
+
+                        return null;
+                    }
+                }
+            }
+            catch
+            {
+                Logger.Info("Exception occured at HRManagement APP Service helper GenerateIndividualReportAsync method ");
                 throw;
             }
         }

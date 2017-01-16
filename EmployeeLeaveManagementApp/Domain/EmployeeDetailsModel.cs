@@ -68,6 +68,9 @@ namespace LMS_WebAPP_Domain
         public string GooglePlusLink { get; set; }
 
         public List<ProjectsList> Projects { get; set; }
+        public int EmployeeType { get; set; }
+        public int? LOPRemaining { get; set; }
+        public int? CompOffTaken { get; set; }
     }
 
     public class Announcement
@@ -118,5 +121,7 @@ namespace LMS_WebAPP_Domain
     {
         public int Id { get; set; }
         public string ProjectName { get; set; }
+        public DateTime StartDate { get; set; }
+        public DateTime EndDate { get; set; }
     }
 }
