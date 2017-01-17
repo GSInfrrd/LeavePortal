@@ -135,6 +135,7 @@ namespace LMS_WebAPI_DAL.Repositories
                         leaveDetails.ManagerComments = Leavecomments;
                         ctx.SaveChanges();
 
+                        //Send notification to the Employee that manager has reassigned the leaves to other manager
                         var ManagerDetails = ctx.EmployeeDetails.FirstOrDefault(x => x.Id == ApproverId);
                         string ManagerName = ManagerDetails.FirstName;
                         if (ManagerDetails.LastName != null)
@@ -155,8 +156,23 @@ namespace LMS_WebAPI_DAL.Repositories
 
                         string Text = "Your Manager " + ManagerName + " has reassigned your leaves to " + assignedManagerName + ".";
                         insertNotification(EmployeeId, Text, Status, NotificationType);
-                        // insertintoLeaveHistory(leaveDetails);
-                        // deletefromworkflow(id);
+
+                        //Send notification to the new manager that employee has applied for the leaves
+
+                        int RefApproverId = assignedManager.Id;
+                        string EmployeeFirstname = leaveDetails.EmployeeLeaveTransaction.EmployeeDetail.FirstName;
+                        string EmployeeLastname = leaveDetails.EmployeeLeaveTransaction.EmployeeDetail.LastName;
+
+                        string Text1 = EmployeeFirstname;
+                        if (EmployeeLastname != null)
+                        {
+                            Text1 += " ";
+                            Text1 += EmployeeLastname;
+                        }
+
+                        Text1 += " has applied for leave.";
+                        ApproveLeaveRepository alr = new ApproveLeaveRepository();
+                        alr.insertNotification(RefApproverId, Text1, Status, NotificationType);
                     }
                     Logger.Info("Successfully exiting from ApproveLeaveRepository API ApproveEmployeeLeave method");
                 }
