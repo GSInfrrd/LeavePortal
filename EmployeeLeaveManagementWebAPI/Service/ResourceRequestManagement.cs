@@ -75,6 +75,23 @@ namespace Service
             }
         }
 
+        public bool DeleteResourceRequestManagement(string ticket)
+        {
+            Logger.Info("Entering into ResourceRequestManagement Service helper DeleteResourceRequestManagement method ");
+            try
+            {
+                bool deleted = false;
+                deleted = _resourceRequest.DeleteRequest(ticket);
+
+                return deleted;
+            }
+            catch
+            {
+                Logger.Error("Exception occurred at ResourceRequestManagement Service helper DeleteResourceRequestManagement method ");
+                throw;
+            }
+        }
+
         public List<EmployeeDetailsModel> GetProjectMembersList(int projectId)
         {
             Logger.Info("Entering into ResourceRequestManagement Service helper GetProjectMembersList method ");

@@ -18,6 +18,8 @@ namespace LMS_WebAPI_DAL.Repositories.Interfaces
 
         ResourceRequestDetailModel SubmitResourceRequestResponse(ResourceRequestDetail model);
 
+        bool DeleteRequest(string ticket);
+
         List<EmployeeDetailsModel> GetProjectMembersList(int projectId);
     }
 }

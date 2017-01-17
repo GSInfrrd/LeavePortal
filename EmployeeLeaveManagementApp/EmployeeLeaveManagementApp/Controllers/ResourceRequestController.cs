@@ -8,7 +8,7 @@ using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Threading.Tasks;
-using System.Web.Http;
+using System.Net.Http;
 using System.Web.Mvc;
 
 namespace EmployeeLeaveManagementApp.Controllers
@@ -23,11 +23,11 @@ namespace EmployeeLeaveManagementApp.Controllers
             {
                 int managerId = ((UserAccount)Session[LMS_WebAPP_Utils.Constants.SESSION_OBJ_USER]).RefEmployeeId;
 
-            var resourceRequestFormDetails = await resourceManagementOperations.GetResourceRequestFormDetails(managerId);
-            foreach (var history in resourceRequestFormDetails.ResourceRequestHistory)
-            {
-                history.StatusValue = CommonMethods.Description((ResourceRequestStatus)history.Status);
-            }
+                var resourceRequestFormDetails = await resourceManagementOperations.GetResourceRequestFormDetails(managerId);
+                foreach (var history in resourceRequestFormDetails.ResourceRequestHistory)
+                {
+                    history.StatusValue = CommonMethods.Description((ResourceRequestStatus)history.Status);
+                }
                 Logger.Info("Successfully exiting from ResourceRequestController APP RequestForResources method");
                 return View(resourceRequestFormDetails);
             }
@@ -154,7 +154,6 @@ namespace EmployeeLeaveManagementApp.Controllers
             {
                 bool viewAll = true;
                 var currentUserId = ((UserAccount)Session[LMS_WebAPP_Utils.Constants.SESSION_OBJ_USER]).RefEmployeeId;
-                var test = (UserAccount)Session[LMS_WebAPP_Utils.Constants.SESSION_OBJ_USER];
                 var lstAllRequests = new List<ResourceRequestDetailModel>();
                 lstAllRequests = await resourceManagementOperations.GetResourceRequests(currentUserId, viewAll);
                 foreach (var request in lstAllRequests)
@@ -167,6 +166,22 @@ namespace EmployeeLeaveManagementApp.Controllers
             {
                 Logger.Error("Error at ResourceRequestController APP ViewAllRequests method.", ex);
                 return null;
+            }
+        }
+
+        [HttpPost]
+        public async Task<ActionResult> CancelRequest(string ticket)
+        {
+            try
+            {
+                bool deleted = false;
+                deleted = await resourceManagementOperations.DeleteResourceRequest(ticket);
+                return Json(new { deleted, ticketValue = ticket });
+            }
+            catch
+            {
+                Logger.Error("Error at ResourceRequestController APP DeleteRequest method.");
+                return Json(new { deleted = false });
             }
         }
 

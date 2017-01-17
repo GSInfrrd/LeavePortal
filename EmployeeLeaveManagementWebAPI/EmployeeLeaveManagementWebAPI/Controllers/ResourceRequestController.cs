@@ -36,7 +36,9 @@ namespace EmployeeLeaveManagementWebAPI.Controllers
             }
         }
 
+
         [HttpPost]
+        [Route("SubmitResourceRequest")]
         public ResourceRequestDetailModel SubmitResourceRequest(ResourceRequestDetailModel model)
         {
             try
@@ -61,7 +63,7 @@ namespace EmployeeLeaveManagementWebAPI.Controllers
                 var result = resourceRequestmanagement.SubmitResourceRequest(requestEntity);
                 return result;
             }
-            catch 
+            catch
             {
 
                 throw;
@@ -80,7 +82,7 @@ namespace EmployeeLeaveManagementWebAPI.Controllers
 
                 return lstResourceDetails;
             }
-            catch 
+            catch
             {
                 throw;
             }
@@ -93,7 +95,8 @@ namespace EmployeeLeaveManagementWebAPI.Controllers
         {
             try
             {
-                var resourceRequestResponse = new ResourceRequestDetail() {
+                var resourceRequestResponse = new ResourceRequestDetail()
+                {
                     Ticket = model.Ticket,
                     Status = model.Status,
                     CreatedDate = model.CreatedDate,
@@ -106,6 +109,25 @@ namespace EmployeeLeaveManagementWebAPI.Controllers
             catch
             {
                 throw;
+            }
+        }
+
+        [AllowAnonymous]
+        [HttpGet]
+        [Route("DeleteResourceRequest")]
+        public bool DeleteResourceRequest(string id)
+        {
+            try
+            {
+                bool deleted = false;
+                deleted = resourceRequestmanagement.DeleteResourceRequestManagement(id);
+
+                return deleted;
+            }
+            catch
+            {
+
+                return false;
             }
         }
 

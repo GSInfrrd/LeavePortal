@@ -193,6 +193,37 @@ namespace LMS_WebAPI_DAL.Repositories
             }
         }
 
+        public bool DeleteRequest(string ticket)
+        {
+            Logger.Info("Entering in ResourceRequestRepository API GetProjectMembersList method");
+            try
+            {
+                bool deleted = false;
+                using (var ctx = new LeaveManagementSystemEntities1())
+                {
+                    var request = ctx.ResourceRequestDetails.FirstOrDefault(x => x.Ticket == ticket);
+                    if (null != request)
+                    {
+                        ctx.ResourceRequestDetails.Remove(request);
+                        ctx.SaveChanges();
+
+                        Logger.Info("Exiting in ResourceRequestRepository API GetProjectMembersList method");
+                        return deleted = true;
+                    }
+                    else
+                    {
+                        Logger.Info("Exiting in ResourceRequestRepository API GetProjectMembersList method");
+                        return deleted;
+                    }
+                }
+            }
+            catch
+            {
+                Logger.Error("Exception occured at ResourceRequestRepository GetProjectMembersList method ");
+                throw;
+            }
+        }
+
         public List<EmployeeDetailsModel> GetProjectMembersList(int projectId)
         {
             Logger.Info("Entering in ResourceRequestRepository API GetProjectMembersList method");

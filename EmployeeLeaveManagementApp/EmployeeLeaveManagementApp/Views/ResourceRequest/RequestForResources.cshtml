@@ -14,96 +14,11 @@
 <link href="~/Content/Style.css" rel="stylesheet" />
 <link href="~/plugins/datatables/jquery.dataTables.min.css" rel="stylesheet" />
 <link href="~/plugins/datatables/dataTables.bootstrap.css" rel="stylesheet" />
+<link href="~/plugins/Toastr/toastr.css" rel="stylesheet" />
 <section class="content-header">
-    @*<h1>
-        Resource Requests
-    </h1>*@
 </section>
 <section class="content">
     <div class="row">
-        @*<div class="col-md-12">
-            <!-- general form elements -->
-            <div class="box box-primary">
-                <div class="box-header with-border margin-bottom-5">
-                    <h3 class="box-title">Resource Details</h3>
-                </div>
-
-                <div class="box-body">
-                    <div class="form-group col-md-6">
-                        <label for="txtRequestTitle">Request Title</label>
-                        <input type="text" class="form-control" id="txtRequestTitle" placeholder="Enter Request Title">
-                    </div>
-                    <div class="form-group col-md-6">
-                        <label for="txtNoOfResourcesRequired">No of Resources Required</label>
-                        <input type="number" class="form-control" id="txtResourcesRequired">
-                    </div>
-                    <div class="form-group col-md-6">
-                        <label for="ddlSkills">Skills</label>
-                        <select id="ddlSkills" multiple="multiple" class="form-control skills" style="width: 100%;">
-                            @foreach (var skill in Model.Skills)
-                            {
-                                <option value="@skill">@skill</option>
-                            }
-                        </select>
-                    </div>
-                    <div class="form-group col-md-6" id="ddlRequestToDiv">
-                        <label>Request send to</label>
-                        <select class="form-control" style="width: 100%;" id="ddlRequestSendToSel">
-                            @foreach (var hr in Model.ListOfHR)
-                            {
-                                <option value="@hr.Id">@hr.FirstName @hr.LastName</option>
-                            }
-                        </select>
-                    </div>
-                </div>
-                <!-- /.box-body -->
-                <div class="box-footer">
-                    <div class="form-group col-md-6 margin-bottom-0 btn-backgroundColor-dark">
-                        <button type="submit" id="" class="btn btn-primary bg-black">Send request</button>
-                    </div>
-                </div>
-            </div>
-        </div>*@
-        @*<div class="col-md-12">
-            <!-- general form elements -->
-            <div class="box box-primary">
-                <div class="box-header with-border">
-                    <h3 class="box-title">Resource Request History</h3>
-                </div>
-                <!-- /.box-header -->
-                <!-- form start -->
-                <div class="reousrceHistoryDiv padding-top5-bottom20 padding-right-left-15">
-
-                    
-                    <table id="resourceRequestHistoryTable" class="display" cellspacing="0" width="100%">
-                        <thead>
-                            <tr>
-                                <th>Request Ticket</th>
-                                <th>Request Title</th>
-                                <th>Status</th>
-                            </tr>
-                        </thead>
-                        <tfoot>
-                            <tr>
-                                <th>Request Ticket</th>
-                                <th>Request Title</th>
-                                <th>Status</th>
-                            </tr>
-                        </tfoot>
-                        <tbody class="requestHistoryTableBody">
-                            @foreach (var resource in Model.ResourceRequestHistory)
-                            {
-                                <tr>
-                                    <td><a href="#" data-ticket="@resource.Ticket" data-created="@resource.CreatedDate" data-updated="@resource.UpdatedDate" data-title="@resource.ResourceRequestTitle" data-noRsource="@resource.NumberRequestedResources" data-skills="@resource.Skills" data-sentTo="@resource.RequestToName" data-status="@resource.StatusValue" onclick="ticketClicked(this)">@resource.Ticket</a></td>
-                                    <td>@resource.ResourceRequestTitle</td>
-                                    <td>@resource.StatusValue</td>
-                                </tr>
-                            }
-                        </tbody>
-                    </table>
-                </div>
-            </div>
-        </div>*@
         <div class="col-md-12">
             <div class="box box-info">
                 <div class="box-header with-border">
@@ -132,7 +47,7 @@
                             <tbody>
                                 @foreach (var resource in Model.ResourceRequestHistory)
                                 {
-                                    <tr>
+                                    <tr id="@resource.Ticket">
                                         <td><a href="#" data-ticket="@resource.Ticket" data-created="@resource.CreatedDate" data-updated="@resource.UpdatedDate" data-title="@resource.ResourceRequestTitle" data-noRsource="@resource.NumberRequestedResources" data-skills="@resource.Skills" data-sentTo="@resource.RequestToName" data-statusKey="@resource.Status" data-status="@resource.StatusValue" onclick="ticketClicked(this)">@resource.Ticket</a></td>
                                         <td>@resource.ResourceRequestTitle</td>
                                         <td>@resource.CreatedDate</td>
@@ -170,8 +85,8 @@
                 </div>
                 <!-- /.box-body -->
                 <div class="box-footer clearfix">
-                    <a href="javascript:void(0)" class="btn btn-sm btn-info btn-flat pull-left"data-toggle="modal" data-target=".addResourceRequest-modal">Place New Request</a>
-                    <a href="javascript:void(0)" class="btn btn-sm btn-default btn-flat pull-right" onclick="getAllRequests()">View All Requests</a>
+                    <a href="javascript:void(0)" class="btn btn-sm btn-flat pull-left bg-black"data-toggle="modal" data-target=".addResourceRequest-modal">Place New Request</a>
+                    <a href="javascript:void(0)" class="btn btn-sm btn-flat pull-right bg-black" onclick="getAllRequests()">View All Requests</a>
                 </div>
             </div>
         </div>
@@ -193,11 +108,11 @@
                     <div class="form-group" style="padding-bottom:20px">
                         <div class="form-group col-md-6">
                             <label for="txtRequestTitle">Request Title</label>
-                            <input type="text" class="form-control" id="txtRequestTitle" placeholder="Enter Request Title">
+                            <input type="text" class="form-control" id="txtRequestTitle" placeholder="Enter Request Title" maxlength="50">
                         </div>
                         <div class="form-group col-md-6">
                             <label for="txtNoOfResourcesRequired">No of Resources Required</label>
-                            <input type="number" class="form-control" id="txtResourcesRequired">
+                            <input type="number" min="1" max="20" class="form-control" id="txtResourcesRequired">
                         </div>
                         <div class="form-group col-md-6">
                             <label for="ddlSkills">Skills</label>
@@ -293,6 +208,7 @@
 <script src="../../plugins/datatables/jquery.dataTables.min.js"></script>
 <script src="../../plugins/datatables/dataTables.bootstrap.min.js"></script>
 <script src="~/Content/Scripts/Common.js"></script>
+<script src="../../plugins/Toastr/toastr.js"></script>
 <script>
     var educationFromDate;
     var educationToDate;
@@ -304,7 +220,7 @@
         $(function () {
             //Initialize Select2 Elements
             $(".skills").select2({
-                placeholder: "Select required skills"
+                placeholder: "Select skills"
             });
             //$('#resourceRequestHistoryTable').DataTable();
             $('#resourceRequestHistoryTable').DataTable({
@@ -334,13 +250,33 @@
     });
 
     $(document).on('click', '#btnSendResourceRequest', function (e) {
-        debugger;
         var requestTitle = $("#txtRequestTitle").val();
-        var noOfResourcesRequested = $("#txtResourcesRequired").val();
-        var skills = [];
-        for (i = 0; i < $("#ddlSkills").val().length; i++) {
-            skills.push($("#ddlSkills").val()[i]);
+        if ($(requestTitle).length > 50) {
+            $("#txtRequestTitle").val("");
+            showMessage("Request title too long", "2", true);
+            return false;
         }
+        else if (requestTitle == "") {
+            showMessage("Please enter request title", "2", true);
+            return false;
+        }
+        var noOfResourcesRequested = $("#txtResourcesRequired").val();
+        if (parseInt(noOfResourcesRequested) < 0 || parseInt(noOfResourcesRequested) == 0 || parseInt(noOfResourcesRequested) > 20) {
+            $("#txtResourcesRequired").val("");
+            showMessage("Number of requested resources must be between 1 and 10", "2", true);
+            return false;
+        }
+        var skills = [];
+        if (null != $("#ddlSkills").val()) {
+            for (i = 0; i < $("#ddlSkills").val().length; i++) {
+                skills.push($("#ddlSkills").val()[i]);
+            }
+        }
+        else {
+            showMessage("Please select required skills", "2", true);
+            return false;
+        }
+        
         var requestSendTo = parseInt($("#ddlRequestSendToSel option:selected").val());
         var model = {
             ResourceRequestTitle: $("#txtRequestTitle").val(),
@@ -358,7 +294,6 @@
             dataType: "json",
             processData:false,
             success: function (data) {
-                debugger;
                 if (data.result == true) {
                     if ($("#resourceRequestHistoryTable").find('tbody').find('tr').find('td').length == 1) {
                         $("#resourceRequestHistoryTable").find('tbody').find('tr').remove();
@@ -381,7 +316,7 @@
                     showMessage("Request sent successfully", "1", true);
                 }
                 else {
-                    showMessage("Request could not be sent successfully", "2", true);
+                    showMessage("Request could not be sent", "2", true);
                 }
 
             }
@@ -415,7 +350,6 @@
     }
 
     function getAllRequests() {
-        debugger;
         $.ajax({
             cache: false,
             type: 'post',
@@ -424,7 +358,6 @@
             dataType: "json",
             processData: false,
             success: function (data) {
-                debugger;
                 var model = data.model;
                 for (i = 0; i < model.length;i++ ){
                     var tableRow = tabeRowPopulate(model[i]);
@@ -433,8 +366,8 @@
             }
         });
     }
+
     function ToJavaScriptDate(value) {
-        debugger;
         var pattern = /Date\(([^)]+)\)/;
         var results = pattern.exec(value);
         var dt = new Date(parseFloat(results[1]));
@@ -457,34 +390,13 @@
         }
         
         return (dt.getDate() + "/" + dt.getMonth() + 1) + "/" + dt.getFullYear() + " " + time;
-    }
-
-    function showMessage(message, Type, fadeOut) {
-        //To clear existing toastr
-        toastr.clear();
-        //fadeOut = false;
-        var position = "bottom-full-width";
-        toastr.options.positionClass = 'toast-' + position;
-        if (typeof fadeOut !== "undefined" && fadeOut == false) { toastr.options.timeOut = 0; }
-        else {
-            toastr.options.timeOut = 5000;
-        }
-        switch (Type) {
-            case "1":
-                toastr.success(message);
-                break;
-            case "2":
-                toastr.error(message);
-                break;
-        }
-    }
+    }    
 
     function tabeRowPopulate(model) {
-        debugger;
         var createdDate = ToJavaScriptDate(model.CreatedDate);
         var updatedDate = ToJavaScriptDate(model.UpdatedDate);
         var statusKey = parseInt(model.Status);
-        var tableRow = '<tr>';
+        var tableRow = '<tr id="' + model.Ticket + '">';
         tableRow += '<td><a href="#" data-ticket="' + model.Ticket + '" data-created="' + createdDate + '"' +
             ' data-updated="' + updatedDate + '" data-title="' + model.ResourceRequestTitle + '"' +
             ' data-noRsource="' + model.NumberRequestedResources + '" data-skills="' + model.Skills + '"' +
@@ -514,18 +426,47 @@
         return tableRow;
     }
 
-    //function cancelRequest(id) {
-    //    var ticket = $(id).attr('data-ticket');
-    //    $.ajax({
-    //        cache: false,
-    //        type: 'post',
-    //        url: '/ResourceRequest/CancelRequest',
-    //        contentType: "application/json",
-    //        dataType: "json",
-    //        processData: false,
-    //        success: function (data) {
-                
-    //        }
-    //    });
-    //}
+    function cancelRequest(id) {
+        var ticket = $(id).attr('data-ticket');
+        $.ajax({
+            type: "POST",
+            url: "/ResourceRequest/CancelRequest",
+            dataType: "json",
+            data: { ticket: ticket },
+            async: false,
+            success: function (data) {
+                if (data.deleted) {
+                    var ticket = data.ticketValue;
+                    $("#" + ticket).remove();
+                    showMessage("Request cancelled successfully", "1", true);
+                }
+                else {
+                    showMessage("Request could not be cancelled", "2", true);
+                }
+            },
+            error: function (result) {
+                //alert("GetCompanyDetails");
+            }
+        });
+    }
+
+    function showMessage(message, Type, fadeOut) {
+        //To clear existing toastr
+        toastr.clear();
+        //fadeOut = false;
+        var position = "bottom-full-width";
+        toastr.options.positionClass = 'toast-' + position;
+        if (typeof fadeOut !== "undefined" && fadeOut == false) { toastr.options.timeOut = 0; }
+        else {
+            toastr.options.timeOut = 5000;
+        }
+        switch (Type) {
+            case "1":
+                toastr.success(message);
+                break;
+            case "2":
+                toastr.error(message);
+                break;
+        }
+    }
 </script>

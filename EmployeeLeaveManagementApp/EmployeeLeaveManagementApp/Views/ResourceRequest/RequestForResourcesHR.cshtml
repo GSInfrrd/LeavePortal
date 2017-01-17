@@ -11,6 +11,7 @@
 <link href="~/Content/Style.css" rel="stylesheet" />
 <link href="~/plugins/datatables/jquery.dataTables.min.css" rel="stylesheet" />
 <link href="~/plugins/datatables/dataTables.bootstrap.css" rel="stylesheet" />
+<link href="~/plugins/Toastr/toastr.css" rel="stylesheet" />
 <section class="content">
     <input id="requestStatusEnum" data-val="@serializedlstRequestStatus" hidden>    
     <div class="box box-info">
@@ -70,7 +71,7 @@
         </div>
         <!-- /.box-body -->
         <div class="box-footer clearfix">
-            <a href="javascript:void(0)" class="btn btn-sm btn-default btn-flat pull-right"  onclick="getAllRequests()">View All Requests</a>
+            <a href="javascript:void(0)" class="btn btn-sm btn-flat pull-right bg-black"  onclick="getAllRequests()">View All Requests</a>
         </div>
     </div>
 </section>
@@ -136,6 +137,7 @@
 <script src="../../plugins/datatables/jquery.dataTables.min.js"></script>
 <script src="../../plugins/datatables/dataTables.bootstrap.min.js"></script>
 <script src="~/Content/Scripts/Common.js"></script>
+<script src="../../plugins/Toastr/toastr.js"></script>
 <script>
     $(document).ready(function () {
         $(function () {
@@ -153,7 +155,6 @@
         var deserializedStatusList = jQuery.parseJSON('@serializedlstRequestStatus');
         var statusDict = []; 
         $.each(deserializedStatusList, function (index, value) {
-            debugger;
             statusDict.push({
                 key: parseInt(index),
                 value: value
@@ -256,7 +257,6 @@
     }
 
     function respondToRequest(id) {
-        debugger;
         var ticket = $(id).attr('data-ticket');
         var status = parseInt($(id).attr('data-statusKey'));
         var creatdeDateValue = $(id).attr('data-createdDate');
@@ -280,18 +280,21 @@
                 if (data.result == true) {
                     $("#ResourceRequestToRespondModal").modal('hide');
                     $("#resourceRequestsTable").find('tbody').html("");
+                    showMessage("Request status changed successfully", "1", true);
                     for (i = 0; i < data.model.length; i++) {
                         var tableRow = tabeRowPopulate(data.model[i]);
 
                         $("#resourceRequestsTable").find('tbody').append(tableRow);
                     }
                 }
+                else {
+                    showMessage("Request status could not be changed", "1", true);
+                }
             }
         });
     }
 
     function getAllRequests() {
-        debugger;
         $.ajax({
             cache: false,
             type: 'post',
@@ -300,43 +303,14 @@
             dataType: "json",
             processData: false,
             success: function (data) {
-                debugger;
                 var model = data.model;
                 for (i = 0; i < model.length; i++) {
                     var tableRow = tabeRowPopulate(model[i]);
                     $("#resourceRequestsTable").find('tbody').append(tableRow);
                 }
-                var test = data;
-                //var tableRow = tabeRowPopulate(data);
             }
         });
-    }
-
-    function ToJavaScriptDate(value) {
-        debugger;
-        var pattern = /Date\(([^)]+)\)/;
-        var results = pattern.exec(value);
-        var dt = new Date(parseFloat(results[1]));
-        var hours = dt.getHours();
-        var minutes = dt.getMinutes();
-        var seconds = dt.getSeconds();
-        var currentHour = parseInt("0");
-        var time = "";
-        if (hours > 12) {
-            currentHour = hours % 12;
-            time = currentHour + ":" + minutes + ":" + seconds + " " + "PM";
-        }
-        else if (hours == 12) {
-            currentHour = hours;
-            time = currentHour + ":" + minutes + ":" + seconds + " " + "PM";
-        }
-        else {
-            currentHour = hours;
-            time = currentHour + ":" + minutes + ":" + seconds + " " + "AM";
-        }
-
-        return (dt.getDate() + "/" + dt.getMonth() + 1) + "/" + dt.getFullYear() + " " + time;
-    }
+    }   
 
     function tabeRowPopulate(model) {
         var createdDate = ToJavaScriptDate(model.CreatedDate);

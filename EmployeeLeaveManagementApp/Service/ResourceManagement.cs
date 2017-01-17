@@ -18,13 +18,14 @@ namespace Service
         private string URLGetResources = "http://localhost:64476/api/ResourceRequest/ResourceRequests";
         private string URLPost = "http://localhost:64476/api/ResourceRequest/SubmitResourceRequest";
         private string URLPostRequestResponse = "http://localhost:64476/api/ResourceRequest/SubmitResourceRequestsResponse";
+        private string URLDeleteRequest = "http://localhost:64476/api/ResourceRequest/DeleteResourceRequest";
         private string urlParameters;
         private string urlParameters1;
         private string urlParameters2;
 
         public async Task<ResourceDetails> GetResourceRequestFormDetails(int managerId)
         {
-            
+
             try
             {
                 using (HttpClient client = new HttpClient())
@@ -42,11 +43,13 @@ namespace Service
                     {
                         // Parse the response body. Blocking!
                         var dataObjects = await response.Content.ReadAsAsync<ResourceDetails>();
+
+                        Logger.Info("Exiting from into ResourceManagement APP Service helper GetResourceRequestFormDetails method ");
                         return dataObjects;
                     }
                     else
                     {
-                        Console.WriteLine("{0} ({1})", (int)response.StatusCode, response.ReasonPhrase);
+                        Logger.Info("Exiting from into ResourceManagement APP Service helper GetResourceRequestFormDetails method ");
                         return null;
                     }
                 }
@@ -77,8 +80,11 @@ namespace Service
                 {
                     // Parse the response body. Blocking!
                     resourceDetailModel = response.Content.ReadAsAsync<ResourceRequestDetailModel>().Result;
+
+                    Logger.Info("Exiting from into ResourceManagement APP Service helper SubmitResourceRequest method ");
                     return resourceDetailModel;
                 }
+                Logger.Info("Exiting from into ResourceManagement APP Service helper SubmitResourceRequest method ");
                 return null;
             }
             catch (Exception ex)
@@ -108,8 +114,11 @@ namespace Service
                 {
                     // Parse the response body. Blocking!
                     var lstResourceDetails = response.Content.ReadAsAsync<List<ResourceRequestDetailModel>>().Result;
+
+                    Logger.Info("Exiting from into ResourceManagement APP Service helper GetResourceRequests method ");
                     return lstResourceDetails;
                 }
+                Logger.Info("Exiting from into ResourceManagement APP Service helper GetResourceRequests method ");
                 return null;
             }
             catch (Exception ex)
@@ -138,14 +147,48 @@ namespace Service
                 {
                     // Parse the response body. Blocking!
                     resourceResponseModel = response.Content.ReadAsAsync<ResourceRequestDetailModel>().Result;
+
+                    Logger.Info("Exiting from into ResourceManagement APP Service helper RespondToResourceRequests method ");
                     return resourceResponseModel;
                 }
+                Logger.Info("Exiting from into ResourceManagement APP Service helper RespondToResourceRequests method ");
                 return null;
             }
-            catch (Exception ex)
+            catch
             {
 
-                throw ex;
+                throw;
+            }
+        }
+
+        public async Task<bool> DeleteResourceRequest(string ticket)
+        {
+            bool deleted = false;
+            try
+            {
+                HttpClient client = new HttpClient();
+                client.BaseAddress = new Uri(URLDeleteRequest);
+                urlParameters = "?id=" + ticket;
+                URLDeleteRequest += urlParameters;
+                // Add an Accept header for JSON format.
+                client.DefaultRequestHeaders.Accept.Add(
+                new MediaTypeWithQualityHeaderValue("application/json"));
+
+                // List data response.
+                HttpResponseMessage response = await client.GetAsync(URLDeleteRequest);  // Blocking call!
+                if (response.IsSuccessStatusCode)
+                {
+                    deleted = response.Content.ReadAsAsync<bool>().Result;
+                    Logger.Info("Exiting from into ResourceManagement APP Service helper DeleteResourceRequest method ");
+                    return deleted;
+                }
+                Logger.Info("Exiting from into ResourceManagement APP Service helper DeleteResourceRequest method ");
+                return deleted;
+            }
+            catch
+            {
+
+                return false;
             }
         }
 
