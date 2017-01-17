@@ -191,7 +191,7 @@
                             {
                                 disabledAttr = "disabled";
                             }
-                            <div class="col-md-4">
+                            <div class="col-md-3">
                                 <input type="radio" name="r1" id="RdLeaveType_@Convert.ToInt16((LMS_WebAPP_Utils.LeaveType)value)" class="flat-red" value="@Convert.ToInt16((LMS_WebAPP_Utils.LeaveType)value)" @disabledAttr>&nbsp;@(LMS_WebAPP_Utils.CommonMethods.Description((LMS_WebAPP_Utils.LeaveType)Convert.ToInt16((LMS_WebAPP_Utils.LeaveType)value)))
                             </div>
 
@@ -344,7 +344,7 @@
     var totalLOPAdvanceCount = 0;
     var previousLOPCOUNT = 0;
     var previousAdvance =  0;
-    var totalLOPSubmitted=@totalCasualSubmitted;
+    var totalLOPSubmitted=@totalLOPSubmitted;
     var advanceLeaveEnum='@Convert.ToInt16((LMS_WebAPP_Utils.LeaveType.AdvanceLeave))';
     var lopEnum='@Convert.ToInt16((LMS_WebAPP_Utils.LeaveType.LOP))';
     //set default
@@ -384,7 +384,6 @@
 
     function CalculteCasualAdvnceCutOffLeavesCalc(workingdays)
     {
-        debugger
         var isCasulOnlyPossible =(totalcasualLeft >= workingdays) ?  true : false;
         var temCasualTodate ;
         var temAdvanceTodate;
@@ -566,7 +565,6 @@
 
     function CheckCap(AdvanceCount,LOPCount)
     {
-        debugger;
         if((parseInt(AdvanceCount) > '@totalAdvanceLeaveLeft') && (parseInt(LOPCount) >'@totalLOPLeft'))
         {
             showMessage("Sorry!! Your max limit for advance leave is  " + '@totalAdvanceLeaveLeft' + "and max limit for LOP is "+'@totalLOPLeft', "2", true);
@@ -757,7 +755,6 @@
         });
     });
     $('#AddLeaveModal').on('hidden.bs.modal', function () {
-        debugger;
         $(this).find("textarea#leaveComment").val('').end();
         //$("#leaveDatepicker").daterangepicker("destroy");
         //$("#leaveDatepicker").daterangepicker("refresh");
@@ -807,7 +804,6 @@
         })
     })
     $(document).on('click', '#btnClose,.close,.Close', function (e) {
-        debugger;
         $("#RdLeaveType_" + sickLeaveId).attr('checked', true);
         $('#sickDate').val(today);
         $('#divDateRange').hide();
@@ -830,7 +826,6 @@
 
 
     $('input').on('ifChecked', function (event) {
-        debugger;
         //  alert(event.type + ' callback');
         var clickedradioButton = $('input[name=r1]:checked').val();
         switch (clickedradioButton) {
@@ -926,7 +921,6 @@
                 $('#toggleOne').bootstrapToggle('on');
                 $('#divCommentError').hide();
                 $("#divLeaveTypeError").hide();
-                debugger;
                 if (isPossibleToApplyCasual > 0) {
                     $('.modal-footer').hide();
                     showMessage("Sorry!!  You cannot Apply for Casual/Advance leave since your manager approves the submitted one", "2", true);
@@ -1160,7 +1154,6 @@
     // submitting leave request
 
     $(document).on('click', '#btnLeaveRequestSubmit', function (e) {
-        debugger;
         if (FormValidate()) {
             var comments = $("#leaveComment").val();
             $('#AddLeaveModal').modal('hide');
@@ -1180,7 +1173,6 @@
                         url: '/ApplyLeave/GetEmployeeLeaveList',
                         dataType: "json",
                         success: function (data) {
-                            debugger;
                             $('#AddLeaveModal').modal('hide');
                             updateLeaveTable(data.result);
                             switch (leaveType) {
@@ -1247,7 +1239,6 @@
         setDate: today
     })
     .on('changeDate', function (ev) {
-        debugger;
         $('#divDateError').hide();
         var date = ev.date;
         console.log(ev.date);
