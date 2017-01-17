@@ -145,5 +145,20 @@ namespace LMS_WebAPI_ServiceHelpers
                 throw;
             }
         }
+        public List<EmployeeSkillDetails> GetSkillsList()
+        {
+            Logger.Info("Entering into HRManagement Service helper GetSkillsList method ");
+            try
+            {
+                var result = hrRepo.GetSkillsList();
+                Logger.Info("Exiting from into HRManagement Service helper GetSkillsList method ");
+                return result;
+            }
+            catch
+            {
+                Logger.Info("Exception occured at HRManagement Service helper GetSkillsList method ");
+                throw;
+            }
+        }
     }
 }

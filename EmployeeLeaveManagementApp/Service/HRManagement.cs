@@ -351,5 +351,42 @@ namespace LMS_WebAPP_ServiceHelpers
                 throw;
             }
         }
+
+        public async Task<List<EmployeeSkillDetails>> GetSkillsListAsync()
+        {
+            Logger.Info("Entering into HRManagement APP Service helper GetSkillsListAsync method ");
+            try
+            {
+                using (HttpClient client = new HttpClient())
+                {
+                    const string URL = "http://localhost:64476/api/HR/GetSkillsList";
+                    client.BaseAddress = new Uri(URL);
+                    // Add an Accept header for JSON format.
+                    client.DefaultRequestHeaders.Accept.Add(
+                    new MediaTypeWithQualityHeaderValue("application/json"));
+
+                    // List data response.
+                    HttpResponseMessage response = await client.GetAsync(URL);  // Blocking call!
+                    if (response.IsSuccessStatusCode)
+                    {
+                        // Parse the response body. Blocking!
+                        var dataObjects = response.Content.ReadAsAsync<List<EmployeeSkillDetails>>().Result.ToList();
+                        Logger.Info("Exiting from into HRManagement APP Service helper GetSkillsListAsync method ");
+                        return dataObjects;
+                    }
+                    else
+                    {
+                        Console.WriteLine("{0} ({1})", (int)response.StatusCode, response.ReasonPhrase);
+                        Logger.Info("Exiting from into HRManagement APP Service helper GetSkillsListAsync method ");
+                        return null;
+                    }
+                }
+            }
+            catch
+            {
+                Logger.Info("Exception occured at HRManagement APP Service helper GetProjectsListAsync method ");
+                throw;
+            }
+        }
     }
 }

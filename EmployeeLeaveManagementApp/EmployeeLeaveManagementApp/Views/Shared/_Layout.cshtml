@@ -31,11 +31,11 @@
     <![endif]-->
     @using LMS_WebAPP_Utils
     @{
-        var userName = ((LMS_WebAPP_Domain.UserAccount)Session[Constants.SESSION_OBJ_USER]).UserName;
-        var imagePath = ((LMS_WebAPP_Domain.UserAccount)Session[Constants.SESSION_OBJ_USER]).Imagepath;
-        var joiningDate = ((LMS_WebAPP_Domain.UserAccount)Session[Constants.SESSION_OBJ_USER]).DateOfJoining;
-        var roleId = ((LMS_WebAPP_Domain.UserAccount)Session[Constants.SESSION_OBJ_USER]).RefRoleId;
-        var userRole = LMS_WebAPP_Utils.CommonMethods.Description((LMS_WebAPP_Utils.EmployeeRole)roleId);
+        var userName = ((LMS_WebAPP_Domain.UserAccount)Session[Constants.SESSION_OBJ_USER])!=null?((LMS_WebAPP_Domain.UserAccount)Session[Constants.SESSION_OBJ_USER]).UserName:string.Empty;
+        var imagePath = ((LMS_WebAPP_Domain.UserAccount)Session[Constants.SESSION_OBJ_USER])!=null?((LMS_WebAPP_Domain.UserAccount)Session[Constants.SESSION_OBJ_USER]).Imagepath:string.Empty;
+        var joiningDate = ((LMS_WebAPP_Domain.UserAccount)Session[Constants.SESSION_OBJ_USER])!=null?((LMS_WebAPP_Domain.UserAccount)Session[Constants.SESSION_OBJ_USER]).DateOfJoining:DateTime.MinValue;
+        var roleId = ((LMS_WebAPP_Domain.UserAccount)Session[Constants.SESSION_OBJ_USER])!=null?((LMS_WebAPP_Domain.UserAccount)Session[Constants.SESSION_OBJ_USER]).RefRoleId:0;
+        var userRole = roleId!=0?LMS_WebAPP_Utils.CommonMethods.Description((LMS_WebAPP_Utils.EmployeeRole)roleId):string.Empty;
         imagePath = imagePath != null ? imagePath : "/Content/Images/DefaultImage.png";
     }
 </head>

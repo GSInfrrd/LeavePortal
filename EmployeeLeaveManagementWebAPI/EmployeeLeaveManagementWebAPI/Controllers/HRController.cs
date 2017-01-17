@@ -180,5 +180,23 @@ namespace EmployeeLeaveManagementWebAPI.Controllers
             }
         }
 
+        [HttpGet]
+        [Route("GetSkillsList")]
+        public List<EmployeeSkillDetails> GetSkillsList()
+        {
+            try
+            {
+                Logger.Info("Entering in HRController API GetSkillsList method");
+                var result = hrOperations.GetSkillsList();
+                Logger.Info("Successfully exiting from HRController API GetSkillsList method");
+                return result;
+            }
+            catch (Exception ex)
+            {
+                Logger.Error("Error at HRController API GetSkillsList method.", ex);
+                return null;
+            }
+        }
+
     }
 }

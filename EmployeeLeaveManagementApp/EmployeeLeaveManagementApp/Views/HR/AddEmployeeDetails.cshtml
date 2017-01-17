@@ -182,11 +182,11 @@
                         <input type="text" class="form-control" id="experienceDatePicker">
                     </div>
                     <div class="form-group col-md-6">
-                        <label for="ddlSkills">Skills</label>
+                        <label>Skills</label>
                         <select id="ddlSkills" multiple="multiple" class="form-control skills" style="width: 100%;">
-                            <option>.Net</option>
+                            @*<option>.Net</option>
                             <option>Java</option>
-                            <option>Html</option>
+                            <option>Html</option>*@
                         </select>
                     </div>
 
@@ -217,6 +217,7 @@
     $(document).ready(function () {
         $(function () {
             GetProjectsList();
+            GetSkillsList();
             //Initialize Select2 Elements
             $(".designation").select2();
             $(".graduation").select2();
@@ -275,18 +276,6 @@
                 var endDate = new Date(end);
                 var endMonth = endDate.getMonth() + 1;
                 educationToDate = endDate.getFullYear() + "-" + endMonth + "-" + endDate.getDate();
-                //toDate = end.toString("YYYY-MM-DD");
-                //var days = (endDate - startDate) / (1000 * 60 * 60 * 24);
-                //days += 1;
-                //var weekend_count = 0;
-                //for (i = startDate.valueOf() ; i <= endDate.valueOf() ; i += 86400000) {
-                //    var temp = new Date(i);
-                //    if (temp.getDay() == 0 || temp.getDay() == 6) {
-                //        weekend_count++;
-                //    }
-                //}
-                //days = days - weekend_count;
-                //$("#lblTotalWorkingDays").html(Math.round(days));
             });
             $('#educationDatePicker').on('apply.daterangepicker', function (ev, picker) {
 
@@ -294,17 +283,6 @@
                 educationFromDate = start.format('YYYY-MM-DD');
                 var end = picker.endDate;
                 educationToDate = end.format('YYYY-MM-DD');
-                //var days = (end - start) / (1000 * 60 * 60 * 24);
-
-                //var weekend_count = 0;
-                //for (i = start.valueOf() ; i <= end.valueOf() ; i += 86400000) {
-                //    var temp = new Date(i);
-                //    if (temp.getDay() == 0 || temp.getDay() == 6) {
-                //        weekend_count++;
-                //    }
-                //}
-                //days = days - weekend_count
-                //$("#lblTotalWorkingDays").html(Math.round(days));
             });
             $('#experienceDatePicker').on('change.daterangepicker', function (ev, picker) {
                 var date = ev.target.value;
@@ -341,15 +319,15 @@
 
             Graduation: $("#ddlGraduation").val(),
             Institution: $("#txtUniversity").val(),
-            FromDate:educationFromDate,
-            ToDate: educationToDate
+            FromDate: $("#educationDatePicker").val().split("-")[0].trim(),
+            ToDate: $("#educationDatePicker").val().split("-")[1].trim()
         }
         var experienceDetails = {
 
             CompanyName: $("#txtEmployer").val(),
             Role: $("#txtDesignation").val(),
-            FromDate: experienceFromDate,
-            ToDate: experienceToDate
+            FromDate: $("#experienceDatePicker").val().split("-")[0].trim(),
+            ToDate: $("#experienceDatePicker").val().split("-")[1].trim()
         }
         var skills = [];
         for (i = 0; i < $("#ddlSkills").val().length; i++) {
@@ -454,6 +432,19 @@
             }
         });
     }
-
+    function GetSkillsList() {
+        $.ajax({
+            cache: false,
+            type: 'post',
+            url: '/HR/GetSkillsList',
+            contentType: "application/json",
+            dataType: "json",
+            success: function (data) {
+                for (var i = 0; i < data.data.length; i++) {
+                    $("#ddlSkills").append($('<option></option>').attr("value", data.data[i].SkillName).text(data.data[i].SkillName));
+                }
+            }
+        });
+    }
 
 </script>

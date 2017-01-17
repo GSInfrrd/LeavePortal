@@ -373,5 +373,35 @@ namespace LMS_WebAPI_DAL.Repositories
             }
 
         }
+
+        public List<EmployeeSkillDetails> GetSkillsList()
+        {
+            Logger.Info("Entering in HRRepository API GetSkillsList method");
+            try
+            {
+                var skillsList = new List<EmployeeSkillDetails>();
+                using (var ctx = new LeaveManagementSystemEntities1())
+                {
+                    var list = ctx.MasterDataValues.Where(x=>x.RefMasterType==(int) MasterDataTypeEnum.Skills).ToList();
+                    foreach (var item in list)
+                    {
+                        var skill = new EmployeeSkillDetails();
+                        skill.Id = item.Id;
+                        skill.SkillName = item.Value;
+                        skillsList.Add(skill);
+                        
+                       
+                    }
+                }
+                Logger.Info("Successfully exiting from HRRepository API GetSkillsList method");
+                return skillsList;
+            }
+            catch
+            {
+                Logger.Info("Exception occured at HRRepository API GetSkillsList method ");
+                throw;
+            }
+
+        }
     }
 }

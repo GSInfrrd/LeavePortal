@@ -578,5 +578,23 @@ namespace EmployeeLeaveManagementApp.Controllers
             }
         }
 
+        public async Task<JsonResult> GetSkillsList()
+        {
+            Logger.Info("Entering in HRController APP GetSkillsList method");
+            try
+            {
+                var model = new List<EmployeeSkillDetails>();
+                model = await hrOperations.GetSkillsListAsync();
+                Logger.Info("Successfully exiting from HRController APP GetSkillsList method");
+                return Json(new { data = model });
+            }
+            catch (Exception ex)
+            {
+                Logger.Error("Error at HRController APP GetSkillsList method.", ex);
+                return null;
+            }
+
+        }
+
     }
 }
