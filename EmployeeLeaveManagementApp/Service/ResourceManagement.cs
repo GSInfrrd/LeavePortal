@@ -14,10 +14,12 @@ namespace Service
         static HttpClient client = new HttpClient();
 
         private string URLGetResourcesFormDetails = "http://localhost:64476/api/ResourceRequest/GetResourceDetails";
-        private string URLGetResourcesToRespond = "http://localhost:64476/api/ResourceRequest/ResourceRequestsToRespond";
+        private string URLGetResources = "http://localhost:64476/api/ResourceRequest/ResourceRequests";
         private string URLPost = "http://localhost:64476/api/ResourceRequest/SubmitResourceRequest";
         private string URLPostRequestResponse = "http://localhost:64476/api/ResourceRequest/SubmitResourceRequestsResponse";
         private string urlParameters;
+        private string urlParameters1;
+        private string urlParameters2;
 
         public async Task<ResourceDetails> GetResourceRequestFormDetails(int managerId)
         {
@@ -85,20 +87,21 @@ namespace Service
             }
         }
 
-        public async Task<List<ResourceRequestDetailModel>> GetResourceRequests(int hrId)
+        public async Task<List<ResourceRequestDetailModel>> GetResourceRequests(int userId, bool viewAll)
         {
             try
             {
                 HttpClient client = new HttpClient();
-                client.BaseAddress = new Uri(URLGetResourcesToRespond);
-                urlParameters = "?id=" + hrId;
-                URLGetResourcesToRespond += urlParameters;
+                client.BaseAddress = new Uri(URLGetResources);
+                urlParameters1 = "/" + userId;
+                urlParameters2 = "/" + viewAll;
+                URLGetResources += urlParameters1 + urlParameters2;
 
-                client.BaseAddress = new Uri(URLGetResourcesToRespond);
+                client.BaseAddress = new Uri(URLGetResources);
                 // Add an Accept header for JSON format.
                 client.DefaultRequestHeaders.Accept.Add(
                 new MediaTypeWithQualityHeaderValue("application/json"));
-                HttpResponseMessage response = await client.GetAsync(URLGetResourcesToRespond); // Blocking call!                
+                HttpResponseMessage response = await client.GetAsync(URLGetResources); // Blocking call!                
 
                 if (response.IsSuccessStatusCode)
                 {
@@ -144,5 +147,7 @@ namespace Service
                 throw ex;
             }
         }
+
+        
     }
 }

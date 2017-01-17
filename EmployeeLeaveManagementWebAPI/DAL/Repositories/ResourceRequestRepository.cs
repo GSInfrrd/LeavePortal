@@ -38,18 +38,18 @@ namespace LMS_WebAPI_DAL.Repositories
                     resourceDetails.ListOfHR = lstHR;
                     resourceDetails.Skills = skills;
 
-                    bool isManager = true;
-                    resourceDetails.ResourceRequestHistory = GetResourceRequestDetails(managerId, isManager);
+                    bool viewAll = false;
+                    resourceDetails.ResourceRequestHistory = GetResourceRequestDetails(managerId, viewAll);
                 }
                 return resourceDetails;
             }
-            catch (Exception ex)
+            catch
             {
-                throw ex;
+                throw;
             }
         }
 
-        public List<ResourceRequestDetailModel> GetResourceRequestDetails(int Id,bool isManager)
+        public List<ResourceRequestDetailModel> GetResourceRequestDetails(int userId, bool viewAll)
         {
             try
             {
@@ -57,11 +57,20 @@ namespace LMS_WebAPI_DAL.Repositories
                 {
                     var lstHR = ctx.EmployeeDetails.Include("MasterDataValue").Where(x => x.MasterDataValue.Id == (Int16)EmployeeRole.HR).ToList();
                     var lstManagers = ctx.EmployeeDetails.Include("MasterDataValue").Where(x => x.MasterDataValue.Id == (Int16)EmployeeRole.Manager).ToList();
+                    var role = ctx.EmployeeDetails.Where(x => x.Id == userId).Select(y => y.RefRoleId).FirstOrDefault();
                     var lstResourceDetails = new List<ResourceRequestDetailModel>();
                     var resourceRequests = ctx.ResourceRequestDetails.ToList();
-                    if (isManager)
+                    if (role == (Int16)EmployeeRole.Manager)
                     {
-                        resourceRequests = resourceRequests.Where(x => x.RequestFromId == Id).ToList();
+                        if (!viewAll)
+                        {
+                            resourceRequests = resourceRequests.Where(x => x.RequestFromId == userId).OrderByDescending(y => y.UpdatedDate).Take(10).ToList();
+                        }
+                        else
+                        {
+                            resourceRequests = resourceRequests.Where(x => x.RequestFromId == userId).OrderByDescending(y => y.UpdatedDate).Skip(10).ToList();
+                        }
+
                         if (null != resourceRequests)
                         {
                             foreach (var resource in resourceRequests)
@@ -76,15 +85,23 @@ namespace LMS_WebAPI_DAL.Repositories
                                     Status = resource.Status,
                                     NumberRequestedResources = resource.NumberRequestedResources,
                                     Skills = resource.Skills,
-                                    RequestToName = lstHR.Where(x => x.Id == resource.RequestToId).Select(x => x.FirstName + x.LastName).FirstOrDefault()
+                                    RequestToName = lstHR.Where(x => x.Id == resource.RequestToId).Select(x => x.FirstName + " " + x.LastName).FirstOrDefault()
                                 };
                                 lstResourceDetails.Add(resourceRequest);
                             }
                         }
                     }
-                    else
+                    else if (role == (Int16)EmployeeRole.HR)
                     {
-                        resourceRequests = resourceRequests.Where(x => x.RequestToId == Id).ToList();
+                        if (!viewAll)
+                        {
+                            resourceRequests = resourceRequests.Where(x => x.RequestToId == userId).OrderByDescending(y => y.UpdatedDate).Take(10).ToList();
+                        }
+                        else
+                        {
+                            resourceRequests = resourceRequests.Where(x => x.RequestToId == userId).OrderByDescending(y => y.UpdatedDate).Skip(10).ToList();
+                        }
+
                         if (null != resourceRequests)
                         {
                             foreach (var resource in resourceRequests)
@@ -99,7 +116,7 @@ namespace LMS_WebAPI_DAL.Repositories
                                     Status = resource.Status,
                                     NumberRequestedResources = resource.NumberRequestedResources,
                                     Skills = resource.Skills,
-                                    RequestFromName = lstManagers.Where(x => x.Id == resource.RequestFromId).Select(x => x.FirstName + x.LastName).FirstOrDefault()
+                                    RequestFromName = lstManagers.Where(x => x.Id == resource.RequestFromId).Select(x => x.FirstName + " " + x.LastName).FirstOrDefault()
                                 };
                                 lstResourceDetails.Add(resourceRequest);
                             }
@@ -108,10 +125,10 @@ namespace LMS_WebAPI_DAL.Repositories
                     return lstResourceDetails;
                 }
             }
-            catch (Exception ex)
+            catch
             {
 
-                throw ex;
+                throw;
             }
         }
 
@@ -130,7 +147,7 @@ namespace LMS_WebAPI_DAL.Repositories
                         ResourceRequestTitle = model.ResourceRequestTitle,
                         NumberRequestedResources = model.NumberRequestedResources,
                         Status = model.Status,
-                        RequestToName = lstHR.Where(x => x.Id == model.RequestToId).Select(x => x.FirstName + x.LastName).FirstOrDefault(),
+                        RequestToName = lstHR.Where(x => x.Id == model.RequestToId).Select(x => x.FirstName + " " + x.LastName).FirstOrDefault(),
                         Skills = model.Skills,
                         CreatedDate = model.CreatedDate,
                         UpdatedDate = model.UpdatedDate
@@ -138,9 +155,9 @@ namespace LMS_WebAPI_DAL.Repositories
                     return resourceDetail;
                 }
             }
-            catch (Exception ex)
+            catch
             {
-                throw ex;
+                throw;
             }
         }
 
@@ -154,6 +171,7 @@ namespace LMS_WebAPI_DAL.Repositories
                     if (null != request)
                     {
                         request.Status = model.Status;
+                        request.UpdatedDate = DateTime.Now;
                         ctx.SaveChanges();
                     }
                     else
@@ -168,10 +186,10 @@ namespace LMS_WebAPI_DAL.Repositories
                     return resourceRequestReponse;
                 }
             }
-            catch (Exception ex)
+            catch
             {
 
-                throw ex;
+                throw;
             }
         }
     }

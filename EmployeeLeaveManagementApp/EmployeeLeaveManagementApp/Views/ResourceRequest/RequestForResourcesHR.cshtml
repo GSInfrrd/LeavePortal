@@ -12,87 +12,67 @@
 <link href="~/plugins/datatables/jquery.dataTables.min.css" rel="stylesheet" />
 <link href="~/plugins/datatables/dataTables.bootstrap.css" rel="stylesheet" />
 <section class="content">
-    <input id="requestStatusEnum" data-val="@serializedlstRequestStatus" hidden>
-    <div class="col-md-12">
-        <!-- general form elements -->
-        <div class="box box-primary">
-            <div class="box-header with-border">
-                <h3 class="box-title">Resource Request To Respond</h3>
+    <input id="requestStatusEnum" data-val="@serializedlstRequestStatus" hidden>    
+    <div class="box box-info">
+        <div class="box-header with-border">
+            <h3 class="box-title">Latest Orders</h3>
+            <div class="box-tools pull-right">
+                <button type="button" class="btn btn-box-tool" data-widget="collapse">
+                    <i class="fa fa-minus"></i>
+                </button>
+                <button type="button" class="btn btn-box-tool" data-widget="remove">
+                    <i class="fa fa-times"></i>
+                </button>
             </div>
-            <!-- /.box-header -->
-            <!-- form start -->
-            <div class="reousrceHistoryDiv padding-top5-bottom20 padding-right-left-15">
-
-                @*@foreach (var resource in Model.ResourceRequestHistory)
-                    {
-                        <div class="row margin-left-right-15 resourceHistoryDetails padding-top-bottom-5 border-bottom-table">
-                            <div class="col-md-4 pad-right0-pad-right-15">@resource.Ticket</div>
-                            <div class="col-md-4 pad-right0-pad-right-15">@resource.ResourceRequestTitle</div>
-                            <div class="col-md-4 pad-right0-pad-right-15">@resource.Status</div>
-                        </div>
-                    }*@
-                <table id="resourceRequestsTable" class="display" cellspacing="0" width="100%">
+        </div>
+        <!-- /.box-header -->
+        <div class="box-body">            
+            <table class="table no-margin" id="resourceRequestsTable">
                     <thead>
                         <tr>
                             <th>Request Ticket</th>
                             <th>Request Title</th>
+                            <th>Created On</th>
                             <th>Status</th>
                         </tr>
                     </thead>
-                    <tfoot>
-                        <tr>
-                            <th>Request Ticket</th>
-                            <th>Request Title</th>
-                            <th>Status</th>
-                        </tr>
-                    </tfoot>
-                    <tbody class="requestHistoryTableBody">
+                    <tbody>
                         @foreach (var resource in Model)
                         {
                             <tr>
-                                <td><a href="#" onClick="showRequestedDetails(this)" data-ticket="@resource.Ticket" data-created="@resource.CreatedDate" data-updated="@resource.UpdatedDate" data-title="@resource.ResourceRequestTitle" data-noRsource="@resource.NumberRequestedResources" data-skills="@resource.Skills" data-from="@resource.RequestFromName" data-status="@resource.StatusValue" data-statusKey="@resource.Status" onclick="ticketClicked(this)">@resource.Ticket</a></td>
+                                <td><a href="#" onClick="showRequestedDetails(this)" data-ticket="@resource.Ticket" data-created="@resource.CreatedDate" data-updated="@resource.UpdatedDate" data-title="@resource.ResourceRequestTitle" data-noRsource="@resource.NumberRequestedResources" data-skills="@resource.Skills" data-from="@resource.RequestFromName" data-status="@resource.StatusValue" data-statusKey="@resource.Status">@resource.Ticket</a></td>
                                 <td>@resource.ResourceRequestTitle</td>
+                                <td>@resource.CreatedDate</td>
                                 <td>
                                     <div class="btn-group">
                                         @if (resource.Status == 1)
-                {
-                                            <button type="button" class="btn btn-info text-color-white dropdown-toggle" data-status="@resource.Status" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                                @resource.StatusValue <span class="caret"></span>
-                                            </button>
+                                        {
+                                            <span class="label btn-color-requested">@resource.StatusValue</span>
                                         }
                                         else if (resource.Status == 2)
                                         {
-                                            <button type="button" class="btn btn-success text-color-white dropdown-toggle" data-status="@resource.Status" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                                @resource.StatusValue <span class="caret margin-left-5"></span>
-                                            </button>
+                                            <span class="label btn-color-processing">@resource.StatusValue</span>
                                         }
-                                        <ul class="dropdown-menu">
-                                            @foreach (var requestStatus in lstRequestStatus)
-                                            {
-                                                if (requestStatus.Key != resource.Status)
-                                                {
-                                                    if (requestStatus.Key == 1)
-                                                    {
-                                                        <li><a href="#" class="text-color-white btn-color-processing" data-id="@resource.Id" onclick="respondToRequest(this)" data-createdDate="@resource.CreatedDate" data-ticket="@resource.Ticket" data-statusKey="@requestStatus.Key">@requestStatus.Value</a></li>
-                                                    }
-                                                    else if (requestStatus.Key == 2)
-                                                    {
-                                                        <li><a href="#" class="text-color-white btn-color-approved" data-id="@resource.Id" onclick="respondToRequest(this)" data-createdDate="@resource.CreatedDate" data-ticket="@resource.Ticket" data-statusKey="@requestStatus.Key">@requestStatus.Value</a></li>
-                                                    }
-                                                }
-                                            }
-                                        </ul>
+                                        else if (resource.Status == 3)
+                                        {
+                                            <span class="label btn-color-partialApproval">@resource.StatusValue</span>
+                                        }
+                                        else 
+                                        {
+                                            <span class="label btn-color-approved">@resource.StatusValue</span>
+                                        }
                                     </div>
                                 </td>
                             </tr>
                         }
-
                     </tbody>
-                </table>
-            </div>
+                </table>   
+        </div>
+        <!-- /.box-body -->
+        <div class="box-footer clearfix">
+            <a href="javascript:void(0)" class="btn btn-sm btn-default btn-flat pull-right"  onclick="getAllRequests()">View All Requests</a>
         </div>
     </div>
-
 </section>
 <div class="modal requestResourceDetails-modal" id="ResourceRequestToRespondModal" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel">
     <div class="modal-dialog" role="document">
@@ -105,7 +85,7 @@
             </div>
             <div class="modal-body">
                 <div class="form-group" style="padding-bottom:20px">
-                    <div class="divBorder padding-top-bottom10">
+                    <div class="padding-top-bottom10">
                         <div class="row">
                             <div class="col-md-4"><label class="">Request Title:</label></div>
                             <div class="col-md-8"><span class="requestTitle"></span></div>
@@ -159,10 +139,26 @@
 <script>
     $(document).ready(function () {
         $(function () {
-            $('#resourceRequestsTable').DataTable();
+            $('#resourceRequestsTable').DataTable({
+                "ordering": true,
+                "paging": false,
+                "lengthChange": false,
+                "searching": false,
+                "autoWidth": false,
+                "info": false
+            });
         });
     });
     function showRequestedDetails(id) {
+        var deserializedStatusList = jQuery.parseJSON('@serializedlstRequestStatus');
+        var statusDict = []; 
+        $.each(deserializedStatusList, function (index, value) {
+            debugger;
+            statusDict.push({
+                key: parseInt(index),
+                value: value
+            });
+        });
         var statusKey = parseInt($(id).attr('data-statusKey'));
         var requestId = parseInt($(id).attr('data-id'));
         $(".requestTitle").html($(id).attr('data-title'));
@@ -176,20 +172,91 @@
 
         $(".requestResponseDate").html($(id).attr('data-updated'));
         if (statusKey == 1) {
-            $("#btnModalStatus").addClass("btn-info");
+            $("#btnModalStatus").removeClass("btn-color-requested").removeClass("btn-color-processing").removeClass("btn-color-partialApproval").removeClass("btn-color-approved").addClass("btn-color-requested");
             $(".statusListDropdown").html("");
-            $(".statusListDropdown").append('<li><a href="#" class="text-color-white btn-color-approved" data-id="'+id +'" data-createdDate="' + $(id).attr('data-created') + '" data-ticket="' + $(id).attr('data-ticket') + '" data-statusKey="' + statusKey + '" onclick="respondToRequest(this)">' + 'Approved' + '</a></li>');
+            for (i = 0; i < statusDict.length;i++){
+                if (statusDict[i].key != statusKey) {
+                    if (statusDict[i].key == 1) {
+                        $(".statusListDropdown").append('<li><a href="#" class="text-color-white btn-color-requested" data-id="' + id + '" data-createdDate="' + $(id).attr('data-created') + '" data-ticket="' + $(id).attr('data-ticket') + '" data-statusKey="' + statusDict[i].key + '" onclick="respondToRequest(this)">' + statusDict[i].value + '</a></li>');
+                    }
+                    else if (statusDict[i].key == 2) {
+                        $(".statusListDropdown").append('<li><a href="#" class="text-color-white btn-color-processing" data-id="' + id + '" data-createdDate="' + $(id).attr('data-created') + '" data-ticket="' + $(id).attr('data-ticket') + '" data-statusKey="' + statusDict[i].key + '" onclick="respondToRequest(this)">' + statusDict[i].value + '</a></li>');
+                    }
+                    else if (statusDict[i].key == 3) {
+                        $(".statusListDropdown").append('<li><a href="#" class="text-color-white btn-color-partialApproval" data-id="' + id + '" data-createdDate="' + $(id).attr('data-created') + '" data-ticket="' + $(id).attr('data-ticket') + '" data-statusKey="' + statusDict[i].key + '" onclick="respondToRequest(this)">' + statusDict[i].value + '</a></li>');
+                    }
+                    else {
+                        $(".statusListDropdown").append('<li><a href="#" class="text-color-white btn-color-approved" data-id="' + id + '" data-createdDate="' + $(id).attr('data-created') + '" data-ticket="' + $(id).attr('data-ticket') + '" data-statusKey="' + statusDict[i].key + '" onclick="respondToRequest(this)">' + statusDict[i].value + '</a></li>');
+                    }
+                }
+            }
         }
         else if (statusKey == 2) {
-            $("#btnModalStatus").addClass("btn-success");
+            $("#btnModalStatus").removeClass("btn-color-requested").removeClass("btn-color-processing").removeClass("btn-color-partialApproval").removeClass("btn-color-approved").addClass("btn-color-processing");
             $(".statusListDropdown").html("");
-            $(".statusListDropdown").append('<li><a href="#" class="text-color-white btn-color-processing" data-id="' + id + '" data-createdDate="' + $(id).attr('data-created') + '"  data-ticket="' + $(id).attr('data-ticket') + '" data-statusKey="' + statusKey + '" onclick="respondToRequest(this)">' + 'In Progress' + '</a></li>');
+            for (i = 0; i < statusDict.length; i++) {
+                if (statusDict[i].key != statusKey) {
+                    if (statusDict[i].key == 1) {
+                        $(".statusListDropdown").append('<li><a href="#" class="text-color-white btn-color-requested" data-id="' + id + '" data-createdDate="' + $(id).attr('data-created') + '" data-ticket="' + $(id).attr('data-ticket') + '" data-statusKey="' + statusDict[i].key + '" onclick="respondToRequest(this)">' + statusDict[i].value + '</a></li>');
+                    }
+                    else if (statusDict[i].key == 2) {
+                        $(".statusListDropdown").append('<li><a href="#" class="text-color-white btn-color-processing" data-id="' + id + '" data-createdDate="' + $(id).attr('data-created') + '" data-ticket="' + $(id).attr('data-ticket') + '" data-statusKey="' + statusDict[i].key + '" onclick="respondToRequest(this)">' + statusDict[i].value + '</a></li>');
+                    }
+                    else if (statusDict[i].key == 3) {
+                        $(".statusListDropdown").append('<li><a href="#" class="text-color-white btn-color-partialApproval" data-id="' + id + '" data-createdDate="' + $(id).attr('data-created') + '" data-ticket="' + $(id).attr('data-ticket') + '" data-statusKey="' + statusDict[i].key + '" onclick="respondToRequest(this)">' + statusDict[i].value + '</a></li>');
+                    }
+                    else {
+                        $(".statusListDropdown").append('<li><a href="#" class="text-color-white btn-color-approved" data-id="' + id + '" data-createdDate="' + $(id).attr('data-created') + '" data-ticket="' + $(id).attr('data-ticket') + '" data-statusKey="' + statusDict[i].key + '" onclick="respondToRequest(this)">' + statusDict[i].value + '</a></li>');
+                    }
+                }
+            }
+        }
+        else if (statusKey == 3) {
+            $("#btnModalStatus").removeClass("btn-color-requested").removeClass("btn-color-processing").removeClass("btn-color-partialApproval").removeClass("btn-color-approved").addClass("btn-color-partialApproval");
+            $(".statusListDropdown").html("");
+            for (i = 0; i < statusDict.length; i++) {
+                if (statusDict[i].key != statusKey) {
+                    if (statusDict[i].key == 1) {
+                        $(".statusListDropdown").append('<li><a href="#" class="text-color-white btn-color-requested" data-id="' + id + '" data-createdDate="' + $(id).attr('data-created') + '" data-ticket="' + $(id).attr('data-ticket') + '" data-statusKey="' + statusDict[i].key + '" onclick="respondToRequest(this)">' + statusDict[i].value + '</a></li>');
+                    }
+                    else if (statusDict[i].key == 2) {
+                        $(".statusListDropdown").append('<li><a href="#" class="text-color-white btn-color-processing" data-id="' + id + '" data-createdDate="' + $(id).attr('data-created') + '" data-ticket="' + $(id).attr('data-ticket') + '" data-statusKey="' + statusDict[i].key + '" onclick="respondToRequest(this)">' + statusDict[i].value + '</a></li>');
+                    }
+                    else if (statusDict[i].key == 3) {
+                        $(".statusListDropdown").append('<li><a href="#" class="text-color-white btn-color-partialApproval" data-id="' + id + '" data-createdDate="' + $(id).attr('data-created') + '" data-ticket="' + $(id).attr('data-ticket') + '" data-statusKey="' + statusDict[i].key + '" onclick="respondToRequest(this)">' + statusDict[i].value + '</a></li>');
+                    }
+                    else {
+                        $(".statusListDropdown").append('<li><a href="#" class="text-color-white btn-color-approved" data-id="' + id + '" data-createdDate="' + $(id).attr('data-created') + '" data-ticket="' + $(id).attr('data-ticket') + '" data-statusKey="' + statusDict[i].key + '" onclick="respondToRequest(this)">' + statusDict[i].value + '</a></li>');
+                    }
+                }
+            }
+        }
+        else {
+            $("#btnModalStatus").removeClass("btn-color-requested").removeClass("btn-color-processing").removeClass("btn-color-partialApproval").removeClass("btn-color-approved").addClass("btn-color-approved");
+            $(".statusListDropdown").html("");
+            for (i = 0; i < statusDict.length; i++) {
+                if (statusDict[i].key != statusKey) {
+                    if (statusDict[i].key == 1) {
+                        $(".statusListDropdown").append('<li><a href="#" class="text-color-white btn-color-requested" data-id="' + id + '" data-createdDate="' + $(id).attr('data-created') + '" data-ticket="' + $(id).attr('data-ticket') + '" data-statusKey="' + statusDict[i].key + '" onclick="respondToRequest(this)">' + statusDict[i].value + '</a></li>');
+                    }
+                    else if (statusDict[i].key == 2) {
+                        $(".statusListDropdown").append('<li><a href="#" class="text-color-white btn-color-processing" data-id="' + id + '" data-createdDate="' + $(id).attr('data-created') + '" data-ticket="' + $(id).attr('data-ticket') + '" data-statusKey="' + statusDict[i].key + '" onclick="respondToRequest(this)">' + statusDict[i].value + '</a></li>');
+                    }
+                    else if (statusDict[i].key == 3) {
+                        $(".statusListDropdown").append('<li><a href="#" class="text-color-white btn-color-partialApproval" data-id="' + id + '" data-createdDate="' + $(id).attr('data-created') + '" data-ticket="' + $(id).attr('data-ticket') + '" data-statusKey="' + statusDict[i].key + '" onclick="respondToRequest(this)">' + statusDict[i].value + '</a></li>');
+                    }
+                    else {
+                        $(".statusListDropdown").append('<li><a href="#" class="text-color-white btn-color-approved" data-id="' + id + '" data-createdDate="' + $(id).attr('data-created') + '" data-ticket="' + $(id).attr('data-ticket') + '" data-statusKey="' + statusDict[i].key + '" onclick="respondToRequest(this)">' + statusDict[i].value + '</a></li>');
+                    }
+                }
+            }
         }
         $("#btnModalStatus").html($(id).attr('data-status') + '<span class="caret margin-left-5"></span>');
         $("#ResourceRequestToRespondModal").modal('show');
     }
 
     function respondToRequest(id) {
+        debugger;
         var ticket = $(id).attr('data-ticket');
         var status = parseInt($(id).attr('data-statusKey'));
         var creatdeDateValue = $(id).attr('data-createdDate');
@@ -204,50 +271,18 @@
         $.ajax({
             cache: false,
             type: 'post',
-            url: '/ResourceRequest/RespondToRequestForResourcest',
+            url: '/ResourceRequest/RespondToRequestForResources',
             data: JSON.stringify(model),
             contentType: "application/json",
             dataType: "json",
             processData:false,
             success: function (data) {
-                if(data.result == true){
-                    $(".requestHistoryTableBody").html("");
-                    @*$.post('@Url.Action("GetUpdatedRequests", "ResourceRequest")').always(function () {
-                        $('.target').load('/Shared/_RequestHistoryTable');
-                    });*@
-                    @*$("#requestHistoryTableBody").load('@(Url.Action("RequestHistoryTable", "ResourceRequest"))');*@
+                if (data.result == true) {
+                    $("#ResourceRequestToRespondModal").modal('hide');
+                    $("#resourceRequestsTable").find('tbody').html("");
                     for (i = 0; i < data.model.length; i++) {
-                        var createdDate = ToJavaScriptDate(data.model[i].CreatedDate);
-                        var tableRow = "<tr>";
-                        tableRow += '<td><a href="#" onClick="showRequestedDetails(this)" data-ticket="' + data.model[i].Ticket + '" data-created="' + createdDate + '"' +
-			                        ' data-updated="' + data.model[i].UpdatedDate + '" data-title="' + data.model[i].ResourceRequestTitle + '" ' +
-			                        'data-noRsource="' + data.model[i].NumberRequestedResources + '"' +
-			                        ' data-skills="' + data.model[i].Skills + '" data-from="' + data.model[i].RequestFromName + '" data-status="' + data.model[i].StatusValue + '" ' +
-			                        'data-statusKey="' + data.model[i].Status + '" onclick="ticketClicked(this)">' + data.model[i].Ticket + '</a></td>';
-                        tableRow += '<td>' + data.model[i].ResourceRequestTitle + '</td>';
-                        tableRow += '<td><div class="btn-group">';
-                        if (data.model[i].Status == 1) {
-                            tableRow += '<button type="button" class="btn btn-info text-color-white dropdown-toggle" ' +
-                            'data-status="' + data.model[i].Status + '" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">' +
-                            '' + data.model[i].StatusValue + ' <span class="caret"></span></button>';
-                        }
-                        else if (data.model[i].Status == 2) {
-                            tableRow += '<button type="button" class="btn btn-success text-color-white dropdown-toggle" ' +
-                                'data-status="' + data.model[i].Status + '" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">' +
-                                '' + data.model[i].StatusValue + ' <span class="caret"></span></button>';
-                        }
-                        tableRow += '<ul class="dropdown-menu">';
-                        if (data.model[i].Status == 1) {
-                            tableRow += '<li><a href="#" class="text-color-white btn-color-processing" ' +
-                            'data-id="' + data.model[i].Id + '" onclick="respondToRequest(this)" data-createdDate="' + data.model[i].CreatedDate + '"' +
-                            ' data-ticket="' + data.model[i].Ticket + '" data-statusKey="' + data.model[i].Key + '">' + data.model[i].Value + '</a></li>';
-                        }
-                        else if (data.model[i].Status == 2) {
-                            tableRow += '<li><a href="#" class="text-color-white btn-color-approved" ' +
-                            'data-id="' + data.model[i].Id + '" onclick="respondToRequest(this)" data-createdDate="' + data.model[i].CreatedDate + '"' +
-                            ' data-ticket="' + data.model[i].Ticket + '" data-statusKey="' + data.model[i].Key + '">' + data.model[i].Value + '</a></li>';
-                        }
-                        tableRow += '</ul></div></td></tr>';
+                        var tableRow = tabeRowPopulate(data.model[i]);
+
                         $("#resourceRequestsTable").find('tbody').append(tableRow);
                     }
                 }
@@ -255,11 +290,81 @@
         });
     }
 
+    function getAllRequests() {
+        debugger;
+        $.ajax({
+            cache: false,
+            type: 'post',
+            url: '/ResourceRequest/ViewAllRequests',
+            contentType: "application/json",
+            dataType: "json",
+            processData: false,
+            success: function (data) {
+                debugger;
+                var model = data.model;
+                for (i = 0; i < model.length; i++) {
+                    var tableRow = tabeRowPopulate(model[i]);
+                    $("#resourceRequestsTable").find('tbody').append(tableRow);
+                }
+                var test = data;
+                //var tableRow = tabeRowPopulate(data);
+            }
+        });
+    }
+
     function ToJavaScriptDate(value) {
+        debugger;
         var pattern = /Date\(([^)]+)\)/;
         var results = pattern.exec(value);
         var dt = new Date(parseFloat(results[1]));
-        return (dt.getDate() + "/" + dt.getMonth() + 1) + "/" + dt.getFullYear();
+        var hours = dt.getHours();
+        var minutes = dt.getMinutes();
+        var seconds = dt.getSeconds();
+        var currentHour = parseInt("0");
+        var time = "";
+        if (hours > 12) {
+            currentHour = hours % 12;
+            time = currentHour + ":" + minutes + ":" + seconds + " " + "PM";
+        }
+        else if (hours == 12) {
+            currentHour = hours;
+            time = currentHour + ":" + minutes + ":" + seconds + " " + "PM";
+        }
+        else {
+            currentHour = hours;
+            time = currentHour + ":" + minutes + ":" + seconds + " " + "AM";
+        }
+
+        return (dt.getDate() + "/" + dt.getMonth() + 1) + "/" + dt.getFullYear() + " " + time;
+    }
+
+    function tabeRowPopulate(model) {
+        var createdDate = ToJavaScriptDate(model.CreatedDate);
+        var updatedDate = ToJavaScriptDate(model.UpdatedDate);
+        var statusKey = parseInt(model.Status);
+        var tableRow = '<tr>';
+        tableRow += '<td><a href="#" onClick="showRequestedDetails(this)" data-ticket="' + model.Ticket + '" data-created="' + createdDate + '"' +
+			                        ' data-updated="' + updatedDate + '" data-title="' + model.ResourceRequestTitle + '" ' +
+			                        'data-noRsource="' + model.NumberRequestedResources + '"' +
+			                        ' data-skills="' + model.Skills + '" data-from="' + model.RequestFromName + '" data-status="' + model.StatusValue + '" ' +
+			                        'data-statusKey="' + model.Status + '" onclick="ticketClicked(this)">' + model.Ticket + '</a></td>';
+        tableRow += '<td>' + createdDate + '</td>';
+        tableRow += '<td>' + model.ResourceRequestTitle + '</td>';
+        tableRow += '<td><div class="btn-group">';
+        if (model.Status == 1) {
+            tableRow += '<span class="label btn-color-requested">' + model.StatusValue + '</span>';
+        }
+        else if (model.Status == 2) {
+            tableRow += '<span class="label btn-color-processing">' + model.StatusValue + '</span>';
+        }
+        else if (model.Status == 3) {
+            tableRow += '<span class="label btn-color-partialApproval">' + model.StatusValue + '</span>';
+        }
+        else {
+            tableRow += '<span class="label btn-color-approved">' + model.StatusValue + '</span>';
+        }
+        tableRow += '</div></td></tr>';
+        return tableRow;
     }
 </script>
 <style>

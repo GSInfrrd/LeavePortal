@@ -29,9 +29,9 @@ namespace EmployeeLeaveManagementWebAPI.Controllers
 
                 return resourceDetails;
             }
-            catch (Exception ex)
+            catch
             {
-                throw ex;
+                throw;
             }
         }
 
@@ -55,33 +55,33 @@ namespace EmployeeLeaveManagementWebAPI.Controllers
                 requestEntity.Ticket = "inf-" + model.RequestFromId + randomId;
                 requestEntity.CreatedDate = DateTime.Now;
                 requestEntity.UpdatedDate = DateTime.Now;
-                requestEntity.Status = Convert.ToInt16((Enum)ResourceRequestStatus.InProgress);
+                requestEntity.Status = Convert.ToInt16((Enum)ResourceRequestStatus.Requested);
 
                 var result = resourceRequestmanagement.SubmitResourceRequest(requestEntity);
                 return result;
             }
-            catch (Exception ex)
+            catch 
             {
 
-                throw ex;
+                throw;
             }
         }
 
         [AllowAnonymous]
         [HttpGet]
-        [Route("ResourceRequestsToRespond")]
-        public List<ResourceRequestDetailModel> ResourceRequestsToRespond(int id)
+        [Route("ResourceRequests/{id}/{viewAll}")]
+        public List<ResourceRequestDetailModel> ResourceRequests(int id, bool viewAll)
         {
             try
             {
                 var lstResourceDetails = new List<ResourceRequestDetailModel>();
-                lstResourceDetails = resourceRequestmanagement.GetResourceRequests(id);
+                lstResourceDetails = resourceRequestmanagement.GetResourceRequests(id, viewAll);
 
                 return lstResourceDetails;
             }
-            catch (Exception ex)
+            catch 
             {
-                throw ex;
+                throw;
             }
         }
 
@@ -102,9 +102,9 @@ namespace EmployeeLeaveManagementWebAPI.Controllers
                 var result = resourceRequestmanagement.SubmitResourceRequestResponse(resourceRequestResponse);
                 return result;
             }
-            catch (Exception ex)
+            catch
             {
-                throw ex;
+                throw;
             }
         }
     }

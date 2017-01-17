@@ -21,10 +21,10 @@ namespace Service
                 resourceDetails = _resourceRequest.GetResourceRequestFormDetails(managerId);
                 return resourceDetails;
             }
-            catch (Exception ex)
+            catch
             {
 
-                throw ex;
+                throw;
             }
         }
 
@@ -36,26 +36,25 @@ namespace Service
 
                 return requestModel;
             }
-            catch (Exception ex)
+            catch
             {
 
-                throw ex;
+                throw;
             }
         }
 
-        public List<ResourceRequestDetailModel> GetResourceRequests(int hrId)
+        public List<ResourceRequestDetailModel> GetResourceRequests(int userId, bool viewAll)
         {
             try
             {
-                bool isManager = false;
-                var requestModel = _resourceRequest.GetResourceRequestDetails(hrId, isManager);
+                var requestModel = _resourceRequest.GetResourceRequestDetails(userId, viewAll);
 
                 return requestModel;
             }
-            catch (Exception ex)
+            catch 
             {
 
-                throw ex;
+                throw;
             }
         }
 
@@ -67,10 +66,10 @@ namespace Service
 
                 return responseModel;
             }
-            catch (Exception ex)
+            catch 
             {
 
-                throw ex;
+                throw;
             }
         }
     }

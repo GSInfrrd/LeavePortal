@@ -46,12 +46,22 @@
 .text-color-white{
     color:#fff !important;
 }
+.btn-color-requested{
+    background-color:#3c8dbc !important;
+}
 .btn-color-processing{
     background-color:#00c0ef !important;
 }
+.btn-color-partialApproval{
+    background-color:#f39c12 !important;
+}
 .btn-color-approved{
-    background-color:#5cb85c !important;
+    background-color:#00a65a !important;
 }
 .margin-left-5{
     margin-left:5px !important;
 }
+.box.box-info {
+    border-top-color: #00c0ef;
+}
+

@@ -22,6 +22,7 @@ namespace EmployeeLeaveManagementApp.Controllers
             try
             {
                 int managerId = ((UserAccount)Session[LMS_WebAPP_Utils.Constants.SESSION_OBJ_USER]).RefEmployeeId;
+
             var resourceRequestFormDetails = await resourceManagementOperations.GetResourceRequestFormDetails(managerId);
             foreach (var history in resourceRequestFormDetails.ResourceRequestHistory)
             {
@@ -91,9 +92,11 @@ namespace EmployeeLeaveManagementApp.Controllers
         {
             try
             {
+                bool viewAll = false;
                 int hrId = ((UserAccount)Session[LMS_WebAPP_Utils.Constants.SESSION_OBJ_USER]).RefEmployeeId;
                 var lstRequestsToRespond = new List<ResourceRequestDetailModel>();
-                lstRequestsToRespond = await resourceManagementOperations.GetResourceRequests(hrId);
+
+                lstRequestsToRespond = await resourceManagementOperations.GetResourceRequests(hrId, viewAll);
                 if (null != lstRequestsToRespond)
                 {
                     foreach (var request in lstRequestsToRespond)
@@ -114,16 +117,17 @@ namespace EmployeeLeaveManagementApp.Controllers
             }
         }
 
-        public async Task<ActionResult> RespondToRequestForResourcest(ResourceRequestDetailModel model)
+        public async Task<ActionResult> RespondToRequestForResources(ResourceRequestDetailModel model)
         {
             try
             {
                 bool result = false;
+                bool viewAll = false;
                 var responsemodel = new ResourceRequestDetailModel();
                 responsemodel = await resourceManagementOperations.RespondToResourceRequests(model);
                 int hrId = ((UserAccount)Session[LMS_WebAPP_Utils.Constants.SESSION_OBJ_USER]).RefEmployeeId;
                 var lstRequestsToRespond = new List<ResourceRequestDetailModel>();
-                lstRequestsToRespond = await resourceManagementOperations.GetResourceRequests(hrId);
+                lstRequestsToRespond = await resourceManagementOperations.GetResourceRequests(hrId, viewAll);
                 foreach (var request in lstRequestsToRespond)
                 {
                     request.StatusValue = CommonMethods.Description((ResourceRequestStatus)request.Status);
@@ -141,6 +145,28 @@ namespace EmployeeLeaveManagementApp.Controllers
             {
                 Logger.Error("Error at ResourceRequestController APP SendRequestForResources method.", ex);
                 return Json(new { result = false });
+            }
+        }
+
+        public async Task<ActionResult> ViewAllRequests()
+        {
+            try
+            {
+                bool viewAll = true;
+                var currentUserId = ((UserAccount)Session[LMS_WebAPP_Utils.Constants.SESSION_OBJ_USER]).RefEmployeeId;
+                var test = (UserAccount)Session[LMS_WebAPP_Utils.Constants.SESSION_OBJ_USER];
+                var lstAllRequests = new List<ResourceRequestDetailModel>();
+                lstAllRequests = await resourceManagementOperations.GetResourceRequests(currentUserId, viewAll);
+                foreach (var request in lstAllRequests)
+                {
+                    request.StatusValue = CommonMethods.Description((ResourceRequestStatus)request.Status);
+                }
+                return Json(new { model = lstAllRequests });
+            }
+            catch (Exception ex)
+            {
+                Logger.Error("Error at ResourceRequestController APP ViewAllRequests method.", ex);
+                return null;
             }
         }
     }
