@@ -25,6 +25,7 @@ namespace LMS_WebAPI_ServiceHelpers
                     RefStatus = model.RefStatus,
                     CreatedBy = model.CreatedBy,
                     RefReason =model.RefReason,
+                    OtherReason=model.OtherReason
                 };
                 Logger.Info("Exiting from into WorkFromHomeManagement Service helper AddNewWorkFromHome method ");
                 return WorkFromHome.AddWorkFromHome(newWorkFromHome);
@@ -102,6 +103,21 @@ namespace LMS_WebAPI_ServiceHelpers
             catch 
             {
                 Logger.Info("Exception occured at WorkFromHomeManagement Service helper DeleteWorkFromHome method ");
+                throw;
+            }
+        }
+
+        public List<WorkFromHomeCommonModel> GetWorkFromHomeReasonsList()
+        {
+            Logger.Info("Entering into WorkFromHomeManagement Service helper GetWorkFromHomeReasonList method ");
+            try
+            {
+                Logger.Info("Exiting from into WorkFromHomeManagement Service helper GetWorkFromHomeReasonList method ");
+                return WorkFromHome.GetWorkFromHomeReasonsList();
+            }
+            catch
+            {
+                Logger.Info("Exception occured at WorkFromHomeManagement Service helper GetWorkFromHomeReasonList method ");
                 throw;
             }
         }

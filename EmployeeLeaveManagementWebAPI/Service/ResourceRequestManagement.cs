@@ -2,6 +2,8 @@
 using LMS_WebAPI_DAL;
 using LMS_WebAPI_DAL.Repositories;
 using LMS_WebAPI_DAL.Repositories.Interfaces;
+using LMS_WebAPI_Domain;
+using LMS_WebAPI_Utils;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -68,6 +70,25 @@ namespace Service
             }
             catch 
             {
+
+                throw;
+            }
+        }
+
+        public List<EmployeeDetailsModel> GetProjectMembersList(int projectId)
+        {
+            Logger.Info("Entering into ResourceRequestManagement Service helper GetProjectMembersList method ");
+
+            try
+            {
+
+                var responseModel = _resourceRequest.GetProjectMembersList(projectId);
+                Logger.Info("Exiting ResourceRequestManagement Service helper GetProjectMembersList method ");
+                return responseModel;
+            }
+            catch
+            {
+                Logger.Error("Exception occurred at ResourceRequestManagement Service helper GetProjectMembersList method ");
 
                 throw;
             }

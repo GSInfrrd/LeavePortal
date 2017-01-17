@@ -32,9 +32,9 @@ namespace LMS_WebAPI_DAL.Repositories
                                     RefEmployeeId = n.RefEmployeeId,
                                     RefStatus = n.RefStatus,
                                     RefReason = n.RefReason,
-                                    Reason = n.MasterDataValue1.Value,
+                                    Reason =n.RefReason==(int)WorkFormHomeReasons.Others?n.OtherReason: n.MasterDataValue1.Value,
                                     StatusName = n.MasterDataValue.Value
-
+                                    
                                 }).ToList();
                     }
                 }
@@ -125,5 +125,31 @@ namespace LMS_WebAPI_DAL.Repositories
             }
         }
 
+        public List<WorkFromHomeCommonModel> GetWorkFromHomeReasonsList()
+        {
+            Logger.Info("Entering in WorkFromHomeRepository API GetWorkFromHomeReasonsList method");
+            try
+            {
+                var wfhReasonsList = new List<WorkFromHomeCommonModel>();
+                using (var ctx = new LeaveManagementSystemEntities1())
+                {
+                    var workFromHomeReasons = ctx.MasterDataValues.Where(i => i.RefMasterType == (int)MasterDataTypeEnum.WorkFromHomeReason).ToList();
+                 foreach(var item in workFromHomeReasons)
+                    {
+                        var wfh = new WorkFromHomeCommonModel();
+                        wfh.Reason = item.Value;
+                        wfh.RefReason = item.Id;
+                        wfhReasonsList.Add(wfh);
+                    }
+                    Logger.Info("Successfully exiting from WorkFromHomeRepository API GetWorkFromHomeReasonsList method");
+                    return wfhReasonsList;
+                }
+            }
+            catch
+            {
+                Logger.Info("Exception occured at WorkFromHomeRepository GetWorkFromHomeReasonsList method ");
+                throw;
+            }
+        }
     }
 }

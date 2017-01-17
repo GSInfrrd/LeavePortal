@@ -2,7 +2,7 @@
 @{
     ViewBag.Title = "Index";
     Layout = "~/Views/Shared/_Layout.cshtml";
-    IList<DateTime> dateList = new List<DateTime>();
+    var dateList = Model.Select(i => i.Date).ToList();
 }
 
 <link href="~/plugins/Toastr/toastr.css" rel="stylesheet" />
@@ -10,17 +10,30 @@
 <link rel="stylesheet" href="~/plugins/iCheck/all.css">
 <!-- Bootstrap 3.3.6 -->
 @*<link rel="stylesheet" href="../../bootstrap/css/bootstrap.min.css">*@
-
+<style>  
+ .pagination > .active > a,
+    .pagination > .active > span,
+    .pagination > .active > a:hover,
+    .pagination > .active > span:hover,
+    .pagination > .active > a:focus,
+    .pagination > .active > span:focus {
+        z-index: 3;
+        color: #fff;
+        cursor: default;
+        background-color: black !important;
+        border-color: black !important;
+    }
+    </style> 
 <section class="content-header" style="height:41px">
     <h1 class="col-md-9">
-        Apply Work From Home
+        Work From Home
     </h1>
     @if (!dateList.Contains(DateTime.Now.Date))
-    {
+         { 
         <div style="float:right;padding-right:0px" class="col-md-2">
-            <button type="button" id="btnAddNewWorkFromHome" class="btn btn-block bg-black" data-toggle="modal" data-target="#exampleModal"><i class="fa fa-plus"></i>Add New</button>
+            <button type="button" id="btnAddNewWorkFromHome" class="btn btn-block bg-black" data-toggle="modal" data-target="#exampleModal"><i class="fa fa-plus"></i> Add New</button>
         </div>
-    }
+     }
 </section>
 
 <section class="content">
@@ -80,10 +93,12 @@
                         <select class="form-control" id="SelectReason">
                             @*<select class="form-control select2" style="width: 100%;" id="ddlLevel">*@
                             <option value="">Select</option>
-                            <option value="@Convert.ToInt16(LMS_WebAPP_Utils.WorkFormHomeReasons.Maintenance)">@LMS_WebAPP_Utils.CommonMethods.Description((LMS_WebAPP_Utils.WorkFormHomeReasons.Maintenance))</option>
-                            <option value="@Convert.ToInt16(LMS_WebAPP_Utils.WorkFormHomeReasons.AvoidTravel)">@LMS_WebAPP_Utils.CommonMethods.Description((LMS_WebAPP_Utils.WorkFormHomeReasons.AvoidTravel))</option>
                             @*</select>*@
                         </select>
+                    </div>
+                    <div class="form-group" style="display:none" id="divOtherReason">
+                        <label>Enter Reason:</label>
+                        <input type="text" class="form-control pull-right" id="txtOtherReason">
                     </div>
                 </form>
             </div>
@@ -101,10 +116,42 @@
 <script src="~/plugins/datatables/jquery.dataTables.min.js"></script>
 <script src="~/plugins/datatables/dataTables.bootstrap.min.js"></script>
 <script type="text/javascript">
+    var dateList= @Html.Raw(Json.Encode(dateList));;
     $('#exampleModal').on('show.bs.modal', function (event) {
     });
+  
+    $(document).ready(function()
+    {
+        GetWorkFromHomeReasonsList();
+    });
 
+    function GetWorkFromHomeReasonsList()
+    {
+        $.ajax({
+            cache: false,
+            type: 'post',
+            url: '/WorkFromHome/GetWorkFromHomeReasonsList',            
+            dataType: "json",
+            success: function (data) {
+                debugger;
+                for(var i=0;i<data.workFromHomeReasonsList.length;i++)
+                {
+                    $("#SelectReason").append($('<option></option>').attr("value", data.workFromHomeReasonsList[i].RefReason).text(data.workFromHomeReasonsList[i].Reason));
+                }
+            }
+        });
+    }
+    $(document).on('change',"#SelectReason",function(e){
+        var reason=$("#SelectReason :selected").html();
+        if(reason=="Others")
+        {
+            $("#divOtherReason").show();
+        }
+        else {
+            $("#divOtherReason").hide();
 
+        }
+    })
     function formatDate(date) {
         var mm = date.getMonth() + 1;
         var dd = date.getDate();
@@ -114,27 +161,10 @@
     }
     var today = (formatDate(new Date()));
     $('#datepicker').val(today);
-
-    @*var totalDate = @Html.Raw(Json.Encode(dateList));
     var loop = [];
-    for (i = 0; i < totalDate.length; i++) {
-        loop.push(new Date(parseInt(totalDate[i].substr(6, 13))).getTime());
+    for (i = 0; i < dateList.length; i++) {
+        loop.push(Date(dateList[i]).toString("dd-MM-yyyy"));
     }
-
-    $('#datepicker').datepicker({autoclose: true})
-    .on('changeDate', function(ev){
-       var date = ev.date;
-       console.log(ev.date);
-       var newDate = new Date(date).getTime();
-       console.log(newDate);
-          if ($.inArray(newDate, loop) > -1)
-          {
-              showMessage("The selected date is already existing.Please select new date!!", "2", true);
-              $('#datepicker').datepicker('hide');
-              $('#datepicker').val("");
-          }
-
-  });*@
 
     $(function () {
         $('#example1').DataTable({
@@ -150,35 +180,26 @@
 
 
     $(document).on('click', '#btnAddWorkFromHome ', function (e) {
-        debugger;
+        var selectedDate= $('#datepicker').val();
+        //if ($.inArray(selectedDate, loop) == -1)
+        //{
+        //    showMessage("You already applied for work from home on this date.", "2", true);
+        //    return false;        
+        //}
         if (formValidate() == true) {
-
                 $.ajax({
                     cache: false,
                     type: 'post',
                     url: '/WorkFromHome/AddWorkFromHomes',
-                    data: { date: $('#datepicker').val(), reason: $('#SelectReason').val() },
+                    data: { date: selectedDate, reason: $('#SelectReason').val(),textReason:$("#txtOtherReason").val() },
                     dataType: "json",
                     success: function (data) {
-                        //loop.push( new Date($('#datepicker').val()).getTime());
                         $('#exampleModal').modal('hide');
-                        $.ajax({
-                            cache: false,
-                            type: 'get',
-                            url: '/WorkFromHome/GetWorkFromHomeList',
-                            dataType: "json",
-                            success: function (data) {
-                                $('#exampleModal').modal('hide');
-                                updateDatatable(data, true);
-                                showMessage("New WorkFromHome added successfully", "1", true);
-                                $('#datepicker').val("");
-                                $('#SelectReason').val("");
-                            }
-                        });
                         $('#datepicker').val("");
                         $('#btnAddNewWorkFromHome').hide();
-                        //$('#datepicker').datepicker();
                         $('#SelectReason').val("");
+                        updateDatatable(data.wfhList, true);
+                        showMessage("New WorkFromHome added successfully", "1", true);
                     }
                 });
         }
@@ -217,11 +238,13 @@
     //Form validate
     function formValidate() {
         debugger;
-        if (
-        $('#datepicker').val() != "" &&
-        $('#SelectReason').val() != "") {
+        if($("#SelectReason :selected").html() == "Others" && $("#txtOtherReason").val()!="")
+        {
             return true;
         }
+        else if ($('#datepicker').val() != "" && $('#SelectReason').val() != "" && $("#SelectReason :selected").html() != "Others") {
+            return true;
+        }        
         else { return false; }
     }
 
@@ -234,16 +257,16 @@
         var fixedCartItemsHtml = "<table id='example1' class='table table-bordered table-striped'>" + " <thead> <tr>  <th>Date</th><th>Reason</th>" +
                                " </tr></thead><tbody>";
 
-        for (var i = 0; i < data.result.length; i++) {
+        for (var i = 0; i < data.length; i++) {
             //date
             fixedCartItemsHtml = fixedCartItemsHtml +
                                  "<tr>" +
-                                 "<td>" + data.result[i].FormattedDate +
+                                 "<td>" + data[i].FormattedDate +
                                  "</td>";
             //Description
             fixedCartItemsHtml = fixedCartItemsHtml +
 
-                                 "<td>" + data.result[i].Reason +
+                                 "<td>" + data[i].Reason +
                                  "</td></tr>";
         }
         fixedCartItemsHtml = fixedCartItemsHtml + "</tbody></table>";

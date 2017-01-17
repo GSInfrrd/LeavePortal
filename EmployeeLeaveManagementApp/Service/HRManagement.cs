@@ -275,7 +275,7 @@ namespace LMS_WebAPP_ServiceHelpers
             }
         }
 
-        public async Task<List<ProjectsList>> GetProjectsListAsync()
+        public async Task<List<ProjectsList>> GetProjectsListAsync(int managerId=0)
         {
             Logger.Info("Entering into HRManagement APP Service helper GetProjectsListAsync method ");
             try
@@ -283,13 +283,14 @@ namespace LMS_WebAPP_ServiceHelpers
                 using (HttpClient client = new HttpClient())
             {
                 const string URL = "http://localhost:64476/api/HR/GetProjectsList";
+                    urlParameters = "?managerId=" + managerId;
                 client.BaseAddress = new Uri(URL);
                 // Add an Accept header for JSON format.
                 client.DefaultRequestHeaders.Accept.Add(
                 new MediaTypeWithQualityHeaderValue("application/json"));
 
                 // List data response.
-                HttpResponseMessage response = await client.GetAsync(URL);  // Blocking call!
+                HttpResponseMessage response = await client.GetAsync(urlParameters);  // Blocking call!
                 if (response.IsSuccessStatusCode)
                 {
                         // Parse the response body. Blocking!
@@ -384,7 +385,7 @@ namespace LMS_WebAPP_ServiceHelpers
             }
             catch
             {
-                Logger.Info("Exception occured at HRManagement APP Service helper GetProjectsListAsync method ");
+                Logger.Info("Exception occured at HRManagement APP Service helper GetSkillsListAsync method ");
                 throw;
             }
         }

@@ -1,4 +1,5 @@
 ﻿using LMS_WebAPP_Domain;
+using LMS_WebAPP_Utils;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -148,6 +149,43 @@ namespace Service
             }
         }
 
-        
+        public async Task<List<EmployeeDetailsModel>> GetProjectMembersListAsync(int projectId)
+        {
+            Logger.Info("Entering into ResourceManagement APP Service helper GetProjectMembersListAsync method ");
+            try
+            {
+                using (HttpClient client = new HttpClient())
+                {
+                    const string URL = "http://localhost:64476/api/ResourceRequest/GetProjectMembersList";
+                    urlParameters = "?projectId=" + projectId;
+                    client.BaseAddress = new Uri(URL);
+                    // Add an Accept header for JSON format.
+                    client.DefaultRequestHeaders.Accept.Add(
+                    new MediaTypeWithQualityHeaderValue("application/json"));
+
+                    // List data response.
+                    HttpResponseMessage response = await client.GetAsync(urlParameters);  // Blocking call!
+                    if (response.IsSuccessStatusCode)
+                    {
+                        // Parse the response body. Blocking!
+                        var dataObjects = response.Content.ReadAsAsync<List<EmployeeDetailsModel>>().Result.ToList();
+                        Logger.Info("Exiting from into ResourceManagement APP Service helper GetProjectMembersListAsync method ");
+                        return dataObjects;
+                    }
+                    else
+                    {
+                        Console.WriteLine("{0} ({1})", (int)response.StatusCode, response.ReasonPhrase);
+                        Logger.Info("Exiting from into ResourceManagement APP Service helper GetProjectMembersListAsync method ");
+                        return null;
+                    }
+                }
+            }
+            catch
+            {
+                Logger.Info("Exception occured at ResourceManagement APP Service helper GetProjectsListAsync method ");
+                throw;
+            }
+        }
+
     }
 }

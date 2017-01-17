@@ -1255,7 +1255,7 @@
     <Content Include="Views\HR\AddLeaves.cshtml" />
     <Content Include="Views\HR\HolidayList.cshtml" />
     <Content Include="Views\HR\Reports.cshtml" />
-    <Content Include="Views\WorkFromHome\Index.cshtml" />
+    <Content Include="Views\WorkFromHome\ApplyWorkFromHome.cshtml" />
     <Content Include="Views\CompoOff\Index.cshtml" />
     <Content Include="Views\Account\ExternalLoginConfirmation.cshtml" />
     <Content Include="Views\Account\ExternalLoginFailure.cshtml" />
@@ -1266,6 +1266,7 @@
     <Content Include="Views\Account\_Calender.cshtml" />
     <Content Include="Views\Home\Error.cshtml" />
     <Content Include="Views\ResourceRequest\RequestForResourcesHR.cshtml" />
+    <Content Include="Views\ResourceRequest\ResourceLoad.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

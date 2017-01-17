@@ -192,6 +192,36 @@ namespace LMS_WebAPI_DAL.Repositories
                 throw;
             }
         }
+
+        public List<EmployeeDetailsModel> GetProjectMembersList(int projectId)
+        {
+            Logger.Info("Entering in ResourceRequestRepository API GetProjectMembersList method");
+            try
+            {
+                var employeeList = new List<EmployeeDetailsModel>();
+                using (var ctx = new LeaveManagementSystemEntities1())
+                {
+                    var projectsList = ctx.EmployeeProjectDetails.Include("EmployeeDetail").Where(i => i.RefProjectId == projectId).ToList();
+
+                    foreach (var item in projectsList)
+                    {
+                        var employee = new EmployeeDetailsModel();
+                        employee.Id = item.EmployeeDetail.Id;
+                        employee.ImagePath = item.EmployeeDetail.ImagePath;
+                        employee.FirstName = item.EmployeeDetail.FirstName;
+                        employeeList.Add(employee);
+                    }
+                }
+                Logger.Info("Exiting in ResourceRequestRepository API GetProjectMembersList method");
+
+                return employeeList;
+            }
+            catch
+            {
+                Logger.Error("Exception occured at ResourceRequestRepository GetProjectMembersList method ");
+                throw;
+            }
+        }
     }
 }
 

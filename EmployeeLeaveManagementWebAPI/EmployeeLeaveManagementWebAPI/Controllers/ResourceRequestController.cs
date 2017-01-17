@@ -1,5 +1,6 @@
 ﻿using Domain;
 using LMS_WebAPI_DAL;
+using LMS_WebAPI_Domain;
 using LMS_WebAPI_Utils;
 using Service;
 using System;
@@ -105,6 +106,24 @@ namespace EmployeeLeaveManagementWebAPI.Controllers
             catch
             {
                 throw;
+            }
+        }
+
+        [HttpGet]
+        [Route("GetProjectMembersList")]
+        public List<EmployeeDetailsModel> GetProjectMembersList(int projectId)
+        {
+            try
+            {
+                Logger.Info("Entering in HRController API GetProjectMembersList method");
+                var result = resourceRequestmanagement.GetProjectMembersList(projectId);
+                Logger.Info("Successfully exiting from HRController API GetProjectMembersList method");
+                return result;
+            }
+            catch (Exception ex)
+            {
+                Logger.Error("Error at HRController API GetProjectMembersList method.", ex);
+                return null;
             }
         }
     }

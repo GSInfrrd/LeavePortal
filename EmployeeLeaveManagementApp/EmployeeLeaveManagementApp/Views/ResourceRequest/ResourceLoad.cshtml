@@ -1,0 +1,123 @@
+﻿@using LMS_WebAPP_Utils
+@{
+    ViewBag.Title = "ResourceLoad";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    var managerId = ((LMS_WebAPP_Domain.UserAccount)Session[Constants.SESSION_OBJ_USER]) != null ? ((LMS_WebAPP_Domain.UserAccount)Session[Constants.SESSION_OBJ_USER]).RefEmployeeId : 0;
+}
+
+<section class="content-header">
+    <h1>Resource Load</h1>
+</section>
+<section class="content">
+    <div class="row">
+
+        <div class="col-md-12">
+            <!-- general form elements -->
+            <div class="box">
+                <!-- /.box-header -->
+                <!-- form start -->
+                @*<form role="form">*@
+                <div class="box-body">
+                    <div class="form-group col-md-6" id="ddlProject">
+                        <label>Project Name</label>
+
+                        <select class="form-control managerSelect" style="width: 100%;" id="ddlProjectName">
+                            <option value="">Select</option>
+                        </select>
+
+                    </div>
+                    <div class="col-md-12">
+                        <div class="col-md-3">
+                            <a href="#">Add Resource</a>
+                        </div>
+                        <div class="col-md-3">
+                            <a href="#">Remove Resource</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="box-footer">
+
+                </div>
+                @*</form>*@
+
+            </div>
+        </div>
+
+        <!-- /.row -->
+
+
+        <div class="col-md-12">
+            <div class="box">
+                <div class="box-body">
+                    @*<div class="col-md-6">*@
+                    <!-- USERS LIST -->
+
+                    <div class="box-header with-border">
+                        <h3 class="box-title">Latest Members</h3>
+
+                    </div>
+                    <!-- /.box-header -->
+                    <div class="box-body no-padding">
+                        <ul class="users-list clearfix">
+                            @*<li>
+                                    <img src="dist/img/user1-128x128.jpg" alt="User Image">
+                                    <a class="users-list-name" href="#">Alexander Pierce</a>
+                                    <span class="users-list-date">Today</span>
+                                </li>*@
+                        </ul>
+                        <!-- /.users-list -->
+                    </div>
+                    <!-- /.box-body -->
+                    <div class="box-footer text-center">
+
+                    </div>
+                    <!-- /.box-footer -->
+                    <!--/.box -->
+                    @*</div>*@
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<script>
+    $(document).ready(function () {
+        GetProjectsList();
+    })
+    function GetProjectsList() {
+        var managerId=@managerId;
+        $.ajax({
+            cache: false,
+            type: 'post',
+            url: '/HR/GetProjectsList',
+            data:{managerId:managerId},
+            dataType: "json",
+            success: function (data) {
+                for (var i = 0; i < data.data.length; i++) {
+                    $("#ddlProjectName").append($('<option></option>').attr("value", data.data[i].Id).text(data.data[i].ProjectName));
+                }
+            }
+        });
+    }
+    $(document).on('change',"#ddlProjectName",function(e){
+        var projectId= $("#ddlProjectName").val();
+        $.ajax({
+            cache: false,
+            type: 'post',
+            url: '/ResourceRequest/GetProjectMembersList?projectId='+projectId,     
+            dataType: "json",
+            success: function (data) {
+                debugger;
+                var employeeList="";
+                alert("HI");
+                //for(var i=0;i<data.result.length;i++)
+                //{
+                //     employeeList="<li><img src=/'"+data.result[i].ImagePath+"/' alt=/'User Image/'>"+
+                //                             "<a class=/'users-list-name/' href=/'#/'>"+data.result[i].FirstName+"</a>"+
+                //                             "<span class=/'users-list-date/'>Today</span></li>";
+                //}
+                //$(".users-list").append(employeeList);
+            }
+        });
+
+    });
+</script>

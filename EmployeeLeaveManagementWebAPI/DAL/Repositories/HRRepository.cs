@@ -101,13 +101,13 @@ namespace LMS_WebAPI_DAL.Repositories
                     };
                     ctx.EmployeeLeaveMasters.Add(employeeMaster);
                     ctx.SaveChanges();
-            
+
                     Logger.Info("Successfully exiting from HRRepository API SubmitEmployeeDetails method");
                 }
                 result = true;
 
             }
-            catch 
+            catch
             {
                 Logger.Info("Exception occured at HRRepository API SubmitEmployeeDetails method ");
                 throw;
@@ -284,7 +284,7 @@ namespace LMS_WebAPI_DAL.Repositories
                 Logger.Info("Successfully exiting from HRRepository API GetChartDetails method");
                 return listItem;
             }
-            catch 
+            catch
             {
                 Logger.Info("Exception occured at HRRepository API GetChartDetails method ");
                 throw;
@@ -343,15 +343,24 @@ namespace LMS_WebAPI_DAL.Repositories
             }
         }
 
-        public List<ProjectsList> GetProjectsList()
+        public List<ProjectsList> GetProjectsList(int managerId)
         {
             Logger.Info("Entering in HRRepository API GetProjectsList method");
             try
             {
                 var projectsList = new List<ProjectsList>();
+                var list = new List<ProjectMaster>();
                 using (var ctx = new LeaveManagementSystemEntities1())
                 {
-                    var list = ctx.ProjectMasters.ToList();
+                    if (managerId != 0)
+                    {
+                        list = ctx.ProjectMasters.Where(x=>x.RefManagerId==managerId).ToList();
+                    }
+                    else
+                    {
+                        list = ctx.ProjectMasters.ToList();
+                   }
+
                     foreach (var item in list)
                     {
                         var project = new ProjectsList();
@@ -382,15 +391,15 @@ namespace LMS_WebAPI_DAL.Repositories
                 var skillsList = new List<EmployeeSkillDetails>();
                 using (var ctx = new LeaveManagementSystemEntities1())
                 {
-                    var list = ctx.MasterDataValues.Where(x=>x.RefMasterType==(int) MasterDataTypeEnum.Skills).ToList();
+                    var list = ctx.MasterDataValues.Where(x => x.RefMasterType == (int)MasterDataTypeEnum.Skills).ToList();
                     foreach (var item in list)
                     {
                         var skill = new EmployeeSkillDetails();
                         skill.Id = item.Id;
                         skill.SkillName = item.Value;
                         skillsList.Add(skill);
-                        
-                       
+
+
                     }
                 }
                 Logger.Info("Successfully exiting from HRRepository API GetSkillsList method");

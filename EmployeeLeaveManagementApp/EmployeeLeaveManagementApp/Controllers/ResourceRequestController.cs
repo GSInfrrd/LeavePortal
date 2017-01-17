@@ -169,5 +169,44 @@ namespace EmployeeLeaveManagementApp.Controllers
                 return null;
             }
         }
+
+        public async Task<ActionResult> ResourceLoad()
+        {
+            Logger.Info("Entering in ResourceRequestController APP ResourceLoad method");
+            try
+            {
+                int managerId = ((UserAccount)Session[LMS_WebAPP_Utils.Constants.SESSION_OBJ_USER]).RefEmployeeId;
+                var resourceRequestFormDetails = await resourceManagementOperations.GetResourceRequestFormDetails(managerId);
+                foreach (var history in resourceRequestFormDetails.ResourceRequestHistory)
+                {
+                    history.StatusValue = CommonMethods.Description((ResourceRequestStatus)history.Status);
+                }
+                Logger.Info("Successfully exiting from ResourceRequestController APP ResourceLoad method");
+                return View(resourceRequestFormDetails);
+            }
+            catch (Exception ex)
+            {
+                Logger.Error("Error at ResourceRequestController APP ResourceLoad method.", ex);
+                return View("Error");
+            }
+        }
+
+        public async Task<JsonResult> GetProjectMembersList(int projectId)
+        {
+            Logger.Info("Entering in ResourceRequestController APP GetProjectMembersList method");
+            try
+            {
+                var details = new List<EmployeeDetailsModel>();
+                details = await resourceManagementOperations.GetProjectMembersListAsync(projectId);
+                // details = employeeList;
+                Logger.Info("Successfully exiting from ResourceRequestController APP GetProjectMembersList method");
+                return Json(new { result = details });
+            }
+            catch (Exception ex)
+            {
+                Logger.Error("Error at ResourceRequestController APP GetProjectMembersList method.", ex);
+                return null;
+            }
+        }
     }
 }

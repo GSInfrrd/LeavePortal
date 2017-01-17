@@ -17,5 +17,7 @@ namespace LMS_WebAPI_DAL.Repositories.Interfaces
         List<ResourceRequestDetailModel> GetResourceRequestDetails(int userId, bool viewAll);
 
         ResourceRequestDetailModel SubmitResourceRequestResponse(ResourceRequestDetail model);
+
+        List<EmployeeDetailsModel> GetProjectMembersList(int projectId);
     }
 }

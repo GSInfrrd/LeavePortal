@@ -16,5 +16,7 @@ namespace LMS_WebAPI_DAL.Repositories.Interfaces
         long DeleteWorkFromHomeRequest(long id);
 
         bool UpdateWorkFromHome(WorkFromHome WorkFromHome);
+
+        List<WorkFromHomeCommonModel> GetWorkFromHomeReasonsList();
     }
 }

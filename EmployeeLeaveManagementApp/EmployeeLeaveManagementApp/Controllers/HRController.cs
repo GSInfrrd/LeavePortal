@@ -60,13 +60,13 @@ namespace EmployeeLeaveManagementApp.Controllers
 
         }
 
-        public async Task<JsonResult> GetProjectsList()
+        public async Task<JsonResult> GetProjectsList(int managerId=0)
         {
             Logger.Info("Entering in HRController APP GetProjectsList method");
             try
             {
                 var model = new List<ProjectsList>();
-                model = await hrOperations.GetProjectsListAsync();
+                model = await hrOperations.GetProjectsListAsync(managerId);
                 Logger.Info("Successfully exiting from HRController APP GetProjectsList method");
                 return Json(new { data = model });
             }

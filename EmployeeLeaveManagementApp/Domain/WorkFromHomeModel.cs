@@ -19,6 +19,7 @@ namespace LMS_WebAPP_Domain
         public string Reason { get; set; }
         public Nullable<int> ModifiedBy { get; set; }
         public Nullable<System.DateTime> ModifiedDate { get; set; }
+        public string OtherReason { get; set; }
         public string FormattedDate
         {
             get

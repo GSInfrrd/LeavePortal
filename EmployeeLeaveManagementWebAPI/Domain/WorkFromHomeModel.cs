@@ -19,5 +19,6 @@ namespace LMS_WebAPI_Domain
         public string Reason { get; set; }
         public Nullable<int> ModifiedBy { get; set; }
         public Nullable<System.DateTime> ModifiedDate { get; set; }
+        public string OtherReason { get; set; }
     }
 }

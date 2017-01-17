@@ -144,12 +144,12 @@ namespace EmployeeLeaveManagementWebAPI.Controllers
 
         [HttpGet]
         [Route("GetProjectsList")]
-        public List<ProjectsList> GetProjectsList()
+        public List<ProjectsList> GetProjectsList(int managerId=0)
         {
             try
             {
                 Logger.Info("Entering in HRController API GetProjectsList method");
-                var result = hrOperations.GetProjectsList();
+                var result = hrOperations.GetProjectsList(managerId);
                 Logger.Info("Successfully exiting from HRController API GetProjectsList method");
                 return result;
             }

@@ -130,12 +130,12 @@ namespace LMS_WebAPI_ServiceHelpers
             }
         }
 
-        public List<ProjectsList> GetProjectsList()
+        public List<ProjectsList> GetProjectsList(int managerId=0)
         {
             Logger.Info("Entering into HRManagement Service helper GetProjectsList method ");
             try
             {
-                var result = hrRepo.GetProjectsList();
+                var result = hrRepo.GetProjectsList(managerId);
                 Logger.Info("Exiting from into HRManagement Service helper GetProjectsList method ");
                 return result;
             }

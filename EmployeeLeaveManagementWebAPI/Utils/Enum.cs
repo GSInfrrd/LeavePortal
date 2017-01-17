@@ -114,4 +114,16 @@ namespace LMS_WebAPI_Utils
         Skills = 7
     }
 
+    public enum WorkFormHomeReasons
+    {
+        [Description("Personal Work")]
+        Maintenance = 23,
+        [Description("Commute Issue")]
+        AvoidTravel = 24,
+        [Description("Appointment with Doctors")]
+        AppointmentWithDoctor = 28,
+        [Description("Others")]
+        Others = 29
+    }
+
 }

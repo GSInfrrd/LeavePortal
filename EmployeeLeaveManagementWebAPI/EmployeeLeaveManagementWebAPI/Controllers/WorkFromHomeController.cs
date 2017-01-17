@@ -77,5 +77,21 @@ namespace EmployeeLeaveManagementWebAPI.Controllers
             }
         }
 
+        public List<WorkFromHomeCommonModel> GetWorkFromHomeReasonsList()
+        {
+            try
+            {
+                Logger.Info("Entering in WorkFromHomeController API GetWorkFromHomeReasonList method");
+                var result = WorkFromHomeManager.GetWorkFromHomeReasonsList();
+                Logger.Info("Successfully exiting from WorkFromHomeController API GetWorkFromHomeReasonList method");
+                return result;
+            }
+            catch (Exception ex)
+            {
+                Logger.Error("Error at WorkFromHomeController API GetWorkFromHomeReasonList method.", ex);
+                throw ex;
+            }
+        }
+
     }
 }

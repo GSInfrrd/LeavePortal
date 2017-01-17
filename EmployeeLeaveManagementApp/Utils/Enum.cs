@@ -69,11 +69,16 @@ namespace LMS_WebAPP_Utils
 
     public enum WorkFormHomeReasons
     {
-        [Description("Maintenance at home")]
+        [Description("Personal Work")]
         Maintenance = 23,
-        [Description("To avoid Travel")]
+        [Description("Commute Issue")]
         AvoidTravel = 24,
+        [Description("Appointment with Doctors")]
+        AppointmentWithDoctor = 28,
+        [Description("Others")]
+        Others = 29
     }
+
 
     public enum NotificationTypes
     {

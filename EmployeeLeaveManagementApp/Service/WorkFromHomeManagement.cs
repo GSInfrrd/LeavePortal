@@ -47,7 +47,7 @@ namespace LMS_WebAPP_ServiceHelpers
             }
         }
 
-        public async Task<IList<WorkFromHomeModel>> GetWorkFromHomeListAsync(int refEmpId)
+        public async Task<List<WorkFromHomeModel>> GetWorkFromHomeListAsync(int refEmpId)
         {
             Logger.Info("Entering into WorkFromHomeManagement APP Service helper GetWorkFromHomeListAsync method ");
             try
@@ -142,6 +142,37 @@ namespace LMS_WebAPP_ServiceHelpers
             catch
             {
                 Logger.Info("Exception occured at WorkFromHomeManagement APP Service helper DeleteWorkFromHomeDetailsAsync method ");
+                throw;
+            }
+        }
+
+        public async Task<List<WorkFromHomeModel>> GetWorkFromHomeReasonsListAsync()
+        {
+            Logger.Info("Entering into WorkFromHomeManagement APP Service helper GetWorkFromHomeReasonsListAsync method ");
+            try
+            {
+                string URL = "http://localhost:64476/api/WorkFromHome/GetWorkFromHomeReasonsList";
+                HttpClient client = new HttpClient();
+                client.BaseAddress = new Uri(URL);
+                // Add an Accept header for JSON format.
+                client.DefaultRequestHeaders.Accept.Add(
+                new MediaTypeWithQualityHeaderValue("application/json"));
+
+                // List data response.
+                HttpResponseMessage response = await client.GetAsync(URL);
+                if (response.IsSuccessStatusCode)
+                {
+                    // Parse the response body. Blocking!
+                    var dataObjects = response.Content.ReadAsAsync<List<WorkFromHomeModel>>().Result;
+                    Logger.Info("Exiting from into WorkFromHomeManagement APP Service helper GetWorkFromHomeReasonsListAsync method ");
+                    return dataObjects;
+                }
+                Logger.Info("Exiting from into WorkFromHomeManagement APP Service helper GetWorkFromHomeReasonsListAsync method ");
+                return null;
+            }
+            catch
+            {
+                Logger.Info("Exception occured at WorkFromHomeManagement APP Service helper GetWorkFromHomeReasonsListAsync method ");
                 throw;
             }
         }
