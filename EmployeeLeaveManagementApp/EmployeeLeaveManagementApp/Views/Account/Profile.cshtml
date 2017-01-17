@@ -7,6 +7,7 @@
     var imagePath = Model.ImagePath;
     var educationDatePickerCount = Model.EmployeeEducationDetails.Count - 1;
     var experienceDatePickerCount = Model.EmployeeExperienceDetails.Count - 1;
+    var employeeId = 0;
 }
 <link rel="stylesheet" href="../../plugins/select2/select2.min.css">
 <link rel="stylesheet" href="../../dist/css/AdminLTE.min.css">
@@ -16,12 +17,23 @@
         margin-left: 0px !important;
     }
 </style>
+@if (TempData["EmpId"] != null)
+{
+    employeeId = Convert.ToInt32(TempData["EmpId"]);
+}
 <section class="content-header" style="height:41px">
     <h1 class="col-md-10">
         User Profile
     </h1>
     <div style="padding-right:0px" class="pull-right">
+        @if (employeeId == 0)
+        {
         <button type="button" id="generatePdf" class="btn btn-primary"><i class="fa fa-download"></i>@Html.ActionLink(" Generate PDF", "DownloadPDF", new { @userId = userId }, new { style = "color:white" }) </button>
+        }
+        else
+        {
+            <button type="button" id="generatePdf" class="btn btn-primary"><i class="fa fa-download"></i>@Html.ActionLink(" Generate PDF", "DownloadPDF", new { @userId = employeeId }, new { style = "color:white" }) </button>
+        }
     </div>
 </section>
 <section class="content">
@@ -96,10 +108,10 @@
                         <!-- The timeline -->
                         @*<div id="profile-tab" class="tab-pane active">*@
                         <div class="pd-20">
-                            @if (roleId == (int)LMS_WebAPP_Utils.EmployeeRole.Employee)
-                            {
+                         @if (employeeId==0)
+                         {
                                 <div class="vd_info tr"> <a class="btn btn-xs bg-yellow pull-right" id="editEmployeeDetails"> <i class="fa fa-pencil append-icon"></i> Edit </a> </div>
-                            }
+                         }
                             <h3 class="mgbt-xs-15 mgtp-10 font-semibold"><i class="fa fa-user"></i> ABOUT</h3>
                             <div class="row">
                                 <div class="col-sm-6">

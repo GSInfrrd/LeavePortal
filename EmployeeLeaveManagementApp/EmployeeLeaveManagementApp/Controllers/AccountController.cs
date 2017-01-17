@@ -316,6 +316,7 @@ namespace EmployeeLeaveManagementApp.Controllers
                     //model.ManagerName = datares.ManagerName;
                     //model.DateOfJoining = DateTime.Now;
                     //model.RoleName = datares.RoleName;
+                    TempData["EmpId"] = id;
                     return View("Profile", datares);
                 }
                 Logger.Info("Successfully exiting from AccountController APP ProfileDetails method");
@@ -337,7 +338,7 @@ namespace EmployeeLeaveManagementApp.Controllers
                 if (null != Session[LMS_WebAPP_Utils.Constants.SESSION_OBJ_USER])
                 {
                     var data = (UserAccount)Session[LMS_WebAPP_Utils.Constants.SESSION_OBJ_USER];
-                    EmployeeDetailsModel datares = await user.GetUserProfileDetails(data.RefEmployeeId);
+                    EmployeeDetailsModel datares = await user.GetUserProfileDetails(userId);
                     List<string> col = new List<string>() { "danger", "info", "warning", "success" };
                     datares.Colors = col;
                     Logger.Info("Successfully exiting from AccountController APP DownloadPDF method");
