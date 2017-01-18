@@ -20,6 +20,12 @@ namespace LMS_WebAPI_DAL.Repositories.Interfaces
 
         bool DeleteRequest(string ticket);
 
-        List<EmployeeDetailsModel> GetProjectMembersList(int projectId);
+        List<TeamMembers> GetProjectMembersList(int projectId);
+
+        bool RemoveProjectResource(int projectId);
+
+        List<TeamMembers> GetResourceList();
+
+        bool AddNewProjectResource(int employeeId, int projectId);
     }
 }

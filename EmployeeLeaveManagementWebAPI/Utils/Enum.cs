@@ -124,6 +124,6 @@ namespace LMS_WebAPI_Utils
         AppointmentWithDoctor = 28,
         [Description("Others")]
         Others = 29
-    }
+    }   
 
 }

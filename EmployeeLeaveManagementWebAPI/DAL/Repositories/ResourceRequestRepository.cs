@@ -224,22 +224,23 @@ namespace LMS_WebAPI_DAL.Repositories
             }
         }
 
-        public List<EmployeeDetailsModel> GetProjectMembersList(int projectId)
+        public List<TeamMembers> GetProjectMembersList(int projectId)
         {
             Logger.Info("Entering in ResourceRequestRepository API GetProjectMembersList method");
             try
             {
-                var employeeList = new List<EmployeeDetailsModel>();
+                var employeeList = new List<TeamMembers>();
                 using (var ctx = new LeaveManagementSystemEntities1())
                 {
-                    var projectsList = ctx.EmployeeProjectDetails.Include("EmployeeDetail").Where(i => i.RefProjectId == projectId).ToList();
+                    var projectsList = ctx.EmployeeProjectDetails.Include("EmployeeDetail").Where(i => i.RefProjectId == projectId && i.IsActive == true).ToList();
 
                     foreach (var item in projectsList)
                     {
-                        var employee = new EmployeeDetailsModel();
-                        employee.Id = item.EmployeeDetail.Id;
-                        employee.ImagePath = item.EmployeeDetail.ImagePath;
+                        var employee = new TeamMembers();
+                        employee.Id = item.Id;
+                        employee.ImagePath = string.Format("data:image/png;base64,{0}", item.EmployeeDetail.ImagePath); ;
                         employee.FirstName = item.EmployeeDetail.FirstName;
+                        employee.Role = item.EmployeeDetail.MasterDataValue.Value;
                         employeeList.Add(employee);
                     }
                 }
@@ -253,6 +254,108 @@ namespace LMS_WebAPI_DAL.Repositories
                 throw;
             }
         }
+
+        public bool RemoveProjectResource(int projectId)
+        {
+            Logger.Info("Entering in ResourceRequestRepository API RemoveProjectResource method");
+            try
+            {
+                var result = false;
+                using (var ctx = new LeaveManagementSystemEntities1())
+                {
+                    var project = ctx.EmployeeProjectDetails.FirstOrDefault(i => i.Id == projectId);
+                    if (project != null)
+                    {
+                        project.IsActive = false;
+                        project.EndDate = DateTime.Now;
+                        project.ModifiedDate = DateTime.Now;
+                        ctx.SaveChanges();
+                        result = true;
+                    }
+                }
+                Logger.Info("Exiting in ResourceRequestRepository API RemoveProjectResource method");
+                return result;
+            }
+            catch
+            {
+                Logger.Error("Exception occured at ResourceRequestRepository RemoveProjectResource method ");
+                throw;
+            }
+        }
+
+        public List<TeamMembers> GetResourceList()
+        {
+            Logger.Info("Entering in ResourceRequestRepository API GetResourceList method");
+            try
+            {
+                var employeeList = new List<TeamMembers>();
+                using (var ctx = new LeaveManagementSystemEntities1())
+                {
+                    // var workingEmployees= ctx.EmployeeProjectDetails.Where(x => x.IsActive == true).Select(x => x.RefEmployeeId).ToList();
+                    var employeeOnBench = ctx.EmployeeDetails.Include("EmployeeProjectDetails").Where(x => x.RefRoleId != (int)EmployeeRole.HR).ToList();
+                    foreach (var item in employeeOnBench)
+                    {
+                        var employee = new TeamMembers();
+                        var isActive = false;
+                        employee.Id = item.Id;
+                        employee.FirstName = item.FirstName;
+                        if (item.EmployeeProjectDetails.Count != 0)
+                        {
+                            isActive = item.EmployeeProjectDetails.Any(x => x.RefEmployeeId == item.Id && x.IsActive == true);
+                        }
+                        employee.IsActive = isActive;
+                        employeeList.Add(employee);
+                    }
+                }
+
+                Logger.Info("Exiting in ResourceRequestRepository API GetResourceList method");
+
+                return employeeList;
+            }
+            catch
+            {
+                Logger.Error("Exception occured at ResourceRequestRepository GetResourceList method ");
+                throw;
+            }
+        }
+
+        public bool AddNewProjectResource(int employeeId, int projectId)
+        {
+            Logger.Info("Entering in ResourceRequestRepository API AddNewProjectResource method");
+            try
+            {
+                var result = false;
+                using (var ctx = new LeaveManagementSystemEntities1())
+                {
+                    var project = ctx.EmployeeProjectDetails.FirstOrDefault(i => i.RefEmployeeId == employeeId);
+
+                    if (project != null)
+                    {
+                        project.IsActive = false;
+                        project.EndDate = DateTime.Now;
+                        project.ModifiedDate = DateTime.Now;
+                        ctx.SaveChanges();
+                    }
+                    var newProject = new EmployeeProjectDetail();
+                    newProject.RefEmployeeId = employeeId;
+                    newProject.RefProjectId = projectId;
+                    newProject.IsActive = true;
+                    newProject.StartDate = DateTime.Now;
+                    newProject.CreatedDate = DateTime.Now;
+                    ctx.EmployeeProjectDetails.Add(newProject);
+                    ctx.SaveChanges();
+                    result = true;
+                }
+                Logger.Info("Exiting in ResourceRequestRepository API AddNewProjectResource method");
+                return result;
+            }
+            catch
+            {
+                Logger.Error("Exception occured at ResourceRequestRepository AddNewProjectResource method ");
+                throw;
+            }
+        }
+
     }
 }
 

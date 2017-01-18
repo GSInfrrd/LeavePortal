@@ -192,7 +192,7 @@ namespace Service
             }
         }
 
-        public async Task<List<EmployeeDetailsModel>> GetProjectMembersListAsync(int projectId)
+        public async Task<List<TeamMembers>> GetProjectMembersListAsync(int projectId)
         {
             Logger.Info("Entering into ResourceManagement APP Service helper GetProjectMembersListAsync method ");
             try
@@ -211,7 +211,7 @@ namespace Service
                     if (response.IsSuccessStatusCode)
                     {
                         // Parse the response body. Blocking!
-                        var dataObjects = response.Content.ReadAsAsync<List<EmployeeDetailsModel>>().Result.ToList();
+                        var dataObjects = response.Content.ReadAsAsync<List<TeamMembers>>().Result.ToList();
                         Logger.Info("Exiting from into ResourceManagement APP Service helper GetProjectMembersListAsync method ");
                         return dataObjects;
                     }
@@ -226,6 +226,120 @@ namespace Service
             catch
             {
                 Logger.Info("Exception occured at ResourceManagement APP Service helper GetProjectsListAsync method ");
+                throw;
+            }
+        }
+
+        public async Task<List<TeamMembers>> RemoveProjectResourceAsync(int employeeProjectId, int projectId)
+        {
+            Logger.Info("Entering into ResourceManagement APP Service helper RemoveProjectResourceAsync method ");
+            try
+            {
+                using (HttpClient client = new HttpClient())
+                {
+                    const string URL = "http://localhost:64476/api/ResourceRequest/RemoveProjectResource";
+                    urlParameters = "?employeeProjectId=" + employeeProjectId + "&projectId=" + projectId;
+                    client.BaseAddress = new Uri(URL);
+                    // Add an Accept header for JSON format.
+                    client.DefaultRequestHeaders.Accept.Add(
+                    new MediaTypeWithQualityHeaderValue("application/json"));
+
+                    // List data response.
+                    HttpResponseMessage response = await client.GetAsync(urlParameters);  // Blocking call!
+                    if (response.IsSuccessStatusCode)
+                    {
+                        // Parse the response body. Blocking!
+                        var dataObjects = response.Content.ReadAsAsync<List<TeamMembers>>().Result.ToList();
+                        Logger.Info("Exiting from into ResourceManagement APP Service helper RemoveProjectResourceAsync method ");
+                        return dataObjects;
+                    }
+                    else
+                    {
+                        Console.WriteLine("{0} ({1})", (int)response.StatusCode, response.ReasonPhrase);
+                        Logger.Info("Exiting from into ResourceManagement APP Service helper RemoveProjectResourceAsync method ");
+                        return null;
+                    }
+                }
+            }
+            catch
+            {
+                Logger.Info("Exception occured at ResourceManagement APP Service helper RemoveProjectResourceAsync method ");
+                throw;
+            }
+        }
+
+        public async Task<List<TeamMembers>> GetResourceListAsync()
+        {
+            Logger.Info("Entering into ResourceManagement APP Service helper GetResourceListAsync method ");
+            try
+            {
+                using (HttpClient client = new HttpClient())
+                {
+                    const string URL = "http://localhost:64476/api/ResourceRequest/GetResourceList";
+                    //urlParameters = "?projectId=" + projectId;
+                    client.BaseAddress = new Uri(URL);
+                    // Add an Accept header for JSON format.
+                    client.DefaultRequestHeaders.Accept.Add(
+                    new MediaTypeWithQualityHeaderValue("application/json"));
+
+                    // List data response.
+                    HttpResponseMessage response = await client.GetAsync(URL);  // Blocking call!
+                    if (response.IsSuccessStatusCode)
+                    {
+                        // Parse the response body. Blocking!
+                        var dataObjects = response.Content.ReadAsAsync<List<TeamMembers>>().Result.ToList();
+                        Logger.Info("Exiting from into ResourceManagement APP Service helper GetResourceListAsync method ");
+                        return dataObjects;
+                    }
+                    else
+                    {
+                        Console.WriteLine("{0} ({1})", (int)response.StatusCode, response.ReasonPhrase);
+                        Logger.Info("Exiting from into ResourceManagement APP Service helper GetResourceListAsync method ");
+                        return null;
+                    }
+                }
+            }
+            catch
+            {
+                Logger.Info("Exception occured at ResourceManagement APP Service helper GetProjectsListAsync method ");
+                throw;
+            }
+        }
+
+        public async Task<List<TeamMembers>> AddNewProjectResourceAsync(int employeeId, int projectId)
+        {
+            Logger.Info("Entering into ResourceManagement APP Service helper AddNewProjectResourceAsync method ");
+            try
+            {
+                using (HttpClient client = new HttpClient())
+                {
+                    const string URL = "http://localhost:64476/api/ResourceRequest/AddNewProjectResource";
+                    urlParameters = "?employeeId=" + employeeId + "&projectId=" + projectId;
+                    client.BaseAddress = new Uri(URL);
+                    // Add an Accept header for JSON format.
+                    client.DefaultRequestHeaders.Accept.Add(
+                    new MediaTypeWithQualityHeaderValue("application/json"));
+
+                    // List data response.
+                    HttpResponseMessage response = await client.GetAsync(urlParameters);  // Blocking call!
+                    if (response.IsSuccessStatusCode)
+                    {
+                        // Parse the response body. Blocking!
+                        var dataObjects = response.Content.ReadAsAsync<List<TeamMembers>>().Result.ToList();
+                        Logger.Info("Exiting from into ResourceManagement APP Service helper AddNewProjectResourceAsync method ");
+                        return dataObjects;
+                    }
+                    else
+                    {
+                        Console.WriteLine("{0} ({1})", (int)response.StatusCode, response.ReasonPhrase);
+                        Logger.Info("Exiting from into ResourceManagement APP Service helper AddNewProjectResourceAsync method ");
+                        return null;
+                    }
+                }
+            }
+            catch
+            {
+                Logger.Info("Exception occured at ResourceManagement APP Service helper AddNewProjectResourceAsync method ");
                 throw;
             }
         }

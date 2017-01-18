@@ -4,7 +4,7 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
     var managerId = ((LMS_WebAPP_Domain.UserAccount)Session[Constants.SESSION_OBJ_USER]) != null ? ((LMS_WebAPP_Domain.UserAccount)Session[Constants.SESSION_OBJ_USER]).RefEmployeeId : 0;
 }
-
+<link href="~/plugins/Toastr/toastr.css" rel="stylesheet" />
 <section class="content-header">
     <h1>Resource Load</h1>
 </section>
@@ -26,14 +26,14 @@
                         </select>
 
                     </div>
-                    <div class="col-md-12">
-                        <div class="col-md-3">
-                            <a href="#">Add Resource</a>
-                        </div>
-                        <div class="col-md-3">
-                            <a href="#">Remove Resource</a>
-                        </div>
-                    </div>
+                    @*<div class="col-md-12">
+                            <div class="col-md-3">
+                                <a href="#">Add Resource</a>
+                            </div>
+                            <div class="col-md-3">
+                                <a href="#">Remove Resource</a>
+                            </div>
+                        </div>*@
                 </div>
                 <div class="box-footer">
 
@@ -46,25 +46,23 @@
         <!-- /.row -->
 
 
-        <div class="col-md-12">
+        <div class="col-md-12" id="divProjectMembers" style="display:none">
             <div class="box">
                 <div class="box-body">
                     @*<div class="col-md-6">*@
                     <!-- USERS LIST -->
 
                     <div class="box-header with-border">
-                        <h3 class="box-title">Latest Members</h3>
-
+                        <h3 class="box-title">Projects Members</h3>
+                        <div class="box-tools pull-right" title="Add Resource">
+                            <button type="button" class="btn btn-primary" id="btnAddResource">
+                                <i class="fa fa-plus"></i> Add New Resource
+                            </button>
+                        </div>
                     </div>
                     <!-- /.box-header -->
                     <div class="box-body no-padding">
-                        <ul class="users-list clearfix">
-                            @*<li>
-                                    <img src="dist/img/user1-128x128.jpg" alt="User Image">
-                                    <a class="users-list-name" href="#">Alexander Pierce</a>
-                                    <span class="users-list-date">Today</span>
-                                </li>*@
-                        </ul>
+                        <ul class="users-list clearfix"></ul>
                         <!-- /.users-list -->
                     </div>
                     <!-- /.box-body -->
@@ -79,9 +77,68 @@
         </div>
     </div>
 </section>
+<div class="modal bs-remove-resource-confirmation-modal" id="removeResourceConfirmationModal" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+                <h4 class="modal-title">Confirmation</h4>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <input type="hidden" id="hdnId" />
+                    <label>Are you sure to remove the resource from this project?</label>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" id="btnConfirmRemoveResource" style="background-color:#47a97e !important" class="btn btn-primary">Yes</button>
+                <button type="button" class="btn btn-default pull-right Close" data-dismiss="modal">No</button>
+            </div>
+
+            <!-- /.modal-content -->
+        </div>
+        <!-- /.modal-dialog -->
+    </div>
+</div>
+
+<div class="modal bs-add-new-resource-modal" id="addNewResourceModal" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+                <h4 class="modal-title">Add New Resource</h4>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+
+                    <label>Select Resource</label>
+                    <select class="form-control managerSelect" style="width: 100%;" id="ddlEmployeeList">
+                       
+                    </select>
+                </div>
+                <div id="divProjectAssigned" style="display:none">
+                    <label style="color:red">A project has already been assigned for this resource.Do you wish to continue?</label>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" id="btnAddNewResource" style="background-color:#47a97e !important" class="btn btn-primary">Add</button>
+                <button type="button" class="btn btn-default pull-right Close" data-dismiss="modal">Cancel</button>
+            </div>
+
+            <!-- /.modal-content -->
+        </div>
+        <!-- /.modal-dialog -->
+    </div>
+</div>
+<script src="../../plugins/Toastr/toastr.js"></script>
 <script>
     $(document).ready(function () {
         GetProjectsList();
+        GetResourceList();
     })
     function GetProjectsList() {
         var managerId=@managerId;
@@ -98,26 +155,143 @@
             }
         });
     }
-    $(document).on('change',"#ddlProjectName",function(e){
+    var list=[];
+    function GetResourceList() {
+        $("#ddlEmployeeList").html("");
+        $("#ddlEmployeeList").append($('<option></option>').attr("value", "").text("Select"));
+
+        $.ajax({
+            cache: false,
+            type: 'post',
+            url: '/ResourceRequest/GetResourceList',
+            dataType: "json",
+            success: function (data) {
+                for (var i = 0; i < data.length; i++) {
+                    $("#ddlEmployeeList").append($('<option></option>').attr("value", data[i].Id+"|"+data[i].IsActive).text(data[i].FirstName));
+                }
+            }
+        });
+    }
+    $(document).on('change',"#ddlProjectName",function(){
+        var projectId= $("#ddlProjectName").val();
+        if(projectId!="")
+            {
+            $("#divProjectMembers").show(); 
+            $.ajax({
+                cache: false,
+                type: 'post',
+                url: '/ResourceRequest/GetProjectMembersList',
+                data:{projectId:projectId},
+                dataType: "json",
+                success: function (result) {
+                    var employeeList="";
+                    $(".users-list").html("");
+                    for(var i=0;i<result.length;i++)
+                    {
+                        employeeList+="<li><button type='button' class='btn btn-box-tool' style='float:right' id='btnRemoveResource' data-id='"+result[i].Id+"'><i class='fa fa-times' title='Remove Resource'></i></button><img src="+result[i].ImagePath+" alt='User Image'>"+
+                                                 "<a class='users-list-name' href=/'#/'>"+result[i].FirstName+"</a>"+
+                                                 "<span class=/'users-list-date/'>"+result[i].Role+"</span></li>";
+                    }
+                    $(".users-list").append(employeeList);
+                }
+            });
+    }
+    else
+    {
+      $("#divProjectMembers").hide(); 
+    }
+    });
+
+    $(document).on('click',"#btnRemoveResource",function(){
+        $("#removeResourceConfirmationModal").modal('show');
+        var id=$(this).data('id');
+        $("#hdnId").val(id);
+    })
+
+    $(document).on('click',"#btnAddResource",function(){
+        $("#addNewResourceModal").modal('show');
+    })
+
+    $(document).on('click',"#btnConfirmRemoveResource",function(){
+        var id=   $("#hdnId").val();
         var projectId= $("#ddlProjectName").val();
         $.ajax({
             cache: false,
             type: 'post',
-            url: '/ResourceRequest/GetProjectMembersList?projectId='+projectId,     
+            url: '/ResourceRequest/RemoveProjectResource',
+            data:{employeeProjectId:id,projectId:projectId},
             dataType: "json",
-            success: function (data) {
-                debugger;
+            success: function (result) {
+                $("#removeResourceConfirmationModal").modal('hide');
                 var employeeList="";
-                alert("HI");
-                //for(var i=0;i<data.result.length;i++)
-                //{
-                //     employeeList="<li><img src=/'"+data.result[i].ImagePath+"/' alt=/'User Image/'>"+
-                //                             "<a class=/'users-list-name/' href=/'#/'>"+data.result[i].FirstName+"</a>"+
-                //                             "<span class=/'users-list-date/'>Today</span></li>";
-                //}
-                //$(".users-list").append(employeeList);
+                $(".users-list").html("");
+                for(var i=0;i<result.length;i++)
+                {
+                    employeeList+="<li><button type='button' class='btn btn-box-tool' style='float:right' id='btnRemoveResource' data-id='"+result[i].Id+"'><i class='fa fa-times' title='Remove Resource'></i></button><img src="+result[i].ImagePath+" alt='User Image'>"+
+                                             "<a class='users-list-name' href=/'#/'>"+result[i].FirstName+"</a>"+
+                                             "<span class=/'users-list-date/'>"+result[i].Role+"</span></li>";
+                }
+                $(".users-list").append(employeeList);
+                showMessage("Resource removed successfully","1",true);
             }
         });
 
+    })
+    $(document).on('click',"#btnAddNewResource",function(){
+        var employeeId=$("#ddlEmployeeList").val().split("|")[0];
+        var projectId= $("#ddlProjectName").val();
+        $.ajax({
+            cache: false,
+            type: 'post',
+            url: '/ResourceRequest/AddNewProjectResource',
+            data:{employeeId:employeeId,projectId:projectId},
+            dataType: "json",
+            success: function (result) {
+                $("#addNewResourceModal").modal('hide');
+                var employeeList="";
+                $(".users-list").html("");
+                for(var i=0;i<result.length;i++)
+                {
+                    employeeList+="<li><button type='button' class='btn btn-box-tool' style='float:right' id='btnRemoveResource' data-id='"+result[i].Id+"'><i class='fa fa-times' title='Remove Resource'></i></button><img src="+result[i].ImagePath+" alt='User Image'>"+
+                                             "<a class='users-list-name' href=/'#/'>"+result[i].FirstName+"</a>"+
+                                             "<span class=/'users-list-date/'>"+result[i].Role+"</span></li>";
+                }
+                $(".users-list").append(employeeList);
+                showMessage("New Resource added successfully","1",true);
+                GetResourceList();
+            }
+        });
+    })
+
+    $(document).on('change',"#ddlEmployeeList",function(){
+        $("#divProjectAssigned").hide();
+        var employeeId=$("#ddlEmployeeList").val().split("|")[0];
+        var isActive=$("#ddlEmployeeList").val().split("|")[1];
+        if(isActive=="true")
+        {
+            $("#divProjectAssigned").show();
+        }
     });
+
+    
+    function showMessage(message, Type, fadeOut) {
+        //To clear existing toastr
+        toastr.clear();
+        //fadeOut = false;
+        var position = "bottom-full-width";
+        toastr.options.positionClass = 'toast-' + position;
+        if (typeof fadeOut !== "undefined" && fadeOut == false) { toastr.options.timeOut = 0; }
+        else {
+            toastr.options.timeOut = 5000;
+        }
+        switch (Type) {
+            case "1":
+                toastr.success(message);
+                break;
+            case "2":
+                toastr.error(message);
+                break;
+        }
+    }
+  
 </script>

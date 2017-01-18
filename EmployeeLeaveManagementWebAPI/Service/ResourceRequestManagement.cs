@@ -92,7 +92,7 @@ namespace Service
             }
         }
 
-        public List<EmployeeDetailsModel> GetProjectMembersList(int projectId)
+        public List<TeamMembers> GetProjectMembersList(int projectId)
         {
             Logger.Info("Entering into ResourceRequestManagement Service helper GetProjectMembersList method ");
 
@@ -106,6 +106,63 @@ namespace Service
             catch
             {
                 Logger.Error("Exception occurred at ResourceRequestManagement Service helper GetProjectMembersList method ");
+
+                throw;
+            }
+        }
+
+        public bool RemoveProjectResource(int projectId)
+        {
+            Logger.Info("Entering into ResourceRequestManagement Service helper RemoveProjectResource method ");
+
+            try
+            {
+
+                var result = _resourceRequest.RemoveProjectResource(projectId);
+                Logger.Info("Exiting ResourceRequestManagement Service helper RemoveProjectResource method ");
+                return result;
+            }
+            catch
+            {
+                Logger.Error("Exception occurred at ResourceRequestManagement Service helper RemoveProjectResource method ");
+
+                throw;
+            }
+        }
+
+        public List<TeamMembers> GetResourceList()
+        {
+            Logger.Info("Entering into ResourceRequestManagement Service helper GetResourceList method ");
+
+            try
+            {
+
+                var responseModel = _resourceRequest.GetResourceList();
+                Logger.Info("Exiting ResourceRequestManagement Service helper GetResourceList method ");
+                return responseModel;
+            }
+            catch
+            {
+                Logger.Error("Exception occurred at ResourceRequestManagement Service helper GetResourceList method ");
+
+                throw;
+            }
+        }
+
+        public bool AddNewProjectResource(int employeeId, int projectId)
+        {
+            Logger.Info("Entering into ResourceRequestManagement Service helper RemoveProjectResource method ");
+
+            try
+            {
+
+                var result = _resourceRequest.AddNewProjectResource(employeeId, projectId);
+                Logger.Info("Exiting ResourceRequestManagement Service helper RemoveProjectResource method ");
+                return result;
+            }
+            catch
+            {
+                Logger.Error("Exception occurred at ResourceRequestManagement Service helper RemoveProjectResource method ");
 
                 throw;
             }

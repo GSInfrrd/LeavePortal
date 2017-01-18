@@ -10,6 +10,7 @@ using System.Net.Http;
 using System.Threading.Tasks;
 using System.Net.Http;
 using System.Web.Mvc;
+using System.Text;
 
 namespace EmployeeLeaveManagementApp.Controllers
 {
@@ -185,19 +186,20 @@ namespace EmployeeLeaveManagementApp.Controllers
             }
         }
 
-        public async Task<ActionResult> ResourceLoad()
+        public ActionResult ResourceLoad()
         {
             Logger.Info("Entering in ResourceRequestController APP ResourceLoad method");
             try
             {
-                int managerId = ((UserAccount)Session[LMS_WebAPP_Utils.Constants.SESSION_OBJ_USER]).RefEmployeeId;
-                var resourceRequestFormDetails = await resourceManagementOperations.GetResourceRequestFormDetails(managerId);
-                foreach (var history in resourceRequestFormDetails.ResourceRequestHistory)
+                if (null != ((UserAccount)Session[LMS_WebAPP_Utils.Constants.SESSION_OBJ_USER]))
                 {
-                    history.StatusValue = CommonMethods.Description((ResourceRequestStatus)history.Status);
+                    Logger.Info("Successfully exiting from ResourceRequestController APP ResourceLoad method");
+                    return View();
                 }
-                Logger.Info("Successfully exiting from ResourceRequestController APP ResourceLoad method");
-                return View(resourceRequestFormDetails);
+                else
+                {
+                    return RedirectToAction("Login", "Account");
+                }
             }
             catch (Exception ex)
             {
@@ -211,15 +213,95 @@ namespace EmployeeLeaveManagementApp.Controllers
             Logger.Info("Entering in ResourceRequestController APP GetProjectMembersList method");
             try
             {
-                var details = new List<EmployeeDetailsModel>();
-                details = await resourceManagementOperations.GetProjectMembersListAsync(projectId);
-                // details = employeeList;
+                var empList = new List<TeamMembers>();
+                var details = await resourceManagementOperations.GetProjectMembersListAsync(projectId);
                 Logger.Info("Successfully exiting from ResourceRequestController APP GetProjectMembersList method");
-                return Json(new { result = details });
+                return new JsonResult()
+                {
+                    ContentEncoding = Encoding.Default,
+                    ContentType = "application/json",
+                    Data = details,
+                    JsonRequestBehavior = JsonRequestBehavior.AllowGet,
+                    MaxJsonLength = int.MaxValue
+                };
+
             }
             catch (Exception ex)
             {
                 Logger.Error("Error at ResourceRequestController APP GetProjectMembersList method.", ex);
+                return null;
+            }
+        }
+
+        public async Task<JsonResult> RemoveProjectResource(int employeeProjectId, int projectId)
+        {
+            Logger.Info("Entering in ResourceRequestController APP RemoveProjectResource method");
+            try
+            {
+                var details = await resourceManagementOperations.RemoveProjectResourceAsync(employeeProjectId, projectId);
+                Logger.Info("Successfully exiting from ResourceRequestController APP RemoveProjectResource method");
+                return new JsonResult()
+                {
+                    ContentEncoding = Encoding.Default,
+                    ContentType = "application/json",
+                    Data = details,
+                    JsonRequestBehavior = JsonRequestBehavior.AllowGet,
+                    MaxJsonLength = int.MaxValue
+                };
+
+            }
+            catch (Exception ex)
+            {
+                Logger.Error("Error at ResourceRequestController APP RemoveProjectResource method.", ex);
+                return null;
+            }
+        }
+
+        public async Task<JsonResult> GetResourceList()
+        {
+            Logger.Info("Entering in ResourceRequestController APP GetResourceList method");
+            try
+            {
+                var empList = new List<TeamMembers>();
+                var details = await resourceManagementOperations.GetResourceListAsync();
+                Logger.Info("Successfully exiting from ResourceRequestController APP GetResourceList method");
+                return new JsonResult()
+                {
+                    ContentEncoding = Encoding.Default,
+                    ContentType = "application/json",
+                    Data = details,
+                    JsonRequestBehavior = JsonRequestBehavior.AllowGet,
+                    MaxJsonLength = int.MaxValue
+                };
+
+            }
+            catch (Exception ex)
+            {
+                Logger.Error("Error at ResourceRequestController APP GetResourceList method.", ex);
+                return null;
+            }
+        }
+
+        public async Task<JsonResult> AddNewProjectResource(int employeeId, int projectId)
+        {
+            Logger.Info("Entering in ResourceRequestController APP AddNewProjectResource method");
+            try
+            {
+                var details = await resourceManagementOperations.AddNewProjectResourceAsync(employeeId, projectId);
+                Logger.Info("Successfully exiting from ResourceRequestController APP AddNewProjectResource method");
+                return new JsonResult()
+                {
+                    ContentEncoding = Encoding.Default,
+                    ContentType = "application/json",
+                    Data = details,
+                    JsonRequestBehavior = JsonRequestBehavior.AllowGet,
+                    MaxJsonLength = int.MaxValue
+                };
+
+            }
+            catch (Exception ex)
+            {
+                Logger.Error("Error at ResourceRequestController APP AddNewProjectResource method.", ex);
                 return null;
             }
         }

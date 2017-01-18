@@ -131,20 +131,82 @@ namespace EmployeeLeaveManagementWebAPI.Controllers
             }
         }
 
-        [HttpGet]
         [Route("GetProjectMembersList")]
-        public List<EmployeeDetailsModel> GetProjectMembersList(int projectId)
+        public List<TeamMembers> GetProjectMembersList(int projectId)
         {
             try
             {
-                Logger.Info("Entering in HRController API GetProjectMembersList method");
+                Logger.Info("Entering in ResourceRequestController API GetProjectMembersList method");
                 var result = resourceRequestmanagement.GetProjectMembersList(projectId);
-                Logger.Info("Successfully exiting from HRController API GetProjectMembersList method");
+                Logger.Info("Successfully exiting from ResourceRequestController API GetProjectMembersList method");
                 return result;
             }
             catch (Exception ex)
             {
-                Logger.Error("Error at HRController API GetProjectMembersList method.", ex);
+                Logger.Error("Error at ResourceRequestController API GetProjectMembersList method.", ex);
+                return null;
+            }
+        }
+
+        [HttpGet]
+        [Route("RemoveProjectResource")]
+        public List<TeamMembers> RemoveProjectResource(int employeeProjectId, int projectId)
+        {
+            try
+            {
+                Logger.Info("Entering in ResourceRequestController API RemoveProjectResource method");
+                var removeResource = resourceRequestmanagement.RemoveProjectResource(employeeProjectId);
+                var result = new List<TeamMembers>();
+                if (removeResource)
+                {
+                    result = resourceRequestmanagement.GetProjectMembersList(projectId);
+                }
+                Logger.Info("Successfully exiting from ResourceRequestController API RemoveProjectResource method");
+                return result;
+            }
+            catch (Exception ex)
+            {
+                Logger.Error("Error at ResourceRequestController API RemoveProjectResource method.", ex);
+                return null;
+            }
+        }
+
+        [Route("GetResourceList")]
+        public List<TeamMembers> GetResourceList()
+        {
+            try
+            {
+                Logger.Info("Entering in ResourceRequestController API GetResourceList method");
+                var result = resourceRequestmanagement.GetResourceList();
+                Logger.Info("Successfully exiting from ResourceRequestController API GetResourceList method");
+                return result;
+            }
+            catch (Exception ex)
+            {
+                Logger.Error("Error at ResourceRequestController API GetResourceList method.", ex);
+                return null;
+            }
+        }
+
+        [HttpGet]
+        [Route("AddNewProjectResource")]
+        public List<TeamMembers> AddNewProjectResource(int employeeId, int projectId)
+        {
+            try
+            {
+                Logger.Info("Entering in ResourceRequestController API RemoveProjectResource method");
+                var removeResource = resourceRequestmanagement.AddNewProjectResource(employeeId, projectId);
+                var result = new List<TeamMembers>();
+                if (removeResource)
+                {
+                    result = resourceRequestmanagement.GetProjectMembersList(projectId);
+                }
+                Logger.Info("Successfully exiting from ResourceRequestController API RemoveProjectResource method");
+                return result;
+            }
+            catch (Exception ex)
+            {
+                Logger.Error("Error at ResourceRequestController API RemoveProjectResource method.", ex);
                 return null;
             }
         }
