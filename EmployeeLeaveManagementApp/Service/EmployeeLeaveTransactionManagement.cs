@@ -16,14 +16,14 @@ namespace LMS_WebAPP_ServiceHelpers
         private string URL = "http://localhost:64476/api/EmployeeLeaveTrans";
         private string urlParameters ="";
 
-        public async Task<IList<LeaveTransaction>> GetEmployeeLeaveTransactionAsync(int empid, int? leaveType = 0)
+        public async Task<List<LeaveTransaction>> GetEmployeeLeaveTransactionAsync(int empid, int? leaveType = 0,int? month=0,int? transactionType=0)
         {
             Logger.Info("Entering into EmployeeLeaveTransactionManagement APP Service helper GetEmployeeLeaveTransactionAsync method ");
             try
             {
                 HttpClient client = new HttpClient();
                 client.BaseAddress = new Uri(URL);
-                urlParameters = "/Get?id=" + empid + "&leaveType=" + leaveType;
+                urlParameters = "/Get?id=" + empid + "&leaveType=" + leaveType+"&month="+month+"&transactionType="+transactionType;
 
                 URL += urlParameters;
                 // Add an Accept header for JSON format.

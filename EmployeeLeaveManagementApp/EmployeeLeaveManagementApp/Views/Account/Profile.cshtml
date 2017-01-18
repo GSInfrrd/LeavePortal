@@ -54,10 +54,13 @@
                     </div>
                     <!-- /.box-header -->
                     <div class="box-body">
+                        @if (Model.EmployeeEducationDetails.Count != 0)
+                        {
                         <strong><i class="fa fa-book margin-r-5"></i> Education</strong>
                         <p class="text-muted">
                             @Model.EmployeeEducationDetails[0].Degree from @Model.EmployeeEducationDetails[0].Institution
                         </p>
+                        }
                         <hr>
                         <strong><i class="fa fa-map-marker margin-r-5"></i> Location</strong>
                         <p class="text-muted">@Model.City,@Model.Country</p>

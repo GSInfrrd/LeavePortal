@@ -12,7 +12,7 @@ namespace LMS_WebAPI_DAL.Repositories
 {
     public class EmployeeLeaveTransactionRepository : IEmployeeLeaveTransaction
     {
-        public List<EmployeeLeaveTransactionModel> GetEmployeeLeaveTransaction(int id, int leaveType = 0)
+        public List<EmployeeLeaveTransactionModel> GetEmployeeLeaveTransaction(int id, int leaveType = 0,int month=0,int transactionType=0)
         {
             try
             {
@@ -20,16 +20,22 @@ namespace LMS_WebAPI_DAL.Repositories
                 using (var ctx = new LeaveManagementSystemEntities1())
                 {
                     List<EmployeeLeaveTransactionModel> retResult = new List<EmployeeLeaveTransactionModel>();
+                    var EmployeeLeaveTransactions = ctx.EmployeeLeaveTransactions.Where(m => m.RefEmployeeId == id).OrderByDescending(m => m.CreatedDate).ToList();
+
                     if (leaveType != 0)
                     {
-                        var EmployeeLeaveTransactions = ctx.EmployeeLeaveTransactions.Where(m => m.RefEmployeeId == id && m.RefLeaveType == leaveType).OrderByDescending(m => m.CreatedDate).ToList();
-                        retResult = ToModel(EmployeeLeaveTransactions);
+                        EmployeeLeaveTransactions = EmployeeLeaveTransactions.Where(x => x.RefLeaveType == leaveType).ToList();
+                     
                     }
-                    else
+                   if(month!=0)
                     {
-                        var EmployeeLeaveTransactions = ctx.EmployeeLeaveTransactions.Where(m => m.RefEmployeeId == id).OrderByDescending(m => m.CreatedDate).ToList();
-                        retResult = ToModel(EmployeeLeaveTransactions);
+                        EmployeeLeaveTransactions = EmployeeLeaveTransactions.Where(x => x.FromDate.Month == month || x.ToDate.Month == month).ToList();
                     }
+                   if(transactionType!=0)
+                    {
+                        EmployeeLeaveTransactions = EmployeeLeaveTransactions.Where(x => x.RefTransactionType == transactionType).ToList();
+                    }
+                    retResult = ToModel(EmployeeLeaveTransactions);
                     Logger.Info("Successfully exiting from EmployeeLeaveTransactionRepository API GetEmployeeLeaveTransaction method");
                     return retResult;
                 }
@@ -61,6 +67,7 @@ namespace LMS_WebAPI_DAL.Repositories
                     newTrans.EmployeeComment = m.EmployeeComment;
                     newTrans.LeaveTypeName = m.MasterDataValue.Value;
                     newTrans.StatusName = m.MasterDataValue1.Value;
+                    newTrans.RefTransactionType = m.RefTransactionType;
                     //newTrans.ManagerComments = m.ManagerComments;
                     newTrans.ModifiedDate = m.ModifiedDate;
                     Empres.Add(newTrans);

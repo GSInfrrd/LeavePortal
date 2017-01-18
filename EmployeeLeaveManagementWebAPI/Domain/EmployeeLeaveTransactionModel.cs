@@ -25,6 +25,8 @@ namespace LMS_WebAPI_Domain
         public string ManagerComments { get; set; }
         public Nullable<System.DateTime> ModifiedDate { get; set; }
 
+        public int RefTransactionType { get; set; }
+
 
     }
 }

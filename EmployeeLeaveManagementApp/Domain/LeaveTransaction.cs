@@ -19,8 +19,8 @@ namespace LMS_WebAPP_Domain
 
         public List<string> LeaveType { get; set; }
         public string LeaveTypeName { get; set; }
-        public string StatusName { get; set; } 
-
+        public string StatusName { get; set; }
+        public int RefTransactionType { get; set; }
         public string FormattedDate
         {
             get

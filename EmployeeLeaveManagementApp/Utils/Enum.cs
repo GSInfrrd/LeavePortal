@@ -138,4 +138,11 @@ namespace LMS_WebAPP_Utils
         NoLeaveBalance = 1002
 
     }
+    public enum TransactionType
+    {
+        [Description("Debit")]
+        Debit = 2052,
+        [Description("Credit")]
+        Credit = 2053
+    }
 }

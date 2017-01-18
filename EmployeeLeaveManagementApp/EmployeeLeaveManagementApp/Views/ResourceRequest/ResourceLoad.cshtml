@@ -4,9 +4,24 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
     var managerId = ((LMS_WebAPP_Domain.UserAccount)Session[Constants.SESSION_OBJ_USER]) != null ? ((LMS_WebAPP_Domain.UserAccount)Session[Constants.SESSION_OBJ_USER]).RefEmployeeId : 0;
 }
+<style>
+    .users-list > li {
+  width: 25%;
+  float: left;
+  padding: 10px;
+  text-align: center;
+}
+.users-list > li img {
+  border-radius: 75%;
+  max-width: 44%;
+  height: 72px;
+}
+</style>
 <link href="~/plugins/Toastr/toastr.css" rel="stylesheet" />
+  <!-- Select2 -->
+<link rel="stylesheet" href="../../plugins/select2/select2.min.css">
 <section class="content-header">
-    <h1>Resource Load</h1>
+    <h1>Resource Load/Unload</h1>
 </section>
 <section class="content">
     <div class="row">
@@ -18,25 +33,16 @@
                 <!-- form start -->
                 @*<form role="form">*@
                 <div class="box-body">
-                    <div class="form-group col-md-6" id="ddlProject">
-                        <label>Project Name</label>
-
-                        <select class="form-control managerSelect" style="width: 100%;" id="ddlProjectName">
-                            <option value="">Select</option>
-                        </select>
-
+                    <div class="form-group col-md-12" id="ddlProject">
+                        <div class="col-md-2" style="padding-top:5px">
+                            <label>Select Project</label>
+                        </div>
+                        <div class="col-md-2" style="padding-left:0px;padding-right:0px">
+                            <select class="form-control projectSelect" style="width: 100%;" id="ddlProjectName">
+                                <option value="">Select</option>
+                            </select>
+                        </div>
                     </div>
-                    @*<div class="col-md-12">
-                            <div class="col-md-3">
-                                <a href="#">Add Resource</a>
-                            </div>
-                            <div class="col-md-3">
-                                <a href="#">Remove Resource</a>
-                            </div>
-                        </div>*@
-                </div>
-                <div class="box-footer">
-
                 </div>
                 @*</form>*@
 
@@ -55,7 +61,7 @@
                     <div class="box-header with-border">
                         <h3 class="box-title">Projects Members</h3>
                         <div class="box-tools pull-right" title="Add Resource">
-                            <button type="button" class="btn btn-primary" id="btnAddResource">
+                            <button type="button" id="btnAddResource" class="btn btn-block bg-black" style="background-color:#222d32 !important">
                                 <i class="fa fa-plus"></i> Add New Resource
                             </button>
                         </div>
@@ -93,7 +99,7 @@
                 </div>
             </div>
             <div class="modal-footer">
-                <button type="button" id="btnConfirmRemoveResource" style="background-color:#47a97e !important" class="btn btn-primary">Yes</button>
+                <button type="button" id="btnConfirmRemoveResource" style="background-color:black !important" class="btn btn-primary">Yes</button>
                 <button type="button" class="btn btn-default pull-right Close" data-dismiss="modal">No</button>
             </div>
 
@@ -116,16 +122,14 @@
                 <div class="form-group">
 
                     <label>Select Resource</label>
-                    <select class="form-control managerSelect" style="width: 100%;" id="ddlEmployeeList">
-                       
-                    </select>
+                    <select class="form-control employeeSelect" style="width: 100%;" id="ddlEmployeeList"></select>
                 </div>
                 <div id="divProjectAssigned" style="display:none">
                     <label style="color:red">A project has already been assigned for this resource.Do you wish to continue?</label>
                 </div>
             </div>
             <div class="modal-footer">
-                <button type="button" id="btnAddNewResource" style="background-color:#47a97e !important" class="btn btn-primary">Add</button>
+                <button type="button" id="btnAddNewResource" class="btn btn-primary" style="background-color:#222d32 !important">Add</button>
                 <button type="button" class="btn btn-default pull-right Close" data-dismiss="modal">Cancel</button>
             </div>
 
@@ -134,12 +138,46 @@
         <!-- /.modal-dialog -->
     </div>
 </div>
+
+<div class="modal bs-add-resource-confirmation-modal" id="addResourceConfirmationModal" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+                <h4 class="modal-title">Confirmation</h4>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <input type="hidden" id="hdnId" />
+                    <label>Are you sure you want to add this resource to this project?</label>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" id="btnConfirmAddNewResource" style="background-color:black !important" class="btn btn-primary">Yes</button>
+                <button type="button" class="btn btn-default pull-right Close" id="btnDismissAddConfirmationModal">No</button>
+            </div>
+
+            <!-- /.modal-content -->
+        </div>
+        <!-- /.modal-dialog -->
+    </div>
+</div>
+
 <script src="../../plugins/Toastr/toastr.js"></script>
+<script src="../../plugins/select2/select2.full.min.js"></script>
 <script>
     $(document).ready(function () {
         GetProjectsList();
         GetResourceList();
+        $(".projectSelect").select2();
+        $(".employeeSelect").select2();
     })
+    $(document).on('click',"#btnDismissAddConfirmationModal",function(){
+        $("#addNewResourceModal").modal('show');
+        $("#addResourceConfirmationModal").modal("hide");
+    });
     function GetProjectsList() {
         var managerId=@managerId;
         $.ajax({
@@ -175,8 +213,8 @@
     $(document).on('change',"#ddlProjectName",function(){
         var projectId= $("#ddlProjectName").val();
         if(projectId!="")
-            {
-            $("#divProjectMembers").show(); 
+        {
+            $("#divProjectMembers").show();
             $.ajax({
                 cache: false,
                 type: 'post',
@@ -195,11 +233,11 @@
                     $(".users-list").append(employeeList);
                 }
             });
-    }
-    else
-    {
-      $("#divProjectMembers").hide(); 
-    }
+        }
+        else
+        {
+            $("#divProjectMembers").hide();
+        }
     });
 
     $(document).on('click',"#btnRemoveResource",function(){
@@ -233,11 +271,12 @@
                 }
                 $(".users-list").append(employeeList);
                 showMessage("Resource removed successfully","1",true);
+                GetResourceList();
             }
         });
 
     })
-    $(document).on('click',"#btnAddNewResource",function(){
+    $(document).on('click',"#btnConfirmAddNewResource",function(){
         var employeeId=$("#ddlEmployeeList").val().split("|")[0];
         var projectId= $("#ddlProjectName").val();
         $.ajax({
@@ -247,7 +286,7 @@
             data:{employeeId:employeeId,projectId:projectId},
             dataType: "json",
             success: function (result) {
-                $("#addNewResourceModal").modal('hide');
+                $("#addResourceConfirmationModal").modal('hide');
                 var employeeList="";
                 $(".users-list").html("");
                 for(var i=0;i<result.length;i++)
@@ -261,7 +300,12 @@
                 GetResourceList();
             }
         });
-    })
+    });
+
+    $(document).on('click',"#btnAddNewResource",function(){
+        $("#addNewResourceModal").modal('hide');
+        $("#addResourceConfirmationModal").modal("show");
+            })
 
     $(document).on('change',"#ddlEmployeeList",function(){
         $("#divProjectAssigned").hide();
@@ -273,7 +317,7 @@
         }
     });
 
-    
+
     function showMessage(message, Type, fadeOut) {
         //To clear existing toastr
         toastr.clear();
@@ -293,5 +337,5 @@
                 break;
         }
     }
-  
+
 </script>

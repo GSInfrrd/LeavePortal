@@ -86,11 +86,7 @@ namespace LMS_WebAPI_DAL.Repositories
                                                    select c.NumberOfWorkingDays).ToList().Sum();
 
                         empDetails.TotalWorkFromHome = (from w in ctx.WorkFromHomes where w.RefEmployeeId == UserEmpId select w).ToList().Count();
-
-                        var empdata = (from n in ctx.EmployeeProjectDetails
-                                       where n.RefEmployeeId == UserEmpId
-                                       select n).SingleOrDefault();
-                        empDetails.ProjectName = empdata != null ? empdata.MasterDataValue.Value : string.Empty;
+                        //empDetails.ProjectName = empdata != null ? empdata.MasterDataValue.Value : string.Empty;
                         var managerDetails = (from n in ctx.EmployeeDetails where n.Id == empDetails.ManagerId select n).SingleOrDefault();
                         if (null != managerDetails)
                         {

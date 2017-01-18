@@ -189,7 +189,7 @@
                     {
                         <li>
                             <a href="@Url.Action("LeaveTransaction", "LeaveTransaction")">
-                                <i class="fa fa-history"></i> <span>Leave History</span>
+                                <i class="fa fa-history"></i> <span>Leave Transactions</span>
 
                             </a>
                         </li>
@@ -210,16 +210,25 @@
                         </li>
                         <li>
                             <a href="@Url.Action("ResourceLoad", "ResourceRequest")">
-                                <i class="fa fa-user-plus" aria-hidden="true"></i> <span>Resource Load</span>
+                                <i class="fa fa-user-plus" aria-hidden="true"></i> <span>Resource Load/Unload</span>
 
                             </a>
                         </li>
                     }
-                    @if (roleId == (int)EmployeeRole.HR || roleId == (int)EmployeeRole.Manager)
+                    @if (roleId == (int)EmployeeRole.HR)
                     {
                         <li>
                             <a href="@Url.Action("EmployeeDetails", "HR")">
                                 <i class="fa fa-database"></i> <span>Employee Details</span>
+
+                            </a>
+                        </li>
+                    }
+                    @if ( roleId == (int)EmployeeRole.Manager)
+                    {
+                        <li>
+                            <a href="@Url.Action("EmployeeDetails", "HR")">
+                                <i class="fa fa-database"></i> <span>Search Employee</span>
 
                             </a>
                         </li>

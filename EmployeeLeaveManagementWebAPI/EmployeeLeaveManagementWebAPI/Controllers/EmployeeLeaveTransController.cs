@@ -13,14 +13,16 @@ namespace EmployeeLeaveManagementWebAPI.Controllers
     public class EmployeeLeaveTransController : ApiController
     {
         // GET api/values
-        public List<EmployeeLeaveTransactionModel> Get(int id, int? leaveType = 0)
+        public List<EmployeeLeaveTransactionModel> Get(int id, int? leaveType = 0,int? month=0,int? transactionType=0)
         {
             try
             {
                 Logger.Info("Entering in EmployeeLeaveTransController API Get method");
                 EmployeeLeaveTransactionManagement ELTM = new EmployeeLeaveTransactionManagement();
                 int leaveTypeConverted = Convert.ToInt16(leaveType);
-                var res = ELTM.GetEmployeeLeaveTransaction(id, leaveTypeConverted);
+                int monthConverted = Convert.ToInt16(month);
+                int transactionTypeConverted = Convert.ToInt16(transactionType);
+                var res = ELTM.GetEmployeeLeaveTransaction(id, leaveTypeConverted,monthConverted,transactionTypeConverted);
                 Logger.Info("Successfully exiting from EmployeeLeaveTransController API Get method");
                 return res;
             }

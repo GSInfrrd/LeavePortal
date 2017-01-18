@@ -16,7 +16,8 @@
 }
 
 </style>
-
+  <!-- Select2 -->
+<link rel="stylesheet" href="../../plugins/select2/select2.min.css">
 
 <section class="content-header">
     <h1>
@@ -38,7 +39,7 @@
                 <div class="icon">
                     <i class="ion ion-bag"></i>
                 </div>
-                <a href="@Url.Action("ApplyLeave", "ApplyLeave")" class="small-box-footer">More info <i class="fa fa-arrow-circle-right"></i></a>
+                <a href="@Url.Action("LeaveTransaction", "LeaveTransaction")" class="small-box-footer">More info <i class="fa fa-arrow-circle-right"></i></a>
             </div>
         </div>
         <!-- ./col -->
@@ -52,7 +53,7 @@
                 <div class="icon">
                     <i class="ion ion-stats-bars"></i>
                 </div>
-                <a href="@Url.Action("Index", "WorkFromHome")" class="small-box-footer">More info <i class="fa fa-arrow-circle-right"></i></a>
+                <a href="@Url.Action("ApplyWorkFromHome", "WorkFromHome")" class="small-box-footer">More info <i class="fa fa-arrow-circle-right"></i></a>
             </div>
         </div>
         <!-- ./col -->
@@ -109,7 +110,7 @@
                             @*<button type="" class="btn btn-box-tool dropdown-toggle" data-toggle="dropdown">
                                 @*<i class="fa fa-wrench"></i>
                             </button>*@
-                           <select id="ddlYear">
+                           <select id="ddlYear" class="form-control yearSelect" style="width: 100%;">
                                <option>@DateTime.Now.Year</option>
                                <option>@DateTime.Now.AddYears(1).Year</option>
                            </select>
@@ -263,8 +264,10 @@
     </div>
    
 </section>
+<script src="../../plugins/select2/select2.full.min.js"></script>
 <script type="text/javascript">
     $(document).ready(function () {
+        $(".yearSelect").select2();
         //var name = $('.Login_name').text();
             var SelectedDates = {};
             SelectedDates[new Date('12/12/2016')] = new Date('12/12/2016');

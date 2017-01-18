@@ -108,6 +108,7 @@
           <Property Name="ModifiedDate" Type="datetime2" Precision="7" />
           <Property Name="CreatedBy" Type="nvarchar" MaxLength="50" />
           <Property Name="ModifiedBy" Type="nvarchar" MaxLength="50" />
+          <Property Name="RefTransactionType" Type="int" Nullable="false" />
         </EntityType>
         <EntityType Name="EmployeeLeaveTransactionHistory">
           <Key>
@@ -1478,6 +1479,7 @@
           <NavigationProperty Name="Workflows" Relationship="LeaveManagementSystemModel.FK_EmployeeLeaveTransaction_Workflow" FromRole="EmployeeLeaveTransaction" ToRole="Workflow" />
           <NavigationProperty Name="MasterDataValue" Relationship="LeaveManagementSystemModel.FK_MasterDataValue_EmployeeLeaveTransaction" FromRole="EmployeeLeaveTransaction" ToRole="MasterDataValue" />
           <NavigationProperty Name="MasterDataValue1" Relationship="LeaveManagementSystemModel.FK_MasterDataValueStatus_EmployeeLeaveTransaction" FromRole="EmployeeLeaveTransaction" ToRole="MasterDataValue" />
+          <Property Name="RefTransactionType" Type="Int32" Nullable="false" />
         </EntityType>
         <EntityType Name="EmployeeLeaveTransactionHistory">
           <Key>
@@ -1995,6 +1997,7 @@
           <EntitySetMapping Name="EmployeeLeaveTransactions">
             <EntityTypeMapping TypeName="LeaveManagementSystemModel.EmployeeLeaveTransaction">
               <MappingFragment StoreEntitySet="EmployeeLeaveTransaction">
+                <ScalarProperty Name="RefTransactionType" ColumnName="RefTransactionType" />
                 <ScalarProperty Name="ModifiedBy" ColumnName="ModifiedBy" />
                 <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
                 <ScalarProperty Name="ModifiedDate" ColumnName="ModifiedDate" />

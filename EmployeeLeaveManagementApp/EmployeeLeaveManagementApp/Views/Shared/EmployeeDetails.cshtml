@@ -6,6 +6,7 @@
     var userRole = LMS_WebAPP_Utils.CommonMethods.Description((LMS_WebAPP_Utils.EmployeeRole)roleId);
 }
 <link href="~/plugins/Toastr/toastr.css" rel="stylesheet" />
+<link rel="stylesheet" href="../../plugins/datatables/dataTables.bootstrap.css">
 <section class="content-header" style="height:41px">
     <h1 class="col-md-9">
      Employee Details
@@ -62,13 +63,22 @@
     <!-- /.row -->
 </section>
 <script src="../../plugins/Toastr/toastr.js"></script>
+<script src="../../plugins/datatables/jquery.dataTables.min.js"></script>
+<script src="../../plugins/datatables/dataTables.bootstrap.min.js"></script>
 <script>
     $(document).ready(function () {
         if (localStorage.getItem("EmployeeAdded") == 1) {
             showSuccessMessage("Employee Added Successfully");
             localStorage.removeItem("EmployeeAdded");
         }
-      
+        $('#example1').DataTable({
+            "paging": true,
+            "lengthChange": true,
+            "searching": true,
+            "ordering": true,
+            "info": true,
+            "autoWidth": false,
+        });
     });
     function AddEmployeeDetails() {
         window.location.href = "/HR/AddEmployeeDetails";

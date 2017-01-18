@@ -56,6 +56,7 @@ namespace LMS_WebAPI_DAL.Repositories
                                 RefLeaveType = leaveType,
                                 RefStatus = (int)LeaveStatus.Submitted,
                                 RefEmployeeId = empId,
+                                RefTransactionType=(int)TransactionType.Debit,
                                 CreatedBy = ctx.EmployeeDetails.FirstOrDefault(i => i.Id == empId).FirstName
                             };
                             var newID = ctx.EmployeeLeaveTransactions.Add(employeeLeaveDetails);
@@ -77,6 +78,7 @@ namespace LMS_WebAPI_DAL.Repositories
                                 RefLeaveType = leaveType,
                                 RefStatus = (int)LeaveStatus.Approved,
                                 RefEmployeeId = empId,
+                                RefTransactionType = (int)TransactionType.Debit,
                                 CreatedBy = ctx.EmployeeDetails.FirstOrDefault(i => i.Id == empId).FirstName
                             };
                             ctx.EmployeeLeaveTransactions.Add(employeeLeaveDetailsSick);

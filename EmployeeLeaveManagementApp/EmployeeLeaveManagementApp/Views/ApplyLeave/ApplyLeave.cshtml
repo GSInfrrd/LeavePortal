@@ -191,7 +191,7 @@
                             {
                                 disabledAttr = "disabled";
                             }
-                            <div class="col-md-3">
+                            <div class="col-md-3" style="margin-top:3px">
                                 <input type="radio" name="r1" id="RdLeaveType_@Convert.ToInt16((LMS_WebAPP_Utils.LeaveType)value)" class="flat-red" value="@Convert.ToInt16((LMS_WebAPP_Utils.LeaveType)value)" @disabledAttr>&nbsp;@(LMS_WebAPP_Utils.CommonMethods.Description((LMS_WebAPP_Utils.LeaveType)Convert.ToInt16((LMS_WebAPP_Utils.LeaveType)value)))
                             </div>
 
@@ -265,7 +265,7 @@
                         </div>
 
                         <div>
-                            <textarea id="leaveComment" rows="3" style="width:520px" placeholder="Enter ..."></textarea>
+                            <textarea id="leaveComment" rows="3" style="width:520px;resize:none" placeholder="Enter ..."></textarea>
                         </div>
                         <div class="form-group has-error" style="display:none" id="divCommentError">
                             <label class="control-label" for="leaveComment">
@@ -301,7 +301,7 @@
             </div>
 
             <div class="modal-footer">
-                <button type="button" id="btnLeaveRequestSubmit" style="background-color:#47a97e !important" class="btn btn-primary">Submit</button>
+                <button type="button" id="btnLeaveRequestSubmit" style="background-color:black !important" class="btn btn-primary">Submit</button>
                 <button type="button" id="btnCasualAdvanceLeaveSubmit" style="background-color:#47a97e !important;display:none;" class="btn btn-primary">Yes</button>
                 <button type="button" class="btn btn-default pull-right Close" data-dismiss="modal">Cancel</button>
             </div>

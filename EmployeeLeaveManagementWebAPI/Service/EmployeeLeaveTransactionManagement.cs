@@ -15,12 +15,12 @@ namespace LMS_WebAPI_ServiceHelpers
     {
         private IEmployeeLeaveTransaction EmployeeLeaves  = new EmployeeLeaveTransactionRepository();
         private IAddLeaveRepository addLeaveRepository = new AddLeaveRepository();
-        public List<EmployeeLeaveTransactionModel> GetEmployeeLeaveTransaction(int id,int leaveType = 0)
+        public List<EmployeeLeaveTransactionModel> GetEmployeeLeaveTransaction(int id,int leaveType = 0,int month=0,int transactionType=0)
         {
             Logger.Info("Entering into EmployeeLeaveTransactionManagement Service helper GetEmployeeLeaveTransaction method ");
             try
             {
-                var EmployeeLeaveTransaction = EmployeeLeaves.GetEmployeeLeaveTransaction(id,leaveType);
+                var EmployeeLeaveTransaction = EmployeeLeaves.GetEmployeeLeaveTransaction(id,leaveType,month,transactionType);
                 Logger.Info("Exiting from into EmployeeLeaveTransactionManagement Service helper GetEmployeeLeaveTransaction method ");
                 return EmployeeLeaveTransaction;
             }

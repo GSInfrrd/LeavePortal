@@ -83,16 +83,19 @@ namespace LMS_WebAPI_DAL.Repositories
                         else if (leaveDetails.EmployeeLeaveTransaction.RefLeaveType == (int)LMS_WebAPI_Utils.LeaveType.AdvanceLeave)
                         {
                             leaveMaster.EarnedCasualLeave = Convert.ToInt32((Double)leaveMaster.EarnedCasualLeave - leaveDetails.EmployeeLeaveTransaction.NumberOfWorkingDays);
-
-                            leaveMaster.SpentAdvanceLeave = (int)leaveDetails.EmployeeLeaveTransaction.NumberOfWorkingDays;
+                            var spentleave = leaveMaster.SpentAdvanceLeave != null ? leaveMaster.SpentAdvanceLeave : 0;
+                            leaveMaster.SpentAdvanceLeave = spentleave+(int)leaveDetails.EmployeeLeaveTransaction.NumberOfWorkingDays;
                         }
                         else if (leaveDetails.EmployeeLeaveTransaction.RefLeaveType == (int)LMS_WebAPI_Utils.LeaveType.LOP)
                         {
-                            leaveMaster.TakenLossOfPay = (int)leaveDetails.EmployeeLeaveTransaction.NumberOfWorkingDays;
+                            var lopLeave = leaveMaster.TakenLossOfPay != null ? leaveMaster.TakenLossOfPay : 0;
+                            leaveMaster.TakenLossOfPay = lopLeave+(int)leaveDetails.EmployeeLeaveTransaction.NumberOfWorkingDays;
                         }
                         else if (leaveDetails.EmployeeLeaveTransaction.RefLeaveType == (int)LMS_WebAPI_Utils.LeaveType.CompOff)
                         {
-                            leaveMaster.TakenCompOff = (int)leaveDetails.EmployeeLeaveTransaction.NumberOfWorkingDays;
+                            var compOff = leaveMaster.TakenCompOff != null ? leaveMaster.TakenCompOff : 0;
+
+                            leaveMaster.TakenCompOff = compOff+(int)leaveDetails.EmployeeLeaveTransaction.NumberOfWorkingDays;
                         }
                         ctx.SaveChanges();
                         var ManagerDetails = ctx.EmployeeDetails.FirstOrDefault(x => x.Id == ApproverId);

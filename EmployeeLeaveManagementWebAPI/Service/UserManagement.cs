@@ -72,7 +72,6 @@ namespace LMS_WebAPI_ServiceHelpers
                     VerifiedUser.TotalAdvanceLeaveTotake = userData.TotalAdvanceLeaveToTake;
                     VerifiedUser.MangerEmail = userData.ManagerEmailId;
                     VerifiedUser.ManagerId = userData.ManagerId;
-                    VerifiedUser.ProjectName = userData.ProjectName;
                     VerifiedUser.CompOffTaken = userData.CompOffTaken;
                     VerifiedUser.DateOfJoining = Convert.ToDateTime(userData.DateOfJoining);
                 }
