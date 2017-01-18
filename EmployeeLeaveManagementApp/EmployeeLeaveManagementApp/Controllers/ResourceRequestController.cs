@@ -17,14 +17,14 @@ namespace EmployeeLeaveManagementApp.Controllers
     public class ResourceRequestController : Controller
     {
         ResourceManagement resourceManagementOperations = new ResourceManagement();
-        public async Task<ActionResult> RequestForResources()
+        public ActionResult RequestForResources()
         {
             Logger.Info("Entering in ResourceRequestController APP RequestForResources method");
             try
             {
                 int managerId = ((UserAccount)Session[LMS_WebAPP_Utils.Constants.SESSION_OBJ_USER]).RefEmployeeId;
 
-                var resourceRequestFormDetails = await resourceManagementOperations.GetResourceRequestFormDetails(managerId);
+                var resourceRequestFormDetails = resourceManagementOperations.GetResourceRequestFormDetails(managerId);
                 foreach (var history in resourceRequestFormDetails.ResourceRequestHistory)
                 {
                     history.StatusValue = CommonMethods.Description((ResourceRequestStatus)history.Status);
@@ -40,7 +40,7 @@ namespace EmployeeLeaveManagementApp.Controllers
         }
 
 
-        public async Task<ActionResult> SendRequestForResources(ResourceDetailsModel model)
+        public ActionResult SendRequestForResources(ResourceDetailsModel model)
         {
             Logger.Info("Entering in ResourceRequestController APP SendRequestForResources method");
             try
@@ -69,12 +69,15 @@ namespace EmployeeLeaveManagementApp.Controllers
                     Skills = skillsString
                 };
 
-                var resourceRequestSent = await resourceManagementOperations.SubmitResourceRequest(resourceEntity);
-                resourceRequestSent.StatusValue = CommonMethods.Description((ResourceRequestStatus)resourceRequestSent.Status);
-                if (null != resourceRequestSent)
+                var resourceRequestSent = resourceManagementOperations.SubmitResourceRequest(resourceEntity);
+                if (resourceRequestSent.Result)
                 {
+                    foreach (var resourceRequest in resourceRequestSent.ResourceRequestHistory)
+                    {
+                        resourceRequest.StatusValue = CommonMethods.Description((ResourceRequestStatus)resourceRequest.Status);
+                    }
                     Logger.Info("Successfully exiting from ResourceRequestController APP SendRequestForResources method");
-                    return Json(new { result = true, model = resourceRequestSent });
+                    return Json(new { result = true, model = resourceRequestSent.ResourceRequestHistory, count = resourceRequestSent.Count });
                 }
                 else
                 {
@@ -89,53 +92,45 @@ namespace EmployeeLeaveManagementApp.Controllers
             }
         }
 
-        public async Task<ActionResult> RequestForResourcesHR()
+        public ActionResult RequestForResourcesHR()
         {
             try
             {
                 bool viewAll = false;
                 int hrId = ((UserAccount)Session[LMS_WebAPP_Utils.Constants.SESSION_OBJ_USER]).RefEmployeeId;
-                var lstRequestsToRespond = new List<ResourceRequestDetailModel>();
 
-                lstRequestsToRespond = await resourceManagementOperations.GetResourceRequests(hrId, viewAll);
-                if (null != lstRequestsToRespond)
+                var resourceRequests = resourceManagementOperations.GetResourceRequests(hrId, viewAll);
+                if (null != resourceRequests)
                 {
-                    foreach (var request in lstRequestsToRespond)
+                    foreach (var request in resourceRequests.ResourceRequestHistory)
                     {
                         request.StatusValue = CommonMethods.Description((ResourceRequestStatus)request.Status);
                     }
-                    return View(lstRequestsToRespond);
+                    return View(resourceRequests);
                 }
                 else
                 {
                     return null;
                 }
             }
-            catch (Exception ex)
+            catch 
             {
-                Logger.Error("Error at ResourceRequestController APP SendRequestForResources method.", ex);
+                Logger.Error("Error at ResourceRequestController APP SendRequestForResources method.");
                 return Json(new { result = false });
             }
         }
 
-        public async Task<ActionResult> RespondToRequestForResources(ResourceRequestDetailModel model)
+        public ActionResult RespondToRequestForResources(ResourceRequestDetailModel model)
         {
             try
             {
                 bool result = false;
-                bool viewAll = false;
-                var responsemodel = new ResourceRequestDetailModel();
-                responsemodel = await resourceManagementOperations.RespondToResourceRequests(model);
-                int hrId = ((UserAccount)Session[LMS_WebAPP_Utils.Constants.SESSION_OBJ_USER]).RefEmployeeId;
-                var lstRequestsToRespond = new List<ResourceRequestDetailModel>();
-                lstRequestsToRespond = await resourceManagementOperations.GetResourceRequests(hrId, viewAll);
-                foreach (var request in lstRequestsToRespond)
+                result = resourceManagementOperations.RespondToResourceRequests(model);
+                model.StatusValue = CommonMethods.Description((ResourceRequestStatus)model.Status);
+
+                if (result)
                 {
-                    request.StatusValue = CommonMethods.Description((ResourceRequestStatus)request.Status);
-                }
-                if (null != responsemodel)
-                {
-                    return Json(new { result = true, model = lstRequestsToRespond });
+                    return Json(new { result = true, ticket = model.Ticket, status = model.Status, statusValue = model.StatusValue });
                 }
                 else
                 {
@@ -148,20 +143,21 @@ namespace EmployeeLeaveManagementApp.Controllers
                 return Json(new { result = false });
             }
         }
+    
 
-        public async Task<ActionResult> ViewAllRequests()
+        public ActionResult ViewAllRequests()
         {
             try
             {
                 bool viewAll = true;
                 var currentUserId = ((UserAccount)Session[LMS_WebAPP_Utils.Constants.SESSION_OBJ_USER]).RefEmployeeId;
-                var lstAllRequests = new List<ResourceRequestDetailModel>();
-                lstAllRequests = await resourceManagementOperations.GetResourceRequests(currentUserId, viewAll);
-                foreach (var request in lstAllRequests)
+
+                var resourceRequests = resourceManagementOperations.GetResourceRequests(currentUserId, viewAll);
+                foreach (var request in resourceRequests.ResourceRequestHistory)
                 {
                     request.StatusValue = CommonMethods.Description((ResourceRequestStatus)request.Status);
                 }
-                return Json(new { model = lstAllRequests });
+                return Json(new { model = resourceRequests.ResourceRequestHistory });
             }
             catch (Exception ex)
             {
@@ -171,42 +167,48 @@ namespace EmployeeLeaveManagementApp.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult> CancelRequest(string ticket)
+        public ActionResult CancelRequest(string ticket)
         {
             try
             {
-                bool deleted = false;
-                deleted = await resourceManagementOperations.DeleteResourceRequest(ticket);
-                return Json(new { deleted, ticketValue = ticket });
+                var resourceRequests = new ResourceDetails();
+                int userId = ((UserAccount)Session[LMS_WebAPP_Utils.Constants.SESSION_OBJ_USER]).RefEmployeeId;
+
+                resourceRequests = resourceManagementOperations.DeleteResourceRequest(ticket, userId);
+                foreach (var request in resourceRequests.ResourceRequestHistory)
+                {
+                    request.StatusValue = CommonMethods.Description((ResourceRequestStatus)request.Status);
+                }
+                return Json(new { result = resourceRequests.Result, model = resourceRequests.ResourceRequestHistory, count = resourceRequests.Count });
             }
             catch
             {
                 Logger.Error("Error at ResourceRequestController APP DeleteRequest method.");
-                return Json(new { deleted = false });
+                return Json(new { result = false });
             }
         }
 
         public ActionResult ResourceLoad()
-        {
-            Logger.Info("Entering in ResourceRequestController APP ResourceLoad method");
-            try
             {
-                if (null != ((UserAccount)Session[LMS_WebAPP_Utils.Constants.SESSION_OBJ_USER]))
+                Logger.Info("Entering in ResourceRequestController APP ResourceLoad method");
+                try
                 {
-                    Logger.Info("Successfully exiting from ResourceRequestController APP ResourceLoad method");
-                    return View();
+                    if (null != ((UserAccount)Session[LMS_WebAPP_Utils.Constants.SESSION_OBJ_USER]))
+                    {
+                        Logger.Info("Successfully exiting from ResourceRequestController APP ResourceLoad method");
+                        return View();
+                    }
+                    else
+                    {
+                        return RedirectToAction("Login", "Account");
+                    }
                 }
-                else
+                catch (Exception ex)
                 {
-                    return RedirectToAction("Login", "Account");
+                    Logger.Error("Error at ResourceRequestController APP ResourceLoad method.", ex);
+                    return View("Error");
                 }
             }
-            catch (Exception ex)
-            {
-                Logger.Error("Error at ResourceRequestController APP ResourceLoad method.", ex);
-                return View("Error");
-            }
-        }
 
         public async Task<JsonResult> GetProjectMembersList(int projectId)
         {

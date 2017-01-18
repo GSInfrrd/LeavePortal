@@ -40,5 +40,5 @@ function ToJavaScriptDate(value) {
         time = currentHour + ":" + minutes + ":" + seconds + " " + "AM";
     }
 
-    return (dt.getDate() + "/" + dt.getMonth() + 1) + "/" + dt.getFullYear() + " " + time;
+    return (dt.getMonth() + 1) + "/" + dt.getDate() + "/" + +dt.getFullYear();
 }

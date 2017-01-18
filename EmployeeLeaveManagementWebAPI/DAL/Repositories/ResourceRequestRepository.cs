@@ -39,7 +39,9 @@ namespace LMS_WebAPI_DAL.Repositories
                     resourceDetails.Skills = skills;
 
                     bool viewAll = false;
-                    resourceDetails.ResourceRequestHistory = GetResourceRequestDetails(managerId, viewAll);
+                    int count;
+                    resourceDetails.ResourceRequestHistory = GetResourceRequestDetails(managerId, viewAll, out count);
+                    resourceDetails.Count = count;
                 }
                 return resourceDetails;
             }
@@ -49,7 +51,7 @@ namespace LMS_WebAPI_DAL.Repositories
             }
         }
 
-        public List<ResourceRequestDetailModel> GetResourceRequestDetails(int userId, bool viewAll)
+        public List<ResourceRequestDetailModel> GetResourceRequestDetails(int userId, bool viewAll, out int count)
         {
             try
             {
@@ -60,6 +62,7 @@ namespace LMS_WebAPI_DAL.Repositories
                     var role = ctx.EmployeeDetails.Where(x => x.Id == userId).Select(y => y.RefRoleId).FirstOrDefault();
                     var lstResourceDetails = new List<ResourceRequestDetailModel>();
                     var resourceRequests = ctx.ResourceRequestDetails.ToList();
+                    count = resourceRequests.Count;
                     if (role == (Int16)EmployeeRole.Manager)
                     {
                         if (!viewAll)
@@ -132,27 +135,31 @@ namespace LMS_WebAPI_DAL.Repositories
             }
         }
 
-        public ResourceRequestDetailModel SubmitResourceRequest(ResourceRequestDetail model)
+        public ResourceDetails SubmitResourceRequest(ResourceRequestDetail model)
         {
             try
             {
+                var resourceRequests = new ResourceDetails();
+                resourceRequests.Result = false;
                 using (var ctx = new LeaveManagementSystemEntities1())
                 {
                     var newRecord = ctx.ResourceRequestDetails.Add(model);
                     ctx.SaveChanges();
-                    var lstHR = ctx.EmployeeDetails.Include("MasterDataValue").Where(x => x.MasterDataValue.Id == (Int16)EmployeeRole.HR).ToList();
-                    var resourceDetail = new ResourceRequestDetailModel()
+                    if (null != model)
                     {
-                        Ticket = model.Ticket,
-                        ResourceRequestTitle = model.ResourceRequestTitle,
-                        NumberRequestedResources = model.NumberRequestedResources,
-                        Status = model.Status,
-                        RequestToName = lstHR.Where(x => x.Id == model.RequestToId).Select(x => x.FirstName + " " + x.LastName).FirstOrDefault(),
-                        Skills = model.Skills,
-                        CreatedDate = model.CreatedDate,
-                        UpdatedDate = model.UpdatedDate
-                    };
-                    return resourceDetail;
+                        int count;
+                        bool viewAll = false;
+                        resourceRequests.Result = true;
+                        resourceRequests.ResourceRequestHistory = GetResourceRequestDetails(model.RequestFromId, viewAll, out count);
+                        resourceRequests.Count = count;
+
+                        return resourceRequests;
+                    }
+                    //var lstHR = ctx.EmployeeDetails.Include("MasterDataValue").Where(x => x.MasterDataValue.Id == (Int16)EmployeeRole.HR).ToList();
+                    else
+                    {
+                        return resourceRequests;
+                    }
                 }
             }
             catch
@@ -161,29 +168,26 @@ namespace LMS_WebAPI_DAL.Repositories
             }
         }
 
-        public ResourceRequestDetailModel SubmitResourceRequestResponse(ResourceRequestDetail model)
+        public bool SubmitResourceRequestResponse(ResourceRequestDetail model)
         {
             try
             {
                 using (var ctx = new LeaveManagementSystemEntities1())
                 {
+                    bool result = false;
                     var request = ctx.ResourceRequestDetails.FirstOrDefault(x => x.Ticket == model.Ticket);
                     if (null != request)
                     {
                         request.Status = model.Status;
                         request.UpdatedDate = DateTime.Now;
                         ctx.SaveChanges();
+
+                        return result = true;
                     }
                     else
                     {
-                        return null;
+                        return result;
                     }
-                    var resourceRequestReponse = new ResourceRequestDetailModel()
-                    {
-                        Ticket = model.Ticket,
-                        Status = model.Status
-                    };
-                    return resourceRequestReponse;
                 }
             }
             catch
@@ -193,12 +197,13 @@ namespace LMS_WebAPI_DAL.Repositories
             }
         }
 
-        public bool DeleteRequest(string ticket)
+        public ResourceDetails DeleteRequest(string ticket, int userId)
         {
             Logger.Info("Entering in ResourceRequestRepository API GetProjectMembersList method");
             try
             {
-                bool deleted = false;
+                var resourceRequests = new ResourceDetails();
+                resourceRequests.Result = false;
                 using (var ctx = new LeaveManagementSystemEntities1())
                 {
                     var request = ctx.ResourceRequestDetails.FirstOrDefault(x => x.Ticket == ticket);
@@ -207,13 +212,19 @@ namespace LMS_WebAPI_DAL.Repositories
                         ctx.ResourceRequestDetails.Remove(request);
                         ctx.SaveChanges();
 
+                        int count;
+                        bool viewAll = false;
+                        resourceRequests.Result = true;
+                        resourceRequests.ResourceRequestHistory = GetResourceRequestDetails(userId, viewAll, out count);
+                        resourceRequests.Count = count;
+
                         Logger.Info("Exiting in ResourceRequestRepository API GetProjectMembersList method");
-                        return deleted = true;
+                        return resourceRequests;
                     }
                     else
                     {
                         Logger.Info("Exiting in ResourceRequestRepository API GetProjectMembersList method");
-                        return deleted;
+                        return resourceRequests;
                     }
                 }
             }

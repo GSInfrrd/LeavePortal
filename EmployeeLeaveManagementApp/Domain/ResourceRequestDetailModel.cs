@@ -20,6 +20,6 @@ namespace LMS_WebAPP_Domain
         public System.DateTime CreatedDate { get; set; }
         public System.DateTime UpdatedDate { get; set; }
         public int Status { get; set; }
-        public string StatusValue { get; set; }
+        public string StatusValue { get; set; }        
     }
 }

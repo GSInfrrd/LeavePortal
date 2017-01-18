@@ -39,7 +39,7 @@ namespace EmployeeLeaveManagementWebAPI.Controllers
 
         [HttpPost]
         [Route("SubmitResourceRequest")]
-        public ResourceRequestDetailModel SubmitResourceRequest(ResourceRequestDetailModel model)
+        public ResourceDetails SubmitResourceRequest(ResourceRequestDetailModel model)
         {
             try
             {
@@ -55,7 +55,7 @@ namespace EmployeeLeaveManagementWebAPI.Controllers
                 requestEntity.ResourceRequestTitle = model.ResourceRequestTitle;
                 requestEntity.NumberRequestedResources = model.NumberRequestedResources;
                 requestEntity.Skills = model.Skills;
-                requestEntity.Ticket = "inf-" + model.RequestFromId + randomId;
+                requestEntity.Ticket = "INF-" + model.RequestFromId + randomId;
                 requestEntity.CreatedDate = DateTime.Now;
                 requestEntity.UpdatedDate = DateTime.Now;
                 requestEntity.Status = Convert.ToInt16((Enum)ResourceRequestStatus.Requested);
@@ -73,14 +73,13 @@ namespace EmployeeLeaveManagementWebAPI.Controllers
         [AllowAnonymous]
         [HttpGet]
         [Route("ResourceRequests/{id}/{viewAll}")]
-        public List<ResourceRequestDetailModel> ResourceRequests(int id, bool viewAll)
+        public ResourceDetails ResourceRequests(int id, bool viewAll)
         {
             try
             {
-                var lstResourceDetails = new List<ResourceRequestDetailModel>();
-                lstResourceDetails = resourceRequestmanagement.GetResourceRequests(id, viewAll);
+                var resourceRequests = resourceRequestmanagement.GetResourceRequests(id, viewAll);
 
-                return lstResourceDetails;
+                return resourceRequests;
             }
             catch
             {
@@ -91,10 +90,11 @@ namespace EmployeeLeaveManagementWebAPI.Controllers
         [AllowAnonymous]
         [HttpPost]
         [Route("SubmitResourceRequestsResponse")]
-        public ResourceRequestDetailModel SubmitResourceRequestsResponse(ResourceRequestDetailModel model)
+        public bool SubmitResourceRequestsResponse(ResourceRequestDetailModel model)
         {
             try
             {
+                bool result = false;
                 var resourceRequestResponse = new ResourceRequestDetail()
                 {
                     Ticket = model.Ticket,
@@ -103,7 +103,7 @@ namespace EmployeeLeaveManagementWebAPI.Controllers
                     UpdatedDate = DateTime.Now
                 };
 
-                var result = resourceRequestmanagement.SubmitResourceRequestResponse(resourceRequestResponse);
+                result = resourceRequestmanagement.SubmitResourceRequestResponse(resourceRequestResponse);
                 return result;
             }
             catch
@@ -115,19 +115,18 @@ namespace EmployeeLeaveManagementWebAPI.Controllers
         [AllowAnonymous]
         [HttpGet]
         [Route("DeleteResourceRequest")]
-        public bool DeleteResourceRequest(string id)
+        public ResourceDetails DeleteResourceRequest(string id, int userId)
         {
             try
             {
-                bool deleted = false;
-                deleted = resourceRequestmanagement.DeleteResourceRequestManagement(id);
+                var resourceRequests = resourceRequestmanagement.DeleteResourceRequestManagement(id, userId);
 
-                return deleted;
+                return resourceRequests;
             }
             catch
             {
 
-                return false;
+                throw;
             }
         }
 

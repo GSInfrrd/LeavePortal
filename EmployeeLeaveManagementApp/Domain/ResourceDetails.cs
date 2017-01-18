@@ -11,5 +11,8 @@ namespace LMS_WebAPP_Domain
         public List<string> Skills { get; set; }
         public List<EmployeeDetailsModel> ListOfHR { get; set; }
         public List<ResourceRequestDetailModel> ResourceRequestHistory { get; set; }
+
+        public int Count { get; set; }
+        public bool Result { get; set; }
     }
 }

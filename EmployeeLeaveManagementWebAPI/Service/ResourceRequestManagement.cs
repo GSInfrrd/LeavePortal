@@ -15,6 +15,7 @@ namespace Service
     public class ResourceRequestManagemenet
     {
         private IResourceRequestRepository _resourceRequest = new ResourceRequestRepository();
+
         public ResourceDetails GetResourceRequestFormDetails(int managerId)
         {
             try
@@ -30,7 +31,7 @@ namespace Service
             }
         }
 
-        public ResourceRequestDetailModel SubmitResourceRequest(ResourceRequestDetail model)
+        public ResourceDetails SubmitResourceRequest(ResourceRequestDetail model)
         {
             try
             {
@@ -45,45 +46,48 @@ namespace Service
             }
         }
 
-        public List<ResourceRequestDetailModel> GetResourceRequests(int userId, bool viewAll)
+        public ResourceDetails GetResourceRequests(int userId, bool viewAll)
         {
             try
             {
-                var requestModel = _resourceRequest.GetResourceRequestDetails(userId, viewAll);
-
-                return requestModel;
+                int count;
+                var resourceDetails = new ResourceDetails();
+                var lstResources = _resourceRequest.GetResourceRequestDetails(userId, viewAll, out count);
+                resourceDetails.ResourceRequestHistory = lstResources;
+                resourceDetails.Count = count;
+                return resourceDetails;
             }
-            catch 
+            catch
             {
 
                 throw;
             }
         }
 
-        public ResourceRequestDetailModel SubmitResourceRequestResponse(ResourceRequestDetail model)
+        public bool SubmitResourceRequestResponse(ResourceRequestDetail model)
         {
             try
             {
-                var responseModel = _resourceRequest.SubmitResourceRequestResponse(model);
+                bool result = false;
+                result = _resourceRequest.SubmitResourceRequestResponse(model);
 
-                return responseModel;
+                return result;
             }
-            catch 
+            catch
             {
 
                 throw;
             }
         }
 
-        public bool DeleteResourceRequestManagement(string ticket)
+        public ResourceDetails DeleteResourceRequestManagement(string ticket, int userId)
         {
             Logger.Info("Entering into ResourceRequestManagement Service helper DeleteResourceRequestManagement method ");
             try
             {
-                bool deleted = false;
-                deleted = _resourceRequest.DeleteRequest(ticket);
+                var resourceRequests = _resourceRequest.DeleteRequest(ticket, userId);
 
-                return deleted;
+                return resourceRequests;
             }
             catch
             {

@@ -1267,6 +1267,7 @@
     <Content Include="Views\Home\Error.cshtml" />
     <Content Include="Views\ResourceRequest\RequestForResourcesHR.cshtml" />
     <Content Include="Views\ResourceRequest\ResourceLoad.cshtml" />
+    <Content Include="Views\LeaveTransaction\RewardLeave.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

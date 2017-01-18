@@ -13,5 +13,9 @@ namespace Domain
         public List<EmployeeDetailsModel> ListOfHR { get; set; }
         public List<ResourceRequestDetailModel> ResourceRequestHistory { get; set; }
 
+        public int Count { get; set; }
+
+        public bool Result { get; set; }
+
     }
 }

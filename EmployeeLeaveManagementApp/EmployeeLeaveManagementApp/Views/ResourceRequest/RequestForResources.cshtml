@@ -50,7 +50,12 @@
                                     <tr id="@resource.Ticket">
                                         <td><a href="#" data-ticket="@resource.Ticket" data-created="@resource.CreatedDate" data-updated="@resource.UpdatedDate" data-title="@resource.ResourceRequestTitle" data-noRsource="@resource.NumberRequestedResources" data-skills="@resource.Skills" data-sentTo="@resource.RequestToName" data-statusKey="@resource.Status" data-status="@resource.StatusValue" onclick="ticketClicked(this)">@resource.Ticket</a></td>
                                         <td>@resource.ResourceRequestTitle</td>
-                                        <td>@resource.CreatedDate</td>
+                                        @{
+                                            var dateWithTime = resource.CreatedDate;
+                                            string createdDate = "";
+                                            createdDate = dateWithTime.ToString("MM/dd/yyyy");
+                                        }
+                                        <td>@createdDate</td>
                                         <td>
                                             <div class="btn-group">
                                                 @if (resource.Status == 1)
@@ -86,7 +91,14 @@
                 <!-- /.box-body -->
                 <div class="box-footer clearfix">
                     <a href="javascript:void(0)" class="btn btn-sm btn-flat pull-left bg-black"data-toggle="modal" data-target=".addResourceRequest-modal">Place New Request</a>
-                    <a href="javascript:void(0)" class="btn btn-sm btn-flat pull-right bg-black" onclick="getAllRequests()">View All Requests</a>
+                    @if (Model.Count > 10)
+                    {
+                        <a href="javascript:void(0)" id="" class="btn btn-sm btn-flat pull-right bg-black viewAllBtn" onclick="getAllRequests()">View All Requests</a>
+                    }
+                    else
+                    {
+                        <a href="javascript:void(0)" id="" class="btn btn-sm btn-flat pull-right bg-black viewAllBtn" onclick="getAllRequests()" style="display:none">View All Requests</a>
+                    }
                 </div>
             </div>
         </div>
@@ -220,7 +232,8 @@
         $(function () {
             //Initialize Select2 Elements
             $(".skills").select2({
-                placeholder: "Select skills"
+                placeholder: "Select skills",
+                maximumSelectionLength: 1
             });
             //$('#resourceRequestHistoryTable').DataTable();
             $('#resourceRequestHistoryTable').DataTable({
@@ -295,22 +308,26 @@
             processData:false,
             success: function (data) {
                 if (data.result == true) {
-                    if ($("#resourceRequestHistoryTable").find('tbody').find('tr').find('td').length == 1) {
-                        $("#resourceRequestHistoryTable").find('tbody').find('tr').remove();
-                    }
+                   
                     $("#txtRequestTitle").val("");
                     $("#txtResourcesRequired").val("");
                     $("#ddlSkills").val(null).trigger("change");
-                    
-                    
-                    var tableRow = tabeRowPopulate(data.model);
-                    
-                    $("#resourceRequestHistoryTable").find('tbody').prepend(tableRow);
+                    $("#resourceRequestHistoryTable").find('tbody').html("");
+                    for (i = 0; i < data.model.length;i++){
+                        var tableRow = tabeRowPopulate(data.model[i]);
+                        $("#resourceRequestHistoryTable").find('tbody').append(tableRow);
+                    }
                     var noOfRows = parseInt($('#resourceRequestHistoryTable tr').length);
                     if (noOfRows > 10) {
                         for (i = noOfRows - 1; i > 10; i--) {
                             $('table#resourceRequestHistoryTable tr:nth-child(' + i + ')').remove();
                         }
+                    }
+                    if (data.count <= 10) {
+                        $(".viewAllBtn").hide();
+                    }
+                    else {
+                        $(".viewAllBtn").show();
                     }
                     $('#addResourceRequestModal').modal('hide');
                     showMessage("Request sent successfully", "1", true);
@@ -343,7 +360,8 @@
         else {
             $(".requestStatus").html('<span class="label btn-color-approved">' + $(id).attr("data-status") + '</span>');
         }
-        $(".requestSentDate").html($(id).attr('data-created'));
+        var createdDate = $(id).attr('data-created').split(" ")[0];
+        $(".requestSentDate").html(createdDate);
         $(".requestResponseDate").html($(id).attr('data-updated'));
 
         $('#RequestResourceDetailsModal').modal('show');
@@ -365,32 +383,7 @@
                 }
             }
         });
-    }
-
-    function ToJavaScriptDate(value) {
-        var pattern = /Date\(([^)]+)\)/;
-        var results = pattern.exec(value);
-        var dt = new Date(parseFloat(results[1]));
-        var hours = dt.getHours();
-        var minutes = dt.getMinutes();
-        var seconds = dt.getSeconds();
-        var currentHour = parseInt("0");
-        var time = "";
-        if (hours > 12) {
-            currentHour = hours % 12;
-            time = currentHour + ":" + minutes + ":" + seconds +" "+"PM";
-        }
-        else if (hours == 12) {
-            currentHour = hours;
-            time = currentHour + ":" + minutes + ":" + seconds + " " + "PM";
-        }
-        else {
-            currentHour = hours;
-            time = currentHour + ":" + minutes + ":" + seconds + " " + "AM";
-        }
-        
-        return (dt.getDate() + "/" + dt.getMonth() + 1) + "/" + dt.getFullYear() + " " + time;
-    }    
+    }  
 
     function tabeRowPopulate(model) {
         var createdDate = ToJavaScriptDate(model.CreatedDate);
@@ -419,7 +412,7 @@
         
         tableRow += '<td class="text-align_center">';
         if (statusKey != 4) {
-            tableRow += '<a href="#"><span class="label btn-danger" data-ticket="' + model.Ticket + '" onclick="cancelRequest()">Cancel</span></a>';                        
+            tableRow += '<a href="#"><span class="label btn-danger" data-ticket="' + model.Ticket + '" onclick="cancelRequest(this)">Cancel</span></a>';                        
         }
         tableRow += '</td>';
         tableRow += '</tr>';
@@ -435,9 +428,18 @@
             data: { ticket: ticket },
             async: false,
             success: function (data) {
-                if (data.deleted) {
-                    var ticket = data.ticketValue;
-                    $("#" + ticket).remove();
+                if (data.result) {
+                    $("#resourceRequestHistoryTable").find('tbody').html("");
+                    for (i = 0; i < data.model.length; i++) {
+                        var tableRow = tabeRowPopulate(data.model[i]);
+                        $("#resourceRequestHistoryTable").find('tbody').append(tableRow);
+                    }
+                    if (data.count <= 10) {
+                        $(".viewAllBtn").hide();
+                    }
+                    else {
+                        $(".viewAllBtn").show();
+                    }
                     showMessage("Request cancelled successfully", "1", true);
                 }
                 else {

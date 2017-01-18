@@ -1,11 +1,12 @@
-﻿@model List<LMS_WebAPP_Domain.ResourceRequestDetailModel>
-@{ 
+﻿@model LMS_WebAPP_Domain.ResourceDetails
+@{
     var lstRequestStatus = new Dictionary<int, string>();
     foreach (var name in Enum.GetNames(typeof(LMS_WebAPP_Utils.ResourceRequestStatus)))
     {
         lstRequestStatus.Add((int)Enum.Parse(typeof(LMS_WebAPP_Utils.ResourceRequestStatus), name), LMS_WebAPP_Utils.CommonMethods.Description((LMS_WebAPP_Utils.ResourceRequestStatus)Enum.Parse(typeof(LMS_WebAPP_Utils.ResourceRequestStatus), name, true)));
     }
     var serializedlstRequestStatus = @Html.Raw(Newtonsoft.Json.JsonConvert.SerializeObject(lstRequestStatus));
+    var lstResourceRequests = Model.ResourceRequestHistory;
 }
 
 <link href="~/Content/Style.css" rel="stylesheet" />
@@ -13,71 +14,67 @@
 <link href="~/plugins/datatables/dataTables.bootstrap.css" rel="stylesheet" />
 <link href="~/plugins/Toastr/toastr.css" rel="stylesheet" />
 <section class="content">
-    <input id="requestStatusEnum" data-val="@serializedlstRequestStatus" hidden>    
+    <input id="requestStatusEnum" data-val="@serializedlstRequestStatus" hidden>
     <div class="box box-info">
         <div class="box-header with-border">
             <h3 class="box-title">Latest Orders</h3>
-            <div class="box-tools pull-right">
-                <button type="button" class="btn btn-box-tool" data-widget="collapse">
-                    <i class="fa fa-minus"></i>
-                </button>
-                <button type="button" class="btn btn-box-tool" data-widget="remove">
-                    <i class="fa fa-times"></i>
-                </button>
-            </div>
         </div>
         <!-- /.box-header -->
-        <div class="box-body">            
+        <div class="box-body">
             <table class="table no-margin" id="resourceRequestsTable">
-                    <thead>
+                <thead>
+                    <tr>
+                        <th>Request Ticket</th>
+                        <th>Request Title</th>
+                        <th>Created On</th>
+                        <th>Status</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var resource in lstResourceRequests)
+                    {
                         <tr>
-                            <th>Request Ticket</th>
-                            <th>Request Title</th>
-                            <th>Created On</th>
-                            <th>Status</th>
+                            <td><a href="#" onClick="showRequestedDetails(this)" data-ticket="@resource.Ticket" data-created="@resource.CreatedDate" data-updated="@resource.UpdatedDate" data-title="@resource.ResourceRequestTitle" data-noRsource="@resource.NumberRequestedResources" data-skills="@resource.Skills" data-from="@resource.RequestFromName" data-status="@resource.StatusValue" data-statusKey="@resource.Status">@resource.Ticket</a></td>
+                            <td>@resource.ResourceRequestTitle</td>
+                            @{
+                                var createDateWithTime = resource.CreatedDate;
+                                var createdDate = createDateWithTime.ToString("MM/dd/yyyy");
+                            }
+                            <td>@createdDate</td>
+                            <td>
+                                <div class="btn-group" id="@resource.Ticket">
+                                    @if (resource.Status == 1)
+                                    {
+                                        <span class="label btn-color-requested">@resource.StatusValue</span>
+                                    }
+                                    else if (resource.Status == 2)
+                                    {
+                                        <span class="label btn-color-processing">@resource.StatusValue</span>
+                                    }
+                                    else if (resource.Status == 3)
+                                    {
+                                        <span class="label btn-color-partialApproval">@resource.StatusValue</span>
+                                    }
+                                    else
+                                    {
+                                        <span class="label btn-color-approved">@resource.StatusValue</span>
+                                    }
+                                </div>
+                            </td>
                         </tr>
-                    </thead>
-                    <tbody>
-                        @foreach (var resource in Model)
-                        {
-                            <tr>
-                                <td><a href="#" onClick="showRequestedDetails(this)" data-ticket="@resource.Ticket" data-created="@resource.CreatedDate" data-updated="@resource.UpdatedDate" data-title="@resource.ResourceRequestTitle" data-noRsource="@resource.NumberRequestedResources" data-skills="@resource.Skills" data-from="@resource.RequestFromName" data-status="@resource.StatusValue" data-statusKey="@resource.Status">@resource.Ticket</a></td>
-                                <td>@resource.ResourceRequestTitle</td>
-                                <td>@resource.CreatedDate</td>
-                                <td>
-                                    <div class="btn-group">
-                                        @if (resource.Status == 1)
-                                        {
-                                            <span class="label btn-color-requested">@resource.StatusValue</span>
-                                        }
-                                        else if (resource.Status == 2)
-                                        {
-                                            <span class="label btn-color-processing">@resource.StatusValue</span>
-                                        }
-                                        else if (resource.Status == 3)
-                                        {
-                                            <span class="label btn-color-partialApproval">@resource.StatusValue</span>
-                                        }
-                                        else 
-                                        {
-                                            <span class="label btn-color-approved">@resource.StatusValue</span>
-                                        }
-                                    </div>
-                                </td>
-                            </tr>
-                        }
-                    </tbody>
-                </table>   
+                                }
+                </tbody>
+            </table>
         </div>
         <!-- /.box-body -->
         <div class="box-footer clearfix">
-            <a href="javascript:void(0)" class="btn btn-sm btn-flat pull-right bg-black"  onclick="getAllRequests()">View All Requests</a>
+            <a href="javascript:void(0)" class="btn btn-sm btn-flat pull-right bg-black" onclick="getAllRequests()">View All Requests</a>
         </div>
     </div>
 </section>
 <div class="modal requestResourceDetails-modal" id="ResourceRequestToRespondModal" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
+    <div class="modal-dialog modal-md" role="document">
+        <div class="modal-content mar-left50-right50">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
@@ -86,44 +83,38 @@
             </div>
             <div class="modal-body">
                 <div class="form-group" style="padding-bottom:20px">
-                    <div class="padding-top-bottom10">
-                        <div class="row">
-                            <div class="col-md-4"><label class="">Request Title:</label></div>
-                            <div class="col-md-8"><span class="requestTitle"></span></div>
+                    <div class="paddingtopBottom10-leftRight15">
+                        <div class="col-md-12 padding-bottom-5">
+                            <div class="col-md-5"><label class="">Request Title:</label></div>
+                            <div class="col-md-7"><span class="requestTitle"></span></div>
+                        </div>
+                        <div class="col-md-12 padding-bottom-5">
+                            <div class="col-md-5"><label class="">Request ticket:</label></div>
+                            <div class="col-md-7"><span class="requestTicket"></span></div>
+                        </div>
+                        <div class="col-md-12 padding-bottom-5">
+                            <div class="col-md-5"><label class="">No of resources required:</label></div>
+                            <div class="col-md-7"><span class="requestResourceNumber"></span></div>
+                        </div>
+                        <div class="col-md-12 padding-bottom-5">
+                            <div class="col-md-5"><label class="">Skills required:</label></div>
+                            <div class="col-md-7"><span class="requestedSkills"></span></div>
+                        </div>
+                        <div class="col-md-12 padding-bottom-5">
+                            <div class="col-md-5"><label class="">Request from:</label></div>
+                            <div class="col-md-7"><span class="requestFrom"></span></div>
+                        </div>
+                        <div class="col-md-12 padding-bottom-5">
+                            <div class="col-md-5"><label class="">Request sent date:</label></div>
+                            <div class="col-md-7"><span class="requestSentDate"></span></div>
                         </div>
                         <div class="row">
-                            <div class="col-md-4"><label class="">Request ticket:</label></div>
-                            <div class="col-md-8"><span class="requestTicket"></span></div>
-                        </div>
-                        <div class="row">
-                            <div class="col-md-4"><label class="">No of resources required:</label></div>
-                            <div class="col-md-8"><span class="requestResourceNumber"></span></div>
-                        </div>
-                        <div class="row">
-                            <div class="col-md-4"><label class="">Skills required:</label></div>
-                            <div class="col-md-8"><span class="requestedSkills"></span></div>
-                        </div>
-                        <div class="row">
-                            <div class="col-md-4"><label class="">Request from:</label></div>
-                            <div class="col-md-8"><span class="requestFrom"></span></div>
-                        </div>
-                        <div class="row">
-                            <div class="col-md-4"><label class="">Request sent date:</label></div>
-                            <div class="col-md-8"><span class="requestSentDate"></span></div>
-                        </div>
-                        @*<div class="row">
-                            <div class="col-md-4"><label class="">Request response date:</label></div>
-                            <div class="col-md-8"><span class="requestResponseDate"></span></div>
-                        </div>*@
-                        <div class="row">
-                            <div class="col-md-4"><label class="">Status:</label></div>
-                            <div class="btn-group">
-                                <button type="button" id="btnModalStatus" class="btn text-color-white dropdown-toggle" data-status="" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                    
-                                </button>
-                                <ul class="dropdown-menu statusListDropdown">
-                                    
-                                </ul>
+                            <div class="col-md-5">
+                                <label class="pad-left-30"> Status:</label>
+                            </div>
+                            <div class="col-md-7">
+                                <button type="button" id="btnModalStatus" class="btn text-color-white dropdown-toggle" data-status="" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"></button>
+                                <ul class="dropdown-menu statusListDropdown"></ul>
                             </div>
                         </div>
                     </div>
@@ -153,7 +144,7 @@
     });
     function showRequestedDetails(id) {
         var deserializedStatusList = jQuery.parseJSON('@serializedlstRequestStatus');
-        var statusDict = []; 
+        var statusDict = [];
         $.each(deserializedStatusList, function (index, value) {
             statusDict.push({
                 key: parseInt(index),
@@ -169,13 +160,14 @@
         $(".requestFrom").html($(id).attr('data-from'));
         $(".requestStatus").html($(id).attr('data-status'));
         $(".requestStatus").attr("status", statusKey);
-        $(".requestSentDate").html($(id).attr('data-created'));
+        var createdDate = $(id).attr('data-created').split(" ")[0];
+        $(".requestSentDate").html(createdDate);
 
         $(".requestResponseDate").html($(id).attr('data-updated'));
         if (statusKey == 1) {
             $("#btnModalStatus").removeClass("btn-color-requested").removeClass("btn-color-processing").removeClass("btn-color-partialApproval").removeClass("btn-color-approved").addClass("btn-color-requested");
             $(".statusListDropdown").html("");
-            for (i = 0; i < statusDict.length;i++){
+            for (i = 0; i < statusDict.length; i++) {
                 if (statusDict[i].key != statusKey) {
                     if (statusDict[i].key == 1) {
                         $(".statusListDropdown").append('<li><a href="#" class="text-color-white btn-color-requested" data-id="' + id + '" data-createdDate="' + $(id).attr('data-created') + '" data-ticket="' + $(id).attr('data-ticket') + '" data-statusKey="' + statusDict[i].key + '" onclick="respondToRequest(this)">' + statusDict[i].value + '</a></li>');
@@ -263,7 +255,7 @@
         var createdDate = new Date(creatdeDateValue);
         var id = parseInt($(id).attr('data-id'));
         var model = {
-            Id:id,
+            Id: id,
             Ticket: ticket,
             Status: status,
             CreatedDate: createdDate
@@ -275,20 +267,31 @@
             data: JSON.stringify(model),
             contentType: "application/json",
             dataType: "json",
-            processData:false,
+            processData: false,
             success: function (data) {
                 if (data.result == true) {
+                    var ticket = data.ticket;
                     $("#ResourceRequestToRespondModal").modal('hide');
-                    $("#resourceRequestsTable").find('tbody').html("");
+                    $("#" + ticket).html("");
                     showMessage("Request status changed successfully", "1", true);
-                    for (i = 0; i < data.model.length; i++) {
-                        var tableRow = tabeRowPopulate(data.model[i]);
-
-                        $("#resourceRequestsTable").find('tbody').append(tableRow);
+                    var tdSpan = '<span class="label';
+                    if (data.status == 1) {
+                        tdSpan += ' btn-color-requested">';
                     }
+                    else if (data.status == 2) {
+                        tdSpan += '  btn-color-processing">';
+                    }
+                    else if (data.status == 3) {
+                        tdSpan += '  btn-color-partialApproval">';
+                    }
+                    else {
+                        tdSpan += ' btn-color-approved">';
+                    }
+                    tdSpan += data.statusValue+'</span>';
+                    $("#" + ticket).html(tdSpan);
                 }
                 else {
-                    showMessage("Request status could not be changed", "1", true);
+                    showMessage("Request status could not be changed", "2", true);
                 }
             }
         });
@@ -310,7 +313,7 @@
                 }
             }
         });
-    }   
+    }
 
     function tabeRowPopulate(model) {
         var createdDate = ToJavaScriptDate(model.CreatedDate);
@@ -322,8 +325,8 @@
 			                        'data-noRsource="' + model.NumberRequestedResources + '"' +
 			                        ' data-skills="' + model.Skills + '" data-from="' + model.RequestFromName + '" data-status="' + model.StatusValue + '" ' +
 			                        'data-statusKey="' + model.Status + '" onclick="ticketClicked(this)">' + model.Ticket + '</a></td>';
-        tableRow += '<td>' + createdDate + '</td>';
         tableRow += '<td>' + model.ResourceRequestTitle + '</td>';
+        tableRow += '<td>' + createdDate + '</td>';
         tableRow += '<td><div class="btn-group">';
         if (model.Status == 1) {
             tableRow += '<span class="label btn-color-requested">' + model.StatusValue + '</span>';
@@ -342,5 +345,5 @@
     }
 </script>
 <style>
-    
+
 </style>

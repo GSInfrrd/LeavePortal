@@ -66,5 +66,10 @@ namespace EmployeeLeaveManagementApp.Controllers
             }
         }
 
+        public ActionResult RewardLeave()
+        {
+
+            return View();
+        }
     }
 }

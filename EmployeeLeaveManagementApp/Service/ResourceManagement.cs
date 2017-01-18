@@ -23,7 +23,7 @@ namespace Service
         private string urlParameters1;
         private string urlParameters2;
 
-        public async Task<ResourceDetails> GetResourceRequestFormDetails(int managerId)
+        public ResourceDetails GetResourceRequestFormDetails(int managerId)
         {
 
             try
@@ -37,12 +37,12 @@ namespace Service
                     new MediaTypeWithQualityHeaderValue("application/json"));
 
                     // List data response.
-                    HttpResponseMessage response = await client.GetAsync(urlParameters);  // Blocking call!
+                    HttpResponseMessage response = client.GetAsync(urlParameters).Result;  // Blocking call!
 
                     if (response.IsSuccessStatusCode)
                     {
                         // Parse the response body. Blocking!
-                        var dataObjects = await response.Content.ReadAsAsync<ResourceDetails>();
+                        var dataObjects = response.Content.ReadAsAsync<ResourceDetails>().Result;
 
                         Logger.Info("Exiting from into ResourceManagement APP Service helper GetResourceRequestFormDetails method ");
                         return dataObjects;
@@ -61,11 +61,11 @@ namespace Service
             }
         }
 
-        public async Task<ResourceRequestDetailModel> SubmitResourceRequest(ResourceRequestDetailModel model)
+        public ResourceDetails SubmitResourceRequest(ResourceRequestDetailModel model)
         {
             try
             {
-                var resourceDetailModel = new ResourceRequestDetailModel();
+                var resourceRequests = new ResourceDetails();
                 HttpClient client = new HttpClient();
                 urlParameters = "?model=" + model;
                 client.BaseAddress = new Uri(URLPost);
@@ -74,15 +74,15 @@ namespace Service
                 new MediaTypeWithQualityHeaderValue("application/json"));
 
                 // List data response.
-                HttpResponseMessage response = await client.PostAsJsonAsync(URLPost, model); // Blocking call!
+                HttpResponseMessage response = client.PostAsJsonAsync(URLPost, model).Result; // Blocking call!
 
                 if (response.IsSuccessStatusCode)
                 {
                     // Parse the response body. Blocking!
-                    resourceDetailModel = response.Content.ReadAsAsync<ResourceRequestDetailModel>().Result;
+                    resourceRequests = response.Content.ReadAsAsync<ResourceDetails>().Result;
 
                     Logger.Info("Exiting from into ResourceManagement APP Service helper SubmitResourceRequest method ");
-                    return resourceDetailModel;
+                    return resourceRequests;
                 }
                 Logger.Info("Exiting from into ResourceManagement APP Service helper SubmitResourceRequest method ");
                 return null;
@@ -94,7 +94,7 @@ namespace Service
             }
         }
 
-        public async Task<List<ResourceRequestDetailModel>> GetResourceRequests(int userId, bool viewAll)
+        public ResourceDetails GetResourceRequests(int userId, bool viewAll)
         {
             try
             {
@@ -108,15 +108,15 @@ namespace Service
                 // Add an Accept header for JSON format.
                 client.DefaultRequestHeaders.Accept.Add(
                 new MediaTypeWithQualityHeaderValue("application/json"));
-                HttpResponseMessage response = await client.GetAsync(URLGetResources); // Blocking call!                
+                HttpResponseMessage response = client.GetAsync(URLGetResources).Result; // Blocking call!                
 
                 if (response.IsSuccessStatusCode)
                 {
                     // Parse the response body. Blocking!
-                    var lstResourceDetails = response.Content.ReadAsAsync<List<ResourceRequestDetailModel>>().Result;
+                    var resourceRequests = response.Content.ReadAsAsync<ResourceDetails>().Result;
 
                     Logger.Info("Exiting from into ResourceManagement APP Service helper GetResourceRequests method ");
-                    return lstResourceDetails;
+                    return resourceRequests;
                 }
                 Logger.Info("Exiting from into ResourceManagement APP Service helper GetResourceRequests method ");
                 return null;
@@ -128,11 +128,11 @@ namespace Service
             }
         }
 
-        public async Task<ResourceRequestDetailModel> RespondToResourceRequests(ResourceRequestDetailModel model)
+        public bool RespondToResourceRequests(ResourceRequestDetailModel model)
         {
             try
             {
-                var resourceResponseModel = new ResourceRequestDetailModel();
+                bool result = false;
                 HttpClient client = new HttpClient();
                 urlParameters = "?model=" + model;
                 client.BaseAddress = new Uri(URLPostRequestResponse);
@@ -141,18 +141,18 @@ namespace Service
                 new MediaTypeWithQualityHeaderValue("application/json"));
 
                 // List data response.
-                HttpResponseMessage response = await client.PostAsJsonAsync(URLPostRequestResponse, model); // Blocking call!
+                HttpResponseMessage response = client.PostAsJsonAsync(URLPostRequestResponse, model).Result; // Blocking call!
 
                 if (response.IsSuccessStatusCode)
                 {
                     // Parse the response body. Blocking!
-                    resourceResponseModel = response.Content.ReadAsAsync<ResourceRequestDetailModel>().Result;
+                    result = response.Content.ReadAsAsync<bool>().Result;
 
                     Logger.Info("Exiting from into ResourceManagement APP Service helper RespondToResourceRequests method ");
-                    return resourceResponseModel;
+                    return result;
                 }
                 Logger.Info("Exiting from into ResourceManagement APP Service helper RespondToResourceRequests method ");
-                return null;
+                return result;
             }
             catch
             {
@@ -161,34 +161,37 @@ namespace Service
             }
         }
 
-        public async Task<bool> DeleteResourceRequest(string ticket)
+        public ResourceDetails DeleteResourceRequest(string ticket, int userId)
         {
-            bool deleted = false;
+            var resourceRequest = new ResourceDetails();
+            resourceRequest.Result = false;
             try
             {
                 HttpClient client = new HttpClient();
                 client.BaseAddress = new Uri(URLDeleteRequest);
-                urlParameters = "?id=" + ticket;
-                URLDeleteRequest += urlParameters;
+                urlParameters1 = "?id=" + ticket;
+                urlParameters2 = "&userId=" + userId;
+                URLDeleteRequest += urlParameters1 + urlParameters2;
                 // Add an Accept header for JSON format.
                 client.DefaultRequestHeaders.Accept.Add(
                 new MediaTypeWithQualityHeaderValue("application/json"));
 
                 // List data response.
-                HttpResponseMessage response = await client.GetAsync(URLDeleteRequest);  // Blocking call!
+                HttpResponseMessage response = client.GetAsync(URLDeleteRequest).Result;  // Blocking call!
+
                 if (response.IsSuccessStatusCode)
                 {
-                    deleted = response.Content.ReadAsAsync<bool>().Result;
+                    resourceRequest = response.Content.ReadAsAsync<ResourceDetails>().Result;
                     Logger.Info("Exiting from into ResourceManagement APP Service helper DeleteResourceRequest method ");
-                    return deleted;
+                    return resourceRequest;
                 }
                 Logger.Info("Exiting from into ResourceManagement APP Service helper DeleteResourceRequest method ");
-                return deleted;
+                return resourceRequest;
             }
             catch
             {
-
-                return false;
+                Logger.Info("Exception occured at ResourceManagement APP Service helper GetProjectsListAsync method ");
+                throw;
             }
         }
 

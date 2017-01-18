@@ -1,0 +1,50 @@
+﻿
+@{
+    ViewBag.Title = "RewardLeave";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<section class="content-header" style="height:41px">
+    <h1 class="col-md-9">
+        Reward Leave
+    </h1>
+</section>
+<section class="content">
+    <div class="row">
+        <div class="col-xs-12">
+            <div class="box">
+                <div class="box-body">
+                    <div class="row">
+                        <div class="form-group col-md-6" id="projects">
+                            <label>From Project</label>
+                            <select class="form-control" style="width: 100%;" id="projectsSelect">
+                                <option>Apple</option>
+                                <option>Ball</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="form-group col-md-6" id="employees">
+                            <label>Employee</label>
+                            <select class="form-control" style="width: 100%;" id="employeeSelect">
+                                <option>Adam</option>
+                                <option>Brad</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="form-group col-md-6" id="noOfDays">
+                            <label>Number of Days</label>
+                            <input type="number" min="1" max="20" class="form-control" id="noOfRewardedDays">
+                        </div>
+                    </div>
+                </div>
+                <div class="box-footer">
+                    <div class="form-group col-md-6 margin-bottom-0 btn-backgroundColor-dark">
+                        <button type="submit" id="btnRewardLeave" class="btn btn-primary bg-black">Reward Leave</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+

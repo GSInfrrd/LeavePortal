@@ -12,13 +12,13 @@ namespace LMS_WebAPI_DAL.Repositories.Interfaces
     {
         ResourceDetails GetResourceRequestFormDetails(int managerId);
 
-        ResourceRequestDetailModel SubmitResourceRequest(ResourceRequestDetail model);
+        ResourceDetails SubmitResourceRequest(ResourceRequestDetail model);
 
-        List<ResourceRequestDetailModel> GetResourceRequestDetails(int userId, bool viewAll);
+        List<ResourceRequestDetailModel> GetResourceRequestDetails(int userId, bool viewAll, out int count);
 
-        ResourceRequestDetailModel SubmitResourceRequestResponse(ResourceRequestDetail model);
+        bool SubmitResourceRequestResponse(ResourceRequestDetail model);
 
-        bool DeleteRequest(string ticket);
+        ResourceDetails DeleteRequest(string ticket, int userId);
 
         List<TeamMembers> GetProjectMembersList(int projectId);
 
