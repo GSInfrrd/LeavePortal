@@ -8,13 +8,13 @@ namespace LMS_WebAPP_Utils
 {
     public static class Logger
     {
-        private static log4net.ILog Log { get; set; }
+        private static readonly ILog Log = LogManager.GetLogger("ApplicationLog");
+
+        private static readonly ILog PFwebServicelogger = LogManager.GetLogger("PathFinderWebserviceLog");
 
         static Logger()
         {
             log4net.Config.XmlConfigurator.Configure();
-
-            Log = log4net.LogManager.GetLogger("ApplicationLog");//log4net.LogManager.GetLogger(typeof(Logger));
         }
 
         public static void Error(object msg)

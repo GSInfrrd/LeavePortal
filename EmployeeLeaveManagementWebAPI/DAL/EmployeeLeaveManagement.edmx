@@ -77,6 +77,7 @@
           <Property Name="Role" Type="varchar" MaxLength="250" Nullable="false" />
           <Property Name="FromDate" Type="date" Nullable="false" />
           <Property Name="ToDate" Type="date" Nullable="false" />
+          <Property Name="CompanyLogo" Type="nvarchar" MaxLength="250" />
         </EntityType>
         <EntityType Name="EmployeeLeaveMaster">
           <Key>
@@ -1332,6 +1333,7 @@
           <Property Name="FromDate" Type="DateTime" Nullable="false" Precision="0" />
           <Property Name="ToDate" Type="DateTime" Nullable="false" Precision="0" />
           <NavigationProperty Name="EmployeeDetail" Relationship="LeaveManagementSystemModel.FK_EmployeeExperienceDetails_EmployeeDetails" FromRole="EmployeeExperienceDetail" ToRole="EmployeeDetail" />
+          <Property Name="CompanyLogo" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
         </EntityType>
         <Association Name="FK_EmployeeEducationDetails_EmployeeDetails">
           <End Type="LeaveManagementSystemModel.EmployeeDetail" Role="EmployeeDetail" Multiplicity="1" />
@@ -1960,6 +1962,7 @@
           <EntitySetMapping Name="EmployeeExperienceDetails">
             <EntityTypeMapping TypeName="LeaveManagementSystemModel.EmployeeExperienceDetail">
               <MappingFragment StoreEntitySet="EmployeeExperienceDetails">
+                <ScalarProperty Name="CompanyLogo" ColumnName="CompanyLogo" />
                 <ScalarProperty Name="ToDate" ColumnName="ToDate" />
                 <ScalarProperty Name="FromDate" ColumnName="FromDate" />
                 <ScalarProperty Name="Role" ColumnName="Role" />

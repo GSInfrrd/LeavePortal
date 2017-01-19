@@ -1,4 +1,5 @@
-﻿using System;
+﻿using log4net;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -8,14 +9,16 @@ namespace LMS_WebAPI_Utils
 {
     public static class Logger
     {
-        private static log4net.ILog Log { get; set; }
+        //private static log4net.ILog Log { get; set; }
 
         static Logger()
         {
             log4net.Config.XmlConfigurator.Configure();
-
-            Log = log4net.LogManager.GetLogger("ApplicationLog");//log4net.LogManager.GetLogger(typeof(Logger));
         }
+
+        private static readonly ILog Log = LogManager.GetLogger("ApplicationLog");
+
+        private static readonly ILog PFwebServicelogger = LogManager.GetLogger("PathFinderWebserviceLog");
 
         public static void Error(object msg)
         {

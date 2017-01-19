@@ -20,6 +20,7 @@ namespace LMS_WebAPI_DAL
         public string Role { get; set; }
         public System.DateTime FromDate { get; set; }
         public System.DateTime ToDate { get; set; }
+        public string CompanyLogo { get; set; }
     
         public virtual EmployeeDetail EmployeeDetail { get; set; }
     }

@@ -23,6 +23,8 @@ namespace LMS_WebAPI_DAL
         public string Ticket { get; set; }
         public System.DateTime CreatedDate { get; set; }
         public System.DateTime UpdatedDate { get; set; }
-        public string Status { get; set; }
+        public int Status { get; set; }
+    
+        public virtual EmployeeDetail EmployeeDetail { get; set; }
     }
 }

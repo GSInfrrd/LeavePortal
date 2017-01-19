@@ -21,9 +21,7 @@ namespace Domain
         public System.DateTime UpdatedDate { get; set; }
         public int Status { get; set; }
         public string StatusValue { get; set; }
-
         public int Count { get; set; }
-
         public bool Result { get; set; }
     }
 }
