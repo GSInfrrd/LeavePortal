@@ -1,4 +1,5 @@
-﻿using LMS_WebAPI_Domain;
+﻿using Domain;
+using LMS_WebAPI_Domain;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -17,5 +18,9 @@ namespace LMS_WebAPI_DAL.Repositories.Interfaces
         bool DeleteLeaveRequest(int id);
 
         EmployeeDetail CheckLeaveAvailability(int employeeId,out List<Holiday> holidayList, out int advanceLeaveLimit, out int lopLeaveLimit);
+
+        RewardLeaveModel GetRewardLeaveModelDetails();
+
+        bool Rewardleave(RewardLeaveModel model);
     }
 }

@@ -8,6 +8,7 @@ using LMS_WebAPI_DAL.Repositories;
 using LMS_WebAPI_DAL.Repositories.Interfaces;
 using LMS_WebAPI_DAL;
 using LMS_WebAPI_Utils;
+using Domain;
 
 namespace LMS_WebAPI_ServiceHelpers
 {
@@ -77,6 +78,39 @@ namespace LMS_WebAPI_ServiceHelpers
             catch
             {
                 Logger.Info("Exception occured at EmployeeLeaveTransactionManagement Service helper DeleteLeaveRequest method ");
+                throw;
+            }
+        }
+
+        public RewardLeaveModel GetRewardLeaveDetails()
+        {
+            Logger.Info("Entering into EmployeeLeaveTransactionManagement Service helper GetRewardLeaveDetails method ");
+            try
+            {
+                var rewardLeaveDetailsDetails = addLeaveRepository.GetRewardLeaveModelDetails();
+                Logger.Info("Exiting from into EmployeeLeaveTransactionManagement Service helper GetRewardLeaveDetails method ");
+                return rewardLeaveDetailsDetails;
+            }
+            catch
+            {
+                Logger.Info("Exception occured at EmployeeLeaveTransactionManagement Service helper GetRewardLeaveDetails method ");
+                throw;
+            }
+        }
+
+        public bool SubmitLeaveRewardManagement(RewardLeaveModel model)
+        {
+            Logger.Info("Entering into EmployeeLeaveTransactionManagement Service helper SubmitLeaveRewardManagement method ");
+            try
+            {
+                bool leaveRewarded = false;
+                leaveRewarded = addLeaveRepository.Rewardleave(model);
+                Logger.Info("Exiting from into EmployeeLeaveTransactionManagement Service helper SubmitLeaveRewardManagement method ");
+                return leaveRewarded;
+            }
+            catch
+            {
+                Logger.Info("Exception occured at EmployeeLeaveTransactionManagement Service helper SubmitLeaveRewardManagement method ");
                 throw;
             }
         }

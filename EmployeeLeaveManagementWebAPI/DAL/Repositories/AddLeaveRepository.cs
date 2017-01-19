@@ -7,6 +7,7 @@ using System;
 using LMS_WebAPI_Utils;
 using System.Data.Entity;
 using System.Net.Mail;
+using Domain;
 
 namespace LMS_WebAPI_DAL.Repositories
 {
@@ -246,6 +247,127 @@ namespace LMS_WebAPI_DAL.Repositories
             catch
             {
                 Logger.Info("Exception occured at AddLeaveRepository API CheckLeaveAvailability method ");
+                throw;
+            }
+        }
+
+        public RewardLeaveModel GetRewardLeaveModelDetails()
+        {
+            try
+            {
+                Logger.Info("Entering in AddLeaveRepository API GetRewardLeaveModelDetails method");
+                var rewardLeaveModel = new RewardLeaveModel();
+
+                using (var ctx = new LeaveManagementSystemEntities1())
+                {
+                    var lstProjects = new List<Details>();
+                    var lstEmployees = new List<Details>();
+                    var projects = ctx.ProjectMasters.Select(x => new { x.Id, x.ProjectName }).ToList();
+
+                    foreach (var project in projects)
+                    {
+                        Details projectDetails = new Details();
+                        projectDetails.Id = project.Id;
+                        projectDetails.Name = project.ProjectName;
+                        lstProjects.Add(projectDetails);
+                    }
+                    rewardLeaveModel.Projects = lstProjects;
+
+                    var employees = ctx.EmployeeDetails.Where(x => x.RefRoleId == (Int16)EmployeeRole.Employee).Select(x => new { x.Id, x.FirstName, x.LastName }).ToList();
+
+                    foreach (var employee in employees)
+                    {
+                        Details employeeDetails = new Details();
+                        employeeDetails.Id = employee.Id;
+                        employeeDetails.Name = employee.FirstName + " " + employee.LastName;
+                        lstEmployees.Add(employeeDetails);
+                    }
+                    rewardLeaveModel.Employees = lstEmployees;
+
+                    Logger.Info("Successfully exiting from AddLeaveRepository API GetRewardLeaveModelDetails method");
+                    return rewardLeaveModel;
+                }
+            }
+            catch
+            {
+                Logger.Info("Exception occured at AddLeaveRepository API GetRewardLeaveModelDetails method ");
+                throw;
+            }
+        }
+
+        public bool Rewardleave(RewardLeaveModel model)
+        {
+            try
+            {
+                Logger.Info("Entering in AddLeaveRepository API Rewardleave method");
+                bool leaveRewarded = false;
+
+                using (var ctx = new LeaveManagementSystemEntities1())
+                {
+                    var rewardedLeaveEntity = new EmployeeRewardedLeaveDetail()
+                    {
+                        RewardedBy = model.ManagerId,
+                        RefEmployeeId = model.EmplooyeeId,
+                        RefProjectId = model.ProjectId,
+                        LeaveCount = model.NumberofDays,
+                        RewardedDate = DateTime.Now
+                    };
+
+                    var newRecord = ctx.EmployeeRewardedLeaveDetails.Add(rewardedLeaveEntity);
+                    var result = ctx.SaveChanges();
+                    if (result == 1)
+                    {
+                        var leaveMasterRecord = ctx.EmployeeLeaveMasters.Where(x => x.RefEmployeeId == model.EmplooyeeId).FirstOrDefault();
+                        if (null != leaveMasterRecord)
+                        {
+                            leaveMasterRecord.RewardedLeaveCount += model.NumberofDays;
+                            var resultLeaveMaster = ctx.SaveChanges();
+                            if (resultLeaveMaster == 1)
+                                leaveRewarded = true;
+                        }
+                        else
+                        {
+                            var employeeLeavemaster = new EmployeeLeaveMaster()
+                            {
+                                RefEmployeeId = model.EmplooyeeId,
+                                RewardedLeaveCount = model.NumberofDays,
+                                ModifiedDate = DateTime.Now,
+                                ModifiedBy = model.ManagerId
+                            };
+                            var newLeavemasterRecord = ctx.EmployeeLeaveMasters.Add(employeeLeavemaster);
+                            var resultLeavemasterRecord = ctx.SaveChanges();
+                            if (resultLeavemasterRecord == 1)
+                                leaveRewarded = true;
+                            else
+                                leaveRewarded = false;
+                        }
+
+                        //if (leaveRewarded)
+                        //{
+                        //    var leaveTransactionEntity = new EmployeeLeaveTransaction()
+                        //    {
+                        //        RefEmployeeId = model.EmplooyeeId,
+                        //        CreatedDate = DateTime.Now,
+                        //        NumberOfWorkingDays = model.NumberofDays,
+                        //        RefLeaveType = (int)TransactionType.Credit,
+                        //        CreatedBy = model.ManagerName
+                        //    };
+
+                        //    var leaveTransactionRecord = ctx.EmployeeLeaveTransactions.Add(leaveTransactionEntity);
+                        //    var leaveTransactionResult = ctx.SaveChanges();
+                        //    if (leaveTransactionResult == 1)
+                        //        leaveRewarded = true;
+                            
+                        //}
+                    }
+
+                Logger.Info("Successfully exiting from AddLeaveRepository API Rewardleave method");
+                    return leaveRewarded;
+                }
+            }
+            catch(Exception ex)
+            {
+                Logger.Info("Exception occured at AddLeaveRepository API Rewardleave method ");
                 throw;
             }
         }
