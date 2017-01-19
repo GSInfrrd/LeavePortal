@@ -63,8 +63,8 @@ namespace EmployeeLeaveManagementApp
             {
                 // other config ...
                 Provider = new CustomGoogleAuthProvider(),
-                ClientId = "298923408937-gpoft9vnc4a5rmb1d4req58rumstekc6.apps.googleusercontent.com",
-                ClientSecret = "Qg6rKwhqjgcY2ykteKKvZKDG"
+                ClientId = "93262678668-g3lvtcanv38065mcqav4o2bgsdfc3irg.apps.googleusercontent.com",
+                ClientSecret = "gcjoxpB66YwX5tuz5rpm_y62"
             });
             //app.UseGoogleAuthentication(new GoogleOAuth2AuthenticationOptions()
             //{
