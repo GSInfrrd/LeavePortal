@@ -14,6 +14,8 @@ namespace LMS_WebAPP_ServiceHelpers
         static HttpClient client = new HttpClient();
 
         private string URL = "http://localhost:64476/api/EmployeeLeaveTrans";
+        private string URLGetRewardLeaveDetails = "http://localhost:64476/api/EmployeeLeaveTrans/GetRewardLeaveFormDetails";
+        private string URLSubmitLeaveReward = "http://localhost:64476/api/EmployeeLeaveTrans/SubmitLeaveReward";
         private string urlParameters ="";
 
         public async Task<List<LeaveTransaction>> GetEmployeeLeaveTransactionAsync(int empid, int? leaveType = 0,int? month=0,int? transactionType=0)
@@ -193,6 +195,71 @@ namespace LMS_WebAPP_ServiceHelpers
             }
         }
        
+        public RewardLeaveModel GetRewardLeaveFormDetails()
+        {
+            Logger.Info("Entering into EmployeeLeaveTransactionManagement APP Service helper GetRewardLeaveFormDetails method ");
+            try
+            {
+                RewardLeaveModel leaveModel = new RewardLeaveModel();
+                HttpClient client = new HttpClient();
+                client.BaseAddress = new Uri(URLGetRewardLeaveDetails);
+               
+                // Add an Accept header for JSON format.
+                client.DefaultRequestHeaders.Accept.Add(
+                new MediaTypeWithQualityHeaderValue("application/json"));
 
+                // List data response.
+                HttpResponseMessage response = client.GetAsync(URLGetRewardLeaveDetails).Result;  // Blocking call!
+                if (response.IsSuccessStatusCode)
+                {
+                    // Parse the response body. Blocking!
+                    leaveModel = response.Content.ReadAsAsync<RewardLeaveModel>().Result;
+                    Logger.Info("Exiting from into EmployeeLeaveTransactionManagement APP Service helper GetRewardLeaveFormDetails method ");
+                    return leaveModel;
+
+                }
+                Logger.Info("Exiting from into EmployeeLeaveTransactionManagement APP Service helper GetRewardLeaveFormDetails method ");
+                return null;
+            }
+            catch
+            {
+                Logger.Info("Exception occured at EmployeeLeaveTransactionManagement APP Service helper GetEmployeeLeaveTransactionAsync method ");
+                throw;
+            }
+        }
+
+        public bool SubmitLeaveReward(RewardLeaveModel model)
+        {
+            Logger.Info("Entering into EmployeeLeaveTransactionManagement APP Service helper GetRewardLeaveFormDetails method ");
+            try
+            {
+                bool leaveRewarded = false;
+                HttpClient client = new HttpClient();
+                urlParameters = "?model=" + model;
+                client.BaseAddress = new Uri(URLSubmitLeaveReward);
+                // Add an Accept header for JSON format.
+                client.DefaultRequestHeaders.Accept.Add(
+                new MediaTypeWithQualityHeaderValue("application/json"));
+
+                // List data response.
+                HttpResponseMessage response = client.PostAsJsonAsync(URLSubmitLeaveReward, model).Result; // Blocking call!
+
+                if (response.IsSuccessStatusCode)
+                {
+                    // Parse the response body. Blocking!
+                    leaveRewarded = response.Content.ReadAsAsync<bool>().Result;
+
+                    Logger.Info("Exiting from into ResourceManagement APP Service helper SubmitResourceRequest method ");
+                    return leaveRewarded;
+                }
+                Logger.Info("Exiting from into ResourceManagement APP Service helper SubmitResourceRequest method ");
+                return leaveRewarded;
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
+        }
     }
 }

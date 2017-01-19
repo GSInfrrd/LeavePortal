@@ -1,0 +1,97 @@
+﻿
+@{
+    ViewBag.Title = "RewardLeaveTransaction";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<link href="~/plugins/Toastr/toastr.css" rel="stylesheet" />
+@Styles.Render("~/bundles/Content/css")
+<section class="content-header" style="height:41px">
+    <h1 class="col-md-9">
+        Reward Leave
+    </h1>
+</section>
+<section class="content">
+    <div class="row">
+        <div class="col-xs-12">
+            <div class="box">
+                <div class="box-body">
+                    <div class="form-group col-md-4 col-sm-6" id="projects">
+                        <label>From Project</label>
+                        <select class="form-control" style="width: 100%;" id="projectsSelect">
+                            @if (null != Model.Projects)
+                            {
+                                foreach (var project in Model.Projects)
+                                {
+                                    <option value="@project.Id">@project.Name</option>
+                                }
+                            }
+                        </select>
+                    </div>
+                    <div class="form-group col-md-4 col-sm-6" id="employee">
+                        <label>Employee</label>
+                        <select class="form-control" style="width: 100%;" id="employeesSelect">
+                            @if (null != Model.Employees)
+                            {
+                                foreach (var employee in Model.Employees)
+                                {
+                                    <option value="@employee.Id">@employee.Name</option>
+                                }
+                            }
+                        </select>
+                    </div>
+                    <div class="form-group col-md-4 col-sm-6" id="noOfDays">
+                        <label>Number of Days</label>
+                        <input type="number" min="1" max="20" class="form-control" id="noOfRewardedDays">
+                    </div>
+                </div>
+                <div class="box-footer">
+                    <div class="form-group col-md-6 margin-bottom-0 btn-backgroundColor-dark">
+                        <button type="submit" id="btnRewardLeave" class="btn btn-primary bg-black">Reward Leave</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<script src="~/Content/Scripts/Common.js"></script>
+<script src="../../plugins/Toastr/toastr.js"></script>
+@Scripts.Render("~/bundles/Content/js")
+<script>
+    $("#btnRewardLeave").on("click", function () {
+        var project = parseInt($("#projectsSelect option:selected").val());
+        var employee = parseInt($("#employeesSelect option:selected").val());
+        var noofDays = $("#noOfRewardedDays").val();
+        if (project == "" || employee == "" || noofDays <= 0 || noofDays == "") {
+            showMessage("Please select appropriate values", "2", true);
+            return false;
+        }
+        noofDays = parseInt(noofDays);
+        var model = {
+            ProjectId: project,
+            EmplooyeeId: employee,
+            NumberofDays: noofDays
+        };
+        $.ajax({
+            cache: false,
+            type: 'post',
+            url: '/LeaveTransaction/RewardLeave',
+            data: JSON.stringify(model),
+            contentType: "application/json",
+            dataType: "json",
+            success: function (data) {
+                if (data.rewarded) {
+                    $("#noOfRewardedDays").val("");
+                    showMessage("Leave rewarded successfully", "1", true);
+                }
+                else {
+                    showMessage("Leave could not be rewarded", "1", true);
+                }
+            }
+        });
+    });
+
+
+</script>
+
+
+

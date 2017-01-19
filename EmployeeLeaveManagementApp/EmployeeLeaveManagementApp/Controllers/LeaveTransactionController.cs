@@ -13,7 +13,7 @@ namespace EmployeeLeaveManagementApp.Controllers
     {
         static HttpClient client = new HttpClient();
 
-
+        EmployeeLeaveTransactionManagement leaveManagement = new EmployeeLeaveTransactionManagement();
         // GET: LeaveTransection
         public async Task<ActionResult> LeaveTransaction()
         {
@@ -23,8 +23,7 @@ namespace EmployeeLeaveManagementApp.Controllers
                 if (null != Session[Constants.SESSION_OBJ_USER])
                 {
                     var data = (UserAccount)Session[Constants.SESSION_OBJ_USER];
-                    EmployeeLeaveTransactionManagement ELTM = new EmployeeLeaveTransactionManagement();
-                    var res = await ELTM.GetEmployeeLeaveTransactionAsync(data.RefEmployeeId);
+                    var res = await leaveManagement.GetEmployeeLeaveTransactionAsync(data.RefEmployeeId);
                     //var values = Enum.GetValues(typeof(LeaveType));
                     Logger.Info("Successfully exiting from LeaveTransactionController APP LeaveTransaction method");
                     return View(res);
@@ -51,8 +50,7 @@ namespace EmployeeLeaveManagementApp.Controllers
                     if (null != Session[Constants.SESSION_OBJ_USER])
                 {
                     var data = (UserAccount)Session[Constants.SESSION_OBJ_USER];
-                    EmployeeLeaveTransactionManagement ELTM = new EmployeeLeaveTransactionManagement();
-                  res = await ELTM.GetEmployeeLeaveTransactionAsync(data.RefEmployeeId,leaveType,month,transactionType);
+                  res = await leaveManagement.GetEmployeeLeaveTransactionAsync(data.RefEmployeeId,leaveType,month,transactionType);
                     //var values = Enum.GetValues(typeof(LeaveType));
                     Logger.Info("Successfully exiting from LeaveTransactionController APP LeaveTransaction method");
                 }
@@ -66,10 +64,51 @@ namespace EmployeeLeaveManagementApp.Controllers
             }
         }
 
-        public ActionResult RewardLeave()
+        public ActionResult RewardLeaveTransaction()
         {
+            Logger.Info("Entering in LeaveTransactionController APP RewardLeaveTransaction method");
+            try
+            {
+                var rewardLeaveDetails = new RewardLeaveModel();
+                if (null != Session[Constants.SESSION_OBJ_USER])
+                {
 
-            return View();
+                    rewardLeaveDetails = leaveManagement.GetRewardLeaveFormDetails();
+                    Logger.Info("Successfully exiting from LeaveTransactionController APP RewardLeaveTransaction method");
+                }
+                return View(rewardLeaveDetails);
+
+            }
+            catch (Exception ex)
+            {
+                Logger.Error("Error at LeaveTransactionController APP RewardLeaveTransaction method.", ex);
+                return null;
+            }
+        }
+
+        [HttpPost]
+        public ActionResult RewardLeave(RewardLeaveModel model)
+        {
+            Logger.Info("Entering in LeaveTransactionController APP RewardLeave method");
+            try
+            {
+                bool rewarded = false;
+                if (null != Session[Constants.SESSION_OBJ_USER])
+                {
+                    model.ManagerId = ((UserAccount)Session[LMS_WebAPP_Utils.Constants.SESSION_OBJ_USER]).RefEmployeeId;
+                    model.ManagerName = ((UserAccount)Session[LMS_WebAPP_Utils.Constants.SESSION_OBJ_USER]).UserName;
+
+                    rewarded = leaveManagement.SubmitLeaveReward(model);
+                    Logger.Info("Successfully exiting from LeaveTransactionController APP RewardLeave method");
+                }
+                return Json(new { rewarded });
+
+            }
+            catch (Exception ex)
+            {
+                Logger.Error("Error at LeaveTransactionController APP RewardLeave method.", ex);
+                return null;
+            }
         }
     }
 }
