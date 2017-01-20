@@ -117,7 +117,7 @@ namespace LMS_WebAPP_ServiceHelpers
         }
 
 
-        public async Task<LeaveReportModel> GetLeaveReportDetails(int empId, int year)
+        public async Task<LeaveReportModel> GetLeaveReportDetails(int empId, int year,int leaveType=0)
         {
             Logger.Info("Entering into UserManagement APP Service helper GetLeaveReportDetails method ");
             try
@@ -125,7 +125,7 @@ namespace LMS_WebAPP_ServiceHelpers
                 using (HttpClient client = new HttpClient())
             {
                 const string URL = "http://localhost:64476/api/Account/GetUserDetails";
-                urlParameters = "?empId=" + empId + "&year=" + year;
+                urlParameters = "?empId=" + empId + "&year=" + year+"+&leaveType="+leaveType;
                 client.BaseAddress = new Uri(URL);
                 // Add an Accept header for JSON format.
                 client.DefaultRequestHeaders.Accept.Add(

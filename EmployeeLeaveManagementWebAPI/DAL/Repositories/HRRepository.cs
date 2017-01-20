@@ -227,7 +227,7 @@ namespace LMS_WebAPI_DAL.Repositories
                     {
                         var detailedList = new DetailedLeaveReport();
                         detailedList.EmpoyeeName = item.EmployeeDetail.FirstName;
-                        detailedList.LeaveType = item.MasterDataValue.Value;
+                        detailedList.LeaveType = item.MasterDataValue1.Value;
                         detailedList.FromDate = item.Date;
                         detailedList.ToDate = item.Date;
                         ddList.Add(detailedList);
@@ -245,7 +245,7 @@ namespace LMS_WebAPI_DAL.Repositories
                         list.Add(listItem);
                     }
                 }
-                detailsList = ddList;
+                detailsList = ddList.OrderBy(x=>x.EmpoyeeName).ToList();
                 Logger.Info("Successfully exiting from HRRepository API GetReportData method");
                 return list;
             }

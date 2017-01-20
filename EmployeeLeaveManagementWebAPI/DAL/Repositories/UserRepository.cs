@@ -129,7 +129,7 @@ namespace LMS_WebAPI_DAL.Repositories
             }
         }
 
-        public LeaveReportModel GetLeaveReportDetails(int year, int employeeId = 0)
+        public LeaveReportModel GetLeaveReportDetails(int year, int employeeId = 0,int leaveType=0)
         {
             Logger.Info("Entering in UserRepository API GetLeaveReportDetails method");
             try
@@ -138,15 +138,17 @@ namespace LMS_WebAPI_DAL.Repositories
                 var years = new List<EmployeeLeaveTransaction>();
                 using (var ctx = new LeaveManagementSystemEntities1())
                 {
+                    years = ctx.EmployeeLeaveTransactions.Where(i => i.RefStatus == (int)LeaveStatus.Approved && i.FromDate.Year == year && i.ToDate.Year == year).ToList();
+
                     if (employeeId != 0)
                     {
-                        years = ctx.EmployeeLeaveTransactions.Where(i => i.RefEmployeeId == employeeId && i.RefStatus == (int)LeaveStatus.Approved && i.FromDate.Year == year && i.ToDate.Year == year).ToList();
+                        years = years.Where(i => i.RefEmployeeId == employeeId).ToList();
                     }
-                    else
+                    if(leaveType!=0)
                     {
-
-                        years = ctx.EmployeeLeaveTransactions.Where(i => i.RefStatus == (int)LeaveStatus.Approved && i.FromDate.Year == year && i.ToDate.Year == year).ToList();
+                        years = years.Where(i => i.RefLeaveType == leaveType).ToList();
                     }
+          
                     foreach (var item in years)
                     {
 

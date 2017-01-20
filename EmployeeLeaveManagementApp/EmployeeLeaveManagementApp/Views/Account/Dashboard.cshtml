@@ -106,16 +106,22 @@
                         <button type="button" class="btn btn-box-tool" data-widget="collapse">
                             <i class="fa fa-minus"></i>
                         </button>*@
-                        <div class="btn-group pull-right">
-                            @*<button type="" class="btn btn-box-tool dropdown-toggle" data-toggle="dropdown">
-                                @*<i class="fa fa-wrench"></i>
-                            </button>*@
-                           <select id="ddlYear" class="form-control yearSelect" style="width: 100%;">
-                               <option>@DateTime.Now.Year</option>
-                               <option>@DateTime.Now.AddYears(1).Year</option>
-                           </select>
-                        @*</div>*@
-                        @*<button type="button" class="btn btn-box-tool" data-widget="remove"><i class="fa fa-times"></i></button>*@
+                    <div class="btn-group pull-right col-md-3">
+                        <select id="ddlLeave" class="form-control yearSelect" style="width: 100%;">
+                            <option value="">Select</option>
+                            @foreach (var value in Enum.GetValues(typeof(LMS_WebAPP_Utils.LeaveType)))
+                            {
+                                <option value="@Convert.ToInt16((LMS_WebAPP_Utils.LeaveType)value)">@(LMS_WebAPP_Utils.CommonMethods.Description((LMS_WebAPP_Utils.LeaveType)Convert.ToInt16((LMS_WebAPP_Utils.LeaveType)value))) </option>
+
+
+                            }
+                        </select>
+                    </div>
+                        <div class="btn-group pull-right">                 
+                                <select id="ddlYear" class="form-control yearSelect" style="width: 100%;">
+                                    <option>@DateTime.Now.Year</option>
+                                    <option>@DateTime.Now.AddYears(1).Year</option>
+                                </select>
                     </div>
                 </div>
                 <!-- /.box-header -->
@@ -384,16 +390,20 @@
     $("#ddlYear").change(function (e) {
         GetDashboardDetails();
     });
+    $("#ddlLeave").change(function (e) {
+        GetDashboardDetails();
+    });
         function GetDashboardDetails()
         {
             var year = $("#ddlYear").val();
             $("#fromYearSpan").html(year);
             $("#toYearSpan").html(year);
+            var leaveType=$("#ddlLeave").val();
         $.ajax({
             cache: false,
             type: 'post',
             url: '/Account/GetLeaveReportDetails',
-            data: { year: year },
+            data: { year: year,leaveType:leaveType },
             //contentType: "application/json; charset=utf-8",
             dataType: "json",
             success: function (details) {

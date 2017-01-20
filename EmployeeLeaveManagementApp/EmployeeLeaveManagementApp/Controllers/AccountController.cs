@@ -263,7 +263,7 @@ namespace EmployeeLeaveManagementApp.Controllers
             }
         }
 
-        public async Task<ActionResult> GetLeaveReportDetails(int year)
+        public async Task<ActionResult> GetLeaveReportDetails(int year,int leaveType=0)
         {
             Logger.Info("Entering in AccountController APP GetLeaveReportDetails method");
             try
@@ -271,7 +271,7 @@ namespace EmployeeLeaveManagementApp.Controllers
                 if (null != Session[LMS_WebAPP_Utils.Constants.SESSION_OBJ_USER])
                 {
                     var data = (UserAccount)Session[LMS_WebAPP_Utils.Constants.SESSION_OBJ_USER];
-                    LeaveReportModel datares = await user.GetLeaveReportDetails(data.RefEmployeeId, year);
+                    LeaveReportModel datares = await user.GetLeaveReportDetails(data.RefEmployeeId, year,leaveType);
                     // model.Announcements = (Models.Announcement)datares.Announcements;
                     return Json(new { result = datares });
                 }

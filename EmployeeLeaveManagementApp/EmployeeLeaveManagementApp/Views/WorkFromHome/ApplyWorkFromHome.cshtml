@@ -28,12 +28,12 @@
     <h1 class="col-md-9">
         Work From Home
     </h1>
-    @if (!dateList.Contains(DateTime.Now.Date))
-         { 
+    @*@if (!dateList.Contains(DateTime.Now.Date))
+         {*@ 
         <div style="float:right;padding-right:0px" class="col-md-2">
             <button type="button" id="btnAddNewWorkFromHome" class="btn btn-block bg-black" data-toggle="modal" data-target="#exampleModal"><i class="fa fa-plus"></i> Add New</button>
         </div>
-     }
+        @*  }*@
 </section>
 
 <section class="content">
@@ -162,8 +162,9 @@
     var today = (formatDate(new Date()));
     $('#datepicker').val(today);
     var loop = [];
+    debugger
     for (i = 0; i < dateList.length; i++) {
-        loop.push(Date(dateList[i]).toString("dd-MM-yyyy"));
+        loop.push(convertToJsonDate(dateList[i]));
     }
 
     $(function () {
@@ -177,15 +178,37 @@
         });
     });
     //Add WorkFromHome
-
+    function convertToJsonDate(jsonDate) {
+        //var dateFormat = dateTimeFormat;
+        if (jsonDate != undefined && jsonDate != null) {
+            var regex = /-?\d+/;
+            var matches = regex.exec(jsonDate);
+            var date = new Date(parseInt(matches[0]));
+            var d = new Date(date);
+            if (d.getFullYear() < 2000) {
+                return "";
+            }
+            if (!isNaN(d.getDate()) && !isNaN(d.getMonth()) && !isNaN(d.getFullYear())) {
+                formattedDate =  ("0" + (d.getMonth() + 1)).slice(-2)+ "-"+d.getDate() + "-" + d.getFullYear();
+                return formattedDate;
+            }
+            else {
+                return "";
+            }
+        }
+        else {
+            return "";
+        }
+    }
 
     $(document).on('click', '#btnAddWorkFromHome ', function (e) {
         var selectedDate= $('#datepicker').val();
-        //if ($.inArray(selectedDate, loop) == -1)
-        //{
-        //    showMessage("You already applied for work from home on this date.", "2", true);
-        //    return false;        
-        //}
+        debugger
+        if ($.inArray(selectedDate, loop) != -1)
+        {
+            showMessage("You already applied for work from home on this date.", "2", true);
+            return false;        
+        }
         if (formValidate() == true) {
                 $.ajax({
                     cache: false,
@@ -195,8 +218,8 @@
                     dataType: "json",
                     success: function (data) {
                         $('#exampleModal').modal('hide');
-                        $('#datepicker').val("");
-                        $('#btnAddNewWorkFromHome').hide();
+                        //$('#btnAddNewWorkFromHome').hide();
+                        loop.push(selectedDate);
                         $('#SelectReason').val("");
                         updateDatatable(data.wfhList, true);
                         showMessage("New WorkFromHome added successfully", "1", true);
@@ -280,9 +303,6 @@
             "info": true,
             "autoWidth": false,
         });
-
-        //$('#datepickerYear').val("");
-        $('#datepicker').val("");
         $('#SelectReason').val("");
     }
 </script>

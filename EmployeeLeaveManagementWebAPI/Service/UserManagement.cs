@@ -40,14 +40,14 @@ namespace LMS_WebAPI_ServiceHelpers
             }
         }
 
-        public EmployeeDetailsModel GetEmployeeDatailsForDashboard(int EmpId,int year)
+        public EmployeeDetailsModel GetEmployeeDatailsForDashboard(int EmpId,int year,int leaveType=0)
         {
             Logger.Info("Entering into UserManagement Service helper GetEmployeeDatailsForDashboard method ");
             try
             {
                 var userData = user.GetUserDetails(EmpId);
                 var announcements = user.GetAnnouncements();
-                var leaveReportDetails = user.GetLeaveReportDetails(year,EmpId);
+                var leaveReportDetails = user.GetLeaveReportDetails(year,EmpId,leaveType);
                 var VerifiedUser = new EmployeeDetailsModel();
                 VerifiedUser.leaveDetails = leaveReportDetails;
                 foreach (var item in announcements)

@@ -442,12 +442,12 @@ namespace EmployeeLeaveManagementWebAPI.Controllers
 
         [AllowAnonymous]
         [HttpGet]
-        public LeaveReportModel GetLeaveReportDetails(int empId, int year)
+        public LeaveReportModel GetLeaveReportDetails(int empId, int year,int leaveType=0)
         {
             try
             {
                 Logger.Info("Entering in AccountController API GetLeaveReportDetails method");
-                var empData = userManager.GetEmployeeDatailsForDashboard(empId, year);
+                var empData = userManager.GetEmployeeDatailsForDashboard(empId, year,leaveType);
                 Logger.Info("Successfully exiting from AccountController API GetLeaveReportDetails method");
                 return empData.leaveDetails;
             }

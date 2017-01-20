@@ -121,7 +121,7 @@ namespace LMS_WebAPI_DAL.Repositories
                     var workFlow = new Workflow
                     {
                         RefLeaveTransactionId = leaveDetails.Id,
-                        RefApproverId = (int)ctx.EmployeeDetails.FirstOrDefault(x => x.Id == leaveDetails.RefEmployeeId).ManagerId,
+                        RefApproverId = ctx.EmployeeDetails.FirstOrDefault(x => x.Id == leaveDetails.RefEmployeeId).ManagerId!=null?(int)ctx.EmployeeDetails.FirstOrDefault(x => x.Id == leaveDetails.RefEmployeeId).ManagerId:2,
                         ModifiedDate = DateTime.Now,
                         RefStatus = (int)LeaveStatus.Submitted,
                         CreatedDate = DateTime.Now,
@@ -133,7 +133,7 @@ namespace LMS_WebAPI_DAL.Repositories
                    // var op = SendMail(leaveDetails.EmployeeDetail.FirstName, fromEmail, toEmail);
 
                     //Send notification to manager
-                    int RefApproverId = (int)ctx.EmployeeDetails.FirstOrDefault(x => x.Id == leaveDetails.RefEmployeeId).ManagerId;
+                    int RefApproverId = ctx.EmployeeDetails.FirstOrDefault(x => x.Id == leaveDetails.RefEmployeeId).ManagerId!=null?(int)ctx.EmployeeDetails.FirstOrDefault(x => x.Id == leaveDetails.RefEmployeeId).ManagerId:2;
                     string Firstname = ctx.EmployeeDetails.FirstOrDefault(x => x.Id == leaveDetails.RefEmployeeId).FirstName;
                     string Lastname = ctx.EmployeeDetails.FirstOrDefault(x => x.Id == leaveDetails.RefEmployeeId).LastName;
 
