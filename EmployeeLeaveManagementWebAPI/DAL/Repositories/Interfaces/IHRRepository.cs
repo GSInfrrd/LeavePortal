@@ -21,5 +21,7 @@ namespace LMS_WebAPI_DAL.Repositories.Interfaces
         bool AddNewProjectInfo(string projectName, string description, string technology, DateTime startDate, int refManager);
         List<ProjectsList> GetProjectsList(int managerId=0);
         List<EmployeeSkillDetails> GetSkillsList();
+        bool CheckForExistingMasterDataValues(int masterDataType, string masterDataValue);
+        bool CheckForExistingProjectMasterDataValues(string projectName, string technology, int refManager);
     }
 }

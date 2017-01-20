@@ -160,5 +160,36 @@ namespace LMS_WebAPI_ServiceHelpers
                 throw;
             }
         }
+
+        public bool CheckForExistingMasterDataValues(int masterDataType, string masterDataValue)
+        {
+            Logger.Info("Entering into HRManagement Service helper CheckForExistingMasterDataValues method ");
+            try
+            {
+                var result = hrRepo.CheckForExistingMasterDataValues(masterDataType, masterDataValue);
+                Logger.Info("Exiting from into HRManagement Service helper CheckForExistingMasterDataValues method ");
+                return result;
+            }
+            catch
+            {
+                Logger.Info("Exception occured at HRManagement Service helper CheckForExistingMasterDataValues method ");
+                throw;
+            }
+        }
+        public bool CheckForExistingProjectMasterDataValues(string projectName, string technology, int refManager)
+        {
+            Logger.Info("Entering into HRManagement Service helper CheckForExistingMasterDataValues method ");
+            try
+            {
+                var result = hrRepo.CheckForExistingProjectMasterDataValues(projectName,technology,refManager);
+                Logger.Info("Exiting from into HRManagement Service helper CheckForExistingMasterDataValues method ");
+                return result;
+            }
+            catch
+            {
+                Logger.Info("Exception occured at HRManagement Service helper CheckForExistingMasterDataValues method ");
+                throw;
+            }
+        }
     }
 }

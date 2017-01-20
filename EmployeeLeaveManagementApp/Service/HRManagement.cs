@@ -389,5 +389,82 @@ namespace LMS_WebAPP_ServiceHelpers
                 throw;
             }
         }
+
+        public async Task<bool> CheckForExistingMasterDataValuesAsync(int masterDataType, string masterDataValue)
+        {
+            Logger.Info("Entering into HRManagement APP Service helper CheckForExistingMasterDataValuesAsync method ");
+            try
+            {
+                using (HttpClient client = new HttpClient())
+                {
+                    const string URL = "http://localhost:64476/api/HR/CheckForExistingMasterDataValues";
+                    urlParameters = "?masterDataType=" + masterDataType + "&masterDataValue=" + masterDataValue;
+                    client.BaseAddress = new Uri(URL);
+                    // Add an Accept header for JSON format.
+                    client.DefaultRequestHeaders.Accept.Add(
+                    new MediaTypeWithQualityHeaderValue("application/json"));
+
+                    // List data response.
+                    HttpResponseMessage response = await client.GetAsync(urlParameters);  // Blocking call!
+                    if (response.IsSuccessStatusCode)
+                    {
+                        // Parse the response body. Blocking!
+                        var dataObjects = response.Content.ReadAsAsync<bool>().Result;
+                        Logger.Info("Exiting from into HRManagement APP Service helper CheckForExistingMasterDataValuesAsync method ");
+                        return dataObjects;
+                    }
+                    else
+                    {
+                        Console.WriteLine("{0} ({1})", (int)response.StatusCode, response.ReasonPhrase);
+                        Logger.Info("Exiting from into HRManagement APP Service helper CheckForExistingMasterDataValuesAsync method ");
+                        return false;
+                    }
+                }
+            }
+            catch
+            {
+                Logger.Info("Exception occured at HRManagement APP Service helper CheckForExistingMasterDataValuesAsync method ");
+                throw;
+            }
+        }
+
+        public async Task<bool> CheckForExistingProjectMasterDataValuesAsync(string projectName, string technology, int refManager)
+        {
+            Logger.Info("Entering into HRManagement APP Service helper CheckForExistingProjectMasterDataValuesAsync method ");
+            try
+            {
+                using (HttpClient client = new HttpClient())
+                {
+                    const string URL = "http://localhost:64476/api/HR/CheckForExistingProjectMasterDataValues";
+                    urlParameters = "?projectName=" + projectName + "&technology=" + technology + "&refManager=" + refManager;
+                    client.BaseAddress = new Uri(URL);
+                    // Add an Accept header for JSON format.
+                    client.DefaultRequestHeaders.Accept.Add(
+                    new MediaTypeWithQualityHeaderValue("application/json"));
+
+                    // List data response.
+                    HttpResponseMessage response = await client.GetAsync(urlParameters);  // Blocking call!
+                    if (response.IsSuccessStatusCode)
+                    {
+                        // Parse the response body. Blocking!
+                        var dataObjects = response.Content.ReadAsAsync<bool>().Result;
+                        Logger.Info("Exiting from into HRManagement APP Service helper CheckForExistingProjectMasterDataValuesAsync method ");
+                        return dataObjects;
+                    }
+                    else
+                    {
+                        Console.WriteLine("{0} ({1})", (int)response.StatusCode, response.ReasonPhrase);
+                        Logger.Info("Exiting from into HRManagement APP Service helper CheckForExistingProjectMasterDataValuesAsync method ");
+                        return false;
+                    }
+                }
+            }
+            catch
+            {
+                Logger.Info("Exception occured at HRManagement APP Service helper CheckForExistingProjectMasterDataValuesAsync method ");
+                throw;
+            }
+        }
     }
 }
+

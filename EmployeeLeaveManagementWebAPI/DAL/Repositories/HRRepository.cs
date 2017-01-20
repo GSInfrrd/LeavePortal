@@ -43,28 +43,33 @@ namespace LMS_WebAPI_DAL.Repositories
                     ctx.EmployeeDetails.Add(employeeDetails);
                     ctx.SaveChanges();
                     var id = employeeDetails.Id;
-
-                    var employeeEducationDetails = new EmployeeEducationDetail
+                    if (model.EmployeeEducationDetails.Count > 0)
                     {
+                        var employeeEducationDetails = new EmployeeEducationDetail
+                        {
 
-                        Degree = model.EmployeeEducationDetails[0].Degree,
-                        Institution = model.EmployeeEducationDetails[0].Institution,
-                        FromDate = Convert.ToDateTime(model.EmployeeEducationDetails[0].TimePeriod.Split('~')[0]),
-                        ToDate = Convert.ToDateTime(model.EmployeeEducationDetails[0].TimePeriod.Split('~')[1]),
-                        RefEmployeeId = id
-                    };
-                    ctx.EmployeeEducationDetails.Add(employeeEducationDetails);
-                    ctx.SaveChanges();
-                    var employeeExperienceDetails = new EmployeeExperienceDetail
+                            Degree = model.EmployeeEducationDetails[0].Degree,
+                            Institution = model.EmployeeEducationDetails[0].Institution,
+                            FromDate = Convert.ToDateTime(model.EmployeeEducationDetails[0].TimePeriod.Split('~')[0]),
+                            ToDate = Convert.ToDateTime(model.EmployeeEducationDetails[0].TimePeriod.Split('~')[1]),
+                            RefEmployeeId = id
+                        };
+                        ctx.EmployeeEducationDetails.Add(employeeEducationDetails);
+                        ctx.SaveChanges();
+                    }
+                    if (model.EmployeeExperienceDetails.Count > 0)
                     {
-                        CompanyName = model.EmployeeExperienceDetails[0].Company,
-                        Role = model.EmployeeExperienceDetails[0].Role,
-                        FromDate = Convert.ToDateTime(model.EmployeeEducationDetails[0].TimePeriod.Split('~')[0]),
-                        ToDate = Convert.ToDateTime(model.EmployeeEducationDetails[0].TimePeriod.Split('~')[1]),
-                        RefEmployeeId = id
-                    };
-                    ctx.EmployeeExperienceDetails.Add(employeeExperienceDetails);
-                    ctx.SaveChanges();
+                        var employeeExperienceDetails = new EmployeeExperienceDetail
+                        {
+                            CompanyName = model.EmployeeExperienceDetails[0].Company,
+                            Role = model.EmployeeExperienceDetails[0].Role,
+                            FromDate = Convert.ToDateTime(model.EmployeeEducationDetails[0].TimePeriod.Split('~')[0]),
+                            ToDate = Convert.ToDateTime(model.EmployeeEducationDetails[0].TimePeriod.Split('~')[1]),
+                            RefEmployeeId = id
+                        };
+                        ctx.EmployeeExperienceDetails.Add(employeeExperienceDetails);
+                        ctx.SaveChanges();
+                    }
                     foreach (var skill in model.Skills)
                     {
                         var empSkill = new EmployeeSkill();
@@ -296,17 +301,18 @@ namespace LMS_WebAPI_DAL.Repositories
             Logger.Info("Entering in HRRepository API AddNewMasterDataValues method");
             try
             {
-
+                var result = false;
                 using (var ctx = new LeaveManagementSystemEntities1())
-                {
-                    var data = new MasterDataValue();
-                    data.Value = masterDataValue;
-                    data.RefMasterType = masterDataType;
-                    ctx.MasterDataValues.Add(data);
-                    ctx.SaveChanges();
+                {                   
+                        var data = new MasterDataValue();
+                        data.Value = masterDataValue.Trim();
+                        data.RefMasterType = masterDataType;
+                        ctx.MasterDataValues.Add(data);
+                        ctx.SaveChanges();
+                    result = true;
                 }
                 Logger.Info("Successfully exiting from HRRepository API AddNewMasterDataValues method");
-                return true;
+                return result;
             }
             catch
             {
@@ -411,6 +417,53 @@ namespace LMS_WebAPI_DAL.Repositories
                 throw;
             }
 
+        }
+
+        public bool CheckForExistingMasterDataValues(int masterDataType, string masterDataValue)
+        {
+            Logger.Info("Entering in HRRepository API CheckForExistingMasterDataValues method");
+            try
+            {
+                var result = false;
+                using (var ctx = new LeaveManagementSystemEntities1())
+                {
+                    var dataExists = ctx.MasterDataValues.Any(i => i.RefMasterType == masterDataType && i.Value.Trim().ToLower() == masterDataValue.Trim().ToLower());
+                    if (dataExists)
+                    {
+                        result = true;
+                    }
+                }
+                Logger.Info("Successfully exiting from HRRepository API CheckForExistingMasterDataValues method");
+                return result;
+            }
+            catch
+            {
+                Logger.Info("Exception occured at HRRepository API CheckForExistingMasterDataValues method ");
+                throw;
+            }
+        }
+        public bool CheckForExistingProjectMasterDataValues(string projectName, string technology, int refManager)
+        {
+            Logger.Info("Entering in HRRepository API CheckForExistingMasterDataValues method");
+            try
+            {
+                var result = false;
+                using (var ctx = new LeaveManagementSystemEntities1())
+                {
+                    var dataExists = ctx.ProjectMasters.Any(i => i.ProjectName.ToLower().Trim() == projectName.ToLower().Trim() && i.Technology.Trim().ToLower() == technology.Trim().ToLower() && i.RefManagerId==refManager);
+                    if (dataExists)
+                    {
+                        result = true;
+                    }
+                }
+                Logger.Info("Successfully exiting from HRRepository API CheckForExistingMasterDataValues method");
+                return result;
+            }
+            catch
+            {
+                Logger.Info("Exception occured at HRRepository API CheckForExistingMasterDataValues method ");
+                throw;
+            }
         }
     }
 }

@@ -236,7 +236,7 @@ namespace LMS_WebAPI_DAL.Repositories
                 Logger.Info("Entering in AddLeaveRepository API CheckLeaveAvailability method");
                 using (var ctx = new LeaveManagementSystemEntities1())
                 {
-                    var data = ctx.EmployeeDetails.Include("EmployeeLeaveMasters").Include("EmployeeLeaveTransactions").FirstOrDefault(i => i.Id == employeeId);
+                    var data = ctx.EmployeeDetails.Include("EmployeeLeaveMasters").Include("EmployeeLeaveTransactions").Include("WorkFromHomes").FirstOrDefault(i => i.Id == employeeId);
                     holidayList = ctx.Holidays.ToList();
                     advanceLeaveLimit =Convert.ToInt32(ctx.MasterDataValues.FirstOrDefault(i => i.RefMasterType == (int)AdvanceLeaveLimit.limit).Value);
                     lopLeaveLimit = Convert.ToInt32(ctx.MasterDataValues.FirstOrDefault(i => i.RefMasterType == (int)LOPLeaveLimit.limit).Value);

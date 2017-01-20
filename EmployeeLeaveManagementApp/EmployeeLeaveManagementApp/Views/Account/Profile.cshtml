@@ -21,10 +21,15 @@
 {
     employeeId = Convert.ToInt32(TempData["EmpId"]);
 }
+
 <section class="content-header" style="height:41px">
-    <h1 class="col-md-10">
+    <h1 class="col-md-2">
         User Profile
-    </h1>
+    </h1> 
+    @if (employeeId != 0)
+    {
+        <button type="button" id="btnBack" class="btn btn-primary">Back</button> 
+    }
     <div style="padding-right:0px" class="pull-right">
         @if (employeeId == 0)
         {
@@ -703,4 +708,7 @@
                         break;
                 }
             }
+            $("#btnBack").on('click',function(){
+                window.location.href='/HR/EmployeeDetails';
+            })
         </script>

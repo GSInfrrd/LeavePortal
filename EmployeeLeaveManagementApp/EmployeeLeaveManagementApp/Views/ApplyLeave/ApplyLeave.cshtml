@@ -192,7 +192,7 @@
                                 disabledAttr = "disabled";
                             }
                             <div class="col-md-3" style="margin-top:3px">
-                                <input type="radio" name="r1" id="RdLeaveType_@Convert.ToInt16((LMS_WebAPP_Utils.LeaveType)value)" class="flat-red" value="@Convert.ToInt16((LMS_WebAPP_Utils.LeaveType)value)" @disabledAttr>&nbsp;@(LMS_WebAPP_Utils.CommonMethods.Description((LMS_WebAPP_Utils.LeaveType)Convert.ToInt16((LMS_WebAPP_Utils.LeaveType)value)))
+                                <input type="radio" name="r1" id="RdLeaveType_@Convert.ToInt16((LMS_WebAPP_Utils.LeaveType)value)" class="flat-red" value="@Convert.ToInt16((LMS_WebAPP_Utils.LeaveType)value)" @disabledAttr> @(LMS_WebAPP_Utils.CommonMethods.Description((LMS_WebAPP_Utils.LeaveType)Convert.ToInt16((LMS_WebAPP_Utils.LeaveType)value)))
                             </div>
 
                         }
@@ -688,7 +688,7 @@
                 $("#toggle-advance").hide();
             });
             $('#leaveDatepicker ').on('apply.daterangepicker', function (ev, picker) {
-            
+
                 var start = picker.startDate;
                 fromDate = start.format('YYYY-MM-DD');
                 var end = picker.endDate;
@@ -701,45 +701,45 @@
                     data:{fromDate:fromDate,toDate:toDate,leaveType:leaveType},
                     dataType: "json",
                     success: function (data) {
-                      
-                      
-                            switch(data.result.responseCode)
-                            {
-                                case @Convert.ToInt16(LMS_WebAPP_Utils.ResponseCodes.NoLeaveBalance):
-                                    if(leaveType == '@Convert.ToInt16((LMS_WebAPP_Utils.LeaveType.CasualLeave))') {
-                                        
-                                            showMessage("Only "+data.result.availableLeaveBalance+" Casual Leave(s) are available,Go for Advance Leave/LOP","2",true);
-                                        }
-                                    else if(leaveType == '@Convert.ToInt16((LMS_WebAPP_Utils.LeaveType.LOP))')
-                                        {
-                                            showMessage("Only "+data.result.lopLeaveBalance+" LOP(s) are available","2",true);
-                                        }
-                                    else if(leaveType == '@Convert.ToInt16((LMS_WebAPP_Utils.LeaveType.AdvanceLeave))')
-                                        {
-                                            showMessage("Only "+data.result.advanceLeaveBalance+" Advance Leaves(s) are available","2",true);
-                                    }
-                                    $("#lblTotalWorkingDays").html(data.result.noOfWorkingDays);
-                                    $('.modal-footer').hide();
-                                    return false;
-                                    break;
-                                case @Convert.ToInt16(LMS_WebAPP_Utils.ResponseCodes.DateAlreadyExists):
-                                    showMessage("You have already applied for leave within this date range","2",true);
-                                    $("#lblTotalWorkingDays").html(data.result.noOfWorkingDays);
-                                    $('.modal-footer').hide();
-                                    return false;
-                                    break;
-                                case @Convert.ToInt16(LMS_WebAPP_Utils.ResponseCodes.OK):
-                                    debugger
-                                    $("#lblTotalWorkingDays").html(data.result.noOfWorkingDays);
-                                    $('.modal-footer').show();
-                                    return false;
-                                    break;
-                            }
-               
-                        
+
+
+                        switch(data.result.responseCode)
+                        {
+                            case @Convert.ToInt16(LMS_WebAPP_Utils.ResponseCodes.NoLeaveBalance):
+                                if(leaveType == '@Convert.ToInt16((LMS_WebAPP_Utils.LeaveType.CasualLeave))') {
+
+                                    showMessage("Only "+data.result.availableLeaveBalance+" Casual Leave(s) are available,Go for Advance Leave/LOP","2",true);
+                                }
+                                else if(leaveType == '@Convert.ToInt16((LMS_WebAPP_Utils.LeaveType.LOP))')
+                                {
+                                    showMessage("Only "+data.result.lopLeaveBalance+" LOP(s) are available","2",true);
+                                }
+                                else if(leaveType == '@Convert.ToInt16((LMS_WebAPP_Utils.LeaveType.AdvanceLeave))')
+                                {
+                                    showMessage("Only "+data.result.advanceLeaveBalance+" Advance Leaves(s) are available","2",true);
+                                }
+                                $("#lblTotalWorkingDays").html(data.result.noOfWorkingDays);
+                                $('.modal-footer').hide();
+                                return false;
+                                break;
+                            case @Convert.ToInt16(LMS_WebAPP_Utils.ResponseCodes.DateAlreadyExists):
+                                showMessage("You have already applied for leave within this date range","2",true);
+                                $("#lblTotalWorkingDays").html(data.result.noOfWorkingDays);
+                                $('.modal-footer').hide();
+                                return false;
+                                break;
+                            case @Convert.ToInt16(LMS_WebAPP_Utils.ResponseCodes.OK):
+                                debugger
+                                $("#lblTotalWorkingDays").html(data.result.noOfWorkingDays);
+                                $('.modal-footer').show();
+                                return false;
+                                break;
+                        }
+
+
                     }
-            });
-            @*var clickedradioButton = $('input[name=r1]:checked').val();
+                });
+                @*var clickedradioButton = $('input[name=r1]:checked').val();
             if ($("#lblTotalWorkingDays").html() == "1" && clickedradioButton == '@Convert.ToInt16((LMS_WebAPP_Utils.LeaveType.CasualLeave))') {
                 $('#divHalfDay').show();
             }
@@ -758,24 +758,26 @@
             {
                 CheckCap(0,Math.round(days));
             }*@
-            //calculate how much casual leaves are left?how many taken as advace and lop div should show.
+                //calculate how much casual leaves are left?how many taken as advace and lop div should show.
 
+            });
         });
-    });
-    $('#AddLeaveModal').on('hidden.bs.modal', function () {
-        $(this).find("textarea#leaveComment").val('').end();
-        //$("#leaveDatepicker").daterangepicker("destroy");
-        //$("#leaveDatepicker").daterangepicker("refresh");
-        $('#divHalfDay').show();
-        $("#divCommentError").hide();
-        $('#SickDatePicker').show();
-        $('#sickDate').val(today);
-        $("#divLeaveTypeError").hide();
-        $(this).find("input.flat-red:checked").parent().removeClass('checked');
-        $("#RdLeaveType_" + sickLeaveId).parent().addClass('checked');
-
-        //  $('#RdLeaveType_" + sickLeaveId'+" 'input'").iCheck('check');
-    });
+        $('#AddLeaveModal').on('hidden.bs.modal', function () {
+            $(this).find("textarea#leaveComment").val('').end();
+            //$("#leaveDatepicker").daterangepicker("destroy");
+            //$("#leaveDatepicker").daterangepicker("refresh");
+            $('#divHalfDay').show();
+            $("#divCommentError").hide();
+            $('#SickDatePicker').show();
+            $('#sickDate').val(today);
+            $("#divLeaveTypeError").hide();
+            //$(this).find("input.flat-red:checked").parent().removeClass('checked');
+               var clickedradioButton = $('input[name=r1]:checked').val();
+              $("#RdLeaveType_" + clickedradioButton).parent().attr('aria-checked',false);
+             $("#RdLeaveType_" + clickedradioButton).parent().removeClass('checked');
+               $("#RdLeaveType_" + sickLeaveId).parent().addClass('checked');
+            //  $('#RdLeaveType_" + sickLeaveId'+" 'input'").iCheck('check');
+        });
     });
     $(function () {
         $('#toggleOne').bootstrapToggle({
@@ -811,31 +813,30 @@
             }
         })
     })
-    $(document).on('click', '#btnClose,.close,.Close', function (e) {
-        $("#RdLeaveType_" + sickLeaveId).attr('checked', true);
-        $('#sickDate').val(today);
-        $('#divDateRange').hide();
-        $('#divNoOfWorking').hide();
-        $('#leaveComment').val("");
-        $('#CompoDatePicker').hide();
-        $('.modal-footer').show();
-        $('#divDateError').hide();
-        $('#toggleOne').bootstrapToggle('on');
-        $('#divCommentError').hide();
-        if (isPossibleToApplyLeave == 0) {
-            $('.modal-footer').hide();
-        }
-        $("#divLeaveTypeError").hide();
-        $('#SickDatePicker').show();
-        $('#divHalfDay').show();
-    });
+    //$(document).on('click', '#btnClose,.close,.Close', function (e) {
+    //    $("#RdLeaveType_" + sickLeaveId).attr('checked', true);
+    //    $('#sickDate').val(today);
+    //    $('#divDateRange').hide();
+    //    $('#divNoOfWorking').hide();
+    //    $('#leaveComment').val("");
+    //    $('#CompoDatePicker').hide();
+    //    $('.modal-footer').show();
+    //    $('#divDateError').hide();
+    //    $('#toggleOne').bootstrapToggle('on');
+    //    $('#divCommentError').hide();
+    //    if (isPossibleToApplyLeave == 0) {
+    //        $('.modal-footer').hide();
+    //    }
+    //    $("#divLeaveTypeError").hide();
+    //    $('#SickDatePicker').show();
+    //    $('#divHalfDay').show();
+    //});
 
 
 
 
-    $('input').on('ifChecked', function (event) {
+    $('input').off('ifChecked').on('ifChecked', function (event) {
         //  alert(event.type + ' callback');
-        debugger;
         var clickedradioButton = $('input[name=r1]:checked').val();
         switch (clickedradioButton) {
             case '@Convert.ToInt16((LMS_WebAPP_Utils.LeaveType.SickLeave))':
@@ -1032,13 +1033,13 @@
                 break;
             case '@Convert.ToInt16((LMS_WebAPP_Utils.LeaveType.CompoOff))':
                 //check date
-                if ($("#leaveComment").val() != "" && $("#datepicker").val() != "") {
+                if ($("#leaveComment").val() != "" && ($("#datepicker").val() != "" || $("#lblTotalWorkingDays").html()==0)) {
                     fromDate = $("#datepicker").val();
                     toDate = fromDate;
                     workingDays = 1;
                     return true;
                 }
-                else if ($("#leaveComment").val() == "" && $("#datepicker").val() == "") {
+                else if ($("#leaveComment").val() == "" && ($("#datepicker").val() == "" || $("#lblTotalWorkingDays").html()==0)) {
                     $('#divCommentError').show();
                     $('#divDateError').show();
                     return false;
@@ -1065,14 +1066,14 @@
                     showMessage("Sorry!! Your max limit for advance leave is  " + '@totalAdvanceLeaveLeft', "2", true);
                     return false;
                 }
-                else  if ($("#leaveComment").val() != "" && $("#leaveDatepicker").val() != "") {
+                else  if ($("#leaveComment").val() != "" && ($("#leaveDatepicker").val() != ""|| $("#lblTotalWorkingDays").html()==0)) {
                     //set values
                     fromDate = fromDate;
                     toDate = toDate;
                     workingDays = $("#lblTotalWorkingDays").html();
                     return true;
                 }
-                else if ($("#leaveComment").val() == "" && $("#leaveDatepicker").val() == "") {
+                else if ($("#leaveComment").val() == "" && ($("#leaveDatepicker").val() == "" || $("#lblTotalWorkingDays").html()==0)) {
                     $('#divCommentError').show();
                     $('#divDatePickerError').show();
                     return false;
@@ -1082,7 +1083,7 @@
                         $('#divCommentError').show();
                         return false;
                     }
-                    else if ($("#leaveDatepicker").val() == "") {
+                    else if ($("#leaveDatepicker").val() == "" || $("#lblTotalWorkingDays").html()==0) {
                         $('#divDatePickerError').show();
                         return false;
                     }
@@ -1199,7 +1200,7 @@
                                     break;
                                 case '@Convert.ToInt16((LMS_WebAPP_Utils.LeaveType.CasualLeave))':
                                 case '@Convert.ToInt16((LMS_WebAPP_Utils.LeaveType.AdvanceLeave))':
-                                   
+
                                     isPossibleToApplyCasual = isPossibleToApplyCasual + 1;
                                     if(leaveType==@Convert.ToInt16((LMS_WebAPP_Utils.LeaveType.CasualLeave)) && (totalcasualLeft <=0 || totalcasualLeft-workingDays<=0))
                                     {
@@ -1215,9 +1216,9 @@
                                     //});
                                     break;
                                 case '@Convert.ToInt16((LMS_WebAPP_Utils.LeaveType.LOP))':
-                                   
+
                                     totalLOPSubmitted = totalLOPSubmitted + 1;
-                         
+
                                     showMessage("LOP request added successfully", "1", true);
                                     break;
                                 default:

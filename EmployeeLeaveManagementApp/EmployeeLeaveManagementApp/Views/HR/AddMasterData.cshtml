@@ -4,6 +4,8 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 <link href="~/plugins/Toastr/toastr.css" rel="stylesheet" />
+  <!-- Select2 -->
+<link rel="stylesheet" href="../../plugins/select2/select2.min.css">
 <section class="content-header">
     <h1>Add Master Data</h1>
 </section>
@@ -19,7 +21,7 @@
 
                     <div class="form-group">
                         <label for="txtFirstName">Master Data Type</label>
-                        <select id="ddlMasterData" class="form-control skills" style="width: 100%;">
+                        <select id="ddlMasterData" class="form-control masterDataSelect" style="width: 100%;">
                             <option value="0">Select</option>
                           @foreach (var value in Enum.GetValues(typeof(LMS_WebAPP_Utils.MasterDataType)))
                           {
@@ -68,17 +70,23 @@
     <!-- /.row -->
 </section>
 <script src="../../plugins/Toastr/toastr.js"></script>
+<script src="../../plugins/select2/select2.full.min.js"></script>
 <script>
     $(document).ready(function () {
         $(function () {
             $('#txtStartDate').datepicker({
                 autoclose: true
             });
+            $(".masterDataSelect").select2();
+            $(".managerSelect").select2();
         });
     });
     $(document).on('change', "#ddlMasterData", function (e) {
         if($("#ddlMasterData").val()==2)
         {
+            $("#ddlManagerName").html("");
+            $("#ddlManagerName").append($('<option></option>').attr("value",0).text("Select"));
+
             $.ajax({
                 cache: false,
                 type: 'post',
@@ -106,46 +114,88 @@
     });
 
     $(document).on('click', "#btnSubmitMasterData", function (e) {
+        if ($("#ddlMasterData").val() == 0 || $("#txtMasterDataValue").val() == "")
+        {
+            showMessage("Enter all the fields", "2", true);
+            return false;
+        }
         $.ajax({
             cache: false,
             type: 'post',
-            url: '/HR/AddNewMasterDataValues',
-            data: { masterDataType: $("#ddlMasterData").val(),masterDataValue:$("#txtMasterDataValue").val() },
+            url: '/HR/CheckForExistingMasterDataValues',
+            data: { masterDataType: $("#ddlMasterData").val(), masterDataValue: $("#txtMasterDataValue").val() },
             dataType: "json",
             success: function (data) {
-                $("#ddlMasterData").val(0);
-                $("#txtMasterDataValue").val("");
-                showMessage("Master data value added successfully", "1", true);
+                if(!data.result)
+                {
+                    $.ajax({
+                        cache: false,
+                        type: 'post',
+                        url: '/HR/AddNewMasterDataValues',
+                        data: { masterDataType: $("#ddlMasterData").val(), masterDataValue: $("#txtMasterDataValue").val() },
+                        dataType: "json",
+                        success: function (data) {
+                            $("#ddlMasterData").val(0).trigger("change");
+                            $("#txtMasterDataValue").val("");
+                            showMessage("Master data value added successfully", "1", true);
+
+                        }
+                    });
+                }
+                else
+                {
+                    showMessage("Value already exists", "2",true);
+                    return false;
+                }
 
             }
         });
-
     });
 
     $(document).on('click', "#btnProjectInfoSubmit", function (e) {
+        if($("#txtProjectName").val()=="" || $("#txtProjectDescription").val()=="" || $("#txtTechnology").val()=="" || $("#txtStartDate").val()==""||  $("#ddlManagerName").val()=="" )
+        {
+            showMessage("Enter all fields","2",true);
+            return false;
+        }
         $.ajax({
             cache: false,
             type: 'post',
-            url: '/HR/AddNewProjectInfo',
-            data: { projectName: $("#txtProjectName").val(),description:$("#txtProjectDescription").val(),technology:$("#txtTechnology").val(),startDate:$("#txtStartDate").val(),refManager:$("#ddlManagerName").val() },
+            url: '/HR/CheckForExistingProjectMasterDataValues',
+            data: { projectName: $("#txtProjectName").val(),technology:$("#txtTechnology").val(),refManager: $("#ddlManagerName").val() },
             dataType: "json",
             success: function (data) {
-                $("#divMasterDataValue").show();
-                $("#divProjectInfo").hide();
-                $("#btnProjectInfoSubmit").hide();
-                $("#btnSubmitMasterData").show();
-                $("#ddlMasterData").val(0);
-                $("#txtProjectName").val("");
-                $("#txtProjectDescription").val("");
-                $("#txtTechnology").val("");
-                $("#ddlManagerName").val(0);
-                $("#txtStartDate").val("");
-                $("#txtMasterDataValue").val("");
-                showMessage("Project details added successfully", "1", true);
+                if (!data.result) {
+                    $.ajax({
+                        cache: false,
+                        type: 'post',
+                        url: '/HR/AddNewProjectInfo',
+                        data: { projectName: $("#txtProjectName").val(), description: $("#txtProjectDescription").val(), technology: $("#txtTechnology").val(), startDate: $("#txtStartDate").val(), refManager: $("#ddlManagerName").val() },
+                        dataType: "json",
+                        success: function (data) {
+                            $("#divMasterDataValue").show();
+                            $("#divProjectInfo").hide();
+                            $("#btnProjectInfoSubmit").hide();
+                            $("#btnSubmitMasterData").show();
+                            $("#ddlMasterData").val(0).trigger("change");
+                            $("#txtProjectName").val("");
+                            $("#txtProjectDescription").val("");
+                            $("#txtTechnology").val("");
+                            $("#ddlManagerName").val(0);
+                            $("#txtStartDate").val("");
+                            $("#txtMasterDataValue").val("");
+                            showMessage("Project details added successfully", "1", true);
+
+                        }
+                    });
+                }
+                else {
+                    showMessage("Value already exists", "2", true);
+                    return false;
+                }
 
             }
         });
-
     });
 
     function showMessage(message, Type, fadeOut) {

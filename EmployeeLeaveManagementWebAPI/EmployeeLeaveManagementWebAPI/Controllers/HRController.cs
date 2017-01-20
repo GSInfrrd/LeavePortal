@@ -198,5 +198,41 @@ namespace EmployeeLeaveManagementWebAPI.Controllers
             }
         }
 
+        [System.Web.Http.HttpGet]
+        [Route("CheckForExistingMasterDataValues")]
+        public bool CheckForExistingMasterDataValues(int masterDataType, string masterDataValue)
+        {
+            try
+            {
+                Logger.Info("Entering in HRController API CheckForExistingMasterDataValues method");
+                var empData = hrOperations.CheckForExistingMasterDataValues(masterDataType, masterDataValue);
+                Logger.Info("Successfully exiting from HRController API CheckForExistingMasterDataValues method");
+                return empData;
+            }
+            catch (Exception ex)
+            {
+                Logger.Error("Error at HRController API CheckForExistingMasterDataValues method.", ex);
+                throw;
+            }
+        }
+
+        [System.Web.Http.HttpGet]
+        [Route("CheckForExistingProjectMasterDataValues")]
+        public bool CheckForExistingProjectMasterDataValues(string projectName, string technology, int refManager)
+        {
+            try
+            {
+                Logger.Info("Entering in HRController API CheckForExistingProjectMasterDataValues method");
+                var empData = hrOperations.CheckForExistingProjectMasterDataValues(projectName,technology,refManager);
+                Logger.Info("Successfully exiting from HRController API CheckForExistingProjectMasterDataValues method");
+                return empData;
+            }
+            catch (Exception ex)
+            {
+                Logger.Error("Error at HRController API CheckForExistingProjectMasterDataValues method.", ex);
+                throw;
+            }
+        }
+
     }
 }

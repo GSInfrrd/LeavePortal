@@ -361,21 +361,27 @@ namespace EmployeeLeaveManagementApp.Controllers
                 List<EmployeeEducationDetails> eEduList = new List<EmployeeEducationDetails>();
                 foreach (var item in model.EmployeeEducation)
                 {
-                    EmployeeEducationDetails eEduDetails = new EmployeeEducationDetails();
-                    eEduDetails.Degree = item.Graduation;
-                    eEduDetails.Institution = item.Institution;
-                    eEduDetails.TimePeriod = item.FromDate + "~" + item.ToDate;
-                    eEduList.Add(eEduDetails);
+                    if (!string.IsNullOrEmpty(item.Institution))
+                    {
+                        EmployeeEducationDetails eEduDetails = new EmployeeEducationDetails();
+                        eEduDetails.Degree = item.Graduation;
+                        eEduDetails.Institution = item.Institution;
+                        eEduDetails.TimePeriod = item.FromDate + "~" + item.ToDate;
+                        eEduList.Add(eEduDetails);
+                    }
                 }
                 empModel.EmployeeEducationDetails = eEduList;
                 List<EmployeeExperienceDetails> eExpList = new List<EmployeeExperienceDetails>();
                 foreach (var item in model.EmployeeExperience)
                 {
-                    EmployeeExperienceDetails eExpDetails = new EmployeeExperienceDetails();
-                    eExpDetails.Company = item.CompanyName;
-                    eExpDetails.Role = item.Role;
-                    eExpDetails.TimePeriod = item.FromDate + "~" + item.ToDate;
-                    eExpList.Add(eExpDetails);
+                    if (!string.IsNullOrEmpty(item.CompanyName))
+                    {
+                        EmployeeExperienceDetails eExpDetails = new EmployeeExperienceDetails();
+                        eExpDetails.Company = item.CompanyName;
+                        eExpDetails.Role = item.Role;
+                        eExpDetails.TimePeriod = item.FromDate + "~" + item.ToDate;
+                        eExpList.Add(eExpDetails);
+                    }
                 }
                 empModel.EmployeeExperienceDetails = eExpList;
                 List<EmployeeSkillDetails> eSkillList = new List<EmployeeSkillDetails>();
@@ -596,5 +602,36 @@ namespace EmployeeLeaveManagementApp.Controllers
 
         }
 
+        public async Task<JsonResult> CheckForExistingMasterDataValues(int masterDataType, string masterDataValue)
+        {
+            Logger.Info("Entering in HRController APP CheckForExistingMasterDataValues method");
+            try
+            {
+                var result = await hrOperations.CheckForExistingMasterDataValuesAsync(masterDataType, masterDataValue);
+                Logger.Info("Successfully exiting from HRController APP CheckForExistingMasterDataValues method");
+                return Json(new { result = result });
+            }
+            catch (Exception ex)
+            {
+                Logger.Error("Error at HRController APP CheckForExistingMasterDataValues method.", ex);
+                return null;
+            }
+        }
+
+        public async Task<JsonResult> CheckForExistingProjectMasterDataValues(string projectName, string technology,int refManager)
+        {
+            Logger.Info("Entering in HRController APP CheckForExistingProjectMasterDataValues method");
+            try
+            {
+                var result = await hrOperations.CheckForExistingProjectMasterDataValuesAsync(projectName, technology,refManager);
+                Logger.Info("Successfully exiting from HRController APP CheckForExistingProjectMasterDataValues method");
+                return Json(new { result = result });
+            }
+            catch (Exception ex)
+            {
+                Logger.Error("Error at HRController APP CheckForExistingProjectMasterDataValues method.", ex);
+                return null;
+            }
+        }
     }
 }

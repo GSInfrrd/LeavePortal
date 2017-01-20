@@ -43,7 +43,22 @@ namespace LMS_WebAPI_ServiceHelpers
                     }
 
                 }
-                    if (response.responseCode == 0)
+                foreach (var item in result.WorkFromHomes)
+                {
+                    for (DateTime date = item.Date; date <= item.Date; date = date.AddDays(1))
+                    {
+                        for (DateTime givenDate = fromDate; givenDate <= toDate; givenDate = givenDate.AddDays(1))
+                        {
+                            if (givenDate == date)
+                            {
+                                response.responseCode = (int)LMS_WebAPI_Utils.ResponseCodes.DateAlreadyExists;
+                                break;
+                            }
+                        }
+                    }
+
+                }
+                if (response.responseCode == 0)
                     {
                         for (DateTime date = fromDate; date <= toDate; date = date.AddDays(1))
                         {

@@ -203,10 +203,11 @@
 
     $(document).on('click', '#btnAddWorkFromHome ', function (e) {
         var selectedDate= $('#datepicker').val();
-        debugger
+        $('#btnAddWorkFromHome').attr("disabled", true);
         if ($.inArray(selectedDate, loop) != -1)
         {
             showMessage("You already applied for work from home on this date.", "2", true);
+            $('#btnAddWorkFromHome').attr("disabled", false);
             return false;        
         }
         if (formValidate() == true) {
@@ -218,7 +219,7 @@
                     dataType: "json",
                     success: function (data) {
                         $('#exampleModal').modal('hide');
-                        //$('#btnAddNewWorkFromHome').hide();
+                        $('#btnAddWorkFromHome').attr("disabled", false);
                         loop.push(selectedDate);
                         $('#SelectReason').val("");
                         updateDatatable(data.wfhList, true);
