@@ -225,7 +225,7 @@
         $('#btnAddWorkFromHome').attr("disabled", true);
         if ($.inArray(selectedDate, loop) != -1 ||responseCode==dateExists)
         {
-            showMessage("You already applied for work from home on this date.", "2", true);
+            showMessage("You already applied for leave/work from home on this date.", "2", true);
             $('#btnAddWorkFromHome').attr("disabled", false);
             return false;        
         }

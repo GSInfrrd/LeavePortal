@@ -723,7 +723,7 @@
                                 return false;
                                 break;
                             case @Convert.ToInt16(LMS_WebAPP_Utils.ResponseCodes.DateAlreadyExists):
-                                showMessage("You have already applied for leave within this date range","2",true);
+                                showMessage("You have already applied for leave/work from home within this date range","2",true);
                                 $("#lblTotalWorkingDays").html(data.result.noOfWorkingDays);
                                 $('.modal-footer').hide();
                                 return false;
