@@ -8,6 +8,7 @@
 <link href="~/plugins/Toastr/toastr.css" rel="stylesheet" />
 <link rel="stylesheet" href="~/plugins/datatables/dataTables.bootstrap.css">
 <link rel="stylesheet" href="~/plugins/iCheck/all.css">
+<link rel="stylesheet" href="../../plugins/select2/select2.min.css">
 <!-- Bootstrap 3.3.6 -->
 @*<link rel="stylesheet" href="../../bootstrap/css/bootstrap.min.css">*@
 <style>  
@@ -90,7 +91,7 @@
                     </div>
                     <div class="form-group">
                         <label>Select Reason:</label>
-                        <select class="form-control" id="SelectReason">
+                        <select class="form-control reasonSelect" id="SelectReason" style="width:100%">
                             @*<select class="form-control select2" style="width: 100%;" id="ddlLevel">*@
                             <option value="">Select</option>
                             @*</select>*@
@@ -115,16 +116,34 @@
 <script src="~/plugins/Toastr/toastr.js"></script>
 <script src="~/plugins/datatables/jquery.dataTables.min.js"></script>
 <script src="~/plugins/datatables/dataTables.bootstrap.min.js"></script>
+<script src="../../plugins/select2/select2.full.min.js"></script>
 <script type="text/javascript">
-    var dateList= @Html.Raw(Json.Encode(dateList));;
+    var dateList= @Html.Raw(Json.Encode(dateList));
+    var dateExists='@Convert.ToInt16(LMS_WebAPP_Utils.ResponseCodes.DateAlreadyExists)';
     $('#exampleModal').on('show.bs.modal', function (event) {
     });
   
     $(document).ready(function()
     {
+        $(".reasonSelect").select2();
         GetWorkFromHomeReasonsList();
+        GetAppliedLeaveDateList();
     });
-
+    var responseCode=0;
+    function GetAppliedLeaveDateList()
+    {
+        $.ajax({
+            cache: false,
+            type: 'post',
+            url: '/ApplyLeave/CheckLeaveAvailability',
+            data:{fromDate:$('#datepicker').val(),toDate:$('#datepicker').val(),leaveType:25},
+            dataType: "json",
+            success: function (data) {
+                responseCode=data.result.responseCode;
+            }
+        });
+             
+    }
     function GetWorkFromHomeReasonsList()
     {
         $.ajax({
@@ -204,7 +223,7 @@
     $(document).on('click', '#btnAddWorkFromHome ', function (e) {
         var selectedDate= $('#datepicker').val();
         $('#btnAddWorkFromHome').attr("disabled", true);
-        if ($.inArray(selectedDate, loop) != -1)
+        if ($.inArray(selectedDate, loop) != -1 ||responseCode==dateExists)
         {
             showMessage("You already applied for work from home on this date.", "2", true);
             $('#btnAddWorkFromHome').attr("disabled", false);
@@ -221,7 +240,9 @@
                         $('#exampleModal').modal('hide');
                         $('#btnAddWorkFromHome').attr("disabled", false);
                         loop.push(selectedDate);
-                        $('#SelectReason').val("");
+                        $("#txtOtherReason").val("");
+                        $('#SelectReason').val("").trigger("change");
+                        $("#divOtherReason").hide();
                         updateDatatable(data.wfhList, true);
                         showMessage("New WorkFromHome added successfully", "1", true);
                     }
@@ -235,7 +256,9 @@
 
     $(document).on('click', '#btnClose,.close', function (e) {
         debugger;
-        $('#SelectReason').val("");
+        $("#txtOtherReason").val("");
+        $('#SelectReason').val("").trigger("change");
+        $("#divOtherReason").hide();
     });
 
     //Show error Message
@@ -272,11 +295,7 @@
         else { return false; }
     }
 
-
-    // Edit WorkFromHome
-    var Id = 0;
     function updateDatatable(data, fromAdd) {
-        debugger;
         $('#DataTablebody').html('');
         var fixedCartItemsHtml = "<table id='example1' class='table table-bordered table-striped'>" + " <thead> <tr>  <th>Date</th><th>Reason</th>" +
                                " </tr></thead><tbody>";
@@ -304,7 +323,7 @@
             "info": true,
             "autoWidth": false,
         });
-        $('#SelectReason').val("");
+        $('#SelectReason').val("").trigger("change");
     }
 </script>
 
