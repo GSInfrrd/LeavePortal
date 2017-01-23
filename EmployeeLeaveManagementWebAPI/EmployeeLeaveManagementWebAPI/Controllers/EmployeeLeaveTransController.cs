@@ -11,6 +11,7 @@ using Domain;
 
 namespace EmployeeLeaveManagementWebAPI.Controllers
 {
+    [RoutePrefix("api/employeeleavetrans")]
     public class EmployeeLeaveTransController : ApiController
     {
         EmployeeLeaveTransactionManagement leaveManagement = new EmployeeLeaveTransactionManagement();
@@ -40,7 +41,7 @@ namespace EmployeeLeaveManagementWebAPI.Controllers
         //{
         //    return "value";
         //}
-
+        [Route("applyleave")]
         public List<EmployeeLeaveTransactionModel> Get(int id, int leaveType, string fromDate, string toDate, string comments, double workingDays)
         {
             try

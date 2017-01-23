@@ -88,6 +88,35 @@ namespace EmployeeLeaveManagementWebAPI.Controllers
             }
         }
 
+        //[HttpPost]
+        //[Route("EditEmployeeExperienceDetailsAndroid")]
+        //public bool EditEmployeeExperienceDetailsAndroid(List<EmployeeExperienceDetails> experienceDetails, int employeeId)
+        //{
+        //    try
+        //    {
+        //        Logger.Info("Entering in ProfileController API EditEmployeeExperienceDetails method");
+        //        foreach (EmployeeExperienceDetails employeeExperienceDetails in experienceDetails)
+        //        {
+        //            DateTime fromDate = new DateTime(1970, 1, 1).AddMilliseconds(employeeExperienceDetails.fromDateLong);
+        //            fromDate = fromDate.ToLocalTime();
+        //            employeeExperienceDetails.FromDate = fromDate;
+        //            DateTime toDate = new DateTime(1970, 1, 1).AddMilliseconds(employeeExperienceDetails.toDateLong);
+        //            toDate = toDate.ToLocalTime();
+        //            employeeExperienceDetails.ToDate = toDate;
+        //        }
+
+
+        //        var result = userManager.EditEmployeeExperienceDetails(experienceDetails, employeeId);
+        //        Logger.Info("Successfully exiting from ProfileController API EditEmployeeExperienceDetailsAndroid method");
+        //        return true;
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        Logger.Error("Error at ProfileController API EditEmployeeExperienceDetailsAndroid method.", ex);
+        //        return false;
+        //    }
+        //}
+
 
         [HttpPost]
         [Route("EditEmployeeSkills")]

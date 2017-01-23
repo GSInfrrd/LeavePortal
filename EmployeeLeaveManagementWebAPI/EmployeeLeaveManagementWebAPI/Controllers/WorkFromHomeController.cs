@@ -7,6 +7,7 @@ using System.Web.Http;
 
 namespace EmployeeLeaveManagementWebAPI.Controllers
 {
+    [RoutePrefix("api/workfromhome")]
     public class WorkFromHomeController : ApiController
     {
         WorkFromHomeManagement WorkFromHomeManager = new WorkFromHomeManagement();
@@ -77,6 +78,7 @@ namespace EmployeeLeaveManagementWebAPI.Controllers
             }
         }
 
+        [Route("GetWorkFromHomeReasonsList")]
         public List<WorkFromHomeCommonModel> GetWorkFromHomeReasonsList()
         {
             try
