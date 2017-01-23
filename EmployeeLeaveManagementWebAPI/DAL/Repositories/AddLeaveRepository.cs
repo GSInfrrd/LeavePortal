@@ -58,7 +58,7 @@ namespace LMS_WebAPI_DAL.Repositories
                                 RefStatus = (int)LeaveStatus.Submitted,
                                 RefEmployeeId = empId,
                                 RefTransactionType=(int)TransactionType.Debit,
-                                CreatedBy = ctx.EmployeeDetails.FirstOrDefault(i => i.Id == empId).FirstName
+                                RefCreatedBy = ctx.EmployeeDetails.FirstOrDefault(i => i.Id == empId).Id
                             };
                             var newID = ctx.EmployeeLeaveTransactions.Add(employeeLeaveDetails);
                             ctx.SaveChanges();
@@ -80,7 +80,7 @@ namespace LMS_WebAPI_DAL.Repositories
                                 RefStatus = (int)LeaveStatus.Approved,
                                 RefEmployeeId = empId,
                                 RefTransactionType = (int)TransactionType.Debit,
-                                CreatedBy = ctx.EmployeeDetails.FirstOrDefault(i => i.Id == empId).FirstName
+                                RefCreatedBy = ctx.EmployeeDetails.FirstOrDefault(i => i.Id == empId).Id
                             };
                             ctx.EmployeeLeaveTransactions.Add(employeeLeaveDetailsSick);
                             ctx.SaveChanges();
@@ -125,7 +125,7 @@ namespace LMS_WebAPI_DAL.Repositories
                         ModifiedDate = DateTime.Now,
                         RefStatus = (int)LeaveStatus.Submitted,
                         CreatedDate = DateTime.Now,
-                        CreatedBy = leaveDetails.EmployeeDetail.FirstName
+                        RefCreatedBy = leaveDetails.EmployeeDetail.Id
                     };
                     ctx.Workflows.Add(workFlow);
                     ctx.SaveChanges();

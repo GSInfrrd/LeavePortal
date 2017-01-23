@@ -61,17 +61,32 @@ namespace LMS_WebAPI_DAL.Repositories
                 Logger.Info("Entering in ApproveLeaveRepository API ApproveEmployeeLeave method");
                 using (var ctx = new LeaveManagementSystemEntities1())
                 {
-                    var Allworkflowleavedetails = ctx.Workflows.Where(x => x.EmployeeLeaveTransaction.Id == Leaveid).ToList();
-                    var leaveDetails = ctx.Workflows.FirstOrDefault(x => x.EmployeeLeaveTransaction.Id == Leaveid);
+                    
+                    var leaveDetails = ctx.Workflows.Where(x => x.EmployeeLeaveTransaction.Id == Leaveid).OrderByDescending(x=>x.ModifiedDate).FirstOrDefault();
                     var EmployeeId = leaveDetails.EmployeeLeaveTransaction.EmployeeDetail.Id;
                     var ApproverId = leaveDetails.RefApproverId;
                     int Status = 1;
                     int NotificationType = 27;
                     if (Leavestatus == CommonMethods.Description(LeaveStatus.Approved))
                     {
-                        leaveDetails.EmployeeLeaveTransaction.RefStatus = 12;
-                        leaveDetails.ManagerComments = Leavecomments;
+                        leaveDetails.EmployeeLeaveTransaction.RefStatus = Convert.ToInt32(LeaveStatus.Approved);
+                        leaveDetails.EmployeeLeaveTransaction.ModifiedDate = DateTime.Now;
+                        Workflow wf = new Workflow();
+                        wf.RefLeaveTransactionId = leaveDetails.RefLeaveTransactionId;
+                        wf.RefApproverId = leaveDetails.RefApproverId;
+                        wf.CreatedDate = leaveDetails.CreatedDate;
+                        wf.ModifiedDate = DateTime.Now;
+                        wf.RefStatus = Convert.ToInt32(LeaveStatus.Approved);
+                        wf.RefCreatedBy = leaveDetails.RefCreatedBy;
+                        wf.ManagerComments = Leavecomments;
+                        int ModifiedById = leaveDetails.RefApproverId;
+                        wf.RefModifiedBy = ModifiedById;
+                        leaveDetails.EmployeeLeaveTransaction.RefModifiedBy = ModifiedById;
+                        ctx.Workflows.Add(wf);
                         ctx.SaveChanges();
+
+                        var Allworkflowleavedetails = ctx.Workflows.Where(x => x.EmployeeLeaveTransaction.Id == Leaveid).ToList();
+
                         insertintoLeaveHistory(Allworkflowleavedetails);
                         deletefromworkflow(Allworkflowleavedetails);
                         var leaveMaster = ctx.EmployeeLeaveMasters.FirstOrDefault(i => i.RefEmployeeId == EmployeeId);
@@ -85,18 +100,18 @@ namespace LMS_WebAPI_DAL.Repositories
                         {
                             leaveMaster.EarnedCasualLeave = Convert.ToInt32((Double)leaveMaster.EarnedCasualLeave - leaveDetails.EmployeeLeaveTransaction.NumberOfWorkingDays);
                             var spentleave = leaveMaster.SpentAdvanceLeave != null ? leaveMaster.SpentAdvanceLeave : 0;
-                            leaveMaster.SpentAdvanceLeave = spentleave + (int)leaveDetails.EmployeeLeaveTransaction.NumberOfWorkingDays;
+                            leaveMaster.SpentAdvanceLeave = spentleave+(int)leaveDetails.EmployeeLeaveTransaction.NumberOfWorkingDays;
                         }
                         else if (leaveDetails.EmployeeLeaveTransaction.RefLeaveType == (int)LMS_WebAPI_Utils.LeaveType.LOP)
                         {
                             var lopLeave = leaveMaster.TakenLossOfPay != null ? leaveMaster.TakenLossOfPay : 0;
-                            leaveMaster.TakenLossOfPay = lopLeave + (int)leaveDetails.EmployeeLeaveTransaction.NumberOfWorkingDays;
+                            leaveMaster.TakenLossOfPay = lopLeave+(int)leaveDetails.EmployeeLeaveTransaction.NumberOfWorkingDays;
                         }
                         else if (leaveDetails.EmployeeLeaveTransaction.RefLeaveType == (int)LMS_WebAPI_Utils.LeaveType.CompOff)
                         {
                             var compOff = leaveMaster.TakenCompOff != null ? leaveMaster.TakenCompOff : 0;
 
-                            leaveMaster.TakenCompOff = compOff + (int)leaveDetails.EmployeeLeaveTransaction.NumberOfWorkingDays;
+                            leaveMaster.TakenCompOff = compOff+(int)leaveDetails.EmployeeLeaveTransaction.NumberOfWorkingDays;
                         }
                         ctx.SaveChanges();
                         var ManagerDetails = ctx.EmployeeDetails.FirstOrDefault(x => x.Id == ApproverId);
@@ -115,9 +130,23 @@ namespace LMS_WebAPI_DAL.Repositories
                     }
                     if (Leavestatus == "Rejected")
                     {
-                        leaveDetails.EmployeeLeaveTransaction.RefStatus = 11;
-                        leaveDetails.ManagerComments = Leavecomments;
+                        leaveDetails.EmployeeLeaveTransaction.RefStatus = Convert.ToInt32(LeaveStatus.Rejected);
+                        leaveDetails.EmployeeLeaveTransaction.ModifiedDate = DateTime.Now;
+                        Workflow wf = new Workflow();
+                        wf.RefLeaveTransactionId = leaveDetails.RefLeaveTransactionId;
+                        wf.RefApproverId = leaveDetails.RefApproverId;
+                        wf.CreatedDate = leaveDetails.CreatedDate;
+                        wf.ModifiedDate = DateTime.Now;
+                        wf.RefStatus = Convert.ToInt32(LeaveStatus.Rejected);
+                        wf.RefCreatedBy = leaveDetails.RefCreatedBy;
+                        wf.ManagerComments = Leavecomments;
+                        int ModifiedById = leaveDetails.RefApproverId;
+                        wf.RefModifiedBy = ModifiedById;
+                        leaveDetails.EmployeeLeaveTransaction.RefModifiedBy = ModifiedById;
+                        ctx.Workflows.Add(wf);
                         ctx.SaveChanges();
+
+                        var Allworkflowleavedetails = ctx.Workflows.Where(x => x.EmployeeLeaveTransaction.Id == Leaveid).ToList();
                         insertintoLeaveHistory(Allworkflowleavedetails);
                         deletefromworkflow(Allworkflowleavedetails);
 
@@ -139,12 +168,14 @@ namespace LMS_WebAPI_DAL.Repositories
                         wf.RefApproverId = Approverid;
                         wf.CreatedDate = leaveDetails.CreatedDate;
                         wf.ModifiedDate = DateTime.Now;
-                        wf.RefStatus = 21;
-                        wf.CreatedBy = leaveDetails.CreatedBy;
+                        wf.RefStatus = Convert.ToInt32(LeaveStatus.Reassigned); ;
+                        wf.RefCreatedBy = leaveDetails.RefCreatedBy;
                         wf.ManagerComments = Leavecomments;
-                        leaveDetails.EmployeeLeaveTransaction.RefStatus = 21;
-                        // leaveDetails.RefApproverId = Approverid;
-                        //  leaveDetails.ManagerComments = Leavecomments;
+                        int ModifiedById = leaveDetails.RefApproverId;
+                        wf.RefModifiedBy = ModifiedById;
+                        leaveDetails.EmployeeLeaveTransaction.RefStatus = Convert.ToInt32(LeaveStatus.Reassigned);
+                        leaveDetails.EmployeeLeaveTransaction.ModifiedDate = DateTime.Now;
+                        leaveDetails.EmployeeLeaveTransaction.RefModifiedBy = ModifiedById;
                         ctx.Workflows.Add(wf);
                         ctx.SaveChanges();
 
@@ -242,12 +273,15 @@ namespace LMS_WebAPI_DAL.Repositories
                         m.FromDate = Convert.ToDateTime(wf.EmployeeLeaveTransaction.FromDate);
                         m.ToDate = Convert.ToDateTime(wf.EmployeeLeaveTransaction.ToDate);
                         m.CreatedDate = Convert.ToDateTime(wf.EmployeeLeaveTransaction.CreatedDate);
-                        m.RefStatus = wf.EmployeeLeaveTransaction.RefStatus;
+                        m.RefStatus = wf.RefStatus;
                         m.NumberOfWorkingDays = wf.EmployeeLeaveTransaction.NumberOfWorkingDays;
                         m.RefLeaveType = wf.EmployeeLeaveTransaction.RefLeaveType;
                         m.EmployeeComment = wf.EmployeeLeaveTransaction.EmployeeComment;
                         m.ManagerComment = wf.ManagerComments;
-                        m.ModifiedBy = wf.EmployeeLeaveTransaction.EmployeeDetail.ManagerId.ToString();
+                        m.RefCreatedBy = wf.RefCreatedBy;
+                        m.RefModifiedBy = wf.RefModifiedBy;
+                        m.ModifiedDate = Convert.ToDateTime(wf.ModifiedDate);
+
                         ctx.EmployeeLeaveTransactionHistories.Add(m);
                         ctx.SaveChanges();
                     }
