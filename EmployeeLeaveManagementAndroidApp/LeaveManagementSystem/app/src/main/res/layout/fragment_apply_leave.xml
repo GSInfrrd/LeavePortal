@@ -1,0 +1,516 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/root_layout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:paddingBottom="@dimen/activity_vertical_margin"
+            android:paddingLeft="@dimen/activity_horizontal_margin"
+            android:paddingRight="@dimen/activity_horizontal_margin"
+            android:paddingTop="@dimen/activity_vertical_margin">
+
+            <android.support.v7.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:paddingBottom="@dimen/dimen_16_dp"
+                    android:paddingTop="@dimen/dimen_16_dp">
+
+                    <TextView
+                        style="@style/ProfileHeaders"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:paddingLeft="@dimen/dimen_16_dp"
+                        android:paddingRight="@dimen/dimen_16_dp"
+                        android:text="@string/leave_type" />
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/dimen_16_dp"
+                        android:orientation="horizontal">
+
+                        <LinearLayout
+                            android:layout_width="@dimen/dimen_0_dp"
+                            android:layout_height="@dimen/dimen_100_dp"
+                            android:layout_weight="4"
+                            android:orientation="vertical">
+
+                            <ImageView
+                                android:id="@+id/img_sick_leave"
+                                android:layout_width="@dimen/dimen_48_dp"
+                                android:layout_height="@dimen/dimen_48_dp"
+                                android:layout_gravity="center_horizontal"
+                                android:src="@drawable/leave_sick" />
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center_horizontal"
+                                android:layout_marginTop="@dimen/dimen_8_dp"
+                                android:text="@string/sick_leave" />
+
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="@dimen/dimen_0_dp"
+                            android:layout_height="@dimen/dimen_100_dp"
+                            android:layout_gravity="center"
+                            android:layout_weight="5"
+                            android:orientation="vertical">
+
+                            <ImageView
+                                android:id="@+id/img_casual_leave"
+                                android:layout_width="@dimen/dimen_48_dp"
+                                android:layout_height="@dimen/dimen_48_dp"
+                                android:layout_gravity="center_horizontal"
+                                android:src="@drawable/leave_casual" />
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center_horizontal"
+                                android:layout_marginTop="@dimen/dimen_8_dp"
+                                android:text="@string/casual_leave" />
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="@dimen/dimen_0_dp"
+                            android:layout_height="@dimen/dimen_100_dp"
+                            android:layout_gravity="center"
+                            android:layout_weight="5"
+                            android:orientation="vertical">
+
+                            <ImageView
+                                android:id="@+id/img_comp_off"
+                                android:layout_width="@dimen/dimen_48_dp"
+                                android:layout_height="@dimen/dimen_48_dp"
+                                android:layout_gravity="center_horizontal"
+                                android:src="@drawable/leave_casual" />
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center_horizontal"
+                                android:layout_marginTop="@dimen/dimen_8_dp"
+                                android:text="@string/comp_off" />
+
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="@dimen/dimen_0_dp"
+                            android:layout_height="@dimen/dimen_100_dp"
+                            android:layout_gravity="center"
+                            android:layout_weight="5"
+                            android:orientation="vertical">
+
+                            <ImageView
+                                android:id="@+id/img_advanced_leave"
+                                android:layout_width="@dimen/dimen_48_dp"
+                                android:layout_height="@dimen/dimen_48_dp"
+                                android:layout_gravity="center_horizontal"
+                                android:src="@drawable/leave_casual" />
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center_horizontal"
+                                android:layout_marginTop="@dimen/dimen_8_dp"
+                                android:text="@string/advanced" />
+
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="@dimen/dimen_0_dp"
+                            android:layout_height="@dimen/dimen_100_dp"
+                            android:layout_gravity="center"
+                            android:layout_weight="4"
+                            android:orientation="vertical">
+
+                            <ImageView
+                                android:id="@+id/img_lop"
+                                android:layout_width="@dimen/dimen_48_dp"
+                                android:layout_height="@dimen/dimen_48_dp"
+                                android:layout_gravity="center_horizontal"
+                                android:src="@drawable/leave_casual" />
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center_horizontal"
+                                android:layout_marginTop="@dimen/dimen_8_dp"
+                                android:text="@string/lop"
+                                android:textAlignment="center" />
+
+                        </LinearLayout>
+
+                    </LinearLayout>
+
+                </LinearLayout>
+            </android.support.v7.widget.CardView>
+
+            <LinearLayout
+                android:id="@+id/layout_leave_details"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:visibility="gone">
+
+                <android.support.v7.widget.CardView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/dimen_16_dp">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:paddingBottom="@dimen/dimen_16_dp"
+                        android:paddingLeft="@dimen/dimen_16_dp"
+                        android:paddingRight="@dimen/dimen_16_dp"
+                        android:paddingTop="@dimen/dimen_16_dp">
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal">
+
+                            <TextView
+                                style="@style/ProfileHeaders"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:text="@string/date_range" />
+
+                            <ImageView
+                                android:id="@+id/edit_date_range"
+                                android:layout_width="@dimen/dimen_24_dp"
+                                android:layout_height="@dimen/dimen_24_dp"
+                                android:src="@drawable/ic_edit_item" />
+                        </LinearLayout>
+
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal"
+                            android:paddingTop="@dimen/dimen_16_dp">
+
+                            <LinearLayout
+                                android:id="@+id/layout_start_date"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:gravity="center"
+                                android:orientation="horizontal">
+
+                                <LinearLayout
+                                    android:id="@+id/layout_start_date_selector"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content">
+
+                                    <LinearLayout
+                                        android:layout_width="0dp"
+                                        android:layout_height="wrap_content"
+                                        android:layout_weight="1"
+                                        android:orientation="horizontal">
+
+                                        <TextView
+                                            android:id="@+id/txt_view_start_date"
+                                            android:layout_width="wrap_content"
+                                            android:layout_height="wrap_content"
+                                            android:textSize="32sp" />
+
+                                    </LinearLayout>
+
+                                    <LinearLayout
+                                        android:layout_width="0dp"
+                                        android:layout_height="match_parent"
+                                        android:layout_marginLeft="@dimen/dimen_2_dp"
+                                        android:layout_weight="1">
+
+                                        <LinearLayout
+                                            android:layout_width="match_parent"
+                                            android:layout_height="wrap_content"
+                                            android:layout_gravity="center_vertical"
+                                            android:orientation="vertical">
+
+                                            <TextView
+                                                android:id="@+id/txt_view_start_day"
+                                                android:layout_width="wrap_content"
+                                                android:layout_height="wrap_content"
+                                                android:textSize="12sp" />
+
+                                            <TextView
+                                                android:id="@+id/txt_view_start_month"
+                                                android:layout_width="wrap_content"
+                                                android:layout_height="wrap_content"
+                                                android:textSize="12sp" />
+                                        </LinearLayout>
+
+
+                                    </LinearLayout>
+                                </LinearLayout>
+
+                                <LinearLayout
+                                    android:id="@+id/layout_start_date_placeholder"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_gravity="center"
+                                    android:visibility="gone">
+
+                                    <TextView
+                                        android:id="@+id/textview_start_date_placeholder"
+                                        android:layout_width="match_parent"
+                                        android:layout_height="wrap_content"
+                                        android:text="@string/start_date"
+                                        android:textAlignment="center"
+                                        android:textSize="24sp" />
+                                </LinearLayout>
+
+                                <TextView
+                                    android:id="@+id/start_date_string"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:visibility="gone" />
+
+                            </LinearLayout>
+
+                            <LinearLayout
+                                android:id="@+id/layout_end_date"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:gravity="center"
+                                android:orientation="vertical">
+
+                                <LinearLayout
+                                    android:id="@+id/layout_end_date_selector"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content">
+
+                                    <LinearLayout
+                                        android:layout_width="0dp"
+                                        android:layout_height="wrap_content"
+                                        android:layout_weight="1">
+
+                                        <TextView
+                                            android:id="@+id/txt_view_end_date"
+                                            android:layout_width="wrap_content"
+                                            android:layout_height="wrap_content"
+                                            android:textSize="32sp" />
+
+                                    </LinearLayout>
+
+                                    <LinearLayout
+                                        android:layout_width="0dp"
+                                        android:layout_height="match_parent"
+                                        android:layout_marginLeft="@dimen/dimen_2_dp"
+                                        android:layout_weight="1">
+
+                                        <LinearLayout
+                                            android:layout_width="match_parent"
+                                            android:layout_height="wrap_content"
+                                            android:layout_gravity="center_vertical"
+                                            android:orientation="vertical">
+
+                                            <TextView
+                                                android:id="@+id/txt_view_end_day"
+                                                android:layout_width="wrap_content"
+                                                android:layout_height="wrap_content"
+                                                android:textSize="12sp" />
+
+                                            <TextView
+                                                android:id="@+id/txt_view_end_month"
+                                                android:layout_width="wrap_content"
+                                                android:layout_height="wrap_content"
+                                                android:textSize="12sp" />
+                                        </LinearLayout>
+
+                                    </LinearLayout>
+                                </LinearLayout>
+
+                                <LinearLayout
+                                    android:id="@+id/layout_end_date_placeholder"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_gravity="center"
+                                    android:visibility="gone">
+
+                                    <TextView
+                                        android:id="@+id/textview_end_date_placeholder"
+                                        android:layout_width="match_parent"
+                                        android:layout_height="wrap_content"
+                                        android:text="@string/end_date"
+                                        android:textAlignment="center"
+                                        android:textSize="24sp" />
+                                </LinearLayout>
+
+                                <TextView
+                                    android:id="@+id/end_date_string"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:visibility="gone" />
+
+                            </LinearLayout>
+
+                        </LinearLayout>
+
+                        <RadioGroup
+                            android:id="@+id/half_full_leave_selector"
+                            android:layout_width="match_parent"
+                            android:layout_height="40dp"
+                            android:layout_marginTop="@dimen/dimen_16_dp"
+                            android:background="@drawable/slider_out_line"
+                            android:checkedButton="@+id/radio_full_day"
+                            android:orientation="horizontal">
+
+                            <RadioButton
+                                android:id="@+id/radio_half_day"
+                                android:layout_width="0dp"
+                                android:layout_height="match_parent"
+                                android:layout_marginBottom="1dp"
+                                android:layout_marginLeft="1dp"
+                                android:layout_marginTop="1dp"
+                                android:layout_weight="1"
+                                android:background="@drawable/toggle_widget_background"
+                                android:button="@null"
+                                android:gravity="center"
+                                android:text="@string/half_day"
+                                android:textColor="@color/colorPrimary" />
+
+                            <RadioButton
+                                android:id="@+id/radio_full_day"
+                                android:layout_width="0dp"
+                                android:layout_height="match_parent"
+                                android:layout_marginBottom="1dp"
+                                android:layout_marginRight="1dp"
+                                android:layout_marginTop="1dp"
+                                android:layout_weight="1"
+                                android:background="@drawable/toggle_widget_background"
+                                android:button="@null"
+                                android:gravity="center"
+                                android:text="@string/full_day"
+                                android:textColor="@color/colorPrimary" />
+                        </RadioGroup>
+
+                    </LinearLayout>
+                </android.support.v7.widget.CardView>
+
+                <android.support.v7.widget.CardView
+                    android:id="@+id/card_view_leave_composition"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/dimen_16_dp">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical">
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal"
+                            android:paddingLeft="@dimen/dimen_16_dp"
+                            android:paddingRight="@dimen/dimen_16_dp"
+                            android:paddingTop="@dimen/dimen_16_dp">
+
+                            <TextView
+                                style="@style/ProfileHeaders"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:text="@string/leave_composition" />
+
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal"
+                            android:paddingLeft="@dimen/dimen_16_dp"
+                            android:paddingRight="@dimen/dimen_16_dp"
+                            android:paddingTop="@dimen/dimen_16_dp">
+
+                            <TextView
+                                style="@style/ChoiceHeaders"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center_vertical"
+                                android:layout_weight="1"
+                                android:gravity="center_vertical"
+                                android:text="@string/no_of_working_days" />
+
+                            <TextView
+                                android:id="@+id/no_of_working_days"
+                                style="@style/ChoiceHeaders"
+                                android:layout_width="48dp"
+                                android:layout_height="48dp"
+                                android:layout_gravity="right"
+                                android:background="@drawable/accent_number_display"
+                                android:gravity="center"
+                                android:text="0"
+                                android:textColor="@android:color/white"
+                                android:textSize="24sp"
+                                android:textStyle="bold" />
+                        </LinearLayout>
+                    </LinearLayout>
+                </android.support.v7.widget.CardView>
+
+                <android.support.v7.widget.CardView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="@dimen/dimen_16_dp"
+                    android:layout_marginTop="@dimen/dimen_16_dp">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:paddingBottom="@dimen/dimen_16_dp"
+                        android:paddingLeft="@dimen/dimen_16_dp"
+                        android:paddingRight="@dimen/dimen_16_dp"
+                        android:paddingTop="@dimen/dimen_16_dp">
+
+                        <TextView
+                            style="@style/ProfileHeaders"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="@string/leave_comments" />
+
+                        <EditText
+                            android:id="@+id/leave_comments"
+                            style="@style/ChoiceHeaders"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:inputType="textMultiLine|textCapSentences"
+                            android:maxLines="3"
+                            android:minHeight="@dimen/dimen_80_dp"
+                            android:minLines="1" />
+                    </LinearLayout>
+                </android.support.v7.widget.CardView>
+
+                <android.support.v7.widget.AppCompatButton
+                    android:id="@+id/button_apply_leave"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@color/colorAccent"
+                    android:text="@string/apply_leave"
+                    android:textColor="@android:color/white" />
+            </LinearLayout>
+        </LinearLayout>
+    </ScrollView>
+</RelativeLayout>

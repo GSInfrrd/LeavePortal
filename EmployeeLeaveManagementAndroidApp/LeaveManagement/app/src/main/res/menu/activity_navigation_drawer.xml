@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <group android:checkableBehavior="single">
+        <item
+            android:id="@+id/nav_dashboard"
+            android:icon="@drawable/ic_menu_dashboard"
+            android:checked="true"
+            android:title="@string/dashboard" />
+        <item
+            android:id="@+id/nav_apply_leave"
+            android:icon="@drawable/ic_menu_leave"
+            android:title="@string/apply_leave" />
+        <item
+            android:id="@+id/nav_apply_wfh"
+            android:icon="@drawable/ic_menu_wfh"
+            android:title="@string/apply_wfh" />
+        <item
+            android:id="@+id/nav_leave_history"
+            android:icon="@drawable/ic_menu_history"
+            android:title="@string/leave_history" />
+    </group>
+</menu>

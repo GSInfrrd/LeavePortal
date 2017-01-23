@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "684942475727",
+    "project_id": "leave-management-system-c3eae"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:684942475727:android:1f0f1dca34950ade",
+        "android_client_info": {
+          "package_name": "ai.infrrd.leavemanagementsystem"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "684942475727-ur3d4frqbtf2512rks7li0m0ie4calub.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "ai.infrrd.leavemanagementsystem",
+            "certificate_hash": "28B5ACF782C1FAA47295819EE2A48E5F1B592F00"
+          }
+        },
+        {
+          "client_id": "684942475727-d06cj0o8c37qvftv0hk9sda7mdsteu63.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyC_M2eemGUa-J5VrDR02e-sddw536GhUTQ"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 1
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

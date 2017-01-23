@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="api_base_address">http://192.168.1.113:64476/api/</string>
+    <string name="api_address_login">Account/Login</string>
+    <string name="api_address_dashboard">Account/GetUserDetails</string>
+    <string name="api_address_profile">Profile/GetUserProfileDetails</string>
+    <string name="api_address_profile_photo">Profile/getProfileImage/getProfileImage?empId=</string>
+    <string name="api_get_company_details">https://autocomplete.clearbit.com/</string>
+    <string name="infrrd_domain">infrrd.ai</string>
+</resources>
