@@ -10,6 +10,7 @@ using System.Web.Mvc;
 
 namespace EmployeeLeaveManagementWebAPI.Controllers
 {
+    [System.Web.Http.RoutePrefix("api/addleave")]
     public class AddLeaveController : ApiController
     {
         //GET: AddLeave
@@ -34,6 +35,7 @@ namespace EmployeeLeaveManagementWebAPI.Controllers
         }
         [System.Web.Http.AllowAnonymous]
         [System.Web.Http.HttpGet]
+        [System.Web.Http.Route("checkLeaveAvailability")]
         public LeaveTransactionResponse CheckLeaveAvailability(int employeeId,DateTime fromDate, DateTime toDate,int leaveType)
         {
             try
@@ -42,6 +44,32 @@ namespace EmployeeLeaveManagementWebAPI.Controllers
                 AddLeaveManagement addLeaveMgt = new AddLeaveManagement();
                 var result = addLeaveMgt.CheckLeaveAvailability(employeeId,fromDate,toDate,leaveType);
                 Logger.Info("Successfully exiting from AddLeaveController API CheckLeaveAvailability method");
+                return result;
+            }
+            catch (Exception ex)
+            {
+                Logger.Error("Error at AddLeaveController API CheckLeaveAvailability method.", ex);
+                return null;
+            }
+        }
+
+        [System.Web.Http.AllowAnonymous]
+        [System.Web.Http.HttpGet]
+        [System.Web.Http.Route("checkLeaveAvailabilityAndroid")]
+        public LeaveTransactionResponse CheckLeaveAvailabilityAndroid(int employeeId, long fromDateLong, long toDateLong, int leaveType)
+        {
+            try
+            {
+                Logger.Info("Entering in AddLeaveController API CheckLeaveAvailability method");
+                AddLeaveManagement addLeaveMgt = new AddLeaveManagement();
+                DateTime fromDate = new DateTime(1970, 1, 1).AddMilliseconds(fromDateLong);
+                fromDate = fromDate.ToLocalTime();
+                DateTime toDate = new DateTime(1970, 1, 1).AddMilliseconds(toDateLong);
+                toDate = toDate.ToLocalTime();
+                var result = addLeaveMgt.CheckLeaveAvailability(employeeId, fromDate, toDate, leaveType);
+                Logger.Info("Successfully exiting from AddLeaveController API CheckLeaveAvailability method");
+                
+
                 return result;
             }
             catch (Exception ex)
