@@ -20,12 +20,14 @@ namespace LMS_WebAPI_DAL
         public System.DateTime CreatedDate { get; set; }
         public Nullable<System.DateTime> ModifiedDate { get; set; }
         public int RefStatus { get; set; }
-        public string CreatedBy { get; set; }
-        public string ModifiedBy { get; set; }
+        public Nullable<int> RefCreatedBy { get; set; }
+        public Nullable<int> RefModifiedBy { get; set; }
         public string ManagerComments { get; set; }
     
         public virtual EmployeeDetail EmployeeDetail { get; set; }
-        public virtual MasterDataValue MasterDataValue { get; set; }
+        public virtual EmployeeDetail EmployeeDetail1 { get; set; }
+        public virtual EmployeeDetail EmployeeDetail2 { get; set; }
         public virtual EmployeeLeaveTransaction EmployeeLeaveTransaction { get; set; }
+        public virtual MasterDataValue MasterDataValue { get; set; }
     }
 }

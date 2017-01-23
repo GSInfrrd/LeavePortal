@@ -9,35 +9,33 @@ namespace LMS_WebAPP_Utils
 {
     public enum LeaveType
     {
-
-        [Description("Casual Leave")]
-        CasualLeave = 8,
         [Description("Sick Leave")]
-        SickLeave = 7,
+        SickLeave = 61,
+        [Description("Casual Leave")]
+        CasualLeave = 62,
         [Description("Comp Off")]
-        CompoOff = 25,
+        CompoOff = 63,
         [Description("Advance Leave")]
-        AdvanceLeave = 26,
+        AdvanceLeave = 64,
         [Description("LOP")]
-        LOP = 27
+        LOP = 65
     }
 
     public enum LeaveStatus
     {
 
         [Description("Planned")]
-        Planned = 9,
+        Planned = 71,
         [Description("Submitted")]
-        Submitted = 10,
+        Submitted = 72,
         [Description("Rejected")]
-        Rejected = 11,
+        Rejected = 73,
         [Description("Approved")]
-        Approved = 12,
+        Approved = 74,
+        [Description("Cancelled")]
+        Canceled = 75,
         [Description("Reassigned")]
-        Reassigned = 21,
-        [Description("Canceled")]
-        Canceled = 20
-
+        Reassigned = 76
     }
 
     public enum EmployeeRole
@@ -54,36 +52,36 @@ namespace LMS_WebAPP_Utils
     public enum HierarchyLevel
     {
         [Description("Level-0")]
-        Level0 = 13,
+        Level0 = 81,
         [Description("Level-1")]
-        Level1 = 15,
+        Level1 = 82,
         [Description("Level-2")]
-        Level2 = 16,
+        Level2 = 83,
         [Description("Level-3")]
-        Level3 = 17,
+        Level3 = 84,
         [Description("Level-4")]
-        Level4 = 18,
+        Level4 = 85,
         [Description("Level-5")]
-        Level5 = 19
+        Level5 = 86
     }
 
     public enum WorkFormHomeReasons
     {
         [Description("Personal Work")]
-        Maintenance = 23,
+        Maintenance = 91,
         [Description("Commute Issue")]
-        AvoidTravel = 24,
+        AvoidTravel = 92,
         [Description("Appointment with Doctors")]
-        AppointmentWithDoctor = 28,
+        AppointmentWithDoctor = 93,
         [Description("Others")]
-        Others = 29
+        Others = 94
     }
 
 
     public enum NotificationTypes
     {
         [Description("LeaveNotification")]
-        LeaveNotification = 27,
+        LeaveNotification = 161,
 
     }
 
@@ -107,14 +105,14 @@ namespace LMS_WebAPP_Utils
 
     public enum ResourceRequestStatus
     {
-        [Description("Requested")]
-        Requested = 1,
         [Description("In Progress")]
-        InProgress = 2,
-        [Description("Partial Approval")]
-        PartialApproval = 3,
+        InProgress = 183,
         [Description("Approved")]
-        Approved = 4
+        Approved = 184,
+        [Description("Partial Approval")]
+        PartialApproval = 185,
+        [Description("Requested")]
+        Requested = 186,
     }
 
     public enum ReportType
@@ -141,8 +139,8 @@ namespace LMS_WebAPP_Utils
     public enum TransactionType
     {
         [Description("Debit")]
-        Debit = 2052,
+        Debit = 171,
         [Description("Credit")]
-        Credit = 2053
+        Credit = 172
     }
 }

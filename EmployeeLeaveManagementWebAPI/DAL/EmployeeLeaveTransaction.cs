@@ -30,11 +30,13 @@ namespace LMS_WebAPI_DAL
         public int RefLeaveType { get; set; }
         public string EmployeeComment { get; set; }
         public Nullable<System.DateTime> ModifiedDate { get; set; }
-        public string CreatedBy { get; set; }
-        public string ModifiedBy { get; set; }
+        public Nullable<int> RefCreatedBy { get; set; }
+        public Nullable<int> RefModifiedBy { get; set; }
         public int RefTransactionType { get; set; }
     
         public virtual EmployeeDetail EmployeeDetail { get; set; }
+        public virtual EmployeeDetail EmployeeDetail1 { get; set; }
+        public virtual EmployeeDetail EmployeeDetail2 { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Workflow> Workflows { get; set; }
         public virtual MasterDataValue MasterDataValue { get; set; }

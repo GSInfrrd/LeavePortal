@@ -107,14 +107,15 @@
           <Property Name="RefLeaveType" Type="int" Nullable="false" />
           <Property Name="EmployeeComment" Type="nvarchar(max)" />
           <Property Name="ModifiedDate" Type="datetime2" Precision="7" />
-          <Property Name="CreatedBy" Type="nvarchar" MaxLength="50" />
-          <Property Name="ModifiedBy" Type="nvarchar" MaxLength="50" />
+          <Property Name="RefCreatedBy" Type="int" />
+          <Property Name="RefModifiedBy" Type="int" />
           <Property Name="RefTransactionType" Type="int" Nullable="false" />
         </EntityType>
         <EntityType Name="EmployeeLeaveTransactionHistory">
           <Key>
-            <PropertyRef Name="Id" />
+            <PropertyRef Name="PID" />
           </Key>
+          <Property Name="PID" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="Id" Type="bigint" Nullable="false" />
           <Property Name="RefEmployeeId" Type="int" Nullable="false" />
           <Property Name="FromDate" Type="datetime2" Precision="7" Nullable="false" />
@@ -126,8 +127,8 @@
           <Property Name="EmployeeComment" Type="nvarchar(max)" />
           <Property Name="ManagerComment" Type="nvarchar(max)" />
           <Property Name="ModifiedDate" Type="datetime2" Precision="7" />
-          <Property Name="CreatedBy" Type="nvarchar" MaxLength="50" />
-          <Property Name="ModifiedBy" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="RefCreatedBy" Type="int" />
+          <Property Name="RefModifiedBy" Type="int" />
         </EntityType>
         <EntityType Name="EmployeeProjectDetail">
           <Key>
@@ -194,14 +195,14 @@
           <Key>
             <PropertyRef Name="Id" />
           </Key>
-          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Id" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
           <Property Name="Type" Type="nvarchar" MaxLength="50" Nullable="false" />
         </EntityType>
         <EntityType Name="MasterDataValue">
           <Key>
             <PropertyRef Name="Id" />
           </Key>
-          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Id" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
           <Property Name="RefMasterType" Type="int" Nullable="false" />
           <Property Name="Value" Type="nvarchar" MaxLength="50" Nullable="false" />
         </EntityType>
@@ -268,8 +269,8 @@
           <Property Name="CreatedDate" Type="datetime2" Precision="7" Nullable="false" />
           <Property Name="ModifiedDate" Type="datetime2" Precision="7" />
           <Property Name="RefStatus" Type="int" Nullable="false" />
-          <Property Name="CreatedBy" Type="nvarchar" MaxLength="50" />
-          <Property Name="ModifiedBy" Type="nvarchar" MaxLength="50" />
+          <Property Name="RefCreatedBy" Type="int" />
+          <Property Name="RefModifiedBy" Type="int" />
           <Property Name="ManagerComments" Type="nvarchar(max)" />
         </EntityType>
         <EntityType Name="WorkFromHome">
@@ -395,6 +396,42 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_EmployeeDetailsCreatedById_EmployeeLeaveTransaction">
+          <End Role="EmployeeDetails" Type="Self.EmployeeDetails" Multiplicity="0..1" />
+          <End Role="EmployeeLeaveTransaction" Type="Self.EmployeeLeaveTransaction" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="EmployeeDetails">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="EmployeeLeaveTransaction">
+              <PropertyRef Name="RefCreatedBy" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_EmployeeDetailsCreatedById_EmployeeLeaveTransactionHistory">
+          <End Role="EmployeeDetails" Type="Self.EmployeeDetails" Multiplicity="0..1" />
+          <End Role="EmployeeLeaveTransactionHistory" Type="Self.EmployeeLeaveTransactionHistory" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="EmployeeDetails">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="EmployeeLeaveTransactionHistory">
+              <PropertyRef Name="RefCreatedBy" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_EmployeeDetailsCreatedById_Workflow">
+          <End Role="EmployeeDetails" Type="Self.EmployeeDetails" Multiplicity="0..1" />
+          <End Role="Workflow" Type="Self.Workflow" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="EmployeeDetails">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Workflow">
+              <PropertyRef Name="RefCreatedBy" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_EmployeeDetailsId_Workflow">
           <End Role="EmployeeDetails" Type="Self.EmployeeDetails" Multiplicity="1" />
           <End Role="Workflow" Type="Self.Workflow" Multiplicity="*" />
@@ -404,6 +441,42 @@
             </Principal>
             <Dependent Role="Workflow">
               <PropertyRef Name="RefApproverId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_EmployeeDetailsModifiedById_Workflow">
+          <End Role="EmployeeDetails" Type="Self.EmployeeDetails" Multiplicity="0..1" />
+          <End Role="Workflow" Type="Self.Workflow" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="EmployeeDetails">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Workflow">
+              <PropertyRef Name="RefModifiedBy" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_EmployeeDetialsModifiedById_EmployeeLeaveTransaction">
+          <End Role="EmployeeDetails" Type="Self.EmployeeDetails" Multiplicity="0..1" />
+          <End Role="EmployeeLeaveTransaction" Type="Self.EmployeeLeaveTransaction" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="EmployeeDetails">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="EmployeeLeaveTransaction">
+              <PropertyRef Name="RefModifiedBy" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_EmployeeDetilasModifiedById_EmployeeLeaveTransactionHistory">
+          <End Role="EmployeeDetails" Type="Self.EmployeeDetails" Multiplicity="0..1" />
+          <End Role="EmployeeLeaveTransactionHistory" Type="Self.EmployeeLeaveTransactionHistory" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="EmployeeDetails">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="EmployeeLeaveTransactionHistory">
+              <PropertyRef Name="RefModifiedBy" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -741,9 +814,33 @@
             <End Role="EmployeeDetails" EntitySet="EmployeeDetails" />
             <End Role="UserAccount" EntitySet="UserAccount" />
           </AssociationSet>
+          <AssociationSet Name="FK_EmployeeDetailsCreatedById_EmployeeLeaveTransaction" Association="Self.FK_EmployeeDetailsCreatedById_EmployeeLeaveTransaction">
+            <End Role="EmployeeDetails" EntitySet="EmployeeDetails" />
+            <End Role="EmployeeLeaveTransaction" EntitySet="EmployeeLeaveTransaction" />
+          </AssociationSet>
+          <AssociationSet Name="FK_EmployeeDetailsCreatedById_EmployeeLeaveTransactionHistory" Association="Self.FK_EmployeeDetailsCreatedById_EmployeeLeaveTransactionHistory">
+            <End Role="EmployeeDetails" EntitySet="EmployeeDetails" />
+            <End Role="EmployeeLeaveTransactionHistory" EntitySet="EmployeeLeaveTransactionHistory" />
+          </AssociationSet>
+          <AssociationSet Name="FK_EmployeeDetailsCreatedById_Workflow" Association="Self.FK_EmployeeDetailsCreatedById_Workflow">
+            <End Role="EmployeeDetails" EntitySet="EmployeeDetails" />
+            <End Role="Workflow" EntitySet="Workflow" />
+          </AssociationSet>
           <AssociationSet Name="FK_EmployeeDetailsId_Workflow" Association="Self.FK_EmployeeDetailsId_Workflow">
             <End Role="EmployeeDetails" EntitySet="EmployeeDetails" />
             <End Role="Workflow" EntitySet="Workflow" />
+          </AssociationSet>
+          <AssociationSet Name="FK_EmployeeDetailsModifiedById_Workflow" Association="Self.FK_EmployeeDetailsModifiedById_Workflow">
+            <End Role="EmployeeDetails" EntitySet="EmployeeDetails" />
+            <End Role="Workflow" EntitySet="Workflow" />
+          </AssociationSet>
+          <AssociationSet Name="FK_EmployeeDetialsModifiedById_EmployeeLeaveTransaction" Association="Self.FK_EmployeeDetialsModifiedById_EmployeeLeaveTransaction">
+            <End Role="EmployeeDetails" EntitySet="EmployeeDetails" />
+            <End Role="EmployeeLeaveTransaction" EntitySet="EmployeeLeaveTransaction" />
+          </AssociationSet>
+          <AssociationSet Name="FK_EmployeeDetilasModifiedById_EmployeeLeaveTransactionHistory" Association="Self.FK_EmployeeDetilasModifiedById_EmployeeLeaveTransactionHistory">
+            <End Role="EmployeeDetails" EntitySet="EmployeeDetails" />
+            <End Role="EmployeeLeaveTransactionHistory" EntitySet="EmployeeLeaveTransactionHistory" />
           </AssociationSet>
           <AssociationSet Name="FK_EmployeeEducationDetails_EmployeeDetails" Association="Self.FK_EmployeeEducationDetails_EmployeeDetails">
             <End Role="EmployeeDetails" EntitySet="EmployeeDetails" />
@@ -842,6 +939,217 @@
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="LeaveManagementSystemModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityContainer Name="LeaveManagementSystemEntities1" annotation:LazyLoadingEnabled="true">
+          <FunctionImport Name="GetLeaveReportProcedure" ReturnType="Collection(LeaveManagementSystemModel.GetLeaveReportProcedure_Result)">
+          <Parameter Name="Year" Mode="In" Type="String" />
+          </FunctionImport>
+          <EntitySet Name="Announcements" EntityType="LeaveManagementSystemModel.Announcement" />
+          <EntitySet Name="EmployeeContactDetails" EntityType="LeaveManagementSystemModel.EmployeeContactDetail" />
+          <EntitySet Name="EmployeeDetails" EntityType="LeaveManagementSystemModel.EmployeeDetail" />
+          <EntitySet Name="EmployeeEducationDetails" EntityType="LeaveManagementSystemModel.EmployeeEducationDetail" />
+          <EntitySet Name="EmployeeExperienceDetails" EntityType="LeaveManagementSystemModel.EmployeeExperienceDetail" />
+          <EntitySet Name="EmployeeLeaveMasters" EntityType="LeaveManagementSystemModel.EmployeeLeaveMaster" />
+          <EntitySet Name="EmployeeLeaveTransactions" EntityType="LeaveManagementSystemModel.EmployeeLeaveTransaction" />
+          <EntitySet Name="EmployeeLeaveTransactionHistories" EntityType="LeaveManagementSystemModel.EmployeeLeaveTransactionHistory" />
+          <EntitySet Name="EmployeeProjectDetails" EntityType="LeaveManagementSystemModel.EmployeeProjectDetail" />
+          <EntitySet Name="EmployeeRewardedLeaveDetails" EntityType="LeaveManagementSystemModel.EmployeeRewardedLeaveDetail" />
+          <EntitySet Name="EmployeeSkills" EntityType="LeaveManagementSystemModel.EmployeeSkill" />
+          <EntitySet Name="Holidays" EntityType="LeaveManagementSystemModel.Holiday" />
+          <EntitySet Name="LeaveMasters" EntityType="LeaveManagementSystemModel.LeaveMaster" />
+          <EntitySet Name="MasterDataTypes" EntityType="LeaveManagementSystemModel.MasterDataType" />
+          <EntitySet Name="MasterDataValues" EntityType="LeaveManagementSystemModel.MasterDataValue" />
+          <EntitySet Name="Notifications" EntityType="LeaveManagementSystemModel.Notification" />
+          <EntitySet Name="ProjectMasters" EntityType="LeaveManagementSystemModel.ProjectMaster" />
+          <EntitySet Name="ResourceRequestDetails" EntityType="LeaveManagementSystemModel.ResourceRequestDetail" />
+          <EntitySet Name="UserAccounts" EntityType="LeaveManagementSystemModel.UserAccount" />
+          <EntitySet Name="Workflows" EntityType="LeaveManagementSystemModel.Workflow" />
+          <EntitySet Name="WorkFromHomes" EntityType="LeaveManagementSystemModel.WorkFromHome" />
+          <AssociationSet Name="FK_EmpDetails_EmployeeContactDetails" Association="LeaveManagementSystemModel.FK_EmpDetails_EmployeeContactDetails">
+            <End Role="EmployeeDetail" EntitySet="EmployeeDetails" />
+            <End Role="EmployeeContactDetail" EntitySet="EmployeeContactDetails" />
+          </AssociationSet>
+          <AssociationSet Name="FK_MasterDataValue_EmployeeContactDetails" Association="LeaveManagementSystemModel.FK_MasterDataValue_EmployeeContactDetails">
+            <End Role="MasterDataValue" EntitySet="MasterDataValues" />
+            <End Role="EmployeeContactDetail" EntitySet="EmployeeContactDetails" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ConsolidatedEmployeeLeaveDetails_EmployeeDetails" Association="LeaveManagementSystemModel.FK_ConsolidatedEmployeeLeaveDetails_EmployeeDetails">
+            <End Role="EmployeeDetail" EntitySet="EmployeeDetails" />
+            <End Role="EmployeeLeaveMaster" EntitySet="EmployeeLeaveMasters" />
+          </AssociationSet>
+          <AssociationSet Name="FK_EmployeeDetails_EmployeeLeaveTransaction" Association="LeaveManagementSystemModel.FK_EmployeeDetails_EmployeeLeaveTransaction">
+            <End Role="EmployeeDetail" EntitySet="EmployeeDetails" />
+            <End Role="EmployeeLeaveTransaction" EntitySet="EmployeeLeaveTransactions" />
+          </AssociationSet>
+          <AssociationSet Name="FK_EmployeeDetails_EmployeeLeaveTransactionHistory" Association="LeaveManagementSystemModel.FK_EmployeeDetails_EmployeeLeaveTransactionHistory">
+            <End Role="EmployeeDetail" EntitySet="EmployeeDetails" />
+            <End Role="EmployeeLeaveTransactionHistory" EntitySet="EmployeeLeaveTransactionHistories" />
+          </AssociationSet>
+          <AssociationSet Name="FK_EmployeeDetails_EmployeeProjectDetail" Association="LeaveManagementSystemModel.FK_EmployeeDetails_EmployeeProjectDetail">
+            <End Role="EmployeeDetail" EntitySet="EmployeeDetails" />
+            <End Role="EmployeeProjectDetail" EntitySet="EmployeeProjectDetails" />
+          </AssociationSet>
+          <AssociationSet Name="FK_EmployeeDetails_MasterDataValue" Association="LeaveManagementSystemModel.FK_EmployeeDetails_MasterDataValue">
+            <End Role="MasterDataValue" EntitySet="MasterDataValues" />
+            <End Role="EmployeeDetail" EntitySet="EmployeeDetails" />
+          </AssociationSet>
+          <AssociationSet Name="FK_EmployeeDetails_MasterDataValue1" Association="LeaveManagementSystemModel.FK_EmployeeDetails_MasterDataValue1">
+            <End Role="MasterDataValue" EntitySet="MasterDataValues" />
+            <End Role="EmployeeDetail" EntitySet="EmployeeDetails" />
+          </AssociationSet>
+          <AssociationSet Name="FK_EmployeeDetails_Notification" Association="LeaveManagementSystemModel.FK_EmployeeDetails_Notification">
+            <End Role="EmployeeDetail" EntitySet="EmployeeDetails" />
+            <End Role="Notification" EntitySet="Notifications" />
+          </AssociationSet>
+          <AssociationSet Name="FK_EmployeeDetails_UserAccount" Association="LeaveManagementSystemModel.FK_EmployeeDetails_UserAccount">
+            <End Role="EmployeeDetail" EntitySet="EmployeeDetails" />
+            <End Role="UserAccount" EntitySet="UserAccounts" />
+          </AssociationSet>
+          <AssociationSet Name="FK_EmployeeDetailsCreatedById_EmployeeLeaveTransaction" Association="LeaveManagementSystemModel.FK_EmployeeDetailsCreatedById_EmployeeLeaveTransaction">
+            <End Role="EmployeeDetail" EntitySet="EmployeeDetails" />
+            <End Role="EmployeeLeaveTransaction" EntitySet="EmployeeLeaveTransactions" />
+          </AssociationSet>
+          <AssociationSet Name="FK_EmployeeDetailsCreatedById_EmployeeLeaveTransactionHistory" Association="LeaveManagementSystemModel.FK_EmployeeDetailsCreatedById_EmployeeLeaveTransactionHistory">
+            <End Role="EmployeeDetail" EntitySet="EmployeeDetails" />
+            <End Role="EmployeeLeaveTransactionHistory" EntitySet="EmployeeLeaveTransactionHistories" />
+          </AssociationSet>
+          <AssociationSet Name="FK_EmployeeDetailsCreatedById_Workflow" Association="LeaveManagementSystemModel.FK_EmployeeDetailsCreatedById_Workflow">
+            <End Role="EmployeeDetail" EntitySet="EmployeeDetails" />
+            <End Role="Workflow" EntitySet="Workflows" />
+          </AssociationSet>
+          <AssociationSet Name="FK_EmployeeDetailsId_Workflow" Association="LeaveManagementSystemModel.FK_EmployeeDetailsId_Workflow">
+            <End Role="EmployeeDetail" EntitySet="EmployeeDetails" />
+            <End Role="Workflow" EntitySet="Workflows" />
+          </AssociationSet>
+          <AssociationSet Name="FK_EmployeeDetailsModifiedById_Workflow" Association="LeaveManagementSystemModel.FK_EmployeeDetailsModifiedById_Workflow">
+            <End Role="EmployeeDetail" EntitySet="EmployeeDetails" />
+            <End Role="Workflow" EntitySet="Workflows" />
+          </AssociationSet>
+          <AssociationSet Name="FK_EmployeeDetialsModifiedById_EmployeeLeaveTransaction" Association="LeaveManagementSystemModel.FK_EmployeeDetialsModifiedById_EmployeeLeaveTransaction">
+            <End Role="EmployeeDetail" EntitySet="EmployeeDetails" />
+            <End Role="EmployeeLeaveTransaction" EntitySet="EmployeeLeaveTransactions" />
+          </AssociationSet>
+          <AssociationSet Name="FK_EmployeeDetilasModifiedById_EmployeeLeaveTransactionHistory" Association="LeaveManagementSystemModel.FK_EmployeeDetilasModifiedById_EmployeeLeaveTransactionHistory">
+            <End Role="EmployeeDetail" EntitySet="EmployeeDetails" />
+            <End Role="EmployeeLeaveTransactionHistory" EntitySet="EmployeeLeaveTransactionHistories" />
+          </AssociationSet>
+          <AssociationSet Name="FK_EmployeeEducationDetails_EmployeeDetails" Association="LeaveManagementSystemModel.FK_EmployeeEducationDetails_EmployeeDetails">
+            <End Role="EmployeeDetail" EntitySet="EmployeeDetails" />
+            <End Role="EmployeeEducationDetail" EntitySet="EmployeeEducationDetails" />
+          </AssociationSet>
+          <AssociationSet Name="FK_EmployeeExperienceDetails_EmployeeDetails" Association="LeaveManagementSystemModel.FK_EmployeeExperienceDetails_EmployeeDetails">
+            <End Role="EmployeeDetail" EntitySet="EmployeeDetails" />
+            <End Role="EmployeeExperienceDetail" EntitySet="EmployeeExperienceDetails" />
+          </AssociationSet>
+          <AssociationSet Name="FK_EmployeeLeaveMaster_EmployeeDetails" Association="LeaveManagementSystemModel.FK_EmployeeLeaveMaster_EmployeeDetails">
+            <End Role="EmployeeDetail" EntitySet="EmployeeDetails" />
+            <End Role="EmployeeLeaveMaster" EntitySet="EmployeeLeaveMasters" />
+          </AssociationSet>
+          <AssociationSet Name="FK_EmployeeRewardedLeaveDetails_EmployeeDetails" Association="LeaveManagementSystemModel.FK_EmployeeRewardedLeaveDetails_EmployeeDetails">
+            <End Role="EmployeeDetail" EntitySet="EmployeeDetails" />
+            <End Role="EmployeeRewardedLeaveDetail" EntitySet="EmployeeRewardedLeaveDetails" />
+          </AssociationSet>
+          <AssociationSet Name="FK_EmployeeRewardedLeaveDetails_EmployeeDetails1" Association="LeaveManagementSystemModel.FK_EmployeeRewardedLeaveDetails_EmployeeDetails1">
+            <End Role="EmployeeDetail" EntitySet="EmployeeDetails" />
+            <End Role="EmployeeRewardedLeaveDetail" EntitySet="EmployeeRewardedLeaveDetails" />
+          </AssociationSet>
+          <AssociationSet Name="FK_EmployeeSkills_EmployeeDetails" Association="LeaveManagementSystemModel.FK_EmployeeSkills_EmployeeDetails">
+            <End Role="EmployeeDetail" EntitySet="EmployeeDetails" />
+            <End Role="EmployeeSkill" EntitySet="EmployeeSkills" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ProjectMaster_EmployeeDetails" Association="LeaveManagementSystemModel.FK_ProjectMaster_EmployeeDetails">
+            <End Role="EmployeeDetail" EntitySet="EmployeeDetails" />
+            <End Role="ProjectMaster" EntitySet="ProjectMasters" />
+          </AssociationSet>
+          <AssociationSet Name="FK_WorkFromHome_refEmpID" Association="LeaveManagementSystemModel.FK_WorkFromHome_refEmpID">
+            <End Role="EmployeeDetail" EntitySet="EmployeeDetails" />
+            <End Role="WorkFromHome" EntitySet="WorkFromHomes" />
+          </AssociationSet>
+          <AssociationSet Name="FK_EmployeeLeaveTransaction_Workflow" Association="LeaveManagementSystemModel.FK_EmployeeLeaveTransaction_Workflow">
+            <End Role="EmployeeLeaveTransaction" EntitySet="EmployeeLeaveTransactions" />
+            <End Role="Workflow" EntitySet="Workflows" />
+          </AssociationSet>
+          <AssociationSet Name="FK_MasterDataValue_EmployeeLeaveTransaction" Association="LeaveManagementSystemModel.FK_MasterDataValue_EmployeeLeaveTransaction">
+            <End Role="MasterDataValue" EntitySet="MasterDataValues" />
+            <End Role="EmployeeLeaveTransaction" EntitySet="EmployeeLeaveTransactions" />
+          </AssociationSet>
+          <AssociationSet Name="FK_MasterDataValueStatus_EmployeeLeaveTransaction" Association="LeaveManagementSystemModel.FK_MasterDataValueStatus_EmployeeLeaveTransaction">
+            <End Role="MasterDataValue" EntitySet="MasterDataValues" />
+            <End Role="EmployeeLeaveTransaction" EntitySet="EmployeeLeaveTransactions" />
+          </AssociationSet>
+          <AssociationSet Name="FK_MasterDataValue_EmployeeLeaveTransactionHistory" Association="LeaveManagementSystemModel.FK_MasterDataValue_EmployeeLeaveTransactionHistory">
+            <End Role="MasterDataValue" EntitySet="MasterDataValues" />
+            <End Role="EmployeeLeaveTransactionHistory" EntitySet="EmployeeLeaveTransactionHistories" />
+          </AssociationSet>
+          <AssociationSet Name="FK_MasterDataValueStatus_EmployeeLeaveTransactionHistory" Association="LeaveManagementSystemModel.FK_MasterDataValueStatus_EmployeeLeaveTransactionHistory">
+            <End Role="MasterDataValue" EntitySet="MasterDataValues" />
+            <End Role="EmployeeLeaveTransactionHistory" EntitySet="EmployeeLeaveTransactionHistories" />
+          </AssociationSet>
+          <AssociationSet Name="FK_EmployeeProjectDetail_ProjectMaster" Association="LeaveManagementSystemModel.FK_EmployeeProjectDetail_ProjectMaster">
+            <End Role="ProjectMaster" EntitySet="ProjectMasters" />
+            <End Role="EmployeeProjectDetail" EntitySet="EmployeeProjectDetails" />
+          </AssociationSet>
+          <AssociationSet Name="FK_EmployeeRewardedLeaveDetails_ProjectMaster" Association="LeaveManagementSystemModel.FK_EmployeeRewardedLeaveDetails_ProjectMaster">
+            <End Role="ProjectMaster" EntitySet="ProjectMasters" />
+            <End Role="EmployeeRewardedLeaveDetail" EntitySet="EmployeeRewardedLeaveDetails" />
+          </AssociationSet>
+          <AssociationSet Name="FK_MasterDataValue_LeaveMaster" Association="LeaveManagementSystemModel.FK_MasterDataValue_LeaveMaster">
+            <End Role="MasterDataValue" EntitySet="MasterDataValues" />
+            <End Role="LeaveMaster" EntitySet="LeaveMasters" />
+          </AssociationSet>
+          <AssociationSet Name="FK_MasterDataType_MasterDataValue" Association="LeaveManagementSystemModel.FK_MasterDataType_MasterDataValue">
+            <End Role="MasterDataType" EntitySet="MasterDataTypes" />
+            <End Role="MasterDataValue" EntitySet="MasterDataValues" />
+          </AssociationSet>
+          <AssociationSet Name="FK_MasterDataValue_Notification" Association="LeaveManagementSystemModel.FK_MasterDataValue_Notification">
+            <End Role="MasterDataValue" EntitySet="MasterDataValues" />
+            <End Role="Notification" EntitySet="Notifications" />
+          </AssociationSet>
+          <AssociationSet Name="FK_MasterDataValueStatus_Workflow" Association="LeaveManagementSystemModel.FK_MasterDataValueStatus_Workflow">
+            <End Role="MasterDataValue" EntitySet="MasterDataValues" />
+            <End Role="Workflow" EntitySet="Workflows" />
+          </AssociationSet>
+          <AssociationSet Name="FK_WorkFromHome_RefReason" Association="LeaveManagementSystemModel.FK_WorkFromHome_RefReason">
+            <End Role="MasterDataValue" EntitySet="MasterDataValues" />
+            <End Role="WorkFromHome" EntitySet="WorkFromHomes" />
+          </AssociationSet>
+          <AssociationSet Name="FK_WorkFromHome_RefStatus" Association="LeaveManagementSystemModel.FK_WorkFromHome_RefStatus">
+            <End Role="MasterDataValue" EntitySet="MasterDataValues" />
+            <End Role="WorkFromHome" EntitySet="WorkFromHomes" />
+          </AssociationSet>
+          <AssociationSet Name="FK_EmployeeDetails_EmployeeManager" Association="LeaveManagementSystemModel.FK_EmployeeDetails_EmployeeManager">
+            <End Role="EmployeeDetail" EntitySet="EmployeeDetails" />
+            <End Role="EmployeeDetail1" EntitySet="EmployeeDetails" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ResourceRequestDetail_EmployeeDetails" Association="LeaveManagementSystemModel.FK_ResourceRequestDetail_EmployeeDetails">
+            <End Role="EmployeeDetail" EntitySet="EmployeeDetails" />
+            <End Role="ResourceRequestDetail" EntitySet="ResourceRequestDetails" />
+          </AssociationSet>
+          </EntityContainer>
+        <ComplexType Name="GetLeaveReportProcedure_Result">
+          <Property Type="Int32" Name="Year" Nullable="true" />
+          <Property Type="Int32" Name="Jan" Nullable="true" />
+          <Property Type="Int32" Name="Feb" Nullable="true" />
+          <Property Type="Int32" Name="Mar" Nullable="true" />
+          <Property Type="Int32" Name="Apr" Nullable="true" />
+          <Property Type="Int32" Name="May" Nullable="true" />
+          <Property Type="Int32" Name="Jun" Nullable="true" />
+          <Property Type="Int32" Name="Jul" Nullable="true" />
+          <Property Type="Int32" Name="Aug" Nullable="true" />
+          <Property Type="Int32" Name="Sep" Nullable="true" />
+          <Property Type="Int32" Name="Oct" Nullable="true" />
+          <Property Type="Int32" Name="Nov" Nullable="true" />
+          <Property Type="Int32" Name="Dec" Nullable="true" />
+        </ComplexType>
+        <EntityType Name="Announcement">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Title" Type="String" MaxLength="250" FixedLength="false" Unicode="false" />
+          <Property Name="CarouselContent" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="ImagePath" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="IsActive" Type="Boolean" />
+        </EntityType>
         <EntityType Name="EmployeeContactDetail">
           <Key>
             <PropertyRef Name="Id" />
@@ -854,14 +1162,15 @@
           <Property Name="RefEmpId" Type="Int32" Nullable="false" />
           <Property Name="CreatedBy" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="ModifiedBy" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <NavigationProperty Name="EmployeeDetail" Relationship="Self.FK_EmpDetails_EmployeeContactDetails" FromRole="EmployeeContactDetails" ToRole="EmployeeDetails" />
-          <NavigationProperty Name="MasterDataValue" Relationship="Self.FK_MasterDataValue_EmployeeContactDetails" FromRole="EmployeeContactDetails" ToRole="MasterDataValue" />
+          <NavigationProperty Name="EmployeeDetail" Relationship="LeaveManagementSystemModel.FK_EmpDetails_EmployeeContactDetails" FromRole="EmployeeContactDetail" ToRole="EmployeeDetail" />
+          <NavigationProperty Name="MasterDataValue" Relationship="LeaveManagementSystemModel.FK_MasterDataValue_EmployeeContactDetails" FromRole="EmployeeContactDetail" ToRole="MasterDataValue" />
         </EntityType>
         <EntityType Name="EmployeeDetail">
           <Key>
             <PropertyRef Name="Id" />
           </Key>
           <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="FirstName" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="RefRoleId" Type="Int32" Nullable="false" />
           <Property Name="DateOfJoining" Type="DateTime" Precision="7" />
           <Property Name="ManagerId" Type="Int32" />
@@ -871,39 +1180,134 @@
           <Property Name="CreatedBy" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="ModifiedBy" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="EmpNumber" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <NavigationProperty Name="EmployeeContactDetails" Relationship="Self.FK_EmpDetails_EmployeeContactDetails" FromRole="EmployeeDetails" ToRole="EmployeeContactDetails" />
-          <NavigationProperty Name="EmployeeProjectDetails" Relationship="Self.FK_EmployeeDetails_EmployeeProjectDetail" FromRole="EmployeeDetails" ToRole="EmployeeProjectDetail" />
-          <NavigationProperty Name="UserAccounts" Relationship="Self.FK_EmployeeDetails_UserAccount" FromRole="EmployeeDetails" ToRole="UserAccount" />
-          <NavigationProperty Name="Workflows" Relationship="Self.FK_EmployeeDetailsId_Workflow" FromRole="EmployeeDetails" ToRole="Workflow" />
-          <NavigationProperty Name="MasterDataValue" Relationship="Self.FK_MasterDataValue_EmployeeDetails" FromRole="EmployeeDetails" ToRole="MasterDataValue" />
-          <Property Name="FirstName" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="DateOfBirth" Type="DateTime" Precision="0" Nullable="false" />
           <Property Name="City" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="Country" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="LastName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="PhoneNumber" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
-          <NavigationProperty Name="EmployeeEducationDetails" Relationship="LeaveManagementSystemModel.FK_EmployeeEducationDetails_EmployeeDetails" FromRole="EmployeeDetail" ToRole="EmployeeEducationDetail" />
-          <NavigationProperty Name="EmployeeExperienceDetails" Relationship="LeaveManagementSystemModel.FK_EmployeeExperienceDetails_EmployeeDetails" FromRole="EmployeeDetail" ToRole="EmployeeExperienceDetail" />
-          <Property Name="ImagePath" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
           <Property Name="Bio" Type="String" MaxLength="250" FixedLength="false" Unicode="false" />
           <Property Name="RefHierarchyLevel" Type="Int32" />
-          <NavigationProperty Name="MasterDataValue1" Relationship="LeaveManagementSystemModel.FK_EmployeeDetails_MasterDataValue" FromRole="EmployeeDetail" ToRole="MasterDataValue" />
-          <NavigationProperty Name="EmployeeSkills" Relationship="LeaveManagementSystemModel.FK_EmployeeSkills_EmployeeDetails" FromRole="EmployeeDetail" ToRole="EmployeeSkill" />
-          <NavigationProperty Name="WorkFromHomes" Relationship="LeaveManagementSystemModel.FK_WorkFromHome_refEmpID" FromRole="EmployeeDetail" ToRole="WorkFromHome" />
-          <NavigationProperty Name="EmployeeLeaveTransactions" Relationship="LeaveManagementSystemModel.FK_EmployeeDetails_EmployeeLeaveTransaction" FromRole="EmployeeDetail" ToRole="EmployeeLeaveTransaction" />
-          <NavigationProperty Name="EmployeeLeaveTransactionHistories" Relationship="LeaveManagementSystemModel.FK_EmployeeDetails_EmployeeLeaveTransactionHistory" FromRole="EmployeeDetail" ToRole="EmployeeLeaveTransactionHistory" />
-          <NavigationProperty Name="Notifications" Relationship="LeaveManagementSystemModel.FK_EmployeeDetails_Notification" FromRole="EmployeeDetail" ToRole="Notification" />
+          <Property Name="DateOfBirth" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="ImagePath" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
           <Property Name="FacebookLink" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
           <Property Name="TwitterLink" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
           <Property Name="GooglePlusLink" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
           <Property Name="RefEmployeeType" Type="Int32" Nullable="false" />
-          <NavigationProperty Name="MasterDataValue11" Relationship="LeaveManagementSystemModel.FK_EmployeeDetails_MasterDataValue1" FromRole="EmployeeDetail" ToRole="MasterDataValue" />
-          <NavigationProperty Name="ProjectMasters" Relationship="LeaveManagementSystemModel.FK_ProjectMaster_EmployeeDetails" FromRole="EmployeeDetail" ToRole="ProjectMaster" />
+          <NavigationProperty Name="EmployeeContactDetails" Relationship="LeaveManagementSystemModel.FK_EmpDetails_EmployeeContactDetails" FromRole="EmployeeDetail" ToRole="EmployeeContactDetail" />
           <NavigationProperty Name="EmployeeLeaveMasters" Relationship="LeaveManagementSystemModel.FK_ConsolidatedEmployeeLeaveDetails_EmployeeDetails" FromRole="EmployeeDetail" ToRole="EmployeeLeaveMaster" />
+          <NavigationProperty Name="EmployeeLeaveTransactions" Relationship="LeaveManagementSystemModel.FK_EmployeeDetails_EmployeeLeaveTransaction" FromRole="EmployeeDetail" ToRole="EmployeeLeaveTransaction" />
+          <NavigationProperty Name="EmployeeLeaveTransactionHistories" Relationship="LeaveManagementSystemModel.FK_EmployeeDetails_EmployeeLeaveTransactionHistory" FromRole="EmployeeDetail" ToRole="EmployeeLeaveTransactionHistory" />
+          <NavigationProperty Name="EmployeeProjectDetails" Relationship="LeaveManagementSystemModel.FK_EmployeeDetails_EmployeeProjectDetail" FromRole="EmployeeDetail" ToRole="EmployeeProjectDetail" />
+          <NavigationProperty Name="MasterDataValue" Relationship="LeaveManagementSystemModel.FK_EmployeeDetails_MasterDataValue" FromRole="EmployeeDetail" ToRole="MasterDataValue" />
+          <NavigationProperty Name="MasterDataValue1" Relationship="LeaveManagementSystemModel.FK_EmployeeDetails_MasterDataValue1" FromRole="EmployeeDetail" ToRole="MasterDataValue" />
+          <NavigationProperty Name="Notifications" Relationship="LeaveManagementSystemModel.FK_EmployeeDetails_Notification" FromRole="EmployeeDetail" ToRole="Notification" />
+          <NavigationProperty Name="UserAccounts" Relationship="LeaveManagementSystemModel.FK_EmployeeDetails_UserAccount" FromRole="EmployeeDetail" ToRole="UserAccount" />
+          <NavigationProperty Name="EmployeeLeaveTransactions1" Relationship="LeaveManagementSystemModel.FK_EmployeeDetailsCreatedById_EmployeeLeaveTransaction" FromRole="EmployeeDetail" ToRole="EmployeeLeaveTransaction" />
+          <NavigationProperty Name="EmployeeLeaveTransactionHistories1" Relationship="LeaveManagementSystemModel.FK_EmployeeDetailsCreatedById_EmployeeLeaveTransactionHistory" FromRole="EmployeeDetail" ToRole="EmployeeLeaveTransactionHistory" />
+          <NavigationProperty Name="Workflows" Relationship="LeaveManagementSystemModel.FK_EmployeeDetailsCreatedById_Workflow" FromRole="EmployeeDetail" ToRole="Workflow" />
+          <NavigationProperty Name="Workflows1" Relationship="LeaveManagementSystemModel.FK_EmployeeDetailsId_Workflow" FromRole="EmployeeDetail" ToRole="Workflow" />
+          <NavigationProperty Name="Workflows2" Relationship="LeaveManagementSystemModel.FK_EmployeeDetailsModifiedById_Workflow" FromRole="EmployeeDetail" ToRole="Workflow" />
+          <NavigationProperty Name="EmployeeLeaveTransactions2" Relationship="LeaveManagementSystemModel.FK_EmployeeDetialsModifiedById_EmployeeLeaveTransaction" FromRole="EmployeeDetail" ToRole="EmployeeLeaveTransaction" />
+          <NavigationProperty Name="EmployeeLeaveTransactionHistories2" Relationship="LeaveManagementSystemModel.FK_EmployeeDetilasModifiedById_EmployeeLeaveTransactionHistory" FromRole="EmployeeDetail" ToRole="EmployeeLeaveTransactionHistory" />
+          <NavigationProperty Name="EmployeeEducationDetails" Relationship="LeaveManagementSystemModel.FK_EmployeeEducationDetails_EmployeeDetails" FromRole="EmployeeDetail" ToRole="EmployeeEducationDetail" />
+          <NavigationProperty Name="EmployeeExperienceDetails" Relationship="LeaveManagementSystemModel.FK_EmployeeExperienceDetails_EmployeeDetails" FromRole="EmployeeDetail" ToRole="EmployeeExperienceDetail" />
           <NavigationProperty Name="EmployeeLeaveMasters1" Relationship="LeaveManagementSystemModel.FK_EmployeeLeaveMaster_EmployeeDetails" FromRole="EmployeeDetail" ToRole="EmployeeLeaveMaster" />
           <NavigationProperty Name="EmployeeRewardedLeaveDetails" Relationship="LeaveManagementSystemModel.FK_EmployeeRewardedLeaveDetails_EmployeeDetails" FromRole="EmployeeDetail" ToRole="EmployeeRewardedLeaveDetail" />
           <NavigationProperty Name="EmployeeRewardedLeaveDetails1" Relationship="LeaveManagementSystemModel.FK_EmployeeRewardedLeaveDetails_EmployeeDetails1" FromRole="EmployeeDetail" ToRole="EmployeeRewardedLeaveDetail" />
+          <NavigationProperty Name="EmployeeSkills" Relationship="LeaveManagementSystemModel.FK_EmployeeSkills_EmployeeDetails" FromRole="EmployeeDetail" ToRole="EmployeeSkill" />
+          <NavigationProperty Name="ProjectMasters" Relationship="LeaveManagementSystemModel.FK_ProjectMaster_EmployeeDetails" FromRole="EmployeeDetail" ToRole="ProjectMaster" />
+          <NavigationProperty Name="WorkFromHomes" Relationship="LeaveManagementSystemModel.FK_WorkFromHome_refEmpID" FromRole="EmployeeDetail" ToRole="WorkFromHome" />
+          <NavigationProperty Name="EmployeeDetails1" Relationship="LeaveManagementSystemModel.FK_EmployeeDetails_EmployeeManager" FromRole="EmployeeDetail" ToRole="EmployeeDetail1" />
+          <NavigationProperty Name="EmployeeDetail1" Relationship="LeaveManagementSystemModel.FK_EmployeeDetails_EmployeeManager" FromRole="EmployeeDetail1" ToRole="EmployeeDetail" />
           <NavigationProperty Name="ResourceRequestDetails" Relationship="LeaveManagementSystemModel.FK_ResourceRequestDetail_EmployeeDetails" FromRole="EmployeeDetail" ToRole="ResourceRequestDetail" />
+        </EntityType>
+        <EntityType Name="EmployeeEducationDetail">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="RefEmployeeId" Type="Int32" Nullable="false" />
+          <Property Name="Institution" Type="String" Nullable="false" MaxLength="250" FixedLength="false" Unicode="false" />
+          <Property Name="Degree" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="FromDate" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="ToDate" Type="DateTime" Nullable="false" Precision="0" />
+          <NavigationProperty Name="EmployeeDetail" Relationship="LeaveManagementSystemModel.FK_EmployeeEducationDetails_EmployeeDetails" FromRole="EmployeeEducationDetail" ToRole="EmployeeDetail" />
+        </EntityType>
+        <EntityType Name="EmployeeExperienceDetail">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="RefEmployeeId" Type="Int32" Nullable="false" />
+          <Property Name="CompanyName" Type="String" Nullable="false" MaxLength="250" FixedLength="false" Unicode="false" />
+          <Property Name="Role" Type="String" Nullable="false" MaxLength="250" FixedLength="false" Unicode="false" />
+          <Property Name="FromDate" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="ToDate" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="CompanyLogo" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="EmployeeDetail" Relationship="LeaveManagementSystemModel.FK_EmployeeExperienceDetails_EmployeeDetails" FromRole="EmployeeExperienceDetail" ToRole="EmployeeDetail" />
+        </EntityType>
+        <EntityType Name="EmployeeLeaveMaster">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="RefEmployeeId" Type="Int32" Nullable="false" />
+          <Property Name="RewardedLeaveCount" Type="Int32" />
+          <Property Name="ModifiedDate" Type="DateTime" Precision="0" />
+          <Property Name="ModifiedBy" Type="Int32" />
+          <Property Name="SpentAdvanceLeave" Type="Int32" />
+          <Property Name="TakenLossOfPay" Type="Int32" />
+          <Property Name="EarnedCasualLeave" Type="Int32" />
+          <Property Name="TakenCompOff" Type="Int32" />
+          <NavigationProperty Name="EmployeeDetail" Relationship="LeaveManagementSystemModel.FK_ConsolidatedEmployeeLeaveDetails_EmployeeDetails" FromRole="EmployeeLeaveMaster" ToRole="EmployeeDetail" />
+          <NavigationProperty Name="EmployeeDetail1" Relationship="LeaveManagementSystemModel.FK_EmployeeLeaveMaster_EmployeeDetails" FromRole="EmployeeLeaveMaster" ToRole="EmployeeDetail" />
+        </EntityType>
+        <EntityType Name="EmployeeLeaveTransaction">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="RefEmployeeId" Type="Int32" Nullable="false" />
+          <Property Name="FromDate" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="ToDate" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="CreatedDate" Type="DateTime" Nullable="false" Precision="7" />
+          <Property Name="RefStatus" Type="Int32" Nullable="false" />
+          <Property Name="NumberOfWorkingDays" Type="Double" Nullable="false" />
+          <Property Name="RefLeaveType" Type="Int32" Nullable="false" />
+          <Property Name="EmployeeComment" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="ModifiedDate" Type="DateTime" Precision="7" />
+          <Property Name="RefCreatedBy" Type="Int32" />
+          <Property Name="RefModifiedBy" Type="Int32" />
+          <Property Name="RefTransactionType" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="EmployeeDetail" Relationship="LeaveManagementSystemModel.FK_EmployeeDetails_EmployeeLeaveTransaction" FromRole="EmployeeLeaveTransaction" ToRole="EmployeeDetail" />
+          <NavigationProperty Name="EmployeeDetail1" Relationship="LeaveManagementSystemModel.FK_EmployeeDetailsCreatedById_EmployeeLeaveTransaction" FromRole="EmployeeLeaveTransaction" ToRole="EmployeeDetail" />
+          <NavigationProperty Name="EmployeeDetail2" Relationship="LeaveManagementSystemModel.FK_EmployeeDetialsModifiedById_EmployeeLeaveTransaction" FromRole="EmployeeLeaveTransaction" ToRole="EmployeeDetail" />
+          <NavigationProperty Name="Workflows" Relationship="LeaveManagementSystemModel.FK_EmployeeLeaveTransaction_Workflow" FromRole="EmployeeLeaveTransaction" ToRole="Workflow" />
+          <NavigationProperty Name="MasterDataValue" Relationship="LeaveManagementSystemModel.FK_MasterDataValue_EmployeeLeaveTransaction" FromRole="EmployeeLeaveTransaction" ToRole="MasterDataValue" />
+          <NavigationProperty Name="MasterDataValue1" Relationship="LeaveManagementSystemModel.FK_MasterDataValueStatus_EmployeeLeaveTransaction" FromRole="EmployeeLeaveTransaction" ToRole="MasterDataValue" />
+        </EntityType>
+        <EntityType Name="EmployeeLeaveTransactionHistory">
+          <Key>
+            <PropertyRef Name="PID" />
+          </Key>
+          <Property Name="PID" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Id" Type="Int64" Nullable="false" />
+          <Property Name="RefEmployeeId" Type="Int32" Nullable="false" />
+          <Property Name="FromDate" Type="DateTime" Nullable="false" Precision="7" />
+          <Property Name="ToDate" Type="DateTime" Nullable="false" Precision="7" />
+          <Property Name="CreatedDate" Type="DateTime" Nullable="false" Precision="7" />
+          <Property Name="RefStatus" Type="Int32" Nullable="false" />
+          <Property Name="NumberOfWorkingDays" Type="Double" Nullable="false" />
+          <Property Name="RefLeaveType" Type="Int32" Nullable="false" />
+          <Property Name="EmployeeComment" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="ManagerComment" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="ModifiedDate" Type="DateTime" Precision="7" />
+          <Property Name="RefCreatedBy" Type="Int32" />
+          <Property Name="RefModifiedBy" Type="Int32" />
+          <NavigationProperty Name="EmployeeDetail" Relationship="LeaveManagementSystemModel.FK_EmployeeDetails_EmployeeLeaveTransactionHistory" FromRole="EmployeeLeaveTransactionHistory" ToRole="EmployeeDetail" />
+          <NavigationProperty Name="EmployeeDetail1" Relationship="LeaveManagementSystemModel.FK_EmployeeDetailsCreatedById_EmployeeLeaveTransactionHistory" FromRole="EmployeeLeaveTransactionHistory" ToRole="EmployeeDetail" />
+          <NavigationProperty Name="EmployeeDetail2" Relationship="LeaveManagementSystemModel.FK_EmployeeDetilasModifiedById_EmployeeLeaveTransactionHistory" FromRole="EmployeeLeaveTransactionHistory" ToRole="EmployeeDetail" />
+          <NavigationProperty Name="MasterDataValue" Relationship="LeaveManagementSystemModel.FK_MasterDataValue_EmployeeLeaveTransactionHistory" FromRole="EmployeeLeaveTransactionHistory" ToRole="MasterDataValue" />
+          <NavigationProperty Name="MasterDataValue1" Relationship="LeaveManagementSystemModel.FK_MasterDataValueStatus_EmployeeLeaveTransactionHistory" FromRole="EmployeeLeaveTransactionHistory" ToRole="MasterDataValue" />
         </EntityType>
         <EntityType Name="EmployeeProjectDetail">
           <Key>
@@ -916,12 +1320,34 @@
           <Property Name="ModifiedDate" Type="DateTime" Precision="7" />
           <Property Name="CreatedBy" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="ModifiedBy" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <NavigationProperty Name="EmployeeDetail" Relationship="Self.FK_EmployeeDetails_EmployeeProjectDetail" FromRole="EmployeeProjectDetail" ToRole="EmployeeDetails" />
-          <NavigationProperty Name="MasterDataValue" Relationship="Self.FK_MasterDataValue_EmployeeProjectDetail1" FromRole="EmployeeProjectDetail" ToRole="MasterDataValue" />
-          <NavigationProperty Name="ProjectMaster" Relationship="LeaveManagementSystemModel.FK_EmployeeProjectDetail_ProjectMaster" FromRole="EmployeeProjectDetail" ToRole="ProjectMaster" />
           <Property Name="IsActive" Type="Boolean" />
           <Property Name="StartDate" Type="DateTime" Precision="0" />
           <Property Name="EndDate" Type="DateTime" Precision="0" />
+          <NavigationProperty Name="EmployeeDetail" Relationship="LeaveManagementSystemModel.FK_EmployeeDetails_EmployeeProjectDetail" FromRole="EmployeeProjectDetail" ToRole="EmployeeDetail" />
+          <NavigationProperty Name="ProjectMaster" Relationship="LeaveManagementSystemModel.FK_EmployeeProjectDetail_ProjectMaster" FromRole="EmployeeProjectDetail" ToRole="ProjectMaster" />
+        </EntityType>
+        <EntityType Name="EmployeeRewardedLeaveDetail">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="RefEmployeeId" Type="Int32" Nullable="false" />
+          <Property Name="RefProjectId" Type="Int32" Nullable="false" />
+          <Property Name="RewardedBy" Type="Int32" Nullable="false" />
+          <Property Name="LeaveCount" Type="Int32" Nullable="false" />
+          <Property Name="RewardedDate" Type="DateTime" Nullable="false" Precision="0" />
+          <NavigationProperty Name="EmployeeDetail" Relationship="LeaveManagementSystemModel.FK_EmployeeRewardedLeaveDetails_EmployeeDetails" FromRole="EmployeeRewardedLeaveDetail" ToRole="EmployeeDetail" />
+          <NavigationProperty Name="EmployeeDetail1" Relationship="LeaveManagementSystemModel.FK_EmployeeRewardedLeaveDetails_EmployeeDetails1" FromRole="EmployeeRewardedLeaveDetail" ToRole="EmployeeDetail" />
+          <NavigationProperty Name="ProjectMaster" Relationship="LeaveManagementSystemModel.FK_EmployeeRewardedLeaveDetails_ProjectMaster" FromRole="EmployeeRewardedLeaveDetail" ToRole="ProjectMaster" />
+        </EntityType>
+        <EntityType Name="EmployeeSkill">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="RefEmployeeId" Type="Int32" Nullable="false" />
+          <Property Name="Skill" Type="String" MaxLength="50" FixedLength="true" Unicode="true" />
+          <NavigationProperty Name="EmployeeDetail" Relationship="LeaveManagementSystemModel.FK_EmployeeSkills_EmployeeDetails" FromRole="EmployeeSkill" ToRole="EmployeeDetail" />
         </EntityType>
         <EntityType Name="Holiday">
           <Key>
@@ -949,15 +1375,15 @@
           <Property Name="ModifiedDate" Type="DateTime" Precision="7" />
           <Property Name="CreatedBy" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="ModifiedBy" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <NavigationProperty Name="MasterDataValue" Relationship="Self.FK_MasterDataValue_LeaveMaster" FromRole="LeaveMaster" ToRole="MasterDataValue" />
+          <NavigationProperty Name="MasterDataValue" Relationship="LeaveManagementSystemModel.FK_MasterDataValue_LeaveMaster" FromRole="LeaveMaster" ToRole="MasterDataValue" />
         </EntityType>
         <EntityType Name="MasterDataType">
           <Key>
             <PropertyRef Name="Id" />
           </Key>
           <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="Type" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
-          <NavigationProperty Name="MasterDataValues" Relationship="Self.FK_MasterDataType_MasterDataValue" FromRole="MasterDataType" ToRole="MasterDataValue" />
+          <Property Name="Type" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="MasterDataValues" Relationship="LeaveManagementSystemModel.FK_MasterDataType_MasterDataValue" FromRole="MasterDataType" ToRole="MasterDataValue" />
         </EntityType>
         <EntityType Name="MasterDataValue">
           <Key>
@@ -965,37 +1391,80 @@
           </Key>
           <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="RefMasterType" Type="Int32" Nullable="false" />
-          <Property Name="Value" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
-          <NavigationProperty Name="EmployeeContactDetails" Relationship="Self.FK_MasterDataValue_EmployeeContactDetails" FromRole="MasterDataValue" ToRole="EmployeeContactDetails" />
-          <NavigationProperty Name="EmployeeDetails" Relationship="Self.FK_MasterDataValue_EmployeeDetails" FromRole="MasterDataValue" ToRole="EmployeeDetails" />
-          <NavigationProperty Name="EmployeeProjectDetails" Relationship="Self.FK_MasterDataValue_EmployeeProjectDetail1" FromRole="MasterDataValue" ToRole="EmployeeProjectDetail" />
-          <NavigationProperty Name="LeaveMasters" Relationship="Self.FK_MasterDataValue_LeaveMaster" FromRole="MasterDataValue" ToRole="LeaveMaster" />
-          <NavigationProperty Name="MasterDataType" Relationship="Self.FK_MasterDataType_MasterDataValue" FromRole="MasterDataValue" ToRole="MasterDataType" />
-          <NavigationProperty Name="Workflows" Relationship="Self.FK_MasterDataValueStatus_Workflow" FromRole="MasterDataValue" ToRole="Workflow" />
-          <NavigationProperty Name="EmployeeDetails1" Relationship="LeaveManagementSystemModel.FK_EmployeeDetails_MasterDataValue" FromRole="MasterDataValue" ToRole="EmployeeDetail" />
-          <NavigationProperty Name="WorkFromHomes" Relationship="LeaveManagementSystemModel.FK_WorkFromHome_RefStatus" FromRole="MasterDataValue" ToRole="WorkFromHome" />
-          <NavigationProperty Name="WorkFromHomes1" Relationship="LeaveManagementSystemModel.FK_WorkFromHome_RefReason" FromRole="MasterDataValue" ToRole="WorkFromHome" />
+          <Property Name="Value" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="EmployeeContactDetails" Relationship="LeaveManagementSystemModel.FK_MasterDataValue_EmployeeContactDetails" FromRole="MasterDataValue" ToRole="EmployeeContactDetail" />
+          <NavigationProperty Name="EmployeeDetails" Relationship="LeaveManagementSystemModel.FK_EmployeeDetails_MasterDataValue" FromRole="MasterDataValue" ToRole="EmployeeDetail" />
+          <NavigationProperty Name="EmployeeDetails1" Relationship="LeaveManagementSystemModel.FK_EmployeeDetails_MasterDataValue1" FromRole="MasterDataValue" ToRole="EmployeeDetail" />
           <NavigationProperty Name="EmployeeLeaveTransactions" Relationship="LeaveManagementSystemModel.FK_MasterDataValue_EmployeeLeaveTransaction" FromRole="MasterDataValue" ToRole="EmployeeLeaveTransaction" />
           <NavigationProperty Name="EmployeeLeaveTransactions1" Relationship="LeaveManagementSystemModel.FK_MasterDataValueStatus_EmployeeLeaveTransaction" FromRole="MasterDataValue" ToRole="EmployeeLeaveTransaction" />
           <NavigationProperty Name="EmployeeLeaveTransactionHistories" Relationship="LeaveManagementSystemModel.FK_MasterDataValue_EmployeeLeaveTransactionHistory" FromRole="MasterDataValue" ToRole="EmployeeLeaveTransactionHistory" />
           <NavigationProperty Name="EmployeeLeaveTransactionHistories1" Relationship="LeaveManagementSystemModel.FK_MasterDataValueStatus_EmployeeLeaveTransactionHistory" FromRole="MasterDataValue" ToRole="EmployeeLeaveTransactionHistory" />
+          <NavigationProperty Name="LeaveMasters" Relationship="LeaveManagementSystemModel.FK_MasterDataValue_LeaveMaster" FromRole="MasterDataValue" ToRole="LeaveMaster" />
+          <NavigationProperty Name="MasterDataType" Relationship="LeaveManagementSystemModel.FK_MasterDataType_MasterDataValue" FromRole="MasterDataValue" ToRole="MasterDataType" />
           <NavigationProperty Name="Notifications" Relationship="LeaveManagementSystemModel.FK_MasterDataValue_Notification" FromRole="MasterDataValue" ToRole="Notification" />
-          <NavigationProperty Name="EmployeeDetails11" Relationship="LeaveManagementSystemModel.FK_EmployeeDetails_MasterDataValue1" FromRole="MasterDataValue" ToRole="EmployeeDetail" />
+          <NavigationProperty Name="Workflows" Relationship="LeaveManagementSystemModel.FK_MasterDataValueStatus_Workflow" FromRole="MasterDataValue" ToRole="Workflow" />
+          <NavigationProperty Name="WorkFromHomes" Relationship="LeaveManagementSystemModel.FK_WorkFromHome_RefReason" FromRole="MasterDataValue" ToRole="WorkFromHome" />
+          <NavigationProperty Name="WorkFromHomes1" Relationship="LeaveManagementSystemModel.FK_WorkFromHome_RefStatus" FromRole="MasterDataValue" ToRole="WorkFromHome" />
+        </EntityType>
+        <EntityType Name="Notification">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="RefEmployeeId" Type="Int32" Nullable="false" />
+          <Property Name="Text" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="CreatedDate" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="Status" Type="Int32" Nullable="false" />
+          <Property Name="RefNotificationType" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="EmployeeDetail" Relationship="LeaveManagementSystemModel.FK_EmployeeDetails_Notification" FromRole="Notification" ToRole="EmployeeDetail" />
+          <NavigationProperty Name="MasterDataValue" Relationship="LeaveManagementSystemModel.FK_MasterDataValue_Notification" FromRole="Notification" ToRole="MasterDataValue" />
+        </EntityType>
+        <EntityType Name="ProjectMaster">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ProjectName" Type="String" Nullable="false" MaxLength="250" FixedLength="false" Unicode="false" />
+          <Property Name="Description" Type="String" Nullable="false" MaxLength="250" FixedLength="false" Unicode="false" />
+          <Property Name="IsActive" Type="Boolean" Nullable="false" />
+          <Property Name="StartDate" Type="DateTime" Precision="0" />
+          <Property Name="EndDate" Type="DateTime" Precision="0" />
+          <Property Name="RefManagerId" Type="Int32" Nullable="false" />
+          <Property Name="Technology" Type="String" Nullable="false" MaxLength="250" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="EmployeeDetail" Relationship="LeaveManagementSystemModel.FK_ProjectMaster_EmployeeDetails" FromRole="ProjectMaster" ToRole="EmployeeDetail" />
+          <NavigationProperty Name="EmployeeProjectDetails" Relationship="LeaveManagementSystemModel.FK_EmployeeProjectDetail_ProjectMaster" FromRole="ProjectMaster" ToRole="EmployeeProjectDetail" />
+          <NavigationProperty Name="EmployeeRewardedLeaveDetails" Relationship="LeaveManagementSystemModel.FK_EmployeeRewardedLeaveDetails_ProjectMaster" FromRole="ProjectMaster" ToRole="EmployeeRewardedLeaveDetail" />
+        </EntityType>
+        <EntityType Name="ResourceRequestDetail">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="RequestFromId" Type="Int32" Nullable="false" />
+          <Property Name="RequestToId" Type="Int32" Nullable="false" />
+          <Property Name="ResourceRequestTitle" Type="String" MaxLength="250" FixedLength="false" Unicode="false" />
+          <Property Name="NumberRequestedResources" Type="Int32" Nullable="false" />
+          <Property Name="Skills" Type="String" MaxLength="250" FixedLength="false" Unicode="false" />
+          <Property Name="Ticket" Type="String" MaxLength="250" FixedLength="false" Unicode="false" />
+          <Property Name="CreatedDate" Type="DateTime" Nullable="false" Precision="7" />
+          <Property Name="UpdatedDate" Type="DateTime" Nullable="false" Precision="7" />
+          <Property Name="Status" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="EmployeeDetail" Relationship="LeaveManagementSystemModel.FK_ResourceRequestDetail_EmployeeDetails" FromRole="ResourceRequestDetail" ToRole="EmployeeDetail" />
         </EntityType>
         <EntityType Name="UserAccount">
           <Key>
             <PropertyRef Name="Id" />
           </Key>
           <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="UserName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
-          <Property Name="Password" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="UserName" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Password" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="Lastlogin" Type="DateTime" Precision="7" />
           <Property Name="RefEmployeeId" Type="Int32" Nullable="false" />
           <Property Name="CreatedDate" Type="DateTime" Nullable="false" Precision="7" />
           <Property Name="ModifiedDate" Type="DateTime" Precision="7" />
           <Property Name="CreatedBy" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="ModifiedBy" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <NavigationProperty Name="EmployeeDetail" Relationship="Self.FK_EmployeeDetails_UserAccount" FromRole="UserAccount" ToRole="EmployeeDetails" />
+          <NavigationProperty Name="EmployeeDetail" Relationship="LeaveManagementSystemModel.FK_EmployeeDetails_UserAccount" FromRole="UserAccount" ToRole="EmployeeDetail" />
         </EntityType>
         <EntityType Name="Workflow">
           <Key>
@@ -1007,42 +1476,98 @@
           <Property Name="CreatedDate" Type="DateTime" Nullable="false" Precision="7" />
           <Property Name="ModifiedDate" Type="DateTime" Precision="7" />
           <Property Name="RefStatus" Type="Int32" Nullable="false" />
-          <Property Name="CreatedBy" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="ModifiedBy" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="RefCreatedBy" Type="Int32" />
+          <Property Name="RefModifiedBy" Type="Int32" />
           <Property Name="ManagerComments" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <NavigationProperty Name="EmployeeDetail" Relationship="Self.FK_EmployeeDetailsId_Workflow" FromRole="Workflow" ToRole="EmployeeDetails" />
-          <NavigationProperty Name="MasterDataValue" Relationship="Self.FK_MasterDataValueStatus_Workflow" FromRole="Workflow" ToRole="MasterDataValue" />
+          <NavigationProperty Name="EmployeeDetail" Relationship="LeaveManagementSystemModel.FK_EmployeeDetailsCreatedById_Workflow" FromRole="Workflow" ToRole="EmployeeDetail" />
+          <NavigationProperty Name="EmployeeDetail1" Relationship="LeaveManagementSystemModel.FK_EmployeeDetailsId_Workflow" FromRole="Workflow" ToRole="EmployeeDetail" />
+          <NavigationProperty Name="EmployeeDetail2" Relationship="LeaveManagementSystemModel.FK_EmployeeDetailsModifiedById_Workflow" FromRole="Workflow" ToRole="EmployeeDetail" />
           <NavigationProperty Name="EmployeeLeaveTransaction" Relationship="LeaveManagementSystemModel.FK_EmployeeLeaveTransaction_Workflow" FromRole="Workflow" ToRole="EmployeeLeaveTransaction" />
+          <NavigationProperty Name="MasterDataValue" Relationship="LeaveManagementSystemModel.FK_MasterDataValueStatus_Workflow" FromRole="Workflow" ToRole="MasterDataValue" />
+        </EntityType>
+        <EntityType Name="WorkFromHome">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="RefEmployeeId" Type="Int32" Nullable="false" />
+          <Property Name="Date" Type="DateTime" Nullable="false" Precision="7" />
+          <Property Name="CreatedDate" Type="DateTime" Nullable="false" Precision="7" />
+          <Property Name="RefStatus" Type="Int32" Nullable="false" />
+          <Property Name="CreatedBy" Type="Int32" />
+          <Property Name="ModifiedBy" Type="Int32" />
+          <Property Name="ModifiedDate" Type="DateTime" Precision="7" />
+          <Property Name="RefReason" Type="Int32" Nullable="false" />
+          <Property Name="OtherReason" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="EmployeeDetail" Relationship="LeaveManagementSystemModel.FK_WorkFromHome_refEmpID" FromRole="WorkFromHome" ToRole="EmployeeDetail" />
+          <NavigationProperty Name="MasterDataValue" Relationship="LeaveManagementSystemModel.FK_WorkFromHome_RefReason" FromRole="WorkFromHome" ToRole="MasterDataValue" />
+          <NavigationProperty Name="MasterDataValue1" Relationship="LeaveManagementSystemModel.FK_WorkFromHome_RefStatus" FromRole="WorkFromHome" ToRole="MasterDataValue" />
         </EntityType>
         <Association Name="FK_EmpDetails_EmployeeContactDetails">
-          <End Role="EmployeeDetails" Type="Self.EmployeeDetail" Multiplicity="1" />
-          <End Role="EmployeeContactDetails" Type="Self.EmployeeContactDetail" Multiplicity="*" />
+          <End Type="LeaveManagementSystemModel.EmployeeDetail" Role="EmployeeDetail" Multiplicity="1" />
+          <End Type="LeaveManagementSystemModel.EmployeeContactDetail" Role="EmployeeContactDetail" Multiplicity="*" />
           <ReferentialConstraint>
-            <Principal Role="EmployeeDetails">
+            <Principal Role="EmployeeDetail">
               <PropertyRef Name="Id" />
             </Principal>
-            <Dependent Role="EmployeeContactDetails">
+            <Dependent Role="EmployeeContactDetail">
               <PropertyRef Name="RefEmpId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_MasterDataValue_EmployeeContactDetails">
-          <End Role="MasterDataValue" Type="Self.MasterDataValue" Multiplicity="1" />
-          <End Role="EmployeeContactDetails" Type="Self.EmployeeContactDetail" Multiplicity="*" />
+          <End Type="LeaveManagementSystemModel.MasterDataValue" Role="MasterDataValue" Multiplicity="1" />
+          <End Type="LeaveManagementSystemModel.EmployeeContactDetail" Role="EmployeeContactDetail" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="MasterDataValue">
               <PropertyRef Name="Id" />
             </Principal>
-            <Dependent Role="EmployeeContactDetails">
+            <Dependent Role="EmployeeContactDetail">
               <PropertyRef Name="RefContactType" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_EmployeeDetails_EmployeeProjectDetail">
-          <End Role="EmployeeDetails" Type="Self.EmployeeDetail" Multiplicity="1" />
-          <End Role="EmployeeProjectDetail" Type="Self.EmployeeProjectDetail" Multiplicity="*" />
+        <Association Name="FK_ConsolidatedEmployeeLeaveDetails_EmployeeDetails">
+          <End Type="LeaveManagementSystemModel.EmployeeDetail" Role="EmployeeDetail" Multiplicity="1" />
+          <End Type="LeaveManagementSystemModel.EmployeeLeaveMaster" Role="EmployeeLeaveMaster" Multiplicity="*" />
           <ReferentialConstraint>
-            <Principal Role="EmployeeDetails">
+            <Principal Role="EmployeeDetail">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="EmployeeLeaveMaster">
+              <PropertyRef Name="RefEmployeeId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_EmployeeDetails_EmployeeLeaveTransaction">
+          <End Type="LeaveManagementSystemModel.EmployeeDetail" Role="EmployeeDetail" Multiplicity="1" />
+          <End Type="LeaveManagementSystemModel.EmployeeLeaveTransaction" Role="EmployeeLeaveTransaction" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="EmployeeDetail">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="EmployeeLeaveTransaction">
+              <PropertyRef Name="RefEmployeeId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_EmployeeDetails_EmployeeLeaveTransactionHistory">
+          <End Type="LeaveManagementSystemModel.EmployeeDetail" Role="EmployeeDetail" Multiplicity="1" />
+          <End Type="LeaveManagementSystemModel.EmployeeLeaveTransactionHistory" Role="EmployeeLeaveTransactionHistory" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="EmployeeDetail">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="EmployeeLeaveTransactionHistory">
+              <PropertyRef Name="RefEmployeeId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_EmployeeDetails_EmployeeProjectDetail">
+          <End Type="LeaveManagementSystemModel.EmployeeDetail" Role="EmployeeDetail" Multiplicity="1" />
+          <End Type="LeaveManagementSystemModel.EmployeeProjectDetail" Role="EmployeeProjectDetail" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="EmployeeDetail">
               <PropertyRef Name="Id" />
             </Principal>
             <Dependent Role="EmployeeProjectDetail">
@@ -1050,11 +1575,47 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_EmployeeDetails_UserAccount">
-          <End Role="EmployeeDetails" Type="Self.EmployeeDetail" Multiplicity="1" />
-          <End Role="UserAccount" Type="Self.UserAccount" Multiplicity="*" />
+        <Association Name="FK_EmployeeDetails_MasterDataValue">
+          <End Type="LeaveManagementSystemModel.MasterDataValue" Role="MasterDataValue" Multiplicity="0..1" />
+          <End Type="LeaveManagementSystemModel.EmployeeDetail" Role="EmployeeDetail" Multiplicity="*" />
           <ReferentialConstraint>
-            <Principal Role="EmployeeDetails">
+            <Principal Role="MasterDataValue">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="EmployeeDetail">
+              <PropertyRef Name="RefHierarchyLevel" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_EmployeeDetails_MasterDataValue1">
+          <End Type="LeaveManagementSystemModel.MasterDataValue" Role="MasterDataValue" Multiplicity="1" />
+          <End Type="LeaveManagementSystemModel.EmployeeDetail" Role="EmployeeDetail" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="MasterDataValue">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="EmployeeDetail">
+              <PropertyRef Name="RefEmployeeType" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_EmployeeDetails_Notification">
+          <End Type="LeaveManagementSystemModel.EmployeeDetail" Role="EmployeeDetail" Multiplicity="1" />
+          <End Type="LeaveManagementSystemModel.Notification" Role="Notification" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="EmployeeDetail">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Notification">
+              <PropertyRef Name="RefEmployeeId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_EmployeeDetails_UserAccount">
+          <End Type="LeaveManagementSystemModel.EmployeeDetail" Role="EmployeeDetail" Multiplicity="1" />
+          <End Type="LeaveManagementSystemModel.UserAccount" Role="UserAccount" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="EmployeeDetail">
               <PropertyRef Name="Id" />
             </Principal>
             <Dependent Role="UserAccount">
@@ -1062,11 +1623,47 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_EmployeeDetailsId_Workflow">
-          <End Role="EmployeeDetails" Type="Self.EmployeeDetail" Multiplicity="1" />
-          <End Role="Workflow" Type="Self.Workflow" Multiplicity="*" />
+        <Association Name="FK_EmployeeDetailsCreatedById_EmployeeLeaveTransaction">
+          <End Type="LeaveManagementSystemModel.EmployeeDetail" Role="EmployeeDetail" Multiplicity="0..1" />
+          <End Type="LeaveManagementSystemModel.EmployeeLeaveTransaction" Role="EmployeeLeaveTransaction" Multiplicity="*" />
           <ReferentialConstraint>
-            <Principal Role="EmployeeDetails">
+            <Principal Role="EmployeeDetail">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="EmployeeLeaveTransaction">
+              <PropertyRef Name="RefCreatedBy" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_EmployeeDetailsCreatedById_EmployeeLeaveTransactionHistory">
+          <End Type="LeaveManagementSystemModel.EmployeeDetail" Role="EmployeeDetail" Multiplicity="0..1" />
+          <End Type="LeaveManagementSystemModel.EmployeeLeaveTransactionHistory" Role="EmployeeLeaveTransactionHistory" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="EmployeeDetail">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="EmployeeLeaveTransactionHistory">
+              <PropertyRef Name="RefCreatedBy" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_EmployeeDetailsCreatedById_Workflow">
+          <End Type="LeaveManagementSystemModel.EmployeeDetail" Role="EmployeeDetail" Multiplicity="0..1" />
+          <End Type="LeaveManagementSystemModel.Workflow" Role="Workflow" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="EmployeeDetail">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Workflow">
+              <PropertyRef Name="RefCreatedBy" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_EmployeeDetailsId_Workflow">
+          <End Type="LeaveManagementSystemModel.EmployeeDetail" Role="EmployeeDetail" Multiplicity="1" />
+          <End Type="LeaveManagementSystemModel.Workflow" Role="Workflow" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="EmployeeDetail">
               <PropertyRef Name="Id" />
             </Principal>
             <Dependent Role="Workflow">
@@ -1074,267 +1671,42 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_MasterDataValue_EmployeeDetails">
-          <End Role="MasterDataValue" Type="Self.MasterDataValue" Multiplicity="1" />
-          <End Role="EmployeeDetails" Type="Self.EmployeeDetail" Multiplicity="*" />
+        <Association Name="FK_EmployeeDetailsModifiedById_Workflow">
+          <End Type="LeaveManagementSystemModel.EmployeeDetail" Role="EmployeeDetail" Multiplicity="0..1" />
+          <End Type="LeaveManagementSystemModel.Workflow" Role="Workflow" Multiplicity="*" />
           <ReferentialConstraint>
-            <Principal Role="MasterDataValue">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="EmployeeDetails">
-              <PropertyRef Name="RefRoleId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_MasterDataValue_EmployeeProjectDetail1">
-          <End Role="MasterDataValue" Type="Self.MasterDataValue" Multiplicity="1" />
-          <End Role="EmployeeProjectDetail" Type="Self.EmployeeProjectDetail" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="MasterDataValue">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="EmployeeProjectDetail">
-              <PropertyRef Name="RefProjectId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_MasterDataValue_LeaveMaster">
-          <End Role="MasterDataValue" Type="Self.MasterDataValue" Multiplicity="1" />
-          <End Role="LeaveMaster" Type="Self.LeaveMaster" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="MasterDataValue">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="LeaveMaster">
-              <PropertyRef Name="RefLeaveType" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_MasterDataType_MasterDataValue">
-          <End Role="MasterDataType" Type="Self.MasterDataType" Multiplicity="1" />
-          <End Role="MasterDataValue" Type="Self.MasterDataValue" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="MasterDataType">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="MasterDataValue">
-              <PropertyRef Name="RefMasterType" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_MasterDataValueStatus_Workflow">
-          <End Role="MasterDataValue" Type="Self.MasterDataValue" Multiplicity="1" />
-          <End Role="Workflow" Type="Self.Workflow" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="MasterDataValue">
+            <Principal Role="EmployeeDetail">
               <PropertyRef Name="Id" />
             </Principal>
             <Dependent Role="Workflow">
-              <PropertyRef Name="RefStatus" />
+              <PropertyRef Name="RefModifiedBy" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <EntityContainer Name="LeaveManagementSystemEntities1" annotation:LazyLoadingEnabled="true">
-          <EntitySet Name="EmployeeContactDetails" EntityType="Self.EmployeeContactDetail" />
-          <EntitySet Name="EmployeeDetails" EntityType="Self.EmployeeDetail" />
-          <EntitySet Name="EmployeeProjectDetails" EntityType="Self.EmployeeProjectDetail" />
-          <EntitySet Name="Holidays" EntityType="Self.Holiday" />
-          <EntitySet Name="LeaveMasters" EntityType="Self.LeaveMaster" />
-          <EntitySet Name="MasterDataTypes" EntityType="Self.MasterDataType" />
-          <EntitySet Name="MasterDataValues" EntityType="Self.MasterDataValue" />
-          <EntitySet Name="UserAccounts" EntityType="Self.UserAccount" />
-          <EntitySet Name="Workflows" EntityType="Self.Workflow" />
-          <AssociationSet Name="FK_EmpDetails_EmployeeContactDetails" Association="Self.FK_EmpDetails_EmployeeContactDetails">
-            <End Role="EmployeeDetails" EntitySet="EmployeeDetails" />
-            <End Role="EmployeeContactDetails" EntitySet="EmployeeContactDetails" />
-          </AssociationSet>
-          <AssociationSet Name="FK_MasterDataValue_EmployeeContactDetails" Association="Self.FK_MasterDataValue_EmployeeContactDetails">
-            <End Role="MasterDataValue" EntitySet="MasterDataValues" />
-            <End Role="EmployeeContactDetails" EntitySet="EmployeeContactDetails" />
-          </AssociationSet>
-          <AssociationSet Name="FK_EmployeeDetails_EmployeeProjectDetail" Association="Self.FK_EmployeeDetails_EmployeeProjectDetail">
-            <End Role="EmployeeDetails" EntitySet="EmployeeDetails" />
-            <End Role="EmployeeProjectDetail" EntitySet="EmployeeProjectDetails" />
-          </AssociationSet>
-          <AssociationSet Name="FK_EmployeeDetails_UserAccount" Association="Self.FK_EmployeeDetails_UserAccount">
-            <End Role="EmployeeDetails" EntitySet="EmployeeDetails" />
-            <End Role="UserAccount" EntitySet="UserAccounts" />
-          </AssociationSet>
-          <AssociationSet Name="FK_EmployeeDetailsId_Workflow" Association="Self.FK_EmployeeDetailsId_Workflow">
-            <End Role="EmployeeDetails" EntitySet="EmployeeDetails" />
-            <End Role="Workflow" EntitySet="Workflows" />
-          </AssociationSet>
-          <AssociationSet Name="FK_MasterDataValue_EmployeeDetails" Association="Self.FK_MasterDataValue_EmployeeDetails">
-            <End Role="MasterDataValue" EntitySet="MasterDataValues" />
-            <End Role="EmployeeDetails" EntitySet="EmployeeDetails" />
-          </AssociationSet>
-          <AssociationSet Name="FK_MasterDataValue_EmployeeProjectDetail1" Association="Self.FK_MasterDataValue_EmployeeProjectDetail1">
-            <End Role="MasterDataValue" EntitySet="MasterDataValues" />
-            <End Role="EmployeeProjectDetail" EntitySet="EmployeeProjectDetails" />
-          </AssociationSet>
-          <AssociationSet Name="FK_MasterDataValue_LeaveMaster" Association="Self.FK_MasterDataValue_LeaveMaster">
-            <End Role="MasterDataValue" EntitySet="MasterDataValues" />
-            <End Role="LeaveMaster" EntitySet="LeaveMasters" />
-          </AssociationSet>
-          <AssociationSet Name="FK_MasterDataType_MasterDataValue" Association="Self.FK_MasterDataType_MasterDataValue">
-            <End Role="MasterDataType" EntitySet="MasterDataTypes" />
-            <End Role="MasterDataValue" EntitySet="MasterDataValues" />
-          </AssociationSet>
-          <AssociationSet Name="FK_MasterDataValueStatus_Workflow" Association="Self.FK_MasterDataValueStatus_Workflow">
-            <End Role="MasterDataValue" EntitySet="MasterDataValues" />
-            <End Role="Workflow" EntitySet="Workflows" />
-          </AssociationSet>
-          <EntitySet Name="Announcements" EntityType="LeaveManagementSystemModel.Announcement" />
-          <EntitySet Name="EmployeeEducationDetails" EntityType="LeaveManagementSystemModel.EmployeeEducationDetail" />
-          <EntitySet Name="EmployeeExperienceDetails" EntityType="LeaveManagementSystemModel.EmployeeExperienceDetail" />
-          <AssociationSet Name="FK_EmployeeEducationDetails_EmployeeDetails" Association="LeaveManagementSystemModel.FK_EmployeeEducationDetails_EmployeeDetails">
-            <End Role="EmployeeDetail" EntitySet="EmployeeDetails" />
-            <End Role="EmployeeEducationDetail" EntitySet="EmployeeEducationDetails" />
-          </AssociationSet>
-          <AssociationSet Name="FK_EmployeeExperienceDetails_EmployeeDetails" Association="LeaveManagementSystemModel.FK_EmployeeExperienceDetails_EmployeeDetails">
-            <End Role="EmployeeDetail" EntitySet="EmployeeDetails" />
-            <End Role="EmployeeExperienceDetail" EntitySet="EmployeeExperienceDetails" />
-          </AssociationSet>
-          <EntitySet Name="EmployeeSkills" EntityType="LeaveManagementSystemModel.EmployeeSkill" />
-          <AssociationSet Name="FK_EmployeeDetails_MasterDataValue" Association="LeaveManagementSystemModel.FK_EmployeeDetails_MasterDataValue">
-            <End Role="MasterDataValue" EntitySet="MasterDataValues" />
-            <End Role="EmployeeDetail" EntitySet="EmployeeDetails" />
-          </AssociationSet>
-          <AssociationSet Name="FK_EmployeeSkills_EmployeeDetails" Association="LeaveManagementSystemModel.FK_EmployeeSkills_EmployeeDetails">
-            <End Role="EmployeeDetail" EntitySet="EmployeeDetails" />
-            <End Role="EmployeeSkill" EntitySet="EmployeeSkills" />
-          </AssociationSet>
-          <EntitySet Name="WorkFromHomes" EntityType="LeaveManagementSystemModel.WorkFromHome" />
-          <AssociationSet Name="FK_WorkFromHome_refEmpID" Association="LeaveManagementSystemModel.FK_WorkFromHome_refEmpID">
-            <End Role="EmployeeDetail" EntitySet="EmployeeDetails" />
-            <End Role="WorkFromHome" EntitySet="WorkFromHomes" />
-          </AssociationSet>
-          <AssociationSet Name="FK_WorkFromHome_RefStatus" Association="LeaveManagementSystemModel.FK_WorkFromHome_RefStatus">
-            <End Role="MasterDataValue" EntitySet="MasterDataValues" />
-            <End Role="WorkFromHome" EntitySet="WorkFromHomes" />
-          </AssociationSet>
-          <FunctionImport Name="GetLeaveReportProcedure" ReturnType="Collection(LeaveManagementSystemModel.GetLeaveReportProcedure_Result)">
-          <Parameter Name="Year" Mode="In" Type="String" />
-          </FunctionImport>
-          <AssociationSet Name="FK_WorkFromHome_RefReason" Association="LeaveManagementSystemModel.FK_WorkFromHome_RefReason">
-            <End Role="MasterDataValue" EntitySet="MasterDataValues" />
-            <End Role="WorkFromHome" EntitySet="WorkFromHomes" />
-          </AssociationSet>
-          <EntitySet Name="EmployeeLeaveTransactions" EntityType="LeaveManagementSystemModel.EmployeeLeaveTransaction" />
-          <EntitySet Name="EmployeeLeaveTransactionHistories" EntityType="LeaveManagementSystemModel.EmployeeLeaveTransactionHistory" />
-          <AssociationSet Name="FK_EmployeeDetails_EmployeeLeaveTransaction" Association="LeaveManagementSystemModel.FK_EmployeeDetails_EmployeeLeaveTransaction">
-            <End Role="EmployeeDetail" EntitySet="EmployeeDetails" />
-            <End Role="EmployeeLeaveTransaction" EntitySet="EmployeeLeaveTransactions" />
-          </AssociationSet>
-          <AssociationSet Name="FK_EmployeeDetails_EmployeeLeaveTransactionHistory" Association="LeaveManagementSystemModel.FK_EmployeeDetails_EmployeeLeaveTransactionHistory">
-            <End Role="EmployeeDetail" EntitySet="EmployeeDetails" />
-            <End Role="EmployeeLeaveTransactionHistory" EntitySet="EmployeeLeaveTransactionHistories" />
-          </AssociationSet>
-          <AssociationSet Name="FK_EmployeeLeaveTransaction_Workflow" Association="LeaveManagementSystemModel.FK_EmployeeLeaveTransaction_Workflow">
-            <End Role="EmployeeLeaveTransaction" EntitySet="EmployeeLeaveTransactions" />
-            <End Role="Workflow" EntitySet="Workflows" />
-          </AssociationSet>
-          <AssociationSet Name="FK_MasterDataValue_EmployeeLeaveTransaction" Association="LeaveManagementSystemModel.FK_MasterDataValue_EmployeeLeaveTransaction">
-            <End Role="MasterDataValue" EntitySet="MasterDataValues" />
-            <End Role="EmployeeLeaveTransaction" EntitySet="EmployeeLeaveTransactions" />
-          </AssociationSet>
-          <AssociationSet Name="FK_MasterDataValueStatus_EmployeeLeaveTransaction" Association="LeaveManagementSystemModel.FK_MasterDataValueStatus_EmployeeLeaveTransaction">
-            <End Role="MasterDataValue" EntitySet="MasterDataValues" />
-            <End Role="EmployeeLeaveTransaction" EntitySet="EmployeeLeaveTransactions" />
-          </AssociationSet>
-          <AssociationSet Name="FK_MasterDataValue_EmployeeLeaveTransactionHistory" Association="LeaveManagementSystemModel.FK_MasterDataValue_EmployeeLeaveTransactionHistory">
-            <End Role="MasterDataValue" EntitySet="MasterDataValues" />
-            <End Role="EmployeeLeaveTransactionHistory" EntitySet="EmployeeLeaveTransactionHistories" />
-          </AssociationSet>
-          <AssociationSet Name="FK_MasterDataValueStatus_EmployeeLeaveTransactionHistory" Association="LeaveManagementSystemModel.FK_MasterDataValueStatus_EmployeeLeaveTransactionHistory">
-            <End Role="MasterDataValue" EntitySet="MasterDataValues" />
-            <End Role="EmployeeLeaveTransactionHistory" EntitySet="EmployeeLeaveTransactionHistories" />
-          </AssociationSet>
-          <EntitySet Name="Notifications" EntityType="LeaveManagementSystemModel.Notification" />
-          <AssociationSet Name="FK_EmployeeDetails_Notification" Association="LeaveManagementSystemModel.FK_EmployeeDetails_Notification">
-            <End Role="EmployeeDetail" EntitySet="EmployeeDetails" />
-            <End Role="Notification" EntitySet="Notifications" />
-          </AssociationSet>
-          <AssociationSet Name="FK_MasterDataValue_Notification" Association="LeaveManagementSystemModel.FK_MasterDataValue_Notification">
-            <End Role="MasterDataValue" EntitySet="MasterDataValues" />
-            <End Role="Notification" EntitySet="Notifications" />
-          </AssociationSet>
-          <EntitySet Name="ProjectMasters" EntityType="LeaveManagementSystemModel.ProjectMaster" />
-          <EntitySet Name="ResourceRequestDetails" EntityType="LeaveManagementSystemModel.ResourceRequestDetail" />
-          <AssociationSet Name="FK_EmployeeDetails_MasterDataValue1" Association="LeaveManagementSystemModel.FK_EmployeeDetails_MasterDataValue1">
-            <End Role="MasterDataValue" EntitySet="MasterDataValues" />
-            <End Role="EmployeeDetail" EntitySet="EmployeeDetails" />
-          </AssociationSet>
-          <AssociationSet Name="FK_ProjectMaster_EmployeeDetails" Association="LeaveManagementSystemModel.FK_ProjectMaster_EmployeeDetails">
-            <End Role="EmployeeDetail" EntitySet="EmployeeDetails" />
-            <End Role="ProjectMaster" EntitySet="ProjectMasters" />
-          </AssociationSet>
-          <AssociationSet Name="FK_EmployeeProjectDetail_ProjectMaster" Association="LeaveManagementSystemModel.FK_EmployeeProjectDetail_ProjectMaster">
-            <End Role="ProjectMaster" EntitySet="ProjectMasters" />
-            <End Role="EmployeeProjectDetail" EntitySet="EmployeeProjectDetails" />
-          </AssociationSet>
-          <EntitySet Name="EmployeeLeaveMasters" EntityType="LeaveManagementSystemModel.EmployeeLeaveMaster" />
-          <AssociationSet Name="FK_ConsolidatedEmployeeLeaveDetails_EmployeeDetails" Association="LeaveManagementSystemModel.FK_ConsolidatedEmployeeLeaveDetails_EmployeeDetails">
-            <End Role="EmployeeDetail" EntitySet="EmployeeDetails" />
-            <End Role="EmployeeLeaveMaster" EntitySet="EmployeeLeaveMasters" />
-          </AssociationSet>
-          <AssociationSet Name="FK_EmployeeLeaveMaster_EmployeeDetails" Association="LeaveManagementSystemModel.FK_EmployeeLeaveMaster_EmployeeDetails">
-            <End Role="EmployeeDetail" EntitySet="EmployeeDetails" />
-            <End Role="EmployeeLeaveMaster" EntitySet="EmployeeLeaveMasters" />
-          </AssociationSet>
-          <EntitySet Name="EmployeeRewardedLeaveDetails" EntityType="LeaveManagementSystemModel.EmployeeRewardedLeaveDetail" />
-          <AssociationSet Name="FK_EmployeeRewardedLeaveDetails_EmployeeDetails" Association="LeaveManagementSystemModel.FK_EmployeeRewardedLeaveDetails_EmployeeDetails">
-            <End Role="EmployeeDetail" EntitySet="EmployeeDetails" />
-            <End Role="EmployeeRewardedLeaveDetail" EntitySet="EmployeeRewardedLeaveDetails" />
-          </AssociationSet>
-          <AssociationSet Name="FK_EmployeeRewardedLeaveDetails_EmployeeDetails1" Association="LeaveManagementSystemModel.FK_EmployeeRewardedLeaveDetails_EmployeeDetails1">
-            <End Role="EmployeeDetail" EntitySet="EmployeeDetails" />
-            <End Role="EmployeeRewardedLeaveDetail" EntitySet="EmployeeRewardedLeaveDetails" />
-          </AssociationSet>
-          <AssociationSet Name="FK_EmployeeRewardedLeaveDetails_ProjectMaster" Association="LeaveManagementSystemModel.FK_EmployeeRewardedLeaveDetails_ProjectMaster">
-            <End Role="ProjectMaster" EntitySet="ProjectMasters" />
-            <End Role="EmployeeRewardedLeaveDetail" EntitySet="EmployeeRewardedLeaveDetails" />
-          </AssociationSet>
-          <AssociationSet Name="FK_ResourceRequestDetail_EmployeeDetails" Association="LeaveManagementSystemModel.FK_ResourceRequestDetail_EmployeeDetails">
-            <End Role="EmployeeDetail" EntitySet="EmployeeDetails" />
-            <End Role="ResourceRequestDetail" EntitySet="ResourceRequestDetails" />
-          </AssociationSet>
-        </EntityContainer>
-        <EntityType Name="Announcement">
-          <Key>
-            <PropertyRef Name="Id" />
-          </Key>
-          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="Title" Type="String" MaxLength="250" FixedLength="false" Unicode="false" />
-          <Property Name="CarouselContent" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
-          <Property Name="ImagePath" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
-          <Property Name="IsActive" Type="Boolean" />
-        </EntityType>
-        <EntityType Name="EmployeeEducationDetail">
-          <Key>
-            <PropertyRef Name="Id" />
-          </Key>
-          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="RefEmployeeId" Type="Int32" Nullable="false" />
-          <Property Name="Institution" Type="String" Nullable="false" MaxLength="250" FixedLength="false" Unicode="false" />
-          <Property Name="Degree" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="false" />
-          <Property Name="FromDate" Type="DateTime" Nullable="false" Precision="0" />
-          <Property Name="ToDate" Type="DateTime" Nullable="false" Precision="0" />
-          <NavigationProperty Name="EmployeeDetail" Relationship="LeaveManagementSystemModel.FK_EmployeeEducationDetails_EmployeeDetails" FromRole="EmployeeEducationDetail" ToRole="EmployeeDetail" />
-        </EntityType>
-        <EntityType Name="EmployeeExperienceDetail">
-          <Key>
-            <PropertyRef Name="Id" />
-          </Key>
-          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="RefEmployeeId" Type="Int32" Nullable="false" />
-          <Property Name="CompanyName" Type="String" Nullable="false" MaxLength="250" FixedLength="false" Unicode="false" />
-          <Property Name="Role" Type="String" Nullable="false" MaxLength="250" FixedLength="false" Unicode="false" />
-          <Property Name="FromDate" Type="DateTime" Nullable="false" Precision="0" />
-          <Property Name="ToDate" Type="DateTime" Nullable="false" Precision="0" />
-          <NavigationProperty Name="EmployeeDetail" Relationship="LeaveManagementSystemModel.FK_EmployeeExperienceDetails_EmployeeDetails" FromRole="EmployeeExperienceDetail" ToRole="EmployeeDetail" />
-          <Property Name="CompanyLogo" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
-        </EntityType>
+        <Association Name="FK_EmployeeDetialsModifiedById_EmployeeLeaveTransaction">
+          <End Type="LeaveManagementSystemModel.EmployeeDetail" Role="EmployeeDetail" Multiplicity="0..1" />
+          <End Type="LeaveManagementSystemModel.EmployeeLeaveTransaction" Role="EmployeeLeaveTransaction" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="EmployeeDetail">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="EmployeeLeaveTransaction">
+              <PropertyRef Name="RefModifiedBy" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_EmployeeDetilasModifiedById_EmployeeLeaveTransactionHistory">
+          <End Type="LeaveManagementSystemModel.EmployeeDetail" Role="EmployeeDetail" Multiplicity="0..1" />
+          <End Type="LeaveManagementSystemModel.EmployeeLeaveTransactionHistory" Role="EmployeeLeaveTransactionHistory" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="EmployeeDetail">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="EmployeeLeaveTransactionHistory">
+              <PropertyRef Name="RefModifiedBy" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_EmployeeEducationDetails_EmployeeDetails">
           <End Type="LeaveManagementSystemModel.EmployeeDetail" Role="EmployeeDetail" Multiplicity="1" />
           <End Type="LeaveManagementSystemModel.EmployeeEducationDetail" Role="EmployeeEducationDetail" Multiplicity="*" />
@@ -1359,24 +1731,39 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <EntityType Name="EmployeeSkill">
-          <Key>
-            <PropertyRef Name="Id" />
-          </Key>
-          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="RefEmployeeId" Type="Int32" Nullable="false" />
-          <Property Name="Skill" Type="String" MaxLength="50" FixedLength="true" Unicode="true" />
-          <NavigationProperty Name="EmployeeDetail" Relationship="LeaveManagementSystemModel.FK_EmployeeSkills_EmployeeDetails" FromRole="EmployeeSkill" ToRole="EmployeeDetail" />
-        </EntityType>
-        <Association Name="FK_EmployeeDetails_MasterDataValue">
-          <End Type="LeaveManagementSystemModel.MasterDataValue" Role="MasterDataValue" Multiplicity="0..1" />
-          <End Type="LeaveManagementSystemModel.EmployeeDetail" Role="EmployeeDetail" Multiplicity="*" />
+        <Association Name="FK_EmployeeLeaveMaster_EmployeeDetails">
+          <End Type="LeaveManagementSystemModel.EmployeeDetail" Role="EmployeeDetail" Multiplicity="0..1" />
+          <End Type="LeaveManagementSystemModel.EmployeeLeaveMaster" Role="EmployeeLeaveMaster" Multiplicity="*" />
           <ReferentialConstraint>
-            <Principal Role="MasterDataValue">
+            <Principal Role="EmployeeDetail">
               <PropertyRef Name="Id" />
             </Principal>
-            <Dependent Role="EmployeeDetail">
-              <PropertyRef Name="RefHierarchyLevel" />
+            <Dependent Role="EmployeeLeaveMaster">
+              <PropertyRef Name="ModifiedBy" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_EmployeeRewardedLeaveDetails_EmployeeDetails">
+          <End Type="LeaveManagementSystemModel.EmployeeDetail" Role="EmployeeDetail" Multiplicity="1" />
+          <End Type="LeaveManagementSystemModel.EmployeeRewardedLeaveDetail" Role="EmployeeRewardedLeaveDetail" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="EmployeeDetail">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="EmployeeRewardedLeaveDetail">
+              <PropertyRef Name="RefEmployeeId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_EmployeeRewardedLeaveDetails_EmployeeDetails1">
+          <End Type="LeaveManagementSystemModel.EmployeeDetail" Role="EmployeeDetail" Multiplicity="1" />
+          <End Type="LeaveManagementSystemModel.EmployeeRewardedLeaveDetail" Role="EmployeeRewardedLeaveDetail" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="EmployeeDetail">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="EmployeeRewardedLeaveDetail">
+              <PropertyRef Name="RewardedBy" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -1392,24 +1779,18 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <EntityType Name="WorkFromHome">
-          <Key>
-            <PropertyRef Name="Id" />
-          </Key>
-          <Property Name="Id" Type="Int64" Nullable="false" />
-          <Property Name="RefEmployeeId" Type="Int32" Nullable="false" />
-          <Property Name="Date" Type="DateTime" Nullable="false" Precision="7" />
-          <Property Name="CreatedDate" Type="DateTime" Nullable="false" Precision="7" />
-          <Property Name="RefStatus" Type="Int32" Nullable="false" />
-          <Property Name="CreatedBy" Type="Int32" />
-          <Property Name="ModifiedBy" Type="Int32" />
-          <Property Name="ModifiedDate" Type="DateTime" Precision="7" />
-          <NavigationProperty Name="EmployeeDetail" Relationship="LeaveManagementSystemModel.FK_WorkFromHome_refEmpID" FromRole="WorkFromHome" ToRole="EmployeeDetail" />
-          <NavigationProperty Name="MasterDataValue" Relationship="LeaveManagementSystemModel.FK_WorkFromHome_RefStatus" FromRole="WorkFromHome" ToRole="MasterDataValue" />
-          <Property Name="RefReason" Type="Int32" Nullable="false" />
-          <NavigationProperty Name="MasterDataValue1" Relationship="LeaveManagementSystemModel.FK_WorkFromHome_RefReason" FromRole="WorkFromHome" ToRole="MasterDataValue" />
-          <Property Name="OtherReason" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
-        </EntityType>
+        <Association Name="FK_ProjectMaster_EmployeeDetails">
+          <End Type="LeaveManagementSystemModel.EmployeeDetail" Role="EmployeeDetail" Multiplicity="1" />
+          <End Type="LeaveManagementSystemModel.ProjectMaster" Role="ProjectMaster" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="EmployeeDetail">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="ProjectMaster">
+              <PropertyRef Name="RefManagerId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_WorkFromHome_refEmpID">
           <End Type="LeaveManagementSystemModel.EmployeeDetail" Role="EmployeeDetail" Multiplicity="1" />
           <End Type="LeaveManagementSystemModel.WorkFromHome" Role="WorkFromHome" Multiplicity="*" />
@@ -1418,112 +1799,6 @@
               <PropertyRef Name="Id" />
             </Principal>
             <Dependent Role="WorkFromHome">
-              <PropertyRef Name="RefEmployeeId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_WorkFromHome_RefStatus">
-          <End Type="LeaveManagementSystemModel.MasterDataValue" Role="MasterDataValue" Multiplicity="1" />
-          <End Type="LeaveManagementSystemModel.WorkFromHome" Role="WorkFromHome" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="MasterDataValue">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="WorkFromHome">
-              <PropertyRef Name="RefStatus" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <ComplexType Name="GetLeaveReportProcedure_Result">
-          <Property Type="Int32" Name="Year" Nullable="true" />
-          <Property Type="Int32" Name="Jan" Nullable="true" />
-          <Property Type="Int32" Name="Feb" Nullable="true" />
-          <Property Type="Int32" Name="Mar" Nullable="true" />
-          <Property Type="Int32" Name="Apr" Nullable="true" />
-          <Property Type="Int32" Name="May" Nullable="true" />
-          <Property Type="Int32" Name="Jun" Nullable="true" />
-          <Property Type="Int32" Name="Jul" Nullable="true" />
-          <Property Type="Int32" Name="Aug" Nullable="true" />
-          <Property Type="Int32" Name="Sep" Nullable="true" />
-          <Property Type="Int32" Name="Oct" Nullable="true" />
-          <Property Type="Int32" Name="Nov" Nullable="true" />
-          <Property Type="Int32" Name="Dec" Nullable="true" />
-        </ComplexType>
-        <Association Name="FK_WorkFromHome_RefReason">
-          <End Type="LeaveManagementSystemModel.MasterDataValue" Role="MasterDataValue" Multiplicity="1" />
-          <End Type="LeaveManagementSystemModel.WorkFromHome" Role="WorkFromHome" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="MasterDataValue">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="WorkFromHome">
-              <PropertyRef Name="RefReason" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <EntityType Name="EmployeeLeaveTransaction">
-          <Key>
-            <PropertyRef Name="Id" />
-          </Key>
-          <Property Name="Id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="RefEmployeeId" Type="Int32" Nullable="false" />
-          <Property Name="FromDate" Type="DateTime" Nullable="false" Precision="0" />
-          <Property Name="ToDate" Type="DateTime" Nullable="false" Precision="0" />
-          <Property Name="CreatedDate" Type="DateTime" Nullable="false" Precision="7" />
-          <Property Name="RefStatus" Type="Int32" Nullable="false" />
-          <Property Name="NumberOfWorkingDays" Type="Double" Nullable="false" />
-          <Property Name="RefLeaveType" Type="Int32" Nullable="false" />
-          <Property Name="EmployeeComment" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Name="ModifiedDate" Type="DateTime" Precision="7" />
-          <Property Name="CreatedBy" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="ModifiedBy" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <NavigationProperty Name="EmployeeDetail" Relationship="LeaveManagementSystemModel.FK_EmployeeDetails_EmployeeLeaveTransaction" FromRole="EmployeeLeaveTransaction" ToRole="EmployeeDetail" />
-          <NavigationProperty Name="Workflows" Relationship="LeaveManagementSystemModel.FK_EmployeeLeaveTransaction_Workflow" FromRole="EmployeeLeaveTransaction" ToRole="Workflow" />
-          <NavigationProperty Name="MasterDataValue" Relationship="LeaveManagementSystemModel.FK_MasterDataValue_EmployeeLeaveTransaction" FromRole="EmployeeLeaveTransaction" ToRole="MasterDataValue" />
-          <NavigationProperty Name="MasterDataValue1" Relationship="LeaveManagementSystemModel.FK_MasterDataValueStatus_EmployeeLeaveTransaction" FromRole="EmployeeLeaveTransaction" ToRole="MasterDataValue" />
-          <Property Name="RefTransactionType" Type="Int32" Nullable="false" />
-        </EntityType>
-        <EntityType Name="EmployeeLeaveTransactionHistory">
-          <Key>
-            <PropertyRef Name="Id" />
-          </Key>
-          <Property Name="Id" Type="Int64" Nullable="false" />
-          <Property Name="RefEmployeeId" Type="Int32" Nullable="false" />
-          <Property Name="FromDate" Type="DateTime" Nullable="false" Precision="7" />
-          <Property Name="ToDate" Type="DateTime" Nullable="false" Precision="7" />
-          <Property Name="CreatedDate" Type="DateTime" Nullable="false" Precision="7" />
-          <Property Name="RefStatus" Type="Int32" Nullable="false" />
-          <Property Name="NumberOfWorkingDays" Type="Double" Nullable="false" />
-          <Property Name="RefLeaveType" Type="Int32" Nullable="false" />
-          <Property Name="EmployeeComment" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Name="ManagerComment" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Name="ModifiedDate" Type="DateTime" Precision="7" />
-          <Property Name="CreatedBy" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="ModifiedBy" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
-          <NavigationProperty Name="EmployeeDetail" Relationship="LeaveManagementSystemModel.FK_EmployeeDetails_EmployeeLeaveTransactionHistory" FromRole="EmployeeLeaveTransactionHistory" ToRole="EmployeeDetail" />
-          <NavigationProperty Name="MasterDataValue" Relationship="LeaveManagementSystemModel.FK_MasterDataValue_EmployeeLeaveTransactionHistory" FromRole="EmployeeLeaveTransactionHistory" ToRole="MasterDataValue" />
-          <NavigationProperty Name="MasterDataValue1" Relationship="LeaveManagementSystemModel.FK_MasterDataValueStatus_EmployeeLeaveTransactionHistory" FromRole="EmployeeLeaveTransactionHistory" ToRole="MasterDataValue" />
-        </EntityType>
-        <Association Name="FK_EmployeeDetails_EmployeeLeaveTransaction">
-          <End Type="LeaveManagementSystemModel.EmployeeDetail" Role="EmployeeDetail" Multiplicity="1" />
-          <End Type="LeaveManagementSystemModel.EmployeeLeaveTransaction" Role="EmployeeLeaveTransaction" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="EmployeeDetail">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="EmployeeLeaveTransaction">
-              <PropertyRef Name="RefEmployeeId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_EmployeeDetails_EmployeeLeaveTransactionHistory">
-          <End Type="LeaveManagementSystemModel.EmployeeDetail" Role="EmployeeDetail" Multiplicity="1" />
-          <End Type="LeaveManagementSystemModel.EmployeeLeaveTransactionHistory" Role="EmployeeLeaveTransactionHistory" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="EmployeeDetail">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="EmployeeLeaveTransactionHistory">
               <PropertyRef Name="RefEmployeeId" />
             </Dependent>
           </ReferentialConstraint>
@@ -1588,99 +1863,6 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <EntityType Name="Notification">
-          <Key>
-            <PropertyRef Name="Id" />
-          </Key>
-          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="RefEmployeeId" Type="Int32" Nullable="false" />
-          <Property Name="Text" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Name="CreatedDate" Type="DateTime" Nullable="false" Precision="3" />
-          <Property Name="Status" Type="Int32" Nullable="false" />
-          <Property Name="RefNotificationType" Type="Int32" Nullable="false" />
-          <NavigationProperty Name="EmployeeDetail" Relationship="LeaveManagementSystemModel.FK_EmployeeDetails_Notification" FromRole="Notification" ToRole="EmployeeDetail" />
-          <NavigationProperty Name="MasterDataValue" Relationship="LeaveManagementSystemModel.FK_MasterDataValue_Notification" FromRole="Notification" ToRole="MasterDataValue" />
-        </EntityType>
-        <Association Name="FK_EmployeeDetails_Notification">
-          <End Type="LeaveManagementSystemModel.EmployeeDetail" Role="EmployeeDetail" Multiplicity="1" />
-          <End Type="LeaveManagementSystemModel.Notification" Role="Notification" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="EmployeeDetail">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="Notification">
-              <PropertyRef Name="RefEmployeeId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_MasterDataValue_Notification">
-          <End Type="LeaveManagementSystemModel.MasterDataValue" Role="MasterDataValue" Multiplicity="1" />
-          <End Type="LeaveManagementSystemModel.Notification" Role="Notification" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="MasterDataValue">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="Notification">
-              <PropertyRef Name="RefNotificationType" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <EntityType Name="ProjectMaster">
-          <Key>
-            <PropertyRef Name="Id" />
-          </Key>
-          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="ProjectName" Type="String" Nullable="false" MaxLength="250" FixedLength="false" Unicode="false" />
-          <Property Name="Description" Type="String" Nullable="false" MaxLength="250" FixedLength="false" Unicode="false" />
-          <Property Name="IsActive" Type="Boolean" Nullable="false" />
-          <Property Name="StartDate" Type="DateTime" Precision="0" />
-          <Property Name="EndDate" Type="DateTime" Precision="0" />
-          <Property Name="RefManagerId" Type="Int32" Nullable="false" />
-          <Property Name="Technology" Type="String" Nullable="false" MaxLength="250" FixedLength="false" Unicode="false" />
-          <NavigationProperty Name="EmployeeDetail" Relationship="LeaveManagementSystemModel.FK_ProjectMaster_EmployeeDetails" FromRole="ProjectMaster" ToRole="EmployeeDetail" />
-          <NavigationProperty Name="EmployeeProjectDetails" Relationship="LeaveManagementSystemModel.FK_EmployeeProjectDetail_ProjectMaster" FromRole="ProjectMaster" ToRole="EmployeeProjectDetail" />
-          <NavigationProperty Name="EmployeeRewardedLeaveDetails" Relationship="LeaveManagementSystemModel.FK_EmployeeRewardedLeaveDetails_ProjectMaster" FromRole="ProjectMaster" ToRole="EmployeeRewardedLeaveDetail" />
-        </EntityType>
-        <EntityType Name="ResourceRequestDetail">
-          <Key>
-            <PropertyRef Name="Id" />
-          </Key>
-          <Property Name="Id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="RequestFromId" Type="Int32" Nullable="false" />
-          <Property Name="RequestToId" Type="Int32" Nullable="false" />
-          <Property Name="ResourceRequestTitle" Type="String" MaxLength="250" FixedLength="false" Unicode="false" />
-          <Property Name="NumberRequestedResources" Type="Int32" Nullable="false" />
-          <Property Name="Skills" Type="String" MaxLength="250" FixedLength="false" Unicode="false" />
-          <Property Name="Ticket" Type="String" MaxLength="250" FixedLength="false" Unicode="false" />
-          <Property Name="CreatedDate" Type="DateTime" Nullable="false" Precision="7" />
-          <Property Name="UpdatedDate" Type="DateTime" Nullable="false" Precision="7" />
-          <Property Name="Status" Type="Int32" Nullable="false" />
-          <NavigationProperty Name="EmployeeDetail" Relationship="LeaveManagementSystemModel.FK_ResourceRequestDetail_EmployeeDetails" FromRole="ResourceRequestDetail" ToRole="EmployeeDetail" />
-        </EntityType>
-        <Association Name="FK_EmployeeDetails_MasterDataValue1">
-          <End Type="LeaveManagementSystemModel.MasterDataValue" Role="MasterDataValue" Multiplicity="1" />
-          <End Type="LeaveManagementSystemModel.EmployeeDetail" Role="EmployeeDetail" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="MasterDataValue">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="EmployeeDetail">
-              <PropertyRef Name="RefEmployeeType" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_ProjectMaster_EmployeeDetails">
-          <End Type="LeaveManagementSystemModel.EmployeeDetail" Role="EmployeeDetail" Multiplicity="1" />
-          <End Type="LeaveManagementSystemModel.ProjectMaster" Role="ProjectMaster" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="EmployeeDetail">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="ProjectMaster">
-              <PropertyRef Name="RefManagerId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Association Name="FK_EmployeeProjectDetail_ProjectMaster">
           <End Type="LeaveManagementSystemModel.ProjectMaster" Role="ProjectMaster" Multiplicity="1" />
           <End Type="LeaveManagementSystemModel.EmployeeProjectDetail" Role="EmployeeProjectDetail" Multiplicity="*" />
@@ -1690,84 +1872,6 @@
             </Principal>
             <Dependent Role="EmployeeProjectDetail">
               <PropertyRef Name="RefProjectId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <EntityType Name="EmployeeLeaveMaster">
-          <Key>
-            <PropertyRef Name="Id" />
-          </Key>
-          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="RefEmployeeId" Type="Int32" Nullable="false" />
-          <Property Name="RewardedLeaveCount" Type="Int32" />
-          <Property Name="ModifiedDate" Type="DateTime" Precision="0" />
-          <Property Name="ModifiedBy" Type="Int32" />
-          <NavigationProperty Name="EmployeeDetail" Relationship="LeaveManagementSystemModel.FK_ConsolidatedEmployeeLeaveDetails_EmployeeDetails" FromRole="EmployeeLeaveMaster" ToRole="EmployeeDetail" />
-          <NavigationProperty Name="EmployeeDetail1" Relationship="LeaveManagementSystemModel.FK_EmployeeLeaveMaster_EmployeeDetails" FromRole="EmployeeLeaveMaster" ToRole="EmployeeDetail" />
-          <Property Name="SpentAdvanceLeave" Type="Int32" />
-          <Property Name="TakenLossOfPay" Type="Int32" />
-          <Property Name="EarnedCasualLeave" Type="Int32" />
-          <Property Name="TakenCompOff" Type="Int32" />
-        </EntityType>
-        <Association Name="FK_ConsolidatedEmployeeLeaveDetails_EmployeeDetails">
-          <End Type="LeaveManagementSystemModel.EmployeeDetail" Role="EmployeeDetail" Multiplicity="1" />
-          <End Type="LeaveManagementSystemModel.EmployeeLeaveMaster" Role="EmployeeLeaveMaster" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="EmployeeDetail">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="EmployeeLeaveMaster">
-              <PropertyRef Name="RefEmployeeId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_EmployeeLeaveMaster_EmployeeDetails">
-          <End Type="LeaveManagementSystemModel.EmployeeDetail" Role="EmployeeDetail" Multiplicity="0..1" />
-          <End Type="LeaveManagementSystemModel.EmployeeLeaveMaster" Role="EmployeeLeaveMaster" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="EmployeeDetail">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="EmployeeLeaveMaster">
-              <PropertyRef Name="ModifiedBy" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <EntityType Name="EmployeeRewardedLeaveDetail">
-          <Key>
-            <PropertyRef Name="Id" />
-          </Key>
-          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="RefEmployeeId" Type="Int32" Nullable="false" />
-          <Property Name="RefProjectId" Type="Int32" Nullable="false" />
-          <Property Name="RewardedBy" Type="Int32" Nullable="false" />
-          <Property Name="LeaveCount" Type="Int32" Nullable="false" />
-          <Property Name="RewardedDate" Type="DateTime" Nullable="false" Precision="0" />
-          <NavigationProperty Name="EmployeeDetail" Relationship="LeaveManagementSystemModel.FK_EmployeeRewardedLeaveDetails_EmployeeDetails" FromRole="EmployeeRewardedLeaveDetail" ToRole="EmployeeDetail" />
-          <NavigationProperty Name="EmployeeDetail1" Relationship="LeaveManagementSystemModel.FK_EmployeeRewardedLeaveDetails_EmployeeDetails1" FromRole="EmployeeRewardedLeaveDetail" ToRole="EmployeeDetail" />
-          <NavigationProperty Name="ProjectMaster" Relationship="LeaveManagementSystemModel.FK_EmployeeRewardedLeaveDetails_ProjectMaster" FromRole="EmployeeRewardedLeaveDetail" ToRole="ProjectMaster" />
-        </EntityType>
-        <Association Name="FK_EmployeeRewardedLeaveDetails_EmployeeDetails">
-          <End Type="LeaveManagementSystemModel.EmployeeDetail" Role="EmployeeDetail" Multiplicity="1" />
-          <End Type="LeaveManagementSystemModel.EmployeeRewardedLeaveDetail" Role="EmployeeRewardedLeaveDetail" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="EmployeeDetail">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="EmployeeRewardedLeaveDetail">
-              <PropertyRef Name="RefEmployeeId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_EmployeeRewardedLeaveDetails_EmployeeDetails1">
-          <End Type="LeaveManagementSystemModel.EmployeeDetail" Role="EmployeeDetail" Multiplicity="1" />
-          <End Type="LeaveManagementSystemModel.EmployeeRewardedLeaveDetail" Role="EmployeeRewardedLeaveDetail" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="EmployeeDetail">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="EmployeeRewardedLeaveDetail">
-              <PropertyRef Name="RewardedBy" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -1783,6 +1887,90 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_MasterDataValue_LeaveMaster">
+          <End Type="LeaveManagementSystemModel.MasterDataValue" Role="MasterDataValue" Multiplicity="1" />
+          <End Type="LeaveManagementSystemModel.LeaveMaster" Role="LeaveMaster" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="MasterDataValue">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="LeaveMaster">
+              <PropertyRef Name="RefLeaveType" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_MasterDataType_MasterDataValue">
+          <End Type="LeaveManagementSystemModel.MasterDataType" Role="MasterDataType" Multiplicity="1" />
+          <End Type="LeaveManagementSystemModel.MasterDataValue" Role="MasterDataValue" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="MasterDataType">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="MasterDataValue">
+              <PropertyRef Name="RefMasterType" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_MasterDataValue_Notification">
+          <End Type="LeaveManagementSystemModel.MasterDataValue" Role="MasterDataValue" Multiplicity="1" />
+          <End Type="LeaveManagementSystemModel.Notification" Role="Notification" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="MasterDataValue">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Notification">
+              <PropertyRef Name="RefNotificationType" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_MasterDataValueStatus_Workflow">
+          <End Type="LeaveManagementSystemModel.MasterDataValue" Role="MasterDataValue" Multiplicity="1" />
+          <End Type="LeaveManagementSystemModel.Workflow" Role="Workflow" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="MasterDataValue">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Workflow">
+              <PropertyRef Name="RefStatus" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_WorkFromHome_RefReason">
+          <End Type="LeaveManagementSystemModel.MasterDataValue" Role="MasterDataValue" Multiplicity="1" />
+          <End Type="LeaveManagementSystemModel.WorkFromHome" Role="WorkFromHome" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="MasterDataValue">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="WorkFromHome">
+              <PropertyRef Name="RefReason" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_WorkFromHome_RefStatus">
+          <End Type="LeaveManagementSystemModel.MasterDataValue" Role="MasterDataValue" Multiplicity="1" />
+          <End Type="LeaveManagementSystemModel.WorkFromHome" Role="WorkFromHome" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="MasterDataValue">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="WorkFromHome">
+              <PropertyRef Name="RefStatus" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_EmployeeDetails_EmployeeManager">
+          <End Type="LeaveManagementSystemModel.EmployeeDetail" Role="EmployeeDetail" Multiplicity="0..1" />
+          <End Type="LeaveManagementSystemModel.EmployeeDetail" Role="EmployeeDetail1" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="EmployeeDetail">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="EmployeeDetail1">
+              <PropertyRef Name="ManagerId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_ResourceRequestDetail_EmployeeDetails">
           <End Type="LeaveManagementSystemModel.EmployeeDetail" Role="EmployeeDetail" Multiplicity="1" />
           <End Type="LeaveManagementSystemModel.ResourceRequestDetail" Role="ResourceRequestDetail" Multiplicity="*" />
@@ -1795,23 +1983,34 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-      </Schema>
+        </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
     <edmx:Mappings>
       <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
         <EntityContainerMapping StorageEntityContainer="LeaveManagementSystemModelStoreContainer" CdmEntityContainer="LeaveManagementSystemEntities1">
+          <EntitySetMapping Name="Announcements">
+            <EntityTypeMapping TypeName="LeaveManagementSystemModel.Announcement">
+              <MappingFragment StoreEntitySet="Announcements">
+                <ScalarProperty Name="IsActive" ColumnName="IsActive" />
+                <ScalarProperty Name="ImagePath" ColumnName="ImagePath" />
+                <ScalarProperty Name="CarouselContent" ColumnName="CarouselContent" />
+                <ScalarProperty Name="Title" ColumnName="Title" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
           <EntitySetMapping Name="EmployeeContactDetails">
             <EntityTypeMapping TypeName="LeaveManagementSystemModel.EmployeeContactDetail">
               <MappingFragment StoreEntitySet="EmployeeContactDetails">
-                <ScalarProperty Name="Id" ColumnName="Id" />
-                <ScalarProperty Name="RefContactType" ColumnName="RefContactType" />
-                <ScalarProperty Name="ContactDetails" ColumnName="ContactDetails" />
-                <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
-                <ScalarProperty Name="ModifiedDate" ColumnName="ModifiedDate" />
-                <ScalarProperty Name="RefEmpId" ColumnName="RefEmpId" />
-                <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
                 <ScalarProperty Name="ModifiedBy" ColumnName="ModifiedBy" />
+                <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
+                <ScalarProperty Name="RefEmpId" ColumnName="RefEmpId" />
+                <ScalarProperty Name="ModifiedDate" ColumnName="ModifiedDate" />
+                <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
+                <ScalarProperty Name="ContactDetails" ColumnName="ContactDetails" />
+                <ScalarProperty Name="RefContactType" ColumnName="RefContactType" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -1822,127 +2021,24 @@
                 <ScalarProperty Name="GooglePlusLink" ColumnName="GooglePlusLink" />
                 <ScalarProperty Name="TwitterLink" ColumnName="TwitterLink" />
                 <ScalarProperty Name="FacebookLink" ColumnName="FacebookLink" />
+                <ScalarProperty Name="ImagePath" ColumnName="ImagePath" />
+                <ScalarProperty Name="DateOfBirth" ColumnName="DateOfBirth" />
                 <ScalarProperty Name="RefHierarchyLevel" ColumnName="RefHierarchyLevel" />
                 <ScalarProperty Name="Bio" ColumnName="Bio" />
-                <ScalarProperty Name="ImagePath" ColumnName="ImagePath" />
                 <ScalarProperty Name="PhoneNumber" ColumnName="PhoneNumber" />
                 <ScalarProperty Name="LastName" ColumnName="LastName" />
                 <ScalarProperty Name="Country" ColumnName="Country" />
                 <ScalarProperty Name="City" ColumnName="City" />
-                <ScalarProperty Name="DateOfBirth" ColumnName="DateOfBirth" />
-                <ScalarProperty Name="FirstName" ColumnName="FirstName" />
-                <ScalarProperty Name="Id" ColumnName="Id" />
-                <ScalarProperty Name="RefRoleId" ColumnName="RefRoleId" />
-                <ScalarProperty Name="DateOfJoining" ColumnName="DateOfJoining" />
-                <ScalarProperty Name="ManagerId" ColumnName="ManagerId" />
-                <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
-                <ScalarProperty Name="ModifiedDate" ColumnName="ModifiedDate" />
-                <ScalarProperty Name="Experience" ColumnName="Experience" />
-                <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
-                <ScalarProperty Name="ModifiedBy" ColumnName="ModifiedBy" />
                 <ScalarProperty Name="EmpNumber" ColumnName="EmpNumber" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="EmployeeProjectDetails">
-            <EntityTypeMapping TypeName="LeaveManagementSystemModel.EmployeeProjectDetail">
-              <MappingFragment StoreEntitySet="EmployeeProjectDetail">
-                <ScalarProperty Name="EndDate" ColumnName="EndDate" />
-                <ScalarProperty Name="StartDate" ColumnName="StartDate" />
-                <ScalarProperty Name="IsActive" ColumnName="IsActive" />
-                <ScalarProperty Name="Id" ColumnName="Id" />
-                <ScalarProperty Name="RefEmployeeId" ColumnName="RefEmployeeId" />
-                <ScalarProperty Name="RefProjectId" ColumnName="RefProjectId" />
-                <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
-                <ScalarProperty Name="ModifiedDate" ColumnName="ModifiedDate" />
-                <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
                 <ScalarProperty Name="ModifiedBy" ColumnName="ModifiedBy" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="Holidays">
-            <EntityTypeMapping TypeName="LeaveManagementSystemModel.Holiday">
-              <MappingFragment StoreEntitySet="Holidays">
-                <ScalarProperty Name="Id" ColumnName="Id" />
-                <ScalarProperty Name="Date" ColumnName="Date" />
-                <ScalarProperty Name="Description" ColumnName="Description" />
-                <ScalarProperty Name="Year" ColumnName="Year" />
-                <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
-                <ScalarProperty Name="ModifiedDate" ColumnName="ModifiedDate" />
                 <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
-                <ScalarProperty Name="ModifiedBy" ColumnName="ModifiedBy" />
-                <ScalarProperty Name="IsActive" ColumnName="IsActive" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="LeaveMasters">
-            <EntityTypeMapping TypeName="LeaveManagementSystemModel.LeaveMaster">
-              <MappingFragment StoreEntitySet="LeaveMaster">
-                <ScalarProperty Name="Id" ColumnName="Id" />
-                <ScalarProperty Name="RefLeaveType" ColumnName="RefLeaveType" />
-                <ScalarProperty Name="Description" ColumnName="Description" />
-                <ScalarProperty Name="Count" ColumnName="Count" />
-                <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
+                <ScalarProperty Name="Experience" ColumnName="Experience" />
                 <ScalarProperty Name="ModifiedDate" ColumnName="ModifiedDate" />
-                <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
-                <ScalarProperty Name="ModifiedBy" ColumnName="ModifiedBy" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="MasterDataTypes">
-            <EntityTypeMapping TypeName="LeaveManagementSystemModel.MasterDataType">
-              <MappingFragment StoreEntitySet="MasterDataType">
-                <ScalarProperty Name="Id" ColumnName="Id" />
-                <ScalarProperty Name="Type" ColumnName="Type" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="MasterDataValues">
-            <EntityTypeMapping TypeName="LeaveManagementSystemModel.MasterDataValue">
-              <MappingFragment StoreEntitySet="MasterDataValue">
-                <ScalarProperty Name="Id" ColumnName="Id" />
-                <ScalarProperty Name="RefMasterType" ColumnName="RefMasterType" />
-                <ScalarProperty Name="Value" ColumnName="Value" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="UserAccounts">
-            <EntityTypeMapping TypeName="LeaveManagementSystemModel.UserAccount">
-              <MappingFragment StoreEntitySet="UserAccount">
-                <ScalarProperty Name="Id" ColumnName="Id" />
-                <ScalarProperty Name="UserName" ColumnName="UserName" />
-                <ScalarProperty Name="Password" ColumnName="Password" />
-                <ScalarProperty Name="Lastlogin" ColumnName="Lastlogin" />
-                <ScalarProperty Name="RefEmployeeId" ColumnName="RefEmployeeId" />
                 <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
-                <ScalarProperty Name="ModifiedDate" ColumnName="ModifiedDate" />
-                <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
-                <ScalarProperty Name="ModifiedBy" ColumnName="ModifiedBy" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="Workflows">
-            <EntityTypeMapping TypeName="LeaveManagementSystemModel.Workflow">
-              <MappingFragment StoreEntitySet="Workflow">
-                <ScalarProperty Name="Id" ColumnName="Id" />
-                <ScalarProperty Name="RefLeaveTransactionId" ColumnName="RefLeaveTransactionId" />
-                <ScalarProperty Name="RefApproverId" ColumnName="RefApproverId" />
-                <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
-                <ScalarProperty Name="ModifiedDate" ColumnName="ModifiedDate" />
-                <ScalarProperty Name="RefStatus" ColumnName="RefStatus" />
-                <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
-                <ScalarProperty Name="ModifiedBy" ColumnName="ModifiedBy" />
-                <ScalarProperty Name="ManagerComments" ColumnName="ManagerComments" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="Announcements">
-            <EntityTypeMapping TypeName="LeaveManagementSystemModel.Announcement">
-              <MappingFragment StoreEntitySet="Announcements">
-                <ScalarProperty Name="IsActive" ColumnName="IsActive" />
-                <ScalarProperty Name="ImagePath" ColumnName="ImagePath" />
-                <ScalarProperty Name="CarouselContent" ColumnName="CarouselContent" />
-                <ScalarProperty Name="Title" ColumnName="Title" />
+                <ScalarProperty Name="ManagerId" ColumnName="ManagerId" />
+                <ScalarProperty Name="DateOfJoining" ColumnName="DateOfJoining" />
+                <ScalarProperty Name="RefRoleId" ColumnName="RefRoleId" />
+                <ScalarProperty Name="FirstName" ColumnName="FirstName" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
               </MappingFragment>
             </EntityTypeMapping>
@@ -1972,26 +2068,16 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="EmployeeSkills">
-            <EntityTypeMapping TypeName="LeaveManagementSystemModel.EmployeeSkill">
-              <MappingFragment StoreEntitySet="EmployeeSkills">
-                <ScalarProperty Name="Skill" ColumnName="Skill" />
-                <ScalarProperty Name="RefEmployeeId" ColumnName="RefEmployeeId" />
-                <ScalarProperty Name="Id" ColumnName="Id" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="WorkFromHomes">
-            <EntityTypeMapping TypeName="LeaveManagementSystemModel.WorkFromHome">
-              <MappingFragment StoreEntitySet="WorkFromHome">
-                <ScalarProperty Name="OtherReason" ColumnName="OtherReason" />
-                <ScalarProperty Name="RefReason" ColumnName="RefReason" />
-                <ScalarProperty Name="ModifiedDate" ColumnName="ModifiedDate" />
+          <EntitySetMapping Name="EmployeeLeaveMasters">
+            <EntityTypeMapping TypeName="LeaveManagementSystemModel.EmployeeLeaveMaster">
+              <MappingFragment StoreEntitySet="EmployeeLeaveMaster">
+                <ScalarProperty Name="TakenCompOff" ColumnName="TakenCompOff" />
+                <ScalarProperty Name="EarnedCasualLeave" ColumnName="EarnedCasualLeave" />
+                <ScalarProperty Name="TakenLossOfPay" ColumnName="TakenLossOfPay" />
+                <ScalarProperty Name="SpentAdvanceLeave" ColumnName="SpentAdvanceLeave" />
                 <ScalarProperty Name="ModifiedBy" ColumnName="ModifiedBy" />
-                <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
-                <ScalarProperty Name="RefStatus" ColumnName="RefStatus" />
-                <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
-                <ScalarProperty Name="Date" ColumnName="Date" />
+                <ScalarProperty Name="ModifiedDate" ColumnName="ModifiedDate" />
+                <ScalarProperty Name="RewardedLeaveCount" ColumnName="RewardedLeaveCount" />
                 <ScalarProperty Name="RefEmployeeId" ColumnName="RefEmployeeId" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
               </MappingFragment>
@@ -2001,8 +2087,8 @@
             <EntityTypeMapping TypeName="LeaveManagementSystemModel.EmployeeLeaveTransaction">
               <MappingFragment StoreEntitySet="EmployeeLeaveTransaction">
                 <ScalarProperty Name="RefTransactionType" ColumnName="RefTransactionType" />
-                <ScalarProperty Name="ModifiedBy" ColumnName="ModifiedBy" />
-                <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
+                <ScalarProperty Name="RefModifiedBy" ColumnName="RefModifiedBy" />
+                <ScalarProperty Name="RefCreatedBy" ColumnName="RefCreatedBy" />
                 <ScalarProperty Name="ModifiedDate" ColumnName="ModifiedDate" />
                 <ScalarProperty Name="EmployeeComment" ColumnName="EmployeeComment" />
                 <ScalarProperty Name="RefLeaveType" ColumnName="RefLeaveType" />
@@ -2019,8 +2105,8 @@
           <EntitySetMapping Name="EmployeeLeaveTransactionHistories">
             <EntityTypeMapping TypeName="LeaveManagementSystemModel.EmployeeLeaveTransactionHistory">
               <MappingFragment StoreEntitySet="EmployeeLeaveTransactionHistory">
-                <ScalarProperty Name="ModifiedBy" ColumnName="ModifiedBy" />
-                <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
+                <ScalarProperty Name="RefModifiedBy" ColumnName="RefModifiedBy" />
+                <ScalarProperty Name="RefCreatedBy" ColumnName="RefCreatedBy" />
                 <ScalarProperty Name="ModifiedDate" ColumnName="ModifiedDate" />
                 <ScalarProperty Name="ManagerComment" ColumnName="ManagerComment" />
                 <ScalarProperty Name="EmployeeComment" ColumnName="EmployeeComment" />
@@ -2031,6 +2117,90 @@
                 <ScalarProperty Name="ToDate" ColumnName="ToDate" />
                 <ScalarProperty Name="FromDate" ColumnName="FromDate" />
                 <ScalarProperty Name="RefEmployeeId" ColumnName="RefEmployeeId" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="PID" ColumnName="PID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="EmployeeProjectDetails">
+            <EntityTypeMapping TypeName="LeaveManagementSystemModel.EmployeeProjectDetail">
+              <MappingFragment StoreEntitySet="EmployeeProjectDetail">
+                <ScalarProperty Name="EndDate" ColumnName="EndDate" />
+                <ScalarProperty Name="StartDate" ColumnName="StartDate" />
+                <ScalarProperty Name="IsActive" ColumnName="IsActive" />
+                <ScalarProperty Name="ModifiedBy" ColumnName="ModifiedBy" />
+                <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
+                <ScalarProperty Name="ModifiedDate" ColumnName="ModifiedDate" />
+                <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
+                <ScalarProperty Name="RefProjectId" ColumnName="RefProjectId" />
+                <ScalarProperty Name="RefEmployeeId" ColumnName="RefEmployeeId" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="EmployeeRewardedLeaveDetails">
+            <EntityTypeMapping TypeName="LeaveManagementSystemModel.EmployeeRewardedLeaveDetail">
+              <MappingFragment StoreEntitySet="EmployeeRewardedLeaveDetails">
+                <ScalarProperty Name="RewardedDate" ColumnName="RewardedDate" />
+                <ScalarProperty Name="LeaveCount" ColumnName="LeaveCount" />
+                <ScalarProperty Name="RewardedBy" ColumnName="RewardedBy" />
+                <ScalarProperty Name="RefProjectId" ColumnName="RefProjectId" />
+                <ScalarProperty Name="RefEmployeeId" ColumnName="RefEmployeeId" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="EmployeeSkills">
+            <EntityTypeMapping TypeName="LeaveManagementSystemModel.EmployeeSkill">
+              <MappingFragment StoreEntitySet="EmployeeSkills">
+                <ScalarProperty Name="Skill" ColumnName="Skill" />
+                <ScalarProperty Name="RefEmployeeId" ColumnName="RefEmployeeId" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Holidays">
+            <EntityTypeMapping TypeName="LeaveManagementSystemModel.Holiday">
+              <MappingFragment StoreEntitySet="Holidays">
+                <ScalarProperty Name="IsActive" ColumnName="IsActive" />
+                <ScalarProperty Name="ModifiedBy" ColumnName="ModifiedBy" />
+                <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
+                <ScalarProperty Name="ModifiedDate" ColumnName="ModifiedDate" />
+                <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
+                <ScalarProperty Name="Year" ColumnName="Year" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="Date" ColumnName="Date" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="LeaveMasters">
+            <EntityTypeMapping TypeName="LeaveManagementSystemModel.LeaveMaster">
+              <MappingFragment StoreEntitySet="LeaveMaster">
+                <ScalarProperty Name="ModifiedBy" ColumnName="ModifiedBy" />
+                <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
+                <ScalarProperty Name="ModifiedDate" ColumnName="ModifiedDate" />
+                <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
+                <ScalarProperty Name="Count" ColumnName="Count" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="RefLeaveType" ColumnName="RefLeaveType" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="MasterDataTypes">
+            <EntityTypeMapping TypeName="LeaveManagementSystemModel.MasterDataType">
+              <MappingFragment StoreEntitySet="MasterDataType">
+                <ScalarProperty Name="Type" ColumnName="Type" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="MasterDataValues">
+            <EntityTypeMapping TypeName="LeaveManagementSystemModel.MasterDataValue">
+              <MappingFragment StoreEntitySet="MasterDataValue">
+                <ScalarProperty Name="Value" ColumnName="Value" />
+                <ScalarProperty Name="RefMasterType" ColumnName="RefMasterType" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
               </MappingFragment>
             </EntityTypeMapping>
@@ -2077,28 +2247,47 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="EmployeeLeaveMasters">
-            <EntityTypeMapping TypeName="LeaveManagementSystemModel.EmployeeLeaveMaster">
-              <MappingFragment StoreEntitySet="EmployeeLeaveMaster">
-                <ScalarProperty Name="TakenCompOff" ColumnName="TakenCompOff" />
-                <ScalarProperty Name="EarnedCasualLeave" ColumnName="EarnedCasualLeave" />
-                <ScalarProperty Name="TakenLossOfPay" ColumnName="TakenLossOfPay" />
-                <ScalarProperty Name="SpentAdvanceLeave" ColumnName="SpentAdvanceLeave" />
+          <EntitySetMapping Name="UserAccounts">
+            <EntityTypeMapping TypeName="LeaveManagementSystemModel.UserAccount">
+              <MappingFragment StoreEntitySet="UserAccount">
                 <ScalarProperty Name="ModifiedBy" ColumnName="ModifiedBy" />
+                <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
                 <ScalarProperty Name="ModifiedDate" ColumnName="ModifiedDate" />
-                <ScalarProperty Name="RewardedLeaveCount" ColumnName="RewardedLeaveCount" />
+                <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
                 <ScalarProperty Name="RefEmployeeId" ColumnName="RefEmployeeId" />
+                <ScalarProperty Name="Lastlogin" ColumnName="Lastlogin" />
+                <ScalarProperty Name="Password" ColumnName="Password" />
+                <ScalarProperty Name="UserName" ColumnName="UserName" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="EmployeeRewardedLeaveDetails">
-            <EntityTypeMapping TypeName="LeaveManagementSystemModel.EmployeeRewardedLeaveDetail">
-              <MappingFragment StoreEntitySet="EmployeeRewardedLeaveDetails">
-                <ScalarProperty Name="RewardedDate" ColumnName="RewardedDate" />
-                <ScalarProperty Name="LeaveCount" ColumnName="LeaveCount" />
-                <ScalarProperty Name="RewardedBy" ColumnName="RewardedBy" />
-                <ScalarProperty Name="RefProjectId" ColumnName="RefProjectId" />
+          <EntitySetMapping Name="Workflows">
+            <EntityTypeMapping TypeName="LeaveManagementSystemModel.Workflow">
+              <MappingFragment StoreEntitySet="Workflow">
+                <ScalarProperty Name="ManagerComments" ColumnName="ManagerComments" />
+                <ScalarProperty Name="RefModifiedBy" ColumnName="RefModifiedBy" />
+                <ScalarProperty Name="RefCreatedBy" ColumnName="RefCreatedBy" />
+                <ScalarProperty Name="RefStatus" ColumnName="RefStatus" />
+                <ScalarProperty Name="ModifiedDate" ColumnName="ModifiedDate" />
+                <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
+                <ScalarProperty Name="RefApproverId" ColumnName="RefApproverId" />
+                <ScalarProperty Name="RefLeaveTransactionId" ColumnName="RefLeaveTransactionId" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="WorkFromHomes">
+            <EntityTypeMapping TypeName="LeaveManagementSystemModel.WorkFromHome">
+              <MappingFragment StoreEntitySet="WorkFromHome">
+                <ScalarProperty Name="OtherReason" ColumnName="OtherReason" />
+                <ScalarProperty Name="RefReason" ColumnName="RefReason" />
+                <ScalarProperty Name="ModifiedDate" ColumnName="ModifiedDate" />
+                <ScalarProperty Name="ModifiedBy" ColumnName="ModifiedBy" />
+                <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
+                <ScalarProperty Name="RefStatus" ColumnName="RefStatus" />
+                <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
+                <ScalarProperty Name="Date" ColumnName="Date" />
                 <ScalarProperty Name="RefEmployeeId" ColumnName="RefEmployeeId" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
               </MappingFragment>

@@ -40,94 +40,66 @@ namespace LMS_WebAPI_DAL.Repositories
             }
         }
 
-        public List<EmployeeDetail> GetTeamMembers(int UserEmpId)
-        {
-            try
-            {
-                List<EmployeeDetail> resTeamMembers = new List<EmployeeDetail>();
-                using (var ctx = new LeaveManagementSystemEntities1())
-                {
-                    var lstProjectDetails = ctx.EmployeeProjectDetails.Where(m => m.RefEmployeeId == UserEmpId && m.IsActive == true).Select(m => m.RefProjectId).ToList();
-                    if (lstProjectDetails != null && lstProjectDetails.Count > 0)
-                    {
-                        resTeamMembers = ctx.EmployeeProjectDetails.Include("EmployeeDetail").Include("MasterDataValue").Where(m => lstProjectDetails.Contains(m.RefProjectId)).Select(m => m.EmployeeDetail).ToList();
-
-                    }
-                }
-                return resTeamMembers;
-            }
-            catch (Exception ex)
-            {
-
-                throw ex;
-            }
-        }
-
-
-        public EmployeeCommonDetails GetUserDetails(int UserEmpId)
+        public EmployeeCommonDetails GetUserDetails(int userEmpId)
         {
             Logger.Info("Entering in UserRepository API GetUserDetails method");
+
             try
             {
+
                 using (var ctx = new LeaveManagementSystemEntities1())
                 {
-                    var empDetails = (from n in ctx.EmployeeDetails
-                                      where n.Id == UserEmpId
-                                      select new EmployeeCommonDetails()
-                                      {
-                                          Id = n.Id,
-                                          Name = n.FirstName,
-                                          ManagerId = n.ManagerId,
-                                          Experience = n.Experience,
-                                          RoleName = n.MasterDataValue.Value,
-                                          DateOfJoining = n.DateOfJoining,
-                                      }).FirstOrDefault();
-                    if (null != empDetails)
+                    ctx.Configuration.LazyLoadingEnabled = true;
+                    var empDetail = (from emp in ctx.EmployeeDetails
+                                     where emp.Id == userEmpId
+                                     select emp).FirstOrDefault();
+
+
+                    var masterDetails = (from master in ctx.MasterDataValues select master);
+
+                    EmployeeCommonDetails empData = new EmployeeCommonDetails();
+                    if (empDetail != null)
                     {
-                        var leaveType = (from n in ctx.EmployeeLeaveMasters where n.RefEmployeeId == UserEmpId select n).SingleOrDefault();
-                        if (null != leaveType)
+                        empData.Id = empDetail.Id;
+                        empData.Name = empDetail.FirstName;
+                        empData.ManagerId = empDetail.ManagerId;
+                        empData.Experience = empDetail.Experience;
+                        empData.RoleName = empDetail.MasterDataValue.Value;
+                        empData.DateOfJoining = empDetail.DateOfJoining;
+                        if (empDetail.EmployeeDetail1 != null)
                         {
-                            int ad = Convert.ToInt16(AdvanceLeaveLimit.limit);
-                            int lo = Convert.ToInt16(LOPLeaveLimit.limit);
-                            var advanceLimit = (from n in ctx.MasterDataValues where n.RefMasterType == ad select n).FirstOrDefault();
-                            var lopLimit = (from n in ctx.MasterDataValues where n.RefMasterType == lo select n).FirstOrDefault();
-                            var sickLeaveint = Convert.ToInt16(LeaveType.SickLeave);
-                            var CasualLeaveint = Convert.ToInt16(LeaveType.CasualLeave);
-
-                            empDetails.TotalAdvanceLeaveToTake = ((leaveType.SpentAdvanceLeave == 0) || (leaveType.SpentAdvanceLeave == null)) ? Convert.ToInt16(advanceLimit.Value) : (Convert.ToInt16(advanceLimit.Value)-leaveType.SpentAdvanceLeave);
-                            empDetails.TotalCasualLeave = leaveType.EarnedCasualLeave + (leaveType.RewardedLeaveCount!=null?leaveType.RewardedLeaveCount:0);
-                            empDetails.TotalLeaveCount = leaveType.EarnedCasualLeave + leaveType.RewardedLeaveCount;
-                            empDetails.LOPLeaveLimit = Convert.ToInt32(lopLimit.Value);
-                            empDetails.CompOffTaken = leaveType.TakenCompOff;
+                            empData.ManagerName = empDetail.EmployeeDetail1.FirstName;
+                            empData.ManagerEmailId = empDetail.EmployeeDetail1.UserAccounts.FirstOrDefault().UserName;
                         }
 
-                        empDetails.TotalSpent = (from c in ctx.EmployeeLeaveTransactions
-                                                 where c.RefEmployeeId == UserEmpId & c.RefStatus == (int)(LeaveStatus.Approved)
-                                                 select c.NumberOfWorkingDays).ToList().Sum();
+                        var employeeLeaves = empDetail.EmployeeLeaveMasters.FirstOrDefault();
 
-                        empDetails.TotalApplied = (from c in ctx.EmployeeLeaveTransactions
-                                                   where c.RefEmployeeId == UserEmpId & c.RefStatus == (int)(LeaveStatus.Submitted)
-                                                   select c.NumberOfWorkingDays).ToList().Sum();
-
-                        empDetails.TotalWorkFromHome = (from w in ctx.WorkFromHomes where w.RefEmployeeId == UserEmpId select w).ToList().Count();
-                        //empDetails.ProjectName = empdata != null ? empdata.MasterDataValue.Value : string.Empty;
-                        var managerDetails = (from n in ctx.EmployeeDetails where n.Id == empDetails.ManagerId select n).SingleOrDefault();
-                        if (null != managerDetails)
+                        if (employeeLeaves != null)
                         {
-                            empDetails.ManagerName = managerDetails.FirstName;
-                            empDetails.ManagerEmailId = managerDetails.UserAccounts.FirstOrDefault().UserName;
+
+                            var advanceLimit = masterDetails.ToList().Where(x => x.RefMasterType == Convert.ToInt32(AdvanceLeaveLimit.limit)).FirstOrDefault();
+                            var lopLimit = masterDetails.ToList().Where(x => x.RefMasterType == Convert.ToInt32(LOPLeaveLimit.limit)).FirstOrDefault();
+                            empData.TotalAdvanceLeaveToTake = ((employeeLeaves.SpentAdvanceLeave == 0) || (employeeLeaves.SpentAdvanceLeave == null)) ? Convert.ToInt16(advanceLimit.Value) : (Convert.ToInt16(advanceLimit.Value) - employeeLeaves.SpentAdvanceLeave);
+                            empData.TotalCasualLeave = employeeLeaves.EarnedCasualLeave + (employeeLeaves.RewardedLeaveCount != null ? employeeLeaves.RewardedLeaveCount : 0);
+                            empData.TotalLeaveCount = employeeLeaves.EarnedCasualLeave + employeeLeaves.RewardedLeaveCount;
+                            empData.LOPLeaveLimit = Convert.ToInt32(lopLimit.Value);
+                            empData.CompOffTaken = employeeLeaves.TakenCompOff;
                         }
-                        Logger.Info("Successfully exiting from UserRepository API GetUserDetails method");
-                        return empDetails;
+
+                        empData.TotalSpent = empDetail.EmployeeLeaveTransactions.Where(x => x.RefStatus == (int)(LeaveStatus.Approved)).Select(x => x.NumberOfWorkingDays).ToList().Sum();
+                        empData.TotalApplied = empDetail.EmployeeLeaveTransactions.Where(x => x.RefStatus == (int)(LeaveStatus.Submitted)).Select(x => x.NumberOfWorkingDays).ToList().Sum();
+                        empData.TotalWorkFromHome = empDetail.WorkFromHomes.ToList().Count();
+
+
+                        ctx.Configuration.LazyLoadingEnabled = false;
                     }
-                    else
-                    {
-                        Logger.Info("Successfully exiting from UserRepository API GetUserDetails method");
-                        return null;
-                    } 
+                    
+                    Logger.Info("Successfully exiting from UserRepository API GetUserDetails method");
+                    return empData;
+
                 }
             }
-            catch 
+            catch
             {
                 Logger.Info("Exception occured at UserRepository GetUserDetails method ");
                 throw;
@@ -153,7 +125,7 @@ namespace LMS_WebAPI_DAL.Repositories
             }
         }
 
-        public LeaveReportModel GetLeaveReportDetails(int year, int employeeId = 0,int leaveType=0)
+        public LeaveReportModel GetLeaveReportDetails(int year, int employeeId = 0, int leaveType = 0)
         {
             Logger.Info("Entering in UserRepository API GetLeaveReportDetails method");
             try
@@ -168,11 +140,11 @@ namespace LMS_WebAPI_DAL.Repositories
                     {
                         years = years.Where(i => i.RefEmployeeId == employeeId).ToList();
                     }
-                    if(leaveType!=0)
+                    if (leaveType != 0)
                     {
                         years = years.Where(i => i.RefLeaveType == leaveType).ToList();
                     }
-          
+
                     foreach (var item in years)
                     {
 
@@ -234,7 +206,7 @@ namespace LMS_WebAPI_DAL.Repositories
             }
         }
 
-        public EmployeeDetail GetUserProfileDetails(int employeeId, out List<MasterDataModel> skills,out List<ProjectsList> projects)
+        public EmployeeDetail GetUserProfileDetails(int employeeId, out List<MasterDataModel> skills, out List<ProjectsList> projects)
         {
             Logger.Info("Entering in UserRepository API GetUserProfileDetails method");
             try
@@ -301,7 +273,7 @@ namespace LMS_WebAPI_DAL.Repositories
                     return true;
                 }
             }
-            catch 
+            catch
             {
                 Logger.Info("Exception occured at UserRepository EditEmployeeDetails method ");
                 throw;
@@ -419,7 +391,7 @@ namespace LMS_WebAPI_DAL.Repositories
                     return true;
                 }
             }
-            catch 
+            catch
             {
                 Logger.Info("Exception occured at UserRepository EditEmployeeSkills method ");
                 throw;
@@ -445,5 +417,29 @@ namespace LMS_WebAPI_DAL.Repositories
                 throw;
             }
         }
+
+        public List<EmployeeDetail> GetTeamMembers(int UserEmpId)
+        {
+            try
+            {
+                List<EmployeeDetail> resTeamMembers = new List<EmployeeDetail>();
+                using (var ctx = new LeaveManagementSystemEntities1())
+                {
+                    var lstProjectDetails = ctx.EmployeeProjectDetails.Where(m => m.RefEmployeeId == UserEmpId && m.IsActive == true).Select(m => m.RefProjectId).ToList();
+                    if (lstProjectDetails != null && lstProjectDetails.Count > 0)
+                    {
+                        resTeamMembers = ctx.EmployeeProjectDetails.Include("EmployeeDetail").Include("MasterDataValue").Where(m => lstProjectDetails.Contains(m.RefProjectId)).Select(m => m.EmployeeDetail).ToList();
+
+                    }
+                }
+                return resTeamMembers;
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
+        }
+
     }
 }

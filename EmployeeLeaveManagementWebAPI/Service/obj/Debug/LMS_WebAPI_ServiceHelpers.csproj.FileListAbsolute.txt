@@ -1,0 +1,15 @@
+D:\Gits\LeavePortal\EmployeeLeaveManagementWebAPI\Service\bin\Debug\Service.dll
+D:\Gits\LeavePortal\EmployeeLeaveManagementWebAPI\Service\bin\Debug\Service.pdb
+D:\Gits\LeavePortal\EmployeeLeaveManagementWebAPI\Service\bin\Debug\LMS_WebAPI_DAL.dll
+D:\Gits\LeavePortal\EmployeeLeaveManagementWebAPI\Service\bin\Debug\Utils.dll
+D:\Gits\LeavePortal\EmployeeLeaveManagementWebAPI\Service\bin\Debug\EntityFramework.dll
+D:\Gits\LeavePortal\EmployeeLeaveManagementWebAPI\Service\bin\Debug\log4net.dll
+D:\Gits\LeavePortal\EmployeeLeaveManagementWebAPI\Service\bin\Debug\LMS_WebAPI_DAL.pdb
+D:\Gits\LeavePortal\EmployeeLeaveManagementWebAPI\Service\bin\Debug\Utils.pdb
+D:\Gits\LeavePortal\EmployeeLeaveManagementWebAPI\Service\bin\Debug\EntityFramework.xml
+D:\Gits\LeavePortal\EmployeeLeaveManagementWebAPI\Service\bin\Debug\log4net.xml
+D:\Gits\LeavePortal\EmployeeLeaveManagementWebAPI\Service\obj\Debug\LMS_WebAPI_ServiceHelpers.csprojResolveAssemblyReference.cache
+D:\Gits\LeavePortal\EmployeeLeaveManagementWebAPI\Service\obj\Debug\Service.dll
+D:\Gits\LeavePortal\EmployeeLeaveManagementWebAPI\Service\obj\Debug\Service.pdb
+D:\Gits\LeavePortal\EmployeeLeaveManagementWebAPI\Service\bin\Debug\LMS_WebAPI_Domain.dll
+D:\Gits\LeavePortal\EmployeeLeaveManagementWebAPI\Service\bin\Debug\LMS_WebAPI_Domain.pdb

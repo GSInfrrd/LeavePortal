@@ -14,6 +14,7 @@ namespace LMS_WebAPI_DAL
     
     public partial class EmployeeLeaveTransactionHistory
     {
+        public long PID { get; set; }
         public long Id { get; set; }
         public int RefEmployeeId { get; set; }
         public System.DateTime FromDate { get; set; }
@@ -25,10 +26,12 @@ namespace LMS_WebAPI_DAL
         public string EmployeeComment { get; set; }
         public string ManagerComment { get; set; }
         public Nullable<System.DateTime> ModifiedDate { get; set; }
-        public string CreatedBy { get; set; }
-        public string ModifiedBy { get; set; }
+        public Nullable<int> RefCreatedBy { get; set; }
+        public Nullable<int> RefModifiedBy { get; set; }
     
         public virtual EmployeeDetail EmployeeDetail { get; set; }
+        public virtual EmployeeDetail EmployeeDetail1 { get; set; }
+        public virtual EmployeeDetail EmployeeDetail2 { get; set; }
         public virtual MasterDataValue MasterDataValue { get; set; }
         public virtual MasterDataValue MasterDataValue1 { get; set; }
     }

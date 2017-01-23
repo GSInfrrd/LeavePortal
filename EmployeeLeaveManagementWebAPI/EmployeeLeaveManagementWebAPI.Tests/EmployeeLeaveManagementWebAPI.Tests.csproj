@@ -33,6 +33,13 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\EntityFramework.6.1.3\lib\net45\EntityFramework.dll</HintPath>
+    </Reference>
+    <Reference Include="EntityFramework.SqlServer">
+      <HintPath>..\packages\EntityFramework.6.1.3\lib\net45\EntityFramework.SqlServer.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="Microsoft.VisualStudio.QualityTools.UnitTestFramework, Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL" />
     <Reference Include="System" />
@@ -102,9 +109,17 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\DAL\LMS_WebAPI_DAL.csproj">
+      <Project>{9EE2B6D4-6A8D-4FDF-A116-231FCBC5AF5C}</Project>
+      <Name>LMS_WebAPI_DAL</Name>
+    </ProjectReference>
     <ProjectReference Include="..\EmployeeLeaveManagementWebAPI\EmployeeLeaveManagementWebAPI.csproj">
       <Project>{B989E425-D7B7-4B33-8272-34564DCDAC5A}</Project>
       <Name>EmployeeLeaveManagementWebAPI</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Utils\LMS_WebAPI_Utils.csproj">
+      <Project>{0e52b307-5148-4449-98b0-ba995af29d25}</Project>
+      <Name>LMS_WebAPI_Utils</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
