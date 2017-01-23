@@ -30,7 +30,9 @@ namespace LMS_WebAPI_Utils
         [Description("Rejected")]
         Rejected = 11,
         [Description("Approved")]
-        Approved = 12
+        Approved = 12,
+        [Description("Reassigned")]
+        Reassigned = 21
     }
 
     public enum EmployeeRole
@@ -132,6 +134,28 @@ namespace LMS_WebAPI_Utils
         Debit = 2052,
         [Description("Credit")]
         Credit = 2053
-    } 
+    }
 
+    public enum ActionsForMail
+    {
+        [Description("Leave Applied")]
+        ApplyLeave = 151,
+        [Description("Leave Approved")]
+        ApproveLeave = 152,
+        [Description("Leave Rejected")]
+        RejectLeave = 153,
+        [Description("Leave Reassigned")]
+        ReassignLeave = 154,
+        [Description("Apply WFH")]
+        ApplyWFH = 155,
+        [Description("Apply Compoff")]
+        ApplyCompoff = 156,
+        [Description("Approve Compoff")]
+        ApproveCompoff = 157,
+        [Description("Add Resource Request")]
+        AddResourceRequest = 158,
+        [Description("Resource Request Update")]
+        ResourceRequestUpdate = 159,
+
+    }
 }
