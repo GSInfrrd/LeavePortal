@@ -40,6 +40,30 @@ namespace LMS_WebAPI_DAL.Repositories
             }
         }
 
+        public List<EmployeeDetail> GetTeamMembers(int UserEmpId)
+        {
+            try
+            {
+                List<EmployeeDetail> resTeamMembers = new List<EmployeeDetail>();
+                using (var ctx = new LeaveManagementSystemEntities1())
+                {
+                    var lstProjectDetails = ctx.EmployeeProjectDetails.Where(m => m.RefEmployeeId == UserEmpId && m.IsActive == true).Select(m => m.RefProjectId).ToList();
+                    if (lstProjectDetails != null && lstProjectDetails.Count > 0)
+                    {
+                        resTeamMembers = ctx.EmployeeProjectDetails.Include("EmployeeDetail").Include("MasterDataValue").Where(m => lstProjectDetails.Contains(m.RefProjectId)).Select(m => m.EmployeeDetail).ToList();
+
+                    }
+                }
+                return resTeamMembers;
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
+        }
+
+
         public EmployeeCommonDetails GetUserDetails(int UserEmpId)
         {
             Logger.Info("Entering in UserRepository API GetUserDetails method");

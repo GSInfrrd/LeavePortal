@@ -5,6 +5,7 @@ using LMS_WebAPI_DAL.Repositories;
 using LMS_WebAPI_DAL.Repositories.Interfaces;
 using LMS_WebAPI_Domain;
 using LMS_WebAPI_Utils;
+using LMS_WebAPI_DAL;
 
 namespace LMS_WebAPI_ServiceHelpers
 {
@@ -82,6 +83,51 @@ namespace LMS_WebAPI_ServiceHelpers
             {
                 Logger.Info("Exception occured at UserManagement Service helper GetEmployeeDatailsForDashboard method ");
                 throw;
+            }
+        }
+
+        public List<EmployeeDetailsModel> GetTeamMembersForDashboard(int EmpId)
+        {
+            try
+            {
+                List<EmployeeDetailsModel> resList = new List<EmployeeDetailsModel>();
+                var returnMembers = user.GetTeamMembers(EmpId);
+                resList = ToEmployeeModel(returnMembers);
+                return resList;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
+        private List<EmployeeDetailsModel> ToEmployeeModel(List<EmployeeDetail> returnMembers)
+        {
+            try
+            {
+                List<EmployeeDetailsModel> resList = new List<EmployeeDetailsModel>();
+                if (returnMembers != null && returnMembers.Count > 0)
+                {
+                    resList = returnMembers.Select(m => new EmployeeDetailsModel()
+                    {
+                        Bio = m.Bio,
+                        City = m.City,
+                        Country = m.Country,
+                        DateOfBirth = m.DateOfBirth,
+                        DateOfJoining = m.DateOfJoining.Value,
+                        FirstName = m.FirstName,
+                        Id = m.Id,
+                        RefRoleId = m.RefRoleId,
+                        LastName = m.LastName
+                        //ImagePath = m.ImagePath
+                    }).OrderBy(n=>n.RefRoleId).ToList();
+                }
+                return resList;
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
             }
         }
 

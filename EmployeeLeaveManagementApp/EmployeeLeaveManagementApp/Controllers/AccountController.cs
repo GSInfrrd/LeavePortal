@@ -14,6 +14,7 @@ using Microsoft.Owin.Security;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 using EmployeeLeaveManagementApp.Models;
+using Newtonsoft.Json;
 
 namespace EmployeeLeaveManagementApp.Controllers
 {
@@ -79,6 +80,18 @@ namespace EmployeeLeaveManagementApp.Controllers
                 Logger.Error("Error at AccountController APP Login with returnUrl method.", ex);
                 return View("Error");
             }
+        }
+
+        public async Task<ActionResult> GetTeamMembers()
+        {
+            if (null != Session[LMS_WebAPP_Utils.Constants.SESSION_OBJ_USER])
+            {
+                var data = (UserAccount)Session[LMS_WebAPP_Utils.Constants.SESSION_OBJ_USER];
+                var res = await user.GetTeamMembers(data.RefEmployeeId);
+                //var result = JsonConvert.SerializeObject(res);
+                return Json(new { result = res });
+            }
+            return View("Login");
         }
 
         public async Task<ActionResult> Profile()

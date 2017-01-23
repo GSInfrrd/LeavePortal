@@ -423,6 +423,7 @@ namespace EmployeeLeaveManagementWebAPI.Controllers
 
         [AllowAnonymous]
         [HttpGet]
+        [Route("GetUserDetails")]
         public EmployeeDetailsModel GetUserDetails(int empId)
         {
             try
@@ -439,6 +440,24 @@ namespace EmployeeLeaveManagementWebAPI.Controllers
             }
         }
 
+
+        [AllowAnonymous]
+        [HttpGet]
+        [Route("GetTeamMembers")]
+        public IList<EmployeeDetailsModel> GetTeamMembers(int empId)
+        {
+            try
+            {
+                IList<EmployeeDetailsModel> resTeam = new List<EmployeeDetailsModel>();
+                resTeam = userManager.GetTeamMembersForDashboard(empId);
+                return resTeam;
+            }
+            catch (Exception ex)
+            {
+                return null;
+                //throw;
+            }
+        }
 
         [AllowAnonymous]
         [HttpGet]

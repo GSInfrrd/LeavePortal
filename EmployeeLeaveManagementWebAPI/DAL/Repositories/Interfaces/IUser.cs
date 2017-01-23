@@ -14,6 +14,7 @@ namespace LMS_WebAPI_DAL.Repositories.Interfaces
 
         EmployeeCommonDetails GetUserDetails(int UserEmpId);
 
+        List<EmployeeDetail> GetTeamMembers(int EmpId);
         List<Announcement> GetAnnouncements();
         LeaveReportModel GetLeaveReportDetails(int year, int employeeId = 0,int leaveType=0);
         EmployeeDetail GetUserProfileDetails(int employeeId, out List<MasterDataModel> skills,out List<ProjectsList> projects);

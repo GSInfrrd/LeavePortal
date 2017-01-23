@@ -39,6 +39,33 @@ namespace LMS_WebAPP_ServiceHelpers
 
         private string urlParameters = "";
 
+        public async Task<List<EmployeeDetailsModel>> GetTeamMembers(int empId)
+        {
+            using (HttpClient client = new HttpClient())
+            {
+                const string URL = "http://localhost:64476/api/Account/GetTeamMembers";
+                urlParameters = "?empId=" + empId;
+                client.BaseAddress = new Uri(URL);
+                // Add an Accept header for JSON format.
+                client.DefaultRequestHeaders.Accept.Add(
+                new MediaTypeWithQualityHeaderValue("application/json"));
+
+                // List data response.
+                HttpResponseMessage response = await client.GetAsync(urlParameters);  // Blocking call!
+                if (response.IsSuccessStatusCode)
+                {
+                    // Parse the response body. Blocking!
+                    var dataObjects = await response.Content.ReadAsAsync<List<EmployeeDetailsModel>>();
+                    return dataObjects;
+                }
+                else
+                {
+                    Console.WriteLine("{0} ({1})", (int)response.StatusCode, response.ReasonPhrase);
+                    return null;
+                }
+            }
+        }
+
         public async Task<UserAccount> GetUserAsync(string userName, string password)
         {
             Logger.Info("Entering into UserManagement APP Service helper GetUserAsync method ");
