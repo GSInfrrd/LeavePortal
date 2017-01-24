@@ -338,6 +338,15 @@ namespace LMS_WebAPI_DAL.Repositories
                     ctx.ProjectMasters.Add(projectInfo);
                     ctx.SaveChanges();
 
+                    var projectDetails = new EmployeeProjectDetail();
+                    projectDetails.RefProjectId = projectInfo.Id;
+                    projectDetails.IsActive = true;
+                    projectDetails.RefEmployeeId = refManager;
+                    projectDetails.CreatedDate = DateTime.Now;
+                    projectDetails.StartDate = DateTime.Now;
+                    ctx.EmployeeProjectDetails.Add(projectDetails);
+                    ctx.SaveChanges();
+
                 }
                 Logger.Info("Successfully exiting from HRRepository API AddNewProjectInfo method");
                 return true;

@@ -79,7 +79,7 @@ namespace EmployeeLeaveManagementWebAPI.Controllers
         }
 
         [Route("GetWorkFromHomeReasonsList")]
-        public List<WorkFromHomeCommonModel> GetWorkFromHomeReasonsList()
+        public List<WorkFromHomeReasonModel> GetWorkFromHomeReasonsList()
         {
             try
             {

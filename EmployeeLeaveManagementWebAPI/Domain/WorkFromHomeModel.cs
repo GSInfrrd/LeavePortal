@@ -21,4 +21,9 @@ namespace LMS_WebAPI_Domain
         public Nullable<System.DateTime> ModifiedDate { get; set; }
         public string OtherReason { get; set; }
     }
+    public class WorkFromHomeReasonModel
+    {
+        public int RefReason { get; set; }
+        public string Reason { get; set; }
+    }
 }

@@ -6,6 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using LMS_WebAPI_Utils;
 using System.Data.Entity;
+using LMS_WebAPI_Domain;
 
 namespace LMS_WebAPI_DAL.Repositories
 {
@@ -125,18 +126,18 @@ namespace LMS_WebAPI_DAL.Repositories
             }
         }
 
-        public List<WorkFromHomeCommonModel> GetWorkFromHomeReasonsList()
+        public List<WorkFromHomeReasonModel> GetWorkFromHomeReasonsList()
         {
             Logger.Info("Entering in WorkFromHomeRepository API GetWorkFromHomeReasonsList method");
             try
             {
-                var wfhReasonsList = new List<WorkFromHomeCommonModel>();
+                var wfhReasonsList = new List<WorkFromHomeReasonModel>();
                 using (var ctx = new LeaveManagementSystemEntities1())
                 {
                     var workFromHomeReasons = ctx.MasterDataValues.Where(i => i.RefMasterType == (int)MasterDataTypeEnum.WorkFromHomeReason).ToList();
                  foreach(var item in workFromHomeReasons)
                     {
-                        var wfh = new WorkFromHomeCommonModel();
+                        var wfh = new WorkFromHomeReasonModel();
                         wfh.Reason = item.Value;
                         wfh.RefReason = item.Id;
                         wfhReasonsList.Add(wfh);

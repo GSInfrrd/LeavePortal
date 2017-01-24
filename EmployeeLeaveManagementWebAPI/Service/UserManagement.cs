@@ -147,7 +147,7 @@ namespace LMS_WebAPI_ServiceHelpers
                 profileDetails.Country = userData.Country;
                 profileDetails.Telephone = userData.PhoneNumber;
                 profileDetails.RefRoleId = userData.RefRoleId;
-                profileDetails.RoleName = userData.MasterDataValue.Value;
+                profileDetails.RoleName = userData.MasterDataValue2.Value;
                 profileDetails.DateOfBirth = userData.DateOfBirth;
                 profileDetails.DateOfBirthAsString = userData.DateOfBirth.ToString("MMM dd");
                 profileDetails.Email = userData.UserAccounts.FirstOrDefault(i => i.RefEmployeeId == EmpId).UserName;

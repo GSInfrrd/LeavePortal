@@ -33,4 +33,10 @@ namespace LMS_WebAPP_Domain
             }
         }
     }
+
+    public class WorkFromHomeReasonModel
+    {
+        public int RefReason { get; set; }
+        public string Reason { get; set; }
+    }
 }

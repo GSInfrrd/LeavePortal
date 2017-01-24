@@ -1,4 +1,5 @@
-﻿using LMS_WebAPI_Utils;
+﻿using LMS_WebAPI_Domain;
+using LMS_WebAPI_Utils;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -17,6 +18,6 @@ namespace LMS_WebAPI_DAL.Repositories.Interfaces
 
         bool UpdateWorkFromHome(WorkFromHome WorkFromHome);
 
-        List<WorkFromHomeCommonModel> GetWorkFromHomeReasonsList();
+        List<WorkFromHomeReasonModel> GetWorkFromHomeReasonsList();
     }
 }

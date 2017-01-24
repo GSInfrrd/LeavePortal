@@ -146,7 +146,7 @@ namespace LMS_WebAPP_ServiceHelpers
             }
         }
 
-        public async Task<List<WorkFromHomeModel>> GetWorkFromHomeReasonsListAsync()
+        public async Task<List<WorkFromHomeReasonModel>> GetWorkFromHomeReasonsListAsync()
         {
             Logger.Info("Entering into WorkFromHomeManagement APP Service helper GetWorkFromHomeReasonsListAsync method ");
             try
@@ -163,7 +163,7 @@ namespace LMS_WebAPP_ServiceHelpers
                 if (response.IsSuccessStatusCode)
                 {
                     // Parse the response body. Blocking!
-                    var dataObjects = response.Content.ReadAsAsync<List<WorkFromHomeModel>>().Result;
+                    var dataObjects = response.Content.ReadAsAsync<List<WorkFromHomeReasonModel>>().Result;
                     Logger.Info("Exiting from into WorkFromHomeManagement APP Service helper GetWorkFromHomeReasonsListAsync method ");
                     return dataObjects;
                 }

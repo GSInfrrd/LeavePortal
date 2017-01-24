@@ -107,7 +107,7 @@ namespace LMS_WebAPI_ServiceHelpers
             }
         }
 
-        public List<WorkFromHomeCommonModel> GetWorkFromHomeReasonsList()
+        public List<WorkFromHomeReasonModel> GetWorkFromHomeReasonsList()
         {
             Logger.Info("Entering into WorkFromHomeManagement Service helper GetWorkFromHomeReasonList method ");
             try
