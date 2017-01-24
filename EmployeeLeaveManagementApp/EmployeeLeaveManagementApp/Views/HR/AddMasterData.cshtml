@@ -73,6 +73,7 @@
 <script src="../../plugins/select2/select2.full.min.js"></script>
 <script>
     $(document).ready(function () {
+        $('#addMasterData').parent().addClass('active');
         $(function () {
             $('#txtStartDate').datepicker({
                 autoclose: true
@@ -82,7 +83,6 @@
         });
     });
     $(document).on('change', "#ddlMasterData", function (e) {
-        debugger;
         if($("#ddlMasterData").val()==2)
         {
             $("#ddlManagerName").html("");

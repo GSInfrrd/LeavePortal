@@ -253,7 +253,7 @@
                 var fromDate;
                 var toDate;
                 $(document).ready(function () {
-                    debugger;
+                    $('#approveLeave').parent().addClass('active');
                     if (localStorage.getItem("leaveApproved") == 1) {
                         showSuccessMessage("Leave request successfully approved");
                         localStorage.removeItem("leaveApproved");

@@ -81,6 +81,7 @@
 <script src="../../plugins/datatables/dataTables.bootstrap.min.js"></script>
 <script>
     $(document).ready(function () {
+        $('#employeeDetails').parent().addClass('active');
         if (localStorage.getItem("EmployeeAdded") == 1) {
             showSuccessMessage("Employee Added Successfully");
             localStorage.removeItem("EmployeeAdded");

@@ -158,14 +158,14 @@
                 <!-- sidebar menu: : style can be found in sidebar.less -->
                 <ul class="sidebar-menu">
                         <li class="treeview">
-                            <a href="@Url.Action("Dashboard", "Account")">
+                            <a id="dashboard" href="@Url.Action("Dashboard", "Account")">
                                 <i class="fa fa-dashboard"></i> <span>Dashboard</span>
 
                             </a>
 
                         </li>
                         <li class="treeview">
-                            <a href="@Url.Action("Profile", "Account")">
+                            <a id="profile" href="@Url.Action("Profile", "Account")">
                                 <i class="fa fa-files-o"></i>
                                 <span>Profile</span>
                             </a>
@@ -173,13 +173,13 @@
                     @if ((roleId == (int)EmployeeRole.Employee) || (roleId == (int)EmployeeRole.Manager) || roleId == (int)EmployeeRole.HR)
                     {
                         <li>
-                            <a href="@Url.Action("ApplyLeave", "ApplyLeave")">
+                            <a id="applyLeave" href="@Url.Action("ApplyLeave", "ApplyLeave")">
                                 <i class="fa fa-calendar-plus-o"></i> <span>Apply Leave</span>
 
                             </a>
                         </li>
                         <li>
-                            <a href="@Url.Action("ApplyWorkFromHome", "WorkFromHome")">
+                            <a id="applyWorkFromHome" href="@Url.Action("ApplyWorkFromHome", "WorkFromHome")">
                                 <i class="fa fa-calendar-plus-o"></i> <span>Apply WFH</span>
 
                             </a>
@@ -188,7 +188,7 @@
                     @if ((roleId == (int)EmployeeRole.Employee) || (roleId == (int)EmployeeRole.Manager) || roleId == (int)EmployeeRole.HR)
                     {
                         <li>
-                            <a href="@Url.Action("LeaveTransaction", "LeaveTransaction")">
+                            <a id="leaveTransaction" href="@Url.Action("LeaveTransaction", "LeaveTransaction")">
                                 <i class="fa fa-history"></i> <span>Leave Transactions</span>
 
                             </a>
@@ -197,25 +197,25 @@
                     @if ((roleId == (int)EmployeeRole.Manager))
                     {
                         <li>
-                            <a href="@Url.Action("ApproveLeave", "ApproveLeave")">
+                            <a id="approveLeave" href="@Url.Action("ApproveLeave", "ApproveLeave")">
                                 <i class="fa fa-calendar-check-o"></i> <span>Take Action</span>
 
                             </a>
                         </li>
                         <li>
-                            <a href="@Url.Action("RequestForResources", "ResourceRequest")">
+                            <a id="resourceRequest" href="@Url.Action("RequestForResources", "ResourceRequest")">
                                 <i class="fa fa-user-plus" aria-hidden="true"></i> <span>Resource Request</span>
 
                             </a>
                         </li>
                         <li>
-                            <a href="@Url.Action("RewardLeaveTransaction","LeaveTransaction")">
+                            <a id="rewardLeave" href="@Url.Action("RewardLeaveTransaction","LeaveTransaction")">
                                 <i class="fa fa-user-plus" aria-hidden="true"></i> <span>Reward Leave</span>
 
                             </a>
                         </li>
                         <li>
-                            <a href="@Url.Action("ResourceLoad", "ResourceRequest")">
+                            <a id="resourceLoad" href="@Url.Action("ResourceLoad", "ResourceRequest")">
                                 <i class="fa fa-user-plus" aria-hidden="true"></i> <span>Resource Load/Unload</span>
 
                             </a>
@@ -224,7 +224,7 @@
                     @if (roleId == (int)EmployeeRole.HR)
                     {
                         <li>
-                            <a href="@Url.Action("EmployeeDetails", "HR")">
+                            <a id="employeeDetails" href="@Url.Action("EmployeeDetails", "HR")">
                                 <i class="fa fa-database"></i> <span>Employee Details</span>
 
                             </a>
@@ -233,7 +233,7 @@
                     @if ( roleId == (int)EmployeeRole.Manager)
                     {
                         <li>
-                            <a href="@Url.Action("EmployeeDetails", "HR")">
+                            <a id="employeeDetails" href="@Url.Action("EmployeeDetails", "HR")">
                                 <i class="fa fa-database"></i> <span>Search Employee</span>
 
                             </a>
@@ -242,7 +242,7 @@
                     @if (roleId == (int)EmployeeRole.HR)
                     {
                         <li>
-                            <a href="@Url.Action("HolidayList", "HR")">
+                            <a id="addHolidays" href="@Url.Action("HolidayList", "HR")">
                                 <i class="fa fa-th"></i> <span>Add Holidays</span>
 
                             </a>
@@ -251,7 +251,7 @@
                     @if (roleId == (int)EmployeeRole.HR)
                     {
                         <li>
-                            <a href="@Url.Action("AddMasterData", "HR")">
+                            <a id="addMasterData" href="@Url.Action("AddMasterData", "HR")">
                                 <i class="fa fa-th"></i> <span>Add Master Data</span>
 
                             </a>
@@ -260,7 +260,7 @@
                     @if (roleId == (int)EmployeeRole.HR)
                     {
                         <li>
-                            <a href="@Url.Action("CompanyAnnouncements", "HR")">
+                            <a id="companyAnnouncements" href="@Url.Action("CompanyAnnouncements", "HR")">
                                 <i class="fa fa-volume-up"></i> <span>Company Announcements</span>
 
                             </a>
@@ -269,7 +269,7 @@
                     @if (roleId == (int)EmployeeRole.HR)
                     {
                         <li>
-                            <a href="@Url.Action("RequestForResourcesHR", "ResourceRequest")">
+                            <a id="resourceRequestHR" href="@Url.Action("RequestForResourcesHR", "ResourceRequest")">
                                 <i class="fa fa-user-plus" aria-hidden="true"></i> <span>Resource Request</span>
 
                             </a>
@@ -279,7 +279,7 @@
                     @if (roleId == (int)EmployeeRole.HR)
                     {
                         <li>
-                            <a href="@Url.Action("Broadcast", "HR")">
+                            <a id="broadcast" href="@Url.Action("Broadcast", "HR")">
                                 <i class="fa fa-th"></i> <span>Broadcast</span>
 
                             </a>
@@ -288,13 +288,13 @@
                     @if (roleId == (int)EmployeeRole.HR)
                     {
                         <li>
-                            <a href="@Url.Action("Reports", "HR")">
+                            <a id="reports" href="@Url.Action("Reports", "HR")">
                                 <i class="fa fa-th"></i> <span>Reports</span>
 
                             </a>
                         </li>
                     }
-                    @if (roleId == (int)EmployeeRole.HR)
+                    @*@if (roleId == (int)EmployeeRole.HR)
                     {
                         <li>
                             <a href="@Url.Action("RequestForResourcesHR", "ResourceRequest")">
@@ -302,7 +302,7 @@
 
                             </a>
                         </li>
-                    }
+                    }*@
                 </ul>
             </section>
             <!-- /.sidebar -->
@@ -414,9 +414,6 @@
         }
 
         $(function () {
-
-
-
             // Click on notification icon for show notification
             $('a.noti').click(function (e) {
                 e.stopPropagation();
@@ -484,6 +481,8 @@
             }
 
         })
+
+
     </script>
 
 </body>

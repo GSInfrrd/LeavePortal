@@ -40,7 +40,7 @@ namespace LMS_WebAPI_DAL.Repositories
                 Logger.Info("Entering in ApproveLeaveRepository API GetApproveLeave method");
                 using (var ctx = new LeaveManagementSystemEntities1())
                 {
-                    var ApproveLeaves = ctx.Workflows.Where(m => (m.RefApproverId == id) && ((m.RefStatus == 10) || (m.RefStatus == 21))).ToList();
+                    var ApproveLeaves = ctx.Workflows.Where(m => (m.RefApproverId == id) && ((m.RefStatus ==(Int16) LeaveStatus.Submitted) || (m.RefStatus == (Int16)LeaveStatus.Reassigned))).ToList();
                     var retResult = ToModel(ApproveLeaves);
                     Logger.Info("Successfully exiting from ApproveLeaveRepository API GetApproveLeave method");
                     return retResult;

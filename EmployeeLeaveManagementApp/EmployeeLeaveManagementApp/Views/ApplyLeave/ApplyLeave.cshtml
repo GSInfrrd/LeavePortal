@@ -638,6 +638,7 @@
     });
 
     $(document).ready(function () {
+        $('#applyLeave').parent().addClass('active');
         if (localStorage.getItem("leaveDeleted") == 1) {
             showSuccessMessage("Leave request deleted");
             localStorage.removeItem("leaveDeleted");
@@ -1176,7 +1177,7 @@
                 //contentType: "application/json; charset=utf-8",
                 dataType: "json",
                 success: function (data) {
-
+                    debugger
                     $.ajax({
                         cache: false,
                         type: 'get',
@@ -1377,6 +1378,7 @@
     }
 
     function updateLeaveTable(data) {
+        debugger;
         $("#tblAppliedLeave").html("");
         var refStatus=0;
         var html = "<table id='example1' class='table table-bordered table-striped'><thead>" +
