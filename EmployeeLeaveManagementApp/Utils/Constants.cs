@@ -12,10 +12,5 @@ namespace LMS_WebAPP_Utils
         public const string SESSION_OBJ_USER = "user";
         public const string Content = "CONTENT";
         public const string SUBJECT = " SUBJECT";
-
-        public const int Requested = 186;
-        public const int InProgress = 183;
-        public const int PartialApproval = 185;
-        public const int Approved = 184;
     }
 }
