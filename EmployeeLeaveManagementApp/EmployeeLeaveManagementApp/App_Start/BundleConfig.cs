@@ -12,7 +12,8 @@ namespace EmployeeLeaveManagementApp
                         "~/Scripts/jquery-{version}.js"));
 
             bundles.Add(new ScriptBundle("~/bundles/Content/js").Include(
-                   "~/Content/Plugins/select2/select2.full.min.js"
+                   "~/Content/Plugins/select2/select2.full.min.js",
+                   "~/Content/Plugins/Toastr/toastr.js"
                   ));
 
             bundles.Add(new ScriptBundle("~/bundles/jqueryval").Include(
@@ -31,7 +32,9 @@ namespace EmployeeLeaveManagementApp
                       "~/Content/bootstrap.css",
                       "~/Content/site.css"));
             bundles.Add(new StyleBundle("~/bundles/Content/css").Include(
-                "~/Content/Plugins/select2/select2.min.css"));
+                "~/Content/Plugins/select2/select2.min.css",
+                "~/Content/Plugins/Toastr/toastr.css"
+                ));
         }
     }
 }

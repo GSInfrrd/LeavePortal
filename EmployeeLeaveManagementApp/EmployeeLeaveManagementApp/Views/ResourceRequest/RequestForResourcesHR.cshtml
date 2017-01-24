@@ -1,4 +1,5 @@
 ﻿@model LMS_WebAPP_Domain.ResourceDetails
+@using LMS_WebAPP_Utils
 @{
     var lstRequestStatus = new Dictionary<int, string>();
     foreach (var name in Enum.GetNames(typeof(LMS_WebAPP_Utils.ResourceRequestStatus)))
@@ -34,7 +35,7 @@
                     @foreach (var resource in lstResourceRequests)
                     {
                         <tr>
-                            <td><a href="#" onClick="showRequestedDetails(this)" data-ticket="@resource.Ticket" data-created="@resource.CreatedDate" data-updated="@resource.UpdatedDate" data-title="@resource.ResourceRequestTitle" data-noRsource="@resource.NumberRequestedResources" data-skills="@resource.Skills" data-from="@resource.RequestFromName" data-status="@resource.StatusValue" data-statusKey="@resource.Status">@resource.Ticket</a></td>
+                            <td><a class="@resource.Ticket" href="#" onClick="showRequestedDetails(this)" data-ticket="@resource.Ticket" data-created="@resource.CreatedDate" data-updated="@resource.UpdatedDate" data-title="@resource.ResourceRequestTitle" data-noRsource="@resource.NumberRequestedResources" data-skills="@resource.Skills" data-from="@resource.RequestFromName" data-status="@resource.StatusValue" data-statusKey="@resource.Status">@resource.Ticket</a></td>
                             <td>@resource.ResourceRequestTitle</td>
                             @{
                                 var createDateWithTime = resource.CreatedDate;
@@ -43,15 +44,15 @@
                             <td>@createdDate</td>
                             <td>
                                 <div class="btn-group" id="@resource.Ticket">
-                                    @if (resource.Status == 1)
+                                    @if (resource.Status == (int)ResourceRequestStatus.Requested)
                                     {
                                         <span class="label btn-color-requested">@resource.StatusValue</span>
                                     }
-                                    else if (resource.Status == 2)
+                                    else if (resource.Status == (int)ResourceRequestStatus.InProgress)
                                     {
                                         <span class="label btn-color-processing">@resource.StatusValue</span>
                                     }
-                                    else if (resource.Status == 3)
+                                    else if (resource.Status == (int)ResourceRequestStatus.PartialApproval)
                                     {
                                         <span class="label btn-color-partialApproval">@resource.StatusValue</span>
                                     }
@@ -131,7 +132,6 @@
 <script src="../../plugins/Toastr/toastr.js"></script>
 <script>
     $(document).ready(function () {
-        $('#resourceRequestHR').parent().addClass('active');
         $(function () {
             $('#resourceRequestsTable').DataTable({
                 "ordering": true,
@@ -143,6 +143,7 @@
             });
         });
     });
+
     function showRequestedDetails(id) {
         var deserializedStatusList = jQuery.parseJSON('@serializedlstRequestStatus');
         var statusDict = [];
@@ -153,6 +154,7 @@
             });
         });
         var statusKey = parseInt($(id).attr('data-statusKey'));
+        var statusValue = $(id).attr('data-status');
         var requestId = parseInt($(id).attr('data-id'));
         $(".requestTitle").html($(id).attr('data-title'));
         $(".requestTicket").html($(id).attr('data-ticket'));
@@ -165,18 +167,19 @@
         $(".requestSentDate").html(createdDate);
 
         $(".requestResponseDate").html($(id).attr('data-updated'));
-        if (statusKey == 1) {
+
+        if (statusKey == '@Convert.ToInt32(ResourceRequestStatus.Requested)') {
             $("#btnModalStatus").removeClass("btn-color-requested").removeClass("btn-color-processing").removeClass("btn-color-partialApproval").removeClass("btn-color-approved").addClass("btn-color-requested");
             $(".statusListDropdown").html("");
             for (i = 0; i < statusDict.length; i++) {
                 if (statusDict[i].key != statusKey) {
-                    if (statusDict[i].key == 1) {
+                    if (statusDict[i].key == '@Convert.ToInt32(ResourceRequestStatus.Requested)') {
                         $(".statusListDropdown").append('<li><a href="#" class="text-color-white btn-color-requested" data-id="' + id + '" data-createdDate="' + $(id).attr('data-created') + '" data-ticket="' + $(id).attr('data-ticket') + '" data-statusKey="' + statusDict[i].key + '" onclick="respondToRequest(this)">' + statusDict[i].value + '</a></li>');
                     }
-                    else if (statusDict[i].key == 2) {
+                else if (statusDict[i].key == '@Convert.ToInt32(ResourceRequestStatus.InProgress)') {
                         $(".statusListDropdown").append('<li><a href="#" class="text-color-white btn-color-processing" data-id="' + id + '" data-createdDate="' + $(id).attr('data-created') + '" data-ticket="' + $(id).attr('data-ticket') + '" data-statusKey="' + statusDict[i].key + '" onclick="respondToRequest(this)">' + statusDict[i].value + '</a></li>');
                     }
-                    else if (statusDict[i].key == 3) {
+                else if (statusDict[i].key == '@Convert.ToInt32(ResourceRequestStatus.PartialApproval)') {
                         $(".statusListDropdown").append('<li><a href="#" class="text-color-white btn-color-partialApproval" data-id="' + id + '" data-createdDate="' + $(id).attr('data-created') + '" data-ticket="' + $(id).attr('data-ticket') + '" data-statusKey="' + statusDict[i].key + '" onclick="respondToRequest(this)">' + statusDict[i].value + '</a></li>');
                     }
                     else {
@@ -185,18 +188,18 @@
                 }
             }
         }
-        else if (statusKey == 2) {
+        else if (statusKey == '@Convert.ToInt32(ResourceRequestStatus.InProgress)') {
             $("#btnModalStatus").removeClass("btn-color-requested").removeClass("btn-color-processing").removeClass("btn-color-partialApproval").removeClass("btn-color-approved").addClass("btn-color-processing");
             $(".statusListDropdown").html("");
             for (i = 0; i < statusDict.length; i++) {
                 if (statusDict[i].key != statusKey) {
-                    if (statusDict[i].key == 1) {
+                    if (statusDict[i].key == '@Convert.ToInt32(ResourceRequestStatus.Requested)') {
                         $(".statusListDropdown").append('<li><a href="#" class="text-color-white btn-color-requested" data-id="' + id + '" data-createdDate="' + $(id).attr('data-created') + '" data-ticket="' + $(id).attr('data-ticket') + '" data-statusKey="' + statusDict[i].key + '" onclick="respondToRequest(this)">' + statusDict[i].value + '</a></li>');
                     }
-                    else if (statusDict[i].key == 2) {
+                    else if (statusDict[i].key == '@Convert.ToInt32(ResourceRequestStatus.InProgress)') {
                         $(".statusListDropdown").append('<li><a href="#" class="text-color-white btn-color-processing" data-id="' + id + '" data-createdDate="' + $(id).attr('data-created') + '" data-ticket="' + $(id).attr('data-ticket') + '" data-statusKey="' + statusDict[i].key + '" onclick="respondToRequest(this)">' + statusDict[i].value + '</a></li>');
                     }
-                    else if (statusDict[i].key == 3) {
+                    else if (statusDict[i].key == '@Convert.ToInt32(ResourceRequestStatus.PartialApproval)') {
                         $(".statusListDropdown").append('<li><a href="#" class="text-color-white btn-color-partialApproval" data-id="' + id + '" data-createdDate="' + $(id).attr('data-created') + '" data-ticket="' + $(id).attr('data-ticket') + '" data-statusKey="' + statusDict[i].key + '" onclick="respondToRequest(this)">' + statusDict[i].value + '</a></li>');
                     }
                     else {
@@ -205,18 +208,18 @@
                 }
             }
         }
-        else if (statusKey == 3) {
+        else if (statusKey == '@Convert.ToInt32(ResourceRequestStatus.PartialApproval)') {
             $("#btnModalStatus").removeClass("btn-color-requested").removeClass("btn-color-processing").removeClass("btn-color-partialApproval").removeClass("btn-color-approved").addClass("btn-color-partialApproval");
             $(".statusListDropdown").html("");
             for (i = 0; i < statusDict.length; i++) {
                 if (statusDict[i].key != statusKey) {
-                    if (statusDict[i].key == 1) {
+                    if (statusDict[i].key == '@Convert.ToInt32(ResourceRequestStatus.Requested)') {
                         $(".statusListDropdown").append('<li><a href="#" class="text-color-white btn-color-requested" data-id="' + id + '" data-createdDate="' + $(id).attr('data-created') + '" data-ticket="' + $(id).attr('data-ticket') + '" data-statusKey="' + statusDict[i].key + '" onclick="respondToRequest(this)">' + statusDict[i].value + '</a></li>');
                     }
-                    else if (statusDict[i].key == 2) {
+                    else if (statusDict[i].key == '@Convert.ToInt32(ResourceRequestStatus.InProgress)') {
                         $(".statusListDropdown").append('<li><a href="#" class="text-color-white btn-color-processing" data-id="' + id + '" data-createdDate="' + $(id).attr('data-created') + '" data-ticket="' + $(id).attr('data-ticket') + '" data-statusKey="' + statusDict[i].key + '" onclick="respondToRequest(this)">' + statusDict[i].value + '</a></li>');
                     }
-                    else if (statusDict[i].key == 3) {
+                    else if (statusDict[i].key == '@Convert.ToInt32(ResourceRequestStatus.PartialApproval)') {
                         $(".statusListDropdown").append('<li><a href="#" class="text-color-white btn-color-partialApproval" data-id="' + id + '" data-createdDate="' + $(id).attr('data-created') + '" data-ticket="' + $(id).attr('data-ticket') + '" data-statusKey="' + statusDict[i].key + '" onclick="respondToRequest(this)">' + statusDict[i].value + '</a></li>');
                     }
                     else {
@@ -230,13 +233,13 @@
             $(".statusListDropdown").html("");
             for (i = 0; i < statusDict.length; i++) {
                 if (statusDict[i].key != statusKey) {
-                    if (statusDict[i].key == 1) {
+                    if (statusDict[i].key == '@Convert.ToInt32(ResourceRequestStatus.Requested)') {
                         $(".statusListDropdown").append('<li><a href="#" class="text-color-white btn-color-requested" data-id="' + id + '" data-createdDate="' + $(id).attr('data-created') + '" data-ticket="' + $(id).attr('data-ticket') + '" data-statusKey="' + statusDict[i].key + '" onclick="respondToRequest(this)">' + statusDict[i].value + '</a></li>');
                     }
-                    else if (statusDict[i].key == 2) {
+                    else if (statusDict[i].key == '@Convert.ToInt32(ResourceRequestStatus.InProgress)') {
                         $(".statusListDropdown").append('<li><a href="#" class="text-color-white btn-color-processing" data-id="' + id + '" data-createdDate="' + $(id).attr('data-created') + '" data-ticket="' + $(id).attr('data-ticket') + '" data-statusKey="' + statusDict[i].key + '" onclick="respondToRequest(this)">' + statusDict[i].value + '</a></li>');
                     }
-                    else if (statusDict[i].key == 3) {
+                    else if (statusDict[i].key == '@Convert.ToInt32(ResourceRequestStatus.PartialApproval)') {
                         $(".statusListDropdown").append('<li><a href="#" class="text-color-white btn-color-partialApproval" data-id="' + id + '" data-createdDate="' + $(id).attr('data-created') + '" data-ticket="' + $(id).attr('data-ticket') + '" data-statusKey="' + statusDict[i].key + '" onclick="respondToRequest(this)">' + statusDict[i].value + '</a></li>');
                     }
                     else {
@@ -276,17 +279,25 @@
                     $("#" + ticket).html("");
                     showMessage("Request status changed successfully", "1", true);
                     var tdSpan = '<span class="label';
-                    if (data.status == 1) {
+                    if (data.status == '@Convert.ToInt32(ResourceRequestStatus.Requested)') {
                         tdSpan += ' btn-color-requested">';
+                        $("." + ticket).attr("data-statuskey", '@Convert.ToInt32(ResourceRequestStatus.Requested)');
+                        $("." + ticket).attr("data-status", data.statusValue);
                     }
-                    else if (data.status == 2) {
+                    else if (data.status == '@Convert.ToInt32(ResourceRequestStatus.InProgress)') {
                         tdSpan += '  btn-color-processing">';
+                        $("." + ticket).attr("data-statuskey", '@Convert.ToInt32(ResourceRequestStatus.InProgress)');
+                        $("." + ticket).attr("data-status", data.statusValue);
                     }
-                    else if (data.status == 3) {
+                    else if (data.status == '@Convert.ToInt32(ResourceRequestStatus.PartialApproval)') {
                         tdSpan += '  btn-color-partialApproval">';
+                        $("." + ticket).attr("data-statuskey", '@Convert.ToInt32(ResourceRequestStatus.PartialApproval)');
+                        $("." + ticket).attr("data-status", data.statusValue);
                     }
                     else {
                         tdSpan += ' btn-color-approved">';
+                        $("." + ticket).attr("data-statuskey", '@Convert.ToInt32(ResourceRequestStatus.Approved)');
+                        $("." + ticket).attr("data-status", data.statusValue);
                     }
                     tdSpan += data.statusValue+'</span>';
                     $("#" + ticket).html(tdSpan);
@@ -329,13 +340,13 @@
         tableRow += '<td>' + model.ResourceRequestTitle + '</td>';
         tableRow += '<td>' + createdDate + '</td>';
         tableRow += '<td><div class="btn-group">';
-        if (model.Status == 1) {
+        if (model.Status == '@Convert.ToInt32(ResourceRequestStatus.Requested)') {
             tableRow += '<span class="label btn-color-requested">' + model.StatusValue + '</span>';
         }
-        else if (model.Status == 2) {
+        else if (model.Status == '@Convert.ToInt32(ResourceRequestStatus.InProgress)') {
             tableRow += '<span class="label btn-color-processing">' + model.StatusValue + '</span>';
         }
-        else if (model.Status == 3) {
+        else if (model.Status == '@Convert.ToInt32(ResourceRequestStatus.PartialApproval)') {
             tableRow += '<span class="label btn-color-partialApproval">' + model.StatusValue + '</span>';
         }
         else {

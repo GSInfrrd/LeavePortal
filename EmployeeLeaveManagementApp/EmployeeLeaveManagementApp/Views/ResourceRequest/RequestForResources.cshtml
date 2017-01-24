@@ -1,4 +1,5 @@
 ﻿@model LMS_WebAPP_Domain.ResourceDetails
+@using LMS_WebAPP_Utils
 @{
     var lstRequestStatus = new Dictionary<int, string>();
     foreach (var name in Enum.GetNames(typeof(LMS_WebAPP_Utils.ResourceRequestStatus)))
@@ -7,6 +8,7 @@
     }
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
+@Styles.Render("~/bundles/Content/css")
 <link rel="stylesheet" href="../../plugins/iCheck/all.css">
 <link rel="stylesheet" href="../../plugins/select2/select2.min.css">
 <link rel="stylesheet" href="../../dist/css/AdminLTE.min.css">
@@ -14,9 +16,8 @@
 <link href="~/Content/Style.css" rel="stylesheet" />
 <link href="~/plugins/datatables/jquery.dataTables.min.css" rel="stylesheet" />
 <link href="~/plugins/datatables/dataTables.bootstrap.css" rel="stylesheet" />
-<link href="~/plugins/Toastr/toastr.css" rel="stylesheet" />
-<section class="content-header">
-</section>
+@*<link href="~/plugins/Toastr/toastr.css" rel="stylesheet" />*@
+<section class="content-header"></section>
 <section class="content">
     <div class="row">
         <div class="col-md-12">
@@ -35,62 +36,62 @@
                 <!-- /.box-header -->
                 <div class="box-body">
                     <table class="table no-margin" id="resourceRequestHistoryTable">
-                            <thead>
-                                <tr>
-                                    <th>Request Ticket</th>
-                                    <th>Request Title</th>
-                                    <th>Created on</th>
-                                    <th>Status</th>
-                                    <th>Cancel Request</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                @foreach (var resource in Model.ResourceRequestHistory)
-                                {
-                                    <tr id="@resource.Ticket">
-                                        <td><a href="#" data-ticket="@resource.Ticket" data-created="@resource.CreatedDate" data-updated="@resource.UpdatedDate" data-title="@resource.ResourceRequestTitle" data-noRsource="@resource.NumberRequestedResources" data-skills="@resource.Skills" data-sentTo="@resource.RequestToName" data-statusKey="@resource.Status" data-status="@resource.StatusValue" onclick="ticketClicked(this)">@resource.Ticket</a></td>
-                                        <td>@resource.ResourceRequestTitle</td>
-                                        @{
-                                            var dateWithTime = resource.CreatedDate;
-                                            string createdDate = "";
-                                            createdDate = dateWithTime.ToString("MM/dd/yyyy");
-                                        }
-                                        <td>@createdDate</td>
-                                        <td>
-                                            <div class="btn-group">
-                                                @if (resource.Status == 1)
-                                                {
-                                                    <span class="label btn-color-requested">@resource.StatusValue</span>
-                                                }
-                                                else if (resource.Status == 2)
-                                                {
-                                                    <span class="label btn-color-processing">@resource.StatusValue</span>
-                                                }
-                                                else if (resource.Status == 3)
-                                                {
-                                                    <span class="label btn-color-partialApproval">@resource.StatusValue</span>
-                                                }
-                                                else 
-                                                {
-                                                    <span class="label btn-color-approved">@resource.StatusValue</span>
-                                                }
-                                            </div>
-                                        </td>
-                                       
-                                        <td class="text-align_center">
+                        <thead>
+                            <tr>
+                                <th>Request Ticket</th>
+                                <th>Request Title</th>
+                                <th>Created on</th>
+                                <th>Status</th>
+                                <th>Cancel Request</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var resource in Model.ResourceRequestHistory)
+                            {
+                                <tr id="@resource.Ticket">
+                                    <td><a href="#" data-ticket="@resource.Ticket" data-created="@resource.CreatedDate" data-updated="@resource.UpdatedDate" data-title="@resource.ResourceRequestTitle" data-noRsource="@resource.NumberRequestedResources" data-skills="@resource.Skills" data-sentTo="@resource.RequestToName" data-statusKey="@resource.Status" data-status="@resource.StatusValue" onclick="ticketClicked(this)">@resource.Ticket</a></td>
+                                    <td>@resource.ResourceRequestTitle</td>
+                                    @{
+                                        var dateWithTime = resource.CreatedDate;
+                                        string createdDate = "";
+                                        createdDate = dateWithTime.ToString("MM/dd/yyyy");
+                                    }
+                                    <td>@createdDate</td>
+                                    <td>
+                                        <div class="btn-group">
+                                            @if (resource.Status == (int)ResourceRequestStatus.Requested)
+                                            {
+                                                <span class="label btn-color-requested">@resource.StatusValue</span>
+                                            }
+                                            else if (resource.Status == (int)ResourceRequestStatus.InProgress)
+                                            {
+                                                <span class="label btn-color-processing">@resource.StatusValue</span>
+                                            }
+                                            else if (resource.Status == (int)ResourceRequestStatus.PartialApproval)
+                                            {
+                                                <span class="label btn-color-partialApproval">@resource.StatusValue</span>
+                                            }
+                                            else
+                                            {
+                                                <span class="label btn-color-approved">@resource.StatusValue</span>
+                                            }
+                                        </div>
+                                    </td>
+
+                                    <td class="text-align_center">
                                         @if (resource.Status != 4)
                                         {
                                             <a href="#"><span class="label btn-danger" data-ticket="@resource.Ticket" onclick="cancelRequest(this)">Cancel</span></a>
                                         }
-                                        </td>
+                                    </td>
                                 </tr>
-                                }
-                            </tbody>
-                        </table>
+                                        }
+                        </tbody>
+                    </table>
                 </div>
                 <!-- /.box-body -->
                 <div class="box-footer clearfix">
-                    <a href="javascript:void(0)" class="btn btn-sm btn-flat pull-left bg-black"data-toggle="modal" data-target=".addResourceRequest-modal">Place New Request</a>
+                    <a href="javascript:void(0)" class="btn btn-sm btn-flat pull-left bg-black" data-toggle="modal" data-target=".addResourceRequest-modal">Place New Request</a>
                     @if (Model.Count > 10)
                     {
                         <a href="javascript:void(0)" id="" class="btn btn-sm btn-flat pull-right bg-black viewAllBtn" onclick="getAllRequests()">View All Requests</a>
@@ -102,7 +103,7 @@
                 </div>
             </div>
         </div>
-        
+
     </div>
     <!-- /.row -->
 </section>
@@ -130,18 +131,18 @@
                             <label for="ddlSkills">Skills</label>
                             <select id="ddlSkills" multiple="multiple" class="form-control skills" style="width: 100%;">
                                 @foreach (var skill in Model.Skills)
-                            {
+                                {
                                     <option value="@skill">@skill</option>
-                            }
+                                }
                             </select>
                         </div>
                         <div class="form-group col-md-6" id="ddlRequestToDiv">
                             <label>Request send to</label>
                             <select class="form-control" style="width: 100%;" id="ddlRequestSendToSel">
                                 @foreach (var hr in Model.ListOfHR)
-                            {
+                                {
                                     <option value="@hr.Id">@hr.FirstName @hr.LastName</option>
-                            }
+                                }
                             </select>
                         </div>
                     </div>
@@ -220,7 +221,8 @@
 <script src="../../plugins/datatables/jquery.dataTables.min.js"></script>
 <script src="../../plugins/datatables/dataTables.bootstrap.min.js"></script>
 <script src="~/Content/Scripts/Common.js"></script>
-<script src="../../plugins/Toastr/toastr.js"></script>
+@*<script src="../../plugins/Toastr/toastr.js"></script>*@
+@Scripts.Render("~/bundles/Content/js")
 <script>
     var educationFromDate;
     var educationToDate;
@@ -229,7 +231,6 @@
     var imgpath = "";
     var imgId;
     $(document).ready(function () {
-        $('#resourceRequest').parent().addClass('active');
         $(function () {
             //Initialize Select2 Elements
             $(".skills").select2({
@@ -290,7 +291,7 @@
             showMessage("Please select required skills", "2", true);
             return false;
         }
-        
+
         var requestSendTo = parseInt($("#ddlRequestSendToSel option:selected").val());
         var model = {
             ResourceRequestTitle: $("#txtRequestTitle").val(),
@@ -309,7 +310,7 @@
             processData:false,
             success: function (data) {
                 if (data.result == true) {
-                   
+
                     $("#txtRequestTitle").val("");
                     $("#txtResourcesRequired").val("");
                     $("#ddlSkills").val(null).trigger("change");
@@ -349,13 +350,13 @@
         $(".requestedSkills").html($(id).attr('data-skills'));
         $(".requestSentTo").html($(id).attr('data-sentTo'));
         var statusKey = parseInt($(id).attr('data-statusKey'));
-        if (statusKey == 1) {
+        if (statusKey == '@Convert.ToInt32(ResourceRequestStatus.Requested)') {
             $(".requestStatus").html('<span class="label btn-color-requested">' + $(id).attr("data-status") + '</span>');
         }
-        else if (statusKey == 2) {
+        else if (statusKey == '@Convert.ToInt32(ResourceRequestStatus.InProgress)') {
             $(".requestStatus").html('<span class="label btn-color-processing">' + $(id).attr("data-status") + '</span>');
         }
-        else if (statusKey == 3) {
+        else if (statusKey == '@Convert.ToInt32(ResourceRequestStatus.PartialApproval)') {
             $(".requestStatus").html('<span class="label btn-color-partialApproval">' + $(id).attr("data-status") + '</span>');
         }
         else {
@@ -384,7 +385,7 @@
                 }
             }
         });
-    }  
+    }
 
     function tabeRowPopulate(model) {
         var createdDate = ToJavaScriptDate(model.CreatedDate);
@@ -394,26 +395,26 @@
         tableRow += '<td><a href="#" data-ticket="' + model.Ticket + '" data-created="' + createdDate + '"' +
             ' data-updated="' + updatedDate + '" data-title="' + model.ResourceRequestTitle + '"' +
             ' data-noRsource="' + model.NumberRequestedResources + '" data-skills="' + model.Skills + '"' +
-            ' data-sentTo="' + model.RequestToName + '" data-status="' + model.StatusValue + '" onclick="ticketClicked(this)">' +
+            ' data-sentTo="' + model.RequestToName + '" data-statusKey="' + statusKey + '" data-status="' + model.StatusValue + '" onclick="ticketClicked(this)">' +
             '' + model.Ticket + '</a></td>';
         tableRow += '<td>' + model.ResourceRequestTitle + '</td>';
         tableRow += '<td>' + createdDate + '</td>';
-        if (statusKey == 1) {
+        if (statusKey == '@Convert.ToInt32(ResourceRequestStatus.Requested)') {
             tableRow += '<td>' + '<span class="label btn-color-requested">' + model.StatusValue + '</span>' + '</td>';
         }
-        else if (statusKey == 2) {
+        else if (statusKey == '@Convert.ToInt32(ResourceRequestStatus.InProgress)') {
             tableRow += '<td>' + '<span class="label btn-color-processing">' + model.StatusValue + '</span>' + '</td>';
         }
-        else if (statusKey == 3) {
+        else if (statusKey == '@Convert.ToInt32(ResourceRequestStatus.PartialApproval)') {
             tableRow += '<td>' + '<span class="label btn-color-partialApproval">' + model.StatusValue + '</span>' + '</td>';
         }
         else {
             tableRow += '<td>' + '<span class="label btn-color-approved">' + model.StatusValue + '</span>' + '</td>';
         }
-        
+
         tableRow += '<td class="text-align_center">';
-        if (statusKey != 4) {
-            tableRow += '<a href="#"><span class="label btn-danger" data-ticket="' + model.Ticket + '" onclick="cancelRequest(this)">Cancel</span></a>';                        
+        if (statusKey != '@Convert.ToInt32(ResourceRequestStatus.Approved)') {
+            tableRow += '<a href="#"><span class="label btn-danger" data-ticket="' + model.Ticket + '" onclick="cancelRequest(this)">Cancel</span></a>';
         }
         tableRow += '</td>';
         tableRow += '</tr>';
@@ -453,3 +454,4 @@
         });
     }
 </script>
+    }

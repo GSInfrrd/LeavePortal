@@ -24,10 +24,14 @@ namespace EmployeeLeaveManagementApp.Controllers
                 int managerId = ((UserAccount)Session[LMS_WebAPP_Utils.Constants.SESSION_OBJ_USER]).RefEmployeeId;
 
                 var resourceRequestFormDetails = resourceManagementOperations.GetResourceRequestFormDetails(managerId);
-                foreach (var history in resourceRequestFormDetails.ResourceRequestHistory)
+                if (null != resourceRequestFormDetails.ResourceRequestHistory)
                 {
-                    history.StatusValue = CommonMethods.Description((ResourceRequestStatus)history.Status);
+                    foreach (var history in resourceRequestFormDetails.ResourceRequestHistory)
+                    {
+                        history.StatusValue = CommonMethods.Description((ResourceRequestStatus)history.Status);
+                    }
                 }
+               
                 Logger.Info("Successfully exiting from ResourceRequestController APP RequestForResources method");
                 return View(resourceRequestFormDetails);
             }
