@@ -62,7 +62,7 @@ namespace LMS_WebAPP_ServiceHelpers
             HttpClient client = new HttpClient();
             client.BaseAddress = new Uri(URL);
 
-            var urlParameters = "?Id=" + id + "&leaveType=" + leaveType + "&fromDate=" + fromDate + "&toDate=" + toDate + "&comments=" + comments + "&workingDays=" + workingDays;
+            var urlParameters = "/applyLeave?Id=" + id + "&leaveType=" + leaveType + "&fromDate=" + fromDate + "&toDate=" + toDate + "&comments=" + comments + "&workingDays=" + workingDays;
             URL += urlParameters;
             //URL = URL + "/SubmitLeaveRequest";
 

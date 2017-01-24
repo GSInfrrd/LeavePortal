@@ -145,7 +145,7 @@ namespace LMS_WebAPI_DAL.Repositories
 
                     Text += " has applied for leave.";
                     int Status = 1;
-                    int NotificationType = 27;
+                    int NotificationType =(Int16)LMS_WebAPI_Utils.NotificationType.NotificationType;
                     ApproveLeaveRepository alr = new ApproveLeaveRepository();
                     alr.insertNotification(RefApproverId, Text, Status, NotificationType);
                 }

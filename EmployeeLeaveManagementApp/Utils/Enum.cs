@@ -143,4 +143,12 @@ namespace LMS_WebAPP_Utils
         [Description("Credit")]
         Credit = 172
     }
+
+    public enum EmployeeType
+    {
+        [Description("Fresher")]
+        Fresher = 151,
+        [Description("Experienced")]
+        Experienced = 152
+    }
 }

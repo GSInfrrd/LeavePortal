@@ -155,7 +155,13 @@ namespace LMS_WebAPI_Utils
         [Description("Add Resource Request")]
         AddResourceRequest = 158,
         [Description("Resource Request Update")]
-        ResourceRequestUpdate = 159,
+        ResourceRequestUpdate = 159
 
+    }
+
+    public enum NotificationType
+    {
+        [Description("Notification Type")]
+        NotificationType = 161
     }
 }
