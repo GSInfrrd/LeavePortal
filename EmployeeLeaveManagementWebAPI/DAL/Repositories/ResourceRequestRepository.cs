@@ -19,7 +19,7 @@ namespace LMS_WebAPI_DAL.Repositories
             {
                 using (var ctx = new LeaveManagementSystemEntities1())
                 {
-                    var allHR = ctx.EmployeeDetails.Include("MasterDataValue").Where(x => x.MasterDataValue.Id == (Int16)EmployeeRole.HR).ToList();
+                    var allHR = ctx.EmployeeDetails.Where(x => x.RefRoleId == (Int16)EmployeeRole.HR).ToList();
                     var skills = ctx.MasterDataValues.Where(y => y.RefMasterType == (Int16)SkillsProjects.Skills).Select(y => y.Value).ToList();
 
                     var lstHR = new List<EmployeeDetailsModel>();
@@ -56,8 +56,8 @@ namespace LMS_WebAPI_DAL.Repositories
             {
                 using (var ctx = new LeaveManagementSystemEntities1())
                 {
-                    var lstHR = ctx.EmployeeDetails.Include("MasterDataValue").Where(x => x.MasterDataValue.Id == (Int16)EmployeeRole.HR).ToList();
-                    var lstManagers = ctx.EmployeeDetails.Include("MasterDataValue").Where(x => x.MasterDataValue.Id == (Int16)EmployeeRole.Manager).ToList();
+                    var lstHR = ctx.EmployeeDetails.Where(x => x.RefRoleId == (Int16)EmployeeRole.HR).ToList();
+                    var lstManagers = ctx.EmployeeDetails.Where(x => x.RefRoleId == (Int16)EmployeeRole.Manager).ToList();
                     var role = ctx.EmployeeDetails.Where(x => x.Id == userId).Select(y => y.RefRoleId).FirstOrDefault();
                     var lstResourceDetails = new List<ResourceRequestDetailModel>();
                     var resourceRequests = ctx.ResourceRequestDetails.ToList();

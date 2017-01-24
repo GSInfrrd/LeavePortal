@@ -88,14 +88,14 @@ namespace LMS_WebAPI_Utils
 
     public enum ResourceRequestStatus
     {
-        [Description("Requested")]
-        Requested = 1,
         [Description("In Progress")]
-        InProgress = 2,
-        [Description("Partial Approval")]
-        PartialApproval = 3,
+        InProgress = 183,
         [Description("Approved")]
-        Approved = 4
+        Approved = 184,
+        [Description("Partial Approval")]
+        PartialApproval = 185,
+        [Description("Requested")]
+        Requested = 186
     }
 
     public enum MasterDataTypeEnum
