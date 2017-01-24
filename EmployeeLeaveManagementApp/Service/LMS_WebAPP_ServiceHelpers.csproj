@@ -7,8 +7,8 @@
     <ProjectGuid>{4024ED02-9FA5-444D-B90D-3A9BF0772C57}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Service</RootNamespace>
-    <AssemblyName>Service</AssemblyName>
+    <RootNamespace>LMS_WebAPP_ServiceHelpers</RootNamespace>
+    <AssemblyName>LMS_WebAPP_ServiceHelpers</AssemblyName>
     <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
@@ -49,7 +49,6 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ApproveLeaveManagement.cs" />
-    <Compile Include="CompoOffMangement.cs" />
     <Compile Include="EmployeeLeaveTransactionManagement.cs" />
     <Compile Include="HolidayManagement.cs" />
     <Compile Include="HRManagement.cs" />

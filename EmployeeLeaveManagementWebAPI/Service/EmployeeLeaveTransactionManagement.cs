@@ -8,7 +8,6 @@ using LMS_WebAPI_DAL.Repositories;
 using LMS_WebAPI_DAL.Repositories.Interfaces;
 using LMS_WebAPI_DAL;
 using LMS_WebAPI_Utils;
-using Domain;
 
 namespace LMS_WebAPI_ServiceHelpers
 {

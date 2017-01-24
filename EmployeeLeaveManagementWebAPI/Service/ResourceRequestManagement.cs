@@ -1,5 +1,4 @@
-﻿using Domain;
-using LMS_WebAPI_DAL;
+﻿using LMS_WebAPI_DAL;
 using LMS_WebAPI_DAL.Repositories;
 using LMS_WebAPI_DAL.Repositories.Interfaces;
 using LMS_WebAPI_Domain;
@@ -10,7 +9,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Service
+namespace LMS_WebAPI_ServiceHelpers
 {
     public class ResourceRequestManagemenet
     {

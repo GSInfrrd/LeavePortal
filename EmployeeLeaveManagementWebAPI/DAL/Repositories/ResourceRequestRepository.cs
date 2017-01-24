@@ -1,5 +1,4 @@
-﻿using Domain;
-using LMS_WebAPI_DAL.Repositories.Interfaces;
+﻿using LMS_WebAPI_DAL.Repositories.Interfaces;
 using LMS_WebAPI_Domain;
 using LMS_WebAPI_Utils;
 using System;

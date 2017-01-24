@@ -7,7 +7,6 @@ using System;
 using LMS_WebAPI_Utils;
 using System.Data.Entity;
 using System.Net.Mail;
-using Domain;
 
 namespace LMS_WebAPI_DAL.Repositories
 {

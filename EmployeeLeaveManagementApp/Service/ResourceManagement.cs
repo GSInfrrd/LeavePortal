@@ -8,7 +8,7 @@ using System.Net.Http.Headers;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Service
+namespace LMS_WebAPP_ServiceHelpers
 {
     public class ResourceManagement
     {

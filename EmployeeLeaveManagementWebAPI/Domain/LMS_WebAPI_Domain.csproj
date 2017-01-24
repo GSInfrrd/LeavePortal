@@ -7,8 +7,8 @@
     <ProjectGuid>{485C566D-4A4D-44A6-A33B-65DDE722448F}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Domain</RootNamespace>
-    <AssemblyName>Domain</AssemblyName>
+    <RootNamespace>LMS_WebAPI_Domain</RootNamespace>
+    <AssemblyName>LMS_WebAPI_Domain</AssemblyName>
     <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
@@ -47,7 +47,6 @@
   <ItemGroup>
     <Compile Include="ApproveLeaveModel.cs" />
     <Compile Include="CalendarEvents.cs" />
-    <Compile Include="CompoOff.cs" />
     <Compile Include="ConsolidatedEmployeeLeaveDetailsModel.cs" />
     <Compile Include="EmployeeDetailsModel.cs" />
     <Compile Include="EmployeeLeaveTransactionModel.cs" />
