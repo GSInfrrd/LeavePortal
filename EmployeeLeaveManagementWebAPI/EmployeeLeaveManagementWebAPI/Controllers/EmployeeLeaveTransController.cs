@@ -7,7 +7,6 @@ using System.Web.Http;
 using LMS_WebAPI_ServiceHelpers;
 using LMS_WebAPI_Domain;
 using LMS_WebAPI_Utils;
-using Domain;
 
 namespace EmployeeLeaveManagementWebAPI.Controllers
 {

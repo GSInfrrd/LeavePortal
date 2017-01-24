@@ -336,6 +336,18 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_EmployeeDetails_EmployeeManager">
+          <End Role="EmployeeDetails" Type="Self.EmployeeDetails" Multiplicity="0..1" />
+          <End Role="EmployeeDetails1" Type="Self.EmployeeDetails" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="EmployeeDetails">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="EmployeeDetails1">
+              <PropertyRef Name="ManagerId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_EmployeeDetails_EmployeeProjectDetail">
           <End Role="EmployeeDetails" Type="Self.EmployeeDetails" Multiplicity="1" />
           <End Role="EmployeeProjectDetail" Type="Self.EmployeeProjectDetail" Multiplicity="*" />
@@ -793,6 +805,10 @@
           <AssociationSet Name="FK_EmployeeDetails_EmployeeLeaveTransactionHistory" Association="Self.FK_EmployeeDetails_EmployeeLeaveTransactionHistory">
             <End Role="EmployeeDetails" EntitySet="EmployeeDetails" />
             <End Role="EmployeeLeaveTransactionHistory" EntitySet="EmployeeLeaveTransactionHistory" />
+          </AssociationSet>
+          <AssociationSet Name="FK_EmployeeDetails_EmployeeManager" Association="Self.FK_EmployeeDetails_EmployeeManager">
+            <End Role="EmployeeDetails" EntitySet="EmployeeDetails" />
+            <End Role="EmployeeDetails1" EntitySet="EmployeeDetails" />
           </AssociationSet>
           <AssociationSet Name="FK_EmployeeDetails_EmployeeProjectDetail" Association="Self.FK_EmployeeDetails_EmployeeProjectDetail">
             <End Role="EmployeeDetails" EntitySet="EmployeeDetails" />
