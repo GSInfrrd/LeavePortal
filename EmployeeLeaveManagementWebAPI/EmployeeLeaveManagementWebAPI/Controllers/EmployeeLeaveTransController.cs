@@ -102,7 +102,7 @@ namespace EmployeeLeaveManagementWebAPI.Controllers
 
         [AllowAnonymous]
         [HttpGet]
-        [Route("api/EmployeeLeaveTrans/GetRewardLeaveFormDetails")]
+        [Route("GetRewardLeaveFormDetails")]
         public RewardLeaveModel GetRewardLeaveFormDetails()
         {
             try
@@ -123,7 +123,7 @@ namespace EmployeeLeaveManagementWebAPI.Controllers
 
         [AllowAnonymous]
         [HttpPost]
-        [Route("api/EmployeeLeaveTrans/SubmitLeaveReward")]
+        [Route("SubmitLeaveReward")]
         public bool SubmitLeaveReward(RewardLeaveModel model)
         {
             try
