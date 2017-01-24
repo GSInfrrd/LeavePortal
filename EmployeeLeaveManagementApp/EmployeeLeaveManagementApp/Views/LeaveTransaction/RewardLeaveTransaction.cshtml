@@ -1,5 +1,4 @@
-﻿
-@{
+﻿@{
     ViewBag.Title = "RewardLeaveTransaction";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
@@ -18,7 +17,7 @@
                     <div class="form-group col-md-4 col-sm-6" id="projects">
                         <label>From Project</label>
                         <select class="form-control" style="width: 100%;" id="projectsSelect">
-                            @if (null != Model.Projects)
+                            @if (null != Model && null != Model.Projects)
                             {
                                 foreach (var project in Model.Projects)
                                 {
@@ -30,7 +29,7 @@
                     <div class="form-group col-md-4 col-sm-6" id="employee">
                         <label>Employee</label>
                         <select class="form-control" style="width: 100%;" id="employeesSelect">
-                            @if (null != Model.Employees)
+                            @if (null != Model && null != Model.Employees)
                             {
                                 foreach (var employee in Model.Employees)
                                 {
@@ -85,7 +84,7 @@
                     showMessage("Leave rewarded successfully", "1", true);
                 }
                 else {
-                    showMessage("Leave could not be rewarded", "1", true);
+                    showMessage("Leave could not be rewarded", "2", true);
                 }
             }
         });
