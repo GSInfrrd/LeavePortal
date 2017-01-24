@@ -12,7 +12,7 @@ namespace LMS_WebAPI_Utils
         [Description("Casual Leave")]
         CasualLeave = 62,
         [Description("Sick Leave")]
-        SickLeave = 3,
+        SickLeave = 61,
         [Description("Compo Off")]
         CompOff = 63,
         [Description("Advance Leave")]
@@ -24,15 +24,15 @@ namespace LMS_WebAPI_Utils
     {
 
         [Description("Planned")]
-        Planned = 9,
+        Planned = 71,
         [Description("Submitted")]
-        Submitted = 10,
+        Submitted = 72,
         [Description("Rejected")]
-        Rejected = 11,
+        Rejected = 73,
         [Description("Approved")]
-        Approved = 12,
+        Approved = 74,
         [Description("Reassigned")]
-        Reassigned = 21
+        Reassigned = 76
     }
 
     public enum EmployeeRole
@@ -119,21 +119,21 @@ namespace LMS_WebAPI_Utils
     public enum WorkFormHomeReasons
     {
         [Description("Personal Work")]
-        Maintenance = 23,
+        Maintenance = 91,
         [Description("Commute Issue")]
-        AvoidTravel = 24,
+        AvoidTravel = 92,
         [Description("Appointment with Doctors")]
-        AppointmentWithDoctor = 28,
+        AppointmentWithDoctor = 93,
         [Description("Others")]
-        Others = 29
+        Others = 94
     }  
     
     public enum TransactionType
     {
         [Description("Debit")]
-        Debit = 2052,
+        Debit = 171,
         [Description("Credit")]
-        Credit = 2053
+        Credit = 172
     }
 
     public enum ActionsForMail
