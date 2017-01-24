@@ -341,23 +341,24 @@ namespace LMS_WebAPI_DAL.Repositories
                                 leaveRewarded = false;
                         }
 
-                        //if (leaveRewarded)
-                        //{
-                        //    var leaveTransactionEntity = new EmployeeLeaveTransaction()
-                        //    {
-                        //        RefEmployeeId = model.EmplooyeeId,
-                        //        CreatedDate = DateTime.Now,
-                        //        NumberOfWorkingDays = model.NumberofDays,
-                        //        RefLeaveType = (int)TransactionType.Credit,
-                        //        CreatedBy = model.ManagerName
-                        //    };
+                        if (leaveRewarded)
+                        {
+                            var leaveTransactionEntity = new EmployeeLeaveTransaction()
+                            {
+                                RefEmployeeId = model.EmplooyeeId,
+                                CreatedDate = DateTime.Now,
+                                NumberOfWorkingDays = model.NumberofDays,
+                                RefLeaveType = (int)TransactionType.Credit,
+                                RefCreatedBy = model.ManagerId,
+                                RefStatus = (int)LeaveStatus.Approved
+                            };
 
-                        //    var leaveTransactionRecord = ctx.EmployeeLeaveTransactions.Add(leaveTransactionEntity);
-                        //    var leaveTransactionResult = ctx.SaveChanges();
-                        //    if (leaveTransactionResult == 1)
-                        //        leaveRewarded = true;
-                            
-                        //}
+                            var leaveTransactionRecord = ctx.EmployeeLeaveTransactions.Add(leaveTransactionEntity);
+                            var leaveTransactionResult = ctx.SaveChanges();
+                            if (leaveTransactionResult == 1)
+                                leaveRewarded = true;
+
+                        }
                     }
 
                 Logger.Info("Successfully exiting from AddLeaveRepository API Rewardleave method");
