@@ -76,8 +76,8 @@
                         <label>Employee Type</label>
                         <select class="form-control level" style="width: 100%;" id="ddlEmployeeType">
                             <option value="">Select</option>
-                            <option value="1">Fresher</option>
-                            <option value="2">Experienced</option>                         
+                            <option value="@Convert.ToInt16(LMS_WebAPP_Utils.EmployeeType.Fresher)">@LMS_WebAPP_Utils.CommonMethods.Description((LMS_WebAPP_Utils.EmployeeType.Fresher))</option>
+                            <option value="@Convert.ToInt16(LMS_WebAPP_Utils.EmployeeType.Experienced)">@LMS_WebAPP_Utils.CommonMethods.Description((LMS_WebAPP_Utils.EmployeeType.Experienced))</option>                       
                         </select>
                     </div>
                     <div class="form-group col-md-6">
@@ -355,7 +355,7 @@
             Telephone: $("#txtTelephone").val(),
             RefHierarchyLevel: $("#ddlLevel").val(),
             DateOfJoining: $("#txtJoiningDate").val(),
-            ManagerName: $("#ddlManagerName").val(),
+            ManagerId: $("#ddlManagerName").val(),
             EmployeeType:$("#ddlEmployeeType").val(),
            Projects:projects,
             Imagepath: imagepath,

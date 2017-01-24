@@ -69,7 +69,7 @@ namespace LMS_WebAPI_Utils
     public enum AdvanceLeaveLimit
     {
         [Description("LeaveLimit")]
-        limit = 8
+        limit = 12
     }
 
     public enum ResponseCodes

@@ -355,7 +355,7 @@ namespace EmployeeLeaveManagementApp.Controllers
                 empModel.ImagePath = model.Imagepath;
                 empModel.EmployeeNumber = model.EmployeeNumber;
                 empModel.RefHierarchyLevel = model.RefHierarchyLevel;
-                empModel.ManagerName = model.ManagerName;
+                empModel.ManagerId = model.ManagerId;
                 empModel.Telephone = model.Telephone;
                 empModel.EmployeeType = model.EmployeeType;
                 List<EmployeeEducationDetails> eEduList = new List<EmployeeEducationDetails>();
@@ -395,10 +395,14 @@ namespace EmployeeLeaveManagementApp.Controllers
                 List<ProjectsList> projects = new List<ProjectsList>();
                 foreach (var item in model.Projects)
                 {
-                    ProjectsList project = new ProjectsList();
-                    project.Id = item.Id;
-                    projects.Add(project);
+                    if (item.Id!=0)
+                    {
+                        ProjectsList project = new ProjectsList();
+                        project.Id = item.Id;
+                        projects.Add(project);
+                    }
                 }
+                
                 empModel.Projects = projects;
                 var data = await hrOperations.SubmitEmployeeDetailsAsync(empModel);
                 return Json(new { result = data });

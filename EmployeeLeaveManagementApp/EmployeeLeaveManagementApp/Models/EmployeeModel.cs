@@ -29,6 +29,7 @@ namespace EmployeeLeaveManagementApp.Models
         public List<ProjectsList> Projects { get; set; }
 
         public int EmployeeType { get; set;}
+        public int? ManagerId { get; set; }
     }
 
     public class EmployeeEducationModel

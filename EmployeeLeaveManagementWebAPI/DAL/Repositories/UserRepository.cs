@@ -81,7 +81,7 @@ namespace LMS_WebAPI_DAL.Repositories
                             var lopLimit = masterDetails.ToList().Where(x => x.RefMasterType == Convert.ToInt32(LOPLeaveLimit.limit)).FirstOrDefault();
                             empData.TotalAdvanceLeaveToTake = ((employeeLeaves.SpentAdvanceLeave == 0) || (employeeLeaves.SpentAdvanceLeave == null)) ? Convert.ToInt16(advanceLimit.Value) : (Convert.ToInt16(advanceLimit.Value) - employeeLeaves.SpentAdvanceLeave);
                             empData.TotalCasualLeave = employeeLeaves.EarnedCasualLeave + (employeeLeaves.RewardedLeaveCount != null ? employeeLeaves.RewardedLeaveCount : 0);
-                            empData.TotalLeaveCount = employeeLeaves.EarnedCasualLeave + employeeLeaves.RewardedLeaveCount;
+                            empData.TotalLeaveCount = employeeLeaves.EarnedCasualLeave + (employeeLeaves.RewardedLeaveCount != null ? employeeLeaves.RewardedLeaveCount : 0);
                             empData.LOPLeaveLimit = Convert.ToInt32(lopLimit.Value);
                             empData.CompOffTaken = employeeLeaves.TakenCompOff;
                         }

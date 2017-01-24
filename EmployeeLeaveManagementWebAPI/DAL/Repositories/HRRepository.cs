@@ -33,7 +33,7 @@ namespace LMS_WebAPI_DAL.Repositories
                         EmpNumber = model.EmployeeNumber.ToString(),
                         PhoneNumber = model.Telephone,
                         RefHierarchyLevel = model.RefHierarchyLevel,
-                        ManagerId = Convert.ToInt32(model.ManagerName),
+                        ManagerId =model.ManagerId,
                         DateOfJoining = model.DateOfJoining,
                         ImagePath = imageBase64Data,
                         RefEmployeeType = model.EmployeeType
