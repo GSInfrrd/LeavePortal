@@ -30,7 +30,7 @@ namespace LMS_WebAPI_ServiceHelpers
            
                 foreach (var item in result.EmployeeLeaveTransactions)
                 {
-                    for (DateTime date = item.FromDate; date <= item.ToDate; date = date.AddDays(1))
+                    for (DateTime date = item.FromDate.Value; date <= item.ToDate; date = date.AddDays(1))
                     {
                         for (DateTime givenDate = fromDate; givenDate <= toDate; givenDate = givenDate.AddDays(1))
                         {

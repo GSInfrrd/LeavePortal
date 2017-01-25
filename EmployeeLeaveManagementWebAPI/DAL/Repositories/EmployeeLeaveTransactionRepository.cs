@@ -29,7 +29,7 @@ namespace LMS_WebAPI_DAL.Repositories
                     }
                    if(month!=0)
                     {
-                        EmployeeLeaveTransactions = EmployeeLeaveTransactions.Where(x => x.FromDate.Month == month || x.ToDate.Month == month).ToList();
+                        EmployeeLeaveTransactions = EmployeeLeaveTransactions.Where(x =>x.FromDate.Value.Month == month || x.ToDate.Value.Month == month).ToList();
                     }
                    if(transactionType!=0)
                     {

@@ -134,7 +134,7 @@ namespace LMS_WebAPI_DAL.Repositories
                 var years = new List<EmployeeLeaveTransaction>();
                 using (var ctx = new LeaveManagementSystemEntities1())
                 {
-                    years = ctx.EmployeeLeaveTransactions.Where(i => i.RefStatus == (int)LeaveStatus.Approved && i.FromDate.Year == year && i.ToDate.Year == year).ToList();
+                    years = ctx.EmployeeLeaveTransactions.Where(i => i.RefStatus == (int)LeaveStatus.Approved && i.FromDate!=null && i.ToDate!=null && i.FromDate.Value.Year == year && i.ToDate.Value.Year == year).ToList();
 
                     if (employeeId != 0)
                     {
@@ -148,7 +148,7 @@ namespace LMS_WebAPI_DAL.Repositories
                     foreach (var item in years)
                     {
 
-                        for (DateTime date = item.FromDate; date <= item.ToDate; date = date.AddDays(1))
+                        for (DateTime date =item.FromDate.Value; date <= item.ToDate; date = date.AddDays(1))
                         {
                             if (date.DayOfWeek != DayOfWeek.Saturday && date.DayOfWeek != DayOfWeek.Sunday)
                             {

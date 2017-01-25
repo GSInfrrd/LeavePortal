@@ -192,7 +192,7 @@ namespace LMS_WebAPP_ServiceHelpers
             {
                 using (HttpClient client = new HttpClient())
             {
-                string URL = WebapiURL + "/GetUserProfileDetails";
+                string URL = ProfileURL + "/GetUserProfileDetails";
                 urlParameters = "?empId=" + empId;
                 client.BaseAddress = new Uri(URL);
                 // Add an Accept header for JSON format.
