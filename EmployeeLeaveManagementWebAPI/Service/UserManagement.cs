@@ -92,19 +92,22 @@ namespace LMS_WebAPI_ServiceHelpers
                 List<EmployeeDetailsModel> resList = new List<EmployeeDetailsModel>();
                 if (returnMembers != null && returnMembers.Count > 0)
                 {
-                    resList = returnMembers.Select(m => new EmployeeDetailsModel()
+                    foreach (var m in returnMembers)
                     {
-                        Bio = m.Bio,
-                        City = m.City,
-                        Country = m.Country,
-                        DateOfBirth = m.DateOfBirth,
-                        DateOfJoining = m.DateOfJoining.Value,
-                        FirstName = m.FirstName,
-                        Id = m.Id,
-                        RefRoleId = m.RefRoleId,
-                        LastName = m.LastName
-                        //ImagePath = m.ImagePath
-                    }).OrderBy(n=>n.RefRoleId).ToList();
+                        var res = new EmployeeDetailsModel();
+                        res.Bio = m.Bio;
+                        res.City = m.City;
+                        res.Country = m.Country;
+                        res.DateOfBirth = m.DateOfBirth;
+                        res.DateOfJoining = m.DateOfJoining.Value;
+                        res.FirstName = m.FirstName;
+                        res.Id = m.Id;
+                        res.RefRoleId = m.RefRoleId;
+                        res.LastName = m.LastName;
+                        res.RoleName = CommonMethods.Description((EmployeeRole)m.RefRoleId);
+                        resList.Add(res);
+                    }
+                    resList = resList.OrderBy(n => n.RefRoleId).ToList();
                 }
                 return resList;
             }

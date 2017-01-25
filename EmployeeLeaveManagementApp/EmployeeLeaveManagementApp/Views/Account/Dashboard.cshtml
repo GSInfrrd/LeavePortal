@@ -189,7 +189,7 @@
                                 <tr>
                                     <th>First Name</th>
                                     <th>Last Name</th>
-                                  
+                                  <th>Role</th>
                                 </tr>
                             </thead>
                             <tbody id="teamBody" >
@@ -459,7 +459,9 @@
                     var rest = "";
                     if (details != null) {
                         for (var i = 0; i < details.result.length; i++) {
-                            rest += "<tr><td>" + details.result[i].FirstName + "</td><td>" + details.result[i].LastName + "</td></tr>";
+                            rest += "<tr><td>" + details.result[i].FirstName + "</td><td>" + details.result[i].LastName +
+                               "</td><td>" + details.result[i].RoleName
+                               + "</td></tr>";
                         }
                     }
                     $('#teamBody').html(rest);
