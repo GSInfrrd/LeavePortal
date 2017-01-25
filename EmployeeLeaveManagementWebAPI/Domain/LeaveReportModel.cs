@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace LMS_WebAPI_Domain
 {
-   public class LeaveReportModel
+    public class LeaveReportModel
     {
         public int Year { get; set; }
 
@@ -22,6 +22,8 @@ namespace LMS_WebAPI_Domain
         public int Oct { get; set; }
         public int Nov { get; set; }
         public int Dec { get; set; }
+
+        public int leaveCount { get; set; }
 
     }
 }

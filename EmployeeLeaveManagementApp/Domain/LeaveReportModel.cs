@@ -22,6 +22,6 @@ namespace LMS_WebAPI_Domain
         public int Oct { get; set; }
         public int Nov { get; set; }
         public int Dec { get; set; }
-
+        public int leaveCount { get; set; }
     }
 }
