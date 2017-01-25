@@ -15,7 +15,7 @@
                 <p>
                     @foreach (AuthenticationDescription p in loginProviders)
                     {
-                        <button type="submit" class="btn btn-block btn-social btn-google btn-flat" id="@p.AuthenticationType" name="provider" value="@p.AuthenticationType" title="Log in using your @p.Caption account">Sign In using Google+</button>
+                        <button type="submit" class="btn btn-block btn-google btn-flat text-center" id="@p.AuthenticationType" name="provider" value="@p.AuthenticationType" title="Log in using your @p.Caption account">Sign In using Google+</button>
                     }
                 </p>
             </div>

@@ -23,10 +23,12 @@
                         <label for="txtFirstName">Master Data Type</label>
                         <select id="ddlMasterData" class="form-control masterDataSelect" style="width: 100%;">
                             <option value="0">Select</option>
-                          @foreach (var value in Enum.GetValues(typeof(LMS_WebAPP_Utils.MasterDataType)))
-                          {
-                              <option value="@Convert.ToInt16((LMS_WebAPP_Utils.MasterDataType)value)">@(LMS_WebAPP_Utils.CommonMethods.Description((LMS_WebAPP_Utils.MasterDataType)Convert.ToInt16((LMS_WebAPP_Utils.MasterDataType)value)))</option>
-                          }
+                      
+                              <option value="@Convert.ToInt16(LMS_WebAPP_Utils.MasterDataType.ProjectName)">@(LMS_WebAPP_Utils.CommonMethods.Description(LMS_WebAPP_Utils.MasterDataType.ProjectName))</option>
+                            <option value="@Convert.ToInt16(LMS_WebAPP_Utils.MasterDataType.Skills)">@(LMS_WebAPP_Utils.CommonMethods.Description(LMS_WebAPP_Utils.MasterDataType.Skills))</option>
+                            <option value="@Convert.ToInt16(LMS_WebAPP_Utils.MasterDataType.Role)">@(LMS_WebAPP_Utils.CommonMethods.Description(LMS_WebAPP_Utils.MasterDataType.Role))</option>
+
+
                         </select>
                     </div>
                     <div class="form-group" id="divMasterDataValue">
@@ -59,8 +61,8 @@
                     </div>
                 </div>
                 <div class="box-footer">
-                    <button type="submit" id="btnSubmitMasterData" class="btn btn-primary">Submit</button>
-                    <button type="submit" id="btnProjectInfoSubmit" class="btn btn-primary" style="display:none">Submit</button>
+                    <button type="submit" id="btnSubmitMasterData" style="background-color:black !important" class="btn btn-primary">Submit</button>
+                    <button type="submit" id="btnProjectInfoSubmit" class="btn btn-primary" style="display:none;background-color:black !important">Submit</button>
                 </div>
 
             </div>

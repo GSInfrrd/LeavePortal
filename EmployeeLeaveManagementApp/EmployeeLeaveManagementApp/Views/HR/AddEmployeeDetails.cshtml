@@ -214,6 +214,7 @@
     var experienceToDate;
     var imgpath = "";
     var imgId;
+    var levelValue='@Convert.ToInt32(LMS_WebAPP_Utils.HierarchyLevel.Level0)';
     $(document).ready(function () {
         $(function () {
             GetProjectsList();
@@ -225,7 +226,8 @@
             $(".skills").select2();
             $(".managerSelect").select2();
             $(".level").select2().on('change', function (e) {
-                if ($("#ddlLevel").val() == 13) {
+                debugger
+                if ($("#ddlLevel").val() == levelValue) {
                     $("#ddlManager").hide();
                 }
                 else {

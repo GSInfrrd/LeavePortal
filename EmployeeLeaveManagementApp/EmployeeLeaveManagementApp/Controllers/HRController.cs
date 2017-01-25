@@ -25,7 +25,7 @@ namespace EmployeeLeaveManagementApp.Controllers
                 if (null != Session[Constants.SESSION_OBJ_USER])
                 {
                     var model = new List<EmployeeDetailsModel>();
-                    model = await hrOperations.GetManagerListAsync(19);
+                    model = await hrOperations.GetManagerListAsync((Int32)HierarchyLevel.Level5);
                     Logger.Info("Successfully exiting from HRController APP AddEmployeeDetails method");
                     return View(model);
                 }

@@ -27,7 +27,7 @@
                             <div class="col-md-4" style="padding-bottom:10px;padding-top:10px">
                                 <label>Leave Type</label>
                                 <select class="form-control ddlLeave" id="ddlLeaveType">
-                                    <option value="">Select</option>
+                                    <option value="">All</option>
                                     @foreach (var value in Enum.GetValues(typeof(LMS_WebAPP_Utils.LeaveType)))
                                     {
                                         <option value="@Convert.ToInt16((LMS_WebAPP_Utils.LeaveType)value)">@(LMS_WebAPP_Utils.CommonMethods.Description((LMS_WebAPP_Utils.LeaveType)Convert.ToInt16((LMS_WebAPP_Utils.LeaveType)value))) </option>
@@ -39,7 +39,7 @@
                             <div class="col-md-4" style="padding-bottom:10px;padding-top:10px">
                                 <label>Month</label>
                                 <select class="form-control ddlMonth" id="ddlMonthName">
-                                    <option value="">Select</option>
+                                    <option value="">All</option>
                                     <option value="1">Jan</option>
                                     <option value="2">Feb</option>
                                     <option value="3">Mar</option>
@@ -58,7 +58,7 @@
                             <div class="col-md-4" style="padding-top:10px">
                                 <label>Transaction Type</label>
                                 <select class="form-control ddlTransaction" id="ddlTransactionType">
-                                    <option value="">Select</option>
+                                    <option value="">All</option>
                                     @foreach (var value in Enum.GetValues(typeof(LMS_WebAPP_Utils.TransactionType)))
                                     {
                                         <option value="@Convert.ToInt16((LMS_WebAPP_Utils.TransactionType)value)">@(LMS_WebAPP_Utils.CommonMethods.Description((LMS_WebAPP_Utils.TransactionType)Convert.ToInt16((LMS_WebAPP_Utils.TransactionType)value))) </option>

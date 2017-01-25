@@ -27,7 +27,7 @@ namespace LMS_WebAPI_ServiceHelpers
                     VerifiedUser.RefEmployeeId = userData.RefEmployeeId;
                     VerifiedUser.CreatedDate = userData.CreatedDate;
                     VerifiedUser.RefRoleId = userData.EmployeeDetail.RefRoleId;
-                    VerifiedUser.Imagepath = string.Format("data:image/png;base64,{0}", userData.EmployeeDetail.ImagePath);
+                    VerifiedUser.Imagepath =!string.IsNullOrEmpty(userData.EmployeeDetail.ImagePath)? string.Format("data:image/png;base64,{0}", userData.EmployeeDetail.ImagePath):string.Empty;
                     VerifiedUser.DateOfJoining =Convert.ToDateTime(userData.EmployeeDetail.DateOfJoining);
 
                 }
@@ -138,7 +138,7 @@ namespace LMS_WebAPI_ServiceHelpers
                 profileDetails.DateOfBirth = userData.DateOfBirth;
                 profileDetails.DateOfBirthAsString = userData.DateOfBirth.ToString("MMM dd");
                 profileDetails.Email = userData.UserAccounts.FirstOrDefault(i => i.RefEmployeeId == EmpId).UserName;
-                profileDetails.ImagePath = string.Format("data:image/png;base64,{0}", userData.ImagePath);
+                profileDetails.ImagePath = !string.IsNullOrEmpty(userData.ImagePath)?  string.Format("data:image/png;base64,{0}", userData.ImagePath):string.Empty;
                 profileDetails.Bio = userData.Bio;
                 profileDetails.Id = userData.Id;
                 profileDetails.FacebookLink = userData.FacebookLink;

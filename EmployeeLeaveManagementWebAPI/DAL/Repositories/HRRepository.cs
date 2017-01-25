@@ -19,8 +19,14 @@ namespace LMS_WebAPI_DAL.Repositories
             {
                 using (var ctx = new LeaveManagementSystemEntities1())
                 {
-                    byte[] imageByteData = System.IO.File.ReadAllBytes(model.ImagePath);
-                    string imageBase64Data = Convert.ToBase64String(imageByteData);
+                    var hrManagerId = ctx.EmployeeDetails.Where(x => x.RefRoleId == (Int32)EmployeeRole.HR).OrderBy(x => x.RefHierarchyLevel).FirstOrDefault().Id;
+                    string imageBase64Data = string.Empty;
+                    if (!string.IsNullOrEmpty(model.ImagePath))
+                    {
+                        byte[] imageByteData = System.IO.File.ReadAllBytes(model.ImagePath);
+                        imageBase64Data = Convert.ToBase64String(imageByteData);
+
+                    }
                     var employeeDetails = new EmployeeDetail
                     {
                         FirstName = model.FirstName,
@@ -33,7 +39,7 @@ namespace LMS_WebAPI_DAL.Repositories
                         EmpNumber = model.EmployeeNumber.ToString(),
                         PhoneNumber = model.Telephone,
                         RefHierarchyLevel = model.RefHierarchyLevel,
-                        ManagerId =model.ManagerId,
+                        ManagerId =model.ManagerId!=null?model.ManagerId: hrManagerId,
                         DateOfJoining = model.DateOfJoining,
                         ImagePath = imageBase64Data,
                         RefEmployeeType = model.EmployeeType
