@@ -16,7 +16,7 @@ namespace LMS_WebAPP_ServiceHelpers
 
         private static string WebapiUrl = ConfigurationManager.AppSettings["WebApiURL"];
         private string URL = WebapiUrl + "/EmployeeLeaveTrans";
-        private string URLGetRewardLeaveDetails = WebapiUrl + "/GetRewardLeaveFormDetails";
+        private string URLGetRewardLeaveDetails = WebapiUrl + "/EmployeeLeaveTrans/GetRewardLeaveFormDetails";
         private string URLSubmitLeaveReward = WebapiUrl + "/EmployeeLeaveTrans/SubmitLeaveReward";
         private string urlParameters ="";
 
