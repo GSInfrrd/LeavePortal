@@ -16,22 +16,13 @@
 <link href="~/Content/Style.css" rel="stylesheet" />
 <link href="~/plugins/datatables/jquery.dataTables.min.css" rel="stylesheet" />
 <link href="~/plugins/datatables/dataTables.bootstrap.css" rel="stylesheet" />
-@*<link href="~/plugins/Toastr/toastr.css" rel="stylesheet" />*@
 <section class="content-header"></section>
 <section class="content">
     <div class="row">
         <div class="col-md-12">
-            <div class="box box-info">
+            <div class="box">
                 <div class="box-header with-border">
                     <h3 class="box-title">Resource Requests</h3>
-                    <div class="box-tools pull-right">
-                        <button type="button" class="btn btn-box-tool" data-widget="collapse">
-                            <i class="fa fa-minus"></i>
-                        </button>
-                        <button type="button" class="btn btn-box-tool" data-widget="remove">
-                            <i class="fa fa-times"></i>
-                        </button>
-                    </div>
                 </div>
                 <!-- /.box-header -->
                 <div class="box-body">
@@ -79,7 +70,7 @@
                                     </td>
 
                                     <td class="text-align_center">
-                                        @if (resource.Status != 4)
+                                        @if (resource.Status != (int)ResourceRequestStatus.Approved)
                                         {
                                             <a href="#"><span class="label btn-danger" data-ticket="@resource.Ticket" onclick="cancelRequest(this)">Cancel</span></a>
                                         }
@@ -161,8 +152,8 @@
 </div>
 
 <div class="modal requestResourceDetails-modal" id="RequestResourceDetailsModal" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
+    <div class="modal-dialog modal-md" role="document">
+        <div class="modal-content mar-left50-right50">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
@@ -171,38 +162,36 @@
             </div>
             <div class="modal-body">
                 <div class="form-group" style="padding-bottom:20px">
-                    <div class="padding-top-bottom10">
-                        <div class="row">
-                            <div class="col-md-4"><label class="">Request Title:</label></div>
-                            <div class="col-md-8"><span class="requestTitle"></span></div>
+                    <div class="paddingtopBottom10-leftRight15">
+                        <div class="col-md-12 padding-bottom-10">
+                            <div class="col-md-6"><label class="">Request Title:</label></div>
+                            <div class="col-md-6"><span class="requestTitle"></span></div>
+                        </div>
+                        <div class="col-md-12 padding-bottom-10">
+                            <div class="col-md-6"><label class="">Request ticket:</label></div>
+                            <div class="col-md-6"><span class="requestTicket"></span></div>
+                        </div>
+                        <div class="col-md-12 padding-bottom-10">
+                            <div class="col-md-6"><label class="">No of resources required:</label></div>
+                            <div class="col-md-6"><span class="requestResourceNumber"></span></div>
+                        </div>
+                        <div class="col-md-12 padding-bottom-10">
+                            <div class="col-md-6"><label class="">Skills required:</label></div>
+                            <div class="col-md-6"><span class="requestedSkills"></span></div>
+                        </div>
+                        <div class="col-md-12 padding-bottom-10">
+                            <div class="col-md-6"><label class="">Request sent to:</label></div>
+                            <div class="col-md-6"><span class="requestSentTo"></span></div>
+                        </div>
+                        <div class="col-md-12 padding-bottom-10">
+                            <div class="col-md-6"><label class="">Request response date:</label></div>
+                            <div class="col-md-6"><span class="requestResponseDate"></span></div>
                         </div>
                         <div class="row">
-                            <div class="col-md-4"><label class="">Request ticket:</label></div>
-                            <div class="col-md-8"><span class="requestTicket"></span></div>
-                        </div>
-                        <div class="row">
-                            <div class="col-md-4"><label class="">No of resources required:</label></div>
-                            <div class="col-md-8"><span class="requestResourceNumber"></span></div>
-                        </div>
-                        <div class="row">
-                            <div class="col-md-4"><label class="">Skills required:</label></div>
-                            <div class="col-md-8"><span class="requestedSkills"></span></div>
-                        </div>
-                        <div class="row">
-                            <div class="col-md-4"><label class="">Request sent to:</label></div>
-                            <div class="col-md-8"><span class="requestSentTo"></span></div>
-                        </div>
-                        <div class="row">
-                            <div class="col-md-4"><label class="">Request sent date:</label></div>
-                            <div class="col-md-8"><span class="requestSentDate"></span></div>
-                        </div>
-                        <div class="row">
-                            <div class="col-md-4"><label class="">Request response date:</label></div>
-                            <div class="col-md-8"><span class="requestResponseDate"></span></div>
-                        </div>
-                        <div class="row">
-                            <div class="col-md-4"><label class="">Status:</label></div>
-                            <div class="col-md-8"><span class="requestStatus"></span></div>
+                            <div class="col-md-6">
+                                <label class="pad-left-30"> Status:</label>
+                            </div>
+                            <div class="col-md-6"><span class="requestStatus"></span></div>
                         </div>
                     </div>
                 </div>
@@ -212,6 +201,7 @@
     </div>
     <!-- /.modal-dialog -->
 </div>
+
 <script src="../../plugins/iCheck/icheck.min.js"></script>
 <script src="../../plugins/select2/select2.full.min.js"></script>
 <script src="~/plugins/daterangepicker/moment.min.js"></script>
@@ -221,7 +211,6 @@
 <script src="../../plugins/datatables/jquery.dataTables.min.js"></script>
 <script src="../../plugins/datatables/dataTables.bootstrap.min.js"></script>
 <script src="~/Content/Scripts/Common.js"></script>
-@*<script src="../../plugins/Toastr/toastr.js"></script>*@
 @Scripts.Render("~/bundles/Content/js")
 <script>
     var educationFromDate;

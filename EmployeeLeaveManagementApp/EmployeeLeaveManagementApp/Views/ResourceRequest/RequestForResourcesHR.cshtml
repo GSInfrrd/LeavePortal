@@ -9,16 +9,15 @@
     var serializedlstRequestStatus = @Html.Raw(Newtonsoft.Json.JsonConvert.SerializeObject(lstRequestStatus));
     var lstResourceRequests = Model.ResourceRequestHistory;
 }
-
+@Styles.Render("~/bundles/Content/css")
 <link href="~/Content/Style.css" rel="stylesheet" />
 <link href="~/plugins/datatables/jquery.dataTables.min.css" rel="stylesheet" />
 <link href="~/plugins/datatables/dataTables.bootstrap.css" rel="stylesheet" />
-<link href="~/plugins/Toastr/toastr.css" rel="stylesheet" />
 <section class="content">
     <input id="requestStatusEnum" data-val="@serializedlstRequestStatus" hidden>
-    <div class="box box-info">
+    <div class="box">
         <div class="box-header with-border">
-            <h3 class="box-title">Latest Orders</h3>
+            <h3 class="box-title">Requested Tickets</h3>
         </div>
         <!-- /.box-header -->
         <div class="box-body">
@@ -69,8 +68,11 @@
         </div>
         <!-- /.box-body -->
         <div class="box-footer clearfix">
-            <a href="javascript:void(0)" class="btn btn-sm btn-flat pull-right bg-black" onclick="getAllRequests()">View All Requests</a>
-        </div>
+            @if (Model.Count > 10)
+            {
+                <a href="javascript:void(0)" class="btn btn-sm btn-flat pull-right btn-backgroundColor-cinder text-color-white" onclick="getAllRequests()">View All Requests</a>
+            }
+            </div>
     </div>
 </section>
 <div class="modal requestResourceDetails-modal" id="ResourceRequestToRespondModal" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel">
@@ -85,35 +87,35 @@
             <div class="modal-body">
                 <div class="form-group" style="padding-bottom:20px">
                     <div class="paddingtopBottom10-leftRight15">
-                        <div class="col-md-12 padding-bottom-5">
-                            <div class="col-md-5"><label class="">Request Title:</label></div>
-                            <div class="col-md-7"><span class="requestTitle"></span></div>
+                        <div class="col-md-12 padding-bottom-10">
+                            <div class="col-md-6"><label class="">Request Title:</label></div>
+                            <div class="col-md-6"><span class="requestTitle"></span></div>
                         </div>
-                        <div class="col-md-12 padding-bottom-5">
-                            <div class="col-md-5"><label class="">Request ticket:</label></div>
-                            <div class="col-md-7"><span class="requestTicket"></span></div>
+                        <div class="col-md-12 padding-bottom-10">
+                            <div class="col-md-6"><label class="">Request ticket:</label></div>
+                            <div class="col-md-6"><span class="requestTicket"></span></div>
                         </div>
-                        <div class="col-md-12 padding-bottom-5">
-                            <div class="col-md-5"><label class="">No of resources required:</label></div>
-                            <div class="col-md-7"><span class="requestResourceNumber"></span></div>
+                        <div class="col-md-12 padding-bottom-10">
+                            <div class="col-md-6"><label class="">No of resources required:</label></div>
+                            <div class="col-md-6"><span class="requestResourceNumber"></span></div>
                         </div>
-                        <div class="col-md-12 padding-bottom-5">
-                            <div class="col-md-5"><label class="">Skills required:</label></div>
-                            <div class="col-md-7"><span class="requestedSkills"></span></div>
+                        <div class="col-md-12 padding-bottom-10">
+                            <div class="col-md-6"><label class="">Skills required:</label></div>
+                            <div class="col-md-6"><span class="requestedSkills"></span></div>
                         </div>
-                        <div class="col-md-12 padding-bottom-5">
-                            <div class="col-md-5"><label class="">Request from:</label></div>
-                            <div class="col-md-7"><span class="requestFrom"></span></div>
+                        <div class="col-md-12 padding-bottom-10">
+                            <div class="col-md-6"><label class="">Request from:</label></div>
+                            <div class="col-md-6"><span class="requestFrom"></span></div>
                         </div>
-                        <div class="col-md-12 padding-bottom-5">
-                            <div class="col-md-5"><label class="">Request sent date:</label></div>
-                            <div class="col-md-7"><span class="requestSentDate"></span></div>
+                        <div class="col-md-12 padding-bottom-10">
+                            <div class="col-md-6"><label class="">Request sent date:</label></div>
+                            <div class="col-md-6"><span class="requestSentDate"></span></div>
                         </div>
                         <div class="row">
-                            <div class="col-md-5">
+                            <div class="col-md-6">
                                 <label class="pad-left-30"> Status:</label>
                             </div>
-                            <div class="col-md-7">
+                            <div class="col-md-6">
                                 <button type="button" id="btnModalStatus" class="btn text-color-white dropdown-toggle" data-status="" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"></button>
                                 <ul class="dropdown-menu statusListDropdown"></ul>
                             </div>
@@ -129,7 +131,7 @@
 <script src="../../plugins/datatables/jquery.dataTables.min.js"></script>
 <script src="../../plugins/datatables/dataTables.bootstrap.min.js"></script>
 <script src="~/Content/Scripts/Common.js"></script>
-<script src="../../plugins/Toastr/toastr.js"></script>
+@Scripts.Render("~/bundles/Content/js")
 <script>
     $(document).ready(function () {
         $(function () {
