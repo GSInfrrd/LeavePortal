@@ -19,14 +19,14 @@ namespace LMS_WebAPI_DAL.Repositories
                 Logger.Info("Entering in AddLeaveRepository API GetLeaveType method");
                 using (var ctx = new LeaveManagementSystemEntities1())
                 {
-                    var leaveType = ctx.MasterDataValues.Where(x => x.RefMasterType == 3).Select(x => x.Value).ToList();
+                    var leaveType = ctx.MasterDataValues.Where(x => x.RefMasterType == (int)MasterDataTypeEnum.LeaveType).Select(x => x.Value).ToList();
                     Logger.Info("Successfully exiting from AddLeaveRepository API AddLeaveRepository method");
                     return leaveType;
                 }
             }
             catch 
             {
-                Logger.Info("Exception occured at AddLeaveRepository API AddLeaveRepository method ");
+                Logger.Error("Exception occured at AddLeaveRepository API AddLeaveRepository method ");
                 throw;
             }
         }
@@ -98,7 +98,7 @@ namespace LMS_WebAPI_DAL.Repositories
             }
             catch 
             {
-                Logger.Info("Exception occured at AddLeaveRepository API InsertEmployeeLeaveDetails method ");
+                Logger.Error("Exception occured at AddLeaveRepository API InsertEmployeeLeaveDetails method ");
                 throw;
             }
         }
@@ -114,13 +114,13 @@ namespace LMS_WebAPI_DAL.Repositories
                     var leaveDetails = ctx.EmployeeLeaveTransactions.FirstOrDefault(x => x.Id == id);
                     leaveDetails.RefStatus = (int)LeaveStatus.Submitted;
                     ctx.SaveChanges();
-                    //var mailFrom = ctx.UserAccounts.FirstOrDefault(i => i.RefEmployeeId == leaveDetails.RefEmployeeId);
-                    //var fromEmail = ctx.UserAccounts.FirstOrDefault(i => i.RefEmployeeId == mailFrom.Id).UserName;
-                    //var toEmail = ctx.UserAccounts.FirstOrDefault(i => i.RefEmployeeId == mailFrom.EmployeeDetail.ManagerId).UserName;
+
+                    var hrManagerId = ctx.EmployeeDetails.Where(x => x.RefRoleId == (int)EmployeeRole.HR).OrderByDescending(x => x.RefHierarchyLevel).FirstOrDefault().Id;
+                    var employeeDetails = ctx.EmployeeDetails.FirstOrDefault(x => x.Id == leaveDetails.RefEmployeeId);
                     var workFlow = new Workflow
                     {
                         RefLeaveTransactionId = leaveDetails.Id,
-                        RefApproverId = ctx.EmployeeDetails.FirstOrDefault(x => x.Id == leaveDetails.RefEmployeeId).ManagerId!=null?(int)ctx.EmployeeDetails.FirstOrDefault(x => x.Id == leaveDetails.RefEmployeeId).ManagerId:2,
+                        RefApproverId = employeeDetails.ManagerId != null ? (int)employeeDetails.ManagerId : hrManagerId,
                         ModifiedDate = DateTime.Now,
                         RefStatus = (int)LeaveStatus.Submitted,
                         CreatedDate = DateTime.Now,
@@ -132,22 +132,23 @@ namespace LMS_WebAPI_DAL.Repositories
                    // var op = SendMail(leaveDetails.EmployeeDetail.FirstName, fromEmail, toEmail);
 
                     //Send notification to manager
-                    int RefApproverId = ctx.EmployeeDetails.FirstOrDefault(x => x.Id == leaveDetails.RefEmployeeId).ManagerId!=null?(int)ctx.EmployeeDetails.FirstOrDefault(x => x.Id == leaveDetails.RefEmployeeId).ManagerId:2;
-                    string Firstname = ctx.EmployeeDetails.FirstOrDefault(x => x.Id == leaveDetails.RefEmployeeId).FirstName;
-                    string Lastname = ctx.EmployeeDetails.FirstOrDefault(x => x.Id == leaveDetails.RefEmployeeId).LastName;
+                   
+                    int RefApproverId = employeeDetails.ManagerId !=null ? (int)employeeDetails.ManagerId : hrManagerId;
+                    string Firstname = employeeDetails.FirstName;
+                    string Lastname = employeeDetails.LastName;
 
-                    string Text = Firstname;
+                    string employeeName = Firstname;
                     if (Lastname != null)
                     {
-                        Text += " ";
-                        Text += Lastname;
+                        employeeName += " ";
+                        employeeName += Lastname;
                     }
 
-                    Text += " has applied for leave.";
-                    int Status = (Int16)LMS_WebAPI_Utils.NotificationStatus.Active;
-                    int NotificationType =(Int16)LMS_WebAPI_Utils.NotificationType.NotificationType;
+                    employeeName += " has applied for leave.";
+                    int Status = (Int16)NotificationStatus.Active;
+                    int notificationType =(Int16)NotificationType.NotificationType;
                     ApproveLeaveRepository alr = new ApproveLeaveRepository();
-                    alr.insertNotification(RefApproverId, Text, Status, NotificationType);
+                    alr.insertNotification(RefApproverId, employeeName, Status, notificationType);
                 }
                 Logger.Info("Successfully exiting from AddLeaveRepository API SubmitLeaveForApproval method");
                 result = true;
@@ -155,7 +156,7 @@ namespace LMS_WebAPI_DAL.Repositories
             }
             catch 
             {
-                Logger.Info("Exception occured at AddLeaveRepository API SubmitLeaveForApproval method ");
+                Logger.Error("Exception occured at AddLeaveRepository API SubmitLeaveForApproval method ");
                 throw;
             }
             return result;
@@ -185,7 +186,7 @@ namespace LMS_WebAPI_DAL.Repositories
             }
             catch
             {
-                Logger.Info("Exception occured at AddLeaveRepository API DeleteLeaveRequest method ");
+                Logger.Error("Exception occured at AddLeaveRepository API DeleteLeaveRequest method ");
                 throw;
             }
             return result;
@@ -221,7 +222,7 @@ namespace LMS_WebAPI_DAL.Repositories
             }
             catch
             {
-                Logger.Info("Exception occured at AddLeaveRepository API SendMail method ");
+                Logger.Error("Exception occured at AddLeaveRepository API SendMail method ");
                 throw;
             }
             return true;
@@ -237,15 +238,17 @@ namespace LMS_WebAPI_DAL.Repositories
                 {
                     var data = ctx.EmployeeDetails.Include("EmployeeLeaveMasters").Include("EmployeeLeaveTransactions").Include("WorkFromHomes").FirstOrDefault(i => i.Id == employeeId);
                     holidayList = ctx.Holidays.ToList();
-                    advanceLeaveLimit =Convert.ToInt32(ctx.MasterDataValues.FirstOrDefault(i => i.RefMasterType == (int)AdvanceLeaveLimit.limit).Value);
-                    lopLeaveLimit = Convert.ToInt32(ctx.MasterDataValues.FirstOrDefault(i => i.RefMasterType == (int)LOPLeaveLimit.limit).Value);
+
+                    var masterLimits = ctx.MasterDataValues.Where(i => i.RefMasterType == (int)MasterDataTypeEnum.AdvanceLeaveLimit || i.RefMasterType == (int)MasterDataTypeEnum.LOPLimit).ToList();
+                    advanceLeaveLimit = Convert.ToInt32(masterLimits.FirstOrDefault(x => x.RefMasterType == (int)MasterDataTypeEnum.AdvanceLeaveLimit).Value);
+                    lopLeaveLimit = Convert.ToInt32(masterLimits.FirstOrDefault(x => x.RefMasterType == (int)MasterDataTypeEnum.LOPLimit).Value);
                     Logger.Info("Successfully exiting from AddLeaveRepository API CheckLeaveAvailability method");
                     return data;
                 }
             }
             catch
             {
-                Logger.Info("Exception occured at AddLeaveRepository API CheckLeaveAvailability method ");
+                Logger.Error("Exception occured at AddLeaveRepository API CheckLeaveAvailability method ");
                 throw;
             }
         }
@@ -289,7 +292,7 @@ namespace LMS_WebAPI_DAL.Repositories
             }
             catch
             {
-                Logger.Info("Exception occured at AddLeaveRepository API GetRewardLeaveModelDetails method ");
+                Logger.Error("Exception occured at AddLeaveRepository API GetRewardLeaveModelDetails method ");
                 throw;
             }
         }
@@ -365,9 +368,9 @@ namespace LMS_WebAPI_DAL.Repositories
                     return leaveRewarded;
                 }
             }
-            catch(Exception ex)
+            catch
             {
-                Logger.Info("Exception occured at AddLeaveRepository API Rewardleave method ");
+                Logger.Error("Exception occured at AddLeaveRepository API Rewardleave method " );
                 throw;
             }
         }

@@ -48,8 +48,8 @@ namespace LMS_WebAPI_DAL.Repositories
                     ctx.Configuration.LazyLoadingEnabled = true;
                     var employeeDetails = ctx.EmployeeDetails.FirstOrDefault(i => i.Id == userEmpId);
                     var masterDataValues = ctx.MasterDataValues.ToList();
-                    var advanceLeaveLimit = Convert.ToInt32(masterDataValues.FirstOrDefault(x => x.RefMasterType == (Int32)AdvanceLeaveLimit.limit).Value);
-                    var lopLeaveLimit = Convert.ToInt32(masterDataValues.FirstOrDefault(x => x.RefMasterType == (Int32)LOPLeaveLimit.limit).Value);
+                    var advanceLeaveLimit = Convert.ToInt32(masterDataValues.FirstOrDefault(x => x.RefMasterType == (Int32)MasterDataTypeEnum.AdvanceLeaveLimit).Value);
+                    var lopLeaveLimit = Convert.ToInt32(masterDataValues.FirstOrDefault(x => x.RefMasterType == (Int32)MasterDataTypeEnum.LOPLimit).Value);
                     var empModel = new EmployeeDetailsModel();
                     var employeeLeaves = employeeDetails.EmployeeLeaveMasters.FirstOrDefault();
                     var leaveTransactions = employeeDetails.EmployeeLeaveTransactions;
@@ -126,7 +126,7 @@ namespace LMS_WebAPI_DAL.Repositories
                         {
                             if (date.DayOfWeek != DayOfWeek.Saturday && date.DayOfWeek != DayOfWeek.Sunday)
                             {
-                                leaveReport.leaveCount++;
+                                leaveReport.LeaveCount++;
                                 leaveReport.Jan = date.Month == 1 ? leaveReport.Jan + 1 : leaveReport.Jan;
                                 leaveReport.Feb = date.Month == 2 ? leaveReport.Feb + 1 : leaveReport.Feb;
                                 leaveReport.Mar = date.Month == 3 ? leaveReport.Mar + 1 : leaveReport.Mar;

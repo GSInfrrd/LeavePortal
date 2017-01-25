@@ -99,8 +99,8 @@
           </Key>
           <Property Name="Id" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="RefEmployeeId" Type="int" Nullable="false" />
-          <Property Name="FromDate" Type="date" Nullable="false" />
-          <Property Name="ToDate" Type="date" Nullable="false" />
+          <Property Name="FromDate" Type="date" />
+          <Property Name="ToDate" Type="date" />
           <Property Name="CreatedDate" Type="datetime2" Precision="7" Nullable="false" />
           <Property Name="RefStatus" Type="int" Nullable="false" />
           <Property Name="NumberOfWorkingDays" Type="float" Nullable="false" />
@@ -381,6 +381,18 @@
             </Principal>
             <Dependent Role="EmployeeDetails">
               <PropertyRef Name="RefEmployeeType" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_EmployeeDetails_MasterDataValue2">
+          <End Role="MasterDataValue" Type="Self.MasterDataValue" Multiplicity="1" />
+          <End Role="EmployeeDetails" Type="Self.EmployeeDetails" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="MasterDataValue">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="EmployeeDetails">
+              <PropertyRef Name="RefRoleId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -822,6 +834,10 @@
             <End Role="MasterDataValue" EntitySet="MasterDataValue" />
             <End Role="EmployeeDetails" EntitySet="EmployeeDetails" />
           </AssociationSet>
+          <AssociationSet Name="FK_EmployeeDetails_MasterDataValue2" Association="Self.FK_EmployeeDetails_MasterDataValue2">
+            <End Role="MasterDataValue" EntitySet="MasterDataValue" />
+            <End Role="EmployeeDetails" EntitySet="EmployeeDetails" />
+          </AssociationSet>
           <AssociationSet Name="FK_EmployeeDetails_Notification" Association="Self.FK_EmployeeDetails_Notification">
             <End Role="EmployeeDetails" EntitySet="EmployeeDetails" />
             <End Role="Notification" EntitySet="Notification" />
@@ -1140,6 +1156,10 @@
             <End Role="EmployeeDetail" EntitySet="EmployeeDetails" />
             <End Role="ResourceRequestDetail" EntitySet="ResourceRequestDetails" />
           </AssociationSet>
+          <AssociationSet Name="FK_EmployeeDetails_MasterDataValue2" Association="LeaveManagementSystemModel.FK_EmployeeDetails_MasterDataValue2">
+            <End Role="MasterDataValue" EntitySet="MasterDataValues" />
+            <End Role="EmployeeDetail" EntitySet="EmployeeDetails" />
+          </AssociationSet>
           </EntityContainer>
         <ComplexType Name="GetLeaveReportProcedure_Result">
           <Property Type="Int32" Name="Year" Nullable="true" />
@@ -1235,6 +1255,7 @@
           <NavigationProperty Name="EmployeeDetails1" Relationship="LeaveManagementSystemModel.FK_EmployeeDetails_EmployeeManager" FromRole="EmployeeDetail" ToRole="EmployeeDetail1" />
           <NavigationProperty Name="EmployeeDetail1" Relationship="LeaveManagementSystemModel.FK_EmployeeDetails_EmployeeManager" FromRole="EmployeeDetail1" ToRole="EmployeeDetail" />
           <NavigationProperty Name="ResourceRequestDetails" Relationship="LeaveManagementSystemModel.FK_ResourceRequestDetail_EmployeeDetails" FromRole="EmployeeDetail" ToRole="ResourceRequestDetail" />
+          <NavigationProperty Name="MasterDataValue2" Relationship="LeaveManagementSystemModel.FK_EmployeeDetails_MasterDataValue2" FromRole="EmployeeDetail" ToRole="MasterDataValue" />
         </EntityType>
         <EntityType Name="EmployeeEducationDetail">
           <Key>
@@ -1283,8 +1304,8 @@
           </Key>
           <Property Name="Id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="RefEmployeeId" Type="Int32" Nullable="false" />
-          <Property Name="FromDate" Type="DateTime" Nullable="false" Precision="0" />
-          <Property Name="ToDate" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="FromDate" Type="DateTime" Precision="0" />
+          <Property Name="ToDate" Type="DateTime" Precision="0" />
           <Property Name="CreatedDate" Type="DateTime" Nullable="false" Precision="7" />
           <Property Name="RefStatus" Type="Int32" Nullable="false" />
           <Property Name="NumberOfWorkingDays" Type="Double" Nullable="false" />
@@ -1421,6 +1442,7 @@
           <NavigationProperty Name="Workflows" Relationship="LeaveManagementSystemModel.FK_MasterDataValueStatus_Workflow" FromRole="MasterDataValue" ToRole="Workflow" />
           <NavigationProperty Name="WorkFromHomes" Relationship="LeaveManagementSystemModel.FK_WorkFromHome_RefReason" FromRole="MasterDataValue" ToRole="WorkFromHome" />
           <NavigationProperty Name="WorkFromHomes1" Relationship="LeaveManagementSystemModel.FK_WorkFromHome_RefStatus" FromRole="MasterDataValue" ToRole="WorkFromHome" />
+          <NavigationProperty Name="EmployeeDetails2" Relationship="LeaveManagementSystemModel.FK_EmployeeDetails_MasterDataValue2" FromRole="MasterDataValue" ToRole="EmployeeDetail" />
         </EntityType>
         <EntityType Name="Notification">
           <Key>
@@ -1996,6 +2018,18 @@
             </Principal>
             <Dependent Role="ResourceRequestDetail">
               <PropertyRef Name="RequestFromId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_EmployeeDetails_MasterDataValue2">
+          <End Type="LeaveManagementSystemModel.MasterDataValue" Role="MasterDataValue" Multiplicity="1" />
+          <End Type="LeaveManagementSystemModel.EmployeeDetail" Role="EmployeeDetail" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="MasterDataValue">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="EmployeeDetail">
+              <PropertyRef Name="RefRoleId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>

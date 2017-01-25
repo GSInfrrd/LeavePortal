@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.ComponentModel;
 
 namespace LMS_WebAPI_Utils
 {
@@ -60,17 +55,6 @@ namespace LMS_WebAPI_Utils
         [Description("Comp Off")]
         CompOff = 5
     }
-    public enum SkillsProjects
-    {
-        [Description("Skills")]
-        Skills = 7
-    }
-
-    public enum AdvanceLeaveLimit
-    {
-        [Description("LeaveLimit")]
-        limit = 12
-    }
 
     public enum ResponseCodes
     {
@@ -78,12 +62,6 @@ namespace LMS_WebAPI_Utils
         DateAlreadyExists = 1001,
         NoLeaveBalance = 1002
 
-    }
-
-    public enum LOPLeaveLimit
-    {
-        [Description("LeaveLimit")]
-        limit = 11
     }
 
     public enum ResourceRequestStatus
@@ -113,7 +91,19 @@ namespace LMS_WebAPI_Utils
         [Description("Work From Home Reasons")]
         WorkFromHomeReason = 6,
         [Description("Skills")]
-        Skills = 7
+        Skills = 7,
+        [Description("EmployeeType")]
+        EmployeeType = 8,
+        [Description("NotificationType")]
+        NotificationType = 9,
+        [Description("TransactionType")]
+        TransactionType = 10,
+        [Description("LOPLimit")]
+        LOPLimit = 11,
+        [Description("AdvanceLeaveLimit")]
+        AdvanceLeaveLimit = 12,
+        [Description("ResourceRequestStatus")]
+        ResourceRequestStatus = 13
     }
 
     public enum WorkFormHomeReasons
@@ -156,7 +146,6 @@ namespace LMS_WebAPI_Utils
         AddResourceRequest = 158,
         [Description("Resource Request Update")]
         ResourceRequestUpdate = 159
-
     }
 
     public enum NotificationType

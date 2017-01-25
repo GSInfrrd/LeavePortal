@@ -66,6 +66,7 @@
         <AssociationConnector Association="LeaveManagementSystemModel.FK_WorkFromHome_RefStatus" />
         <AssociationConnector Association="LeaveManagementSystemModel.FK_EmployeeDetails_EmployeeManager" />
         <AssociationConnector Association="LeaveManagementSystemModel.FK_ResourceRequestDetail_EmployeeDetails" />
+        <AssociationConnector Association="LeaveManagementSystemModel.FK_EmployeeDetails_MasterDataValue2" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

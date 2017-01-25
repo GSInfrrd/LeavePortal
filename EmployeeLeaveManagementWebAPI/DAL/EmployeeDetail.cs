@@ -118,5 +118,6 @@ namespace LMS_WebAPI_DAL
         public virtual EmployeeDetail EmployeeDetail1 { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<ResourceRequestDetail> ResourceRequestDetails { get; set; }
+        public virtual MasterDataValue MasterDataValue2 { get; set; }
     }
 }

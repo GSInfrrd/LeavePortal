@@ -20,7 +20,7 @@ namespace LMS_WebAPI_DAL.Repositories
                 using (var ctx = new LeaveManagementSystemEntities1())
                 {
                     var allHR = ctx.EmployeeDetails.Where(x => x.RefRoleId == (Int16)EmployeeRole.HR).ToList();
-                    var skills = ctx.MasterDataValues.Where(y => y.RefMasterType == (Int16)SkillsProjects.Skills).Select(y => y.Value).ToList();
+                    var skills = ctx.MasterDataValues.Where(y => y.RefMasterType == (Int16)MasterDataTypeEnum.Skills).Select(y => y.Value).ToList();
 
                     var lstHR = new List<EmployeeDetailsModel>();
 
