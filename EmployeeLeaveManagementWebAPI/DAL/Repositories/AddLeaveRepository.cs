@@ -148,7 +148,7 @@ namespace LMS_WebAPI_DAL.Repositories
                     int Status = (Int16)NotificationStatus.Active;
                     int notificationType =(Int16)NotificationType.NotificationType;
                     ApproveLeaveRepository alr = new ApproveLeaveRepository();
-                    alr.insertNotification(RefApproverId, employeeName, Status, notificationType);
+                    alr.InsertNotification(RefApproverId, employeeName, Status, notificationType);
                 }
                 Logger.Info("Successfully exiting from AddLeaveRepository API SubmitLeaveForApproval method");
                 result = true;
