@@ -29,7 +29,7 @@ namespace LMS_WebAPI_DAL.Repositories
             }
             catch
             {
-                Logger.Info("Exception occured at ApproveLeaveRepository API GetAllManagers method ");
+                Logger.Error("Exception occured at ApproveLeaveRepository API GetAllManagers method ");
                 throw;
             }
         }
@@ -65,8 +65,8 @@ namespace LMS_WebAPI_DAL.Repositories
                     var leaveDetails = ctx.Workflows.Where(x => x.EmployeeLeaveTransaction.Id == Leaveid).OrderByDescending(x=>x.ModifiedDate).FirstOrDefault();
                     var EmployeeId = leaveDetails.EmployeeLeaveTransaction.EmployeeDetail.Id;
                     var ApproverId = leaveDetails.RefApproverId;
-                    int Status = (Int16)LMS_WebAPI_Utils.NotificationStatus.Active; ;
-                    int NotificationType = (Int16)LMS_WebAPI_Utils.NotificationType.NotificationType;
+                    int Status = (Int16)NotificationStatus.Active; ;
+                    int notificationType = (Int16)NotificationType.NotificationType;
                     if (Leavestatus == CommonMethods.Description(LeaveStatus.Approved))
                     {
                         leaveDetails.EmployeeLeaveTransaction.RefStatus = Convert.ToInt32(LeaveStatus.Approved);
@@ -87,8 +87,8 @@ namespace LMS_WebAPI_DAL.Repositories
 
                         var Allworkflowleavedetails = ctx.Workflows.Where(x => x.EmployeeLeaveTransaction.Id == Leaveid).ToList();
 
-                        insertintoLeaveHistory(Allworkflowleavedetails);
-                        deletefromworkflow(Allworkflowleavedetails);
+                        InsertintoLeaveHistory(Allworkflowleavedetails);
+                        Deletefromworkflow(Allworkflowleavedetails);
                         var leaveMaster = ctx.EmployeeLeaveMasters.FirstOrDefault(i => i.RefEmployeeId == EmployeeId);
                         if (leaveDetails.EmployeeLeaveTransaction.RefLeaveType == (int)LMS_WebAPI_Utils.LeaveType.CasualLeave || leaveDetails.EmployeeLeaveTransaction.RefLeaveType == (int)LMS_WebAPI_Utils.LeaveType.SickLeave)
                         {
@@ -123,12 +123,12 @@ namespace LMS_WebAPI_DAL.Repositories
                         }
 
                         string Text = "Your Manager " + ManagerName + " has approved your leaves.";
-                        insertNotification(EmployeeId, Text, Status, NotificationType);
+                        InsertNotification(EmployeeId, Text, Status, notificationType);
 
 
 
                     }
-                    if (Leavestatus == "Rejected")
+                    if (Leavestatus == CommonMethods.Description(LeaveStatus.Rejected))
                     {
                         leaveDetails.EmployeeLeaveTransaction.RefStatus = Convert.ToInt32(LeaveStatus.Rejected);
                         leaveDetails.EmployeeLeaveTransaction.ModifiedDate = DateTime.Now;
@@ -147,8 +147,8 @@ namespace LMS_WebAPI_DAL.Repositories
                         ctx.SaveChanges();
 
                         var Allworkflowleavedetails = ctx.Workflows.Where(x => x.EmployeeLeaveTransaction.Id == Leaveid).ToList();
-                        insertintoLeaveHistory(Allworkflowleavedetails);
-                        deletefromworkflow(Allworkflowleavedetails);
+                        InsertintoLeaveHistory(Allworkflowleavedetails);
+                        Deletefromworkflow(Allworkflowleavedetails);
 
                         var ManagerDetails = ctx.EmployeeDetails.FirstOrDefault(x => x.Id == ApproverId);
                         string ManagerName = ManagerDetails.FirstName;
@@ -159,9 +159,9 @@ namespace LMS_WebAPI_DAL.Repositories
                         }
 
                         string Text = "Your Manager " + ManagerName + " has rejected your leaves.";
-                        insertNotification(EmployeeId, Text, Status, NotificationType);
+                        InsertNotification(EmployeeId, Text, Status, notificationType);
                     }
-                    if (Leavestatus == "Reassigned")
+                    if (Leavestatus == CommonMethods.Description(LeaveStatus.Reassigned))
                     {
                         Workflow wf = new Workflow();
                         wf.RefLeaveTransactionId = leaveDetails.RefLeaveTransactionId;
@@ -199,7 +199,7 @@ namespace LMS_WebAPI_DAL.Repositories
                         }
 
                         string Text = "Your Manager " + ManagerName + " has reassigned your leaves to " + assignedManagerName + ".";
-                        insertNotification(EmployeeId, Text, Status, NotificationType);
+                        InsertNotification(EmployeeId, Text, Status, notificationType);
 
                         //Send notification to the new manager that employee has applied for the leaves
 
@@ -215,8 +215,7 @@ namespace LMS_WebAPI_DAL.Repositories
                         }
 
                         Text1 += " has applied for leave.";
-                        ApproveLeaveRepository alr = new ApproveLeaveRepository();
-                        alr.insertNotification(RefApproverId, Text1, Status, NotificationType);
+                        InsertNotification(RefApproverId, Text1, Status, notificationType);
                     }
                     Logger.Info("Successfully exiting from ApproveLeaveRepository API ApproveEmployeeLeave method");
                 }
@@ -231,15 +230,14 @@ namespace LMS_WebAPI_DAL.Repositories
 
         }
 
-        public void insertNotification(int id, string Text, int status, int notificationType)
+        public void InsertNotification(int id, string Text, int status, int notificationType)
         {
             try
             {
                 Logger.Info("Entering in ApproveLeaveRepository API insertNotification method");
                 using (var ctx = new LeaveManagementSystemEntities1())
                 {
-                    Notification N = new Notification();
-                    var m = N;
+                    var m = new Notification();
                     m.RefEmployeeId = id;
                     m.Text = Text;
                     m.CreatedDate = Convert.ToDateTime(DateTime.Now);
@@ -257,7 +255,7 @@ namespace LMS_WebAPI_DAL.Repositories
             }
 
         }
-        public void insertintoLeaveHistory(List<Workflow> leaveDetails)
+        public void InsertintoLeaveHistory(List<Workflow> leaveDetails)
         {
             try
             {
@@ -266,8 +264,7 @@ namespace LMS_WebAPI_DAL.Repositories
                 {
                     using (var ctx = new LeaveManagementSystemEntities1())
                     {
-                        EmployeeLeaveTransactionHistory elth = new EmployeeLeaveTransactionHistory();
-                        var m = elth;
+                        var m = new EmployeeLeaveTransactionHistory();
                         m.Id = wf.EmployeeLeaveTransaction.Id;
                         m.RefEmployeeId = wf.EmployeeLeaveTransaction.EmployeeDetail.Id;
                         m.FromDate = Convert.ToDateTime(wf.EmployeeLeaveTransaction.FromDate);
@@ -295,7 +292,7 @@ namespace LMS_WebAPI_DAL.Repositories
             }
         }
 
-        public void deletefromworkflow(List<Workflow> LeaveDetails)
+        public void Deletefromworkflow(List<Workflow> LeaveDetails)
         {
             try
             {
