@@ -322,7 +322,11 @@ namespace LMS_WebAPI_DAL.Repositories
                         var leaveMasterRecord = ctx.EmployeeLeaveMasters.Where(x => x.RefEmployeeId == model.EmplooyeeId).FirstOrDefault();
                         if (null != leaveMasterRecord)
                         {
-                            leaveMasterRecord.RewardedLeaveCount += model.NumberofDays;
+                            if (null != leaveMasterRecord.RewardedLeaveCount)
+                            { leaveMasterRecord.RewardedLeaveCount += model.NumberofDays; }
+                            else
+                            { leaveMasterRecord.RewardedLeaveCount = model.NumberofDays; }
+
                             var resultLeaveMaster = ctx.SaveChanges();
                             if (resultLeaveMaster == 1)
                                 leaveRewarded = true;

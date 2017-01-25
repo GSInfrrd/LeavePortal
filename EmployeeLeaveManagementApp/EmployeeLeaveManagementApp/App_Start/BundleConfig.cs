@@ -33,7 +33,8 @@ namespace EmployeeLeaveManagementApp
                       "~/Content/site.css"));
             bundles.Add(new StyleBundle("~/bundles/Content/css").Include(
                 "~/Content/Plugins/select2/select2.min.css",
-                "~/Content/Plugins/Toastr/toastr.css"
+                "~/Content/Plugins/Toastr/toastr.css",
+                "~/Content/Style.css"
                 ));
         }
     }
