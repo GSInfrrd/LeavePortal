@@ -94,7 +94,7 @@ namespace EmployeeLeaveManagementApp.Controllers
             return View("Login");
         }
 
-        public async Task<ActionResult> Profile()
+        public async new Task<ActionResult> Profile()
         {
             try
             {

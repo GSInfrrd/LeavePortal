@@ -32,6 +32,12 @@
     <![endif]-->
 </head>
 <body class="hold-transition login-page">
+    <style>
+        .error {
+            color: red;
+            padding-top: 5px;
+        }
+    </style>
     <div class="login-box">
         <div class="login-logo">
             <a href="../../index2.html"><b>INFRRD</b>LMS</a>
@@ -39,49 +45,53 @@
         <!-- /.login-logo -->
         <div class="login-box-body">
             <p class="login-box-msg">Sign in to start your session</p>
-          @using (Html.BeginForm("Login", "Account", FormMethod.Post, new { id = "signinForm" })) { 
+            @using (Html.BeginForm("Login", "Account", FormMethod.Post, new { id = "signinForm" }))
+            {
                 <div class="form-group has-feedback">
                     @Html.TextBoxFor(m => m.UserName, new { @class = "form-control", placeholder = "Enter your email", maxlength = "256", onChange = "TrimEmail(this);" })
                     <span class="glyphicon glyphicon-envelope form-control-feedback"></span>
-                    <span class="error">@Html.ValidationMessageFor(m => m.UserName)</span></div>
-                <div class="form-group has-feedback">
-                    @Html.PasswordFor(m => m.Password, new { @class = "form-control", placeholder = "Password", maxlength = "50" })
-                    <span class="error">
-                        @Html.ValidationMessageFor(m => m.Password)
-                    </span>
-                    @if (!userExist)
-                    {
-                        <span class="error">User name or password incorrect</span>
-                    }
-                    <span class="glyphicon glyphicon-lock form-control-feedback"></span>
+                    <span class="error">@Html.ValidationMessageFor(m => m.UserName)</span>
                 </div>
-                <div class="row">
-                    <div class="col-xs-8">
-                        <div class="checkbox icheck">
-                            <label>
-                               @Html.CheckBoxFor(m => m.RememberMe, new {  })  Remember Me
-                            </label>
+                    <div class="form-group has-feedback">
+                        @Html.PasswordFor(m => m.Password, new { @class = "form-control", placeholder = "Password", maxlength = "50" })
+                        <span class="error">
+                            @Html.ValidationMessageFor(m => m.Password)
+                        </span>
+                        @if (!userExist)
+                        {
+                            <span class="error">User name or password incorrect</span>
+                        }
+                        <span class="glyphicon glyphicon-lock form-control-feedback"></span>
+                    </div>
+                    <div class="row">
+                        <div class="col-xs-8">
+                            <div class="checkbox icheck">
+                                <label>
+                                    @Html.CheckBoxFor(m => m.RememberMe, new { })  Remember Me
+                                </label>
+                            </div>
                         </div>
+                        <!-- /.col -->
+                        <div class="col-xs-4">
+                            <button type="submit" class="btn btn-primary btn-block btn-flat">Sign In</button>
+                        </div>
+                        <!-- /.col -->
                     </div>
-                    <!-- /.col -->
-                    <div class="col-xs-4">
-                        <button type="submit" class="btn btn-primary btn-block btn-flat">Sign In</button>
-                    </div>
-                    <!-- /.col -->
-                </div>
-           }
+            }
             <div style="color:red">
                 @if ((string)TempData["GLoginError"] != null)
             {
-                  @TempData["GLoginError"];
+                    @TempData["GLoginError"];
             }
             </div>
             <div class="col-xs-12">
                 @Html.Partial("_ExternalLoginsList", new ExternalLoginListViewModel { ReturnUrl = ViewBag.ReturnUrl })
             </div>
             <!-- /.social-auth-links -->
-            <a href="#">I forgot my password</a><br>
-           
+            @*<a href="#">I forgot my password</a>*@
+            <br>
+            <br />
+            <br />
         </div>
         <!-- /.login-box-body -->
     </div>
@@ -93,13 +103,17 @@
     <!-- iCheck -->
     <script src="../../plugins/iCheck/icheck.min.js"></script>
     <script>
-  $(function () {
-    $('input').iCheck({
-      checkboxClass: 'icheckbox_square-blue',
-      radioClass: 'iradio_square-blue',
-      increaseArea: '20%' // optional
-    });
-  });
+        $(function () {
+            $('input').iCheck({
+                checkboxClass: 'icheckbox_square-blue',
+                radioClass: 'iradio_square-blue',
+                increaseArea: '20%' // optional
+            });
+        });
+
+        //$("#signinForm").submit(function (e) {
+        //    e.preventDefault();
+        //});
 
     </script>
 </body>
