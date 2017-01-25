@@ -114,7 +114,7 @@ namespace LMS_WebAPI_DAL.Repositories
             }
             catch
             {
-                Logger.Info("Exception occured at HRRepository API SubmitEmployeeDetails method ");
+                Logger.Error("Exception occured at HRRepository API SubmitEmployeeDetails method ");
                 throw;
             }
             return result;
@@ -150,7 +150,7 @@ namespace LMS_WebAPI_DAL.Repositories
             }
             catch
             {
-                Logger.Info("Exception occured at HRRepository API GetEmployeeList method ");
+                Logger.Error("Exception occured at HRRepository API GetEmployeeList method ");
                 throw;
             }
         }
@@ -179,7 +179,7 @@ namespace LMS_WebAPI_DAL.Repositories
             }
             catch
             {
-                Logger.Info("Exception occured at HRRepository API GetManagerList method ");
+                Logger.Error("Exception occured at HRRepository API GetManagerList method ");
                 throw;
             }
         }
@@ -232,7 +232,7 @@ namespace LMS_WebAPI_DAL.Repositories
                     {
                         var detailedList = new DetailedLeaveReport();
                         detailedList.EmpoyeeName = item.EmployeeDetail.FirstName;
-                        detailedList.LeaveType = item.MasterDataValue1.Value;
+                        detailedList.LeaveType = item.MasterDataValue.Value;
                         detailedList.FromDate = item.Date;
                         detailedList.ToDate = item.Date;
                         ddList.Add(detailedList);
@@ -256,7 +256,7 @@ namespace LMS_WebAPI_DAL.Repositories
             }
             catch
             {
-                Logger.Info("Exception occured at HRRepository API GetReportData method ");
+                Logger.Error("Exception occured at HRRepository API GetReportData method ");
                 throw;
             }
         }
@@ -291,7 +291,7 @@ namespace LMS_WebAPI_DAL.Repositories
             }
             catch
             {
-                Logger.Info("Exception occured at HRRepository API GetChartDetails method ");
+                Logger.Error("Exception occured at HRRepository API GetChartDetails method ");
                 throw;
             }
         }
@@ -316,7 +316,7 @@ namespace LMS_WebAPI_DAL.Repositories
             }
             catch
             {
-                Logger.Info("Exception occured at HRRepository API AddNewMasterDataValues method ");
+                Logger.Error("Exception occured at HRRepository API AddNewMasterDataValues method ");
                 throw;
             }
         }
@@ -353,7 +353,7 @@ namespace LMS_WebAPI_DAL.Repositories
             }
             catch
             {
-                Logger.Info("Exception occured at HRRepository API AddNewProjectInfo method ");
+                Logger.Error("Exception occured at HRRepository API AddNewProjectInfo method ");
                 throw;
             }
         }
@@ -392,7 +392,7 @@ namespace LMS_WebAPI_DAL.Repositories
             }
             catch
             {
-                Logger.Info("Exception occured at HRRepository API GetProjectsList method ");
+                Logger.Error("Exception occured at HRRepository API GetProjectsList method ");
                 throw;
             }
 
@@ -422,7 +422,7 @@ namespace LMS_WebAPI_DAL.Repositories
             }
             catch
             {
-                Logger.Info("Exception occured at HRRepository API GetSkillsList method ");
+                Logger.Error("Exception occured at HRRepository API GetSkillsList method ");
                 throw;
             }
 
@@ -447,7 +447,7 @@ namespace LMS_WebAPI_DAL.Repositories
             }
             catch
             {
-                Logger.Info("Exception occured at HRRepository API CheckForExistingMasterDataValues method ");
+                Logger.Error("Exception occured at HRRepository API CheckForExistingMasterDataValues method ");
                 throw;
             }
         }
@@ -470,7 +470,7 @@ namespace LMS_WebAPI_DAL.Repositories
             }
             catch
             {
-                Logger.Info("Exception occured at HRRepository API CheckForExistingMasterDataValues method ");
+                Logger.Error("Exception occured at HRRepository API CheckForExistingMasterDataValues method ");
                 throw;
             }
         }

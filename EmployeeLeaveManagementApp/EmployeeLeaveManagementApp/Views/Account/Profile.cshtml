@@ -8,6 +8,8 @@
     var educationDatePickerCount = Model.EmployeeEducationDetails.Count - 1;
     var experienceDatePickerCount = Model.EmployeeExperienceDetails.Count - 1;
     var employeeId = 0;
+    var employeeName = "";
+    var profileHeader = "Profile";
 }
 <link rel="stylesheet" href="../../plugins/select2/select2.min.css">
 <link rel="stylesheet" href="../../dist/css/AdminLTE.min.css">
@@ -20,15 +22,21 @@
 @if (TempData["EmpId"] != null)
 {
     employeeId = Convert.ToInt32(TempData["EmpId"]);
+    employeeName = TempData["EmpName"].ToString();
 }
-
+@if(employeeId!=0)
+{
+    profileHeader = employeeName + "'s Profile";
+}
 <section class="content-header" style="height:41px">
-    <h1 class="col-md-2">
-        User Profile
-    </h1> 
+    @*<h1 class="col-md-2">
+Profile
+    </h1>*@ 
     @if (employeeId != 0)
     {
-        <button type="button" id="btnBack" class="btn btn-primary">Back</button> 
+
+        <button type="button" id="btnBack" class="btn btn-primary"><i class="fa fa-backward"></i></button> 
+
     }
     <div style="padding-right:0px" class="pull-right">
         @if (employeeId == 0)
@@ -104,7 +112,8 @@
             <div class="nav-tabs-custom">
                 <ul class="nav nav-tabs">
                     @*<li class="active"><a href="#activity" data-toggle="tab">Activity</a></li>*@
-                    <li class="active"><a href="#profile" id="tabProfile" data-toggle="tab">Profile</a></li>
+                   
+                     <li class="active"><a href="#profile" id="tabProfile" data-toggle="tab">@profileHeader</a></li>
                     <li><a href="#personalDetails" id="tabPersonalDetails" data-toggle="tab" style="display:none">Personal Details</a></li>
                     <li><a href="#educationDetails" id="tabEducationDetails" data-toggle="tab" style="display:none">Education Details</a></li>
                     <li><a href="#experienceDetails" id="tabExperienceDetails" data-toggle="tab" style="display:none">Experience Details</a></li>

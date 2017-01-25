@@ -106,9 +106,10 @@
                         <button type="button" class="btn btn-box-tool" data-widget="collapse">
                             <i class="fa fa-minus"></i>
                         </button>*@
+                    <span class="label pull-right bg-green" style="height: 20.25px;padding-top: 5px;margin-top: 5px;"><strong><text id="recordCount"></text> records found.</strong></span>
                     <div class="btn-group pull-right col-md-3">
                         <select id="ddlLeave" class="form-control yearSelect" style="width: 100%;">
-                            <option value="">Select</option>
+                            <option value="">All</option>
                             @foreach (var value in Enum.GetValues(typeof(LMS_WebAPP_Utils.LeaveType)))
                             {
                                 <option value="@Convert.ToInt16((LMS_WebAPP_Utils.LeaveType)value)">@(LMS_WebAPP_Utils.CommonMethods.Description((LMS_WebAPP_Utils.LeaveType)Convert.ToInt16((LMS_WebAPP_Utils.LeaveType)value))) </option>
@@ -123,6 +124,7 @@
                                     <option>@DateTime.Now.AddYears(1).Year</option>
                                 </select>
                     </div>
+                 
                 </div>
                 <!-- /.box-header -->
                 <div class="box-body">
@@ -274,22 +276,8 @@
             getQuote();
         $(".yearSelect").select2();
         //var name = $('.Login_name').text();
-            var SelectedDates = {};
-            SelectedDates[new Date('12/12/2016')] = new Date('12/12/2016');
-            SelectedDates[new Date('05/04/2016')] = new Date('05/04/2016');
-            SelectedDates[new Date('06/06/2016')] = new Date('06/06/2016');
-
             $('#calendar1').datepicker({
-                todayHighlight: true,
-                beforeShowDay: function (date) {
-                    var Highlight = SelectedDates[date];
-                    if (Highlight) {
-                        return [true, "Highlighted", Highlight];
-                    }
-                    else {
-                        return [true, '', ''];
-                    }
-                }
+                todayHighlight: true
             });
         var userName = '@Model.UserName'.toString();
         $(".Login_Name").text(userName).show();
@@ -375,17 +363,7 @@
 
     //Create the line chart
     salesChart.Line(salesChartData, salesChartOptions);
-
-    //---------------------------
-    //- END MONTHLY SALES CHART -
-    //---------------------------
-
-    //$(function () {
-    //    var modelbox = function () {
-    //        $("#modalbox").modal("show");
-    //    };
-    //    $("#btnaddperson").on('click', modelbox);
-    //});
+    $("#recordCount").html(@details.leaveCount);
     $("#ddlYear").change(function (e) {
         GetDashboardDetails();
     });
@@ -406,7 +384,7 @@
             //contentType: "application/json; charset=utf-8",
             dataType: "json",
             success: function (details) {
-                debugger;
+                $("#recordCount").html(details.result.leaveCount);
                 var salesChartCanvas = $("#salesChart").get(0).getContext("2d");
                 // This will get the first returned node in the jQuery collection.
                 var salesChart = new Chart(salesChartCanvas);

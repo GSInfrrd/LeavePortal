@@ -153,7 +153,7 @@ namespace LMS_WebAPP_ServiceHelpers
             {
                 using (HttpClient client = new HttpClient())
             {
-                string URL = WebapiURL + "/GetUserDetails";
+                string URL = WebapiURL + "/GetLeaveReportDetails";
                 urlParameters = "?empId=" + empId + "&year=" + year+"+&leaveType="+leaveType;
                 client.BaseAddress = new Uri(URL);
                 // Add an Accept header for JSON format.

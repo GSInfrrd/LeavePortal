@@ -329,6 +329,7 @@ namespace EmployeeLeaveManagementApp.Controllers
                     //model.DateOfJoining = DateTime.Now;
                     //model.RoleName = datares.RoleName;
                     TempData["EmpId"] = id;
+                    TempData["EmpName"] = datares.FirstName;
                     return View("Profile", datares);
                 }
                 Logger.Info("Successfully exiting from AccountController APP ProfileDetails method");

@@ -50,7 +50,7 @@ namespace LMS_WebAPI_ServiceHelpers
                 var announcements = user.GetAnnouncements();
                 var leaveReportDetails = user.GetLeaveReportDetails(year,EmpId,leaveType);
                 var VerifiedUser = new EmployeeDetailsModel();
-                VerifiedUser.leaveDetails = leaveReportDetails;
+                userData.leaveDetails = leaveReportDetails;
                 foreach (var item in announcements)
                 {
                     LMS_WebAPI_Domain.Announcement announceItem = new LMS_WebAPI_Domain.Announcement();
@@ -58,26 +58,10 @@ namespace LMS_WebAPI_ServiceHelpers
                     announceItem.CarouselContent = item.CarouselContent;
                     announceItem.Title = item.Title;
                     announceItem.Id = item.Id;
-                    VerifiedUser.Announcements.Add(announceItem);
-                }
-                if (null != userData)
-                {
-                    VerifiedUser.RoleName = userData.RoleName;
-                    VerifiedUser.TotalLeaveCount = userData.TotalLeaveCount;
-                    VerifiedUser.TotalApplied = userData.TotalApplied;
-                    VerifiedUser.TotalSpent = userData.TotalSpent;
-                    VerifiedUser.TotalWorkFromHome = userData.TotalWorkFromHome;
-                    VerifiedUser.ManagerName = userData.ManagerName;
-                    VerifiedUser.TotalLOPLImit = userData.LOPLeaveLimit;
-                    VerifiedUser.TotalCasualLeave = userData.TotalCasualLeave;
-                    VerifiedUser.TotalAdvanceLeaveTotake = userData.TotalAdvanceLeaveToTake;
-                    VerifiedUser.MangerEmail = userData.ManagerEmailId;
-                    VerifiedUser.ManagerId = userData.ManagerId;
-                    VerifiedUser.CompOffTaken = userData.CompOffTaken;
-                    VerifiedUser.DateOfJoining = Convert.ToDateTime(userData.DateOfJoining);
+                    userData.Announcements.Add(announceItem);
                 }
                 Logger.Info("Exiting from into UserManagement Service helper GetEmployeeDatailsForDashboard method ");
-                return VerifiedUser;
+                return userData;
             }
             catch
             {
