@@ -160,8 +160,8 @@
                 <!-- /.box-header -->
                 <div class="box-body">
                     <blockquote style="height:300px">
-                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer posuere erat a ante.</p>
-                        <small>Someone famous in <cite title="Source Title">Source Title</cite></small>
+                        <p id="quoteText">Yesterday is a HISTORY, tomorrow is a MYSTERY but today is a GIFT, so it is called the PRESENT</p>
+                        <small id="quoteFrom">Shifu , Kung Fu Panda</small>
                     </blockquote>
                 </div>
                 <!-- /.box-body -->
@@ -270,7 +270,8 @@
 <script type="text/javascript">
     $(document).ready(function () {
             $('#dashboard').parent().addClass('active');
-        getTeamMembers();
+            getTeamMembers();
+            //getQuote();
         $(".yearSelect").select2();
         //var name = $('.Login_name').text();
             var SelectedDates = {};
@@ -484,6 +485,15 @@
                         }
                     }
                     $('#teamBody').html(rest);
+                }
+            });
+        }
+        function getQuote() {
+            $.getJSON("http://quotesondesign.com/wp-json/posts?filter[orderby]=rand&filter[posts_per_page]=1&callback=", function (a) {
+                if (a[0].content != '')
+                    {
+                $("#quoteText").html(a[0].content);
+                $("#quoteFrom").html(a[0].title); 
                 }
             });
         }
