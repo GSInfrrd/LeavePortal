@@ -113,6 +113,10 @@
       <Project>{9EE2B6D4-6A8D-4FDF-A116-231FCBC5AF5C}</Project>
       <Name>LMS_WebAPI_DAL</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Domain\LMS_WebAPI_Domain.csproj">
+      <Project>{485c566d-4a4d-44a6-a33b-65dde722448f}</Project>
+      <Name>LMS_WebAPI_Domain</Name>
+    </ProjectReference>
     <ProjectReference Include="..\EmployeeLeaveManagementWebAPI\EmployeeLeaveManagementWebAPI.csproj">
       <Project>{B989E425-D7B7-4B33-8272-34564DCDAC5A}</Project>
       <Name>EmployeeLeaveManagementWebAPI</Name>
