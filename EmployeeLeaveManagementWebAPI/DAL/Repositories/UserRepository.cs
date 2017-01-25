@@ -21,13 +21,11 @@ namespace LMS_WebAPI_DAL.Repositories
                 {
                     if (!string.IsNullOrEmpty(password))
                     {
-                        userData = ctx.UserAccounts.Include("EmployeeDetail").FirstOrDefault(x => x.UserName == emailId && x.Password == password);
-
+                        userData = ctx.UserAccounts.Include("EmployeeDetail").FirstOrDefault(x => x.UserName.ToLower().Trim().Equals(emailId.ToLower().Trim()) && x.Password.ToLower().Trim().Equals(password.ToLower().Trim()));
                     }
                     else
                     {
-                        userData = ctx.UserAccounts.Include("EmployeeDetail").FirstOrDefault(x => x.UserName == emailId);
-
+                        userData = ctx.UserAccounts.Include("EmployeeDetail").FirstOrDefault(x => x.UserName.ToLower().Trim().Equals(emailId.ToLower().Trim()));
                     }
                     Logger.Info("Successfully exiting from UserRepository API GetUser method");
                     return userData;
@@ -35,7 +33,7 @@ namespace LMS_WebAPI_DAL.Repositories
             }
             catch
             {
-                Logger.Info("Exception occured at UserRepository GetUser method ");
+                Logger.Error("Exception occured at UserRepository GetUser method ");
                 throw;
             }
         }
@@ -101,7 +99,7 @@ namespace LMS_WebAPI_DAL.Repositories
             }
             catch
             {
-                Logger.Info("Exception occured at UserRepository GetUserDetails method ");
+                Logger.Error("Exception occured at UserRepository GetUserDetails method ");
                 throw;
             }
         }
@@ -120,7 +118,7 @@ namespace LMS_WebAPI_DAL.Repositories
             }
             catch
             {
-                Logger.Info("Exception occured at UserRepository GetAnnouncements method ");
+                Logger.Error("Exception occured at UserRepository GetAnnouncements method ");
                 throw;
             }
         }
@@ -147,51 +145,22 @@ namespace LMS_WebAPI_DAL.Repositories
 
                     foreach (var item in years)
                     {
-
-                        for (DateTime date =item.FromDate.Value; date <= item.ToDate; date = date.AddDays(1))
+                        for (DateTime date = item.FromDate.Value; date <= item.ToDate; date = date.AddDays(1))
                         {
                             if (date.DayOfWeek != DayOfWeek.Saturday && date.DayOfWeek != DayOfWeek.Sunday)
                             {
-                                switch (date.Month)
-                                {
-                                    case 1:
-
-                                        leaveReport.Jan++;
-                                        break;
-                                    case 2:
-                                        leaveReport.Feb++;
-                                        break;
-                                    case 3:
-                                        leaveReport.Mar++;
-                                        break;
-                                    case 4:
-                                        leaveReport.Apr++;
-                                        break;
-                                    case 5:
-                                        leaveReport.May++;
-                                        break;
-                                    case 6:
-                                        leaveReport.Jun++;
-                                        break;
-                                    case 7:
-                                        leaveReport.Jul++;
-                                        break;
-                                    case 8:
-                                        leaveReport.Aug++;
-                                        break;
-                                    case 9:
-                                        leaveReport.Sep++;
-                                        break;
-                                    case 10:
-                                        leaveReport.Oct++;
-                                        break;
-                                    case 11:
-                                        leaveReport.Nov++;
-                                        break;
-                                    case 12:
-                                        leaveReport.Dec++;
-                                        break;
-                                }
+                                leaveReport.Jan = date.Month == 1 ? leaveReport.Jan + 1 : leaveReport.Jan;
+                                leaveReport.Feb = date.Month == 2 ? leaveReport.Feb + 1 : leaveReport.Feb;
+                                leaveReport.Mar = date.Month == 3 ? leaveReport.Mar + 1 : leaveReport.Mar;
+                                leaveReport.Apr = date.Month == 4 ? leaveReport.Apr + 1 : leaveReport.Apr;
+                                leaveReport.May = date.Month == 5 ? leaveReport.May + 1 : leaveReport.May;
+                                leaveReport.Jun = date.Month == 6 ? leaveReport.Jun + 1 : leaveReport.Jun;
+                                leaveReport.Jul = date.Month == 7 ? leaveReport.Jul + 1 : leaveReport.Jul;
+                                leaveReport.Aug = date.Month == 8 ? leaveReport.Aug + 1 : leaveReport.Aug;
+                                leaveReport.Sep = date.Month == 9 ? leaveReport.Sep + 1 : leaveReport.Sep;
+                                leaveReport.Oct = date.Month == 10 ? leaveReport.Oct + 1 : leaveReport.Oct;
+                                leaveReport.Nov = date.Month == 11 ? leaveReport.Nov + 1 : leaveReport.Nov;
+                                leaveReport.Dec = date.Month == 12 ? leaveReport.Dec + 1 : leaveReport.Dec;
                             }
                         }
                     }
@@ -201,7 +170,7 @@ namespace LMS_WebAPI_DAL.Repositories
             }
             catch
             {
-                Logger.Info("Exception occured at UserRepository GetLeaveReportDetails method ");
+                Logger.Error("Exception occured at UserRepository GetLeaveReportDetails method ");
                 throw;
             }
         }
@@ -215,7 +184,7 @@ namespace LMS_WebAPI_DAL.Repositories
                 {
                     var Skills = new List<MasterDataModel>();
                     var profileDetails = ctx.EmployeeDetails.Include("EmployeeEducationDetails").Include("EmployeeExperienceDetails").Include("UserAccounts").Include("EmployeeSkills").Include("MasterDataValue2").FirstOrDefault(i => i.Id == employeeId);
-                    var allSkills = ctx.MasterDataValues.Where(i => i.RefMasterType == 7).ToList();
+                    var allSkills = ctx.MasterDataValues.Where(i => i.RefMasterType == (int)MasterDataTypeEnum.Skills).ToList();
                     foreach (var item in allSkills)
                     {
                         var skill = new MasterDataModel();
@@ -243,7 +212,7 @@ namespace LMS_WebAPI_DAL.Repositories
             }
             catch
             {
-                Logger.Info("Exception occured at UserRepository GetUserProfileDetails method ");
+                Logger.Error("Exception occured at UserRepository GetUserProfileDetails method ");
                 throw;
             }
         }
@@ -275,7 +244,7 @@ namespace LMS_WebAPI_DAL.Repositories
             }
             catch
             {
-                Logger.Info("Exception occured at UserRepository EditEmployeeDetails method ");
+                Logger.Error("Exception occured at UserRepository EditEmployeeDetails method ");
                 throw;
             }
         }
@@ -318,7 +287,7 @@ namespace LMS_WebAPI_DAL.Repositories
             }
             catch
             {
-                Logger.Info("Exception occured at UserRepository EditEmployeeEducationDetails method ");
+                Logger.Error("Exception occured at UserRepository EditEmployeeEducationDetails method ");
                 throw;
             }
         }
@@ -362,7 +331,7 @@ namespace LMS_WebAPI_DAL.Repositories
             }
             catch
             {
-                Logger.Info("Exception occured at UserRepository EditEmployeeExperienceDetails method ");
+                Logger.Error("Exception occured at UserRepository EditEmployeeExperienceDetails method ");
                 throw;
             }
         }
@@ -393,7 +362,7 @@ namespace LMS_WebAPI_DAL.Repositories
             }
             catch
             {
-                Logger.Info("Exception occured at UserRepository EditEmployeeSkills method ");
+                Logger.Error("Exception occured at UserRepository EditEmployeeSkills method ");
                 throw;
             }
         }
@@ -413,7 +382,7 @@ namespace LMS_WebAPI_DAL.Repositories
             }
             catch
             {
-                Logger.Info("Exception occured at UserRepository getUserProfileImage method ");
+                Logger.Error("Exception occured at UserRepository getUserProfileImage method ");
                 throw;
             }
         }
@@ -422,6 +391,7 @@ namespace LMS_WebAPI_DAL.Repositories
         {
             try
             {
+                Logger.Info("Exception occured at UserRepository getUserProfileImage method ");
                 List<EmployeeDetail> resTeamMembers = new List<EmployeeDetail>();
                 using (var ctx = new LeaveManagementSystemEntities1())
                 {
@@ -429,14 +399,14 @@ namespace LMS_WebAPI_DAL.Repositories
                     if (lstProjectDetails != null && lstProjectDetails.Count > 0)
                     {
                         resTeamMembers = ctx.EmployeeProjectDetails.Include("EmployeeDetail").Include("MasterDataValue").Where(m => lstProjectDetails.Contains(m.RefProjectId)).Select(m => m.EmployeeDetail).ToList();
-
                     }
                 }
+                Logger.Info("Exception occured at UserRepository getUserProfileImage method ");
                 return resTeamMembers;
             }
             catch (Exception ex)
             {
-
+                Logger.Error("Exception occured at UserRepository GetTeamMembers method ");
                 throw ex;
             }
         }
