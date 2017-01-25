@@ -2,6 +2,7 @@
 using LMS_WebAPP_Utils;
 using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Linq;
 using System.Net.Http;
 using System.Net.Http.Headers;
@@ -15,7 +16,7 @@ namespace LMS_WebAPP_ServiceHelpers
         static HttpClient client = new HttpClient();
 
 
-        private string URL = "http://localhost:64476/api/Notification";
+        private string URL = ConfigurationManager.AppSettings["WebApiURL"] + "/Notification";
         private string urlParameters;
 
         public async Task<IList<Notification>> GetNotificationsAsync(int id)

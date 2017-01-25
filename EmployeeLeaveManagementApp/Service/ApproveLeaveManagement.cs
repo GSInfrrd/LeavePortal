@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using LMS_WebAPP_Domain;
 using System.Net.Http.Headers;
 using LMS_WebAPP_Utils;
+using System.Configuration;
 
 namespace LMS_WebAPP_ServiceHelpers
 {
@@ -14,8 +15,7 @@ namespace LMS_WebAPP_ServiceHelpers
     {
         static HttpClient client = new HttpClient();
 
-
-        private string URL = "http://localhost:64476/api/ApproveLeave";
+        private string URL = ConfigurationManager.AppSettings["WebApiURL"] + "/ApproveLeave";
         private string urlParameters;
 
         public async Task<IList<ApproveLeave>> GetAprroveLeaveAsync(int empid)

@@ -6,6 +6,7 @@ using System.Net.Http.Headers;
 using System.Collections.Generic;
 using System.Linq;
 using LMS_WebAPP_Utils;
+using System.Configuration;
 
 namespace LMS_WebAPP_ServiceHelpers
 {
@@ -13,9 +14,10 @@ namespace LMS_WebAPP_ServiceHelpers
     {
         static HttpClient client = new HttpClient();
 
-        private string URL = "http://localhost:64476/api/EmployeeLeaveTrans";
-        private string URLGetRewardLeaveDetails = "http://localhost:64476/api/EmployeeLeaveTrans/GetRewardLeaveFormDetails";
-        private string URLSubmitLeaveReward = "http://localhost:64476/api/EmployeeLeaveTrans/SubmitLeaveReward";
+        private static string WebapiUrl = ConfigurationManager.AppSettings["WebApiURL"];
+        private string URL = WebapiUrl + "/EmployeeLeaveTrans";
+        private string URLGetRewardLeaveDetails = WebapiUrl + "/GetRewardLeaveFormDetails";
+        private string URLSubmitLeaveReward = WebapiUrl + "/EmployeeLeaveTrans/SubmitLeaveReward";
         private string urlParameters ="";
 
         public async Task<List<LeaveTransaction>> GetEmployeeLeaveTransactionAsync(int empid, int? leaveType = 0,int? month=0,int? transactionType=0)
@@ -57,8 +59,7 @@ namespace LMS_WebAPP_ServiceHelpers
             Logger.Info("Entering into EmployeeLeaveTransactionManagement APP Service helper SubmitLeaveRequestAsync method ");
             try
             {
-                string URL = "http://localhost:64476/api/EmployeeLeaveTrans";
-            //string urlParameters = "";
+               
             HttpClient client = new HttpClient();
             client.BaseAddress = new Uri(URL);
 
@@ -168,7 +169,7 @@ namespace LMS_WebAPP_ServiceHelpers
             try
             {
                 HttpClient client = new HttpClient();
-                URL = "http://localhost:64476/api/AddLeave/CheckLeaveAvailability";
+                URL = WebapiUrl + "/AddLeave/CheckLeaveAvailability";
                 var urlParameters = "?employeeId=" + employeeId + "&fromDate=" + fromDate + "&toDate=" + toDate + "&leaveType=" + leaveType; ;
 
                 client.BaseAddress = new Uri(URL);

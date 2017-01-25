@@ -8,6 +8,7 @@ using System.Linq;
 using Newtonsoft.Json;
 using System.IO;
 using LMS_WebAPP_Utils;
+using System.Configuration;
 
 namespace LMS_WebAPP_ServiceHelpers
 {
@@ -15,8 +16,8 @@ namespace LMS_WebAPP_ServiceHelpers
     {
         static HttpClient client = new HttpClient();
 
+        private static string WebapiURL = ConfigurationManager.AppSettings["WebApiURL"] + "/HR";
 
-        private string URL = "http://localhost:64476/api/HR";
         private string urlParameters;
 
         public async Task<bool> SubmitEmployeeDetailsAsync(EmployeeDetailsModel model)
@@ -25,7 +26,7 @@ namespace LMS_WebAPP_ServiceHelpers
             try
             {
                 HttpClient client = new HttpClient();
-                URL = URL + "/SubmitEmployeeDetails";
+               string URL = WebapiURL + "/SubmitEmployeeDetails";
                 // urlParameters = "?model=" + model;      
                 client.BaseAddress = new Uri(URL);
             // Add an Accept header for JSON format.
@@ -57,6 +58,7 @@ namespace LMS_WebAPP_ServiceHelpers
             Logger.Info("Entering into HRManagement APP Service helper GetEmployeeListAsync method ");
             try
             {
+                string URL = WebapiURL;
                 // const string URL = "http://localhost:64476/api/HR/GetEmployeeList";
                 HttpClient client = new HttpClient();
             client.BaseAddress = new Uri(URL);
@@ -91,7 +93,7 @@ namespace LMS_WebAPP_ServiceHelpers
             {
                 using (HttpClient client = new HttpClient())
             {
-                const string URL = "http://localhost:64476/api/HR/GetManagerList";
+                string URL = WebapiURL + "/GetManagerList";
                 urlParameters = "?refLevel=" + refLevel + "&status=" + true;
                 client.BaseAddress = new Uri(URL);
                 // Add an Accept header for JSON format.
@@ -131,7 +133,7 @@ namespace LMS_WebAPP_ServiceHelpers
             {
                 using (HttpClient client = new HttpClient())
                 {
-                    const string URL = "http://localhost:64476/api/HR/GenerateReports";
+                    string URL = WebapiURL + "/GenerateReports";
                     urlParameters = "?fromDate=" + fromDate + "&toDate=" + toDate + "&employeeId=" + employeeId;
                     client.BaseAddress = new Uri(URL);
                     // Add an Accept header for JSON format.
@@ -168,7 +170,7 @@ namespace LMS_WebAPP_ServiceHelpers
             {
                 using (HttpClient client = new HttpClient())
             {
-                const string URL = "http://localhost:64476/api/HR/GetChartDetails";
+                string URL = WebapiURL + "/GetChartDetails";
                 urlParameters = "?employeeId=" + employeeId;
                 client.BaseAddress = new Uri(URL);
                 // Add an Accept header for JSON format.
@@ -206,7 +208,7 @@ namespace LMS_WebAPP_ServiceHelpers
             {
                 using (HttpClient client = new HttpClient())
             {
-                const string URL = "http://localhost:64476/api/HR/AddNewMasterDataValues";
+                string URL = WebapiURL + "/AddNewMasterDataValues";
                 urlParameters = "?masterDataType=" + masterDataType + "&masterDataValue=" + masterDataValue;
                 client.BaseAddress = new Uri(URL);
                 // Add an Accept header for JSON format.
@@ -244,7 +246,7 @@ namespace LMS_WebAPP_ServiceHelpers
             {
                 using (HttpClient client = new HttpClient())
             {
-                const string URL = "http://localhost:64476/api/HR/AddNewMasterDataValues";
+                string URL = WebapiURL + "/AddNewMasterDataValues";
                 urlParameters = "?projectName=" + projectName + "&description=" + description+ "&technology="+ technology+ "&startDate="+ startDate+ "&refManager="+ refManager;
                 client.BaseAddress = new Uri(URL);
                 // Add an Accept header for JSON format.
@@ -282,7 +284,7 @@ namespace LMS_WebAPP_ServiceHelpers
             {
                 using (HttpClient client = new HttpClient())
             {
-                const string URL = "http://localhost:64476/api/HR/GetProjectsList";
+                    string URL = WebapiURL + "/GetProjectsList";
                     urlParameters = "?managerId=" + managerId;
                 client.BaseAddress = new Uri(URL);
                 // Add an Accept header for JSON format.
@@ -320,7 +322,7 @@ namespace LMS_WebAPP_ServiceHelpers
             {
                 using (HttpClient client = new HttpClient())
                 {
-                    const string URL = "http://localhost:64476/api/HR/GenerateIndividualReport";
+                    string URL = WebapiURL + "/GenerateIndividualReport";
                     urlParameters = "?employeeId=" + employeeId;
                     client.BaseAddress = new Uri(URL);
                     // Add an Accept header for JSON format.
@@ -360,7 +362,7 @@ namespace LMS_WebAPP_ServiceHelpers
             {
                 using (HttpClient client = new HttpClient())
                 {
-                    const string URL = "http://localhost:64476/api/HR/GetSkillsList";
+                    string URL = WebapiURL + "/GetSkillsList";
                     client.BaseAddress = new Uri(URL);
                     // Add an Accept header for JSON format.
                     client.DefaultRequestHeaders.Accept.Add(
@@ -397,7 +399,7 @@ namespace LMS_WebAPP_ServiceHelpers
             {
                 using (HttpClient client = new HttpClient())
                 {
-                    const string URL = "http://localhost:64476/api/HR/CheckForExistingMasterDataValues";
+                    string URL = WebapiURL + "/CheckForExistingMasterDataValues";
                     urlParameters = "?masterDataType=" + masterDataType + "&masterDataValue=" + masterDataValue;
                     client.BaseAddress = new Uri(URL);
                     // Add an Accept header for JSON format.
@@ -435,7 +437,7 @@ namespace LMS_WebAPP_ServiceHelpers
             {
                 using (HttpClient client = new HttpClient())
                 {
-                    const string URL = "http://localhost:64476/api/HR/CheckForExistingProjectMasterDataValues";
+                    string URL = WebapiURL + "/CheckForExistingProjectMasterDataValues";
                     urlParameters = "?projectName=" + projectName + "&technology=" + technology + "&refManager=" + refManager;
                     client.BaseAddress = new Uri(URL);
                     // Add an Accept header for JSON format.

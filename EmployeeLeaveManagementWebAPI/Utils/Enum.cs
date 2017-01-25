@@ -164,4 +164,10 @@ namespace LMS_WebAPI_Utils
         [Description("Notification Type")]
         NotificationType = 161
     }
+
+    public enum NotificationStatus
+    {
+        [Description("Active Notification")]
+        Active = 1
+    }
 }

@@ -2,6 +2,7 @@
 using LMS_WebAPP_Utils;
 using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Linq;
 using System.Net.Http;
 using System.Net.Http.Headers;
@@ -13,14 +14,16 @@ namespace LMS_WebAPP_ServiceHelpers
     public class HolidayManagement
     {
         static HttpClient client = new HttpClient();
+        private static string WebapiUrl = ConfigurationManager.AppSettings["WebApiURL"]+ "/Holiday";
         private string urlParameters;
+
 
         public async Task<List<HolidayModel>> AddNewHolidayDetailsAsync(HolidayModel model)
         {
             Logger.Info("Entering into HolidayManagement APP Service helper AddNewHolidayDetailsAsync method ");
             try
             {
-                string URL = "http://localhost:64476/api/Holiday/AddNewHoliday";
+                string URL = WebapiUrl + "/AddNewHoliday";
                 HttpClient client = new HttpClient();
                 urlParameters = "?model=" + model;
 
@@ -53,7 +56,7 @@ namespace LMS_WebAPP_ServiceHelpers
             Logger.Info("Entering into HolidayManagement APP Service helper GetHolidayListAsync method ");
             try
             {
-                string URL = "http://localhost:64476/api/Holiday/GetHolidayList";
+                string URL = WebapiUrl + "/GetHolidayList";
                 HttpClient client = new HttpClient();
                 client.BaseAddress = new Uri(URL);
                 // Add an Accept header for JSON format.
@@ -85,7 +88,7 @@ namespace LMS_WebAPP_ServiceHelpers
             Logger.Info("Entering into HolidayManagement APP Service helper UpdateNewHolidayDetailsAsync method ");
             try
             {
-                string URL = "http://localhost:64476/api/Holiday/UpdateHoliday";
+                string URL = WebapiUrl+"/UpdateHoliday";
                 HttpClient client = new HttpClient();
                 urlParameters = "?Editmodel=" + model;
 
@@ -118,7 +121,7 @@ namespace LMS_WebAPP_ServiceHelpers
             Logger.Info("Entering into HolidayManagement APP Service helper DeleteHolidayDetailsAsync method ");
             try
             {
-                string URL = "http://localhost:64476/api/Holiday/DeleteHoliday";
+                string URL = WebapiUrl + "/DeleteHoliday";
                 HttpClient client = new HttpClient();
                 urlParameters = "?Id=" + Id;
 
@@ -151,7 +154,7 @@ namespace LMS_WebAPP_ServiceHelpers
             Logger.Info("Entering into HolidayManagement APP Service helper GetCalendarEventsAsync method ");
             try
             {
-                string URL = "http://localhost:64476/api/Holiday/GetCalendarEvents";
+                string URL = WebapiUrl + "/GetCalendarEvents";
                 URL += "?employeeId=" + employeeId;
                 HttpClient client = new HttpClient();
                 client.BaseAddress = new Uri(URL);

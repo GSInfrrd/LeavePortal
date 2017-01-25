@@ -2,6 +2,7 @@
 using LMS_WebAPP_Utils;
 using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Linq;
 using System.Net.Http;
 using System.Net.Http.Headers;
@@ -14,11 +15,12 @@ namespace LMS_WebAPP_ServiceHelpers
     {
         static HttpClient client = new HttpClient();
 
-        private string URLGetResourcesFormDetails = "http://localhost:64476/api/ResourceRequest/GetResourceDetails";
-        private string URLGetResources = "http://localhost:64476/api/ResourceRequest/ResourceRequests";
-        private string URLPost = "http://localhost:64476/api/ResourceRequest/SubmitResourceRequest";
-        private string URLPostRequestResponse = "http://localhost:64476/api/ResourceRequest/SubmitResourceRequestsResponse";
-        private string URLDeleteRequest = "http://localhost:64476/api/ResourceRequest/DeleteResourceRequest";
+        private static string WebapiURL = ConfigurationManager.AppSettings["WebApiURL"]+ "/ResourceRequest";
+        private string URLGetResourcesFormDetails = WebapiURL + "/GetResourceDetails";
+        private string URLGetResources = WebapiURL + "/ResourceRequests";
+        private string URLPost = WebapiURL + "/SubmitResourceRequest";
+        private string URLPostRequestResponse = WebapiURL + "/SubmitResourceRequestsResponse";
+        private string URLDeleteRequest = WebapiURL + "/DeleteResourceRequest";
         private string urlParameters;
         private string urlParameters1;
         private string urlParameters2;
@@ -202,7 +204,7 @@ namespace LMS_WebAPP_ServiceHelpers
             {
                 using (HttpClient client = new HttpClient())
                 {
-                    const string URL = "http://localhost:64476/api/ResourceRequest/GetProjectMembersList";
+                    string URL = WebapiURL + "/GetProjectMembersList";
                     urlParameters = "?projectId=" + projectId;
                     client.BaseAddress = new Uri(URL);
                     // Add an Accept header for JSON format.
@@ -240,7 +242,7 @@ namespace LMS_WebAPP_ServiceHelpers
             {
                 using (HttpClient client = new HttpClient())
                 {
-                    const string URL = "http://localhost:64476/api/ResourceRequest/RemoveProjectResource";
+                    string URL = WebapiURL + "/RemoveProjectResource";
                     urlParameters = "?employeeProjectId=" + employeeProjectId + "&projectId=" + projectId;
                     client.BaseAddress = new Uri(URL);
                     // Add an Accept header for JSON format.
@@ -278,7 +280,7 @@ namespace LMS_WebAPP_ServiceHelpers
             {
                 using (HttpClient client = new HttpClient())
                 {
-                    const string URL = "http://localhost:64476/api/ResourceRequest/GetResourceList";
+                    string URL = WebapiURL + "/GetResourceList";
                     //urlParameters = "?projectId=" + projectId;
                     client.BaseAddress = new Uri(URL);
                     // Add an Accept header for JSON format.
@@ -316,7 +318,7 @@ namespace LMS_WebAPP_ServiceHelpers
             {
                 using (HttpClient client = new HttpClient())
                 {
-                    const string URL = "http://localhost:64476/api/ResourceRequest/AddNewProjectResource";
+                    string URL = WebapiURL + "/AddNewProjectResource";
                     urlParameters = "?employeeId=" + employeeId + "&projectId=" + projectId;
                     client.BaseAddress = new Uri(URL);
                     // Add an Accept header for JSON format.

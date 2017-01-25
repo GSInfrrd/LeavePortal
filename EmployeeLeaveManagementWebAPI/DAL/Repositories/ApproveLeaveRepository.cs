@@ -65,8 +65,8 @@ namespace LMS_WebAPI_DAL.Repositories
                     var leaveDetails = ctx.Workflows.Where(x => x.EmployeeLeaveTransaction.Id == Leaveid).OrderByDescending(x=>x.ModifiedDate).FirstOrDefault();
                     var EmployeeId = leaveDetails.EmployeeLeaveTransaction.EmployeeDetail.Id;
                     var ApproverId = leaveDetails.RefApproverId;
-                    int Status = 1;
-                    int NotificationType = 27;
+                    int Status = (Int16)LMS_WebAPI_Utils.NotificationStatus.Active; ;
+                    int NotificationType = (Int16)LMS_WebAPI_Utils.NotificationType.NotificationType;
                     if (Leavestatus == CommonMethods.Description(LeaveStatus.Approved))
                     {
                         leaveDetails.EmployeeLeaveTransaction.RefStatus = Convert.ToInt32(LeaveStatus.Approved);

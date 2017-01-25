@@ -9,6 +9,7 @@ using LMS_WebAPP_Domain;
 using LMS_WebAPI_Domain;
 using Newtonsoft.Json;
 using LMS_WebAPP_Utils;
+using System.Configuration;
 
 namespace LMS_WebAPP_ServiceHelpers
 {
@@ -36,14 +37,15 @@ namespace LMS_WebAPP_ServiceHelpers
 
         ////    Console.ReadLine();
         ////}
-
+        private static string WebapiURL = ConfigurationManager.AppSettings["WebApiURL"] + "/Account";
+        private static string ProfileURL = ConfigurationManager.AppSettings["WebApiURL"] + "/Profile";
         private string urlParameters = "";
 
         public async Task<List<EmployeeDetailsModel>> GetTeamMembers(int empId)
         {
             using (HttpClient client = new HttpClient())
             {
-                const string URL = "http://localhost:64476/api/Account/GetTeamMembers";
+                 string URL = WebapiURL + "/GetTeamMembers";
                 urlParameters = "?empId=" + empId;
                 client.BaseAddress = new Uri(URL);
                 // Add an Accept header for JSON format.
@@ -73,7 +75,7 @@ namespace LMS_WebAPP_ServiceHelpers
             {
                 using (HttpClient client = new HttpClient())
             {
-                const string URL = "http://localhost:64476/api/Account/Login";
+                string URL = WebapiURL + "/Login";
                 urlParameters = "?userName=" + userName + "&password=" + password;
                 client.BaseAddress = new Uri(URL);
 
@@ -112,7 +114,7 @@ namespace LMS_WebAPP_ServiceHelpers
             {
                 using (HttpClient client = new HttpClient())
             {
-                const string URL = "http://localhost:64476/api/Account/GetUserDetails";
+                string URL = WebapiURL + "/GetUserDetails";
                 urlParameters = "?empId=" + EmpId;
                 client.BaseAddress = new Uri(URL);
                 // Add an Accept header for JSON format.
@@ -151,7 +153,7 @@ namespace LMS_WebAPP_ServiceHelpers
             {
                 using (HttpClient client = new HttpClient())
             {
-                const string URL = "http://localhost:64476/api/Account/GetUserDetails";
+                string URL = WebapiURL + "/GetUserDetails";
                 urlParameters = "?empId=" + empId + "&year=" + year+"+&leaveType="+leaveType;
                 client.BaseAddress = new Uri(URL);
                 // Add an Accept header for JSON format.
@@ -190,7 +192,7 @@ namespace LMS_WebAPP_ServiceHelpers
             {
                 using (HttpClient client = new HttpClient())
             {
-                const string URL = "http://localhost:64476/api/Profile/GetUserProfileDetails";
+                string URL = WebapiURL + "/GetUserProfileDetails";
                 urlParameters = "?empId=" + empId;
                 client.BaseAddress = new Uri(URL);
                 // Add an Accept header for JSON format.
@@ -228,7 +230,7 @@ namespace LMS_WebAPP_ServiceHelpers
             {
                 using (HttpClient client = new HttpClient())
             {
-                const string URL = "http://localhost:64476/api/Profile/EditEmployeeDetails";
+                string URL = WebapiURL + "/EditEmployeeDetails";
                 urlParameters = "?model=" + model;
                 client.BaseAddress = new Uri(URL);
 
@@ -270,7 +272,7 @@ namespace LMS_WebAPP_ServiceHelpers
                 string json = JsonConvert.SerializeObject(educationDetails);
                 StringContent sc = new StringContent(json, Encoding.UTF8, "application/json");
 
-                string URL = "http://localhost:64476/api/Profile/EditEmployeeEducationDetails?employeeId=";
+                string URL = ProfileURL +"/EditEmployeeEducationDetails?employeeId=";
                 //urlParameters = "?employeeId="+employeeId;
                 URL = URL + employeeId;
                 client.BaseAddress = new Uri(URL);
@@ -311,7 +313,7 @@ namespace LMS_WebAPP_ServiceHelpers
                 using (HttpClient client = new HttpClient())
             {
                
-                string URL = "http://localhost:64476/api/Profile/EditEmployeeExperienceDetails";
+                string URL = ProfileURL + "/EditEmployeeExperienceDetails";
                 // urlParameters = "?employeeId="+employeeId;
                 URL = URL + "?employeeId=" + employeeId;
                 client.BaseAddress = new Uri(URL);
@@ -351,7 +353,7 @@ namespace LMS_WebAPP_ServiceHelpers
             {
                 using (HttpClient client = new HttpClient())
             {
-                string URL = "http://localhost:64476/api/Profile/EditEmployeeSkills";
+                string URL = ProfileURL + "/EditEmployeeSkills";
                 // urlParameters = "?employeeId="+employeeId;
                 URL = URL + "?employeeId=" + employeeId;
                 client.BaseAddress = new Uri(URL);

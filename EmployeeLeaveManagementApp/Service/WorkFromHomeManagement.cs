@@ -2,6 +2,7 @@
 using LMS_WebAPP_Utils;
 using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Linq;
 using System.Net.Http;
 using System.Net.Http.Headers;
@@ -13,13 +14,14 @@ namespace LMS_WebAPP_ServiceHelpers
   public class WorkFromHomeManagement
     {
         static HttpClient client = new HttpClient();
+        private static string WebapiURL = ConfigurationManager.AppSettings["WebApiURL"] + "/WorkFromHome";
         private string urlParameters;
         public async Task<long> AddNewWorkFromHomeDetailsAsync(WorkFromHomeModel model)
         {
             Logger.Info("Entering into WorkFromHomeManagement APP Service helper AddNewWorkFromHomeDetailsAsync method ");
             try
             {
-                string URL = "http://localhost:64476/api/WorkFromHome/AddNewWorkFromHome";
+                string URL = WebapiURL + "/AddNewWorkFromHome";
                 HttpClient client = new HttpClient();
                 urlParameters = "?model=" + model;
 
@@ -52,7 +54,7 @@ namespace LMS_WebAPP_ServiceHelpers
             Logger.Info("Entering into WorkFromHomeManagement APP Service helper GetWorkFromHomeListAsync method ");
             try
             {
-                string URL = "http://localhost:64476/api/WorkFromHome/GetWorkFromHomeList";
+                string URL = WebapiURL + "/GetWorkFromHomeList";
                 HttpClient client = new HttpClient();
                 client.BaseAddress = new Uri(URL);
                 urlParameters = "?EmpId=" + refEmpId;
@@ -85,7 +87,7 @@ namespace LMS_WebAPP_ServiceHelpers
             Logger.Info("Entering into WorkFromHomeManagement APP Service helper UpdateNewWorkFromHomeDetailsAsync method ");
             try
             {
-                string URL = "http://localhost:64476/api/WorkFromHome/UpdateWorkFromHome";
+                string URL = WebapiURL + "/UpdateWorkFromHome";
                 HttpClient client = new HttpClient();
                 urlParameters = "?Editmodel=" + model;
 
@@ -118,7 +120,7 @@ namespace LMS_WebAPP_ServiceHelpers
             Logger.Info("Entering into WorkFromHomeManagement APP Service helper DeleteWorkFromHomeDetailsAsync method ");
             try
             {
-                string URL = "http://localhost:64476/api/WorkFromHome/DeleteWorkFromHome";
+                string URL = WebapiURL + "/DeleteWorkFromHome";
                 HttpClient client = new HttpClient();
                 urlParameters = "?Id=" + Id;
 
@@ -151,7 +153,7 @@ namespace LMS_WebAPP_ServiceHelpers
             Logger.Info("Entering into WorkFromHomeManagement APP Service helper GetWorkFromHomeReasonsListAsync method ");
             try
             {
-                string URL = "http://localhost:64476/api/WorkFromHome/GetWorkFromHomeReasonsList";
+                string URL = WebapiURL + "/GetWorkFromHomeReasonsList";
                 HttpClient client = new HttpClient();
                 client.BaseAddress = new Uri(URL);
                 // Add an Accept header for JSON format.
