@@ -46,7 +46,45 @@ namespace LMS_WebAPP_Utils
         [Description("Manager")]
         Manager = 2,
         [Description("Employee")]
-        Employee = 3
+        Employee = 3,
+        [Description("CEO")]
+        CEO = 4,
+        [Description("Team Lead")]
+        TeamLead = 5,
+        [Description("Software Engineer")]
+        SoftwareEngineer = 6,
+        [Description("Quality Analyst")]
+        QA = 7,
+        [Description("Dev Lead")]
+        DevLead = 8,
+        [Description("Test Engineer")]
+        TestEngineer = 9,
+        [Description("Senior Test Engineer")]
+        SeniorTestEngineer = 10,
+        [Description("Test Lead")]
+        TestLead = 11,
+        [Description("Tech Lead")]
+        TechLead = 12,
+        [Description("Technical Architect")]
+        TechnicalArchitect = 13,
+        [Description("Associate Tech Architect")]
+        AssociateTechArchitect = 14,
+        [Description("Project Manager")]
+        ProjectManager = 15,
+        [Description("Senior HR")]
+        SeniorHR = 16,
+        [Description("CTO")]
+        CTO = 17,
+        [Description("COO")]
+        COO = 18,
+        [Description("Finance")]
+        Finance = 19,
+        [Description("UI Designer")]
+        UIDesigner = 20,
+        [Description("Senior UI Designer")]
+        SeniorUIDesigner = 21,
+        [Description("Sales")]
+        Sales = 22
     }
 
     public enum HierarchyLevel
