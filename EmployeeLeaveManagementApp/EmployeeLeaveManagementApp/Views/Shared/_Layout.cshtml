@@ -171,7 +171,7 @@
                                 <span>Profile</span>
                             </a>
                         </li>
-                    @if ((roleId == (int)EmployeeRole.Employee) || (roleId == (int)EmployeeRole.Manager) || roleId == (int)EmployeeRole.HR)
+                    @if ((roleId != (int)EmployeeRole.CEO) )
                     {
                         <li>
                             <a id="applyLeave" href="@Url.Action("ApplyLeave", "ApplyLeave")">
@@ -185,17 +185,14 @@
 
                             </a>
                         </li>
-                    }
-                    @if ((roleId == (int)EmployeeRole.Employee) || (roleId == (int)EmployeeRole.Manager) || roleId == (int)EmployeeRole.HR)
-                    {
                         <li>
                             <a id="leaveTransaction" href="@Url.Action("LeaveTransaction", "LeaveTransaction")">
                                 <i class="fa fa-history"></i> <span>Leave Transactions</span>
 
                             </a>
                         </li>
-                    }
-                    @if ((roleId == (int)EmployeeRole.Manager)|| (roleId == (int)EmployeeRole.HR))
+                    @*}*@
+                    @if ((roleId != (int)EmployeeRole.Employee)|| (roleId != (int)EmployeeRole.SoftwareEngineer) || (roleId != (int)EmployeeRole.TestEngineer) || (roleId != (int)EmployeeRole.QA) || (roleId != (int)EmployeeRole.Finance)) 
                     {
                         <li>
                             <a id="approveLeave" href="@Url.Action("ApproveLeave", "ApproveLeave")">
@@ -210,24 +207,9 @@
 
                             </a>
                         </li>
-                        <li>
-                            <a id="resourceLoad" href="@Url.Action("ResourceLoad", "ResourceRequest")">
-                                <i class="fa fa-user-plus" aria-hidden="true"></i> <span>Resource Load/Unload</span>
-
-                            </a>
-                        </li>
                     }
-                    @if (roleId == (int)EmployeeRole.HR)
-                    {
-                        <li>
-                            <a id="employeeDetails" href="@Url.Action("EmployeeDetails", "HR")">
-                                <i class="fa fa-database"></i> <span>Employee Details</span>
-
-                            </a>
-                        </li>
-                    }
-                    @if (roleId == (int)EmployeeRole.Manager)
-                    {
+                   @if ((roleId != (int)EmployeeRole.Employee) || (roleId != (int)EmployeeRole.SoftwareEngineer) || (roleId != (int)EmployeeRole.TestEngineer) || (roleId != (int)EmployeeRole.QA) || (roleId != (int)EmployeeRole.Finance) || (roleId != (int)EmployeeRole.HR))
+                   {
                         <li>
                             <a id="resourceRequest" href="@Url.Action("RequestForResources", "ResourceRequest")">
                                 <i class="fa fa-user-plus" aria-hidden="true"></i> <span>Resource Request</span>
@@ -240,71 +222,72 @@
 
                             </a>
                         </li>
-                    }
-                    @if (roleId == (int)EmployeeRole.HR)
-                    {
                         <li>
-                            <a id="addHolidays" href="@Url.Action("HolidayList", "HR")">
-                                <i class="fa fa-th"></i> <span>Add Holidays</span>
+                            <a id="resourceLoad" href="@Url.Action("ResourceLoad", "ResourceRequest")">
+                                <i class="fa fa-user-plus" aria-hidden="true"></i> <span>Resource Load/Unload</span>
 
                             </a>
                         </li>
                     }
-                    @if (roleId == (int)EmployeeRole.HR)
+@if (roleId == (int)EmployeeRole.HR || roleId == (int)EmployeeRole.SeniorHR || (roleId == (int)EmployeeRole.CEO))
+{
+                    <li class="treeview">
+                        <a href="#">
+                            <i class="fa fa-cog"></i>
+                            <span>Settings</span>
+                            <span class="pull-right-container">
+                                <i class="fa fa-angle-left pull-right"></i>
+                            </span>
+                        </a>
+                        <ul class="treeview-menu">
+                            <li>
+                                <a id="addHolidays" href="@Url.Action("HolidayList", "HR")">
+                                    <i class="fa fa-calendar-o"></i> <span>Add Holidays</span>
+
+                                </a>
+                            </li>
+                            <li>
+                                <a id="addMasterData" href="@Url.Action("AddMasterData", "HR")">
+                                    <i class="fa fa-bank"></i> <span>Add Master Data</span>
+
+                                </a>
+                            </li>
+                            <li>
+                                <a id="companyAnnouncements" href="@Url.Action("CompanyAnnouncements", "HR")">
+                                    <i class="fa fa-volume-up"></i> <span>Company Announcements</span>
+
+                                </a>
+                            </li>
+                            <li>
+                                <a id="broadcast" href="@Url.Action("Broadcast", "HR")">
+                                    <i class="fa fa-wifi"></i> <span>Broadcast</span>
+
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+}
+                    @if (roleId == (int)EmployeeRole.HR || (roleId == (int)EmployeeRole.CEO) || roleId == (int)EmployeeRole.SeniorHR)
                     {
                         <li>
-                            <a id="addMasterData" href="@Url.Action("AddMasterData", "HR")">
-                                <i class="fa fa-th"></i> <span>Add Master Data</span>
+                            <a id="employeeDetails" href="@Url.Action("EmployeeDetails", "HR")">
+                                <i class="fa fa-database"></i> <span>Employee Details</span>
 
                             </a>
                         </li>
-                    }
-                    @if (roleId == (int)EmployeeRole.HR)
-                    {
-                        <li>
-                            <a id="companyAnnouncements" href="@Url.Action("CompanyAnnouncements", "HR")">
-                                <i class="fa fa-volume-up"></i> <span>Company Announcements</span>
-
-                            </a>
-                        </li>
-                    }
-                    @if (roleId == (int)EmployeeRole.HR)
-                    {
                         <li>
                             <a id="resourceRequestHR" href="@Url.Action("RequestForResourcesHR", "ResourceRequest")">
-                                <i class="fa fa-user-plus" aria-hidden="true"></i> <span>Requested Tickets</span>
+                                <i class="fa fa-lightbulb-o" aria-hidden="true"></i> <span>Requested Tickets</span>
 
                             </a>
                         </li>
-                    }
-
-                    @if (roleId == (int)EmployeeRole.HR)
-                    {
-                        <li>
-                            <a id="broadcast" href="@Url.Action("Broadcast", "HR")">
-                                <i class="fa fa-th"></i> <span>Broadcast</span>
-
-                            </a>
-                        </li>
-                    }
-                    @if (roleId == (int)EmployeeRole.HR)
-                    {
                         <li>
                             <a id="reports" href="@Url.Action("Reports", "HR")">
-                                <i class="fa fa-th"></i> <span>Reports</span>
+                                <i class="fa fa-files-o"></i> <span>Reports</span>
 
                             </a>
                         </li>
                     }
-                    @*@if (roleId == (int)EmployeeRole.HR)
-                    {
-                        <li>
-                            <a href="@Url.Action("RequestForResourcesHR", "ResourceRequest")">
-                                <i class="fa fa-user-plus" aria-hidden="true"></i> <span>Resource Request</span>
-
-                            </a>
-                        </li>
-                    }*@
                 </ul>
             </section>
             <!-- /.sidebar -->
