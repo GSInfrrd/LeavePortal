@@ -69,8 +69,8 @@ namespace LMS_WebAPI_DAL.Repositories
                         {
                             CompanyName = model.EmployeeExperienceDetails[0].Company,
                             Role = model.EmployeeExperienceDetails[0].Role,
-                            FromDate = Convert.ToDateTime(model.EmployeeEducationDetails[0].TimePeriod.Split('~')[0]),
-                            ToDate = Convert.ToDateTime(model.EmployeeEducationDetails[0].TimePeriod.Split('~')[1]),
+                            FromDate = Convert.ToDateTime(model.EmployeeExperienceDetails[0].TimePeriod.Split('~')[0]),
+                            ToDate = Convert.ToDateTime(model.EmployeeExperienceDetails[0].TimePeriod.Split('~')[1]),
                             RefEmployeeId = id
                         };
                         ctx.EmployeeExperienceDetails.Add(employeeExperienceDetails);
