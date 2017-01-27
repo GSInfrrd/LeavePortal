@@ -17,6 +17,7 @@ using NPOI.HSSF.Util;
 using System.Globalization;
 using System.ComponentModel.DataAnnotations;
 using LMS_WebAPP_Domain;
+using System.Configuration;
 
 namespace LMS_WebAPP_Utils
 {
@@ -118,7 +119,9 @@ namespace LMS_WebAPP_Utils
             try
             {
                 Logger.Info("Enter in to the SendMailWithMultipleAttachments");
-                message.From = new MailAddress("alekya@infrrd.ai");
+
+                string fromMailId = ConfigurationManager.AppSettings["FromMailId"];
+                message.From = new MailAddress(fromMailId);
                 //string ccEmailId = ReadResource.GetEmailConstant("CC_EMAIL_ID");
                 string ccEmailId = ToEmailId;
                 string toEmailId = ToEmailId;
@@ -159,12 +162,13 @@ namespace LMS_WebAPP_Utils
                 }
                 using (var client = new SmtpClient())
                 {
-                    client.Host = "smtp.gmail.com";
-                    client.Port = 587;
-                    client.EnableSsl = true;
-                    client.UseDefaultCredentials = false;
-                    client.Credentials = new System.Net.NetworkCredential("alekya@infrrd.ai", "alkvyS9.");
-
+                    client.Host = ConfigurationManager.AppSettings["SmtpHost"];
+                    client.Port = Convert.ToInt32(ConfigurationManager.AppSettings["SmtpPort"]);
+                    client.EnableSsl = Convert.ToBoolean(ConfigurationManager.AppSettings["EnableSsl"]);
+                    client.UseDefaultCredentials = Convert.ToBoolean(ConfigurationManager.AppSettings["UseDefaultCredentials"]);
+                    string fromMailIdPassword = ConfigurationManager.AppSettings["FromMailIdPassword"];
+                    client.Credentials = new System.Net.NetworkCredential(fromMailId, fromMailIdPassword);
+                    
                     client.Send(message);
                 }
                 // client.Host = ReadResource.GetEmailConstant("EMAIL_HOST");

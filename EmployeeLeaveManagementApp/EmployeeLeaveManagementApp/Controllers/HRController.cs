@@ -3,6 +3,7 @@ using LMS_WebAPP_ServiceHelpers;
 using LMS_WebAPP_Utils;
 using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
@@ -524,7 +525,7 @@ namespace EmployeeLeaveManagementApp.Controllers
                     }
                     else
                     {
-                        CommonMethods.SendMailWithMultipleAttachments("alekya@infrrd.ai", true, "Leave Report", "", file, "LeaveReportFile_" + DateTime.Now.Day + "/" + DateTime.Now.Month + "/" + DateTime.Now.Year);
+                        CommonMethods.SendMailWithMultipleAttachments(ConfigurationManager.AppSettings["HRMailId"], true, "Leave Report", "", file, "LeaveReportFile_" + DateTime.Now.Day + "/" + DateTime.Now.Month + "/" + DateTime.Now.Year);
                         return Json(new { result = true });
                     }
                 }
