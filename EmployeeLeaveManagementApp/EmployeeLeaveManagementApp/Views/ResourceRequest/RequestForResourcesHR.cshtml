@@ -27,7 +27,7 @@
                         <th>Request Ticket</th>
                         <th>Request Title</th>
                         <th>Created On</th>
-                        <th>Status</th>
+                        <th class="text-align_center">Status</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -41,7 +41,7 @@
                                 var createdDate = createDateWithTime.ToString("MM/dd/yyyy");
                             }
                             <td>@createdDate</td>
-                            <td>
+                            <td class="text-align_center">
                                 <div class="btn-group" id="@resource.Ticket">
                                     @if (resource.Status == (int)ResourceRequestStatus.Requested)
                                     {
