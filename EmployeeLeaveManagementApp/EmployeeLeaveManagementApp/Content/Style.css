@@ -4,6 +4,13 @@
 .pad-left-30{
     padding-left:30px;
 }
+.padding-left-right-0{
+    padding-left:0px;
+    padding-right:0px;
+}
+.btn-width-160{
+    width:160px;
+}
 .padding-bottom-5{
     padding-bottom:5px;
 }
@@ -84,5 +91,18 @@
 .mar-left50-right50{
     margin-left:50px;
     margin-right:50px;
+}
+.border-radius-modalBottom{
+    border-radius:20px 20px 15px 15px;
+}
+.modalHeaderStyle{
+    padding-top: 10px;
+    padding-bottom: 10px;
+    background: #222d32;
+    color: #fff;
+    border-radius: 15px 15px 0px 0px;
+}
+.left15{
+    left:15px;
 }
 
