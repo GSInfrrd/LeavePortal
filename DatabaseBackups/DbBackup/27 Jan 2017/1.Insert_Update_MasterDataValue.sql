@@ -2,7 +2,7 @@ Use LeaveManagementSystem
 Go
 
 Update MasterDataValue
-set Value='Senior Software Engineer' where Id=1
+set Value='Senior Software Engineer' where Id=3
 go
 
 INSERT INTO [dbo].[MasterDataValue] ([Id], [RefMasterType], [Value]) VALUES (4, 1, N'CEO')
