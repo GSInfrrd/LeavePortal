@@ -3,10 +3,11 @@
     ViewBag.Title = "ResourceLoad";
     Layout = "~/Views/Shared/_Layout.cshtml";
     var managerId = ((LMS_WebAPP_Domain.UserAccount)Session[Constants.SESSION_OBJ_USER]) != null ? ((LMS_WebAPP_Domain.UserAccount)Session[Constants.SESSION_OBJ_USER]).RefEmployeeId : 0;
+         var imagepath = "/Content/Images/DefaultImage.png";
 }
 <style>
     .users-list > li {
-  width: 25%;
+  width: 15%;
   float: left;
   padding: 10px;
   text-align: center;
@@ -168,6 +169,7 @@
 <script src="../../plugins/Toastr/toastr.js"></script>
 <script src="../../plugins/select2/select2.full.min.js"></script>
 <script>
+    var imagePath='@imagepath';
     $(document).ready(function () {
         $('#resourceLoad').parent().addClass('active');
         GetProjectsList();
@@ -225,10 +227,18 @@
                 success: function (result) {
                     var employeeList="";
                     $(".users-list").html("");
+                    var imageSrc="";
                     for(var i=0;i<result.length;i++)
                     {
-                        employeeList+="<li><button type='button' class='btn btn-box-tool' style='float:right' id='btnRemoveResource' data-id='"+result[i].Id+"'><i class='fa fa-times' title='Remove Resource'></i></button><img src="+result[i].ImagePath+" alt='User Image'>"+
-                                                 "<a class='users-list-name' href=/'#/'>"+result[i].FirstName+"</a>"+
+                        if(result[i].ImagePath!="")
+                        {
+                            imageSrc=result[i].ImagePath;
+                        }
+                        else {
+    imageSrc=imagePath;
+                        }
+                        employeeList+="<li><button type='button' class='btn btn-box-tool' style='float:right' id='btnRemoveResource' data-id='"+result[i].Id+"'><i class='fa fa-times' title='Remove Resource'></i></button><img src="+imageSrc+" alt='User Image'>"+
+                                                 "<a class='users-list-name'>"+result[i].FirstName+"</a>"+
                                                  "<span class=/'users-list-date/'>"+result[i].Role+"</span></li>";
                     }
                     $(".users-list").append(employeeList);
@@ -264,10 +274,18 @@
                 $("#removeResourceConfirmationModal").modal('hide');
                 var employeeList="";
                 $(".users-list").html("");
+                var imageSrc="";
                 for(var i=0;i<result.length;i++)
                 {
-                    employeeList+="<li><button type='button' class='btn btn-box-tool' style='float:right' id='btnRemoveResource' data-id='"+result[i].Id+"'><i class='fa fa-times' title='Remove Resource'></i></button><img src="+result[i].ImagePath+" alt='User Image'>"+
-                                             "<a class='users-list-name' href=/'#/'>"+result[i].FirstName+"</a>"+
+                    if(result[i].ImagePath!="")
+                    {
+                        imageSrc=result[i].ImagePath;
+                    }
+                    else {
+                        imageSrc=imagePath;
+                    }
+                    employeeList+="<li><button type='button' class='btn btn-box-tool' style='float:right' id='btnRemoveResource' data-id='"+result[i].Id+"'><i class='fa fa-times' title='Remove Resource'></i></button><img src="+imageSrc+" alt='User Image'>"+
+                                             "<a class='users-list-name'>"+result[i].FirstName+"</a>"+
                                              "<span class=/'users-list-date/'>"+result[i].Role+"</span></li>";
                 }
                 $(".users-list").append(employeeList);
@@ -290,10 +308,18 @@
                 $("#addResourceConfirmationModal").modal('hide');
                 var employeeList="";
                 $(".users-list").html("");
+                var imageSrc="";
                 for(var i=0;i<result.length;i++)
                 {
-                    employeeList+="<li><button type='button' class='btn btn-box-tool' style='float:right' id='btnRemoveResource' data-id='"+result[i].Id+"'><i class='fa fa-times' title='Remove Resource'></i></button><img src="+result[i].ImagePath+" alt='User Image'>"+
-                                             "<a class='users-list-name' href=/'#/'>"+result[i].FirstName+"</a>"+
+                    if(result[i].ImagePath!="")
+                    {
+                        imageSrc=result[i].ImagePath;
+                    }
+                    else {
+                        imageSrc=imagePath;
+                    }
+                    employeeList+="<li><button type='button' class='btn btn-box-tool' style='float:right' id='btnRemoveResource' data-id='"+result[i].Id+"'><i class='fa fa-times' title='Remove Resource'></i></button><img src="+imageSrc+" alt='User Image'>"+
+                                             "<a class='users-list-name'>"+result[i].FirstName+"</a>"+
                                              "<span class=/'users-list-date/'>"+result[i].Role+"</span></li>";
                 }
                 $(".users-list").append(employeeList);

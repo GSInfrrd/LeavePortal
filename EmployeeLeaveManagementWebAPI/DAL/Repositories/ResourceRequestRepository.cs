@@ -263,9 +263,9 @@ namespace LMS_WebAPI_DAL.Repositories
                     {
                         var employee = new TeamMembers();
                         employee.Id = item.Id;
-                        employee.ImagePath = string.Format("data:image/png;base64,{0}", item.EmployeeDetail.ImagePath); ;
+                        employee.ImagePath = !string.IsNullOrEmpty(item.EmployeeDetail.ImagePath) ? string.Format("data:image/png;base64,{0}", item.EmployeeDetail.ImagePath) : string.Empty;
                         employee.FirstName = item.EmployeeDetail.FirstName;
-                        employee.Role = item.EmployeeDetail.MasterDataValue.Value;
+                        employee.Role = item.EmployeeDetail.MasterDataValue2.Value;
                         employeeList.Add(employee);
                     }
                 }
