@@ -173,14 +173,15 @@ namespace LMS_WebAPI_DAL.Repositories
                     }
                     skills = Skills;
                     var ProjectList = new List<ProjectsList>();
-                    var projectDetails = ctx.EmployeeProjectDetails.FirstOrDefault(i => i.RefEmployeeId == employeeId);
-                    if (projectDetails != null)
+                    var projectDetails = ctx.EmployeeProjectDetails.Where(i => i.RefEmployeeId == employeeId);
+                   // if (projectDetails != null)
+                   foreach(var item in projectDetails)
                     {
                         var project = new ProjectsList();
-                        project.Id = projectDetails.Id;
-                        project.ProjectName = ctx.ProjectMasters.FirstOrDefault(i => i.Id == projectDetails.RefProjectId).ProjectName;
-                        project.StartDate = projectDetails.StartDate.Value;
-                        project.EndDate = projectDetails.EndDate != null ? projectDetails.EndDate.Value : DateTime.Now;
+                        project.Id = item.Id;
+                        project.ProjectName = ctx.ProjectMasters.FirstOrDefault(i => i.Id == item.RefProjectId).ProjectName;
+                        project.StartDate = item.StartDate.Value;
+                        project.EndDate = item.EndDate != null ? item.EndDate.Value : DateTime.Now;
                         ProjectList.Add(project);
                     }
                     projects = ProjectList;
