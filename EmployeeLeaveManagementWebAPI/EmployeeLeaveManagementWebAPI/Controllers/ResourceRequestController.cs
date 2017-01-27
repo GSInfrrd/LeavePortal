@@ -99,10 +99,17 @@ namespace EmployeeLeaveManagementWebAPI.Controllers
                     Ticket = model.Ticket,
                     Status = model.Status,
                     CreatedDate = model.CreatedDate,
-                    UpdatedDate = DateTime.Now
+                    UpdatedDate = DateTime.Now,
+                    RequestFromId = model.RequestFromId,
+                    RequestToId = model.RequestToId
                 };
 
-                result = resourceRequestmanagement.SubmitResourceRequestResponse(resourceRequestResponse);
+                var resourceSubmit = resourceRequestmanagement.SubmitResourceRequestResponse(resourceRequestResponse);
+                if (null != resourceSubmit)
+                {
+                    if (resourceSubmit.Result)
+                        return result = true;
+                }
                 return result;
             }
             catch

@@ -63,14 +63,16 @@ namespace LMS_WebAPI_ServiceHelpers
             }
         }
 
-        public bool SubmitResourceRequestResponse(ResourceRequestDetail model)
+        public ResourceRequestDetailModel SubmitResourceRequestResponse(ResourceRequestDetail model)
         {
             try
             {
-                bool result = false;
-                result = _resourceRequest.SubmitResourceRequestResponse(model);
-
-                return result;
+                var requestResponse = _resourceRequest.SubmitResourceRequestResponse(model);
+                if (null != requestResponse)
+                {
+                    return requestResponse;
+                }
+                return null;
             }
             catch
             {

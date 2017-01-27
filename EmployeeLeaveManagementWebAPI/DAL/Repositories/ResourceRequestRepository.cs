@@ -87,6 +87,8 @@ namespace LMS_WebAPI_DAL.Repositories
                                     Status = resource.Status,
                                     NumberRequestedResources = resource.NumberRequestedResources,
                                     Skills = resource.Skills,
+                                    RequestFromId = resource.RequestFromId,
+                                    RequestToId = resource.RequestToId,
                                     RequestToName = lstHR.Where(x => x.Id == resource.RequestToId).Select(x => x.FirstName + " " + x.LastName).FirstOrDefault()
                                 };
                                 lstResourceDetails.Add(resourceRequest);
@@ -118,6 +120,8 @@ namespace LMS_WebAPI_DAL.Repositories
                                     Status = resource.Status,
                                     NumberRequestedResources = resource.NumberRequestedResources,
                                     Skills = resource.Skills,
+                                    RequestFromId = resource.RequestFromId,
+                                    RequestToId = resource.RequestToId,
                                     RequestFromName = lstManagers.Where(x => x.Id == resource.RequestFromId).Select(x => x.FirstName + " " + x.LastName).FirstOrDefault()
                                 };
                                 lstResourceDetails.Add(resourceRequest);
@@ -167,26 +171,37 @@ namespace LMS_WebAPI_DAL.Repositories
             }
         }
 
-        public bool SubmitResourceRequestResponse(ResourceRequestDetail model)
+        public ResourceRequestDetailModel SubmitResourceRequestResponse(ResourceRequestDetail model)
         {
             try
             {
                 using (var ctx = new LeaveManagementSystemEntities1())
                 {
-                    bool result = false;
-                    var request = ctx.ResourceRequestDetails.FirstOrDefault(x => x.Ticket == model.Ticket);
-                    if (null != request)
-                    {
-                        request.Status = model.Status;
-                        request.UpdatedDate = DateTime.Now;
-                        ctx.SaveChanges();
+                    var lstHR = ctx.EmployeeDetails.Where(x => x.RefRoleId == (Int16)EmployeeRole.HR).ToList();
+                    var lstManagers = ctx.EmployeeDetails.Where(x => x.RefRoleId == (Int16)EmployeeRole.Manager).ToList();
+                    var requestSubmit = ctx.ResourceRequestDetails.FirstOrDefault(x => x.Ticket == model.Ticket);
 
-                        return result = true;
-                    }
-                    else
+                    if (null != requestSubmit)
                     {
-                        return result;
+                        requestSubmit.Status = model.Status;
+                        requestSubmit.UpdatedDate = DateTime.Now;
+                        var result = ctx.SaveChanges();
+                        if (result == 1)
+                        {
+                            var resourceResponseDetails = new ResourceRequestDetailModel()
+                            {
+                                ResourceRequestTitle = model.ResourceRequestTitle,
+                                Ticket = model.Ticket,
+                                RequestFromId = model.RequestFromId,
+                                RequestToId = model.RequestToId,
+                                Skills = model.Skills,
+                                Result = true
+                            };
+                            return resourceResponseDetails;
+                        }
                     }
+                    return null;
+                    
                 }
             }
             catch
@@ -365,7 +380,6 @@ namespace LMS_WebAPI_DAL.Repositories
                 throw;
             }
         }
-
     }
 }
 

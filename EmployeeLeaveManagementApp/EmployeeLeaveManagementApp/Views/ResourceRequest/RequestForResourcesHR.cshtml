@@ -34,7 +34,7 @@
                     @foreach (var resource in lstResourceRequests)
                     {
                         <tr>
-                            <td><a class="@resource.Ticket" href="#" onClick="showRequestedDetails(this)" data-ticket="@resource.Ticket" data-created="@resource.CreatedDate" data-updated="@resource.UpdatedDate" data-title="@resource.ResourceRequestTitle" data-noRsource="@resource.NumberRequestedResources" data-skills="@resource.Skills" data-from="@resource.RequestFromName" data-status="@resource.StatusValue" data-statusKey="@resource.Status">@resource.Ticket</a></td>
+                            <td><a class="@resource.Ticket" href="#" onClick="showRequestedDetails(this)" data-fromId="@resource.RequestFromId" data-toId="@resource.RequestToId" data-ticket="@resource.Ticket" data-created="@resource.CreatedDate" data-updated="@resource.UpdatedDate" data-title="@resource.ResourceRequestTitle" data-noRsource="@resource.NumberRequestedResources" data-skills="@resource.Skills" data-from="@resource.RequestFromName" data-status="@resource.StatusValue" data-statusKey="@resource.Status">@resource.Ticket</a></td>
                             <td>@resource.ResourceRequestTitle</td>
                             @{
                                 var createDateWithTime = resource.CreatedDate;
@@ -167,6 +167,8 @@
         $(".requestStatus").attr("status", statusKey);
         var createdDate = $(id).attr('data-created').split(" ")[0];
         $(".requestSentDate").html(createdDate);
+        var fromId = parseInt($(id).attr('data-fromId'));
+        var toId = parseInt($(id).attr('data-toId'));
 
         $(".requestResponseDate").html($(id).attr('data-updated'));
 
@@ -176,16 +178,16 @@
             for (i = 0; i < statusDict.length; i++) {
                 if (statusDict[i].key != statusKey) {
                     if (statusDict[i].key == '@Convert.ToInt32(ResourceRequestStatus.Requested)') {
-                        $(".statusListDropdown").append('<li><a href="#" class="text-color-white btn-color-requested" data-id="' + id + '" data-createdDate="' + $(id).attr('data-created') + '" data-ticket="' + $(id).attr('data-ticket') + '" data-statusKey="' + statusDict[i].key + '" onclick="respondToRequest(this)">' + statusDict[i].value + '</a></li>');
+                        $(".statusListDropdown").append('<li><a href="#" class="text-color-white btn-color-requested" data-fromId="' + fromId + '" data-toId="' + toId + '" data-id="' + id + '" data-createdDate="' + $(id).attr('data-created') + '" data-ticket="' + $(id).attr('data-ticket') + '" data-statusKey="' + statusDict[i].key + '" onclick="respondToRequest(this)">' + statusDict[i].value + '</a></li>');
                     }
                 else if (statusDict[i].key == '@Convert.ToInt32(ResourceRequestStatus.InProgress)') {
-                        $(".statusListDropdown").append('<li><a href="#" class="text-color-white btn-color-processing" data-id="' + id + '" data-createdDate="' + $(id).attr('data-created') + '" data-ticket="' + $(id).attr('data-ticket') + '" data-statusKey="' + statusDict[i].key + '" onclick="respondToRequest(this)">' + statusDict[i].value + '</a></li>');
+                    $(".statusListDropdown").append('<li><a href="#" class="text-color-white btn-color-processing" data-fromId="' + fromId + '" data-toId="' + toId + '" data-id="' + id + '" data-createdDate="' + $(id).attr('data-created') + '" data-ticket="' + $(id).attr('data-ticket') + '" data-statusKey="' + statusDict[i].key + '" onclick="respondToRequest(this)">' + statusDict[i].value + '</a></li>');
                     }
                 else if (statusDict[i].key == '@Convert.ToInt32(ResourceRequestStatus.PartialApproval)') {
-                        $(".statusListDropdown").append('<li><a href="#" class="text-color-white btn-color-partialApproval" data-id="' + id + '" data-createdDate="' + $(id).attr('data-created') + '" data-ticket="' + $(id).attr('data-ticket') + '" data-statusKey="' + statusDict[i].key + '" onclick="respondToRequest(this)">' + statusDict[i].value + '</a></li>');
+                    $(".statusListDropdown").append('<li><a href="#" class="text-color-white btn-color-partialApproval" data-fromId="' + fromId + '" data-toId="' + toId + '" data-id="' + id + '" data-createdDate="' + $(id).attr('data-created') + '" data-ticket="' + $(id).attr('data-ticket') + '" data-statusKey="' + statusDict[i].key + '" onclick="respondToRequest(this)">' + statusDict[i].value + '</a></li>');
                     }
                     else {
-                        $(".statusListDropdown").append('<li><a href="#" class="text-color-white btn-color-approved" data-id="' + id + '" data-createdDate="' + $(id).attr('data-created') + '" data-ticket="' + $(id).attr('data-ticket') + '" data-statusKey="' + statusDict[i].key + '" onclick="respondToRequest(this)">' + statusDict[i].value + '</a></li>');
+                    $(".statusListDropdown").append('<li><a href="#" class="text-color-white btn-color-approved" data-fromId="' + fromId + '" data-toId="' + toId + '" data-id="' + id + '" data-createdDate="' + $(id).attr('data-created') + '" data-ticket="' + $(id).attr('data-ticket') + '" data-statusKey="' + statusDict[i].key + '" onclick="respondToRequest(this)">' + statusDict[i].value + '</a></li>');
                     }
                 }
             }
@@ -196,16 +198,16 @@
             for (i = 0; i < statusDict.length; i++) {
                 if (statusDict[i].key != statusKey) {
                     if (statusDict[i].key == '@Convert.ToInt32(ResourceRequestStatus.Requested)') {
-                        $(".statusListDropdown").append('<li><a href="#" class="text-color-white btn-color-requested" data-id="' + id + '" data-createdDate="' + $(id).attr('data-created') + '" data-ticket="' + $(id).attr('data-ticket') + '" data-statusKey="' + statusDict[i].key + '" onclick="respondToRequest(this)">' + statusDict[i].value + '</a></li>');
+                        $(".statusListDropdown").append('<li><a href="#" class="text-color-white btn-color-requested" data-fromId="' + fromId + '" data-toId="' + toId + '" data-id="' + id + '" data-createdDate="' + $(id).attr('data-created') + '" data-ticket="' + $(id).attr('data-ticket') + '" data-statusKey="' + statusDict[i].key + '" onclick="respondToRequest(this)">' + statusDict[i].value + '</a></li>');
                     }
                     else if (statusDict[i].key == '@Convert.ToInt32(ResourceRequestStatus.InProgress)') {
-                        $(".statusListDropdown").append('<li><a href="#" class="text-color-white btn-color-processing" data-id="' + id + '" data-createdDate="' + $(id).attr('data-created') + '" data-ticket="' + $(id).attr('data-ticket') + '" data-statusKey="' + statusDict[i].key + '" onclick="respondToRequest(this)">' + statusDict[i].value + '</a></li>');
+                        $(".statusListDropdown").append('<li><a href="#" class="text-color-white btn-color-processing" data-fromId="' + fromId + '" data-toId="' + toId + '" data-id="' + id + '" data-createdDate="' + $(id).attr('data-created') + '" data-ticket="' + $(id).attr('data-ticket') + '" data-statusKey="' + statusDict[i].key + '" onclick="respondToRequest(this)">' + statusDict[i].value + '</a></li>');
                     }
                     else if (statusDict[i].key == '@Convert.ToInt32(ResourceRequestStatus.PartialApproval)') {
-                        $(".statusListDropdown").append('<li><a href="#" class="text-color-white btn-color-partialApproval" data-id="' + id + '" data-createdDate="' + $(id).attr('data-created') + '" data-ticket="' + $(id).attr('data-ticket') + '" data-statusKey="' + statusDict[i].key + '" onclick="respondToRequest(this)">' + statusDict[i].value + '</a></li>');
+                        $(".statusListDropdown").append('<li><a href="#" class="text-color-white btn-color-partialApproval" data-fromId="' + fromId + '" data-toId="' + toId + '" data-id="' + id + '" data-createdDate="' + $(id).attr('data-created') + '" data-ticket="' + $(id).attr('data-ticket') + '" data-statusKey="' + statusDict[i].key + '" onclick="respondToRequest(this)">' + statusDict[i].value + '</a></li>');
                     }
                     else {
-                        $(".statusListDropdown").append('<li><a href="#" class="text-color-white btn-color-approved" data-id="' + id + '" data-createdDate="' + $(id).attr('data-created') + '" data-ticket="' + $(id).attr('data-ticket') + '" data-statusKey="' + statusDict[i].key + '" onclick="respondToRequest(this)">' + statusDict[i].value + '</a></li>');
+                        $(".statusListDropdown").append('<li><a href="#" class="text-color-white btn-color-approved" data-fromId="' + fromId + '" data-toId="' + toId + '" data-id="' + id + '" data-createdDate="' + $(id).attr('data-created') + '" data-ticket="' + $(id).attr('data-ticket') + '" data-statusKey="' + statusDict[i].key + '" onclick="respondToRequest(this)">' + statusDict[i].value + '</a></li>');
                     }
                 }
             }
@@ -216,16 +218,16 @@
             for (i = 0; i < statusDict.length; i++) {
                 if (statusDict[i].key != statusKey) {
                     if (statusDict[i].key == '@Convert.ToInt32(ResourceRequestStatus.Requested)') {
-                        $(".statusListDropdown").append('<li><a href="#" class="text-color-white btn-color-requested" data-id="' + id + '" data-createdDate="' + $(id).attr('data-created') + '" data-ticket="' + $(id).attr('data-ticket') + '" data-statusKey="' + statusDict[i].key + '" onclick="respondToRequest(this)">' + statusDict[i].value + '</a></li>');
+                        $(".statusListDropdown").append('<li><a href="#" class="text-color-white btn-color-requested" data-fromId="' + fromId + '" data-toId="' + toId + '" data-id="' + id + '" data-createdDate="' + $(id).attr('data-created') + '" data-ticket="' + $(id).attr('data-ticket') + '" data-statusKey="' + statusDict[i].key + '" onclick="respondToRequest(this)">' + statusDict[i].value + '</a></li>');
                     }
                     else if (statusDict[i].key == '@Convert.ToInt32(ResourceRequestStatus.InProgress)') {
-                        $(".statusListDropdown").append('<li><a href="#" class="text-color-white btn-color-processing" data-id="' + id + '" data-createdDate="' + $(id).attr('data-created') + '" data-ticket="' + $(id).attr('data-ticket') + '" data-statusKey="' + statusDict[i].key + '" onclick="respondToRequest(this)">' + statusDict[i].value + '</a></li>');
+                        $(".statusListDropdown").append('<li><a href="#" class="text-color-white btn-color-processing" data-fromId="' + fromId + '" data-toId="' + toId + '" data-id="' + id + '" data-createdDate="' + $(id).attr('data-created') + '" data-ticket="' + $(id).attr('data-ticket') + '" data-statusKey="' + statusDict[i].key + '" onclick="respondToRequest(this)">' + statusDict[i].value + '</a></li>');
                     }
                     else if (statusDict[i].key == '@Convert.ToInt32(ResourceRequestStatus.PartialApproval)') {
-                        $(".statusListDropdown").append('<li><a href="#" class="text-color-white btn-color-partialApproval" data-id="' + id + '" data-createdDate="' + $(id).attr('data-created') + '" data-ticket="' + $(id).attr('data-ticket') + '" data-statusKey="' + statusDict[i].key + '" onclick="respondToRequest(this)">' + statusDict[i].value + '</a></li>');
+                        $(".statusListDropdown").append('<li><a href="#" class="text-color-white btn-color-partialApproval" data-fromId="' + fromId + '" data-toId="' + toId + '" data-id="' + id + '" data-createdDate="' + $(id).attr('data-created') + '" data-ticket="' + $(id).attr('data-ticket') + '" data-statusKey="' + statusDict[i].key + '" onclick="respondToRequest(this)">' + statusDict[i].value + '</a></li>');
                     }
                     else {
-                        $(".statusListDropdown").append('<li><a href="#" class="text-color-white btn-color-approved" data-id="' + id + '" data-createdDate="' + $(id).attr('data-created') + '" data-ticket="' + $(id).attr('data-ticket') + '" data-statusKey="' + statusDict[i].key + '" onclick="respondToRequest(this)">' + statusDict[i].value + '</a></li>');
+                        $(".statusListDropdown").append('<li><a href="#" class="text-color-white btn-color-approved" data-fromId="' + fromId + '" data-toId="' + toId + '" data-id="' + id + '" data-createdDate="' + $(id).attr('data-created') + '" data-ticket="' + $(id).attr('data-ticket') + '" data-statusKey="' + statusDict[i].key + '" onclick="respondToRequest(this)">' + statusDict[i].value + '</a></li>');
                     }
                 }
             }
@@ -236,16 +238,16 @@
             for (i = 0; i < statusDict.length; i++) {
                 if (statusDict[i].key != statusKey) {
                     if (statusDict[i].key == '@Convert.ToInt32(ResourceRequestStatus.Requested)') {
-                        $(".statusListDropdown").append('<li><a href="#" class="text-color-white btn-color-requested" data-id="' + id + '" data-createdDate="' + $(id).attr('data-created') + '" data-ticket="' + $(id).attr('data-ticket') + '" data-statusKey="' + statusDict[i].key + '" onclick="respondToRequest(this)">' + statusDict[i].value + '</a></li>');
+                        $(".statusListDropdown").append('<li><a href="#" class="text-color-white btn-color-requested" data-fromId="' + fromId + '" data-toId="' + toId + '" data-id="' + id + '" data-createdDate="' + $(id).attr('data-created') + '" data-ticket="' + $(id).attr('data-ticket') + '" data-statusKey="' + statusDict[i].key + '" onclick="respondToRequest(this)">' + statusDict[i].value + '</a></li>');
                     }
                     else if (statusDict[i].key == '@Convert.ToInt32(ResourceRequestStatus.InProgress)') {
-                        $(".statusListDropdown").append('<li><a href="#" class="text-color-white btn-color-processing" data-id="' + id + '" data-createdDate="' + $(id).attr('data-created') + '" data-ticket="' + $(id).attr('data-ticket') + '" data-statusKey="' + statusDict[i].key + '" onclick="respondToRequest(this)">' + statusDict[i].value + '</a></li>');
+                        $(".statusListDropdown").append('<li><a href="#" class="text-color-white btn-color-processing" data-fromId="' + fromId + '" data-toId="' + toId + '" data-id="' + id + '" data-createdDate="' + $(id).attr('data-created') + '" data-ticket="' + $(id).attr('data-ticket') + '" data-statusKey="' + statusDict[i].key + '" onclick="respondToRequest(this)">' + statusDict[i].value + '</a></li>');
                     }
                     else if (statusDict[i].key == '@Convert.ToInt32(ResourceRequestStatus.PartialApproval)') {
-                        $(".statusListDropdown").append('<li><a href="#" class="text-color-white btn-color-partialApproval" data-id="' + id + '" data-createdDate="' + $(id).attr('data-created') + '" data-ticket="' + $(id).attr('data-ticket') + '" data-statusKey="' + statusDict[i].key + '" onclick="respondToRequest(this)">' + statusDict[i].value + '</a></li>');
+                        $(".statusListDropdown").append('<li><a href="#" class="text-color-white btn-color-partialApproval" data-fromId="' + fromId + '" data-toId="' + toId + '" data-id="' + id + '" data-createdDate="' + $(id).attr('data-created') + '" data-ticket="' + $(id).attr('data-ticket') + '" data-statusKey="' + statusDict[i].key + '" onclick="respondToRequest(this)">' + statusDict[i].value + '</a></li>');
                     }
                     else {
-                        $(".statusListDropdown").append('<li><a href="#" class="text-color-white btn-color-approved" data-id="' + id + '" data-createdDate="' + $(id).attr('data-created') + '" data-ticket="' + $(id).attr('data-ticket') + '" data-statusKey="' + statusDict[i].key + '" onclick="respondToRequest(this)">' + statusDict[i].value + '</a></li>');
+                        $(".statusListDropdown").append('<li><a href="#" class="text-color-white btn-color-approved" data-fromId="' + fromId + '" data-toId="' + toId + '" data-id="' + id + '" data-createdDate="' + $(id).attr('data-created') + '" data-ticket="' + $(id).attr('data-ticket') + '" data-statusKey="' + statusDict[i].key + '" onclick="respondToRequest(this)">' + statusDict[i].value + '</a></li>');
                     }
                 }
             }
@@ -259,12 +261,15 @@
         var status = parseInt($(id).attr('data-statusKey'));
         var creatdeDateValue = $(id).attr('data-createdDate');
         var createdDate = new Date(creatdeDateValue);
-        var id = parseInt($(id).attr('data-id'));
+        var fromId = parseInt($(id).attr('data-fromId'));
+        var toId = parseInt($(id).attr('data-toId'));
         var model = {
             Id: id,
             Ticket: ticket,
             Status: status,
-            CreatedDate: createdDate
+            CreatedDate: createdDate,
+            RequestFromId: fromId,
+            RequestToId: toId
         };
         $.ajax({
             cache: false,
