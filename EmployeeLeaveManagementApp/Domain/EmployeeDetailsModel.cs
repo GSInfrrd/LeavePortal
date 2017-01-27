@@ -133,4 +133,13 @@ namespace LMS_WebAPP_Domain
         public string Role { get; set; }
         public bool IsActive { get; set; }
     }
+
+    public class MasterDataModel
+    {
+        public int Id { get; set; }
+
+        public int RefMasterType { get; set; }
+        public string Value { get; set; }
+
+    }
 }

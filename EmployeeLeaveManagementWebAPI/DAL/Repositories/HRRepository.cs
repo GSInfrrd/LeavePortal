@@ -480,5 +480,35 @@ namespace LMS_WebAPI_DAL.Repositories
                 throw;
             }
         }
+
+        public List<MasterDataModel> GetRolesList()
+        {
+            Logger.Info("Entering in HRRepository API GetRolesList method");
+            try
+            {
+                var rolesList = new List<MasterDataModel>();
+                using (var ctx = new LeaveManagementSystemEntities1())
+                {
+                    var list = ctx.MasterDataValues.Where(x => x.RefMasterType == (int)MasterDataTypeEnum.Role).ToList();
+                    foreach (var item in list)
+                    {
+                        var roles = new MasterDataModel();
+                        roles.Id = item.Id;
+                        roles.Value = item.Value;
+                        rolesList.Add(roles);
+
+
+                    }
+                }
+                Logger.Info("Successfully exiting from HRRepository API GetRolesList method");
+                return rolesList;
+            }
+            catch
+            {
+                Logger.Error("Exception occured at HRRepository API GetRolesList method ");
+                throw;
+            }
+
+        }
     }
 }

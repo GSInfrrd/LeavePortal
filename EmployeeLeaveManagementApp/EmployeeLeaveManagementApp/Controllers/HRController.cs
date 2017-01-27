@@ -637,5 +637,23 @@ namespace EmployeeLeaveManagementApp.Controllers
                 return null;
             }
         }
+
+        public async Task<JsonResult> GetRolesList()
+        {
+            Logger.Info("Entering in HRController APP GetRolesList method");
+            try
+            {
+                var model = new List<MasterDataModel>();
+                model = await hrOperations.GetRolesListAsync();
+                Logger.Info("Successfully exiting from HRController APP GetRolesList method");
+                return Json(new { data = model });
+            }
+            catch (Exception ex)
+            {
+                Logger.Error("Error at HRController APP GetRolesList method.", ex);
+                return null;
+            }
+
+        }
     }
 }

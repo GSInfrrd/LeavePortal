@@ -234,5 +234,24 @@ namespace EmployeeLeaveManagementWebAPI.Controllers
             }
         }
 
+        [HttpGet]
+        [Route("GetRolesList")]
+        public List<MasterDataModel> GetRolesList()
+        {
+            try
+            {
+                Logger.Info("Entering in HRController API GetRolesList method");
+                var result = hrOperations.GetRolesList();
+                Logger.Info("Successfully exiting from HRController API GetRolesList method");
+                return result;
+            }
+            catch (Exception ex)
+            {
+                Logger.Error("Error at HRController API GetRolesList method.", ex);
+                return null;
+            }
+        }
+
+
     }
 }

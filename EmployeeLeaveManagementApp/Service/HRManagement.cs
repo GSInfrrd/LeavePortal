@@ -48,7 +48,7 @@ namespace LMS_WebAPP_ServiceHelpers
             }
             catch
             {
-                Logger.Info("Exception occured at HRManagement APP Service helper SubmitEmployeeDetailsAsync method ");
+                Logger.Error("Exception occured at HRManagement APP Service helper SubmitEmployeeDetailsAsync method ");
                 throw;
             }
         }
@@ -81,7 +81,7 @@ namespace LMS_WebAPP_ServiceHelpers
             }
             catch
             {
-                Logger.Info("Exception occured at HRManagement APP Service helper GetEmployeeListAsync method ");
+                Logger.Error("Exception occured at HRManagement APP Service helper GetEmployeeListAsync method ");
                 throw;
             }
         }
@@ -119,7 +119,7 @@ namespace LMS_WebAPP_ServiceHelpers
             }
             catch
             {
-                Logger.Info("Exception occured at HRManagement APP Service helper GetManagerListAsync method ");
+                Logger.Error("Exception occured at HRManagement APP Service helper GetManagerListAsync method ");
                 throw;
             }
         }
@@ -159,7 +159,7 @@ namespace LMS_WebAPP_ServiceHelpers
             }
             catch
             {
-                Logger.Info("Exception occured at HRManagement APP Service helper GenerateReportsAsync method ");
+                Logger.Error("Exception occured at HRManagement APP Service helper GenerateReportsAsync method ");
                 throw;
             }
         }
@@ -196,7 +196,7 @@ namespace LMS_WebAPP_ServiceHelpers
             }
             catch
             {
-                Logger.Info("Exception occured at HRManagement APP Service helper GetChartDetailsAsync method ");
+                Logger.Error("Exception occured at HRManagement APP Service helper GetChartDetailsAsync method ");
                 throw;
             }
         }
@@ -234,7 +234,7 @@ namespace LMS_WebAPP_ServiceHelpers
             }
             catch
             {
-                Logger.Info("Exception occured at HRManagement APP Service helper AddNewMasterDataValuesAsync method ");
+                Logger.Error("Exception occured at HRManagement APP Service helper AddNewMasterDataValuesAsync method ");
                 throw;
             }
         }
@@ -272,7 +272,7 @@ namespace LMS_WebAPP_ServiceHelpers
             }
             catch
             {
-                Logger.Info("Exception occured at HRManagement APP Service helper AddNewProjectInfoAsync method ");
+                Logger.Error("Exception occured at HRManagement APP Service helper AddNewProjectInfoAsync method ");
                 throw;
             }
         }
@@ -310,7 +310,7 @@ namespace LMS_WebAPP_ServiceHelpers
             }
             catch
             {
-                Logger.Info("Exception occured at HRManagement APP Service helper GetProjectsListAsync method ");
+                Logger.Error("Exception occured at HRManagement APP Service helper GetProjectsListAsync method ");
                 throw;
             }
         }
@@ -350,7 +350,7 @@ namespace LMS_WebAPP_ServiceHelpers
             }
             catch
             {
-                Logger.Info("Exception occured at HRManagement APP Service helper GenerateIndividualReportAsync method ");
+                Logger.Error("Exception occured at HRManagement APP Service helper GenerateIndividualReportAsync method ");
                 throw;
             }
         }
@@ -387,7 +387,7 @@ namespace LMS_WebAPP_ServiceHelpers
             }
             catch
             {
-                Logger.Info("Exception occured at HRManagement APP Service helper GetSkillsListAsync method ");
+                Logger.Error("Exception occured at HRManagement APP Service helper GetSkillsListAsync method ");
                 throw;
             }
         }
@@ -425,7 +425,7 @@ namespace LMS_WebAPP_ServiceHelpers
             }
             catch
             {
-                Logger.Info("Exception occured at HRManagement APP Service helper CheckForExistingMasterDataValuesAsync method ");
+                Logger.Error("Exception occured at HRManagement APP Service helper CheckForExistingMasterDataValuesAsync method ");
                 throw;
             }
         }
@@ -463,7 +463,44 @@ namespace LMS_WebAPP_ServiceHelpers
             }
             catch
             {
-                Logger.Info("Exception occured at HRManagement APP Service helper CheckForExistingProjectMasterDataValuesAsync method ");
+                Logger.Error("Exception occured at HRManagement APP Service helper CheckForExistingProjectMasterDataValuesAsync method ");
+                throw;
+            }
+        }
+
+        public async Task<List<MasterDataModel>> GetRolesListAsync()
+        {
+            Logger.Info("Entering into HRManagement APP Service helper GetRolesListAsync method ");
+            try
+            {
+                using (HttpClient client = new HttpClient())
+                {
+                    string URL = WebapiURL + "/GetRolesList";
+                    client.BaseAddress = new Uri(URL);
+                    // Add an Accept header for JSON format.
+                    client.DefaultRequestHeaders.Accept.Add(
+                    new MediaTypeWithQualityHeaderValue("application/json"));
+
+                    // List data response.
+                    HttpResponseMessage response = await client.GetAsync(URL);  // Blocking call!
+                    if (response.IsSuccessStatusCode)
+                    {
+                        // Parse the response body. Blocking!
+                        var dataObjects = response.Content.ReadAsAsync<List<MasterDataModel>>().Result.ToList();
+                        Logger.Info("Exiting from into HRManagement APP Service helper GetRolesListAsync method ");
+                        return dataObjects;
+                    }
+                    else
+                    {
+                        Console.WriteLine("{0} ({1})", (int)response.StatusCode, response.ReasonPhrase);
+                        Logger.Info("Exiting from into HRManagement APP Service helper GetRolesListAsync method ");
+                        return null;
+                    }
+                }
+            }
+            catch
+            {
+                Logger.Error("Exception occured at HRManagement APP Service helper GetRolesListAsync method ");
                 throw;
             }
         }

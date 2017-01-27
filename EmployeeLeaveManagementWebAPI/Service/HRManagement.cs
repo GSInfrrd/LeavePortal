@@ -19,14 +19,12 @@ namespace LMS_WebAPI_ServiceHelpers
             try
             {
                 var result = hrRepo.SubmitEmployeeDetails(model);
-                // var leaveType = addLeaveRepository.GetLeaveType();
-                // var retResult = ToModel(EmployeeLeaveTransaction);
                 Logger.Info("Exiting from into HRManagement Service helper SubmitEmployeeDetails method ");
                 return result;
             }
             catch
             {
-                Logger.Info("Exception occured at HRManagement Service helper SubmitEmployeeDetails method ");
+                Logger.Error("Exception occured at HRManagement Service helper SubmitEmployeeDetails method ");
                 throw;
             }
         }
@@ -45,7 +43,7 @@ namespace LMS_WebAPI_ServiceHelpers
             }
             catch
             {
-                Logger.Info("Exception occured at HRManagement Service helper GetEmployeeList method ");
+                Logger.Error("Exception occured at HRManagement Service helper GetEmployeeList method ");
                 throw;
             }
         }
@@ -61,7 +59,7 @@ namespace LMS_WebAPI_ServiceHelpers
             }
             catch
             {
-                Logger.Info("Exception occured at HRManagement Service helper GetManagerList method ");
+                Logger.Error("Exception occured at HRManagement Service helper GetManagerList method ");
                 throw;
             }
         }
@@ -77,7 +75,7 @@ namespace LMS_WebAPI_ServiceHelpers
             }
             catch
             {
-                Logger.Info("Exception occured at HRManagement Service helper GetReportData method ");
+                Logger.Error("Exception occured at HRManagement Service helper GetReportData method ");
                 throw;
             }
         }
@@ -93,7 +91,7 @@ namespace LMS_WebAPI_ServiceHelpers
             }
             catch
             {
-                Logger.Info("Exception occured at HRManagement Service helper GetChartDetails method ");
+                Logger.Error("Exception occured at HRManagement Service helper GetChartDetails method ");
                 throw;
             }
         }
@@ -109,7 +107,7 @@ namespace LMS_WebAPI_ServiceHelpers
             }
             catch
             {
-                Logger.Info("Exception occured at HRManagement Service helper AddNewMasterDataValues method ");
+                Logger.Error("Exception occured at HRManagement Service helper AddNewMasterDataValues method ");
                 throw;
             }
         }
@@ -125,7 +123,7 @@ namespace LMS_WebAPI_ServiceHelpers
             }
             catch
             {
-                Logger.Info("Exception occured at HRManagement Service helper AddNewProjectInfo method ");
+                Logger.Error("Exception occured at HRManagement Service helper AddNewProjectInfo method ");
                 throw;
             }
         }
@@ -141,7 +139,7 @@ namespace LMS_WebAPI_ServiceHelpers
             }
             catch
             {
-                Logger.Info("Exception occured at HRManagement Service helper GetProjectsList method ");
+                Logger.Error("Exception occured at HRManagement Service helper GetProjectsList method ");
                 throw;
             }
         }
@@ -156,7 +154,7 @@ namespace LMS_WebAPI_ServiceHelpers
             }
             catch
             {
-                Logger.Info("Exception occured at HRManagement Service helper GetSkillsList method ");
+                Logger.Error("Exception occured at HRManagement Service helper GetSkillsList method ");
                 throw;
             }
         }
@@ -172,7 +170,7 @@ namespace LMS_WebAPI_ServiceHelpers
             }
             catch
             {
-                Logger.Info("Exception occured at HRManagement Service helper CheckForExistingMasterDataValues method ");
+                Logger.Error("Exception occured at HRManagement Service helper CheckForExistingMasterDataValues method ");
                 throw;
             }
         }
@@ -187,7 +185,23 @@ namespace LMS_WebAPI_ServiceHelpers
             }
             catch
             {
-                Logger.Info("Exception occured at HRManagement Service helper CheckForExistingMasterDataValues method ");
+                Logger.Error("Exception occured at HRManagement Service helper CheckForExistingMasterDataValues method ");
+                throw;
+            }
+        }
+
+        public List<MasterDataModel> GetRolesList()
+        {
+            Logger.Info("Entering into HRManagement Service helper GetRolesList method ");
+            try
+            {
+                var result = hrRepo.GetRolesList();
+                Logger.Info("Exiting from into HRManagement Service helper GetRolesList method ");
+                return result;
+            }
+            catch
+            {
+                Logger.Error("Exception occured at HRManagement Service helper GetRolesList method ");
                 throw;
             }
         }

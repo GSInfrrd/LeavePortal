@@ -23,5 +23,7 @@ namespace LMS_WebAPI_DAL.Repositories.Interfaces
         List<EmployeeSkillDetails> GetSkillsList();
         bool CheckForExistingMasterDataValues(int masterDataType, string masterDataValue);
         bool CheckForExistingProjectMasterDataValues(string projectName, string technology, int refManager);
+
+        List<MasterDataModel> GetRolesList();
     }
 }
