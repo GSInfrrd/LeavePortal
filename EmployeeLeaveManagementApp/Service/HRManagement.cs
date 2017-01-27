@@ -277,6 +277,45 @@ namespace LMS_WebAPP_ServiceHelpers
             }
         }
 
+        public async Task<bool> AddCompanyAnnouncementsAsync(string title, string carouselContent, string imagePath)
+        {
+            Logger.Info("Entering into HRManagement APP Service helper AddCompanyAnnouncementsAsync method ");
+            try
+            {
+                using (HttpClient client = new HttpClient())
+                {
+                    string URL = WebapiURL + "/AddCompanyAnnouncements";
+                    urlParameters = "?title=" + title + "&carouselContent=" + carouselContent + "&imagePath=" + imagePath;
+                    client.BaseAddress = new Uri(URL);
+                    // Add an Accept header for JSON format.
+                    client.DefaultRequestHeaders.Accept.Add(
+                    new MediaTypeWithQualityHeaderValue("application/json"));
+
+                    // List data response.
+                    HttpResponseMessage response = await client.GetAsync(urlParameters);  // Blocking call!
+                    if (response.IsSuccessStatusCode)
+                    {
+                        // Parse the response body. Blocking!
+                        var dataObjects = response.Content.ReadAsAsync<bool>().Result;
+                        Logger.Info("Exiting from into HRManagement APP Service helper AddCompanyAnnouncementsAsync method ");
+                        return dataObjects;
+                    }
+                    else
+                    {
+                        Console.WriteLine("{0} ({1})", (int)response.StatusCode, response.ReasonPhrase);
+                        Logger.Info("Exiting from into HRManagement APP Service helper AddCompanyAnnouncementsAsync method ");
+                        return false;
+                    }
+                }
+            }
+            catch
+            {
+                Logger.Info("Exception occured at HRManagement APP Service helper AddCompanyAnnouncementsAsync method ");
+                throw;
+            }
+        }
+
+
         public async Task<List<ProjectsList>> GetProjectsListAsync(int managerId=0)
         {
             Logger.Info("Entering into HRManagement APP Service helper GetProjectsListAsync method ");

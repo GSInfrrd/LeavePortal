@@ -124,6 +124,31 @@ namespace EmployeeLeaveManagementApp.Controllers
             }
         }
 
+        public async Task<ActionResult> AddCompanyAnnouncements(string title, string carouselContent, string imagePath)
+        {
+            Logger.Info("Entering in HRController APP AddCompanyAnnouncements method");
+            try
+            {
+                if (null != Session[Constants.SESSION_OBJ_USER])
+                {
+                    var result = await hrOperations.AddCompanyAnnouncementsAsync(title, carouselContent, imagePath);
+                    Logger.Info("Successfully exiting from HRController APP AddCompanyAnnouncements method");
+                    return Json(new { result = result });
+                }
+                else
+                {
+                    Logger.Info("Successfully exiting from HRController APP AddCompanyAnnouncements method");
+                    return RedirectToAction("Login", "Account");
+                }
+            }
+            catch (Exception ex)
+            {
+                Logger.Error("Error at HRController APP AddCompanyAnnouncements method.", ex);
+                return View("Error");
+            }
+        }
+
+
         public ActionResult Broadcast()
         {
             Logger.Info("Entering in HRController APP Broadcast method");

@@ -3,6 +3,7 @@
     ViewBag.Title = "CompanyAnnouncements";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
+<link href="~/plugins/Toastr/toastr.css" rel="stylesheet" />
 <section class="content-header">
     <h1>Company Announcements</h1>
 </section>
@@ -19,21 +20,21 @@
              
                     <div class="form-group">
                         <label for="txtFirstName">Title</label>
-                        <input type="text" class="form-control" id="txtFirstName" placeholder="Enter title">
+                        <input type="text" class="form-control" id="txtTitle" placeholder="Enter title">
                     </div>
                     <div class="form-group">
                         <label for="txtlastname">Content</label>
-                        <input type="text" class="form-control" id="txtLastName" placeholder="Content">
+                        <input type="text" class="form-control" id="txtContent" placeholder="Content">
                     </div>
                     <div class="form-group">
                         <img class="profile-user-img img-responsive" style="width:150px;height:200px;margin:initial" id="announcementImageDisplay" src="~/Content/Images/AnnouncementImage.jpg" alt="User profile picture">
                         <div style="padding-top:10px">
-                            <label class="btn btn-info"><i class="fa fa-upload"></i><input id="employeeImage" type="file" style="display:none" onchange="ValidateAndUploadImage()" /> Upload</label>
+                            <label class="btn btn-info"><i class="fa fa-upload"></i><input id="AnnouncementImage" type="file" style="display:none" onchange="ValidateAndUploadImage()" accept="image/jpg,image/png,image/jpeg,image/gif" /> Upload</label>
                         </div>
                     </div>
                 </div>
                 <div class="box-footer">
-                    <button type="submit" id="btnSubmitEmployeeDetails" class="btn btn-primary">Submit</button>
+                    <button type="submit" id="btnSubmitAnnouncementDetails" class="btn btn-primary">Submit</button>
                 </div>
                 @*</form>*@
 
@@ -43,6 +44,112 @@
 
     <!-- /.row -->
 </section>
+<script src="../../plugins/Toastr/toastr.js"></script>
 <script>
     $('#companyAnnouncements').parent().addClass('active');
+
+    var imgpath = "";
+
+    $(document).on('click', "#btnSubmitAnnouncementDetails", function (e) {
+        var imagepath = imgpath != "" ? imgpath : "";
+        if ($("#txtTitle").val() == "" ) {
+            showMessage("please enter title", "2", true);
+            return false;
+        }
+        if ($("#txtContent").val() == "") {
+            showMessage("please enter content", "2", true);
+            return false;
+        }
+        $.ajax({
+            cache: false,
+            type: 'post',
+            url: '/HR/AddCompanyAnnouncements',
+            data: { title: $("#txtTitle").val(), carouselContent: $("#txtContent").val(), imagePath: imagepath },
+            dataType: "json",
+            success: function (data) {
+                if (data.result) {
+                    $("#txtTitle").val("");
+                    $("#txtContent").val("");
+                    $("#announcementImageDisplay").attr('src', "/Content/Images/AnnouncementImage.jpg")
+                    showMessage("Company Announcement added successfully", "1", true);
+                    
+                }
+                else {
+                    showMessage("Value already exists", "2", true);
+                    return false;
+                }
+
+            }
+        });
+    });
+
+
+    function ValidateAndUploadImage() {
+        var file = document.getElementById("AnnouncementImage").value;
+        imgPath = document.getElementById("AnnouncementImage").files[0].name;
+
+        var ext = file.split(".");
+        ext = ext[ext.length - 1].toLowerCase();
+        var arrayExtensions = ["jpg", "jpeg", "png", "bmp", "gif"];
+
+        if (arrayExtensions.lastIndexOf(ext) == -1) {
+            alert("upload only image file.");
+            $("#announcementImageDisplay").attr('src', "/Content/Images/AnnouncementImage.jpg")
+            $("#AnnouncementImage").val("");
+        }
+
+
+        var reader = new FileReader();
+
+        reader.onload = function (e) {
+            $('#announcementImageDisplay')
+                .attr('src', e.target.result)
+                .width(150)
+                .height(200);
+        };
+        reader.readAsDataURL(document.getElementById("AnnouncementImage").files[0]);
+
+        var fileUpload = $("#AnnouncementImage").get(0);
+        var files = fileUpload.files;
+        var test = new FormData();
+        for (var i = 0; i < files.length; i++) {
+            test.append(files[i].name, files[i]);
+        }
+        $.ajax({
+            url: "../ImageUploadHandler.ashx",
+            type: "POST",
+            contentType: false,
+            processData: false,
+            data: test,
+            // dataType: "json",
+            success: function (result) {
+                imgpath = result;
+                //alert(result);
+            },
+            error: function (err) {
+                //alert(err.statusText);
+            }
+        });
+
+    }
+
+    function showMessage(message, Type, fadeOut) {
+        //To clear existing toastr
+        toastr.clear();
+        //fadeOut = false;
+        var position = "bottom-full-width";
+        toastr.options.positionClass = 'toast-' + position;
+        if (typeof fadeOut !== "undefined" && fadeOut == false) { toastr.options.timeOut = 0; }
+        else {
+            toastr.options.timeOut = 5000;
+        }
+        switch (Type) {
+            case "1":
+                toastr.success(message);
+                break;
+            case "2":
+                toastr.error(message);
+                break;
+        }
+    }
 </script>

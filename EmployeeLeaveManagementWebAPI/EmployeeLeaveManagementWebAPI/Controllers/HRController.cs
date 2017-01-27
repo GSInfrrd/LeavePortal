@@ -142,6 +142,24 @@ namespace EmployeeLeaveManagementWebAPI.Controllers
             }
         }
 
+        [System.Web.Http.HttpGet]
+        public bool AddCompanyAnnouncements(string title, string carouselContent, string imagePath)
+        {
+            try
+            {
+                Logger.Info("Entering in HRController API AddCompanyAnnouncements method");
+                var AnnouncementData = hrOperations.AddCompanyAnnouncements(title, carouselContent, imagePath);
+                Logger.Info("Successfully exiting from HRController API AddCompanyAnnouncements method");
+                return AnnouncementData;
+            }
+            catch (Exception ex)
+            {
+                Logger.Error("Error at HRController API AddCompanyAnnouncements method.", ex);
+                throw;
+            }
+        }
+
+
         [HttpGet]
         [Route("GetProjectsList")]
         public List<ProjectsList> GetProjectsList(int managerId=0)

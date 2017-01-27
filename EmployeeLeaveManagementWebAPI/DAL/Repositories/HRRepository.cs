@@ -364,6 +364,32 @@ namespace LMS_WebAPI_DAL.Repositories
             }
         }
 
+        public bool AddCompanyAnnouncements(string title, string carouselContent, string imagePath)
+        {
+            Logger.Info("Entering in HRRepository API AddCompanyAnnouncements method");
+            try
+            {
+                using (var ctx = new LeaveManagementSystemEntities1())
+                {
+                    var companyAnnouncementInfo = new Announcement();
+                    companyAnnouncementInfo.Title = title;
+                    companyAnnouncementInfo.CarouselContent = carouselContent;
+                    companyAnnouncementInfo.ImagePath = imagePath;
+                    companyAnnouncementInfo.IsActive = true;
+                    ctx.Announcements.Add(companyAnnouncementInfo);
+                    ctx.SaveChanges();
+                }
+                Logger.Info("Successfully exiting from HRRepository API AddCompanyAnnouncements method");
+                return true;
+            }
+            catch
+            {
+                Logger.Error("Exception occured at HRRepository API AddCompanyAnnouncements method ");
+                throw;
+            }
+        }
+
+
         public List<ProjectsList> GetProjectsList(int managerId)
         {
             Logger.Info("Entering in HRRepository API GetProjectsList method");

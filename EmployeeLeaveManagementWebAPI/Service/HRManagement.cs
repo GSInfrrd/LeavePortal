@@ -128,6 +128,23 @@ namespace LMS_WebAPI_ServiceHelpers
             }
         }
 
+        public bool AddCompanyAnnouncements(string title, string carouselContent, string imagePath)
+        {
+            Logger.Info("Entering into HRManagement Service helper AddCompanyAnnouncements method ");
+            try
+            {
+                var result = hrRepo.AddCompanyAnnouncements(title, carouselContent, imagePath);
+                Logger.Info("Exiting from into HRManagement Service helper AddCompanyAnnouncements method ");
+                return result;
+            }
+            catch
+            {
+                Logger.Info("Exception occured at HRManagement Service helper AddCompanyAnnouncements method ");
+                throw;
+            }
+        }
+
+
         public List<ProjectsList> GetProjectsList(int managerId=0)
         {
             Logger.Info("Entering into HRManagement Service helper GetProjectsList method ");

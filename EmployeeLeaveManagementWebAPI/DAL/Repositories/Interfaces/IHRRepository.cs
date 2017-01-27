@@ -19,6 +19,8 @@ namespace LMS_WebAPI_DAL.Repositories.Interfaces
 
         bool AddNewMasterDataValues(int masterDataType, string masterDataValue);
         bool AddNewProjectInfo(string projectName, string description, string technology, DateTime startDate, int refManager);
+
+        bool AddCompanyAnnouncements(string title, string carouselContent, string imagePath);
         List<ProjectsList> GetProjectsList(int managerId=0);
         List<EmployeeSkillDetails> GetSkillsList();
         bool CheckForExistingMasterDataValues(int masterDataType, string masterDataValue);
