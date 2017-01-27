@@ -33,7 +33,7 @@
                             {
                                 foreach (var employee in Model.Employees)
                                 {
-                                    <option value="@employee.Id">@employee.Name</option>
+                                    <option value="@employee.Id" data-emlpoyeeName="@employee.Name">@employee.Name</option>
                                 }
                             }
                         </select>
@@ -45,13 +45,55 @@
                 </div>
                 <div class="box-footer">
                     <div class="form-group col-md-6 margin-bottom-0 btn-backgroundColor-dark">
-                        <button type="submit" id="btnRewardLeave" class="btn btn-backgroundColor-cinder text-color-white">Reward Leave</button>
+                        @*<button type="submit" id="btnRewardLeave" class="btn btn-backgroundColor-cinder text-color-white">Reward Leave</button>*@
+                        <button type="submit" id="confirmRewardLeave"  class="btn btn-backgroundColor-cinder text-color-white">Reward Leave</button>
                     </div>
                 </div>
             </div>
         </div>
     </div>
 </section>
+
+<div class="modal rewardLeaveConfirmation-modal" id="RewardLeaveConfirmationModal" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel">
+    <div class="modal-dialog modal-md" role="document">
+        <div class="modal-content mar-left50-right50 border-radius-modalBottom">
+            <div class="modal-header modalHeaderStyle">
+                <button type="button" class="close text-color-white btnCancelReward" id="" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+                <h3 class="modal-title">Reward Leave Confirmation</h3>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="paddingtopBottom10-leftRight15">
+                        <div class="col-md-12 padding-bottom-10">
+                            <label class="rewardConfirmTitle"></label>
+                        </div>
+                        <div class="col-md-12 padding-bottom-10">
+                            <div class="col-md-6 text-align_center">
+                                <div class="btn-group">
+                                    <button type="button" id="" class="btn btn-danger width-100 btnCancelReward" aria-haspopup="true" aria-expanded="false">
+                                        No
+                                    </button>
+                                </div>
+                            </div>
+                            <div class="col-md-6 text-align_center">
+                                <div class="btn-group">
+                                    <button type="button" id="btnRewardLeave" class="btn btn-success width-100" aria-haspopup="true" aria-expanded="false">
+                                        Yes
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+</div>
+
 <script src="~/Content/Scripts/Common.js"></script>
 <script src="../../plugins/Toastr/toastr.js"></script>
 @Scripts.Render("~/bundles/Content/js")
@@ -81,6 +123,7 @@
             success: function (data) {
                 if (data.rewarded) {
                     $("#noOfRewardedDays").val("");
+                    $("#RewardLeaveConfirmationModal").modal("hide");
                     showMessage("Leave rewarded successfully", "1", true);
                 }
                 else {
@@ -90,6 +133,23 @@
         });
     });
 
+    $("#confirmRewardLeave").on("click", function () {
+        var project = parseInt($("#projectsSelect option:selected").val());
+        var employee = parseInt($("#employeesSelect option:selected").val());
+        var employeeName = $("#employeesSelect option:selected").attr("data-emlpoyeeName");
+        var noofDays = $("#noOfRewardedDays").val();
+        if (project == "" || employee == "" || noofDays <= 0 || noofDays == "") {
+            showMessage("Please select appropriate values", "2", true);
+            return false;
+        }
+        $(".rewardConfirmTitle").html("Are you sure you want to reward " + employeeName + " with " + noofDays + " day(s) of leave?");
+        $("#RewardLeaveConfirmationModal").modal("show");
+    });
+
+    $(".btnCancelReward").on("click", function () {
+        $("#noOfRewardedDays").val("");
+        $("#RewardLeaveConfirmationModal").modal("hide");
+    });
 
 </script>
 
