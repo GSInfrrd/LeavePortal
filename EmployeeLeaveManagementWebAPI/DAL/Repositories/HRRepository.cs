@@ -84,7 +84,7 @@ namespace LMS_WebAPI_DAL.Repositories
                         ctx.EmployeeSkills.Add(empSkill);
                         ctx.SaveChanges();
                     }
-                    if (model.Projects != null)
+                    if (model.Projects.Count>0)
                     {
                         var projectDetails = new EmployeeProjectDetail();
                         projectDetails.RefEmployeeId = id;
