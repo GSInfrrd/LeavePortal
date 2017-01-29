@@ -77,7 +77,7 @@
                             <option value="@Convert.ToInt16(LMS_WebAPP_Utils.EmployeeType.Experienced)">@LMS_WebAPP_Utils.CommonMethods.Description((LMS_WebAPP_Utils.EmployeeType.Experienced))</option>                       
                         </select>
                     </div>
-                    <div class="form-group col-md-6">
+                    @*<div class="form-group col-md-6">
                         <label>Level</label>
                         <select class="form-control level" style="width: 100%;" id="ddlLevel">
                             <option value="">Select</option>
@@ -88,7 +88,7 @@
                             <option value="@Convert.ToInt16(LMS_WebAPP_Utils.HierarchyLevel.Level4)">@LMS_WebAPP_Utils.CommonMethods.Description((LMS_WebAPP_Utils.HierarchyLevel.Level4))</option>
                             <option value="@Convert.ToInt16(LMS_WebAPP_Utils.HierarchyLevel.Level5)">@LMS_WebAPP_Utils.CommonMethods.Description((LMS_WebAPP_Utils.HierarchyLevel.Level5))</option>
                         </select>
-                    </div>
+                    </div>*@
                     <div class="form-group col-md-6" id="ddlManager">
                         <label>Manager Name</label>
 
@@ -109,6 +109,30 @@
                         </select>
 
                     </div>
+
+                    <div class="form-group col-md-6" id="ddlProject">
+                        <label>Profile Type</label>
+
+                        <div id="rddiv">
+                            @foreach (var value in Enum.GetValues(typeof(LMS_WebAPP_Utils.ProfileType)))
+                            {
+                                if (Convert.ToInt16(LMS_WebAPP_Utils.ProfileType.CEO) != @Convert.ToInt16((LMS_WebAPP_Utils.ProfileType)value))
+                                {
+                                    var selectedAttr = "";
+                                    if (Convert.ToInt16(LMS_WebAPP_Utils.ProfileType.Employee) == @Convert.ToInt16((LMS_WebAPP_Utils.ProfileType)value) ||
+                                        Convert.ToInt16(LMS_WebAPP_Utils.ProfileType.Employee) == @Convert.ToInt16((LMS_WebAPP_Utils.ProfileType)value))
+                                    {
+                                        selectedAttr = "checked";
+                                    }
+
+                                <div class="col-md-3" style="margin-top:3px">
+                                    <input type="radio" name="r1" id="RdLeaveType_@Convert.ToInt16((LMS_WebAPP_Utils.ProfileType)value)" class="flat-red" value="@Convert.ToInt16((LMS_WebAPP_Utils.ProfileType)value)" @selectedAttr> @(LMS_WebAPP_Utils.CommonMethods.Description((LMS_WebAPP_Utils.ProfileType)Convert.ToInt16((LMS_WebAPP_Utils.ProfileType)value)))
+                                    
+                                </div>
+                                }
+                            }
+
+                        </div>
 
                 </div>
                 <!-- /.box-body -->
@@ -171,8 +195,10 @@
                         <input type="text" class="form-control" id="txtEmployer" placeholder="Enter Employer">
                     </div>
                     <div class="form-group col-md-6">
-                        <label for="txtDesignation">Designation</label>
-                        <input type="text" class="form-control" id="txtDesignation" placeholder="Enter Designation">
+                        <label>Designation</label>
+                        <select class="form-control experienceDesignation" style="width: 100%;" id="ddlExperienceDesignation">
+                            <option value="">Select</option>
+                        </select>
                     </div>
                     <div class="form-group col-md-6">
                         <label for="ExpFromDate">From</label>
@@ -218,24 +244,21 @@
             GetSkillsList();
             GetRolesList();
             //Initialize Select2 Elements
-            $(".designation").select2();
-            $(".graduation").select2();
-            $(".specialization").select2();
-            $(".skills").select2();
-            $(".managerSelect").select2();
-            $(".level").select2().on('change', function (e) {
-                if ($("#ddlLevel").val() == levelValue) {
-                    $("#ddlManager").hide();
-                }
-                else {
-                    $("#ddlManager").show();
-                    var level = $("#ddlLevel").val();
+            $(".experienceDesignation").select2();
+            $(".designation").select2().on('change',function(e){
+                ////if ($("#ddlDesignation").val() == levelValue) {
+                ////    $("#ddlManager").hide();
+                ////}
+                ////else {
+                //    $("#ddlManager").show();
+
+                    var designation = $("#ddlDesignation").val();
                     $("#ddlManagerName option").remove();
                     $("#ddlManagerName").append($('<option></option>').attr("value", '').text('Select'));
                     $.ajax({
                         cache: false,
                         type: 'post',
-                        url: '/HR/GetManagerList?refLevel=' + level,
+                        url: '/HR/GetManagerList?refDesignation=' + designation,
                         dataType: "json",
                         processData: false,
                         success: function (data) {
@@ -245,9 +268,16 @@
 
                         }
                     });
-                }
-                
+                //}
             });
+            $(".graduation").select2();
+            $(".specialization").select2();
+            $(".skills").select2();
+            $(".managerSelect").select2();
+            //$(".level").select2().on('change', function (e) {
+
+                
+            //});
             $('#educationDatePicker').daterangepicker(
                    {
                    });
@@ -324,7 +354,7 @@
         var experienceDetails = {
 
             CompanyName: $("#txtEmployer").val(),
-            Role: $("#txtDesignation").val(),
+            Role: $("#ddlExperienceDesignation").val(),
             FromDate: $("#experienceDatePicker").val().split("-")[0].trim(),
             ToDate: $("#experienceDatePicker").val().split("-")[1].trim()
         }
@@ -352,10 +382,11 @@
             City: $("#txtCity").val(),
             Country: $("#txtCountry").val(),
             Telephone: $("#txtTelephone").val(),
-            RefHierarchyLevel: $("#ddlLevel").val(),
+            //RefHierarchyLevel: $("#ddlLevel").val(),
             DateOfJoining: $("#txtJoiningDate").val(),
             ManagerId: $("#ddlManagerName").val(),
-            EmployeeType:$("#ddlEmployeeType").val(),
+            EmployeeType: $("#ddlEmployeeType").val(),
+            RefProfileType:$('input[name=r1]:checked').val(),
            Projects:projects,
             Imagepath: imagepath,
             EmployeeEducation: [educationDetails],
@@ -456,6 +487,7 @@
             success: function (data) {
                 for (var i = 0; i < data.data.length; i++) {
                     $("#ddlDesignation").append($('<option></option>').attr("value", data.data[i].Id).text(data.data[i].Value));
+                    $("#ddlExperienceDesignation").append($('<option></option>').attr("value", data.data[i].Value).text(data.data[i].Value));
                 }
             }
         });

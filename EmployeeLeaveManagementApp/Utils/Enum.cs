@@ -45,8 +45,8 @@ namespace LMS_WebAPP_Utils
         HR = 1,
         [Description("Manager")]
         Manager = 2,
-        [Description("Employee")]
-        Employee = 3,
+        [Description("Senior Software Engineer")]
+        SSE = 3,
         [Description("CEO")]
         CEO = 4,
         [Description("Team Lead")]
@@ -84,7 +84,9 @@ namespace LMS_WebAPP_Utils
         [Description("Senior UI Designer")]
         SeniorUIDesigner = 21,
         [Description("Sales")]
-        Sales = 22
+        Sales = 22,
+        [Description("Interns/Fresher")]
+        InternOrFresher = 23
     }
 
     public enum HierarchyLevel
@@ -188,5 +190,17 @@ namespace LMS_WebAPP_Utils
         Fresher = 151,
         [Description("Experienced")]
         Experienced = 152
+    }
+
+    public enum ProfileType
+    {
+        [Description("CEO")]
+        CEO = 200,
+        [Description("Admin/HR")]
+        HR = 201,
+        [Description("Manager")]
+        Manager = 202,
+        [Description("Employee")]
+        Employee = 203
     }
 }

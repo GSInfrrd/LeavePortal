@@ -429,7 +429,7 @@ namespace EmployeeLeaveManagementWebAPI.Controllers
             try
             {
                 Logger.Info("Entering in AccountController API GetUserDetails method");
-                var empData = userManager.GetEmployeeDatailsForDashboard(empId, DateTime.Now.Year);
+                var empData = userManager.GetEmployeeDatailsForDashboard(empId, DateTime.Now.Year,(int)LeaveType.CasualLeave);
                 Logger.Info("Successfully exiting from AccountController API GetUserDetails method");
                 return empData;
             }

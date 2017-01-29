@@ -27,6 +27,27 @@ namespace LMS_WebAPI_DAL.Repositories
                         imageBase64Data = Convert.ToBase64String(imageByteData);
 
                     }
+                    var hierarchyLevel = (Int32)HierarchyLevel.Level5;
+                   if (model.RefRoleId == (Int32)EmployeeRole.CEO)
+                    {
+                        hierarchyLevel = (Int32)HierarchyLevel.Level0;
+                    }
+                    else if (model.RefRoleId == (Int32)EmployeeRole.COO || model.RefRoleId == (Int32)EmployeeRole.CTO || model.RefRoleId == (Int32)EmployeeRole.SeniorHR || model.RefRoleId == (Int32)EmployeeRole.HR)
+                    {
+                        hierarchyLevel = (Int32)HierarchyLevel.Level1;
+                    }
+                    else if (model.RefRoleId == (Int32)EmployeeRole.TeamLead || model.RefRoleId == (Int32)EmployeeRole.TechLead || model.RefRoleId == (Int32)EmployeeRole.TestLead || model.RefRoleId == (Int32)EmployeeRole.TechnicalArchitect || model.RefRoleId == (Int32)EmployeeRole.Manager || model.RefRoleId == (Int32)EmployeeRole.ProjectManager || model.RefRoleId == (Int32)EmployeeRole.DevLead)
+                    {
+                        hierarchyLevel = (Int32)HierarchyLevel.Level2;
+                    }
+                    else if (model.RefRoleId == (Int32)EmployeeRole.SeniorTestEngineer || model.RefRoleId == (Int32)EmployeeRole.SeniorUIDesigner || model.RefRoleId == (Int32)EmployeeRole.SSE)
+                    {
+                        hierarchyLevel = (Int32)HierarchyLevel.Level3;
+                    }
+                    else if (model.RefRoleId == (Int32)EmployeeRole.TestEngineer || model.RefRoleId == (Int32)EmployeeRole.UIDesigner || model.RefRoleId == (Int32)EmployeeRole.SoftwareEngineer || model.RefRoleId == (Int32)EmployeeRole.QA || model.RefRoleId == (Int32)EmployeeRole.Finance || model.RefRoleId == (Int32)EmployeeRole.AssociateTechArchitect || model.RefRoleId == (Int32)EmployeeRole.Sales)
+                    {
+                        hierarchyLevel = (Int32)HierarchyLevel.Level4;
+                    }
                     var employeeDetails = new EmployeeDetail
                     {
                         FirstName = model.FirstName,
@@ -38,12 +59,13 @@ namespace LMS_WebAPI_DAL.Repositories
                         CreatedDate = DateTime.Now,
                         EmpNumber = model.EmployeeNumber.ToString(),
                         PhoneNumber = model.Telephone,
-                        RefHierarchyLevel = model.RefHierarchyLevel,
+                        RefHierarchyLevel = hierarchyLevel,
                         ManagerId =model.ManagerId!=null?model.ManagerId: hrManagerId,
                         DateOfJoining = model.DateOfJoining,
                         ImagePath = imageBase64Data,
-                        RefEmployeeType = model.EmployeeType
-
+                        RefEmployeeType = model.EmployeeType,
+                        RefProfileType=model.RefProfileType
+                        
 
                     };
                     ctx.EmployeeDetails.Add(employeeDetails);

@@ -19,4 +19,5 @@ INSERT INTO [dbo].[MasterDataValue] ([Id], [RefMasterType], [Value]) VALUES (19,
 INSERT INTO [dbo].[MasterDataValue] ([Id], [RefMasterType], [Value]) VALUES (20, 1, N'UI Designer')
 INSERT INTO [dbo].[MasterDataValue] ([Id], [RefMasterType], [Value]) VALUES (21, 1, N'Senior UI Designer')
 INSERT INTO [dbo].[MasterDataValue] ([Id], [RefMasterType], [Value]) VALUES (22, 1, N'Sales')
+INSERT INTO [dbo].[MasterDataValue] ([Id], [RefMasterType], [Value]) VALUES (23, 1, N'Intern/Fresher')
 go

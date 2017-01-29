@@ -23,7 +23,7 @@ namespace LMS_WebAPI_DAL.Repositories.Interfaces
 
         bool RemoveProjectResource(int projectId);
 
-        List<TeamMembers> GetResourceList();
+        List<TeamMembers> GetResourceList(int refProject);
 
         bool AddNewProjectResource(int employeeId, int projectId);
     }

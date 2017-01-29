@@ -275,7 +275,7 @@ namespace LMS_WebAPI_DAL.Repositories
                     }
                     rewardLeaveModel.Projects = lstProjects;
 
-                    var employees = ctx.EmployeeDetails.Where(x => x.RefRoleId == (Int16)EmployeeRole.Employee).Select(x => new { x.Id, x.FirstName, x.LastName }).ToList();
+                    var employees = ctx.EmployeeDetails.Where(x => x.RefProfileType == (Int16)ProfileType.Employee).Select(x => new { x.Id, x.FirstName, x.LastName }).ToList();
 
                     foreach (var employee in employees)
                     {

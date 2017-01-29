@@ -173,7 +173,6 @@
     $(document).ready(function () {
         $('#resourceLoad').parent().addClass('active');
         GetProjectsList();
-        GetResourceList();
         $(".projectSelect").select2();
         $(".employeeSelect").select2();
     })
@@ -205,6 +204,7 @@
             cache: false,
             type: 'post',
             url: '/ResourceRequest/GetResourceList',
+            data: {refProject: $("#ddlProjectName").val()},
             dataType: "json",
             success: function (data) {
                 for (var i = 0; i < data.length; i++) {
@@ -217,6 +217,7 @@
         var projectId= $("#ddlProjectName").val();
         if(projectId!="")
         {
+            GetResourceList();
             $("#divProjectMembers").show();
             $.ajax({
                 cache: false,

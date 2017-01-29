@@ -30,6 +30,7 @@ namespace EmployeeLeaveManagementApp.Models
 
         public int EmployeeType { get; set;}
         public int? ManagerId { get; set; }
+        public int RefProfileType { get; set; }
     }
 
     public class EmployeeEducationModel

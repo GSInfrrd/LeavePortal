@@ -308,7 +308,7 @@ namespace LMS_WebAPI_DAL.Repositories
             }
         }
 
-        public List<TeamMembers> GetResourceList()
+        public List<TeamMembers> GetResourceList(int refProject)
         {
             Logger.Info("Entering in ResourceRequestRepository API GetResourceList method");
             try
@@ -317,7 +317,7 @@ namespace LMS_WebAPI_DAL.Repositories
                 using (var ctx = new LeaveManagementSystemEntities1())
                 {
                     // var workingEmployees= ctx.EmployeeProjectDetails.Where(x => x.IsActive == true).Select(x => x.RefEmployeeId).ToList();
-                    var employeeOnBench = ctx.EmployeeDetails.Include("EmployeeProjectDetails").Where(x => x.RefRoleId != (int)EmployeeRole.HR).ToList();
+                    var employeeOnBench = ctx.EmployeeDetails.Include("EmployeeProjectDetails").Where(x => x.RefRoleId != (int)EmployeeRole.HR && !x.EmployeeProjectDetails.Any(i=>i.RefProjectId==refProject)).ToList();
                     foreach (var item in employeeOnBench)
                     {
                         var employee = new TeamMembers();

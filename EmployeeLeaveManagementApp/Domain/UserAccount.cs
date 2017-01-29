@@ -32,5 +32,7 @@ namespace LMS_WebAPP_Domain
         public int? LOPRemaining { get; set; }
         public int? CompOffTaken { get; set; } 
 
+        public int RefProfileType { get; set; }
+
     }
 }

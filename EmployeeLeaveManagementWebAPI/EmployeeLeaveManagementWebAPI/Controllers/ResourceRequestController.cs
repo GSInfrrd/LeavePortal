@@ -177,12 +177,12 @@ namespace EmployeeLeaveManagementWebAPI.Controllers
         }
 
         [Route("GetResourceList")]
-        public List<TeamMembers> GetResourceList()
+        public List<TeamMembers> GetResourceList(int refProject)
         {
             try
             {
                 Logger.Info("Entering in ResourceRequestController API GetResourceList method");
-                var result = resourceRequestmanagement.GetResourceList();
+                var result = resourceRequestmanagement.GetResourceList(refProject);
                 Logger.Info("Successfully exiting from ResourceRequestController API GetResourceList method");
                 return result;
             }

@@ -71,6 +71,8 @@ namespace LMS_WebAPP_Domain
         public int EmployeeType { get; set; }
         public int? LOPRemaining { get; set; }
         public int? CompOffTaken { get; set; }
+
+        public int RefProfileType { get; set; }
     }
 
     public class Announcement

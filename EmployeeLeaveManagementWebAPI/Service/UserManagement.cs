@@ -27,6 +27,7 @@ namespace LMS_WebAPI_ServiceHelpers
                     VerifiedUser.RefEmployeeId = userData.RefEmployeeId;
                     VerifiedUser.CreatedDate = userData.CreatedDate;
                     VerifiedUser.RefRoleId = userData.EmployeeDetail.RefRoleId;
+                    VerifiedUser.RefProfileType = userData.EmployeeDetail.RefProfileType;
                     VerifiedUser.Imagepath =!string.IsNullOrEmpty(userData.EmployeeDetail.ImagePath)? string.Format("data:image/png;base64,{0}", userData.EmployeeDetail.ImagePath):string.Empty;
                     VerifiedUser.DateOfJoining =Convert.ToDateTime(userData.EmployeeDetail.DateOfJoining);
 

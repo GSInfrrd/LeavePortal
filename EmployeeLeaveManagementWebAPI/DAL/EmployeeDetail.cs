@@ -66,6 +66,7 @@ namespace LMS_WebAPI_DAL
         public string TwitterLink { get; set; }
         public string GooglePlusLink { get; set; }
         public int RefEmployeeType { get; set; }
+        public int RefProfileType { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<EmployeeContactDetail> EmployeeContactDetails { get; set; }
@@ -119,5 +120,6 @@ namespace LMS_WebAPI_DAL
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<ResourceRequestDetail> ResourceRequestDetails { get; set; }
         public virtual MasterDataValue MasterDataValue2 { get; set; }
+        public virtual MasterDataValue MasterDataValue3 { get; set; }
     }
 }

@@ -258,13 +258,13 @@ namespace EmployeeLeaveManagementApp.Controllers
             }
         }
 
-        public async Task<JsonResult> GetResourceList()
+        public async Task<JsonResult> GetResourceList(int refProject)
         {
             Logger.Info("Entering in ResourceRequestController APP GetResourceList method");
             try
             {
                 var empList = new List<TeamMembers>();
-                var details = await resourceManagementOperations.GetResourceListAsync();
+                var details = await resourceManagementOperations.GetResourceListAsync(refProject);
                 Logger.Info("Successfully exiting from ResourceRequestController APP GetResourceList method");
                 return new JsonResult()
                 {

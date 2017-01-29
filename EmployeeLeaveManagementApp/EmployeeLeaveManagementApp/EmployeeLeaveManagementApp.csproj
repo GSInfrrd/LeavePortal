@@ -392,6 +392,7 @@
     <Content Include="dist\img\icons.png" />
     <Content Include="dist\img\infrrd-logo-main.png" />
     <Content Include="dist\img\Logo_mini.png" />
+    <Content Include="dist\img\Logo_mini_transparent.png" />
     <Content Include="dist\img\photo1.png" />
     <Content Include="dist\img\photo2.png" />
     <Content Include="dist\img\photo3.jpg" />

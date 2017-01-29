@@ -273,7 +273,7 @@ namespace LMS_WebAPP_ServiceHelpers
             }
         }
 
-        public async Task<List<TeamMembers>> GetResourceListAsync()
+        public async Task<List<TeamMembers>> GetResourceListAsync(int refProject)
         {
             Logger.Info("Entering into ResourceManagement APP Service helper GetResourceListAsync method ");
             try
@@ -281,14 +281,14 @@ namespace LMS_WebAPP_ServiceHelpers
                 using (HttpClient client = new HttpClient())
                 {
                     string URL = WebapiURL + "/GetResourceList";
-                    //urlParameters = "?projectId=" + projectId;
+                    urlParameters = "?refProject=" + refProject;
                     client.BaseAddress = new Uri(URL);
                     // Add an Accept header for JSON format.
                     client.DefaultRequestHeaders.Accept.Add(
                     new MediaTypeWithQualityHeaderValue("application/json"));
 
                     // List data response.
-                    HttpResponseMessage response = await client.GetAsync(URL);  // Blocking call!
+                    HttpResponseMessage response = await client.GetAsync(urlParameters);  // Blocking call!
                     if (response.IsSuccessStatusCode)
                     {
                         // Parse the response body. Blocking!

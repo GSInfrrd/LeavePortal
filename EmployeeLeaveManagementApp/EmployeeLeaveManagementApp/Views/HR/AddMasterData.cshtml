@@ -89,12 +89,12 @@
         {
             $("#ddlManagerName").html("");
             $("#ddlManagerName").append($('<option></option>').attr("value",0).text("Select"));
-          var refLevel= @Convert.ToInt16(LMS_WebAPP_Utils.HierarchyLevel.Level5);
+          var designation= @Convert.ToInt16(LMS_WebAPP_Utils.EmployeeRole.InternOrFresher);
             $.ajax({
                 cache: false,
                 type: 'post',
                 url: '/HR/GetManagerList',
-                data:{refLevel:refLevel},
+                data:{refDesignation:designation},
                  dataType: "json",
                 success: function (data) {
                     for (var i = 0; i < data.data.length; i++) {

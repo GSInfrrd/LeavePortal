@@ -135,14 +135,14 @@ namespace LMS_WebAPI_ServiceHelpers
             }
         }
 
-        public List<TeamMembers> GetResourceList()
+        public List<TeamMembers> GetResourceList(int refProject)
         {
             Logger.Info("Entering into ResourceRequestManagement Service helper GetResourceList method ");
 
             try
             {
 
-                var responseModel = _resourceRequest.GetResourceList();
+                var responseModel = _resourceRequest.GetResourceList(refProject);
                 Logger.Info("Exiting ResourceRequestManagement Service helper GetResourceList method ");
                 return responseModel;
             }

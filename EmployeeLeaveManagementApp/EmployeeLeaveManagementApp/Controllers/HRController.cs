@@ -43,12 +43,33 @@ namespace EmployeeLeaveManagementApp.Controllers
             }
         }
 
-        public async Task<ActionResult> GetManagerList(int refLevel)
+        public async Task<ActionResult> GetManagerList(int refDesignation)
         {
             Logger.Info("Entering in HRController APP GetManagerList method");
             try
             {
                 var model = new List<EmployeeDetailsModel>();
+                var refLevel = (Int32)HierarchyLevel.Level5;
+                if (refDesignation == (Int32)EmployeeRole.CEO)
+                {
+                    refLevel = (Int32)HierarchyLevel.Level0;
+                }
+                else if (refDesignation == (Int32)EmployeeRole.COO || refDesignation == (Int32)EmployeeRole.CTO || refDesignation == (Int32)EmployeeRole.SeniorHR || refDesignation == (Int32)EmployeeRole.HR)
+                {
+                    refLevel = (Int32)HierarchyLevel.Level1;
+                }
+                else if (refDesignation == (Int32)EmployeeRole.TeamLead || refDesignation == (Int32)EmployeeRole.TechLead || refDesignation == (Int32)EmployeeRole.TestLead || refDesignation == (Int32)EmployeeRole.TechnicalArchitect || refDesignation == (Int32)EmployeeRole.Manager || refDesignation == (Int32)EmployeeRole.ProjectManager || refDesignation == (Int32)EmployeeRole.DevLead)
+                {
+                    refLevel = (Int32)HierarchyLevel.Level2;
+                }
+                else if (refDesignation == (Int32)EmployeeRole.SeniorTestEngineer || refDesignation == (Int32)EmployeeRole.SeniorUIDesigner || refDesignation == (Int32)EmployeeRole.SSE)
+                {
+                    refLevel = (Int32)HierarchyLevel.Level3;
+                }
+                else if (refDesignation == (Int32)EmployeeRole.TestEngineer || refDesignation == (Int32)EmployeeRole.UIDesigner || refDesignation == (Int32)EmployeeRole.SoftwareEngineer || refDesignation == (Int32)EmployeeRole.QA || refDesignation == (Int32)EmployeeRole.Finance || refDesignation == (Int32)EmployeeRole.AssociateTechArchitect || refDesignation == (Int32)EmployeeRole.Sales)
+                {
+                    refLevel = (Int32)HierarchyLevel.Level4;
+                }
                 model = await hrOperations.GetManagerListAsync(refLevel);
                 Logger.Info("Successfully exiting from HRController APP GetManagerList method");
                 return Json(new { data = model });
@@ -380,10 +401,11 @@ namespace EmployeeLeaveManagementApp.Controllers
                 empModel.Country = model.Country;
                 empModel.ImagePath = model.Imagepath;
                 empModel.EmployeeNumber = model.EmployeeNumber;
-                empModel.RefHierarchyLevel = model.RefHierarchyLevel;
+               // empModel.RefHierarchyLevel = model.RefHierarchyLevel;
                 empModel.ManagerId = model.ManagerId;
                 empModel.Telephone = model.Telephone;
                 empModel.EmployeeType = model.EmployeeType;
+                empModel.RefProfileType = model.RefProfileType;
                 List<EmployeeEducationDetails> eEduList = new List<EmployeeEducationDetails>();
                 foreach (var item in model.EmployeeEducation)
                 {

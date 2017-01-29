@@ -37,9 +37,48 @@ namespace LMS_WebAPI_Utils
         HR = 1,
         [Description("Manager")]
         Manager = 2,
-        [Description("Employee")]
-        Employee = 3
+        [Description("Senior Software Engineer")]
+        SSE = 3,
+        [Description("CEO")]
+        CEO = 4,
+        [Description("Team Lead")]
+        TeamLead = 5,
+        [Description("Software Engineer")]
+        SoftwareEngineer = 6,
+        [Description("Quality Analyst")]
+        QA = 7,
+        [Description("Dev Lead")]
+        DevLead = 8,
+        [Description("Test Engineer")]
+        TestEngineer = 9,
+        [Description("Senior Test Engineer")]
+        SeniorTestEngineer = 10,
+        [Description("Test Lead")]
+        TestLead = 11,
+        [Description("Tech Lead")]
+        TechLead = 12,
+        [Description("Technical Architect")]
+        TechnicalArchitect = 13,
+        [Description("Associate Tech Architect")]
+        AssociateTechArchitect = 14,
+        [Description("Project Manager")]
+        ProjectManager = 15,
+        [Description("Senior HR")]
+        SeniorHR = 16,
+        [Description("CTO")]
+        CTO = 17,
+        [Description("COO")]
+        COO = 18,
+        [Description("Finance")]
+        Finance = 19,
+        [Description("UI Designer")]
+        UIDesigner = 20,
+        [Description("Senior UI Designer")]
+        SeniorUIDesigner = 21,
+        [Description("Sales")]
+        Sales = 22
     }
+
 
     public enum ReportType
     {
@@ -158,5 +197,33 @@ namespace LMS_WebAPI_Utils
     {
         [Description("Active Notification")]
         Active = 1
+    }
+
+    public enum HierarchyLevel
+    {
+        [Description("Level-0")]
+        Level0 = 81,
+        [Description("Level-1")]
+        Level1 = 82,
+        [Description("Level-2")]
+        Level2 = 83,
+        [Description("Level-3")]
+        Level3 = 84,
+        [Description("Level-4")]
+        Level4 = 85,
+        [Description("Level-5")]
+        Level5 = 86
+    }
+
+    public enum ProfileType
+    {
+        [Description("CEO")]
+        CEO = 200,
+       [Description("Admin/HR")]
+        HR = 201,
+        [Description("Manager")]
+        Manager = 202,
+        [Description("Employee")]
+        Employee = 203
     }
 }

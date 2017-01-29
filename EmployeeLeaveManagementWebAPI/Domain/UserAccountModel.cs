@@ -19,5 +19,6 @@ namespace LMS_WebAPI_Domain
 
         public string Imagepath { get; set; }
         public DateTime DateOfJoining { get; set; }
+        public int RefProfileType { get; set; }
     }
 }

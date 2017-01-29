@@ -55,6 +55,7 @@
           <Property Name="TwitterLink" Type="varchar(max)" />
           <Property Name="GooglePlusLink" Type="varchar(max)" />
           <Property Name="RefEmployeeType" Type="int" Nullable="false" />
+          <Property Name="RefProfileType" Type="int" Nullable="false" />
         </EntityType>
         <EntityType Name="EmployeeEducationDetails">
           <Key>
@@ -393,6 +394,18 @@
             </Principal>
             <Dependent Role="EmployeeDetails">
               <PropertyRef Name="RefRoleId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_EmployeeDetails_MasterDataValue3">
+          <End Role="MasterDataValue" Type="Self.MasterDataValue" Multiplicity="1" />
+          <End Role="EmployeeDetails" Type="Self.EmployeeDetails" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="MasterDataValue">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="EmployeeDetails">
+              <PropertyRef Name="RefProfileType" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -838,6 +851,10 @@
             <End Role="MasterDataValue" EntitySet="MasterDataValue" />
             <End Role="EmployeeDetails" EntitySet="EmployeeDetails" />
           </AssociationSet>
+          <AssociationSet Name="FK_EmployeeDetails_MasterDataValue3" Association="Self.FK_EmployeeDetails_MasterDataValue3">
+            <End Role="MasterDataValue" EntitySet="MasterDataValue" />
+            <End Role="EmployeeDetails" EntitySet="EmployeeDetails" />
+          </AssociationSet>
           <AssociationSet Name="FK_EmployeeDetails_Notification" Association="Self.FK_EmployeeDetails_Notification">
             <End Role="EmployeeDetails" EntitySet="EmployeeDetails" />
             <End Role="Notification" EntitySet="Notification" />
@@ -1160,6 +1177,10 @@
             <End Role="MasterDataValue" EntitySet="MasterDataValues" />
             <End Role="EmployeeDetail" EntitySet="EmployeeDetails" />
           </AssociationSet>
+          <AssociationSet Name="FK_EmployeeDetails_MasterDataValue3" Association="LeaveManagementSystemModel.FK_EmployeeDetails_MasterDataValue3">
+            <End Role="MasterDataValue" EntitySet="MasterDataValues" />
+            <End Role="EmployeeDetail" EntitySet="EmployeeDetails" />
+          </AssociationSet>
           </EntityContainer>
         <ComplexType Name="GetLeaveReportProcedure_Result">
           <Property Type="Int32" Name="Year" Nullable="true" />
@@ -1256,6 +1277,8 @@
           <NavigationProperty Name="EmployeeDetail1" Relationship="LeaveManagementSystemModel.FK_EmployeeDetails_EmployeeManager" FromRole="EmployeeDetail1" ToRole="EmployeeDetail" />
           <NavigationProperty Name="ResourceRequestDetails" Relationship="LeaveManagementSystemModel.FK_ResourceRequestDetail_EmployeeDetails" FromRole="EmployeeDetail" ToRole="ResourceRequestDetail" />
           <NavigationProperty Name="MasterDataValue2" Relationship="LeaveManagementSystemModel.FK_EmployeeDetails_MasterDataValue2" FromRole="EmployeeDetail" ToRole="MasterDataValue" />
+          <Property Name="RefProfileType" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="MasterDataValue3" Relationship="LeaveManagementSystemModel.FK_EmployeeDetails_MasterDataValue3" FromRole="EmployeeDetail" ToRole="MasterDataValue" />
         </EntityType>
         <EntityType Name="EmployeeEducationDetail">
           <Key>
@@ -1443,6 +1466,7 @@
           <NavigationProperty Name="WorkFromHomes" Relationship="LeaveManagementSystemModel.FK_WorkFromHome_RefReason" FromRole="MasterDataValue" ToRole="WorkFromHome" />
           <NavigationProperty Name="WorkFromHomes1" Relationship="LeaveManagementSystemModel.FK_WorkFromHome_RefStatus" FromRole="MasterDataValue" ToRole="WorkFromHome" />
           <NavigationProperty Name="EmployeeDetails2" Relationship="LeaveManagementSystemModel.FK_EmployeeDetails_MasterDataValue2" FromRole="MasterDataValue" ToRole="EmployeeDetail" />
+          <NavigationProperty Name="EmployeeDetails3" Relationship="LeaveManagementSystemModel.FK_EmployeeDetails_MasterDataValue3" FromRole="MasterDataValue" ToRole="EmployeeDetail" />
         </EntityType>
         <EntityType Name="Notification">
           <Key>
@@ -2033,6 +2057,18 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_EmployeeDetails_MasterDataValue3">
+          <End Type="LeaveManagementSystemModel.MasterDataValue" Role="MasterDataValue" Multiplicity="1" />
+          <End Type="LeaveManagementSystemModel.EmployeeDetail" Role="EmployeeDetail" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="MasterDataValue">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="EmployeeDetail">
+              <PropertyRef Name="RefProfileType" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -2067,6 +2103,7 @@
           <EntitySetMapping Name="EmployeeDetails">
             <EntityTypeMapping TypeName="LeaveManagementSystemModel.EmployeeDetail">
               <MappingFragment StoreEntitySet="EmployeeDetails">
+                <ScalarProperty Name="RefProfileType" ColumnName="RefProfileType" />
                 <ScalarProperty Name="RefEmployeeType" ColumnName="RefEmployeeType" />
                 <ScalarProperty Name="GooglePlusLink" ColumnName="GooglePlusLink" />
                 <ScalarProperty Name="TwitterLink" ColumnName="TwitterLink" />

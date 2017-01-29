@@ -40,7 +40,7 @@
                                 
 
                                 <tr>
-                                    <td><a href="@Url.Action("ProfileDetails","Account",new { @id = m.Id })"> @m.FirstName</a></td>
+                                    <td><a href="@Url.Action("ProfileDetails","Account",new { @id = m.Id })"> @m.FirstName @m.LastName</a></td>
                                     <td>@m.EmployeeNumber</td>
                                     <td>@m.DateOfJoining.Date.ToString("dd/MM/yyyy")</td>
                                     <td>@m.RoleName </td>
