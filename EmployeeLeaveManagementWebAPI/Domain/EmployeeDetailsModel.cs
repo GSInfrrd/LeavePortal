@@ -100,6 +100,7 @@ namespace LMS_WebAPI_Domain
         public string TimePeriod { get; set; }
         public DateTime FromDate { get; set; }
         public DateTime ToDate { get; set; }
+        public string CompanyLogo { get; set; }
 
     }
 

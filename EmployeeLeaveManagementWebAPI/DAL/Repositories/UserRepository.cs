@@ -288,6 +288,7 @@ namespace LMS_WebAPI_DAL.Repositories
                             expDetails.Role = item.Role;
                             expDetails.FromDate = item.FromDate;
                             expDetails.ToDate = item.ToDate;
+                            expDetails.CompanyLogo = item.CompanyLogo;
                             ctx.SaveChanges();
 
                         }
@@ -299,6 +300,7 @@ namespace LMS_WebAPI_DAL.Repositories
                             employeeExpdetails.FromDate = item.FromDate;
                             employeeExpdetails.ToDate = item.ToDate;
                             employeeExpdetails.RefEmployeeId = employeeId;
+                            employeeExpdetails.CompanyLogo = item.CompanyLogo;
                             ctx.EmployeeExperienceDetails.Add(employeeExpdetails);
                             ctx.SaveChanges();
                         }

@@ -167,6 +167,7 @@ namespace LMS_WebAPI_ServiceHelpers
                     exdet.FromDate = item.FromDate;
                     exdet.ToDate = item.ToDate;
                     exdet.TimePeriod = item.FromDate.ToString("MMMM yyyy") + "~" + item.ToDate.ToString("MMMM yyyy");
+                    exdet.CompanyLogo = item.CompanyLogo;
                     EExpdetails.Add(exdet);
                 }
                 profileDetails.EmployeeExperienceDetails = EExpdetails;
