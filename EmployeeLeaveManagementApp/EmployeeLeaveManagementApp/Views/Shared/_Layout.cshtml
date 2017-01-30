@@ -159,30 +159,30 @@
                 <!-- /.search form -->
                 <!-- sidebar menu: : style can be found in sidebar.less -->
                 <ul class="sidebar-menu">
-                        <li class="treeview">
-                            <a id="dashboard" href="@Url.Action("Dashboard", "Account")">
-                                <i class="fa fa-dashboard"></i> <span>Dashboard</span>
-
-                            </a>
-
-                        </li>
-                        <li class="treeview">
-                            <a id="profile" href="@Url.Action("Profile", "Account")">
-                                <i class="fa fa-files-o"></i>
-                                <span>Profile</span>
-                            </a>
-                        </li>
                     <li class="treeview">
-                        <a href="#">
-                            <i class="fa fa-cog"></i>
-                            <span>My Actions</span>
-                            <span class="pull-right-container">
-                                <i class="fa fa-angle-left pull-right"></i>
-                            </span>
+                        <a id="dashboard" href="@Url.Action("Dashboard", "Account")">
+                            <i class="fa fa-dashboard"></i> <span>Dashboard</span>
+
                         </a>
-@if ((profileId != (int)EmployeeRole.CEO))
-{
-                        <ul class="treeview-menu">                         
+
+                    </li>
+                    <li class="treeview">
+                        <a id="tabProfileView" href="@Url.Action("Profile", "Account")">
+                            <i class="fa fa-files-o"></i>
+                            <span>Profile</span>
+                        </a>
+                    </li>
+                    @if ((profileId != (int)ProfileType.CEO))
+                    {
+                        <li class="treeview">
+                            <a href="#">
+                                <i class="fa fa-cog"></i>
+                                <span>My Actions</span>
+                                <span class="pull-right-container">
+                                    <i class="fa fa-angle-left pull-right"></i>
+                                </span>
+                            </a>
+                            <ul class="treeview-menu">
                                 <li>
                                     <a id="applyLeave" href="@Url.Action("ApplyLeave", "ApplyLeave")">
                                         <i class="fa fa-calendar-plus-o"></i> <span>Apply Leave</span>
@@ -201,51 +201,51 @@
 
                                     </a>
                                 </li>
-                            
-                        </ul>
-}                    </li>
-               
-                   @if ((profileId == (int)ProfileType.Manager))
-                   {
-                    <li class="treeview">
-                        <a href="#">
-                            <i class="fa fa-cog"></i>
-                            <span>Team Action</span>
-                            <span class="pull-right-container">
-                                <i class="fa fa-angle-left pull-right"></i>
-                            </span>
-                        </a>
-                        <ul class="treeview-menu">
-                            <li>
-                                <a id="approveLeave" href="@Url.Action("ApproveLeave", "ApproveLeave")">
-                                    <i class="fa fa-calendar-check-o"></i> <span>Take Action</span>
+                            </ul>
+                        </li>
 
-                                </a>
-                            </li>
-
-                            <li>
-                                <a id="rewardLeave" href="@Url.Action("RewardLeaveTransaction","LeaveTransaction")">
-                                    <i class="fa fa-user-plus" aria-hidden="true"></i> <span>Reward Leave</span>
-
-                                </a>
-                            </li>
-                            <li>
-                                <a id="resourceRequest" href="@Url.Action("RequestForResources", "ResourceRequest")">
-                                    <i class="fa fa-user-plus" aria-hidden="true"></i> <span>Resource Request</span>
-
-                                </a>
-                            </li>
-                            <li>
-                                <a id="resourceLoad" href="@Url.Action("ResourceLoad", "ResourceRequest")">
-                                    <i class="fa fa-user-plus" aria-hidden="true"></i> <span>Resource Load/Unload</span>
-
-                                </a>
-                            </li>
-                        </ul>
-                    </li>
-                   
                     }
-                    @if (roleId == (int)EmployeeRole.CEO)
+                    @if ((profileId == (int)ProfileType.Manager))
+                    {
+                        <li class="treeview">
+                            <a href="#">
+                                <i class="fa fa-cog"></i>
+                                <span>Team Action</span>
+                                <span class="pull-right-container">
+                                    <i class="fa fa-angle-left pull-right"></i>
+                                </span>
+                            </a>
+                            <ul class="treeview-menu">
+                                <li>
+                                    <a id="approveLeave" href="@Url.Action("ApproveLeave", "ApproveLeave")">
+                                        <i class="fa fa-calendar-check-o"></i> <span>Take Action</span>
+
+                                    </a>
+                                </li>
+
+                                <li>
+                                    <a id="rewardLeave" href="@Url.Action("RewardLeaveTransaction","LeaveTransaction")">
+                                        <i class="fa fa-user-plus" aria-hidden="true"></i> <span>Reward Leave</span>
+
+                                    </a>
+                                </li>
+                                <li>
+                                    <a id="resourceRequest" href="@Url.Action("RequestForResources", "ResourceRequest")">
+                                        <i class="fa fa-user-plus" aria-hidden="true"></i> <span>Resource Request</span>
+
+                                    </a>
+                                </li>
+                                <li>
+                                    <a id="resourceLoad" href="@Url.Action("ResourceLoad", "ResourceRequest")">
+                                        <i class="fa fa-user-plus" aria-hidden="true"></i> <span>Resource Load/Unload</span>
+
+                                    </a>
+                                </li>
+                            </ul>
+                        </li>
+
+                    }
+                    @if (profileId == (int)ProfileType.CEO)
                     {
                         <li>
                             <a id="approveLeave" href="@Url.Action("ApproveLeave", "ApproveLeave")">
@@ -254,54 +254,54 @@
                             </a>
                         </li>
                     }
-                   @if (profileId == (int)ProfileType.Manager || profileId==(int)ProfileType.CEO)
-                   {
-                    <li>
-                        <a id="employeeDetails" href="@Url.Action("EmployeeDetails", "HR")">
-                            <i class="fa fa-database"></i> <span>Search Employee</span>
+                    @if (profileId == (int)ProfileType.Manager || profileId == (int)ProfileType.CEO)
+                    {
+                        <li>
+                            <a id="employeeDetails" href="@Url.Action("EmployeeDetails", "HR")">
+                                <i class="fa fa-database"></i> <span>Search Employee</span>
 
-                        </a>
-                    </li>
-                   }
-@if (profileId == (int)ProfileType.HR)
-{
-                    <li class="treeview">
-                        <a href="#">
-                            <i class="fa fa-cog"></i>
-                            <span>Settings</span>
-                            <span class="pull-right-container">
-                                <i class="fa fa-angle-left pull-right"></i>
-                            </span>
-                        </a>
-                        <ul class="treeview-menu">
-                            <li>
-                                <a id="addHolidays" href="@Url.Action("HolidayList", "HR")">
-                                    <i class="fa fa-calendar-o"></i> <span>Add Holidays</span>
+                            </a>
+                        </li>
+                    }
+                    @if (profileId == (int)ProfileType.HR)
+                    {
+                        <li class="treeview">
+                            <a href="#">
+                                <i class="fa fa-cog"></i>
+                                <span>Settings</span>
+                                <span class="pull-right-container">
+                                    <i class="fa fa-angle-left pull-right"></i>
+                                </span>
+                            </a>
+                            <ul class="treeview-menu">
+                                <li>
+                                    <a id="addHolidays" href="@Url.Action("HolidayList", "HR")">
+                                        <i class="fa fa-calendar-o"></i> <span>Add Holidays</span>
 
-                                </a>
-                            </li>
-                            <li>
-                                <a id="addMasterData" href="@Url.Action("AddMasterData", "HR")">
-                                    <i class="fa fa-bank"></i> <span>Add Master Data</span>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a id="addMasterData" href="@Url.Action("AddMasterData", "HR")">
+                                        <i class="fa fa-bank"></i> <span>Add Master Data</span>
 
-                                </a>
-                            </li>
-                            <li>
-                                <a id="companyAnnouncements" href="@Url.Action("CompanyAnnouncements", "HR")">
-                                    <i class="fa fa-volume-up"></i> <span>Company Announcements</span>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a id="companyAnnouncements" href="@Url.Action("CompanyAnnouncements", "HR")">
+                                        <i class="fa fa-volume-up"></i> <span>Company Announcements</span>
 
-                                </a>
-                            </li>
-                            <li>
-                                <a id="broadcast" href="@Url.Action("Broadcast", "HR")">
-                                    <i class="fa fa-wifi"></i> <span>Broadcast</span>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a id="broadcast" href="@Url.Action("Broadcast", "HR")">
+                                        <i class="fa fa-wifi"></i> <span>Broadcast</span>
 
-                                </a>
-                            </li>
-                        </ul>
-                    </li>
-}
-                    @if (roleId == (int)EmployeeRole.HR)
+                                    </a>
+                                </li>
+                            </ul>
+                        </li>
+                    }
+                    @if (profileId == (int)ProfileType.HR)
                     {
                         <li>
                             <a id="employeeDetails" href="@Url.Action("EmployeeDetails", "HR")">

@@ -192,6 +192,7 @@ namespace EmployeeLeaveManagementApp.Controllers
                 // Session.Abandon();
                 Session.Abandon();
                 Session.Clear();
+                ViewBag.UserExist = true;
                 //FormsAuthentication.SignOut();
                 Logger.Info("Successfully exiting from AccountController APP Logout method");
                 return View("Login");
@@ -250,7 +251,7 @@ namespace EmployeeLeaveManagementApp.Controllers
                     model.TotalSpent = datares.TotalSpent;
                     model.CompOffTaken =datares.CompOffTaken!=null? (int) datares.CompOffTaken:0;
                     model.TotalWorkFromHome = (datares.TotalWorkFromHome != null) ? Convert.ToInt16(datares.TotalWorkFromHome) : 0;
-                    model.TotalLeft = datares.TotalLeaveCount > 0 ? Convert.ToInt16(datares.TotalLeaveCount - datares.TotalSpent) : 0;
+                    model.TotalLeft = datares.TotalLeaveCount > 0 ? Convert.ToInt16(datares.TotalLeaveCount) : 0;
                     model.DateOfJoining = DateTime.Now;
                     model.RoleName = datares.RoleName;
                     model.Announcements = new List<Models.Announcement>();

@@ -461,7 +461,7 @@ Profile
         <script>
             var imgData = "@imagePath";
             $(document).ready(function () {
-                $('#profile').parent().addClass('active');
+                $('#tabProfileView').parent().addClass('active');
                 $(function () {
                     $(".skills").select2();
                     for (var i = 0; i <= @educationDatePickerCount;i++)
@@ -491,7 +491,7 @@ Profile
                 $("#tabSkills").show();
                 $("#tabProfile").hide();
                 $("#personalDetails").show();
-                $("#profile").hide();
+                $("#profile").hide();                             
             })
             $("#tabEducationDetails").on('click', function (e) {
                 $("#tabPersonalDetails").show();
