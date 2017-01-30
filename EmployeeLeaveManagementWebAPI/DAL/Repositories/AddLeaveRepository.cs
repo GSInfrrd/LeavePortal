@@ -146,7 +146,7 @@ namespace LMS_WebAPI_DAL.Repositories
 
                     employeeName += " has applied for leave.";
                     int Status = (Int16)NotificationStatus.Active;
-                    int notificationType =(Int16)NotificationType.NotificationType;
+                    int notificationType =(Int16)NotificationTypes.SubmitLeaveRequest;
                     ApproveLeaveRepository alr = new ApproveLeaveRepository();
                     alr.InsertNotification(RefApproverId, employeeName, Status, notificationType);
                 }
@@ -364,6 +364,20 @@ namespace LMS_WebAPI_DAL.Repositories
                             var leaveTransactionResult = ctx.SaveChanges();
                             if (leaveTransactionResult == 1)
                                 leaveRewarded = true;
+
+                            //Send notification to Employee
+                            var ManagerDetails = ctx.EmployeeDetails.Where(x => x.Id == model.ManagerId).FirstOrDefault();
+                            string ManagerName = ManagerDetails.FirstName;
+                            if (ManagerDetails.LastName != null)
+                            {
+                                ManagerName = string.Format(ManagerName + " " + ManagerDetails.LastName);
+                            }
+
+                            ManagerName += " has rewarded leave to you.";
+                            int Status = (Int16)NotificationStatus.Active;
+                            int notificationType = (Int16)NotificationTypes.RewardLeave;
+                            ApproveLeaveRepository alr = new ApproveLeaveRepository();
+                            alr.InsertNotification(model.EmplooyeeId, ManagerName, Status, notificationType);
 
                         }
                     }

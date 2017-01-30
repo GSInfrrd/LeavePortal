@@ -156,6 +156,21 @@ namespace LMS_WebAPI_DAL.Repositories
                         resourceRequests.ResourceRequestHistory = GetResourceRequestDetails(model.RequestFromId, viewAll, out count);
                         resourceRequests.Count = count;
 
+                        //Send notification to Hr
+                        var ManagerDetails = ctx.EmployeeDetails.Where(x => x.Id == model.RequestFromId).FirstOrDefault();
+                        string ManagerName = ManagerDetails.FirstName;
+                        if (ManagerDetails.LastName != null)
+                        {
+                            ManagerName = string.Format(ManagerName + " " + ManagerDetails.LastName);
+                        }
+
+                        ManagerName += " has raised request for resource.";
+                        int Status = (Int16)NotificationStatus.Active;
+                        int notificationType = (Int16)NotificationTypes.SubmitResourceRequest;
+                        ApproveLeaveRepository alr = new ApproveLeaveRepository();
+                        alr.InsertNotification(model.RequestToId, ManagerName, Status, notificationType);
+
+
                         return resourceRequests;
                     }
                     //var lstHR = ctx.EmployeeDetails.Include("MasterDataValue").Where(x => x.MasterDataValue.Id == (Int16)EmployeeRole.HR).ToList();
@@ -188,15 +203,32 @@ namespace LMS_WebAPI_DAL.Repositories
                         var result = ctx.SaveChanges();
                         if (result == 1)
                         {
+                            var ticketDetails = ctx.ResourceRequestDetails.Where(x => x.Ticket == model.Ticket).FirstOrDefault();
                             var resourceResponseDetails = new ResourceRequestDetailModel()
                             {
-                                ResourceRequestTitle = model.ResourceRequestTitle,
-                                Ticket = model.Ticket,
-                                RequestFromId = model.RequestFromId,
-                                RequestToId = model.RequestToId,
-                                Skills = model.Skills,
+                                ResourceRequestTitle = ticketDetails.ResourceRequestTitle,
+                                Ticket = ticketDetails.Ticket,
+                                RequestFromId = ticketDetails.RequestFromId,
+                                RequestToId = ticketDetails.RequestToId,
+                                Skills = ticketDetails.Skills,
+                                Status = ticketDetails.Status,
+                                NumberRequestedResources = ticketDetails.NumberRequestedResources,
                                 Result = true
                             };
+
+                            //Send notification to manager
+                            var HrDetails = ctx.EmployeeDetails.Where(x => x.Id == model.RequestToId).FirstOrDefault();
+                            string HrName = HrDetails.FirstName;
+                            if (HrDetails.LastName != null)
+                            {
+                                HrName = string.Format(HrName + " " + HrDetails.LastName);
+                            }
+
+                            HrName += " has updated your request for resource.";
+                            int Status = (Int16)NotificationStatus.Active;
+                            int notificationType = (Int16)NotificationTypes.SubmitResourceRequestResponse;
+                            ApproveLeaveRepository alr = new ApproveLeaveRepository();
+                            alr.InsertNotification(model.RequestFromId, HrName, Status, notificationType);
                             return resourceResponseDetails;
                         }
                     }
