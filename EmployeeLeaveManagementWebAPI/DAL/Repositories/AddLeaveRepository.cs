@@ -81,8 +81,9 @@ namespace LMS_WebAPI_DAL.Repositories
                                 RefTransactionType = (int)TransactionType.Debit,
                                 RefCreatedBy = ctx.EmployeeDetails.FirstOrDefault(i => i.Id == empId).Id
                             };
-                            ctx.EmployeeLeaveTransactions.Add(employeeLeaveDetailsSick);
+                            var NewID = ctx.EmployeeLeaveTransactions.Add(employeeLeaveDetailsSick);
                             ctx.SaveChanges();
+                            var id = Convert.ToInt16(NewID.Id);
                             var leaveMaster = (from n in ctx.EmployeeLeaveMasters
                                                where n.RefEmployeeId == empId
                                                select n).SingleOrDefault();
@@ -90,13 +91,34 @@ namespace LMS_WebAPI_DAL.Repositories
                             ctx.EmployeeLeaveMasters.Attach(leaveMaster);
                             ctx.Entry(leaveMaster).State = EntityState.Modified;
                             ctx.SaveChanges();
+
+                            //Send notification to manager
+                            var hrManagerId = ctx.EmployeeDetails.Where(x => x.RefRoleId == (int)EmployeeRole.HR).OrderByDescending(x => x.RefHierarchyLevel).FirstOrDefault().Id;
+                            var leaveDetails = ctx.EmployeeLeaveTransactions.FirstOrDefault(x => x.Id == id);
+                            var employeeDetails = ctx.EmployeeDetails.FirstOrDefault(x => x.Id == leaveDetails.RefEmployeeId);
+                            int RefApproverId = employeeDetails.ManagerId != null ? (int)employeeDetails.ManagerId : hrManagerId;
+                            string Firstname = employeeDetails.FirstName;
+                            string Lastname = employeeDetails.LastName;
+
+                            string employeeName = Firstname;
+                            if (Lastname != null)
+                            {
+                                employeeName += " ";
+                                employeeName += Lastname;
+                            }
+
+                            employeeName += " has applied for Sick leave.";
+                            int Status = (Int16)NotificationStatus.Active;
+                            int notificationType = (Int16)NotificationTypes.SubmitLeaveRequest;
+                            ApproveLeaveRepository alr = new ApproveLeaveRepository();
+                            alr.InsertNotification(RefApproverId, employeeName, Status, notificationType);
                             break;
                     }
                     Logger.Info("Successfully exiting from AddLeaveRepository API InsertEmployeeLeaveDetails method");
                     return true;
                 }
             }
-            catch 
+            catch (Exception ex)
             {
                 Logger.Error("Exception occured at AddLeaveRepository API InsertEmployeeLeaveDetails method ");
                 throw;
