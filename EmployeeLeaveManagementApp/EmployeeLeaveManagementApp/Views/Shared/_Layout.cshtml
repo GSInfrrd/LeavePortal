@@ -99,7 +99,7 @@
                             <ul class="dropdown-menu" style="width:auto">
 
                                 <li>
-                                    <ul class="menu" id="notiContent"></ul>
+                                    <ul class="menu" id="notiContent" style="height:auto"></ul>
                                 </li>
                                 @*<li class="footer"><a href="#">View all</a></li>*@
                             </ul>
@@ -372,7 +372,8 @@
             console.log = function () { };
         }
         $(document).ready(function () {
-
+            $('.slimScrollDiv').css("height", "auto");
+            $('#notiContent').css("height", "auto");
             updateNotificationCount();
         });
 
@@ -388,7 +389,7 @@
                 success: function (response) {
                     $('#notiContent').empty();
                     if (response.result.length == 0) {
-                        $('#notiContent').append($('<li>No data available</li>'));
+                        $('#notiContent').append($("<a><li style='height:41px'><i class='text-aqua'></i>No data available</li></a>"));
                     }
                     for (var i = 0; i < response.result.length; i++) {
 
