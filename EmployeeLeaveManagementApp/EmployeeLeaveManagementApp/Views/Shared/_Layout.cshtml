@@ -393,7 +393,7 @@
                     }
                     for (var i = 0; i < response.result.length; i++) {
                         debugger;
-                        if ((response.result[i].RefNotificationType != 167)&&(response.result[i].RefNotificationType != 166))
+                        if ((response.result[i].RefNotificationType != 166)&&(response.result[i].RefNotificationType != 167))
                         {
                             var opti = "<li><a href='javascript:void(0);' onclick='notificationSeen(" + response.result[i].Id + " , " + response.result[i].RefNotificationType + ");return false' ><i class='fa fa-bell text-aqua'></i>" + response.result[i].Text + "</a></li>";
                         }
@@ -431,13 +431,15 @@
                 dataType: "json",
                 success: function (response) {
                     updateNotificationCount();
+
                 },
                 error: function (error) {
                     console.log(error);
                 }
             });
-
-       window.location.href = "/Notification/NotificationRedirect?NotificationType=" + NotificationType;
+            if ((NotificationType != 166) && (NotificationType != 167))
+             window.location.href = "/Notification/NotificationRedirect?NotificationType=" + NotificationType;
+            
         }
 
         $(function () {
