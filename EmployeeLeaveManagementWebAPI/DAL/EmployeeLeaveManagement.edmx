@@ -106,7 +106,7 @@
           <Property Name="ModifiedBy" Type="int" />
           <Property Name="SpentAdvanceLeave" Type="int" />
           <Property Name="TakenLossOfPay" Type="int" />
-          <Property Name="EarnedCasualLeave" Type="int" />
+          <Property Name="EarnedCasualLeave" Type="float" />
           <Property Name="TakenCompOff" Type="int" />
         </EntityType>
         <EntityType Name="EmployeeLeaveTransaction">
@@ -296,7 +296,7 @@
           </Key>
           <Property Name="Id" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="RefEmployeeId" Type="int" Nullable="false" />
-          <Property Name="Date" Type="datetime2" Precision="7" Nullable="false" />
+          <Property Name="Date" Type="date" />
           <Property Name="CreatedDate" Type="datetime2" Precision="7" Nullable="false" />
           <Property Name="RefStatus" Type="int" Nullable="false" />
           <Property Name="CreatedBy" Type="int" />
@@ -1373,7 +1373,7 @@
           <Property Name="ModifiedBy" Type="Int32" />
           <Property Name="SpentAdvanceLeave" Type="Int32" />
           <Property Name="TakenLossOfPay" Type="Int32" />
-          <Property Name="EarnedCasualLeave" Type="Int32" />
+          <Property Name="EarnedCasualLeave" Type="Double" />
           <Property Name="TakenCompOff" Type="Int32" />
           <NavigationProperty Name="EmployeeDetail" Relationship="LeaveManagementSystemModel.FK_ConsolidatedEmployeeLeaveDetails_EmployeeDetails" FromRole="EmployeeLeaveMaster" ToRole="EmployeeDetail" />
           <NavigationProperty Name="EmployeeDetail1" Relationship="LeaveManagementSystemModel.FK_EmployeeLeaveMaster_EmployeeDetails" FromRole="EmployeeLeaveMaster" ToRole="EmployeeDetail" />
@@ -1611,7 +1611,7 @@
           </Key>
           <Property Name="Id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="RefEmployeeId" Type="Int32" Nullable="false" />
-          <Property Name="Date" Type="DateTime" Nullable="false" Precision="7" />
+          <Property Name="Date" Type="DateTime" Precision="0" />
           <Property Name="CreatedDate" Type="DateTime" Nullable="false" Precision="7" />
           <Property Name="RefStatus" Type="Int32" Nullable="false" />
           <Property Name="CreatedBy" Type="Int32" />

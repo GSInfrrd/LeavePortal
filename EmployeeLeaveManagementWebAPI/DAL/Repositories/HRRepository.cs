@@ -261,8 +261,8 @@ namespace LMS_WebAPI_DAL.Repositories
                         var detailedList = new DetailedLeaveReport();
                         detailedList.EmpoyeeName = item.EmployeeDetail.FirstName;
                         detailedList.LeaveType = item.MasterDataValue.Value;
-                        detailedList.FromDate = item.Date;
-                        detailedList.ToDate = item.Date;
+                        detailedList.FromDate = item.Date.Value;
+                        detailedList.ToDate = item.Date.Value;
                         ddList.Add(detailedList);
                     }
                     foreach (var item in dataList)

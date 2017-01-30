@@ -31,7 +31,7 @@ namespace EmployeeLeaveManagementApp.Models
         public String RoleName { get; set; }
         public int TotalLeaveCount { get; set; }
         public int TotalWorkFromHome { get; set; }
-        public double TotalLeft { get; set; }
+        public double? TotalLeft { get; set; }
         [DisplayFormat(DataFormatString = "{0:dd MMM yyyy}")]
         public DateTime DateOfJoining { get; set; }
         public double TotalApplied { get; set; }

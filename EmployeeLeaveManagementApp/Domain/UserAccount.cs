@@ -19,9 +19,9 @@ namespace LMS_WebAPP_Domain
         public Nullable<System.DateTime> ModifiedDate { get; set; }
         public string ProjectName { get; set; }
         public int RefRoleId { get; set; }
-        public int? TotalLeaveCount { get; set; }
+        public double? TotalLeaveCount { get; set; }
         public int? TotalAdvanceLeaveTotake { get; set; }
-        public int? TotalCasualLeave { get; set; }
+        public double? TotalCasualLeave { get; set; }
         public int? TotalLOPLImit { get; set; }
         public int TotalCountTaken { get; set; }
         public string ManagerName { get; set; }

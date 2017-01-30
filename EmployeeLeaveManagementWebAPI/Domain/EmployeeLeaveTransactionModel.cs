@@ -26,7 +26,7 @@ namespace LMS_WebAPI_Domain
         public Nullable<System.DateTime> ModifiedDate { get; set; }
 
         public int RefTransactionType { get; set; }
-
+        public string TransactionName { get; set; }
 
     }
 }

@@ -27,7 +27,7 @@ namespace LMS_WebAPI_DAL.Repositories
                                 select new WorkFromHomeCommonModel()
                                 {
                                     Id = n.Id,
-                                    Date = n.Date,
+                                    Date = n.Date.Value,
                                     CreatedDate = n.CreatedDate,
                                     CreatedBy = n.CreatedBy,
                                     RefEmployeeId = n.RefEmployeeId,

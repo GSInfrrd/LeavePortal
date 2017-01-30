@@ -16,7 +16,7 @@ namespace LMS_WebAPI_DAL
     {
         public long Id { get; set; }
         public int RefEmployeeId { get; set; }
-        public System.DateTime Date { get; set; }
+        public Nullable<System.DateTime> Date { get; set; }
         public System.DateTime CreatedDate { get; set; }
         public int RefStatus { get; set; }
         public Nullable<int> CreatedBy { get; set; }

@@ -24,8 +24,8 @@ namespace LMS_WebAPI_Domain
         public Nullable<System.DateTime> ModifiedDate { get; set; }
         public string ProjectName { get; set; }
         public String RoleName { get; set; }
-        public int? TotalLeaveCount { get; set; }
-        public int? TotalCasualLeave { get; set; }
+        public double? TotalLeaveCount { get; set; }
+        public double? TotalCasualLeave { get; set; }
         public int? TotalWorkFromHome { get; set; }
 
         public int? TotalLOPLImit { get; set; }

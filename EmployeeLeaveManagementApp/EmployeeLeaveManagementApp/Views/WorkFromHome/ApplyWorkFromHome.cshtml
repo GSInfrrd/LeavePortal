@@ -107,9 +107,10 @@
 <script type="text/javascript">
     var dateList= @Html.Raw(Json.Encode(dateList));
     var dateExists='@Convert.ToInt16(LMS_WebAPP_Utils.ResponseCodes.DateAlreadyExists)';
+    var leaveType='@Convert.ToInt16(LMS_WebAPP_Utils.LeaveType.CasualLeave)';
     $('#exampleModal').on('show.bs.modal', function (event) {
     });
-  
+
     $(document).ready(function()
     {
         $(".reasonSelect").select2();
@@ -124,20 +125,20 @@
             cache: false,
             type: 'post',
             url: '/ApplyLeave/CheckLeaveAvailability',
-            data:{fromDate:$('#datepicker').val(),toDate:$('#datepicker').val(),leaveType:25},
+            data:{fromDate:$('#datepicker').val(),toDate:$('#datepicker').val(),leaveType:leaveType},
             dataType: "json",
             success: function (data) {
                 responseCode=data.result.responseCode;
             }
         });
-             
+
     }
     function GetWorkFromHomeReasonsList()
     {
         $.ajax({
             cache: false,
             type: 'post',
-            url: '/WorkFromHome/GetWorkFromHomeReasonsList',            
+            url: '/WorkFromHome/GetWorkFromHomeReasonsList',
             dataType: "json",
             success: function (data) {
                 debugger;
@@ -215,7 +216,7 @@
         {
             showMessage("You already applied for leave/work from home on this date.", "2", true);
             $('#btnAddWorkFromHome').attr("disabled", false);
-            return false;        
+            return false;
         }
         if (formValidate() == true) {
                 $.ajax({
@@ -279,7 +280,7 @@
         }
         else if ($('#datepicker').val() != "" && $('#SelectReason').val() != "" && $("#SelectReason :selected").html() != "Others") {
             return true;
-        }        
+        }
         else { return false; }
     }
 

@@ -8,7 +8,7 @@ namespace LMS_WebAPP_Domain
         public long Id { get; set; }
         public int RefEmployeeId { get; set; }
         public System.DateTime FromDate { get; set; }
-        public System.DateTime ToDate { get; set; }
+        public Nullable<System.DateTime> ToDate { get; set; }
         public System.DateTime CreatedDate { get; set; }
         public int RefStatus { get; set; }
         public double NumberOfWorkingDays { get; set; }
@@ -21,11 +21,13 @@ namespace LMS_WebAPP_Domain
         public string LeaveTypeName { get; set; }
         public string StatusName { get; set; }
         public int RefTransactionType { get; set; }
+
+        public string TransactionName { get; set; }
         public string FormattedDate
         {
             get
             {
-                if (FromDate != null)
+                if (FromDate != DateTime.MinValue)
                     return Convert.ToDateTime(FromDate).ToString("dd MMM yyyy");
                 else
                 {
@@ -50,7 +52,7 @@ namespace LMS_WebAPP_Domain
         {
             get
             {
-                if (FromDate != null)
+                if (ToDate.HasValue)
                     return Convert.ToDateTime(ToDate).ToString("dd MMM yyyy");
                 else
                 {
@@ -58,33 +60,5 @@ namespace LMS_WebAPP_Domain
                 }
             }
         }
-
-
-        //public string LeaveTypeName
-        //{
-        //    get
-        //    {
-        //        if (RefStatus != 0)
-        //            return (CommonMethods.Description((LeaveType)RefLeaveType));
-        //        else
-        //        {
-        //            return "";
-        //        }
-        //    }
-        //}
-
-
-        //public string StatusName
-        //{
-        //    get
-        //    {
-        //        if (RefStatus != 0)
-        //            return (CommonMethods.Description((LeaveStatus)RefStatus));
-        //        else
-        //        {
-        //            return "";
-        //        }
-        //    }
-        //}
     }
 }

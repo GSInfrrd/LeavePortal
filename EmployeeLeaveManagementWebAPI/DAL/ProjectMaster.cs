@@ -29,6 +29,7 @@ namespace LMS_WebAPI_DAL
         public Nullable<System.DateTime> EndDate { get; set; }
         public int RefManagerId { get; set; }
         public string Technology { get; set; }
+        public string ProjectLogo { get; set; }
     
         public virtual EmployeeDetail EmployeeDetail { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]

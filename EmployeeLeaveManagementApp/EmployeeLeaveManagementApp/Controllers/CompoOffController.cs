@@ -49,7 +49,7 @@ namespace EmployeeLeaveManagementApp.Controllers
             try
             {
                 var data = (UserAccount)Session[Constants.SESSION_OBJ_USER];
-                EmployeeLeaveTransactionManagement ELTM = new EmployeeLeaveTransactionManagement();
+                //EmployeeLeaveTransactionManagement ELTM = new EmployeeLeaveTransactionManagement();
                 int empId = data.RefEmployeeId;
                 var CompoOff = Convert.ToInt16(LeaveType.CompoOff);
                 var res = await ELTM.SubmitLeaveRequestAsync(empId, CompoOff, fromDate, fromDate, comments, 1);

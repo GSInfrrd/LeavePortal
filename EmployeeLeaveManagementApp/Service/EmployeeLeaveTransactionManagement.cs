@@ -54,7 +54,7 @@ namespace LMS_WebAPP_ServiceHelpers
             }
         }
 
-        public async Task<IList<LeaveTransaction>> SubmitLeaveRequestAsync(int id, int leaveType, string fromDate, string toDate, string comments, double workingDays)
+        public async Task<bool> SubmitLeaveRequestAsync(int id, int leaveType, string fromDate, string toDate, string comments, double workingDays)
         {
             Logger.Info("Entering into EmployeeLeaveTransactionManagement APP Service helper SubmitLeaveRequestAsync method ");
             try
@@ -77,13 +77,13 @@ namespace LMS_WebAPP_ServiceHelpers
             if (response.IsSuccessStatusCode)
             {
                 // Parse the response body. Blocking!
-                    var dataObjects = response.Content.ReadAsAsync<IList<LeaveTransaction>>().Result.ToList();
+                    var dataObjects = response.Content.ReadAsAsync<bool>().Result;
                     Logger.Info("Exiting from into EmployeeLeaveTransactionManagement APP Service helper SubmitLeaveRequestAsync method ");
                     return dataObjects;
 
             }
                 Logger.Info("Exiting from into EmployeeLeaveTransactionManagement APP Service helper SubmitLeaveRequestAsync method ");
-                return null;
+                return false;
             }
             catch
             {

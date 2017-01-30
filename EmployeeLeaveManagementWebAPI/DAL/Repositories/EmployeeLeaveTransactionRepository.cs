@@ -68,7 +68,7 @@ namespace LMS_WebAPI_DAL.Repositories
                     newTrans.LeaveTypeName = m.MasterDataValue.Value;
                     newTrans.StatusName = m.MasterDataValue1.Value;
                     newTrans.RefTransactionType = m.RefTransactionType;
-                    //newTrans.ManagerComments = m.ManagerComments;
+                    newTrans.TransactionName = CommonMethods.Description((TransactionType)m.RefTransactionType);
                     newTrans.ModifiedDate = m.ModifiedDate;
                     Empres.Add(newTrans);
                 }

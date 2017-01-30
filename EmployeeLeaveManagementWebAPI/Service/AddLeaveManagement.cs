@@ -30,6 +30,8 @@ namespace LMS_WebAPI_ServiceHelpers
            
                 foreach (var item in result.EmployeeLeaveTransactions)
                 {
+                    if(item.RefLeaveType!=(Int32)LeaveType.RewardLeave)
+                    { 
                     for (DateTime date = item.FromDate.Value; date <= item.ToDate; date = date.AddDays(1))
                     {
                         for (DateTime givenDate = fromDate; givenDate <= toDate; givenDate = givenDate.AddDays(1))
@@ -41,11 +43,11 @@ namespace LMS_WebAPI_ServiceHelpers
                             }
                         }
                     }
-
+                    }
                 }
                 foreach (var item in result.WorkFromHomes)
                 {
-                    for (DateTime date = item.Date; date <= item.Date; date = date.AddDays(1))
+                    for (DateTime date = item.Date.Value; date <= item.Date; date = date.AddDays(1))
                     {
                         for (DateTime givenDate = fromDate; givenDate <= toDate; givenDate = givenDate.AddDays(1))
                         {

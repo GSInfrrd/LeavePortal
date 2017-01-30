@@ -27,7 +27,7 @@ namespace LMS_WebAPP_Domain
         public Nullable<System.DateTime> ModifiedDate { get; set; }
         public string ProjectName { get; set; }
         public String RoleName { get; set; }
-        public int? TotalLeaveCount { get; set; }
+        public double? TotalLeaveCount { get; set; }
         public double TotalApplied { get; set; }
         public double TotalSpent { get; set; }
         public int TotalLeft { get; set; }
@@ -36,7 +36,7 @@ namespace LMS_WebAPP_Domain
         public string MangerEmail { get; set; }
         public System.DateTime DateOfJoining { get; set; }
         public List<string> Colors { get; set; }
-        public int? TotalCasualLeave { get; set; }
+        public double? TotalCasualLeave { get; set; }
         public int? TotalAdvanceLeaveTotake { get; set; }
         public int? TotalWorkFromHome { get; set; }
         public List<Announcement> Announcements { get; set; }

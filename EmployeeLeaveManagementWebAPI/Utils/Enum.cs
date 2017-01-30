@@ -13,7 +13,9 @@ namespace LMS_WebAPI_Utils
         [Description("Advance Leave")]
         AdvanceLeave = 64,
         [Description("LOP")]
-        LOP = 65
+        LOP = 65,
+        [Description("Reward Leave")]
+        RewardLeave = 66
     }
     public enum LeaveStatus
     {

@@ -80,10 +80,21 @@
                                     <tbody>
                                         @foreach (LMS_WebAPP_Domain.LeaveTransaction m in Model)
                                         {
+                                            var toDate = "";
+                                            var fromDate = "";
+                                            if (m.RefLeaveType != (int)LMS_WebAPP_Utils.LeaveType.RewardLeave)
+                                            {
+                                                fromDate = m.FromDate.Date.ToString("dd/MM/yyyy");
+                                            }
+                                            if (m.ToDate.HasValue)
+                                            {
+                                                toDate = m.ToDate.Value.Date.ToString("dd/MM/yyyy");
+                                            }
+
 
                                             <tr role="row">
-                                                <td>@m.FromDate.Date.ToString("dd/MM/yyyy")</td>
-                                                <td>@m.ToDate.Date.ToString("dd/MM/yyyy")</td>
+                                                <td>@fromDate</td>
+                                                <td>@toDate</td>
                                                 <td>@m.CreatedDate.Date.ToString("dd/MM/yyyy")</td>
                                                 <td>@(LMS_WebAPP_Utils.CommonMethods.Description((LMS_WebAPP_Utils.LeaveStatus)m.RefStatus))</td>
                                                 <td>@m.NumberOfWorkingDays</td>
@@ -151,7 +162,7 @@
                     for (var i = 0; i < data.result.length; i++) {
                         html += "<tr><td>" + data.result[i].FormattedDate + "</td><td>" + data.result[i].FormattedToDate + "</td>" +
                            "<td>" + data.result[i].FormattedCreated + "</td>" +
-                                   "<td>" + data.result[i].StatusName + "</td><td>"+data.result[i].NumberOfWorkingDays + "</td><td>" + data.result[i].LeaveTypeName + "</td><td>" + data.result[i].RefTransactionType + "</td>";
+                                   "<td>" + data.result[i].StatusName + "</td><td>" + data.result[i].NumberOfWorkingDays + "</td><td>" + data.result[i].LeaveTypeName + "</td><td>" + data.result[i].TransactionName + "</td>";
                         html += " </tr>";
                     }
                     html += "</tbody></table>";

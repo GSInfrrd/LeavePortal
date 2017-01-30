@@ -46,7 +46,7 @@ namespace EmployeeLeaveManagementWebAPI.Controllers
         //    return "value";
         //}
         [Route("applyleave")]
-        public List<EmployeeLeaveTransactionModel> Get(int id, int leaveType, string fromDate, string toDate, string comments, double workingDays)
+        public bool Get(int id, int leaveType, string fromDate, string toDate, string comments, double workingDays)
         {
             try
             {
@@ -57,14 +57,14 @@ namespace EmployeeLeaveManagementWebAPI.Controllers
                 Thread MailThread = new Thread(() => SendMailForApplyLeave(detailsInserted, id, fromDate, toDate, comments, workingDays));
                 MailThread.Start();
 
-                var res = new List<EmployeeLeaveTransactionModel>();
+                
                 Logger.Info("Successfully exiting from EmployeeLeaveTransController API Get method");
-                return res;
+                return detailsInserted;
             }
             catch (Exception ex)
             {
                 Logger.Error("Error at EmployeeLeaveTransController API Get method.", ex);
-                return null;
+                return false;
             }
         }
 

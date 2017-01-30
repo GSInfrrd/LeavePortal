@@ -60,7 +60,7 @@
             <!-- small box -->
             <div class="small-box bg-yellow">
                 <div class="inner">
-                    <h3 class="count" id="txtSpentLeaves">@Model.TotalSpent.ToString("0.00")</h3>
+                    <h3 class="count" id="txtSpentLeaves">@Model.TotalSpent</h3>
 
                     <p>Leaves Taken</p>
                 </div>
@@ -108,14 +108,16 @@
                         <select id="ddlLeave" class="form-control yearSelect" style="width: 100%;">
                             @foreach (var value in Enum.GetValues(typeof(LMS_WebAPP_Utils.LeaveType)))
                             {
-                                var selectedAttr = "";
-                                if (Convert.ToInt16(LMS_WebAPP_Utils.LeaveType.CasualLeave) == @Convert.ToInt16((LMS_WebAPP_Utils.LeaveType)value))
+                                if (Convert.ToInt32(value) != (Int32)LMS_WebAPP_Utils.LeaveType.RewardLeave)
                                 {
-                                    selectedAttr = "selected";
-                                }
+                                    var selectedAttr = "";
+                                    if (Convert.ToInt16(LMS_WebAPP_Utils.LeaveType.CasualLeave) == @Convert.ToInt16((LMS_WebAPP_Utils.LeaveType)value))
+                                    {
+                                        selectedAttr = "selected";
+                                    }
                                 <option value="@Convert.ToInt16((LMS_WebAPP_Utils.LeaveType)value)" @selectedAttr>@(LMS_WebAPP_Utils.CommonMethods.Description((LMS_WebAPP_Utils.LeaveType)Convert.ToInt16((LMS_WebAPP_Utils.LeaveType)value))) </option>
 
-
+                                }
                             }
                         </select>
                     </div>
@@ -296,7 +298,7 @@
                 duration: 1750,
                 easing: 'swing',
                 step: function (now) {
-                    $(this).text(Math.ceil(now));
+                    $(this).text(now.toFixed(1));
                 }
             });
         });

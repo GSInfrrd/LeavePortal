@@ -87,7 +87,7 @@ namespace LMS_WebAPI_DAL.Repositories
                             var leaveMaster = (from n in ctx.EmployeeLeaveMasters
                                                where n.RefEmployeeId == empId
                                                select n).SingleOrDefault();
-                            leaveMaster.EarnedCasualLeave = leaveMaster.EarnedCasualLeave - Convert.ToInt16(workingDays);
+                            leaveMaster.EarnedCasualLeave = leaveMaster.EarnedCasualLeave - workingDays;
                             ctx.EmployeeLeaveMasters.Attach(leaveMaster);
                             ctx.Entry(leaveMaster).State = EntityState.Modified;
                             ctx.SaveChanges();
@@ -377,10 +377,11 @@ namespace LMS_WebAPI_DAL.Repositories
                                 RefEmployeeId = model.EmplooyeeId,
                                 CreatedDate = DateTime.Now,
                                 NumberOfWorkingDays = model.NumberofDays,
-                                RefLeaveType = (int)TransactionType.Credit,
+                                RefLeaveType = (int)LeaveType.RewardLeave,
                                 RefCreatedBy = model.ManagerId,
-                                EmployeeComment = model.Comment,
-                                RefStatus = (int)LeaveStatus.Approved
+                                RefStatus = (int)LeaveStatus.Approved,
+                                RefTransactionType = (int)TransactionType.Credit
+
                             };
 
                             var leaveTransactionRecord = ctx.EmployeeLeaveTransactions.Add(leaveTransactionEntity);

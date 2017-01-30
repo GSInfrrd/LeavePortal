@@ -58,7 +58,7 @@ namespace LMS_WebAPI_DAL.Repositories
                         empModel.RoleName = employeeDetails.MasterDataValue.Value;
                         empModel.TotalLeaveCount = employeeLeaves.EarnedCasualLeave + (employeeLeaves.RewardedLeaveCount != null ? employeeLeaves.RewardedLeaveCount : 0);
                         empModel.TotalApplied = leaveTransactions.Count != 0 ? leaveTransactions.Where(x => x.RefStatus == (Int32)LeaveStatus.Submitted).Select(i => i.NumberOfWorkingDays).Sum() : 0;
-                        empModel.TotalSpent = leaveTransactions.Count != 0 ? leaveTransactions.Where(x => x.RefStatus == (Int32)LeaveStatus.Approved).Select(i => i.NumberOfWorkingDays).Sum() : 0;
+                        empModel.TotalSpent = leaveTransactions.Count != 0 ? leaveTransactions.Where(x => x.RefStatus == (Int32)LeaveStatus.Approved && x.RefLeaveType!=(Int32)LeaveType.RewardLeave).Select(i => i.NumberOfWorkingDays).Sum() : 0;
                         empModel.TotalWorkFromHome = employeeDetails.WorkFromHomes.Count();
                         empModel.ManagerName = employeeDetails.EmployeeDetail1 != null ? employeeDetails.EmployeeDetail1.FirstName : string.Empty;
                         empModel.TotalLOPLImit = lopLeaveLimit;
@@ -124,21 +124,22 @@ namespace LMS_WebAPI_DAL.Repositories
                     {
                         for (DateTime date = item.FromDate.Value; date <= item.ToDate; date = date.AddDays(1))
                         {
+                           
                             if (date.DayOfWeek != DayOfWeek.Saturday && date.DayOfWeek != DayOfWeek.Sunday)
                             {
                                 leaveReport.LeaveCount++;
-                                leaveReport.Jan = date.Month == 1 ? leaveReport.Jan + 1 : leaveReport.Jan;
-                                leaveReport.Feb = date.Month == 2 ? leaveReport.Feb + 1 : leaveReport.Feb;
-                                leaveReport.Mar = date.Month == 3 ? leaveReport.Mar + 1 : leaveReport.Mar;
-                                leaveReport.Apr = date.Month == 4 ? leaveReport.Apr + 1 : leaveReport.Apr;
-                                leaveReport.May = date.Month == 5 ? leaveReport.May + 1 : leaveReport.May;
-                                leaveReport.Jun = date.Month == 6 ? leaveReport.Jun + 1 : leaveReport.Jun;
-                                leaveReport.Jul = date.Month == 7 ? leaveReport.Jul + 1 : leaveReport.Jul;
-                                leaveReport.Aug = date.Month == 8 ? leaveReport.Aug + 1 : leaveReport.Aug;
-                                leaveReport.Sep = date.Month == 9 ? leaveReport.Sep + 1 : leaveReport.Sep;
-                                leaveReport.Oct = date.Month == 10 ? leaveReport.Oct + 1 : leaveReport.Oct;
-                                leaveReport.Nov = date.Month == 11 ? leaveReport.Nov + 1 : leaveReport.Nov;
-                                leaveReport.Dec = date.Month == 12 ? leaveReport.Dec + 1 : leaveReport.Dec;
+                                leaveReport.Jan = date.Month == 1 ?item.NumberOfWorkingDays>=1? leaveReport.Jan + 1 :leaveReport.Jan+0.5: leaveReport.Jan;
+                                leaveReport.Feb = date.Month == 2 ? item.NumberOfWorkingDays >= 1 ? leaveReport.Feb + 1:leaveReport.Feb+0.5 : leaveReport.Feb;
+                                leaveReport.Mar = date.Month == 3 ?item.NumberOfWorkingDays>=1? leaveReport.Mar + 1 :leaveReport.Mar+0.5: leaveReport.Mar;
+                                leaveReport.Apr = date.Month == 4 ?item.NumberOfWorkingDays>=1? leaveReport.Apr + 1:leaveReport.Apr+0.5 : leaveReport.Apr;
+                                leaveReport.May = date.Month == 5 ?item.NumberOfWorkingDays>=1? leaveReport.May + 1 : leaveReport.May +0.5 : leaveReport.May;
+                                leaveReport.Jun = date.Month == 6 ?item.NumberOfWorkingDays>=1? leaveReport.Jun + 1:leaveReport.Jun+0.5 : leaveReport.Jun;
+                                leaveReport.Jul = date.Month == 7 ?item.NumberOfWorkingDays>=1? leaveReport.Jul + 1 :leaveReport.Jul+0.5: leaveReport.Jul;
+                                leaveReport.Aug = date.Month == 8 ?item.NumberOfWorkingDays>=1? leaveReport.Aug + 1 :leaveReport.Aug+0.5: leaveReport.Aug;
+                                leaveReport.Sep = date.Month == 9 ? item.NumberOfWorkingDays >= 1 ? leaveReport.Sep + 1 :leaveReport.Sep+0.5: leaveReport.Sep;
+                                leaveReport.Oct = date.Month == 10 ?item.NumberOfWorkingDays>=1? leaveReport.Oct + 1 :leaveReport.Oct+0.5: leaveReport.Oct;
+                                leaveReport.Nov = date.Month == 11 ?item.NumberOfWorkingDays>=1? leaveReport.Nov + 1 :leaveReport.Nov+0.5: leaveReport.Nov;
+                                leaveReport.Dec = date.Month == 12 ? item.NumberOfWorkingDays >= 1 ? leaveReport.Dec + 1 :leaveReport.Dec+0.5: leaveReport.Dec;
                             }
                         }
                     }

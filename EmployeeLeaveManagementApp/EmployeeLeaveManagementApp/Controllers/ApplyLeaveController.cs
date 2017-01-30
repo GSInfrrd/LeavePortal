@@ -93,30 +93,30 @@ namespace EmployeeLeaveManagementApp.Controllers
                 int id = data.RefEmployeeId;
                 string fromDay = fromDate;
                 string toDay = toDate;
-                IList<LeaveTransaction> res = new List<LeaveTransaction>();
+                var result = false;
                 //Add advance leave
                 if (CasualleaveCount != 0)
                 {
                     fromDay = fromDate;
                     toDay = CommonMethods.AddBusinessDays(Convert.ToDateTime(fromDay), CasualleaveCount).ToString();
-                    res = await ELTM.SubmitLeaveRequestAsync(id, Convert.ToInt16(LeaveType.CasualLeave), fromDay, toDay, comments, Convert.ToDouble(CasualleaveCount));
+                    result = await ELTM.SubmitLeaveRequestAsync(id, Convert.ToInt16(LeaveType.CasualLeave), fromDay, toDay, comments, Convert.ToDouble(CasualleaveCount));
                 }
                 if (AdvanceLeaveCount != 0)
                 {
                     var temtoday = toDay;
                     toDay = CommonMethods.AddBusinessDays(Convert.ToDateTime(toDay), AdvanceLeaveCount).ToString();
                     fromDay = Convert.ToDateTime(temtoday).AddDays(1).ToString();
-                    res = await ELTM.SubmitLeaveRequestAsync(id, Convert.ToInt16(LeaveType.AdvanceLeave), fromDay, toDay, comments, Convert.ToDouble(AdvanceLeaveCount));
+                    result = await ELTM.SubmitLeaveRequestAsync(id, Convert.ToInt16(LeaveType.AdvanceLeave), fromDay, toDay, comments, Convert.ToDouble(AdvanceLeaveCount));
                 }
                 if (LOP != 0)
                 {
                     var temtoday = toDay;
                     toDay = CommonMethods.AddBusinessDays(Convert.ToDateTime(toDay), LOP).ToString();
                     fromDay = Convert.ToDateTime(temtoday).AddDays(1).ToString();//toDay;
-                    res = await ELTM.SubmitLeaveRequestAsync(id, Convert.ToInt16(LeaveType.LOP), fromDay, toDay, comments, Convert.ToDouble(LOP));
+                    result = await ELTM.SubmitLeaveRequestAsync(id, Convert.ToInt16(LeaveType.LOP), fromDay, toDay, comments, Convert.ToDouble(LOP));
                 }
                 Logger.Info("Successfully exiting from ApplyLeaveController APP SubmitLeaveRequestForCasualORAdvance method");
-                return Json(new { result = res });
+                return Json(new { result = result });
             }
             catch (Exception ex)
             {

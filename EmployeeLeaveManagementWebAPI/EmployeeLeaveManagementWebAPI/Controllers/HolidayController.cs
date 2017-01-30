@@ -13,11 +13,11 @@ namespace EmployeeLeaveManagementWebAPI.Controllers
     [System.Web.Http.RoutePrefix("api/Holiday")]
     public class HolidayController : ApiController
     {
-       HolidayManagement holidayManager = new HolidayManagement();
+        HolidayManagement holidayManager = new HolidayManagement();
         EmployeeLeaveTransactionManagement eltm = new EmployeeLeaveTransactionManagement();
 
         [System.Web.Http.HttpPost]
-     
+
         public IList<HolidayModel> AddNewHoliday(HolidayModel model)
         {
             try
@@ -35,7 +35,7 @@ namespace EmployeeLeaveManagementWebAPI.Controllers
         }
 
         [System.Web.Http.HttpGet]
-      
+
         public IList<HolidayModel> GetHolidayList()
         {
             try
@@ -71,7 +71,7 @@ namespace EmployeeLeaveManagementWebAPI.Controllers
 
 
         [System.Web.Http.HttpPut]
-       
+
         public IList<HolidayModel> UpdateHoliday(HolidayModel model)
         {
             try
@@ -96,22 +96,18 @@ namespace EmployeeLeaveManagementWebAPI.Controllers
                 var calendarEvents = new List<CalendarEvents>();
                 var holidayList = holidayManager.GetHolidayList();
                 var leaveList = eltm.GetEmployeeLeaveTransaction(employeeId, 0);
+                var holidayEvents = holidayList.Select(m => new CalendarEvents() { Title = m.Description, StartDate = m.Date.Value.ToShortDateString() }).ToList();
 
-                foreach (var item in holidayList)
-                {
-                    var events = new CalendarEvents();
-                    events.Title = item.Description;
-                    events.StartDate = item.Date.Value.ToShortDateString();
-                    calendarEvents.Add(events);
-                }
-                foreach (var leave in leaveList)
-                {
-                    var events = new CalendarEvents();
-                    events.Title = leave.LeaveTypeName;
-                    events.StartDate = leave.FromDate.ToShortDateString();
-                    events.EndDate = leave.ToDate.Value.ToShortDateString();
-                    calendarEvents.Add(events);
-                }
+                var leaveEvents = leaveList.Where(m => m.RefLeaveType != (Int32)LeaveType.RewardLeave).
+                        Select(m => new CalendarEvents()
+                        {
+                            Title = m.LeaveTypeName,
+                            StartDate = m.FromDate.ToShortDateString(),
+                            EndDate = m.ToDate.Value.ToShortDateString()
+                        }).ToList();
+                calendarEvents.AddRange(holidayEvents);
+                calendarEvents.AddRange(leaveEvents);
+
                 Logger.Info("Successfully exiting from HolidayController API GetCalendarEvents method");
                 return calendarEvents;
             }
@@ -122,5 +118,5 @@ namespace EmployeeLeaveManagementWebAPI.Controllers
             }
         }
 
-   }
+    }
 }

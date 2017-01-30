@@ -21,7 +21,7 @@ namespace LMS_WebAPI_DAL
         public Nullable<int> ModifiedBy { get; set; }
         public Nullable<int> SpentAdvanceLeave { get; set; }
         public Nullable<int> TakenLossOfPay { get; set; }
-        public Nullable<int> EarnedCasualLeave { get; set; }
+        public Nullable<double> EarnedCasualLeave { get; set; }
         public Nullable<int> TakenCompOff { get; set; }
     
         public virtual EmployeeDetail EmployeeDetail { get; set; }
