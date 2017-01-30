@@ -7,16 +7,15 @@
 
 }
 <style>
-.Highlighted {
-   background-color : Green !important;
-   background-image :none !important;
-   color: White !important;
-   font-weight:bold !important;
-   font-size: 12pt;
-}
-
+    .Highlighted {
+        background-color: Green !important;
+        background-image: none !important;
+        color: White !important;
+        font-weight: bold !important;
+        font-size: 12pt;
+    }
 </style>
-  <!-- Select2 -->
+<!-- Select2 -->
 <link rel="stylesheet" href="../../plugins/select2/select2.min.css">
 
 <section class="content-header">
@@ -24,7 +23,7 @@
         Dashboard
         <small>Leave panel</small>
     </h1>
-    
+
 </section>
 <section class="content">
     <!-- Small boxes (Stat box) -->
@@ -47,7 +46,7 @@
             <!-- small box -->
             <div class="small-box bg-green">
                 <div class="inner">
-                    <h3  class="count" id="txtRemainingLeaves"> @Model.TotalWorkFromHome</h3>
+                    <h3 class="count" id="txtRemainingLeaves"> @Model.TotalWorkFromHome</h3>
                     <p>Total WFH</p>
                 </div>
                 <div class="icon">
@@ -61,7 +60,7 @@
             <!-- small box -->
             <div class="small-box bg-yellow">
                 <div class="inner">
-                    <h3  class="count" id="txtSpentLeaves">@Model.TotalSpent.ToString("0.00")</h3>
+                    <h3 class="count" id="txtSpentLeaves">@Model.TotalSpent.ToString("0.00")</h3>
 
                     <p>Leaves Taken</p>
                 </div>
@@ -75,7 +74,7 @@
             <!-- small box -->
             <div class="small-box bg-red">
                 <div class="inner">
-                    <h3  id="txtLeavesTaken" style="min-height: 40px;">@Model.CompOffTaken</h3>
+                    <h3 id="txtLeavesTaken" style="min-height: 40px;">@Model.CompOffTaken</h3>
 
                     <p>Comp Off Taken</p>
                 </div>
@@ -86,18 +85,16 @@
             </div>
         </div>
         <!-- ./col -->
-      
         <!-- ./col -->
     </div>
     <!-- /.row -->
     <!-- Main row -->
     <div class="row">
         <!-- Left col -->
-      
         <!-- /.Left col -->
         <!-- right col (We are only adding the ID to make the widgets sortable)-->
-       
-        <div class="col-md-8" >
+
+        <div class="col-md-8">
             <div class="box" style="border-radius:17px;">
                 <div class="box-header with-border">
                     <h3 class="box-title">Leave Report</h3>
@@ -122,13 +119,13 @@
                             }
                         </select>
                     </div>
-                        <div class="btn-group pull-right">                 
-                                <select id="ddlYear" class="form-control yearSelect" style="width: 100%;">
-                                    <option>@DateTime.Now.Year</option>
-                                    <option>@DateTime.Now.AddYears(1).Year</option>
-                                </select>
+                    <div class="btn-group pull-right">
+                        <select id="ddlYear" class="form-control yearSelect" style="width: 100%;">
+                            <option>@DateTime.Now.Year</option>
+                            <option>@DateTime.Now.AddYears(1).Year</option>
+                        </select>
                     </div>
-                 
+
                 </div>
                 <!-- /.box-header -->
                 <div class="box-body">
@@ -140,23 +137,21 @@
 
                             <div class="chart" style="width: 138%;">
                                 <!-- Sales Chart Canvas -->
-                                <canvas id="salesChart" style="height: 203px; width: 645px;" ></canvas>
+                                <canvas id="salesChart" style="height: 203px; width: 645px;"></canvas>
                             </div>
                             <!-- /.chart-responsive -->
                         </div>
                         <!-- /.col -->
-                  
                         <!-- /.col -->
                     </div>
                     <!-- /.row -->
                 </div>
                 <!-- ./box-body -->
-             
                 <!-- /.box-footer -->
             </div>
             <!-- /.box -->
         </div>
-       
+
         <div class="col-md-4">
             <div class="box box-solid" style="height:310px">
                 <div class="box-header with-border">
@@ -183,7 +178,7 @@
                 <div class="box-header with-border">
                     <h3 class="box-title">Team Members</h3>
 
-                    
+
                 </div>
                 <!-- /.box-header -->
                 <div class="box-body" style="overflow-y:auto;height:316px">
@@ -193,17 +188,15 @@
                                 <tr>
                                     <th>First Name</th>
                                     <th>Last Name</th>
-                                  <th>Role</th>
+                                    <th>Role</th>
                                 </tr>
                             </thead>
-                            <tbody id="teamBody" >
-                                
-                            </tbody>
+                            <tbody id="teamBody"></tbody>
                         </table>
                     </div>
                     <!-- /.table-responsive -->
                 </div>
-                
+
             </div>
             <!-- /.box -->
         </div>
@@ -214,41 +207,49 @@
                 </div>
                 <!-- /.box-header -->
                 <div class="box-body">
-                   
+
                     <div id="carousel-example-generic" class="carousel slide" data-ride="carousel">
+
                         <ol class="carousel-indicators">
-                            <li data-target="#carousel-example-generic" data-slide-to="0" class="active"></li>
-                            <li data-target="#carousel-example-generic" data-slide-to="1" class=""></li>
-                            <li data-target="#carousel-example-generic" data-slide-to="2" class=""></li>
+                            @for (var i = 0; i < Model.Announcements.Count; i++)
+                            {
+                                var classActive = "";
+                                if (i == 0)
+                                {
+                                    classActive = "active";
+                                }
+                                <li data-target="#carousel-example-generic" data-slide-to="0" class="@classActive"></li>
+
+                            }
                         </ol>
 
                         <div class="carousel-inner">
-@for (var i = 0; i < Model.Announcements.Count; i++)
-{
+                            @for (var i = 0; i < Model.Announcements.Count; i++)
+                            {
 
-    if (i == 0)
-    {
-        <div class="item active">
-            <img src="@Model.Announcements[i].ImagePath"
-                 alt="First slide" style="object-fit:cover;object-position:center; height:300px; width:100%">
-            <div class="carousel-caption">
-                @Model.Announcements[i].Title
-            </div>
-        </div>
-    }
-    else
-    {
-        <div class="item">
-            <img src="@Model.Announcements[i].ImagePath"
-                 alt="First slide" style="object-fit:cover;object-position:center; height:300px; width:100%">
-            <div class="carousel-caption">
-                @Model.Announcements[i].Title
-            </div>
-        </div>
-    }
-                  
-                }
-            </div>
+                                if (i == 0)
+                                {
+                                    <div class="item active">
+                                        <img src="@Model.Announcements[i].ImagePath"
+                                             alt="First slide" style="object-fit:cover;object-position:center; height:300px; width:100%">
+                                        <div class="carousel-caption">
+                                            @Model.Announcements[i].Title
+                                        </div>
+                                    </div>
+                                }
+                                else
+                                {
+                                    <div class="item">
+                                        <img src="@Model.Announcements[i].ImagePath"
+                                             alt="First slide" style="object-fit:cover;object-position:center; height:300px; width:100%">
+                                        <div class="carousel-caption">
+                                            @Model.Announcements[i].Title
+                                        </div>
+                                    </div>
+                                }
+
+                            }
+                        </div>
 
                         <a class="left carousel-control" href="#carousel-example-generic" data-slide="prev">
                             <span class="fa fa-angle-left"></span>
@@ -257,32 +258,32 @@
                             <span class="fa fa-angle-right"></span>
                         </a>
                     </div>
-                 
+
                 </div>
                 <!-- /.box-body -->
             </div>
             <!-- /.box -->
         </div>
 
- 
+
     </div>
 
     <div class="row">
         @Html.Action("Calender", "Account")
     </div>
-   
+
 </section>
 <script src="../../plugins/select2/select2.full.min.js"></script>
 <script type="text/javascript">
     $(document).ready(function () {
-            $('#dashboard').parent().addClass('active');
-            getTeamMembers();
-            getQuote();
+        $('#dashboard').parent().addClass('active');
+        getTeamMembers();
+        getQuote();
         $(".yearSelect").select2();
         //var name = $('.Login_name').text();
-            $('#calendar1').datepicker({
-                todayHighlight: true
-            });
+        $('#calendar1').datepicker({
+            todayHighlight: true
+        });
         var userName = '@Model.UserName'.toString();
         $(".Login_Name").text(userName).show();
         $("#DOJ").text('@Model.FormattedDate');
@@ -306,13 +307,13 @@
     //-----------------------
     // Get context with jQuery - using jQuery's .get() method.
     var salesChartCanvas = $("#salesChart").get(0).getContext("2d");
-     //This will get the first returned node in the jQuery collection.
+    //This will get the first returned node in the jQuery collection.
     var salesChart = new Chart(salesChartCanvas);
 
     var salesChartData = {
-        labels: ["January", "February", "March", "April", "May", "June", "July","August","September","October","November","December"],
+        labels: ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"],
         datasets: [
-          
+
           {
               label: "Leave Report",
               fillColor: "rgba(60,141,188,0.9)",
@@ -374,17 +375,16 @@
     $("#ddlLeave").change(function (e) {
         GetDashboardDetails();
     });
-        function GetDashboardDetails()
-        {
-            var year = $("#ddlYear").val();
-            $("#fromYearSpan").html(year);
-            $("#toYearSpan").html(year);
-            var leaveType=$("#ddlLeave").val();
+    function GetDashboardDetails() {
+        var year = $("#ddlYear").val();
+        $("#fromYearSpan").html(year);
+        $("#toYearSpan").html(year);
+        var leaveType = $("#ddlLeave").val();
         $.ajax({
             cache: false,
             type: 'post',
             url: '/Account/GetLeaveReportDetails',
-            data: { year: year,leaveType:leaveType },
+            data: { year: year, leaveType: leaveType },
             //contentType: "application/json; charset=utf-8",
             dataType: "json",
             success: function (details) {
@@ -393,9 +393,9 @@
                 // This will get the first returned node in the jQuery collection.
                 var salesChart = new Chart(salesChartCanvas);
                 var salesChartData = {
-                    labels: ["January", "February", "March", "April", "May", "June", "July","August","September","October","November","December"],
+                    labels: ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"],
                     datasets: [
-          
+
                       {
                           label: "Leave Report",
                           fillColor: "rgba(60,141,188,0.9)",
@@ -405,7 +405,7 @@
                           pointHighlightFill: "#fff",
                           pointHighlightStroke: "rgba(60,141,188,1)",
 
-                          data: [details.result!=null?details.result.Jan:0,details.result!=null? details.result.Feb:0, details.result!=null?details.result.Mar:0,details.result!=null? details.result.Apr:0, details.result!=null?details.result.May:0, details.result!=null?details.result.Jun:0, details.result!=null?details.result.Jul:0, details.result!=null?details.result.Aug:0, details.result!=null?details.result.Sep:0,details.result!=null? details.result.Oct:0,details.result!=null? details.result.Nov:0,details.result!=null? details.result.Dec:0]
+                          data: [details.result != null ? details.result.Jan : 0, details.result != null ? details.result.Feb : 0, details.result != null ? details.result.Mar : 0, details.result != null ? details.result.Apr : 0, details.result != null ? details.result.May : 0, details.result != null ? details.result.Jun : 0, details.result != null ? details.result.Jul : 0, details.result != null ? details.result.Aug : 0, details.result != null ? details.result.Sep : 0, details.result != null ? details.result.Oct : 0, details.result != null ? details.result.Nov : 0, details.result != null ? details.result.Dec : 0]
                       }
                     ]
                 };
@@ -452,33 +452,32 @@
                 salesChart.Line(salesChartData, salesChartOptions);
             }
         });
-        };
-        function getTeamMembers() {
-            $.ajax({
-                cache: false,
-                type: 'post',
-                url: '/Account/GetTeamMembers',
-                dataType: "json",
-                success: function (details) {
-                    var rest = "";
-                    if (details != null) {
-                        for (var i = 0; i < details.result.length; i++) {
-                            rest += "<tr><td>" + details.result[i].FirstName + "</td><td>" + details.result[i].LastName +
-                               "</td><td>" + details.result[i].RoleName
-                               + "</td></tr>";
-                        }
+    };
+    function getTeamMembers() {
+        $.ajax({
+            cache: false,
+            type: 'post',
+            url: '/Account/GetTeamMembers',
+            dataType: "json",
+            success: function (details) {
+                var rest = "";
+                if (details != null) {
+                    for (var i = 0; i < details.result.length; i++) {
+                        rest += "<tr><td>" + details.result[i].FirstName + "</td><td>" + details.result[i].LastName +
+                           "</td><td>" + details.result[i].RoleName
+                           + "</td></tr>";
                     }
-                    $('#teamBody').html(rest);
                 }
-            });
-        }
-        function getQuote() {
-            $.getJSON("http://quotesondesign.com/wp-json/posts?filter[orderby]=rand&filter[posts_per_page]=1&callback=", function (a) {
-                if (a[0].content != '')
-                    {
+                $('#teamBody').html(rest);
+            }
+        });
+    }
+    function getQuote() {
+        $.getJSON("http://quotesondesign.com/wp-json/posts?filter[orderby]=rand&filter[posts_per_page]=1&callback=", function (a) {
+            if (a[0].content != '') {
                 $("#quoteText").html(a[0].content);
-                $("#quoteFrom").html(a[0].title); 
-                }
-            });
-        }
+                $("#quoteFrom").html(a[0].title);
+            }
+        });
+    }
 </script>

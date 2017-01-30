@@ -2,6 +2,7 @@
 using LMS_WebAPP_Domain;
 using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
@@ -34,7 +35,14 @@ namespace EmployeeLeaveManagementApp
                     {
                         fname = file.FileName;
                     }
-                    fname = Path.Combine(context.Server.MapPath("~/Content/Images/EmployeeImages"), fname);
+                    if (context.Request.UrlReferrer.OriginalString.Contains("CompanyAnnouncement"))
+                        {
+                        fname = Path.Combine(context.Server.MapPath(ConfigurationManager.AppSettings["ImagePath"]), fname);
+                    }
+                    else
+                    {
+                        fname = Path.Combine(context.Server.MapPath(ConfigurationManager.AppSettings["EmployeeImagePath"]), fname);
+                    }
                     file.SaveAs(fname);
                   //  var image = new ProfileImageModel();
                   //  using (var binaryReader = new BinaryReader(file.InputStream))
