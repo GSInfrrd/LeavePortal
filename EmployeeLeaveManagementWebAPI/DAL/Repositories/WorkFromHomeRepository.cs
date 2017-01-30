@@ -58,6 +58,25 @@ namespace LMS_WebAPI_DAL.Repositories
                 {
                     var newRecord = ctx.WorkFromHomes.Add(newWorkFromHome);
                     ctx.SaveChanges();
+
+                    //Send notification to manager
+                    var employeeDetails = ctx.EmployeeDetails.FirstOrDefault(x => x.Id == newRecord.RefEmployeeId);
+                    int RefApproverId = Convert.ToInt32(employeeDetails.ManagerId);
+                    string Firstname = employeeDetails.FirstName;
+                    string Lastname = employeeDetails.LastName;
+
+                    string employeeName = Firstname;
+                    if (Lastname != null)
+                    {
+                        employeeName += " ";
+                        employeeName += Lastname;
+                    }
+
+                    employeeName += " has applied for work for home.";
+                    int Status = (Int16)NotificationStatus.Active;
+                    int notificationType = (Int16)NotificationTypes.WorkfromHome;
+                    ApproveLeaveRepository alr = new ApproveLeaveRepository();
+                    alr.InsertNotification(RefApproverId, employeeName, Status, notificationType);
                     Logger.Info("Successfully exiting from WorkFromHomeRepository API AddWorkFromHome method");
                     return newRecord.Id;
                 }

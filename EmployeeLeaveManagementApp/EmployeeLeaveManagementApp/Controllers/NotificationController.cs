@@ -88,11 +88,12 @@ namespace EmployeeLeaveManagementApp.Controllers
                         Logger.Info("Successfully exiting from NotificationController APP NotificationRedirect method");
                         return RedirectToAction("RequestForResources", "ResourceRequest");
                 }
-                if (NotificationType == @Convert.ToInt16(NotificationTypes.RewardLeave))
+                if((NotificationType == @Convert.ToInt16(NotificationTypes.RewardLeave))|| (NotificationType == @Convert.ToInt16(NotificationTypes.SickLeave))|| (NotificationType == @Convert.ToInt16(NotificationTypes.WorkfromHome)))
                 {
                         Logger.Info("Successfully exiting from NotificationController APP NotificationRedirect method");
                         return RedirectToAction("Dashboard", "Account");
                 }
+
 
             }
             else

@@ -129,7 +129,11 @@ namespace LMS_WebAPP_Utils
         [Description("Submit Resource Request Response")]
         SubmitResourceRequestResponse = 164,
         [Description("Reward Leave")]
-        RewardLeave = 165
+        RewardLeave = 165,
+        [Description("Work from Home")]
+        WorkfromHome = 166,
+        [Description("Sick Leave")]
+        SickLeave = 167,
 
     }
 

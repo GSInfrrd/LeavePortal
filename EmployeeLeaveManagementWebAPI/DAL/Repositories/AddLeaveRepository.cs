@@ -109,7 +109,7 @@ namespace LMS_WebAPI_DAL.Repositories
 
                             employeeName += " has applied for Sick leave.";
                             int Status = (Int16)NotificationStatus.Active;
-                            int notificationType = (Int16)NotificationTypes.SubmitLeaveRequest;
+                            int notificationType = (Int16)NotificationTypes.SickLeave;
                             ApproveLeaveRepository alr = new ApproveLeaveRepository();
                             alr.InsertNotification(RefApproverId, employeeName, Status, notificationType);
                             break;

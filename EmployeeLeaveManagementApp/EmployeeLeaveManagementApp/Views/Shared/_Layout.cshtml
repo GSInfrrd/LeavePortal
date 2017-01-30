@@ -392,8 +392,15 @@
                         $('#notiContent').append($("<a><li style='height:41px'><i class='text-aqua'></i>No data available</li></a>"));
                     }
                     for (var i = 0; i < response.result.length; i++) {
-
-                        var opti = "<li><a href='javascript:void(0);' onclick='notificationSeen(" + response.result[i].Id + " , " + response.result[i].RefNotificationType + ");return false' ><i class='fa fa-bell text-aqua'></i>" + response.result[i].Text + "</a></li>";
+                        debugger;
+                        if ((response.result[i].RefNotificationType != 167)&&(response.result[i].RefNotificationType != 166))
+                        {
+                            var opti = "<li><a href='javascript:void(0);' onclick='notificationSeen(" + response.result[i].Id + " , " + response.result[i].RefNotificationType + ");return false' ><i class='fa fa-bell text-aqua'></i>" + response.result[i].Text + "</a></li>";
+                        }
+                        else
+                        {
+                            var opti = "<li><a href='javascript:void(0);' style='cursor:default' onclick='notificationSeen(" + response.result[i].Id + " , " + response.result[i].RefNotificationType + ");return false' ><i class='fa fa-bell text-aqua'></i>" + response.result[i].Text + "</a></li>";
+                        }
                         //var opt = new Option(response.result[i].Text);
                         $('#notiContent').append(opti);
                         notifycount++;
