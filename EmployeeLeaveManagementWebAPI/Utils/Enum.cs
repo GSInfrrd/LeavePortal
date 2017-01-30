@@ -175,8 +175,8 @@ namespace LMS_WebAPI_Utils
         RejectLeave = 153,
         [Description("Leave Reassigned")]
         ReassignLeave = 154,
-        [Description("Apply WFH")]
-        ApplyWFH = 155,
+        [Description("WorkFromHome Applied")]
+        WorkFromHome = 155,
         [Description("Apply Compoff")]
         ApplyCompoff = 156,
         [Description("Approve Compoff")]

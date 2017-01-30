@@ -31,6 +31,22 @@ namespace LMS_WebAPI_ServiceHelpers
             }
         }
 
+        public MailDetailsModel GetMailTemplateForWorkFromHome(ActionsForMail actionName, int EmployeeId)
+        {
+            Logger.Info("Entering into MailManagemet Service helper GetMailTemplateForWorkFromHome method ");
+            try
+            {
+                var MailDetail = MailDetails.GetMailTemplateForWorkFromHome(actionName, EmployeeId);
+                Logger.Info("Exiting from into MailManagemet Service helper GetMailTemplateForWorkFromHome method ");
+                return MailDetail;
+            }
+            catch
+            {
+                Logger.Info("Exception occured at MailManagemet Service helper GetMailTemplateForWorkFromHome method ");
+                throw;
+            }
+        }
+
         public MailDetailsModel GetMailTemplateForTakeActionOnLeave(ActionsForMail actionName, int LeaveId)
         {
             Logger.Info("Entering into MailManagemet Service helper GetMailTemplateForTakeActionOnLeave method ");

@@ -3,6 +3,10 @@ using LMS_WebAPI_ServiceHelpers;
 using LMS_WebAPI_Utils;
 using System;
 using System.Collections.Generic;
+using System.Configuration;
+using System.IO;
+using System.Threading;
+using System.Web.Hosting;
 using System.Web.Http;
 
 namespace EmployeeLeaveManagementWebAPI.Controllers
@@ -19,6 +23,9 @@ namespace EmployeeLeaveManagementWebAPI.Controllers
             {
                 Logger.Info("Entering in WorkFromHomeController API AddNewWorkFromHome method");
                 var result = WorkFromHomeManager.AddNewWorkFromHome(model);
+                // Send Mail 
+                Thread MailThread = new Thread(() => SendMailForWorkFromHome(result, model.RefEmployeeId, model));
+                MailThread.Start();
                 Logger.Info("Successfully exiting from WorkFromHomeController API AddNewWorkFromHome method");
                 return result;
             }
@@ -27,6 +34,31 @@ namespace EmployeeLeaveManagementWebAPI.Controllers
                 Logger.Error("Error at WorkFromHomeController API AddNewWorkFromHome method.", ex);
                 throw ex;
             }
+        }
+
+        private void SendMailForWorkFromHome(long result, int id, WorkFromHomeModel model)
+        {
+            if (result!=0)
+            {
+                ActionsForMail actionName = ActionsForMail.WorkFromHome;
+                MailManagement MM = new MailManagement();
+                var MailDetails = MM.GetMailTemplateForLeaveApplied(actionName, id);
+                string TemplatePath = MailDetails.TemplatePath;
+
+                string body;
+                //Read template file from the App_Data folder
+                using (var sr = new StreamReader(HostingEnvironment.MapPath(TemplatePath)))
+                {
+                    body = sr.ReadToEnd();
+                }
+                var logoPath = HostingEnvironment.MapPath("~/Content/Images/infrrd-logo-main.png");
+                WorkFormHomeReasons Reason = (WorkFormHomeReasons)model.RefReason;
+                string WorkFromHomeReason = (model.OtherReason != "") ? model.OtherReason : Reason.Description();
+                string messageBody = string.Format(body, MailDetails.ManagerName, MailDetails.EmployeeName,WorkFromHomeReason);
+                string CcMailId = MailDetails.CcMailId + "," + ConfigurationManager.AppSettings["HRMailId"];
+                MailUtility.sendmail(MailDetails.ToMailId, CcMailId, actionName.Description(), messageBody, logoPath);
+            }
+
         }
 
         [System.Web.Http.HttpGet]

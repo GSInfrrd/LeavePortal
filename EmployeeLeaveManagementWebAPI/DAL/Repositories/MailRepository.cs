@@ -52,6 +52,47 @@ namespace LMS_WebAPI_DAL.Repositories
 
         }
 
+        public MailDetailsModel GetMailTemplateForWorkFromHome(ActionsForMail actionName, int EmployeeId)
+        {
+            try
+            {
+                Logger.Info("Entering in MailRepository API GetMailTemplateForWorkFromHome method");
+                using (var ctx = new LeaveManagementSystemEntities1())
+                {
+                    var MailDetails = ctx.EmailTemplateMappings.Where(m => m.ActionName == actionName.ToString()).FirstOrDefault();
+                    var TemplatePath = MailDetails.EmailTemplateMaster.Template;
+
+                    var EmployeeDetails = ctx.EmployeeDetails.Where(m => m.Id == EmployeeId).FirstOrDefault();
+                    int ManagerId = EmployeeDetails.ManagerId.HasValue == true ? EmployeeDetails.ManagerId.Value : 0;
+                    string EmployeeEmailId = ctx.UserAccounts.Where(m => m.RefEmployeeId == EmployeeId).FirstOrDefault().UserName;
+                    string ManagerEmailId = ctx.UserAccounts.Where(m => m.RefEmployeeId == ManagerId).FirstOrDefault().UserName;
+                    var ManagerDetails = ctx.EmployeeDetails.Where(m => m.Id == ManagerId).FirstOrDefault();
+                    string ManagerName = ManagerDetails.FirstName;
+                    string EmployeeName = EmployeeDetails.FirstName;
+                    string EmployeeLastName = EmployeeDetails.LastName;
+                    if (EmployeeLastName != null)
+                    {
+                        EmployeeName = string.Format(EmployeeName + " " + EmployeeLastName);
+                    }
+
+                    MailDetailsModel retResult = new MailDetailsModel();
+                    retResult.ToMailId = ManagerEmailId;
+                    retResult.CcMailId = EmployeeEmailId;
+                    retResult.TemplatePath = TemplatePath;
+                    retResult.ManagerName = ManagerName;
+                    retResult.EmployeeName = EmployeeName;
+                    Logger.Info("Successfully exiting from MailRepository API GetMailTemplateForWorkFromHome method");
+                    return retResult;
+                }
+            }
+            catch
+            {
+                Logger.Info("Exception occured at MailRepository API GetMailTemplateForWorkFromHome method ");
+                throw;
+            }
+
+        }
+
         public MailDetailsModel GetMailTemplateForAddResourceRequest(ActionsForMail actionName, int EmployeeId , int HrId)
         {
             try

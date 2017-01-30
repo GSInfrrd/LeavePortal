@@ -12,6 +12,8 @@ namespace LMS_WebAPI_DAL.Repositories.Interfaces
     {
         MailDetailsModel GetMailTemplateForLeaveApplied(ActionsForMail actionName, int EmployeeId);
 
+        MailDetailsModel GetMailTemplateForWorkFromHome(ActionsForMail actionName, int EmployeeId);
+
         MailDetailsModel GetMailTemplateForTakeActionOnLeave(ActionsForMail actionName, int LeaveId);
 
         MailDetailsModel GetMailTemplateForAddResourceRequest(ActionsForMail actionName, int EmployeeId , int Hrid);
