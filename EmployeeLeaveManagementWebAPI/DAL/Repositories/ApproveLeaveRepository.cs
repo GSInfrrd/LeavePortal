@@ -66,7 +66,7 @@ namespace LMS_WebAPI_DAL.Repositories
                     var EmployeeId = leaveDetails.EmployeeLeaveTransaction.EmployeeDetail.Id;
                     var ApproverId = leaveDetails.RefApproverId;
                     int Status = (Int16)NotificationStatus.Active; ;
-                    int notificationType = (Int16)NotificationType.TakeActionOnLeaveRequest;
+                    int notificationType = (Int16)NotificationTypes.TakeActionOnLeaveRequest;
                     if (Leavestatus == CommonMethods.Description(LeaveStatus.Approved))
                     {
                         leaveDetails.EmployeeLeaveTransaction.RefStatus = Convert.ToInt32(LeaveStatus.Approved);
@@ -206,7 +206,7 @@ namespace LMS_WebAPI_DAL.Repositories
                         int RefApproverId = assignedManager.Id;
                         string EmployeeFirstname = leaveDetails.EmployeeLeaveTransaction.EmployeeDetail.FirstName;
                         string EmployeeLastname = leaveDetails.EmployeeLeaveTransaction.EmployeeDetail.LastName;
-                        notificationType = (Int16)NotificationType.SubmitLeaveRequest;
+                        notificationType = (Int16)NotificationTypes.SubmitLeaveRequest;
 
                         string Text1 = EmployeeFirstname;
                         if (EmployeeLastname != null)
