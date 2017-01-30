@@ -68,10 +68,30 @@ namespace EmployeeLeaveManagementApp.Controllers
             {
                 if (null != Session[Constants.SESSION_OBJ_USER])
             {
-                if (NotificationType == @Convert.ToInt16(NotificationTypes.LeaveNotification))
+                if (NotificationType == @Convert.ToInt16(NotificationTypes.TakeActionOnLeaveRequest))
                 {
                         Logger.Info("Successfully exiting from NotificationController APP NotificationRedirect method");
                         return RedirectToAction("ApplyLeave", "ApplyLeave");
+                }
+                if (NotificationType == @Convert.ToInt16(NotificationTypes.SubmitLeaveRequest))
+                {
+                        Logger.Info("Successfully exiting from NotificationController APP NotificationRedirect method");
+                        return RedirectToAction("ApproveLeave", "ApproveLeave");
+                }
+                if (NotificationType == @Convert.ToInt16(NotificationTypes.SubmitResourceRequest))
+                {
+                        Logger.Info("Successfully exiting from NotificationController APP NotificationRedirect method");
+                        return RedirectToAction("RequestForResourcesHR", "ResourceRequest");
+                }
+                if (NotificationType == @Convert.ToInt16(NotificationTypes.SubmitResourceRequestResponse))
+                {
+                        Logger.Info("Successfully exiting from NotificationController APP NotificationRedirect method");
+                        return RedirectToAction("RequestForResources", "ResourceRequest");
+                }
+                if (NotificationType == @Convert.ToInt16(NotificationTypes.RewardLeave))
+                {
+                        Logger.Info("Successfully exiting from NotificationController APP NotificationRedirect method");
+                        return RedirectToAction("Dashboard", "Account");
                 }
 
             }

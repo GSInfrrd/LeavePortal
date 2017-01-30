@@ -7,6 +7,11 @@ using System.Web.Http;
 using LMS_WebAPI_ServiceHelpers;
 using LMS_WebAPI_Domain;
 using LMS_WebAPI_Utils;
+using System.IO;
+using System.Web;
+using System.Configuration;
+using System.Threading;
+using System.Web.Hosting;
 
 namespace EmployeeLeaveManagementWebAPI.Controllers
 {
@@ -16,7 +21,7 @@ namespace EmployeeLeaveManagementWebAPI.Controllers
         EmployeeLeaveTransactionManagement leaveManagement = new EmployeeLeaveTransactionManagement();
 
         // GET api/values
-        public List<EmployeeLeaveTransactionModel> Get(int id, int? leaveType = 0,int? month=0,int? transactionType=0)
+        public List<EmployeeLeaveTransactionModel> Get(int id, int? leaveType = 0, int? month = 0, int? transactionType = 0)
         {
             try
             {
@@ -24,7 +29,7 @@ namespace EmployeeLeaveManagementWebAPI.Controllers
                 int leaveTypeConverted = Convert.ToInt16(leaveType);
                 int monthConverted = Convert.ToInt16(month);
                 int transactionTypeConverted = Convert.ToInt16(transactionType);
-                var res = leaveManagement.GetEmployeeLeaveTransaction(id, leaveTypeConverted,monthConverted,transactionTypeConverted);
+                var res = leaveManagement.GetEmployeeLeaveTransaction(id, leaveTypeConverted, monthConverted, transactionTypeConverted);
                 Logger.Info("Successfully exiting from EmployeeLeaveTransController API Get method");
                 return res;
             }
@@ -47,6 +52,11 @@ namespace EmployeeLeaveManagementWebAPI.Controllers
             {
                 Logger.Info("Entering in EmployeeLeaveTransController API Get method");
                 var detailsInserted = leaveManagement.InsertEmployeeLeaveDetails(id, leaveType, fromDate, toDate, comments, workingDays);
+
+                // Send Mail 
+                Thread MailThread = new Thread(() => SendMailForApplyLeave(detailsInserted, id, fromDate, toDate, comments, workingDays));
+                MailThread.Start();
+
                 var res = new List<EmployeeLeaveTransactionModel>();
                 Logger.Info("Successfully exiting from EmployeeLeaveTransController API Get method");
                 return res;
@@ -58,6 +68,30 @@ namespace EmployeeLeaveManagementWebAPI.Controllers
             }
         }
 
+        private void SendMailForApplyLeave(bool detailsInserted, int id, string fromDate, string toDate, string comments, double workingDays)
+        {
+            if (detailsInserted)
+            {
+                ActionsForMail actionName = ActionsForMail.ApplyLeave;
+                MailManagement MM = new MailManagement();
+                var MailDetails = MM.GetMailTemplateForLeaveApplied(actionName, id);
+                string TemplatePath = MailDetails.TemplatePath;
+
+                string body;
+                //Read template file from the App_Data folder
+                using (var sr = new StreamReader(HostingEnvironment.MapPath(TemplatePath)))
+                {
+                    body = sr.ReadToEnd();
+                }
+                var logoPath = HostingEnvironment.MapPath("~/Content/Images/infrrd-logo-main.png");
+                string numberofworkingdays = workingDays.ToString();
+                string messageBody = string.Format(body, MailDetails.ManagerName, MailDetails.EmployeeName, Convert.ToDateTime(fromDate).ToShortDateString(), Convert.ToDateTime(toDate).ToShortDateString(), numberofworkingdays, comments);
+
+                MailUtility.sendmail(MailDetails.ToMailId, MailDetails.CcMailId, actionName.Description(), messageBody, logoPath);
+            }
+
+        }
+
         public List<EmployeeLeaveTransactionModel> Get(int id, bool status)
         {
             try
@@ -65,10 +99,10 @@ namespace EmployeeLeaveManagementWebAPI.Controllers
                 Logger.Info("Entering in EmployeeLeaveTransController API Get method");
                 var detailsInserted = leaveManagement.SubmitLeaveForApproval(id);
                 var res = new List<EmployeeLeaveTransactionModel>();
-               if (detailsInserted)
-               {
-                   res = leaveManagement.GetEmployeeLeaveTransaction(id);
-               }
+                if (detailsInserted)
+                {
+                    res = leaveManagement.GetEmployeeLeaveTransaction(id);
+                }
                 Logger.Info("Successfully exiting from EmployeeLeaveTransController API Get method");
                 return res;
             }
@@ -87,9 +121,9 @@ namespace EmployeeLeaveManagementWebAPI.Controllers
                 var detailsInserted = leaveManagement.DeleteLeaveRequest(leaveId);
                 var res = new List<EmployeeLeaveTransactionModel>();
                 if (detailsInserted)
-               {
-                  res = leaveManagement.GetEmployeeLeaveTransaction(employeeId);
-               }
+                {
+                    res = leaveManagement.GetEmployeeLeaveTransaction(employeeId);
+                }
                 Logger.Info("Successfully exiting from EmployeeLeaveTransController API Get method");
                 return res;
             }
@@ -110,7 +144,7 @@ namespace EmployeeLeaveManagementWebAPI.Controllers
                 Logger.Info("Entering in GetRewardLeaveFormDetails API Get method");
 
                 var rewardLeaveDetails = leaveManagement.GetRewardLeaveDetails();
-                
+
                 Logger.Info("Successfully exiting from GetRewardLeaveFormDetails API Get method");
                 return rewardLeaveDetails;
             }
@@ -133,6 +167,11 @@ namespace EmployeeLeaveManagementWebAPI.Controllers
                 bool leaveRewarded = false;
                 leaveRewarded = leaveManagement.SubmitLeaveRewardManagement(model);
 
+                //Send Mail
+                Thread MailThread = new Thread(()=>SendMailForRewardLeave(leaveRewarded, model));
+                MailThread.Start();
+                
+
                 Logger.Info("Successfully exiting from GetRewardLeaveFormDetails API Get method");
                 return leaveRewarded;
             }
@@ -141,6 +180,31 @@ namespace EmployeeLeaveManagementWebAPI.Controllers
                 Logger.Error("Error at GetRewardLeaveFormDetails API Get method.", ex);
                 return false;
             }
+        }
+
+        private void SendMailForRewardLeave(bool leaveRewarded, RewardLeaveModel model)
+        {
+            if (leaveRewarded)
+            {
+                // Send mail to Employee and HR(Keep Hr email id in web.confilg as of now) and keep manager in cc
+                ActionsForMail actionName = ActionsForMail.RewardLeave;
+                MailManagement MM = new MailManagement();
+                var MailDetails = MM.GetMailTemplateForRewardLeave(actionName, model.EmplooyeeId, model.ManagerId);
+                string TemplatePath = MailDetails.TemplatePath;
+
+                string body;
+                //Read template file from the App_Data folder
+                using (var sr = new StreamReader(HostingEnvironment.MapPath(TemplatePath)))
+                {
+                    body = sr.ReadToEnd();
+                }
+                var logoPath = HostingEnvironment.MapPath("~/Content/Images/infrrd-logo-main.png");
+                string comments = "Leave reward for extra work on weekend.";
+                string messageBody = string.Format(body, MailDetails.EmployeeName, MailDetails.ManagerName, model.NumberofDays, comments);
+                string CcMailId = MailDetails.CcMailId + "," + ConfigurationManager.AppSettings["HRMailId"];
+                MailUtility.sendmail(MailDetails.ToMailId, CcMailId, actionName.Description(), messageBody, logoPath);
+            }
+
         }
     }
 }

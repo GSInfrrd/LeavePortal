@@ -45,6 +45,7 @@
     <Compile Include="EmployeeLeaveTransactionManagement.cs" />
     <Compile Include="HolidayManagement.cs" />
     <Compile Include="HRManagement.cs" />
+    <Compile Include="MailManagement.cs" />
     <Compile Include="NotificationManagement.cs" />
     <Compile Include="ResourceRequestManagement.cs" />
     <Compile Include="UserManagement.cs" />

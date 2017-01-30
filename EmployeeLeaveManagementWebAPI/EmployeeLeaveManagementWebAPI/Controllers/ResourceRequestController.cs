@@ -4,9 +4,12 @@ using LMS_WebAPI_ServiceHelpers;
 using LMS_WebAPI_Utils;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
+using System.Threading;
+using System.Web.Hosting;
 using System.Web.Http;
 
 namespace EmployeeLeaveManagementWebAPI.Controllers
@@ -60,6 +63,12 @@ namespace EmployeeLeaveManagementWebAPI.Controllers
                 requestEntity.Status = Convert.ToInt16((Enum)ResourceRequestStatus.Requested);
 
                 var result = resourceRequestmanagement.SubmitResourceRequest(requestEntity);
+
+
+                //Send mail
+                Thread MailThread = new Thread(() => SendMailForResourceRequest(result, model, randomId));
+                MailThread.Start();
+
                 return result;
             }
             catch
@@ -68,6 +77,30 @@ namespace EmployeeLeaveManagementWebAPI.Controllers
                 throw;
             }
         }
+
+        private void SendMailForResourceRequest(ResourceDetails result, ResourceRequestDetailModel model, string randomId)
+        {
+
+            if (result != null)
+            {
+                ActionsForMail actionName = ActionsForMail.AddResourceRequest;
+                MailManagement MM = new MailManagement();
+                var MailDetails = MM.GetMailTemplateForAddResourceRequest(actionName, model.RequestFromId, model.RequestToId);
+                string TemplatePath = MailDetails.TemplatePath;
+
+                string body;
+                //Read template file from the App_Data folder
+                using (var sr = new StreamReader(HostingEnvironment.MapPath(TemplatePath)))
+                {
+                    body = sr.ReadToEnd();
+                }
+                var logoPath = HostingEnvironment.MapPath("~/Content/Images/infrrd-logo-main.png");
+                string messageBody = string.Format(body, MailDetails.ManagerName, MailDetails.EmployeeName, model.ResourceRequestTitle, model.NumberRequestedResources, model.Skills, ResourceRequestStatus.Requested.Description());
+                string subject = "Ticket " + "INF-" + model.RequestFromId + randomId + " raised " + (DateTime.Now).ToShortDateString();
+                MailUtility.sendmail(MailDetails.ToMailId, MailDetails.CcMailId, subject, messageBody, logoPath);
+            }
+        }
+
 
         [AllowAnonymous]
         [HttpGet]
@@ -108,13 +141,42 @@ namespace EmployeeLeaveManagementWebAPI.Controllers
                 if (null != resourceSubmit)
                 {
                     if (resourceSubmit.Result)
-                        return result = true;
+                        result = true;
                 }
+
+                //Send mail
+                Thread MailThread = new Thread(() => SendMailForResourceRequestResponse(result, model, resourceSubmit));
+                MailThread.Start();
+
                 return result;
             }
             catch
             {
                 throw;
+            }
+        }
+
+        private void SendMailForResourceRequestResponse(bool result, ResourceRequestDetailModel model, ResourceRequestDetailModel resourceSubmit)
+        {
+
+            if (result)
+            {
+                ActionsForMail actionName = ActionsForMail.ResourceRequestUpdate;
+                MailManagement MM = new MailManagement();
+                var MailDetails = MM.GetMailTemplateForResourceRequestUpdate(actionName, model.RequestFromId, model.RequestToId);
+                string TemplatePath = MailDetails.TemplatePath;
+                ResourceRequestStatus status = (ResourceRequestStatus)(Convert.ToInt32(resourceSubmit.Status));
+                string body;
+                //Read template file from the App_Data folder
+                using (var sr = new StreamReader(HostingEnvironment.MapPath(TemplatePath)))
+                {
+                    body = sr.ReadToEnd();
+                }
+                var logoPath = HostingEnvironment.MapPath("~/Content/Images/infrrd-logo-main.png");
+                string messageBody = string.Format(body, MailDetails.EmployeeName, MailDetails.ManagerName, resourceSubmit.ResourceRequestTitle, resourceSubmit.NumberRequestedResources, resourceSubmit.Skills, status);
+                string subject = "Ticket " + model.Ticket + " updated " + (DateTime.Now).ToShortDateString();
+                MailUtility.sendmail(MailDetails.ToMailId, MailDetails.CcMailId, subject, messageBody, logoPath);
+
             }
         }
 

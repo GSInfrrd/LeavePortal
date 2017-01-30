@@ -78,6 +78,12 @@
     <Compile Include="Announcement.cs">
       <DependentUpon>EmployeeLeaveManagement.tt</DependentUpon>
     </Compile>
+    <Compile Include="EmailTemplateMapping.cs">
+      <DependentUpon>EmployeeLeaveManagement.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EmailTemplateMaster.cs">
+      <DependentUpon>EmployeeLeaveManagement.tt</DependentUpon>
+    </Compile>
     <Compile Include="EmployeeContactDetail.cs">
       <DependentUpon>EmployeeLeaveManagement.tt</DependentUpon>
     </Compile>
@@ -162,10 +168,12 @@
     <Compile Include="Repositories\Interfaces\IGenericRepository.cs" />
     <Compile Include="Repositories\Interfaces\IHoliday.cs" />
     <Compile Include="Repositories\Interfaces\IHRRepository.cs" />
+    <Compile Include="Repositories\Interfaces\IMailRepository.cs" />
     <Compile Include="Repositories\Interfaces\INotificationRepository.cs" />
     <Compile Include="Repositories\Interfaces\IResourceRequestRepository.cs" />
     <Compile Include="Repositories\Interfaces\IUser.cs" />
     <Compile Include="Repositories\Interfaces\IWorkFromHome.cs" />
+    <Compile Include="Repositories\MailRepository.cs" />
     <Compile Include="Repositories\NotificationRepository.cs" />
     <Compile Include="Repositories\ResourceRequestRepository.cs" />
     <Compile Include="Repositories\UserRepository.cs" />

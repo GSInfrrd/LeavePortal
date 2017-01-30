@@ -48,12 +48,16 @@
     <Compile Include="ApproveLeaveModel.cs" />
     <Compile Include="CalendarEvents.cs" />
     <Compile Include="ConsolidatedEmployeeLeaveDetailsModel.cs" />
+    <Compile Include="CustomMailParameterModel.cs" />
+    <Compile Include="EmailTemplateMaster.cs" />
     <Compile Include="EmployeeDetailsModel.cs" />
     <Compile Include="EmployeeLeaveTransactionModel.cs" />
     <Compile Include="HolidayModel.cs" />
     <Compile Include="LeaveReportModel.cs" />
     <Compile Include="LeaveTransactionResponse.cs" />
     <Compile Include="LeaveTypeModel.cs" />
+    <Compile Include="MailDetailsModel.cs" />
+    <Compile Include="MailTemplateModel.cs" />
     <Compile Include="MessagesModel.cs" />
     <Compile Include="NotificationModel.cs" />
     <Compile Include="ResourceDetails.cs" />
