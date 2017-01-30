@@ -45,19 +45,19 @@
                                 <div class="btn-group" id="@resource.Ticket">
                                     @if (resource.Status == (int)ResourceRequestStatus.Requested)
                                     {
-                                        <span class="label btn-color-requested">@resource.StatusValue</span>
+                                        <span class="label btn-color-requested statusSpan">@resource.StatusValue</span>
                                     }
                                     else if (resource.Status == (int)ResourceRequestStatus.InProgress)
                                     {
-                                        <span class="label btn-color-processing">@resource.StatusValue</span>
+                                        <span class="label btn-color-processing statusSpan">@resource.StatusValue</span>
                                     }
                                     else if (resource.Status == (int)ResourceRequestStatus.PartialApproval)
                                     {
-                                        <span class="label btn-color-partialApproval">@resource.StatusValue</span>
+                                        <span class="label btn-color-partialApproval statusSpan">@resource.StatusValue</span>
                                     }
                                     else
                                     {
-                                        <span class="label btn-color-approved">@resource.StatusValue</span>
+                                        <span class="label btn-color-approved statusSpan">@resource.StatusValue</span>
                                     }
                                 </div>
                             </td>

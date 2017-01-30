@@ -52,19 +52,19 @@
                                         <div class="btn-group">
                                             @if (resource.Status == (int)ResourceRequestStatus.Requested)
                                             {
-                                                <span class="label btn-color-requested">@resource.StatusValue</span>
+                                                <span class="label btn-color-requested statusSpan">@resource.StatusValue</span>
                                             }
                                             else if (resource.Status == (int)ResourceRequestStatus.InProgress)
                                             {
-                                                <span class="label btn-color-processing">@resource.StatusValue</span>
+                                                <span class="label btn-color-processing statusSpan">@resource.StatusValue</span>
                                             }
                                             else if (resource.Status == (int)ResourceRequestStatus.PartialApproval)
                                             {
-                                                <span class="label btn-color-partialApproval">@resource.StatusValue</span>
+                                                <span class="label btn-color-partialApproval statusSpan">@resource.StatusValue</span>
                                             }
                                             else
                                             {
-                                                <span class="label btn-color-approved">@resource.StatusValue</span>
+                                                <span class="label btn-color-approved statusSpan">@resource.StatusValue</span>
                                             }
                                         </div>
                                     </td>
@@ -72,7 +72,7 @@
                                     <td class="text-align_center">
                                         @if (resource.Status != (int)ResourceRequestStatus.Approved)
                                         {
-                                            <a href="#"><span class="label btn-danger" data-ticket="@resource.Ticket" onclick="cancelRequest(this)">Cancel</span></a>
+                                            <a href="#"><span class="label btn-danger statusSpan" data-ticket="@resource.Ticket" onclick="cancelRequest(this)">Cancel</span></a>
                                         }
                                     </td>
                                 </tr>
@@ -191,7 +191,7 @@
                             <div class="col-md-6">
                                 <label class="pad-left-30"> Status:</label>
                             </div>
-                            <div class="col-md-6"><span class="requestStatus"></span></div>
+                            <div class="col-md-6"><span class="requestStatus statusSpan"></span></div>
                         </div>
                     </div>
                 </div>
@@ -340,16 +340,16 @@
         $(".requestSentTo").html($(id).attr('data-sentTo'));
         var statusKey = parseInt($(id).attr('data-statusKey'));
         if (statusKey == '@Convert.ToInt32(ResourceRequestStatus.Requested)') {
-            $(".requestStatus").html('<span class="label btn-color-requested">' + $(id).attr("data-status") + '</span>');
+            $(".requestStatus").html('<span class="label btn-color-requested statusSpan">' + $(id).attr("data-status") + '</span>');
         }
         else if (statusKey == '@Convert.ToInt32(ResourceRequestStatus.InProgress)') {
-            $(".requestStatus").html('<span class="label btn-color-processing">' + $(id).attr("data-status") + '</span>');
+            $(".requestStatus").html('<span class="label btn-color-processing statusSpan">' + $(id).attr("data-status") + '</span>');
         }
         else if (statusKey == '@Convert.ToInt32(ResourceRequestStatus.PartialApproval)') {
-            $(".requestStatus").html('<span class="label btn-color-partialApproval">' + $(id).attr("data-status") + '</span>');
+            $(".requestStatus").html('<span class="label btn-color-partialApproval statusSpan">' + $(id).attr("data-status") + '</span>');
         }
         else {
-            $(".requestStatus").html('<span class="label btn-color-approved">' + $(id).attr("data-status") + '</span>');
+            $(".requestStatus").html('<span class="label btn-color-approved statusSpan">' + $(id).attr("data-status") + '</span>');
         }
         var createdDate = $(id).attr('data-created').split(" ")[0];
         $(".requestSentDate").html(createdDate);
@@ -389,21 +389,21 @@
         tableRow += '<td>' + model.ResourceRequestTitle + '</td>';
         tableRow += '<td>' + createdDate + '</td>';
         if (statusKey == '@Convert.ToInt32(ResourceRequestStatus.Requested)') {
-            tableRow += '<td>' + '<span class="label btn-color-requested">' + model.StatusValue + '</span>' + '</td>';
+            tableRow += '<td>' + '<span class="label btn-color-requested statusSpan">' + model.StatusValue + '</span>' + '</td>';
         }
         else if (statusKey == '@Convert.ToInt32(ResourceRequestStatus.InProgress)') {
-            tableRow += '<td>' + '<span class="label btn-color-processing">' + model.StatusValue + '</span>' + '</td>';
+            tableRow += '<td>' + '<span class="label btn-color-processing statusSpan">' + model.StatusValue + '</span>' + '</td>';
         }
         else if (statusKey == '@Convert.ToInt32(ResourceRequestStatus.PartialApproval)') {
-            tableRow += '<td>' + '<span class="label btn-color-partialApproval">' + model.StatusValue + '</span>' + '</td>';
+            tableRow += '<td>' + '<span class="label btn-color-partialApproval statusSpan">' + model.StatusValue + '</span>' + '</td>';
         }
         else {
-            tableRow += '<td>' + '<span class="label btn-color-approved">' + model.StatusValue + '</span>' + '</td>';
+            tableRow += '<td>' + '<span class="label btn-color-approved statusSpan">' + model.StatusValue + '</span>' + '</td>';
         }
 
         tableRow += '<td class="text-align_center">';
         if (statusKey != '@Convert.ToInt32(ResourceRequestStatus.Approved)') {
-            tableRow += '<a href="#"><span class="label btn-danger" data-ticket="' + model.Ticket + '" onclick="cancelRequest(this)">Cancel</span></a>';
+            tableRow += '<a href="#"><span class="label btn-danger statusSpan" data-ticket="' + model.Ticket + '" onclick="cancelRequest(this)">Cancel</span></a>';
         }
         tableRow += '</td>';
         tableRow += '</tr>';

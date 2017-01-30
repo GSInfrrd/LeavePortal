@@ -111,4 +111,9 @@
 .width-100{
     width:100px;
 }
+.statusSpan{
+    padding-left: 8px;
+    padding-right: 8px;
+    font-size: 12px;
+}
 
