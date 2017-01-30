@@ -245,6 +245,7 @@
           <Property Name="EndDate" Type="date" />
           <Property Name="RefManagerId" Type="int" Nullable="false" />
           <Property Name="Technology" Type="varchar" MaxLength="250" Nullable="false" />
+          <Property Name="ProjectLogo" Type="nvarchar" MaxLength="500" />
         </EntityType>
         <EntityType Name="ResourceRequestDetail">
           <Key>
@@ -1552,6 +1553,7 @@
           <NavigationProperty Name="EmployeeDetail" Relationship="LeaveManagementSystemModel.FK_ProjectMaster_EmployeeDetails" FromRole="ProjectMaster" ToRole="EmployeeDetail" />
           <NavigationProperty Name="EmployeeProjectDetails" Relationship="LeaveManagementSystemModel.FK_EmployeeProjectDetail_ProjectMaster" FromRole="ProjectMaster" ToRole="EmployeeProjectDetail" />
           <NavigationProperty Name="EmployeeRewardedLeaveDetails" Relationship="LeaveManagementSystemModel.FK_EmployeeRewardedLeaveDetails_ProjectMaster" FromRole="ProjectMaster" ToRole="EmployeeRewardedLeaveDetail" />
+          <Property Name="ProjectLogo" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
         </EntityType>
         <EntityType Name="ResourceRequestDetail">
           <Key>
@@ -2392,6 +2394,7 @@
           <EntitySetMapping Name="ProjectMasters">
             <EntityTypeMapping TypeName="LeaveManagementSystemModel.ProjectMaster">
               <MappingFragment StoreEntitySet="ProjectMaster">
+                <ScalarProperty Name="ProjectLogo" ColumnName="ProjectLogo" />
                 <ScalarProperty Name="Technology" ColumnName="Technology" />
                 <ScalarProperty Name="RefManagerId" ColumnName="RefManagerId" />
                 <ScalarProperty Name="EndDate" ColumnName="EndDate" />
