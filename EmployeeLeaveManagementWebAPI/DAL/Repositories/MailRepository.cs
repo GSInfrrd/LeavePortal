@@ -21,12 +21,8 @@ namespace LMS_WebAPI_DAL.Repositories
                     var MailDetails = ctx.EmailTemplateMappings.Where(m => m.ActionName == actionName.ToString()).FirstOrDefault();
                     var TemplatePath = MailDetails.EmailTemplateMaster.Template;
                     
-                    
-                    
-
-                    
                     var EmployeeDetails = ctx.EmployeeDetails.Where(m => m.Id == EmployeeId).FirstOrDefault();
-                    int ManagerId = EmployeeDetails.ManagerId.HasValue==true ? 0:EmployeeDetails.ManagerId.Value;
+                    int ManagerId = EmployeeDetails.ManagerId.HasValue==true ? EmployeeDetails.ManagerId.Value :0;
                     string EmployeeEmailId = ctx.UserAccounts.Where(m => m.RefEmployeeId == EmployeeId).FirstOrDefault().UserName;
                     string ManagerEmailId = ctx.UserAccounts.Where(m => m.RefEmployeeId == ManagerId).FirstOrDefault().UserName;
                     var ManagerDetails = ctx.EmployeeDetails.Where(m => m.Id == ManagerId).FirstOrDefault();
