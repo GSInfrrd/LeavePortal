@@ -199,8 +199,7 @@ namespace EmployeeLeaveManagementWebAPI.Controllers
                     body = sr.ReadToEnd();
                 }
                 var logoPath = HostingEnvironment.MapPath("~/Content/Images/infrrd-logo-main.png");
-                string comments = "Leave reward for extra work on weekend.";
-                string messageBody = string.Format(body, MailDetails.EmployeeName, MailDetails.ManagerName, model.NumberofDays, comments);
+                string messageBody = string.Format(body, MailDetails.EmployeeName, MailDetails.ManagerName, model.NumberofDays, model.Comment);
                 string CcMailId = MailDetails.CcMailId + "," + ConfigurationManager.AppSettings["HRMailId"];
                 MailUtility.sendmail(MailDetails.ToMailId, CcMailId, actionName.Description(), messageBody, logoPath);
             }
