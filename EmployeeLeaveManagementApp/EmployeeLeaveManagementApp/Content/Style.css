@@ -129,7 +129,7 @@
     font-size: 12px;
 }
 .textAreaCommentRewardLeave{
-    resize: none;
-    height: 73px;
+    resize: none !important;
+    height: 73px !important;
 }
 
