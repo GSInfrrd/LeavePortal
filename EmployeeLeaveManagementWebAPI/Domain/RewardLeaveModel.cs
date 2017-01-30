@@ -13,6 +13,7 @@ namespace LMS_WebAPI_Domain
         public int ProjectId { get; set; }
         public int EmplooyeeId { get; set; }
         public int NumberofDays { get; set; }
+        public string Comment { get; set; }
         public List<Details> Projects { get; set; }
         public List<Details> Employees { get; set; } 
         

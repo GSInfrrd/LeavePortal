@@ -1,6 +1,18 @@
 ﻿.padding-left-right-20{
     padding:0 20px;
 }
+.pad-left0{
+    padding-left:0px;
+}
+.pad-right0{
+    padding-right:0px;
+}
+.pad-top0{
+    padding-top:0px;
+}
+.pad-bottom0{
+    padding-bottom:0px;
+}
 .pad-left-30{
     padding-left:30px;
 }
@@ -115,5 +127,9 @@
     padding-left: 8px;
     padding-right: 8px;
     font-size: 12px;
+}
+.textAreaCommentRewardLeave{
+    resize: none;
+    height: 73px;
 }
 

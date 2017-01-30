@@ -27,16 +27,16 @@
                                 }
                             </select>
                         </div>
-                        <div class="form-group col-md-4 col-sm-6" id="projects">
-                       @*<label>From Project</label>
+                        @*<div class="form-group col-md-4 col-sm-6" id="projects">
+                       <label>From Project</label>
                         </div>
                             @foreach (var project in Model.Projects)
                             {
                                 <div class="col-md-4">
 
                                 </div>
-                            }*@
-                    </div>
+                            }
+                    </div>*@
 
                     <div class="form-group col-md-4 col-sm-6" id="employee">
                         <label>Employee</label>
@@ -54,10 +54,13 @@
                         <label>Number of Days</label>
                         <input type="number" min="1" max="20" class="form-control" id="noOfRewardedDays">
                     </div>
+                    <div class="form-group col-md-4 col-sm-6" id="comment">
+                        <label>Enter comments</label>
+                        <textarea class="form-control textAreaCommentRewardLeave" id="txtComment" maxlength="200" placeholer="Message"></textarea>
+                    </div>
                 </div>
-                <div class="box-footer">
-                    <div class="form-group col-md-6 margin-bottom-0 btn-backgroundColor-dark">
-                        @*<button type="submit" id="btnRewardLeave" class="btn btn-backgroundColor-cinder text-color-white">Reward Leave</button>*@
+                <div class="box-footer pad-left0 pad-bottom0">
+                    <div class="form-group col-md-6 margin-bottom-0 btn-backgroundColor-dark pad-left0">
                         <button type="submit" id="confirmRewardLeave"  class="btn btn-backgroundColor-cinder text-color-white">Reward Leave</button>
                     </div>
                 </div>
@@ -115,7 +118,8 @@
         var project = parseInt($("#projectsSelect option:selected").val());
         var employee = parseInt($("#employeesSelect option:selected").val());
         var noofDays = $("#noOfRewardedDays").val();
-        if (project == "" || employee == "" || noofDays <= 0 || noofDays == "") {
+        var comment = $("#txtComment").val();
+        if (project == "" || employee == "" || noofDays <= 0 || noofDays == "" || comment == "") {
             showMessage("Please select appropriate values", "2", true);
             return false;
         }
@@ -123,7 +127,8 @@
         var model = {
             ProjectId: project,
             EmplooyeeId: employee,
-            NumberofDays: noofDays
+            NumberofDays: noofDays,
+            Comment: comment
         };
         $.ajax({
             cache: false,
@@ -135,6 +140,7 @@
             success: function (data) {
                 if (data.rewarded) {
                     $("#noOfRewardedDays").val("");
+                    $("#txtComment").val("");
                     $("#RewardLeaveConfirmationModal").modal("hide");
                     showMessage("Leave rewarded successfully", "1", true);
                 }
@@ -150,7 +156,8 @@
         var employee = parseInt($("#employeesSelect option:selected").val());
         var employeeName = $("#employeesSelect option:selected").attr("data-emlpoyeeName");
         var noofDays = $("#noOfRewardedDays").val();
-        if (project == "" || employee == "" || noofDays <= 0 || noofDays == "") {
+        var comment = $("#txtComment").val();
+        if (project == "" || employee == "" || noofDays <= 0 || noofDays == "" || comment == "") {
             showMessage("Please select appropriate values", "2", true);
             return false;
         }
@@ -160,6 +167,7 @@
 
     $(".btnCancelReward").on("click", function () {
         $("#noOfRewardedDays").val("");
+        $("#txtComment").val("");
         $("#RewardLeaveConfirmationModal").modal("hide");
     });
 
