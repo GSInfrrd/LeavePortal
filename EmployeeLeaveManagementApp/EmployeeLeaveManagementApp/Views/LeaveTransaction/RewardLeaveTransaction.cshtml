@@ -14,18 +14,30 @@
         <div class="col-xs-12">
             <div class="box">
                 <div class="box-body">
-                    <div class="form-group col-md-4 col-sm-6" id="projects">
-                        <label>From Project</label>
-                        <select class="form-control" style="width: 100%;" id="projectsSelect">
-                            @if (null != Model && null != Model.Projects)
-                            {
-                                foreach (var project in Model.Projects)
+                    <div class="row">
+                        <div class="form-group col-md-4 col-sm-6" id="projects">
+                            <label>From Project</label>
+                            <select class="form-control" style="width: 100%;" id="projectsSelect">
+                                @if (null != Model && null != Model.Projects)
                                 {
-                                    <option value="@project.Id">@project.Name</option>
+                                    foreach (var project in Model.Projects)
+                                    {
+                                        <option value="@project.Id">@project.Name</option>
+                                    }
                                 }
-                            }
-                        </select>
+                            </select>
+                        </div>
+                        <div class="form-group col-md-4 col-sm-6" id="projects">
+                       @*<label>From Project</label>
+                        </div>
+                            @foreach (var project in Model.Projects)
+                            {
+                                <div class="col-md-4">
+
+                                </div>
+                            }*@
                     </div>
+
                     <div class="form-group col-md-4 col-sm-6" id="employee">
                         <label>Employee</label>
                         <select class="form-control" style="width: 100%;" id="employeesSelect">
