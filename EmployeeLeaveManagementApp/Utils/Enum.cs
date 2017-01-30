@@ -120,8 +120,16 @@ namespace LMS_WebAPP_Utils
 
     public enum NotificationTypes
     {
-        [Description("LeaveNotification")]
-        LeaveNotification = 161,
+        [Description("Submit Leave Request")]
+        SubmitLeaveRequest = 161,
+        [Description("Take Action On Leave Request")]
+        TakeActionOnLeaveRequest = 162,
+        [Description("Submit Resource Request")]
+        SubmitResourceRequest = 163,
+        [Description("Submit Resource Request Response")]
+        SubmitResourceRequestResponse = 164,
+        [Description("Reward Leave")]
+        RewardLeave = 165
 
     }
 

@@ -184,13 +184,26 @@ namespace LMS_WebAPI_Utils
         [Description("Add Resource Request")]
         AddResourceRequest = 158,
         [Description("Resource Request Update")]
-        ResourceRequestUpdate = 159
+        ResourceRequestUpdate = 159,
+        [Description("Leave Reward")]
+        RewardLeave = 160
+
+
     }
 
-    public enum NotificationType
+    public enum NotificationTypes
     {
-        [Description("Notification Type")]
-        NotificationType = 161
+        [Description("Submit Leave Request")]
+        SubmitLeaveRequest = 161,
+        [Description("Take Action On Leave Request")]
+        TakeActionOnLeaveRequest = 162,
+        [Description("Submit Resource Request")]
+        SubmitResourceRequest = 163,
+        [Description("Submit Resource Request Response")]
+        SubmitResourceRequestResponse = 164,
+        [Description("Reward Leave")]
+        RewardLeave = 165
+
     }
 
     public enum NotificationStatus
