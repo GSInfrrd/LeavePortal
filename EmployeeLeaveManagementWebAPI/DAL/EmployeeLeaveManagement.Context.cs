@@ -28,6 +28,8 @@ namespace LMS_WebAPI_DAL
         }
     
         public virtual DbSet<Announcement> Announcements { get; set; }
+        public virtual DbSet<EmailTemplateMapping> EmailTemplateMappings { get; set; }
+        public virtual DbSet<EmailTemplateMaster> EmailTemplateMasters { get; set; }
         public virtual DbSet<EmployeeContactDetail> EmployeeContactDetails { get; set; }
         public virtual DbSet<EmployeeDetail> EmployeeDetails { get; set; }
         public virtual DbSet<EmployeeEducationDetail> EmployeeEducationDetails { get; set; }
