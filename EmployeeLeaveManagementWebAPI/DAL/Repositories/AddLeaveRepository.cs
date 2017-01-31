@@ -341,6 +341,7 @@ namespace LMS_WebAPI_DAL.Repositories
                                 NumberOfWorkingDays = model.NumberofDays,
                                 RefLeaveType = (int)LeaveType.RewardLeave,
                                 RefCreatedBy = model.ManagerId,
+                                EmployeeComment = model.Comment,
                                 RefStatus = (int)LeaveStatus.Approved,
                                 RefTransactionType = (int)TransactionType.Credit
 
