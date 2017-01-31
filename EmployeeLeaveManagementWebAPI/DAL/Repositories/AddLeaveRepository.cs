@@ -150,9 +150,7 @@ namespace LMS_WebAPI_DAL.Repositories
                     };
                     ctx.Workflows.Add(workFlow);
                     ctx.SaveChanges();
-                    //TO:DO Send mail asynchronosly
-                   // var op = SendMail(leaveDetails.EmployeeDetail.FirstName, fromEmail, toEmail);
-
+                   
                     //Send notification to manager
                    
                     int RefApproverId = employeeDetails.ManagerId !=null ? (int)employeeDetails.ManagerId : hrManagerId;
@@ -213,43 +211,7 @@ namespace LMS_WebAPI_DAL.Repositories
             }
             return result;
         }
-
-        public bool SendMail(string firstName, string fromEmail, string toEmail)
-        {
-            try
-            {
-                Logger.Info("Entering in AddLeaveRepository API SendMail method");
-                var message = new MailMessage();
-                message.From = new MailAddress(fromEmail);
-
-                message.To.Add(new MailAddress("alekhya.kk9@gmail.com"));
-                message.CC.Add(new MailAddress("alekya@infrrd.ai"));
-                message.Subject = "Leave Notification";
-                message.IsBodyHtml = true;
-                message.Body = @"Hi,<br/><b>" + firstName + "</b> has applied for leave.Login to your account to approve/reject.<br/><br/>Best Regards,<br/><b>Infrrd Leave Management<b>";
-
-
-
-                using (var client = new SmtpClient())
-                {
-                    client.Host = "smtp.gmail.com";
-                    client.Port = 587;
-                    client.EnableSsl = true;
-                    client.UseDefaultCredentials = false;
-                    client.Credentials = new System.Net.NetworkCredential("alekya@infrrd.ai", "alkvyS9.");
-
-                    client.Send(message);
-                }
-                Logger.Info("Successfully exiting from AddLeaveRepository API SendMail method");
-            }
-            catch
-            {
-                Logger.Error("Exception occured at AddLeaveRepository API SendMail method ");
-                throw;
-            }
-            return true;
-        }
-
+     
         public EmployeeDetail CheckLeaveAvailability(int employeeId, out List<Holiday> holidayList,out int advanceLeaveLimit,out int lopLeaveLimit)
         {
 

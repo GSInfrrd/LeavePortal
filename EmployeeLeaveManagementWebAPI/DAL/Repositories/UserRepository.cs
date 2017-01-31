@@ -58,7 +58,7 @@ namespace LMS_WebAPI_DAL.Repositories
                         empModel.RoleName = employeeDetails.MasterDataValue.Value;
                         empModel.TotalLeaveCount = employeeLeaves.EarnedCasualLeave + (employeeLeaves.RewardedLeaveCount != null ? employeeLeaves.RewardedLeaveCount : 0);
                         empModel.TotalApplied = leaveTransactions.Count != 0 ? leaveTransactions.Where(x => x.RefStatus == (Int32)LeaveStatus.Submitted).Select(i => i.NumberOfWorkingDays).Sum() : 0;
-                        empModel.TotalSpent = leaveTransactions.Count != 0 ? leaveTransactions.Where(x => x.RefStatus == (Int32)LeaveStatus.Approved && x.RefLeaveType!=(Int32)LeaveType.RewardLeave).Select(i => i.NumberOfWorkingDays).Sum() : 0;
+                        empModel.TotalSpent = leaveTransactions.Count != 0 ? leaveTransactions.Where(x => x.RefStatus == (Int32)LeaveStatus.Approved && x.RefLeaveType!=(Int32)LeaveType.RewardLeave && x.RefLeaveType!=(Int32)LeaveType.EarnedLeave).Select(i => i.NumberOfWorkingDays).Sum() : 0;
                         empModel.TotalWorkFromHome = employeeDetails.WorkFromHomes.Count();
                         empModel.ManagerName = employeeDetails.EmployeeDetail1 != null ? employeeDetails.EmployeeDetail1.FirstName : string.Empty;
                         empModel.TotalLOPLImit = lopLeaveLimit;

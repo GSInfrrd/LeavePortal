@@ -97,7 +97,7 @@
                             @foreach (LMS_WebAPP_Domain.LeaveTransaction m in Model)
                             {
                                 var btnDisabled = m.RefStatus > 9 ? "disabled" : "";
-                                if (m.RefLeaveType != (int)LMS_WebAPP_Utils.LeaveType.RewardLeave)
+                                if (m.RefLeaveType != (int)LMS_WebAPP_Utils.LeaveType.RewardLeave && m.RefLeaveType != (int)LMS_WebAPP_Utils.LeaveType.EarnedLeave)
                                 {
 
                                     var toDate = "";
@@ -175,7 +175,7 @@
                     <div id="rddiv">
                         @foreach (var value in Enum.GetValues(typeof(LMS_WebAPP_Utils.LeaveType)))
                         {
-                            if (@Convert.ToInt16(value) != (Int16)LMS_WebAPP_Utils.LeaveType.RewardLeave)
+                            if (@Convert.ToInt16(value) != (Int16)LMS_WebAPP_Utils.LeaveType.RewardLeave && @Convert.ToInt16(value) != (Int16)LMS_WebAPP_Utils.LeaveType.EarnedLeave)
                             {
 
                                 var disabledAttr = "";
@@ -360,7 +360,7 @@
         return mm + "-" + dd + "-" + yyyy;
     }
     var today = (formatDate(new Date()));
- 
+
     $("#RdLeaveType_" + sickLeaveId).attr('checked', true);
     $('#SickDatePicker').show();
     $('#sickDate').val(today);
@@ -1368,7 +1368,7 @@
                 "<tr><th>From Date</th><th>To Date</th><th>Submitted Date</th><th>Status</th>" +
                     "<th style=width:160px'>Number of working Days</th><th>Leave Type</th><th>Delete</th></tr></thead><tbody>";
         for (var i = 0; i < data.length; i++) {
-            if(data[i].RefLeaveType!='@Convert.ToInt16(LMS_WebAPP_Utils.LeaveType.RewardLeave)')
+            if(data[i].RefLeaveType!='@Convert.ToInt16(LMS_WebAPP_Utils.LeaveType.RewardLeave)' && data[i].RefLeaveType!='@Convert.ToInt16(LMS_WebAPP_Utils.LeaveType.EarnedLeave)')
             {
             html += "<tr><td>" + data[i].FormattedDate + "</td><td>" + data[i].FormattedToDate + "</td>" +
                "<td>" + data[i].FormattedCreated + "</td>" +

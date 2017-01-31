@@ -28,7 +28,7 @@ namespace LMS_WebAPI_DAL.Repositories
 
                     }
                     var hierarchyLevel = (Int32)HierarchyLevel.Level5;
-                   if (model.RefRoleId == (Int32)EmployeeRole.CEO)
+                    if (model.RefRoleId == (Int32)EmployeeRole.CEO)
                     {
                         hierarchyLevel = (Int32)HierarchyLevel.Level0;
                     }
@@ -60,12 +60,12 @@ namespace LMS_WebAPI_DAL.Repositories
                         EmpNumber = model.EmployeeNumber.ToString(),
                         PhoneNumber = model.Telephone,
                         RefHierarchyLevel = hierarchyLevel,
-                        ManagerId =model.ManagerId!=null?model.ManagerId: hrManagerId,
+                        ManagerId = model.ManagerId != null ? model.ManagerId : hrManagerId,
                         DateOfJoining = model.DateOfJoining,
                         ImagePath = imageBase64Data,
                         RefEmployeeType = model.EmployeeType,
-                        RefProfileType=model.RefProfileType
-                        
+                        RefProfileType = model.RefProfileType
+
 
                     };
                     ctx.EmployeeDetails.Add(employeeDetails);
@@ -106,7 +106,7 @@ namespace LMS_WebAPI_DAL.Repositories
                         ctx.EmployeeSkills.Add(empSkill);
                         ctx.SaveChanges();
                     }
-                    if (model.Projects.Count>0)
+                    if (model.Projects.Count > 0)
                     {
                         var projectDetails = new EmployeeProjectDetail();
                         projectDetails.RefEmployeeId = id;
@@ -134,7 +134,17 @@ namespace LMS_WebAPI_DAL.Repositories
                     };
                     ctx.EmployeeLeaveMasters.Add(employeeMaster);
                     ctx.SaveChanges();
-
+                    var leaveTransaction = new EmployeeLeaveTransaction
+                    {
+                        RefEmployeeId = id,
+                        RefLeaveType = (int)LeaveType.EarnedLeave,
+                        RefStatus = (int)LeaveStatus.Approved,
+                        CreatedDate = DateTime.Now,
+                        NumberOfWorkingDays = 2,
+                        RefTransactionType = (int)TransactionType.Credit
+                    };
+                    ctx.EmployeeLeaveTransactions.Add(leaveTransaction);
+                    ctx.SaveChanges();
                     Logger.Info("Successfully exiting from HRRepository API SubmitEmployeeDetails method");
                 }
                 result = true;
@@ -278,7 +288,7 @@ namespace LMS_WebAPI_DAL.Repositories
                         list.Add(listItem);
                     }
                 }
-                detailsList = ddList.OrderBy(x=>x.EmpoyeeName).ToList();
+                detailsList = ddList.OrderBy(x => x.EmpoyeeName).ToList();
                 Logger.Info("Successfully exiting from HRRepository API GetReportData method");
                 return list;
             }
@@ -331,12 +341,12 @@ namespace LMS_WebAPI_DAL.Repositories
             {
                 var result = false;
                 using (var ctx = new LeaveManagementSystemEntities1())
-                {                   
-                        var data = new MasterDataValue();
-                        data.Value = masterDataValue.Trim();
-                        data.RefMasterType = masterDataType;
-                        ctx.MasterDataValues.Add(data);
-                        ctx.SaveChanges();
+                {
+                    var data = new MasterDataValue();
+                    data.Value = masterDataValue.Trim();
+                    data.RefMasterType = masterDataType;
+                    ctx.MasterDataValues.Add(data);
+                    ctx.SaveChanges();
                     result = true;
                 }
                 Logger.Info("Successfully exiting from HRRepository API AddNewMasterDataValues method");
@@ -423,12 +433,12 @@ namespace LMS_WebAPI_DAL.Repositories
                 {
                     if (managerId != 0)
                     {
-                        list = ctx.ProjectMasters.Where(x=>x.RefManagerId==managerId).ToList();
+                        list = ctx.ProjectMasters.Where(x => x.RefManagerId == managerId).ToList();
                     }
                     else
                     {
                         list = ctx.ProjectMasters.ToList();
-                   }
+                    }
 
                     foreach (var item in list)
                     {
@@ -513,7 +523,7 @@ namespace LMS_WebAPI_DAL.Repositories
                 var result = false;
                 using (var ctx = new LeaveManagementSystemEntities1())
                 {
-                    var dataExists = ctx.ProjectMasters.Any(i => i.ProjectName.ToLower().Trim() == projectName.ToLower().Trim() && i.Technology.Trim().ToLower() == technology.Trim().ToLower() && i.RefManagerId==refManager);
+                    var dataExists = ctx.ProjectMasters.Any(i => i.ProjectName.ToLower().Trim() == projectName.ToLower().Trim() && i.Technology.Trim().ToLower() == technology.Trim().ToLower() && i.RefManagerId == refManager);
                     if (dataExists)
                     {
                         result = true;

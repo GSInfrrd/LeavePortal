@@ -108,7 +108,7 @@
                         <select id="ddlLeave" class="form-control yearSelect" style="width: 100%;">
                             @foreach (var value in Enum.GetValues(typeof(LMS_WebAPP_Utils.LeaveType)))
                             {
-                                if (Convert.ToInt32(value) != (Int32)LMS_WebAPP_Utils.LeaveType.RewardLeave)
+                                if (Convert.ToInt32(value) != (Int32)LMS_WebAPP_Utils.LeaveType.RewardLeave && @Convert.ToInt16(value) != (Int16)LMS_WebAPP_Utils.LeaveType.EarnedLeave)
                                 {
                                     var selectedAttr = "";
                                     if (Convert.ToInt16(LMS_WebAPP_Utils.LeaveType.CasualLeave) == @Convert.ToInt16((LMS_WebAPP_Utils.LeaveType)value))

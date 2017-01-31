@@ -37,7 +37,39 @@ INSERT INTO [dbo].[EmployeeLeaveMaster] ([Id], [RefEmployeeId], [RewardedLeaveCo
 INSERT INTO [dbo].[EmployeeLeaveMaster] ([Id], [RefEmployeeId], [RewardedLeaveCount], [ModifiedDate], [ModifiedBy], [SpentAdvanceLeave], [TakenLossOfPay], [EarnedCasualLeave], [TakenCompOff]) VALUES (2, 2, NULL, NULL, NULL, NULL, NULL, 2, NULL)
 SET IDENTITY_INSERT [dbo].[EmployeeLeaveMaster] OFF
 
+SET IDENTITY_INSERT [dbo].[EmployeeLeaveTransaction] ON
+INSERT INTO [dbo].[EmployeeLeaveTransaction] ([Id],
+ [RefEmployeeId],
+  [FromDate], 
+  [ToDate], 
+  [CreatedDate],
+   [RefStatus], 
+   [NumberOfWorkingDays],
+    [RefLeaveType],
+	 [EmployeeComment], 
+	 [ModifiedDate], 
+	 [RefCreatedBy],
+	  [RefModifiedBy],
+	   [RefTransactionType]) VALUES (1, 1,NULL, NULL, N'2016-01-01 00:00:00', 74,
+	    2, 67, NULL, NULL, NULL, NULL, 172)
+		INSERT INTO [dbo].[EmployeeLeaveTransaction] ([Id],
+ [RefEmployeeId],
+  [FromDate], 
+  [ToDate], 
+  [CreatedDate],
+   [RefStatus], 
+   [NumberOfWorkingDays],
+    [RefLeaveType],
+	 [EmployeeComment], 
+	 [ModifiedDate], 
+	 [RefCreatedBy],
+	  [RefModifiedBy],
+	   [RefTransactionType]) VALUES (2, 2,NULL, NULL, N'2016-01-01 00:00:00', 74,
+	    2, 67, NULL, NULL, NULL, NULL, 172)
+SET IDENTITY_INSERT [dbo].[EmployeeLeaveTransaction] OFF
+
 SET IDENTITY_INSERT [dbo].[UserAccount] ON
 INSERT INTO [dbo].[UserAccount] ([Id], [UserName], [Password], [Lastlogin], [RefEmployeeId], [CreatedDate], [ModifiedDate], [CreatedBy], [ModifiedBy]) VALUES (1, N'amit@infrrd.ai', N'Temp@123', NULL, 1, N'2016-01-01 00:00:00', NULL, NULL, NULL)
 INSERT INTO [dbo].[UserAccount] ([Id], [UserName], [Password], [Lastlogin], [RefEmployeeId], [CreatedDate], [ModifiedDate], [CreatedBy], [ModifiedBy]) VALUES (2, N'riya@infrrd.ai', N'Temp@123', NULL, 2, N'2016-01-01 00:00:00', NULL, NULL, NULL)
 SET IDENTITY_INSERT [dbo].[UserAccount] OFF
+

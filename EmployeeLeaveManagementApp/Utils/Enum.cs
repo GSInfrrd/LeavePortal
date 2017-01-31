@@ -20,7 +20,9 @@ namespace LMS_WebAPP_Utils
         [Description("LOP")]
         LOP = 65,
         [Description("Reward Leave")]
-        RewardLeave = 66
+        RewardLeave = 66,
+        [Description("Earned Leave")]
+        EarnedLeave = 67
     }
 
     public enum LeaveStatus

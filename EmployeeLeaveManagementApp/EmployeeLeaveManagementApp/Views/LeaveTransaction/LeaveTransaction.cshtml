@@ -82,7 +82,7 @@
                                         {
                                             var toDate = "";
                                             var fromDate = "";
-                                            if (m.RefLeaveType != (int)LMS_WebAPP_Utils.LeaveType.RewardLeave)
+                                            if (m.RefLeaveType != (int)LMS_WebAPP_Utils.LeaveType.RewardLeave && m.RefLeaveType != (int)LMS_WebAPP_Utils.LeaveType.EarnedLeave)
                                             {
                                                 fromDate = m.FromDate.Date.ToString("dd/MM/yyyy");
                                             }
