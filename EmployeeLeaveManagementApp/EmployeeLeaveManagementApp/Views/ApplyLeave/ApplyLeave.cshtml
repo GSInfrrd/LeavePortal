@@ -79,7 +79,7 @@
 <section class="content">
     <div class="row">
         <div class="col-xs-12">
-            <div class="box">
+            <div class="box box-success">
                 <div class="box-body" id="tblAppliedLeave">
                     <table id="example1" class="table table-bordered table-striped">
                         <thead>
@@ -148,9 +148,7 @@
     </div>
     <!-- /.row -->
 </section>
-<div id="loader"></div><div id="ajaxloader" style="display:none">
-    <img src="~/Content/Images/loadingAjax.gif" />
-</div>
+
 <div class="modal bs-add-leave-modal" id="AddLeaveModal" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel">
     <div class="modal-dialog" role="document">
         <div class="modal-content border-radius-modalBottom" style="width: 681px;">
@@ -163,7 +161,7 @@
             <div class="modal-body">
                 <div class="form-group" style="padding-bottom:20px">
 
-                    <div>
+                    <div style="padding-left:20px">
                         <label>Leave Type</label>
                     </div>
                     <span class="form-group has-error" style="display:none" id="divLeaveTypeError">
@@ -184,7 +182,7 @@
                                 {
                                     disabledAttr = "disabled";
                                 }
-                            <div class="col-md-4" style="margin-top:3px">
+                            <div class="col-md-4" style="margin-top:10px">
                                 <input type="radio" name="r1" id="RdLeaveType_@Convert.ToInt16((LMS_WebAPP_Utils.LeaveType)value)" class="flat-red" value="@Convert.ToInt16((LMS_WebAPP_Utils.LeaveType)value)" @disabledAttr> @(LMS_WebAPP_Utils.CommonMethods.Description((LMS_WebAPP_Utils.LeaveType)Convert.ToInt16((LMS_WebAPP_Utils.LeaveType)value)))
                             </div>
 
@@ -192,7 +190,7 @@
                         }
                     </div>
                 </div>
-                <div id="toggelDiv" class="toglediv">
+                <div id="toggelDiv" class="toglediv" style="padding-bottom:0px;padding-top:48px">
                     <div class="form-group" id="divHalfDay">
                         <div>
                             <label>Please Select:</label>
@@ -267,28 +265,6 @@
 
                         </div>
 
-                    </div>
-                    <div id="toggle-advance" style="display:none">
-                        <div class="form-group" id="divNoOfWorking">
-                            <div>
-                                <label style="color:red">Only <text id="txtAvailableCasualLeaves"></text> casual leave(s) left.Apply for available Casual leave(s),and go for Advance leave/LOP,if needed.</label>
-                                @*// <div> <label>TotalWorking days Applied:</label> <span id="lblTotalWorkingDaysApplied">0</span></div>*@
-                                @*<div id="TtCasual"> <label class="labelPaddingCasual">Total casual Leave :</label><label class="inputTextLeaves" id="TotalCasualLeave" style="padding-left:5px;"></label><label class="fromDatePadding">From:</label><label id="FromCasual" class="fromDatePadding"></label><label class="fromDatePadding">To</label><label id="toCasual" class="fromDatePadding"></label></div>*@
-                                @*<div class="col-md-6">
-                                        <label>
-                                            <input type="checkbox" class="minimal" id="chkAdvancedLeave"> Advanced Leave
-                                        </label>
-                                    </div>
-                                    <div class="col-md-6">
-                                        <label>
-                                            <input type="checkbox" class="minimal" id="chkLOP"> LOP
-                                        </label>
-                                    </div>*@
-                                @*<div id="TtAdvnce" style="display:none" class="col-md-6"><div> <label class="labelPaddingSick">Total Advance Leave :</label><input id="totalAdvanceLeave" class="inputTextLeaves" style="padding-left:5px;" min="1" max="@totalAdvanceLeaveLeft" /></div> <div><label class="fromDatePadding">From:</label><label id="FromAdvance" class="fromDatePadding"></label><label class="fromDatePadding">To</label><label id="toAdvance" class="fromDatePadding"></label></div></div>
-                                    <div id="TtLOP" style="display:none" class="col-md-6"> <div><label class="labelPaddingLOP">Total LOP:</label><input type="text" id="LOP" class="inputTextLeaves" style="padding-left:5px;" min="1" max="@totalLOPCap" /></div><div><label class="fromDatePadding">From:</label><label id="FromLop" class="fromDatePadding"></label><label class="fromDatePadding">To</label><label id="toLOP" class="fromDatePadding"></label></div></div>
-                                    <label style="color:red">Do you want to continue?</label>*@
-                            </div>
-                        </div>
                     </div>
                 </div>
             </div>
@@ -1117,14 +1093,7 @@
         if (FormValidate()) {
             var comments = $("#leaveComment").val();
             $('#AddLeaveModal').modal('hide');
-            //$('body').loading({
-            //    stoppable: true,
-            //    message: 'Working...',
-            //    //overlay: $("#ajaxloader")
-            //});
-
-
-
+            $('#Loading').show();
             $.ajax({
                 cache: false,
                 type: 'post',
@@ -1142,11 +1111,7 @@
                             isPossibleToApplyCasual = isPossibleToApplyCasual + 2;
                             $('#AddLeaveModal').modal('hide');
                             updateLeaveTable(data.result);
-                            //$('body').loading('stop');
-                            //$('#leaveDatepicker').daterangepicker(
-                            //   {
-                            //       minDate: new Date()
-                            //   });
+                            $('#Loading').hide();
                             $('#datepicker').val("");
                             $('#SelectReason').val("");
                         }
@@ -1159,6 +1124,7 @@
 
     $(document).on('click', '#btnLeaveRequestSubmit', function (e) {
         if (FormValidate()) {
+            $('#Loading').show();
             var comments = $("#leaveComment").val();
             $('#AddLeaveModal').modal('hide');
             var leaveType = $('input[name=r1]:checked').val();
@@ -1222,7 +1188,7 @@
                                 }
 
 
-                                //$('body').loading('stop');
+                                $('#Loading').hide();
 
 
                                 $('#datepicker').val("");

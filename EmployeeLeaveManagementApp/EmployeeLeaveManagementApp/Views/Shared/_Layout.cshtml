@@ -20,6 +20,7 @@
     <link href="~/dist/css/AdminLTE.min.css" rel="stylesheet" />
     <link href="~/plugins/datepicker/datepicker3.css" rel="stylesheet" />
     <link href="~/plugins/daterangepicker/daterangepicker.css" rel="stylesheet" />
+    <link href="~/plugins/loader/jquery.loading.min.css" rel="stylesheet" />
     <link href="~/Content/Common.css" rel="stylesheet" />
     <!-- AdminLTE Skins. Choose a skin from the css/skins
          folder instead of downloading all of them to reduce the load. -->
@@ -62,6 +63,11 @@
     <script src="~/plugins/fullcalendar/fullcalendar.min.js"></script>
     <div class="wrapper">
         <header class="main-header">
+            <div id="Loading" class="loading" style="display: none;">
+                <div class="loading-image-div col-lg-offset-5 col-lg-2 col-md-offset-5 col-md-2 col-sm-offset-5 col-sm-2 col-xs-offset-5 col-xs-2" style="top: 120px">
+                    <img id="loading-image" src="~/Content/Images/LoadingGif.gif" alt="Loading..." />
+                </div>
+            </div>
             <!-- Logo -->
             <a href="http://www.infrrd.ai/" class="logo">
                 <!-- mini logo for sidebar mini 50x50 pixels -->

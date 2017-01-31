@@ -25,7 +25,8 @@ namespace LMS_WebAPI_ServiceHelpers
                     RefStatus = model.RefStatus,
                     CreatedBy = model.CreatedBy,
                     RefReason =model.RefReason,
-                    OtherReason=model.OtherReason
+                    OtherReason=model.OtherReason,
+                    CreatedDate=DateTime.Now
                 };
                 Logger.Info("Exiting from into WorkFromHomeManagement Service helper AddNewWorkFromHome method ");
                 return WorkFromHome.AddWorkFromHome(newWorkFromHome);

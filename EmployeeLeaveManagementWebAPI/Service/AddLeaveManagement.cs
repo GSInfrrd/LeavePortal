@@ -30,7 +30,7 @@ namespace LMS_WebAPI_ServiceHelpers
            
                 foreach (var item in result.EmployeeLeaveTransactions)
                 {
-                    if(item.RefLeaveType!=(Int32)LeaveType.RewardLeave)
+                    if(item.RefLeaveType!=(Int32)LeaveType.RewardLeave && item.RefLeaveType != (Int32)LeaveType.EarnedLeave)
                     { 
                     for (DateTime date = item.FromDate.Value; date <= item.ToDate; date = date.AddDays(1))
                     {

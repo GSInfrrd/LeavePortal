@@ -13,7 +13,7 @@
 <!-- Bootstrap 3.3.6 -->
 @*<link rel="stylesheet" href="../../bootstrap/css/bootstrap.min.css">*@
 <section class="content-header" style="height:41px">
-    <h1 class="col-md-9">
+    <h1 class="col-md-9" style="padding-left:0px">
         Work From Home
     </h1>
     @*@if (!dateList.Contains(DateTime.Now.Date))
@@ -27,7 +27,7 @@
 <section class="content">
     <div class="row">
         <div class="col-xs-12">
-            <div class="box">
+            <div class="box box-success">
                 <div class="box-body" id="DataTablebody">
                     <table id="example1" class="table table-bordered table-striped">
                         <thead>
@@ -219,6 +219,7 @@
             return false;
         }
         if (formValidate() == true) {
+            $('#Loading').show();
                 $.ajax({
                     cache: false,
                     type: 'post',
@@ -234,6 +235,8 @@
                         $("#divOtherReason").hide();
                         updateDatatable(data.wfhList, true);
                         showMessage("New WorkFromHome added successfully", "1", true);
+                        $('#Loading').hide();
+
                     }
                 });
         }

@@ -95,7 +95,7 @@
         <!-- right col (We are only adding the ID to make the widgets sortable)-->
 
         <div class="col-md-8">
-            <div class="box" style="border-radius:17px;">
+            <div class="box box-success" style="border-radius:17px;">
                 <div class="box-header with-border">
                     <h3 class="box-title">Leave Report</h3>
 
@@ -155,7 +155,7 @@
         </div>
 
         <div class="col-md-4">
-            <div class="box box-solid" style="height:310px">
+            <div class="box box-success" style="height:310px">
                 <div class="box-header with-border">
                     <i class="fa fa-text-width"></i>
                     <h3 class="box-title">Quote of the day</h3>
@@ -176,7 +176,7 @@
     <!-- /.row (main row) -->
     <div class="row">
         <div class="col-md-6">
-            <div class="box box-info" style="height:360px">
+            <div class="box box-success" style="height:360px">
                 <div class="box-header with-border">
                     <h3 class="box-title">Team Members</h3>
 
@@ -203,7 +203,7 @@
             <!-- /.box -->
         </div>
         <div class="col-md-6">
-            <div class="box box-solid">
+            <div class="box box-success">
                 <div class="box-header with-border">
                     <h3 class="box-title">Announcements &amp; Events</h3>
                 </div>
@@ -277,7 +277,7 @@
 </section>
 <script src="../../plugins/select2/select2.full.min.js"></script>
 <script type="text/javascript">
-    $(document).ready(function () {
+    $(document).ready(function () {    
         $('#dashboard').parent().addClass('active');
         getTeamMembers();
         getQuote();
@@ -302,6 +302,7 @@
                 }
             });
         });
+
     });
 
     //-----------------------
@@ -378,6 +379,7 @@
         GetDashboardDetails();
     });
     function GetDashboardDetails() {
+        $("#Loading").show();
         var year = $("#ddlYear").val();
         $("#fromYearSpan").html(year);
         $("#toYearSpan").html(year);
@@ -453,9 +455,14 @@
                 //Create the line chart
                 salesChart.Line(salesChartData, salesChartOptions);
             }
+      
+      
         });
+        $("#Loading").hide();
+
     };
     function getTeamMembers() {
+        $("#Loading").show();
         $.ajax({
             cache: false,
             type: 'post',
@@ -471,6 +478,7 @@
                     }
                 }
                 $('#teamBody').html(rest);
+                $("#Loading").hide();
             }
         });
     }

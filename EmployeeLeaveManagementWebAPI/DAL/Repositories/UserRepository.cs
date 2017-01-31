@@ -380,7 +380,7 @@ namespace LMS_WebAPI_DAL.Repositories
                     var lstProjectDetails = ctx.EmployeeProjectDetails.Where(m => m.RefEmployeeId == UserEmpId && m.IsActive == true).Select(m => m.RefProjectId).ToList();
                     if (lstProjectDetails != null && lstProjectDetails.Count > 0)
                     {
-                        resTeamMembers = ctx.EmployeeProjectDetails.Include("EmployeeDetail").Include("MasterDataValue").Where(m => lstProjectDetails.Contains(m.RefProjectId)).Select(m => m.EmployeeDetail).ToList();
+                        resTeamMembers = ctx.EmployeeProjectDetails.Include("EmployeeDetail").Include("MasterDataValue").Where(m => lstProjectDetails.Contains(m.RefProjectId)).Select(m => m.EmployeeDetail).Distinct().ToList();
                     }
                 }
                 Logger.Info("Exception occured at UserRepository getUserProfileImage method ");
