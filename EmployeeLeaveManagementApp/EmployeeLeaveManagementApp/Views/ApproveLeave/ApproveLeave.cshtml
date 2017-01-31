@@ -429,12 +429,11 @@
                             //contentType: "application/json; charset=utf-8",
                             dataType: "json",
                             success: function (data) {
-                                debugger;
                                 if (data) {
                                     $('#ViewLeaveModal').modal('hide');
                                     localStorage.setItem("leaveApproved", 1);
                                     location.reload();
-                                            //$("#Loading").hide();
+                                            $("#Loading").hide();
                                 }
                             }
                         });
@@ -449,6 +448,7 @@
                         $("#divCommentError").show();
                     }
                     else {
+                        $("#Loading").show();
                         $("#divCommentError").hide();
                         var Leavecomments = $("#leaveComment").val();
                         var Leaveid = $("#lblHiddenId").html();
@@ -465,6 +465,7 @@
                                 $('#ViewLeaveModal').modal('hide');
                                 localStorage.setItem("leaveRejected", 1);
                                 location.reload();
+                                $("#Loading").hide();
                             }
                         });
                     }
@@ -479,6 +480,7 @@
                         $("#divselectError").show();
                     }
                     else {
+                        $("#Loading").show();
                         $("#divselectError").hide();
                         var Leavecomments = $("#leaveComment").val();
                         var Leaveid = $("#lblHiddenId").html();
@@ -495,6 +497,7 @@
                                 $('#ViewLeaveModal').modal('hide');
                                 localStorage.setItem("leaveAssigned", 1);
                                 location.reload();
+                                $("#Loading").hide();
                             }
                         });
                     }

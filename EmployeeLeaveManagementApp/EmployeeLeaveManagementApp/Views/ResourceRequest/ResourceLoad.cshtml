@@ -216,6 +216,7 @@
     }
     $(document).on('change',"#ddlProjectName",function(){
         var projectId= $("#ddlProjectName").val();
+        $("#Loading").show();
         if(projectId!="")
         {
             GetResourceList();
@@ -244,6 +245,7 @@
                                                  "<span class=/'users-list-date/'>"+result[i].Role+"</span></li>";
                     }
                     $(".users-list").append(employeeList);
+                    $("#Loading").hide();
                 }
             });
         }
@@ -266,6 +268,7 @@
     $(document).on('click',"#btnConfirmRemoveResource",function(){
         var id=   $("#hdnId").val();
         var projectId= $("#ddlProjectName").val();
+        $("#Loading").show();
         $.ajax({
             cache: false,
             type: 'post',
@@ -293,6 +296,7 @@
                 $(".users-list").append(employeeList);
                 showMessage("Resource removed successfully","1",true);
                 GetResourceList();
+                $("#Loading").hide();
             }
         });
 
@@ -300,6 +304,7 @@
     $(document).on('click',"#btnConfirmAddNewResource",function(){
         var employeeId=$("#ddlEmployeeList").val().split("|")[0];
         var projectId= $("#ddlProjectName").val();
+        $("#Loading").show();
         $.ajax({
             cache: false,
             type: 'post',
@@ -327,6 +332,7 @@
                 $(".users-list").append(employeeList);
                 showMessage("New Resource added successfully","1",true);
                 GetResourceList();
+                $("#Loading").hide();
             }
         });
     });
@@ -347,24 +353,24 @@
     });
 
 
-    function showMessage(message, Type, fadeOut) {
-        //To clear existing toastr
-        toastr.clear();
-        //fadeOut = false;
-        var position = "bottom-full-width";
-        toastr.options.positionClass = 'toast-' + position;
-        if (typeof fadeOut !== "undefined" && fadeOut == false) { toastr.options.timeOut = 0; }
-        else {
-            toastr.options.timeOut = 5000;
-        }
-        switch (Type) {
-            case "1":
-                toastr.success(message);
-                break;
-            case "2":
-                toastr.error(message);
-                break;
-        }
-    }
+    //function showMessage(message, Type, fadeOut) {
+    //    //To clear existing toastr
+    //    toastr.clear();
+    //    //fadeOut = false;
+    //    var position = "bottom-full-width";
+    //    toastr.options.positionClass = 'toast-' + position;
+    //    if (typeof fadeOut !== "undefined" && fadeOut == false) { toastr.options.timeOut = 0; }
+    //    else {
+    //        toastr.options.timeOut = 5000;
+    //    }
+    //    switch (Type) {
+    //        case "1":
+    //            toastr.success(message);
+    //            break;
+    //        case "2":
+    //            toastr.error(message);
+    //            break;
+    //    }
+    //}
 
 </script>

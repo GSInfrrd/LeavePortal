@@ -122,6 +122,7 @@
             showMessage("Please select appropriate values", "2", true);
             return false;
         }
+        $("#Loading").show();
         noofDays = parseInt(noofDays);
         var model = {
             ProjectId: project,
@@ -129,6 +130,7 @@
             NumberofDays: noofDays,
             Comment: comment
         };
+     
         $.ajax({
             cache: false,
             type: 'post',
@@ -146,6 +148,7 @@
                 else {
                     showMessage("Leave could not be rewarded", "2", true);
                 }
+                $("#Loading").hide();
             }
         });
     });

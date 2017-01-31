@@ -349,7 +349,7 @@ namespace LMS_WebAPI_DAL.Repositories
                 using (var ctx = new LeaveManagementSystemEntities1())
                 {
                     // var workingEmployees= ctx.EmployeeProjectDetails.Where(x => x.IsActive == true).Select(x => x.RefEmployeeId).ToList();
-                    var employeeOnBench = ctx.EmployeeDetails.Include("EmployeeProjectDetails").Where(x => x.RefRoleId != (int)EmployeeRole.HR && !x.EmployeeProjectDetails.Any(i=>i.RefProjectId==refProject)).ToList();
+                    var employeeOnBench = ctx.EmployeeDetails.Include("EmployeeProjectDetails").Where(x => x.RefRoleId != (int)EmployeeRole.HR && !x.EmployeeProjectDetails.Any(i=>i.RefProjectId==refProject && i.IsActive==true)).ToList();
                     foreach (var item in employeeOnBench)
                     {
                         var employee = new TeamMembers();
@@ -384,7 +384,7 @@ namespace LMS_WebAPI_DAL.Repositories
                 var result = false;
                 using (var ctx = new LeaveManagementSystemEntities1())
                 {
-                    var project = ctx.EmployeeProjectDetails.FirstOrDefault(i => i.RefEmployeeId == employeeId);
+                    var project = ctx.EmployeeProjectDetails.FirstOrDefault(i => i.RefEmployeeId == employeeId && i.IsActive==true);
 
                     if (project != null)
                     {

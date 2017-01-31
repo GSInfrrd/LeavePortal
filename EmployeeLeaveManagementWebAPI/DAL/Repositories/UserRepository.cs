@@ -174,18 +174,28 @@ namespace LMS_WebAPI_DAL.Repositories
                     }
                     skills = Skills;
                     var ProjectList = new List<ProjectsList>();
-                    var projectDetails = ctx.EmployeeProjectDetails.Where(i => i.RefEmployeeId == employeeId);
-                   // if (projectDetails != null)
-                   foreach(var item in projectDetails)
-                    {
-                        var project = new ProjectsList();
-                        project.Id = item.Id;
-                        project.ProjectName = ctx.ProjectMasters.FirstOrDefault(i => i.Id == item.RefProjectId).ProjectName;
-                        project.StartDate = item.StartDate.Value;
-                        project.EndDate = item.EndDate != null ? item.EndDate.Value : DateTime.Now;
-                        ProjectList.Add(project);
-                    }
-                    projects = ProjectList;
+                    var projectIdList = ctx.EmployeeProjectDetails.Where(i => i.RefEmployeeId == employeeId).Select(m=>m.RefProjectId).Distinct().ToList();
+                    var projectDetails = ctx.EmployeeProjectDetails.
+                        Where(m => projectIdList.Contains(m.RefProjectId))
+                        .Select(n=>new ProjectsList()
+                        {
+                            Id=n.Id,
+                            EndDate=n.EndDate.HasValue==true?n.EndDate.Value:DateTime.Now,
+                            ProjectName=n.ProjectMaster.ProjectName,
+                            StartDate=n.StartDate.HasValue == true ? n.StartDate.Value : DateTime.Now
+                        }).OrderBy(m=>m.StartDate)
+                        .GroupBy(m=>m.ProjectName).Select(a=>a.FirstOrDefault())
+                        .ToList();
+                    //foreach (var item in projectDetails)
+                    //{
+                    //    var project = new ProjectsList();
+                    //    project.Id = item.Id;
+                    //    project.ProjectName = ctx.ProjectMasters.FirstOrDefault(i => i.Id == item.RefProjectId).ProjectName;
+                    //    project.StartDate = item.StartDate.Value;
+                    //    project.EndDate = item.EndDate != null ? item.EndDate.Value : DateTime.Now;
+                    //    ProjectList.Add(project);
+                    //}
+                    projects = projectDetails;
                     Logger.Info("Successfully exiting from UserRepository API GetUserProfileDetails method");
                     return profileDetails;
                 }

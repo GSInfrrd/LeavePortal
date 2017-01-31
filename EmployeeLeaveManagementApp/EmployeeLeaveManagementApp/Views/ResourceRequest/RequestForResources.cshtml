@@ -412,6 +412,7 @@
 
     function cancelRequest(id) {
         var ticket = $(id).attr('data-ticket');
+        $("#Loading").show();
         $.ajax({
             type: "POST",
             url: "/ResourceRequest/CancelRequest",
@@ -436,6 +437,7 @@
                 else {
                     showMessage("Request could not be cancelled", "2", true);
                 }
+                $("#Loading").hide();
             },
             error: function (result) {
                 //alert("GetCompanyDetails");

@@ -271,6 +271,7 @@
             RequestFromId: fromId,
             RequestToId: toId
         };
+        $("#Loading").show();
         $.ajax({
             cache: false,
             type: 'post',
@@ -312,11 +313,13 @@
                 else {
                     showMessage("Request status could not be changed", "2", true);
                 }
+                $("#Loading").hide();
             }
         });
     }
 
     function getAllRequests() {
+        $("#Loading").show();
         $.ajax({
             cache: false,
             type: 'post',
@@ -329,6 +332,7 @@
                 for (i = 0; i < model.length; i++) {
                     var tableRow = tabeRowPopulate(model[i]);
                     $("#resourceRequestsTable").find('tbody').append(tableRow);
+                    $("#Loading").hide();
                 }
             }
         });
