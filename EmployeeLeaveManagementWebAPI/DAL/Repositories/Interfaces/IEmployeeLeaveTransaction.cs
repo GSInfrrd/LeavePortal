@@ -11,5 +11,6 @@ namespace LMS_WebAPI_DAL.Repositories.Interfaces
     public interface IEmployeeLeaveTransaction
     {
        List<EmployeeLeaveTransactionModel> GetEmployeeLeaveTransaction(int id,int leaveType = 0,int month=0,int transactionType=0);
+        EmployeeLeaveMasterDetails GetEmployeeLeaveMasterDetails(int employeeId);
     }
 }

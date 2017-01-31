@@ -143,6 +143,7 @@
         });
         function GetEmployeeLeavetransactionList()
         {
+            $('#Loading').show();
             var leaveType = $("#ddlLeaveType").val() != "" ? $("#ddlLeaveType").val() : 0;
             var transactionType = $("#ddlTransactionType").val() != "" ? $("#ddlTransactionType").val() : 0;
             var month = $('#ddlMonthName').val() != "" ? $('#ddlMonthName').val() : 0;
@@ -175,7 +176,9 @@
                         "info": true,
                         "autoWidth": false,
                     });
+                    $('#Loading').hide();
                 }
+                       
             });
         };
         $(document).on('change', "#ddlLeaveType", function () {

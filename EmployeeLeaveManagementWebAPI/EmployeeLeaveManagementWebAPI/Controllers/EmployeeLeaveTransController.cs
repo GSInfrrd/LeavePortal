@@ -57,7 +57,7 @@ namespace EmployeeLeaveManagementWebAPI.Controllers
                 Thread MailThread = new Thread(() => SendMailForApplyLeave(detailsInserted, id, fromDate, toDate, comments, workingDays));
                 MailThread.Start();
 
-                
+
                 Logger.Info("Successfully exiting from EmployeeLeaveTransController API Get method");
                 return detailsInserted;
             }
@@ -168,9 +168,9 @@ namespace EmployeeLeaveManagementWebAPI.Controllers
                 leaveRewarded = leaveManagement.SubmitLeaveRewardManagement(model);
 
                 //Send Mail
-                Thread MailThread = new Thread(()=>SendMailForRewardLeave(leaveRewarded, model));
+                Thread MailThread = new Thread(() => SendMailForRewardLeave(leaveRewarded, model));
                 MailThread.Start();
-                
+
 
                 Logger.Info("Successfully exiting from GetRewardLeaveFormDetails API Get method");
                 return leaveRewarded;
@@ -205,5 +205,25 @@ namespace EmployeeLeaveManagementWebAPI.Controllers
             }
 
         }
+
+        [Route("GetEmployeeLeaveMasterDetails")]
+        public EmployeeLeaveMasterDetails GetEmployeeLeaveMasterDetails(int employeeId)
+        {
+            try
+            {
+                Logger.Info("Entering in AddLeaveController API GetEmployeeLeaveMasterDetails method");
+                var result = leaveManagement.GetEmployeeLeaveMasterDetails(employeeId);
+                Logger.Info("Successfully exiting from AddLeaveController API CheckLeaveAvailability method");
+
+
+                return result;
+            }
+            catch (Exception ex)
+            {
+                Logger.Error("Error at AddLeaveController API GetEmployeeLeaveMasterDetails method.", ex);
+                return null;
+            }
+        }
+
     }
 }

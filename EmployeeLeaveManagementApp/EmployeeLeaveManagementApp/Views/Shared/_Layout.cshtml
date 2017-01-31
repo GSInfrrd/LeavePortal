@@ -251,7 +251,7 @@
                         </li>
 
                     }
-                    @if (profileId == (int)ProfileType.CEO)
+                    @if (profileId == (int)ProfileType.CEO || profileId==(int)ProfileType.HR)
                     {
                         <li>
                             <a id="approveLeave" href="@Url.Action("ApproveLeave", "ApproveLeave")">

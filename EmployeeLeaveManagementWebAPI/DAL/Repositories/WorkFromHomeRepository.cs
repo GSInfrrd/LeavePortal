@@ -34,8 +34,7 @@ namespace LMS_WebAPI_DAL.Repositories
                                     RefStatus = n.RefStatus,
                                     RefReason = n.RefReason,
                                     Reason =n.RefReason==(int)WorkFormHomeReasons.Others?n.OtherReason: n.MasterDataValue.Value,
-                                    StatusName = n.MasterDataValue1.Value
-                                    
+                                    StatusName = n.MasterDataValue1.Value                                 
                                 }).ToList();
                     }
                 }

@@ -81,5 +81,34 @@ namespace LMS_WebAPI_DAL.Repositories
             }
             return Empres;
         }
+
+        public EmployeeLeaveMasterDetails GetEmployeeLeaveMasterDetails(int employeeId)
+        {
+            try
+            {
+                Logger.Info("Exception occured at EmployeeLeaveTransactionRepository GetEmployeeLeaveMasterDetails method ");
+                var details = new EmployeeLeaveMasterDetails();
+                using (var ctx = new LeaveManagementSystemEntities1())
+                {
+                    var employeeMaster = ctx.EmployeeLeaveMasters.Where(x => x.RefEmployeeId == employeeId).FirstOrDefault();
+
+                    details.SpentAdvanceLeave = employeeMaster.SpentAdvanceLeave;
+                    details.EarnedCasualLeave = employeeMaster.EarnedCasualLeave;
+                    details.RewardedLeaveCount = employeeMaster.RewardedLeaveCount;
+                    details.TakenCompOff = employeeMaster.TakenCompOff;
+                    details.TakenLossOfPay = employeeMaster.TakenLossOfPay;
+                    details.RefEmployeeId = employeeMaster.RefEmployeeId;
+
+                }
+                Logger.Info("Exception occured at EmployeeLeaveTransactionRepository GetEmployeeLeaveMasterDetails method ");
+                return details;
+            }
+            catch 
+            {
+                Logger.Error("Exception occured at EmployeeLeaveTransactionRepository GetEmployeeLeaveMasterDetails method ");
+                throw;
+            }
+        }
+
     }
 }

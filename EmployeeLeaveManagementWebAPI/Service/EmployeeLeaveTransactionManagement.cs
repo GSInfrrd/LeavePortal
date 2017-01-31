@@ -113,5 +113,21 @@ namespace LMS_WebAPI_ServiceHelpers
                 throw;
             }
         }
+
+        public EmployeeLeaveMasterDetails GetEmployeeLeaveMasterDetails(int employeeId)
+        {
+            Logger.Info("Entering into EmployeeLeaveTransactionManagement Service helper SubmitLeaveRewardManagement method ");
+            try
+            {
+               var details = EmployeeLeaves.GetEmployeeLeaveMasterDetails(employeeId);
+                Logger.Info("Exiting from into EmployeeLeaveTransactionManagement Service helper SubmitLeaveRewardManagement method ");
+                return details;
+            }
+            catch
+            {
+                Logger.Info("Exception occured at EmployeeLeaveTransactionManagement Service helper SubmitLeaveRewardManagement method ");
+                throw;
+            }
+        }
     }
 }

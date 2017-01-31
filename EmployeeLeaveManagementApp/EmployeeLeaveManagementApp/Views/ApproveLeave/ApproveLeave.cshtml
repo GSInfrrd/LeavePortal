@@ -316,7 +316,6 @@
                 });
 
                 $('input:radio[name=r1]').change(function (e) {
-                    debugger;
                     if ($("input[name='r1']:checked").val() == 'NO') {
                         $("#assignto").hide();
                         $("#btnAssignTo").hide();
@@ -421,7 +420,7 @@
                         var Leaveid = $("#lblHiddenId").html();
                         var Leavestatus = "Approved";
                         var Approverid = 0;
-                        debugger;
+                        $("#Loading").show();
                         $.ajax({
                             cache: false,
                             type: 'post',
@@ -435,6 +434,7 @@
                                     $('#ViewLeaveModal').modal('hide');
                                     localStorage.setItem("leaveApproved", 1);
                                     location.reload();
+                                            //$("#Loading").hide();
                                 }
                             }
                         });

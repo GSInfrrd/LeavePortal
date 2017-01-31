@@ -45,5 +45,18 @@ namespace LMS_WebAPI_Domain
         public DateTime ToDate { get; set; }
     }
 
+    public class EmployeeLeaveMasterDetails
+    {
+        public int Id { get; set; }
+        public int RefEmployeeId { get; set; }
+        public Nullable<int> RewardedLeaveCount { get; set; }
+        public Nullable<System.DateTime> ModifiedDate { get; set; }
+        public Nullable<int> ModifiedBy { get; set; }
+        public Nullable<int> SpentAdvanceLeave { get; set; }
+        public Nullable<int> TakenLossOfPay { get; set; }
+        public Nullable<double> EarnedCasualLeave { get; set; }
+        public Nullable<int> TakenCompOff { get; set; }
+    }
+
 }
 
