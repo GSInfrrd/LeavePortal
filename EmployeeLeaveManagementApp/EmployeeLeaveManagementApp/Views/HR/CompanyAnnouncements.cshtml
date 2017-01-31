@@ -61,7 +61,8 @@
             showMessage("please enter content", "2", true);
             return false;
         }
-        var path="\\Content\\Images\\" + imageName;
+        var path = "\\Content\\Images\\" + imageName;
+        $("#Loading").show();
         $.ajax({
             cache: false,
             type: 'post',
@@ -74,10 +75,11 @@
                     $("#txtContent").val("");
                     $("#announcementImageDisplay").attr('src', "/Content/Images/AnnouncementImage.jpg")
                     showMessage("Company Announcement added successfully", "1", true);
-                    
+                    $("#Loading").hide();
                 }
                 else {
-                    showMessage("Value already exists", "2", true);
+                    $("#Loading").hide();
+                    showMessage("Failed to add the announcement.Try again", "2", true);
                     return false;
                 }
 

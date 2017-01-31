@@ -208,7 +208,7 @@
 
 
     $(document).on('click', '#btnAddHoliday ', function (e) {
-        debugger;
+        $("#Loading").show();
         if (formValidate() == true) {
           
                 $.ajax({
@@ -226,6 +226,7 @@
                         $('#datepickerYear').val("");
                         $('#datepicker').val("");
                         $('#Description').val("");
+                        $("#Loading").hide();
                         // $(this).find("input.flat-red:checked").parent().removeClass('checked');
                         //Update datatable
                     }
@@ -321,7 +322,7 @@
 
     //Edit Adding
     $(document).on('click', '#btnEditHolidaySave', function (e) {
-        debugger;
+        $("#Loading").show();;
         if (formValidate() == true) {
             var newDate =$('#datepicker').val();
                 $.ajax({
@@ -345,6 +346,7 @@
                         $('#datepickerYear').val("");
                         $('#datepicker').val("");
                         $('#Description').val("");
+                        $("#Loading").hide();
                     }
                 });
         }
