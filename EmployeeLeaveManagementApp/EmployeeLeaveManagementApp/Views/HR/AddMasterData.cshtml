@@ -20,7 +20,7 @@
                 <div class="box-body">
 
                     <div class="form-group">
-                        <label for="txtFirstName">Master Data Type</label>
+                        <label for="txtFirstName">Master Data Type <span style="color:red">*</span></label>
                         <select id="ddlMasterData" class="form-control masterDataSelect" style="width: 100%;">
                             <option value="0">Select</option>
                       
@@ -30,33 +30,68 @@
 
 
                         </select>
+                        <div class="form-group has-error" style="display:none" id="divMasterDataTypeError">
+                            <label class="control-label" for="MasterDataType">
+                                <i class="fa fa-times-circle-o"></i> Please select master data type
+                            </label>
+                        </div>
                     </div>
                     <div class="form-group" id="divMasterDataValue">
-                        <label>Master Data Value</label>
+                        <label>Master Data Value <span style="color:red">*</span></label>
                         <input type="text" class="form-control" id="txtMasterDataValue" placeholder="Value">
+                        <div class="form-group has-error" style="display:none" id="divMasterDataValueError">
+                            <label class="control-label" for="MasterDataValue">
+                                <i class="fa fa-times-circle-o"></i> Please select master data value
+                            </label>
+                        </div>
                     </div>
                     <div id="divProjectInfo" style="display:none">
                         <div class="form-group">
-                            <label>Project Name</label>
+                            <label>Project Name <span style="color:red">*</span></label>
                             <input type="text" class="form-control" id="txtProjectName" placeholder="Project Name">
+                            <div class="form-group has-error" style="display:none" id="divProjectNameError">
+                                <label class="control-label" for="ProjectName">
+                                    <i class="fa fa-times-circle-o"></i> Please enter project name
+                                </label>
+                            </div>
                         </div>
                         <div class="form-group">
-                            <label>Description</label>
+                            <label>Description <span style="color:red">*</span></label>
                             <input type="text" class="form-control" id="txtProjectDescription" placeholder="Project Description">
+                            <div class="form-group has-error" style="display:none" id="divDescriptionError">
+                                <label class="control-label" for="Description">
+                                    <i class="fa fa-times-circle-o"></i> Please enter description
+                                </label>
+                            </div>
                         </div>
                         <div class="form-group">
-                            <label>Technology</label>
+                            <label>Technology <span style="color:red">*</span></label>
                             <input type="text" class="form-control" id="txtTechnology" placeholder="Technology">
+                            <div class="form-group has-error" style="display:none" id="divTechnologyError">
+                                <label class="control-label" for="Technology">
+                                    <i class="fa fa-times-circle-o"></i> Please enter technology
+                                </label>
+                            </div>
                         </div>
                         <div class="form-group">
-                            <label>Start Date</label>
+                            <label>Start Date <span style="color:red">*</span></label>
                             <input type="text" class="form-control" id="txtStartDate">
+                            <div class="form-group has-error" style="display:none" id="divStartDateError">
+                                <label class="control-label" for="StartDate">
+                                    <i class="fa fa-times-circle-o"></i> Please select start date
+                                </label>
+                            </div>
                         </div>
                         <div class="form-group">
-                            <label>Manager</label>
+                            <label>Manager <span style="color:red">*</span></label>
                             <select class="form-control managerSelect" style="width: 100%;" id="ddlManagerName">
                                 <option value="">Select</option>
                             </select>
+                            <div class="form-group has-error" style="display:none" id="divManagerError">
+                                <label class="control-label" for="Manager">
+                                    <i class="fa fa-times-circle-o"></i> Please select manager
+                                </label>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -117,6 +152,21 @@
     });
 
     $(document).on('click', "#btnSubmitMasterData", function (e) {
+
+        if (($("#ddlMasterData").val() == 0) && ($("#txtMasterDataValue").val() == "")) {
+            $("#divMasterDataTypeError").show();
+            $("#divMasterDataValueError").show();
+            return false;
+        }
+        if ($("#ddlMasterData").val() == 0) {
+            $("#divMasterDataTypeError").show();
+            return false;
+        }
+        if ($("#txtMasterDataValue").val() == "") {
+            $("#divMasterDataValueError").show();
+            return false;
+        }
+
         if ($("#ddlMasterData").val() == 0 || $("#txtMasterDataValue").val() == "")
         {
             showMessage("Enter all the fields", "2", true);
@@ -152,12 +202,62 @@
                     $("#Loading").hide();
                     return false;
                 }
-
+                $("#divMasterDataTypeError").hide();
+                $('#divMasterDataValueError').hide();
             }
         });
     });
 
     $(document).on('click', "#btnProjectInfoSubmit", function (e) {
+
+        if (($("#txtProjectName").val() == "") && ($("#txtProjectDescription").val() == "") && ($("#txtTechnology").val() == "") && ($("#txtStartDate").val() == "") && ($("#ddlManagerName").val() == 0)) {
+            $("#divProjectNameError").show();
+            $("#divDescriptionError").show();
+            $("#divTechnologyError").show();
+            $("#divStartDateError").show();
+            $("#divManagerError").show();
+            return false;
+        }
+        if (($("#txtProjectDescription").val() == "") && ($("#txtTechnology").val() == "") && ($("#txtStartDate").val() == "") && ($("#ddlManagerName").val() == 0)) {
+            $("#divDescriptionError").show();
+            $("#divTechnologyError").show();
+            $("#divStartDateError").show();
+            $("#divManagerError").show();
+            return false;
+        }
+        if (($("#txtTechnology").val() == "") && ($("#txtStartDate").val() == "") && ($("#ddlManagerName").val() == 0)) {
+            $("#divTechnologyError").show();
+            $("#divStartDateError").show();
+            $("#divManagerError").show();
+            return false;
+        }
+        if (($("#txtStartDate").val() == "") && ($("#ddlManagerName").val() == 0)) {
+            $("#divStartDateError").show();
+            $("#divManagerError").show();
+            return false;
+        }
+        if ($("#txtProjectName").val() == 0) {
+            $("#divProjectNameError").show();
+            return false;
+        }
+        if ($("#txtProjectDescription").val() == "") {
+            $("#divDescriptionError").show();
+            return false;
+        }
+        if ($("#txtTechnology").val() == "") {
+            $("#divTechnologyError").show();
+            return false;
+        }
+        if ($("#txtStartDate").val() == "") {
+            $("#divStartDateError").show();
+            return false;
+        }
+        if ($("#ddlManagerName").val() == 0) {
+            $("#divManagerError").show();
+            return false;
+        }
+
+
         if($("#txtProjectName").val()=="" || $("#txtProjectDescription").val()=="" || $("#txtTechnology").val()=="" || $("#txtStartDate").val()==""||  $("#ddlManagerName").val()=="" )
         {
             showMessage("Enter all fields","2",true);
@@ -200,6 +300,8 @@
                     $("#Loading").hide();
                     return false;
                 }
+                $("#divMasterDataTypeError").hide();
+                $('#divMasterDataValueError').hide();
 
             }
         });
@@ -224,4 +326,44 @@
                 break;
         }
     }
+
+    $("#txtProjectName").keypress(function (e) {
+        $('#divProjectNameError').hide();
+    });
+
+    $("#txtProjectDescription").keypress(function (e) {
+        $('#divDescriptionError').hide();
+    });
+
+    $("#txtTechnology").keypress(function (e) {
+        $('#divTechnologyError').hide();
+    });
+
+    $('#txtStartDate').on('change.datepicker', function (ev, picker) {
+        $('#divStartDateError').hide();
+    });
+
+    $('#ddlManagerName').on('change', function () {
+        if ($("#ddlManagerName").val() != 0) {
+            $("#divManagerError").hide();
+        }
+        else {
+            $("#divManagerError").show();
+        }
+    });
+
+    $("#txtMasterDataValue").keypress(function (e) {
+        $('#divMasterDataValueError').hide();
+    });
+
+    $('#ddlMasterData').on('change', function () {
+        if ($("#ddlMasterData").val() != 0) {
+            $("#divMasterDataTypeError").hide();
+        }
+        else {
+            $("#divMasterDataTypeError").show();
+        }
+    });
+
+
 </script>
