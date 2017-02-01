@@ -50,13 +50,29 @@
                         </select>
                     </div>
                     <div class="form-group col-md-4 col-sm-6" id="noOfDays">
-                        <label>Number of Days</label>
+                        <label>Number of Days <span style="color:red">*</span></label>
                         <input type="number" min="1" max="20" class="form-control" id="noOfRewardedDays">
+                        <div class="form-group has-error" style="display:none" id="divNoofdaysError">
+                            <label class="control-label" for="Noofdays">
+                                <i class="fa fa-times-circle-o"></i> Please enter no of days
+                            </label>
+                        </div>
+                        <div class="form-group has-error" style="display:none" id="divNoofdaysinvalidError">
+                            <label class="control-label" for="Noofdaysinvalid">
+                                <i class="fa fa-times-circle-o"></i> Please enter correct no of days
+                            </label>
+                        </div>
                     </div>
                     <div class="form-group col-md-4 col-sm-6" id="comment">
-                        <label>Enter comments</label>
+                        <label>Enter comments <span style="color:red">*</span></label>
                         <textarea class="form-control textAreaCommentRewardLeave" id="txtComment" maxlength="200" placeholer="Message"></textarea>
+                        <div class="form-group has-error" style="display:none" id="divCommentError">
+                            <label class="control-label" for="managercomments">
+                                <i class="fa fa-times-circle-o"></i> Please enter the comments
+                            </label>
+                        </div>
                     </div>
+                        
                 </div>
                 <div class="box-footer pad-left0 pad-bottom0">
                     <div class="form-group col-md-6 margin-bottom-0 btn-backgroundColor-dark pad-left0">
@@ -154,6 +170,33 @@
     });
 
     $("#confirmRewardLeave").on("click", function () {
+        debugger
+
+        if (($("#noOfRewardedDays").val() =="") && ($("#txtComment").val() == "")) {
+            $("#divNoofdaysError").show();
+            $("#divCommentError").show();
+            return false;
+        }
+        if (($("#noOfRewardedDays").val() <= 0) && ($("#txtComment").val() == "")) {
+            $("#divNoofdaysError").hide();
+            $("#divNoofdaysinvalidError").show();
+            $("#divCommentError").show();
+            return false;
+        }
+        if (($("#noOfRewardedDays").val() != "") && ($("#noOfRewardedDays").val() <=0 )&&($("#txtComment").val() != "")) {
+            $("#divNoofdaysError").hide();
+            $("#divNoofdaysinvalidError").show();
+            return false;
+        }
+        if ($("#noOfRewardedDays").val() =="") {
+            $("#divNoofdaysError").show();
+            return false;
+        }
+        if ($("#txtComment").val() == "") {
+            $("#divCommentError").show();
+            return false;
+        }
+
         var project = parseInt($("#projectsSelect option:selected").val());
         var employee = parseInt($("#employeesSelect option:selected").val());
         var employeeName = $("#employeesSelect option:selected").attr("data-emlpoyeeName");
@@ -171,6 +214,15 @@
         $("#noOfRewardedDays").val("");
         $("#txtComment").val("");
         $("#RewardLeaveConfirmationModal").modal("hide");
+    });
+
+    $("#txtComment").keypress(function (e) {
+        $('#divCommentError').hide();
+    });
+
+    $("#noOfRewardedDays").keypress(function (e) {
+        $('#divNoofdaysError').hide();
+        $('#divNoofdaysinvalidError').hide();
     });
 
 </script>
