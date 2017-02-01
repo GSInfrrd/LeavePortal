@@ -77,16 +77,26 @@
                         <!-- /.input group -->
                     </div>
                     <div class="form-group">
-                        <label>Select Reason:</label>
+                        <label>Select Reason <span style="color:red">*</span> :</label>
                         <select class="form-control reasonSelect" id="SelectReason" style="width:100%">
                             @*<select class="form-control select2" style="width: 100%;" id="ddlLevel">*@
                             <option value="">Select</option>
                             @*</select>*@
                         </select>
+                        <div class="form-group has-error" style="display:none" id="divSelectReasonError">
+                            <label class="control-label" for="SelectReason">
+                                <i class="fa fa-times-circle-o"></i> Please select reason
+                            </label>
+                        </div>
                     </div>
                     <div class="form-group" style="display:none" id="divOtherReason">
-                        <label>Enter Reason:</label>
+                        <label>Enter Reason <span style="color:red">*</span> :</label>
                         <input type="text" class="form-control pull-right" id="txtOtherReason">
+                        <div class="form-group has-error" style="display:none" id="divOtherReasonError">
+                            <label class="control-label" for="OtherReason">
+                                <i class="fa fa-times-circle-o"></i> Please enter reason
+                            </label>
+                        </div>
                     </div>
                 </form>
             </div>
@@ -210,6 +220,17 @@
     }
 
     $(document).on('click', '#btnAddWorkFromHome ', function (e) {
+
+        if ($("#SelectReason").val() == 0) {
+            $("#divSelectReasonError").show();
+            return false;
+        }
+
+        if ($("#txtOtherReason").val() == "") {
+            $("#divOtherReasonError").show();
+            return false;
+        }
+
         var selectedDate= $('#datepicker').val();
         $('#btnAddWorkFromHome').attr("disabled", true);
         if ($.inArray(selectedDate, loop) != -1 ||responseCode==dateExists)
@@ -316,6 +337,19 @@
         });
         $('#SelectReason').val("").trigger("change");
     }
+
+    $('#SelectReason').on('change', function () {
+        if ($("#SelectReason").val() != 0) {
+            $("#divSelectReasonError").hide();
+        }
+        else {
+            $("#divSelectReasonError").show();
+        }
+    });
+
+    $("#txtOtherReason").keypress(function (e) {
+        $('#divOtherReasonError').hide();
+    });
 </script>
 
 <!-- /.modal -->
