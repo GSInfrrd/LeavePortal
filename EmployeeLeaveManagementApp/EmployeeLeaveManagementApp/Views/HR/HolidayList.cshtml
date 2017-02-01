@@ -83,13 +83,18 @@
             <div class="modal-body">
                 <form>
                     <div class="form-group">
-                        <label>Date:</label>
+                        <label>Date <span style="color:red">*</span> :</label>
 
                         <div class="input-group date">
                             <div class="input-group-addon">
                                 <i class="fa fa-calendar"></i>
                             </div>
                             <input type="text" class="form-control pull-right" id="datepicker" readonly="readonly">
+                        </div>
+                        <div class="form-group has-error" style="display:none" id="divDateError">
+                            <label class="control-label" for="datepicker">
+                                <i class="fa fa-times-circle-o"></i> Please select Date
+                            </label>
                         </div>
                         <!-- /.input group -->
                     </div>
@@ -99,18 +104,18 @@
 
                     <div class="form-group">
                         <div>
-                            <label>Description:</label>
+                            <label>Description <span style="color:red">*</span> :</label>
                         </div>
 
                         <div>
                             <textarea id="Description" rows="3" style="width:568px;resize:none" placeholder="Enter ..."></textarea>
                         </div>
-                        <div class="form-group has-error" style="display:none" id="divCommentError">
-                            <label class="control-label" for="leaveComment">
-                                <i class="fa fa-times-circle-o"></i> Please enter the description
+                        <div class="form-group has-error" style="display:none" id="divDescriptionError">
+                            <label class="control-label" for="Description">
+                                <i class="fa fa-times-circle-o"></i> Please enter description
                             </label>
-
                         </div>
+
 
                     </div>
 
@@ -208,6 +213,21 @@
 
 
     $(document).on('click', '#btnAddHoliday ', function (e) {
+
+        if (($("#datepicker").val() == "") && ($("#Description").val() == "")) {
+            $("#divDateError").show();
+            $("#divDescriptionError").show();
+            return false;
+        }
+        if ($("#datepicker").val() == "") {
+            $("#divDateError").show();
+            return false;
+        }
+        if ($("#Description").val() == "") {
+            $("#divDescriptionError").show();
+            return false;
+        }
+
         $("#Loading").show();
         if (formValidate() == true) {
           
@@ -239,10 +259,11 @@
     );
 
     $(document).on('click', '#btnClose,.close', function (e) {
-        debugger;
         $('#datepickerYear').val("");
         $('#datepicker').val("");
         $('#Description').val("");
+        $('#divDateError').hide();
+        $('#divDescriptionError').hide();
     });
 
     //Show error Message
@@ -409,6 +430,17 @@
         $('#datepicker').val("");
         $('#Description').val("");
     }
+
+
+    $("#Description").keypress(function (e) {
+        $('#divDescriptionError').hide();
+    });
+
+    $('#datepicker').on('change.datepicker', function (ev, picker) {
+        debugger
+        $('#divDateError').hide();
+    });
+
 </script>
 
 <!-- /.modal -->

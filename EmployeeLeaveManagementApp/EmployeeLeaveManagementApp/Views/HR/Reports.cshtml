@@ -32,7 +32,7 @@
                 </div>
                 <div class="box-body">
                     <div class="form-group">
-                        <label>Employee Name</label>
+                        <label>Employee Name <span style="color:red">*</span> :</label>
                         <select class="form-control ddlEmployee" multiple="multiple" style="width: 100%;" id="ddlEmployeeName">
                             <option value="0">All</option>
                             @foreach (var m in Model)
@@ -40,6 +40,11 @@
                                 <option id="@m.Id" value="@m.Id">@m.FirstName</option>
                             }
                         </select>
+                    </div>
+                    <div class="form-group has-error" style="display:none" id="divEmployeeNameError">
+                        <label class="control-label" for="EmployeeName">
+                            <i class="fa fa-times-circle-o"></i> Please select employee
+                        </label>
                     </div>
                     <div class="form-group">
                         <div>
@@ -54,7 +59,7 @@
                         </div>
                     </div>
                     <div class="form-group">
-                        <label>Leave Type</label>
+                        <label>Leave Type <span style="color:red">*</span> :</label>
                         <select class="form-control ddlLeave" multiple="multiple" style="width: 100%;" id="ddlLeaveType">
                             <option value="0">All</option>
                             <option value="1">Applied Leaves</option>
@@ -63,6 +68,11 @@
                             <option value="3">Advanced Leaves</option>
                             <option value="3">Comp Off</option>
                         </select>
+                    </div>
+                    <div class="form-group has-error" style="display:none" id="divLeaveTypeError">
+                        <label class="control-label" for="LeaveType">
+                            <i class="fa fa-times-circle-o"></i> Please select leave type
+                        </label>
                     </div>
                     @*<div class="form-group">
                         <label for="txtlastname">Export As</label>
@@ -91,7 +101,7 @@
                     </div>
                 <div class="box-body">
                     <div class="form-group">
-                        <label>Employee Name</label>
+                        <label>Employee Name <span style="color:red">*</span> :</label>
                         <select class="form-control ddlEmployeeSelect" style="width: 100%;" id="ddlEmployeeId">
                             <option value="0">Select</option>
                             @foreach (var m in Model)
@@ -99,6 +109,11 @@
                                 <option id="@m.Id" value="@m.Id">@m.FirstName</option>
                             }
                         </select>
+                    </div>
+                    <div class="form-group has-error" style="display:none" id="divEmpNameError">
+                        <label class="control-label" for="EmpName">
+                            <i class="fa fa-times-circle-o"></i> Please select employee
+                        </label>
                     </div>
                     @*<div id="donut-chart" style="height: 300px;"></div>*@
                         <div class="row">
@@ -438,6 +453,22 @@
 
 
     $(document).on('click', '#btnSendMail', function (e) {
+
+        if (($("#ddlEmployeeName").val() == null) && ($("#ddlLeaveType").val() == null)) {
+            $("#divEmployeeNameError").show();
+            $("#divLeaveTypeError").show();
+            return false;
+        }
+        if ($("#ddlEmployeeName").val() == null) {
+            $("#divEmployeeNameError").show();
+            return false;
+        }
+        if ($("#ddlLeaveType").val() == null) {
+            $("#divLeaveTypeError").show();
+            return false;
+        }
+
+
         var employeeId = $("#ddlEmployeeName").val();
         var leaveType = $("#ddlLeaveType").val();
         //var exportAs = $("#ddlExportType").val();
@@ -467,6 +498,21 @@
     }
     );
     $(document).on('click', '#btnExportDetails', function (e) {
+
+        if (($("#ddlEmployeeName").val() == null) && ($("#ddlLeaveType").val() == null)) {
+            $("#divEmployeeNameError").show();
+            $("#divLeaveTypeError").show();
+            return false;
+        }
+        if ($("#ddlEmployeeName").val() == null) {
+            $("#divEmployeeNameError").show();
+            return false;
+        }
+        if ($("#ddlLeaveType").val() == null) {
+            $("#divLeaveTypeError").show();
+            return false;
+        }
+
         var exportAs = $(this).data("content");
         if ($("#ddlEmployeeName").val() == null && $("#ddlLeaveType").val() == null && reportFromDate == undefined && reportToDate == undefined) {
             showMessage("Select Employee Name,Leave Type and Date Range", "2", true);
@@ -492,8 +538,10 @@
     })
 
     $(document).on('click', '#btnExportIndividualReport', function (e) {
-         if ($("#ddlEmployeeId").val() == null) {
-             showMessage("Select Employee Name", "2", true);
+
+        if ($("#ddlEmployeeId").val() == 0) {
+            $("#divEmpNameError").show();
+            return false;
         }
          var employeeId = $("#ddlEmployeeId").val();      
          window.location.href = "/HR/GenerateIndividualReport/?employeeId=" + employeeId;
@@ -524,4 +572,34 @@
                 break;
         }
     }
+
+    $('#ddlEmployeeId').on('change', function () {
+        debugger
+        if ($("#ddlEmployeeId").val() != 0) {
+            $("#divEmpNameError").hide();
+        }
+        else {
+            $("#divEmpNameError").show();
+        }
+    });
+
+    $('#ddlEmployeeName').on('change', function () {
+        debugger
+        if ($("#ddlEmployeeName").val() != 0) {
+            $("#divEmployeeNameError").hide();
+        }
+        else {
+            $("#divEmployeeNameError").show();
+        }
+    });
+
+    $('#ddlLeaveType').on('change', function () {
+        debugger
+        if ($("#ddlLeaveType").val() != 0) {
+            $("#divLeaveTypeError").hide();
+        }
+        else {
+            $("#divLeaveTypeError").show();
+        }
+    });
 </script>

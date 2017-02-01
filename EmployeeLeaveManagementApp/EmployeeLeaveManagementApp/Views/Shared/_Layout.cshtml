@@ -100,8 +100,8 @@
                         <!-- Notifications: style can be found in dropdown.less -->
                         <li class="dropdown notifications-menu">
                             <a href="#" class="dropdown-toggle noti" data-toggle="dropdown" aria-expanded="true">
-                                <i class="fa fa-bell-o"></i>
-                                <span id="notificationcount" class=" label label-warning">&nbsp;</span>
+                                <i class="fa fa-bell-o" style="font-size: 1.3em;"></i>
+                                <span id="notificationcount" class=" label label-warning" style="font-size: 1em;">&nbsp;</span>
                             </a>
                             <ul class="dropdown-menu" style="width:auto">
 
@@ -396,17 +396,39 @@
                 success: function (response) {
                     $('#notiContent').empty();
                     if (response.result.length == 0) {
-                        $('#notiContent').append($("<a><li style='height:41px'><i class='text-aqua'></i>No data available</li></a>"));
+                        $('#notiContent').append($("<a><li style='height:41px;padding-left: 28px;padding-top: 10px;'><i class='text-aqua'></i>No data available</li></a>"));
                     }
                     for (var i = 0; i < response.result.length; i++) {
-                        debugger;
-                        if ((response.result[i].RefNotificationType != 166)&&(response.result[i].RefNotificationType != 167))
-                        {
-                            var opti = "<li><a href='javascript:void(0);' onclick='notificationSeen(" + response.result[i].Id + " , " + response.result[i].RefNotificationType + ");return false' ><i class='fa fa-bell text-aqua'></i>" + response.result[i].Text + "</a></li>";
-                        }
-                        else
-                        {
-                            var opti = "<li><a href='javascript:void(0);' style='cursor:default' onclick='notificationSeen(" + response.result[i].Id + " , " + response.result[i].RefNotificationType + ");return false' ><i class='fa fa-bell text-aqua'></i>" + response.result[i].Text + "</a></li>";
+
+                        switch (response.result[i].RefNotificationType) {
+                            case @Convert.ToInt16(LMS_WebAPP_Utils.NotificationTypes.SubmitLeaveRequest):
+                                var opti = "<li><a href='javascript:void(0);' onclick='notificationSeen(" + response.result[i].Id + " , " + response.result[i].RefNotificationType + ");return false' ><i class='fa fa-tasks text-aqua'></i>" + response.result[i].Text + "</a></li>";
+                                break;
+                            case @Convert.ToInt16(LMS_WebAPP_Utils.NotificationTypes.SubmitResourceRequest):
+                                var opti = "<li><a href='javascript:void(0);' onclick='notificationSeen(" + response.result[i].Id + " , " + response.result[i].RefNotificationType + ");return false' ><i class='fa fa-users  text-aqua'></i>" + response.result[i].Text + "</a></li>";
+                                break;
+                            case @Convert.ToInt16(LMS_WebAPP_Utils.NotificationTypes.SubmitResourceRequestResponse):
+                                var opti = "<li><a href='javascript:void(0);' onclick='notificationSeen(" + response.result[i].Id + " , " + response.result[i].RefNotificationType + ");return false' ><i class='fa fa-users text-aqua'></i>" + response.result[i].Text + "</a></li>";
+                                break;
+                            case @Convert.ToInt16(LMS_WebAPP_Utils.NotificationTypes.RewardLeave):
+                                var opti = "<li><a href='javascript:void(0);' onclick='notificationSeen(" + response.result[i].Id + " , " + response.result[i].RefNotificationType + ");return false' ><i class='fa fa-gift text-aqua'></i>" + response.result[i].Text + "</a></li>";
+                                break;
+                            case @Convert.ToInt16(LMS_WebAPP_Utils.NotificationTypes.WorkfromHome):
+                                var opti = "<li><a href='javascript:void(0);' style='cursor:default' onclick='notificationSeen(" + response.result[i].Id + " , " + response.result[i].RefNotificationType + ");return false' ><i class='fa fa-home text-aqua'></i>" + response.result[i].Text + "</a></li>";
+                                break;
+                            case @Convert.ToInt16(LMS_WebAPP_Utils.NotificationTypes.SickLeave):
+                                var opti = "<li><a href='javascript:void(0);' style='cursor:default' onclick='notificationSeen(" + response.result[i].Id + " , " + response.result[i].RefNotificationType + ");return false' ><i class='fa fa-tasks text-aqua'></i>" + response.result[i].Text + "</a></li>";
+                                break;
+                            case @Convert.ToInt16(LMS_WebAPP_Utils.NotificationTypes.ApproveLeave):
+                                var opti = "<li><a href='javascript:void(0);' onclick='notificationSeen(" + response.result[i].Id + " , " + response.result[i].RefNotificationType + ");return false' ><i class='fa fa-thumbs-o-up text-aqua'></i>" + response.result[i].Text + "</a></li>";
+                                break;
+                            case @Convert.ToInt16(LMS_WebAPP_Utils.NotificationTypes.RejectLeave):
+                                var opti = "<li><a href='javascript:void(0);' onclick='notificationSeen(" + response.result[i].Id + " , " + response.result[i].RefNotificationType + ");return false' ><i class='fa fa-thumbs-o-down text-aqua'></i>" + response.result[i].Text + "</a></li>";
+                                break;
+                            case @Convert.ToInt16(LMS_WebAPP_Utils.NotificationTypes.ReassignLeave):
+                                var opti = "<li><a href='javascript:void(0);' onclick='notificationSeen(" + response.result[i].Id + " , " + response.result[i].RefNotificationType + ");return false' ><i class='fa fa-info text-aqua'></i>" + response.result[i].Text + "</a></li>";
+                                break;
+                            default:
                         }
                         //var opt = new Option(response.result[i].Text);
                         $('#notiContent').append(opti);
@@ -444,9 +466,9 @@
                     console.log(error);
                 }
             });
-            if ((NotificationType != 166) && (NotificationType != 167))
+            if ((NotificationType != @Convert.ToInt16(LMS_WebAPP_Utils.NotificationTypes.WorkfromHome)) && (NotificationType != @Convert.ToInt16(LMS_WebAPP_Utils.NotificationTypes.SickLeave)))
              window.location.href = "/Notification/NotificationRedirect?NotificationType=" + NotificationType;
-            
+
         }
 
         $(function () {
@@ -505,7 +527,6 @@
             var notificationHub = $.connection.notificationHub;
             $.connection.hub.url = "http://localhost:64476/signalr/";
             $.connection.hub.start({ withCredentials: false }).done(function () {
-                debugger;
                 console.log('Notification hub started');
             });
 

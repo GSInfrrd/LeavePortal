@@ -138,6 +138,12 @@ namespace LMS_WebAPP_Utils
         WorkfromHome = 166,
         [Description("Sick Leave")]
         SickLeave = 167,
+        [Description("Approve Leave")]
+        ApproveLeave = 168,
+        [Description("Reject Leave")]
+        RejectLeave = 169,
+        [Description("Reassign Leave")]
+        ReassignLeave = 170,
 
     }
 

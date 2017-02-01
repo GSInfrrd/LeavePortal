@@ -19,18 +19,34 @@
                 <div class="box-body">
              
                     <div class="form-group">
-                        <label for="txtFirstName">Title</label>
+                        <label for="txtFirstName">Title <span style="color:red">*</span></label>
                         <input type="text" class="form-control" id="txtTitle" placeholder="Enter title">
                     </div>
-                    <div class="form-group">
-                        <label for="txtlastname">Content</label>
-                        <input type="text" class="form-control" id="txtContent" placeholder="Content">
+                    <div class="form-group has-error" style="display:none" id="divTitleError">
+                        <label class="control-label" for="Title">
+                            <i class="fa fa-times-circle-o"></i> Please enter title
+                        </label>
                     </div>
                     <div class="form-group">
+                        <label for="txtlastname">Content <span style="color:red">*</span></label>
+                        <input type="text" class="form-control" id="txtContent" placeholder="Content">
+                    </div>
+                    <div class="form-group has-error" style="display:none" id="divContentError">
+                        <label class="control-label" for="Content">
+                            <i class="fa fa-times-circle-o"></i> Please enter content
+                        </label>
+                    </div>
+                    <div class="form-group">
+                        <label style="color:red">*</label>
                         <img class="profile-user-img img-responsive" style="width:150px;height:200px;margin:initial" id="announcementImageDisplay" src="~/Content/Images/AnnouncementImage.jpg" alt="User profile picture">
                         <div style="padding-top:10px">
                             <label class="btn btn-info"><i class="fa fa-upload"></i><input id="AnnouncementImage" type="file" style="display:none" onchange="ValidateAndUploadImage()" accept="image/jpg,image/png,image/jpeg,image/gif" /> Upload</label>
                         </div>
+                    </div>
+                    <div class="form-group has-error" style="display:none" id="divImageError">
+                        <label class="control-label" for="Image">
+                            <i class="fa fa-times-circle-o"></i> Please upload image
+                        </label>
                     </div>
                 </div>
                 <div class="box-footer">
@@ -52,6 +68,42 @@
     var imageName = "";
 
     $(document).on('click', "#btnSubmitAnnouncementDetails", function (e) {
+
+        if (($("#txtTitle").val() == "") && (($("#txtContent").val() == "")) && ($("#AnnouncementImage").val() == "")) {
+            $('#divTitleError').show();
+            $('#divContentError').show();
+            $('#divImageError').show();
+            return false;
+        }
+        if ((($("#txtContent").val() == "")) && ($("#AnnouncementImage").val() == "")) {
+            $('#divContentError').show();
+            $('#divImageError').show();
+            return false;
+        }
+        if (($("#txtTitle").val() == "") && ($("#AnnouncementImage").val() == "")) {
+            $('#divTitleError').show();
+            $('#divImageError').show();
+            return false;
+        }
+        if (($("#txtTitle").val() == "") && ($("#txtContent").val() == "")) {
+            $('#divTitleError').show();
+            $('#divContentError').show();
+            return false;
+        }
+        if ($("#txtTitle").val() == "") {
+            $('#divTitleError').show();
+            return false;
+        }
+        if ($("#txtContent").val() == "") {
+            $('#divContentError').show();
+            return false;
+        }
+        if ($("#AnnouncementImage").val() == "") {
+
+            $('#divImageError').show();
+            return false;
+        }
+
         var imagepath = imgpath != "" ? imgpath : "";
         if ($("#txtTitle").val() == "" ) {
             showMessage("please enter title", "2", true);
@@ -74,6 +126,7 @@
                     $("#txtTitle").val("");
                     $("#txtContent").val("");
                     $("#announcementImageDisplay").attr('src', "/Content/Images/AnnouncementImage.jpg")
+                    $("#AnnouncementImage").val("");
                     showMessage("Company Announcement added successfully", "1", true);
                     $("#Loading").hide();
                 }
@@ -89,7 +142,7 @@
 
 
     function ValidateAndUploadImage() {
-        debugger;
+        $('#divImageError').hide();
         var file = document.getElementById("AnnouncementImage").value;
         imgPath = document.getElementById("AnnouncementImage").files[0].name;
         imageName = imgPath;
@@ -157,4 +210,13 @@
                 break;
         }
     }
+
+    $("#txtTitle").keypress(function (e) {
+        $("#divTitleError").hide();
+    });
+    $("#txtContent").keypress(function (e) {
+        $("#divContentError").hide();
+    });
+
+
 </script>
