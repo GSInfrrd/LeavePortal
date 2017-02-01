@@ -9,6 +9,8 @@
 <link rel="stylesheet" href="../../plugins/select2/select2.min.css">
 <link rel="stylesheet" href="../../dist/css/AdminLTE.min.css">
 <link href="~/plugins/Toastr/toastr.css" rel="stylesheet" />
+<link rel="stylesheet" href="~/plugins/datatables/dataTables.bootstrap.css">
+<link href="~/Content/Style.css" rel="stylesheet" />
 
 <section class="content-header" style="height:41px">
     <h1 class="col-md-9" style="padding-left:0px">
@@ -258,16 +260,20 @@
 <script src="~/plugins/flot/jquery.flot.categories.min.js"></script>
 <script src="~/plugins/flot/jquery.flot.resize.min.js"></script>
 <script src="../../plugins/Toastr/toastr.js"></script>
+<script src="~/plugins/datatables/jquery.dataTables.min.js"></script>
+<script src="~/plugins/datatables/dataTables.bootstrap.min.js"></script>
 <script>
     var reportFromDate;
     var reportToDate;
     var date = new Date();
     var year = date.getFullYear();
+    var profileType=@profileId;
+    var profileIdEnum='@Convert.ToInt32(ProfileType.CEO)';
     $(document).ready(function () {
         $('#reports').parent().addClass('active');
         GetProjectsList();
         $(function () {
-            if(@profileId==@Convert.ToInt32(ProfileType.CEO))
+            if(profileType==profileIdEnum)
             {
             var bar_data = {
                 data: [["January", 0], ["February", 0], ["March", 0], ["April", 0], ["May", 0], ["June", 0], ["July", 0], ["August", 0], ["September", 0], ["October", 0], ["November", 0], ["December", 0]],
@@ -862,7 +868,8 @@
         var fromMonth = $("#ddlFromMonthName").val();
         var toMonth = $("#ddlToMonthName").val();
         var year = $("#ddlYear").val();
-        $("#txtDuration").html(fromMonth, year + "to" + toMonth, year);
+        var text=$("#ddlFromMonthName :selected").text()+","+ year+ " to " + $("#ddlToMonthName :selected").text()+","+year;
+        $("#txtDuration").html(text);
         $.ajax({
             cache: false,
             type: 'post',
