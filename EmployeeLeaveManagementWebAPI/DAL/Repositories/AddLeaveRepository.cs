@@ -107,7 +107,7 @@ namespace LMS_WebAPI_DAL.Repositories
                                 employeeName += Lastname;
                             }
 
-                            employeeName += " has applied for Sick leave.";
+                            employeeName += " has applied for Sick leave";
                             int Status = (Int16)NotificationStatus.Active;
                             int notificationType = (Int16)NotificationTypes.SickLeave;
                             ApproveLeaveRepository alr = new ApproveLeaveRepository();
@@ -118,7 +118,7 @@ namespace LMS_WebAPI_DAL.Repositories
                     return true;
                 }
             }
-            catch (Exception ex)
+            catch
             {
                 Logger.Error("Exception occured at AddLeaveRepository API InsertEmployeeLeaveDetails method ");
                 throw;
@@ -164,7 +164,7 @@ namespace LMS_WebAPI_DAL.Repositories
                         employeeName += Lastname;
                     }
 
-                    employeeName += " has applied for leave.";
+                    employeeName += " has applied for leave";
                     int Status = (Int16)NotificationStatus.Active;
                     int notificationType =(Int16)NotificationTypes.SubmitLeaveRequest;
                     ApproveLeaveRepository alr = new ApproveLeaveRepository();
@@ -360,7 +360,7 @@ namespace LMS_WebAPI_DAL.Repositories
                                 ManagerName = string.Format(ManagerName + " " + ManagerDetails.LastName);
                             }
 
-                            ManagerName += " has rewarded leave to you.";
+                            ManagerName += " has rewarded leave to you";
                             int Status = (Int16)NotificationStatus.Active;
                             int notificationType = (Int16)NotificationTypes.RewardLeave;
                             ApproveLeaveRepository alr = new ApproveLeaveRepository();

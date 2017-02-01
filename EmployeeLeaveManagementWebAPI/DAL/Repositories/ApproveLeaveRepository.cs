@@ -65,8 +65,7 @@ namespace LMS_WebAPI_DAL.Repositories
                     var leaveDetails = ctx.Workflows.Where(x => x.EmployeeLeaveTransaction.Id == Leaveid).OrderByDescending(x=>x.ModifiedDate).FirstOrDefault();
                     var EmployeeId = leaveDetails.EmployeeLeaveTransaction.EmployeeDetail.Id;
                     var ApproverId = leaveDetails.RefApproverId;
-                    int Status = (Int16)NotificationStatus.Active; ;
-                    int notificationType = (Int16)NotificationTypes.TakeActionOnLeaveRequest;
+                    int Status = (Int16)NotificationStatus.Active;
                     if (Leavestatus == CommonMethods.Description(LeaveStatus.Approved))
                     {
                         leaveDetails.EmployeeLeaveTransaction.RefStatus = Convert.ToInt32(LeaveStatus.Approved);
@@ -122,7 +121,8 @@ namespace LMS_WebAPI_DAL.Repositories
                             ManagerName += ManagerDetails.LastName;
                         }
 
-                        string Text = "Your Manager " + ManagerName + " has approved your leaves.";
+                        string Text = "Your Manager " + ManagerName + " has approved your leave";
+                        int notificationType = (Int16)NotificationTypes.ApproveLeave;
                         InsertNotification(EmployeeId, Text, Status, notificationType);
 
 
@@ -158,7 +158,8 @@ namespace LMS_WebAPI_DAL.Repositories
                             ManagerName += ManagerDetails.LastName;
                         }
 
-                        string Text = "Your Manager " + ManagerName + " has rejected your leaves.";
+                        string Text = "Your Manager " + ManagerName + " has rejected your leave";
+                        int notificationType = (Int16)NotificationTypes.RejectLeave;
                         InsertNotification(EmployeeId, Text, Status, notificationType);
                     }
                     if (Leavestatus == CommonMethods.Description(LeaveStatus.Reassigned))
@@ -198,7 +199,8 @@ namespace LMS_WebAPI_DAL.Repositories
                             assignedManagerName += assignedManager.LastName;
                         }
 
-                        string Text = "Your Manager " + ManagerName + " has reassigned your leaves to " + assignedManagerName + ".";
+                        string Text = "Your Manager " + ManagerName + " has reassigned your leave to " + assignedManagerName;
+                        int notificationType = (Int16)NotificationTypes.ReassignLeave;
                         InsertNotification(EmployeeId, Text, Status, notificationType);
 
                         //Send notification to the new manager that employee has applied for the leaves
@@ -215,7 +217,7 @@ namespace LMS_WebAPI_DAL.Repositories
                             Text1 += EmployeeLastname;
                         }
 
-                        Text1 += " has applied for leave.";
+                        Text1 += " has applied for leave";
                         InsertNotification(RefApproverId, Text1, Status, notificationType);
                     }
                     Logger.Info("Successfully exiting from ApproveLeaveRepository API ApproveEmployeeLeave method");

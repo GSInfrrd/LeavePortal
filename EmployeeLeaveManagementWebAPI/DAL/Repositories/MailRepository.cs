@@ -20,9 +20,10 @@ namespace LMS_WebAPI_DAL.Repositories
                 {
                     var MailDetails = ctx.EmailTemplateMappings.Where(m => m.ActionName == actionName.ToString()).FirstOrDefault();
                     var TemplatePath = MailDetails.EmailTemplateMaster.Template;
-                    
+
+                    var hrManagerId = ctx.EmployeeDetails.Where(x => x.RefRoleId == (int)EmployeeRole.HR).OrderByDescending(x => x.RefHierarchyLevel).FirstOrDefault().Id;
                     var EmployeeDetails = ctx.EmployeeDetails.Where(m => m.Id == EmployeeId).FirstOrDefault();
-                    int ManagerId = EmployeeDetails.ManagerId.HasValue==true ? EmployeeDetails.ManagerId.Value :0;
+                    int ManagerId = EmployeeDetails.ManagerId.HasValue==true ? EmployeeDetails.ManagerId.Value : hrManagerId;
                     string EmployeeEmailId = ctx.UserAccounts.Where(m => m.RefEmployeeId == EmployeeId).FirstOrDefault().UserName;
                     string ManagerEmailId = ctx.UserAccounts.Where(m => m.RefEmployeeId == ManagerId).FirstOrDefault().UserName;
                     var ManagerDetails = ctx.EmployeeDetails.Where(m => m.Id == ManagerId).FirstOrDefault();
@@ -62,8 +63,9 @@ namespace LMS_WebAPI_DAL.Repositories
                     var MailDetails = ctx.EmailTemplateMappings.Where(m => m.ActionName == actionName.ToString()).FirstOrDefault();
                     var TemplatePath = MailDetails.EmailTemplateMaster.Template;
 
+                    var hrManagerId = ctx.EmployeeDetails.Where(x => x.RefRoleId == (int)EmployeeRole.HR).OrderByDescending(x => x.RefHierarchyLevel).FirstOrDefault().Id;
                     var EmployeeDetails = ctx.EmployeeDetails.Where(m => m.Id == EmployeeId).FirstOrDefault();
-                    int ManagerId = EmployeeDetails.ManagerId.HasValue == true ? EmployeeDetails.ManagerId.Value : 0;
+                    int ManagerId = EmployeeDetails.ManagerId.HasValue == true ? EmployeeDetails.ManagerId.Value : hrManagerId;
                     string EmployeeEmailId = ctx.UserAccounts.Where(m => m.RefEmployeeId == EmployeeId).FirstOrDefault().UserName;
                     string ManagerEmailId = ctx.UserAccounts.Where(m => m.RefEmployeeId == ManagerId).FirstOrDefault().UserName;
                     var ManagerDetails = ctx.EmployeeDetails.Where(m => m.Id == ManagerId).FirstOrDefault();

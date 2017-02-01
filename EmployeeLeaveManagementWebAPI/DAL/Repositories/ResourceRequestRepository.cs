@@ -164,7 +164,7 @@ namespace LMS_WebAPI_DAL.Repositories
                             ManagerName = string.Format(ManagerName + " " + ManagerDetails.LastName);
                         }
 
-                        ManagerName += " has raised request for resource.";
+                        ManagerName += " has raised request for resource";
                         int Status = (Int16)NotificationStatus.Active;
                         int notificationType = (Int16)NotificationTypes.SubmitResourceRequest;
                         ApproveLeaveRepository alr = new ApproveLeaveRepository();
@@ -224,7 +224,7 @@ namespace LMS_WebAPI_DAL.Repositories
                                 HrName = string.Format(HrName + " " + HrDetails.LastName);
                             }
 
-                            HrName += " has updated your request for resource.";
+                            HrName += " has updated your request for resource";
                             int Status = (Int16)NotificationStatus.Active;
                             int notificationType = (Int16)NotificationTypes.SubmitResourceRequestResponse;
                             ApproveLeaveRepository alr = new ApproveLeaveRepository();

@@ -71,7 +71,7 @@ namespace LMS_WebAPI_DAL.Repositories
                         employeeName += Lastname;
                     }
 
-                    employeeName += " has applied for work for home.";
+                    employeeName += " has applied for work for home";
                     int Status = (Int16)NotificationStatus.Active;
                     int notificationType = (Int16)NotificationTypes.WorkfromHome;
                     ApproveLeaveRepository alr = new ApproveLeaveRepository();
