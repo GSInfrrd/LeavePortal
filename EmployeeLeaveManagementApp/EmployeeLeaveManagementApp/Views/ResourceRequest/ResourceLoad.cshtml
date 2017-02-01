@@ -115,7 +115,7 @@
     <div class="modal-dialog" role="document">
         <div class="modal-content border-radius-modalBottom">
             <div class="modal-header modalHeaderStyle">
-                <button type="button" class="close text-color-white" data-dismiss="modal" aria-label="Close">
+                <button type="button" class="close text-color-white" data-dismiss="modal" aria-label="Close" id="btn_addnewresource_close">
                     <span aria-hidden="true">&times;</span>
                 </button>
                 <h3 class="modal-title">Add New Resource</h3>
@@ -123,8 +123,13 @@
             <div class="modal-body">
                 <div class="form-group">
 
-                    <label>Select Resource</label>
+                    <label>Select Resource <span style="color:red">*</span></label>
                     <select class="form-control employeeSelect" style="width: 100%;" id="ddlEmployeeList"></select>
+                </div>
+                <div class="form-group has-error" style="display:none" id="divresourceError">
+                    <label class="control-label" for="resource">
+                        <i class="fa fa-times-circle-o"></i> Please select resource
+                    </label>
                 </div>
                 <div id="divProjectAssigned" style="display:none">
                     <label style="color:red">A project has already been assigned for this resource.Do you wish to continue?</label>
@@ -132,7 +137,7 @@
             </div>
             <div class="modal-footer">
                 <button type="button" id="btnAddNewResource" class="btn btn-primary" style="background-color:#222d32 !important">Add</button>
-                <button type="button" class="btn btn-default pull-right Close" data-dismiss="modal">Cancel</button>
+                <button type="button" class="btn btn-default pull-right Close" data-dismiss="modal" id="btn_addnewresource_cancle">Cancel</button>
             </div>
 
             <!-- /.modal-content -->
@@ -338,6 +343,10 @@
     });
 
     $(document).on('click',"#btnAddNewResource",function(){
+        if ($("#ddlEmployeeList").val() == 0) {
+            $("#divresourceError").show();
+            return false;
+        }
         $("#addNewResourceModal").modal('hide');
         $("#addResourceConfirmationModal").modal("show");
             })
@@ -352,7 +361,21 @@
         }
     });
 
+    $('#ddlEmployeeList').on('change', function () {
+        if ($("#ddlEmployeeList").val() != 0) {
+            $("#divresourceError").hide();
+        }
+        else {
+            $("#divresourceError").show();
+        }
+    });
 
+    $(document).on('click', '#btn_addnewresource_cancle,.close', function (e) {
+        $("#divresourceError").hide();
+    });
+    $(document).on('click', '#btn_addnewresource_close,.close', function (e) {
+        $("#divresourceError").hide();
+    });
     //function showMessage(message, Type, fadeOut) {
     //    //To clear existing toastr
     //    toastr.clear();
