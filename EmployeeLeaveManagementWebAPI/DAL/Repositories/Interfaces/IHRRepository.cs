@@ -27,5 +27,7 @@ namespace LMS_WebAPI_DAL.Repositories.Interfaces
         bool CheckForExistingProjectMasterDataValues(string projectName, string technology, int refManager);
 
         List<MasterDataModel> GetRolesList();
+        LeaveReportModel GetProjectwiseReport(int projectId, int fromMonth, int toMonth, int year);
+        List<ProjectsList> GetProjectwiseEmployeeDetails(int projectId, int fromMonth, int toMonth, int year);
     }
 }

@@ -1,6 +1,7 @@
 ﻿using LMS_WebAPI_Domain;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -122,9 +123,15 @@ namespace LMS_WebAPP_Domain
     public class ProjectsList
     {
         public int Id { get; set; }
+        [DisplayAttribute(Name = "Project Name")]
         public string ProjectName { get; set; }
+        [DisplayAttribute(Name = "Employee Name")]
+        public string EmployeeName { get; set; }
+        [DisplayAttribute(Name = "Start Date")]
         public DateTime StartDate { get; set; }
+        [DisplayAttribute(Name = "End Date")]
         public DateTime EndDate { get; set; }
+     
     }
 
     public class TeamMembers

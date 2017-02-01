@@ -270,6 +270,40 @@ namespace EmployeeLeaveManagementWebAPI.Controllers
             }
         }
 
+        [HttpGet]
+        [Route("GetProjectwiseReport")]
+        public LeaveReportModel GetProjectwiseReport(int projectId, int fromMonth, int toMonth, int year)
+        {
+            try
+            {
+                Logger.Info("Entering in HRController API GetProjectwiseReport method");
+                var result = hrOperations.GetProjectwiseReport(projectId,fromMonth,toMonth,year);
+                Logger.Info("Successfully exiting from HRController API GetProjectwiseReport method");
+                return result;
+            }
+            catch (Exception ex)
+            {
+                Logger.Error("Error at HRController API GetProjectwiseReport method.", ex);
+                return null;
+            }
+        }
+        [HttpGet]
+        [Route("GetProjectwiseEmployeeDetails")]
+        public List<ProjectsList> GetProjectwiseEmployeeDetails(int projectId, int fromMonth, int toMonth, int year)
+        {
+            try
+            {
+                Logger.Info("Entering in HRController API GetProjectwiseEmployeeDetails method");
+                var result = hrOperations.GetProjectwiseEmployeeDetails(projectId, fromMonth, toMonth, year);
+                Logger.Info("Successfully exiting from HRController API GetProjectwiseReport method");
+                return result;
+            }
+            catch (Exception ex)
+            {
+                Logger.Error("Error at HRController API GetProjectwiseEmployeeDetails method.", ex);
+                return null;
+            }
+        }
 
     }
 }

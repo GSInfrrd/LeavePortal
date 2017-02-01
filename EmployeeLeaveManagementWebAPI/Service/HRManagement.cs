@@ -222,5 +222,37 @@ namespace LMS_WebAPI_ServiceHelpers
                 throw;
             }
         }
+
+        public LeaveReportModel GetProjectwiseReport(int projectId, int fromMonth, int toMonth, int year)
+        {
+            Logger.Info("Entering into HRManagement Service helper GetProjectwiseReport method ");
+            try
+            {
+                var result = hrRepo.GetProjectwiseReport(projectId,fromMonth,toMonth,year);
+                Logger.Info("Exiting from into HRManagement Service helper GetProjectwiseReport method ");
+                return result;
+            }
+            catch
+            {
+                Logger.Error("Exception occured at HRManagement Service helper GetProjectwiseReport method ");
+                throw;
+            }
+        }
+        public List<ProjectsList> GetProjectwiseEmployeeDetails(int projectId, int fromMonth, int toMonth, int year)
+        {
+            Logger.Info("Entering into HRManagement Service helper GetProjectwiseEmployeeDetails method ");
+            try
+            {
+                var result = hrRepo.GetProjectwiseEmployeeDetails(projectId, fromMonth, toMonth, year);
+                Logger.Info("Exiting from into HRManagement Service helper GetProjectwiseEmployeeDetails method ");
+                return result;
+            }
+            catch
+            {
+                Logger.Error("Exception occured at HRManagement Service helper GetProjectwiseEmployeeDetails method ");
+                throw;
+            }
+        }
+        
     }
 }

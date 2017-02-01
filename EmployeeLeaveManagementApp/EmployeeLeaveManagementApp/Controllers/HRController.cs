@@ -703,5 +703,67 @@ namespace EmployeeLeaveManagementApp.Controllers
             }
 
         }
+
+        public async Task<JsonResult> GetProjectwiseReport(int projectId,int fromMonth,int toMonth,int year)
+        {
+            Logger.Info("Entering in HRController APP GetProjectwiseReport method");
+            try
+            {
+               var model = await hrOperations.GetProjectwiseReportAsync(projectId,fromMonth,toMonth,year);
+                Logger.Info("Successfully exiting from GetProjectwiseReport APP GetRolesList method");
+                return Json(new { data = model });
+            }
+            catch (Exception ex)
+            {
+                Logger.Error("Error at HRController APP GetProjectwiseReport method.", ex);
+                return null;
+            }
+
+        }
+        public async Task<JsonResult> GetProjectwiseEmployeeDetails(int projectId, int fromMonth, int toMonth, int year)
+        {
+            Logger.Info("Entering in HRController APP GetProjectwiseEmployeeDetails method");
+            try
+            {
+                var model = await hrOperations.GetProjectwiseEmployeeDetailsAsync(projectId, fromMonth, toMonth, year);
+                Logger.Info("Successfully exiting from GetProjectwiseEmployeeDetails APP GetRolesList method");
+                return Json(new { data = model });
+            }
+            catch (Exception ex)
+            {
+                Logger.Error("Error at HRController APP GetProjectwiseEmployeeDetails method.", ex);
+                return null;
+            }
+
+        }
+
+        public async Task<ActionResult> GenerateProjectwiseReport(int projectId,int fromMonth,int toMonth,int year)
+        {
+            Logger.Info("Entering in HRController APP GenerateIndividualReport method");
+            try
+            {
+                if (null != Session[Constants.SESSION_OBJ_USER])
+                {
+                    var detailsList = new List<DetailedLeaveReport>();
+                    string include = "ProjectName,EmployeeName,StartDate,EndDate";
+
+                    var filtersList = new List<ExcelDownloadFilterList>();
+                    var model = await hrOperations.GetProjectwiseEmployeeDetailsAsync(projectId,fromMonth,toMonth,year);
+                    var file = CommonMethods.CreateDownloadExcel(model, detailsList, include, "", "Report", "Individual Leave Report", null);
+
+                    return File(file.GetBuffer(), "application/vnd.ms-excel", "ProjectwiseReport" + DateTime.Now.Day + "/" + DateTime.Now.Month + "/" + DateTime.Now.Year + ".xls");
+                }
+                else
+                {
+                    return RedirectToAction("Login", "Account");
+                }
+            }
+            catch (Exception ex)
+            {
+                Logger.Error("Error at HRController APP GenerateIndividualReport method.", ex);
+                return View("Error");
+            }
+        }
+
     }
 }

@@ -186,15 +186,6 @@ namespace LMS_WebAPI_DAL.Repositories
                         }).OrderBy(m=>m.StartDate)
                         .GroupBy(m=>m.ProjectName).Select(a=>a.FirstOrDefault())
                         .ToList();
-                    //foreach (var item in projectDetails)
-                    //{
-                    //    var project = new ProjectsList();
-                    //    project.Id = item.Id;
-                    //    project.ProjectName = ctx.ProjectMasters.FirstOrDefault(i => i.Id == item.RefProjectId).ProjectName;
-                    //    project.StartDate = item.StartDate.Value;
-                    //    project.EndDate = item.EndDate != null ? item.EndDate.Value : DateTime.Now;
-                    //    ProjectList.Add(project);
-                    //}
                     projects = projectDetails;
                     Logger.Info("Successfully exiting from UserRepository API GetUserProfileDetails method");
                     return profileDetails;

@@ -161,8 +161,9 @@
                     <h3 class="box-title">Quote of the day</h3>
                 </div>
                 <!-- /.box-header -->
-                <div class="box-body">
-                    <blockquote style="height:300px">
+                <div class="box-body" style="overflow-y: auto;
+height: 269px">
+                    <blockquote>
                         <p id="quoteText">Yesterday is a HISTORY, tomorrow is a MYSTERY but today is a GIFT, so it is called the PRESENT</p>
                         <small id="quoteFrom">Shifu , Kung Fu Panda</small>
                     </blockquote>
@@ -277,7 +278,8 @@
 </section>
 <script src="../../plugins/select2/select2.full.min.js"></script>
 <script type="text/javascript">
-    $(document).ready(function () {    
+    $(document).ready(function () {
+        $("#Loading").show();
         $('#dashboard').parent().addClass('active');
         getTeamMembers();
         getQuote();
@@ -291,6 +293,7 @@
         $("#DOJ").text('@Model.FormattedDate');
         $("#DashB").focus();
         $("#Role").text('@Model.RoleName');
+
         $('.count').each(function () {
             $(this).prop('Counter', 0).animate({
                 Counter: $(this).text()
@@ -301,8 +304,8 @@
                     $(this).text(now.toFixed(1));
                 }
             });
+   
         });
-
     });
 
     //-----------------------
@@ -462,8 +465,7 @@
 
     };
     function getTeamMembers() {
-        $("#Loading").show();
-        $.ajax({
+         $.ajax({
             cache: false,
             type: 'post',
             url: '/Account/GetTeamMembers',

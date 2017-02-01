@@ -568,5 +568,95 @@ namespace LMS_WebAPI_DAL.Repositories
             }
 
         }
+
+        public LeaveReportModel GetProjectwiseReport(int projectId, int fromMonth, int toMonth, int year)
+        {
+            Logger.Info("Entering in HRRepository API GetProjectwiseReport method");
+            try
+            {
+                var leaveReport = new LeaveReportModel();
+                using (var ctx = new LeaveManagementSystemEntities1())
+                {
+                    var startDate = new DateTime(year, fromMonth, 1);
+                    
+                    var endDate = new DateTime(year, toMonth, 1).AddMonths(1);
+                    var list=ctx.EmployeeProjectDetails.Where(i => i.RefProjectId == projectId &&
+                        (i.StartDate.Value >= startDate && (i.EndDate.Value < endDate || i.EndDate == null)) ||
+                        (i.EndDate >= startDate && i.EndDate < endDate) ||
+                        (i.StartDate >= startDate && i.StartDate < endDate) ||
+                        (i.StartDate <= startDate && i.EndDate == null)).ToList();
+                      foreach (var item in list)
+                    {
+                       for (int date = item.StartDate.Value.Month; date <= toMonth; date++)
+                        {
+                            if (date >= fromMonth)
+                            {
+                                if (item.EndDate == null || (item.EndDate.HasValue && date <= item.EndDate.Value.Month))
+                                {
+                                    leaveReport.Jan = date == 1 ? leaveReport.Jan + 1 : leaveReport.Jan;
+                                    leaveReport.Feb = date == 2 ? leaveReport.Feb + 1 : leaveReport.Feb;
+                                    leaveReport.Mar = date == 3 ? leaveReport.Mar + 1 : leaveReport.Mar;
+                                    leaveReport.Apr = date == 4 ? leaveReport.Apr + 1 : leaveReport.Apr;
+                                    leaveReport.May = date == 5 ? leaveReport.May + 1 : leaveReport.May;
+                                    leaveReport.Jun = date == 6 ? leaveReport.Jun + 1 : leaveReport.Jun;
+                                    leaveReport.Jul = date == 7 ? leaveReport.Jul + 1 : leaveReport.Jul;
+                                    leaveReport.Aug = date == 8 ? leaveReport.Aug + 1 : leaveReport.Aug;
+                                    leaveReport.Sep = date == 9 ? leaveReport.Sep + 1 : leaveReport.Sep;
+                                    leaveReport.Oct = date == 10 ? leaveReport.Oct + 1 : leaveReport.Oct;
+                                    leaveReport.Nov = date == 11 ? leaveReport.Nov + 1 : leaveReport.Nov;
+                                    leaveReport.Dec = date == 12 ? leaveReport.Dec + 1 : leaveReport.Dec;
+                                }
+                            }
+                        }
+                    }
+                }
+                Logger.Info("Successfully exiting from HRRepository API GetProjectwiseReport method");
+                return leaveReport;
+            }
+            catch
+            {
+                Logger.Error("Exception occured at HRRepository API GetProjectwiseReport method ");
+                throw;
+            }
+        }
+
+        public List<ProjectsList> GetProjectwiseEmployeeDetails(int projectId, int fromMonth, int toMonth, int year)
+        {
+            Logger.Info("Entering in HRRepository API GetProjectwiseEmployeeDetails method");
+            try
+            {
+                var employeeList = new List<ProjectsList>();
+                using (var ctx = new LeaveManagementSystemEntities1())
+                {
+                    var startDate = new DateTime(year, fromMonth, 1);
+                    if (toMonth == 12)
+                    {
+                        toMonth =1;
+                    }
+                    var endDate = new DateTime(year, toMonth, 1).AddMonths(1);
+                    employeeList = ctx.EmployeeProjectDetails.
+                        Where(i => i.RefProjectId == projectId &&
+                        (i.StartDate.Value >= startDate && (i.EndDate.Value < endDate || i.EndDate == null)) ||
+                        (i.EndDate >= startDate && i.EndDate < endDate) ||
+                        (i.StartDate >= startDate && i.StartDate < endDate) ||
+                        (i.StartDate <= startDate && i.EndDate == null)).
+                        Select(item => new ProjectsList()
+                        {
+                            EmployeeName = item.EmployeeDetail.FirstName + "" + item.EmployeeDetail.LastName,
+                            ProjectName = item.ProjectMaster.ProjectName,
+                            StartDate = item.StartDate.Value,
+                            EndDate = item.EndDate.HasValue == true ? item.EndDate.Value : DateTime.Now
+                        }).ToList();
+
+                }
+                Logger.Info("Successfully exiting from HRRepository API GetProjectwiseEmployeeDetails method");
+                return employeeList;
+            }
+            catch
+            {
+                Logger.Error("Exception occured at HRRepository API GetProjectwiseEmployeeDetails method ");
+                throw;
+            }
+        }
     }
 }

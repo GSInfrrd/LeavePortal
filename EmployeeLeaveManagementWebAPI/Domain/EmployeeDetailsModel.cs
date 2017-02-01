@@ -130,6 +130,8 @@ namespace LMS_WebAPI_Domain
 
         public DateTime StartDate { get; set; }
         public DateTime EndDate { get; set;}
+
+        public string EmployeeName { get; set; }
     }
 
     public class TeamMembers

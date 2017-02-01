@@ -15,7 +15,89 @@
 </section>
 <section class="content">
     <div class="row">
+        <div class="col-md-12">
+            <div class="box box-success">
+                <div class="box-header with-border">
+                    <h3 class="box-title">Projectwise Report</h3>
+                    <div class="pull-right box-tools">
+                        <button class="btn" data-toggle="tooltip" id="btnExportProjectwiseReport" title="Export">
+                            <i class="fa fa-file-excel-o"></i>
+                        </button>
+                    </div>
+                </div>
+                <div class="box-body">
+                    <div class="col-md-3" style="padding-left:27px">
+                        <label>Project Name <span style="color:red">*</span>:</label>
+                        <select class="form-control projectSelect" style="width: 100%;" id="ddlProjectName">
+                            <option value="0">Select</option>
+                        </select>
+                    </div>
+                    <div class="form-group has-error" style="display:none" id="divProjectNameError">
+                        <label class="control-label">
+                            <i class="fa fa-times-circle-o"></i> Please select ProjectName
+                        </label>
+                    </div>
+                    <div class="col-md-2">
+                        <label>From Month <span style="color:red">*</span>:</label>
+                        <select class="form-control ddlMonth" id="ddlFromMonthName">
+                            <option value="">Select</option>
+                            <option value="1">Jan</option>
+                            <option value="2">Feb</option>
+                            <option value="3">Mar</option>
+                            <option value="4">Apr</option>
+                            <option value="5">May</option>
+                            <option value="6">Jun</option>
+                            <option value="7">Jul</option>
+                            <option value="8">Aug</option>
+                            <option value="9">Sep</option>
+                            <option value="10">Oct</option>
+                            <option value="11">Nov</option>
+                            <option value="12">Dec</option>
+                        </select>
+                    </div>
+                    <div class="col-md-2">
+                        <label>To Month <span style="color:red">*</span>:</label>
+                        <select class="form-control ddlMonth" id="ddlToMonthName">
+                            <option value="">Select</option>
+                            <option value="1">Jan</option>
+                            <option value="2">Feb</option>
+                            <option value="3">Mar</option>
+                            <option value="4">Apr</option>
+                            <option value="5">May</option>
+                            <option value="6">Jun</option>
+                            <option value="7">Jul</option>
+                            <option value="8">Aug</option>
+                            <option value="9">Sep</option>
+                            <option value="10">Oct</option>
+                            <option value="11">Nov</option>
+                            <option value="12">Dec</option>
+                        </select>
+                    </div>
+                    <div class="col-md-2">
+                        <label>Year <span style="color:red">*</span>:</label>
+                        <select id="ddlYear" class="form-control yearSelect" style="width: 100%;">
+                            <option value="">Select</option>
+                            <option>@DateTime.Now.AddYears(-1).Year</option>
+                            <option>@DateTime.Now.Year</option>
+                            <option>@DateTime.Now.AddYears(1).Year</option>
+                        </select>
+                    </div>
+                    <div class="col-md-1" style="padding-top:25px">
+                        <button type="button" id="btnGenerateProjectReport" style="background-color:#222d32 !important" class="btn btn-primary">Submit</button>
+                    </div>
+                    <div style="padding-top:25px;display:none" id="divViewDetails">
+                        <a href="#" style="padding-left:20px" id="viewProjectEmployeeDetails">View Details </a>
+                    </div>
+                    <div style="padding-top:70px">
+                        <div id="bar-chart" style="height: 300px;"></div>
+                    </div>
+                    @*<div id="donut-chart" style="height: 300px;"></div>*@
+                    <!-- /.row -->
 
+                </div>
+                <!-- /.box-body-->
+            </div>
+        </div>
         <div class="col-md-6">
             <!-- general form elements -->
             <div class="box box-success">
@@ -75,20 +157,20 @@
                         </label>
                     </div>
                     @*<div class="form-group">
-                        <label for="txtlastname">Export As</label>
-                        <select class="form-control select2" style="width: 100%;" id="ddlExportType">
-                            <option value="0">Select</option>
-                            <option value="1">Excel</option>
-                            <option value="2">Share as Attachment</option>
+                            <label for="txtlastname">Export As</label>
+                            <select class="form-control select2" style="width: 100%;" id="ddlExportType">
+                                <option value="0">Select</option>
+                                <option value="1">Excel</option>
+                                <option value="2">Share as Attachment</option>
 
-                        </select>
-                    </div>*@
+                            </select>
+                        </div>*@
                 </div>
                 @*<div class="box-footer">
-                    <button type="button" id="btnGenerateReport" style="background-color:#222d32 !important" class="btn btn-primary">Submit</button>
-                </div>*@
+                        <button type="button" id="btnGenerateReport" style="background-color:#222d32 !important" class="btn btn-primary">Submit</button>
+                    </div>*@
             </div>
-            </div>
+        </div>
         <div class="col-md-6">
             <div class="box box-success">
                 <div class="box-header with-border">
@@ -97,8 +179,8 @@
                         <button class="btn" data-toggle="tooltip" id="btnExportIndividualReport" title="Export">
                             <i class="fa fa-file-excel-o"></i>
                         </button>
-                        </div>
                     </div>
+                </div>
                 <div class="box-body">
                     <div class="form-group">
                         <label>Employee Name <span style="color:red">*</span> :</label>
@@ -116,26 +198,26 @@
                         </label>
                     </div>
                     @*<div id="donut-chart" style="height: 300px;"></div>*@
-                        <div class="row">
-                            <div class="col-md-8">
-                                <div class="chart-responsive" id="pieChartContent">
-                                    <canvas id="pieChart" height="260" width="380"></canvas>
-                                </div>
-                                <!-- ./chart-responsive -->
+                    <div class="row">
+                        <div class="col-md-8">
+                            <div class="chart-responsive" id="pieChartContent">
+                                <canvas id="pieChart" height="260" width="380"></canvas>
                             </div>
-                            <!-- /.col -->
-                            <div class="col-md-4">
-                                <ul class="chart-legend clearfix">
-                                    <li><i class="fa fa-circle-o text-red"></i> Loss of Pay :<text id="lopText">0</text></li>
-                                    <li><i class="fa fa-circle-o text-green"></i> Comp Off : <text id="compOffText">0</text></li>
-                                    <li><i class="fa fa-circle-o text-yellow"></i> Advanced Leaves :<text id="advancedLeavesText">0</text></li>
-                                    <li><i class="fa fa-circle-o text-aqua"></i> Work from Home :<text id="wfhText">0</text></li>
-                                    <li><i class="fa fa-circle-o text-light-blue"></i> Applied Leaves :<text id="appliedLeavesText">0</text></li>
-                                </ul>
-                            </div>
-                            <!-- /.col -->
+                            <!-- ./chart-responsive -->
                         </div>
-                        <!-- /.row -->
+                        <!-- /.col -->
+                        <div class="col-md-4">
+                            <ul class="chart-legend clearfix">
+                                <li><i class="fa fa-circle-o text-red"></i> Loss of Pay :<text id="lopText">0</text></li>
+                                <li><i class="fa fa-circle-o text-green"></i> Comp Off : <text id="compOffText">0</text></li>
+                                <li><i class="fa fa-circle-o text-yellow"></i> Advanced Leaves :<text id="advancedLeavesText">0</text></li>
+                                <li><i class="fa fa-circle-o text-aqua"></i> Work from Home :<text id="wfhText">0</text></li>
+                                <li><i class="fa fa-circle-o text-light-blue"></i> Applied Leaves :<text id="appliedLeavesText">0</text></li>
+                            </ul>
+                        </div>
+                        <!-- /.col -->
+                    </div>
+                    <!-- /.row -->
 
                 </div>
                 <!-- /.box-body-->
@@ -145,17 +227,31 @@
 
     <!-- /.row -->
 </section>
+<div class="modal fade" id="viewDetailsModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content border-radius-modalBottom">
+            <div class="modal-header modalHeaderStyle">
+                <button type="button" class="close text-color-white" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h3 class="modal-title" id="exampleModalLabel">Project Detail Report from <text id="txtDuration"></text></h3>
+            </div>
+            <div class="modal-body" id="tableBody">
 
+            </div>
+
+        </div>
+    </div>
+</div>
 <script src="../../plugins/select2/select2.full.min.js"></script>
 <script src="~/plugins/daterangepicker/moment.min.js"></script>
 @*<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.11.2/moment.min.js"></script>*@
 <script src="../../plugins/daterangepicker/daterangepicker.js"></script>
 <script src="~/plugins/chartjs/Chart.min.js"></script>
 <!-- FLOT CHARTS -->
-<script src="../../plugins/flot/jquery.flot.min.js"></script>
+<script src="~/plugins/flot/jquery.flot.min.js"></script>
 <!-- FLOT PIE PLUGIN - also used to draw donut charts -->
 <script src="~/plugins/flot/jquery.flot.pie.min.js"></script>
-
+<script src="~/plugins/flot/jquery.flot.categories.min.js"></script>
+<script src="~/plugins/flot/jquery.flot.resize.min.js"></script>
 <script src="../../plugins/Toastr/toastr.js"></script>
 <script>
     var reportFromDate;
@@ -164,7 +260,34 @@
     var year = date.getFullYear();
     $(document).ready(function () {
         $('#reports').parent().addClass('active');
+        GetProjectsList();
         $(function () {
+            var bar_data = {
+                data: [["January", 0], ["February", 0], ["March", 0], ["April", 0], ["May", 0], ["June", 0], ["July", 0], ["August", 0], ["September", 0], ["October", 0], ["November", 0], ["December", 0]],
+                color: "#3c8dbc"
+            };
+            $.plot("#bar-chart", [bar_data], {
+                grid: {
+                    borderWidth: 1,
+                    borderColor: "#f3f3f3",
+                    tickColor: "#f3f3f3"
+                },
+                series: {
+                    bars: {
+                        show: true,
+                        barWidth: 0.5,
+                        align: "center"
+                    }
+                },
+                xaxis: {
+                    mode: "categories",
+                    tickLength: 0
+                },
+                yaxis: {
+                    min: 0
+                },
+            });
+
             var pieChartCanvas = $("#pieChart").get(0).getContext("2d");
             var pieChart = new Chart(pieChartCanvas);
             var PieData = [
@@ -173,8 +296,8 @@
                                   color: "#d7d9dd",
                                   highlight: "#d7d9dd",
                                   label: "No Data"
-                              },                           
-                            
+                              },
+
             ];
             var pieOptions = {
                 //Boolean - Whether we should show a stroke on each segment
@@ -335,8 +458,7 @@
                         }
                     });
                 }
-                else
-                {
+                else {
                     var pieChartContent = document.getElementById('pieChartContent');
                     pieChartContent.innerHTML = '&nbsp;';
                     $('#pieChartContent').append('<canvas id="pieChart" height="220" width="360"><canvas>');
@@ -348,8 +470,8 @@
                           color: "#d7d9dd",
                           highlight: "#d7d9dd",
                           label: "No Data"
-                      },   
-                      ]
+                      },
+                    ]
                     var pieOptions = {
                         //Boolean - Whether we should show a stroke on each segment
                         segmentShowStroke: true,
@@ -371,7 +493,7 @@
                         responsive: true,
                         // Boolean - whether to maintain the starting aspect ratio or not when responsive, if set to false, will take up entire container
                         maintainAspectRatio: false,
-             
+
                         //String - A legend template
                         legendTemplate: "<ul class=\"<%=name.toLowerCase()%>-legend\"><% for (var i=0; i<segments.length; i++){%><li><span style=\"background-color:<%=segments[i].fillColor%>\"></span><%if(segments[i].label){%><%=segments[i].label%><%}%></li><%}%></ul>",
                         //String - A tooltip template
@@ -420,6 +542,7 @@
                 }
                 $('.ddlLeave').select2();
             });
+            $(".projectSelect").select2();
 
             $('#reportDatepicker').daterangepicker(
                   {
@@ -488,7 +611,7 @@
             cache: false,
             type: 'post',
             url: '/HR/GenerateReports',
-            data: { employeeId:data,leaveType:leaveData,exportAs: exportAs,fromDate:fromDate,toDate:toDate },
+            data: { employeeId: data, leaveType: leaveData, exportAs: exportAs, fromDate: fromDate, toDate: toDate },
             dataType: "json",
             success: function (data) {
                 showMessage("Mail sent successfully", "1", true);
@@ -543,8 +666,8 @@
             $("#divEmpNameError").show();
             return false;
         }
-         var employeeId = $("#ddlEmployeeId").val();      
-         window.location.href = "/HR/GenerateIndividualReport/?employeeId=" + employeeId;
+        var employeeId = $("#ddlEmployeeId").val();
+        window.location.href = "/HR/GenerateIndividualReport/?employeeId=" + employeeId;
     })
     function labelFormatter(label, series) {
         return '<div style="font-size:13px; text-align:center; padding:2px; color: #fff; font-weight: 600;position:absolute">'
@@ -599,4 +722,221 @@
             $("#divLeaveTypeError").show();
         }
     });
+    $('#ddlProjectName').on('change', function () {
+
+        $("#select2-ddlProjectName-container").parent().css("border-color", '#d2d6de');
+
+    });
+    $('#ddlFromMonthName').on('change', function () {
+
+        $("#ddlFromMonthName").css("border-color", '#d2d6de');
+
+    });
+    $('#ddlToMonthName').on('change', function () {
+
+        $("#ddlToMonthName").css("border-color", '#d2d6de');
+
+    });
+    $('#ddlYear').on('change', function () {
+
+        $("#ddlYear").css("border-color", '#d2d6de');
+
+    });
+
+
+
+    $(document).on('click', '#btnGenerateProjectReport', function (e) {
+        var projectName = $("#ddlProjectName").val();
+        var fromMonth = $("#ddlFromMonthName").val();
+        var toMonth = $("#ddlToMonthName").val();
+        var year = $("#ddlYear").val();
+        errorExists = false;
+        $("#divViewDetails").hide();
+        if (projectName == "0") {
+            $("#select2-ddlProjectName-container").parent().css("border-color", 'red');
+            errorExists = true;
+        }
+        if (fromMonth == "") {
+            $("#ddlFromMonthName").css("border-color", 'red');
+            errorExists = true;
+        }
+        if (toMonth == "") {
+            $("#ddlToMonthName").css("border-color", 'red');
+            errorExists = true;
+        }
+
+        if (year == "") {
+            $("#ddlYear").css("border-color", 'red');
+            errorExists = true;
+        }
+        if (errorExists) {
+            return false;
+        }
+        else {
+            $("#divViewDetails").show();
+            $.ajax({
+                cache: false,
+                type: 'post',
+                url: '/HR/GetProjectwiseReport',
+                data: { projectId: projectName, fromMonth: fromMonth, toMonth: toMonth, year: year },
+                //contentType: "application/json",
+                dataType: "json",
+                success: function (data) {
+
+                    //if (data.model.Jan != 0)
+                    //{
+                    //    ["January",data.model.Jan]
+                    //}
+                    var bar_data = {
+                        data: [["January", data.data.Jan], ["February", data.data.Feb], ["March", data.data.Mar], ["April", data.data.Apr], ["May", data.data.May], ["June", data.data.Jun], ["July", data.data.Jul], ["August", data.data.Aug], ["September", data.data.Sep], ["October", data.data.Oct], ["November", data.data.Nov], ["December", data.data.Dec]],
+                        color: "#3c8dbc"
+                    };
+                    $.plot("#bar-chart", [bar_data], {
+                        grid: {
+                            borderWidth: 1,
+                            borderColor: "#f3f3f3",
+                            tickColor: "#f3f3f3"
+                        },
+                        series: {
+                            bars: {
+                                show: true,
+                                barWidth: 0.5,
+                                align: "center"
+                            }
+                        },
+                        xaxis: {
+                            mode: "categories",
+                            tickLength: 0
+                        }
+                    });
+                }
+            });
+        }
+    });
+
+    function GetProjectsList() {
+        $.ajax({
+            cache: false,
+            type: 'post',
+            url: '/HR/GetProjectsList',
+            contentType: "application/json",
+            dataType: "json",
+            success: function (data) {
+                for (var i = 0; i < data.data.length; i++) {
+                    $("#ddlProjectName").append($('<option></option>').attr("value", data.data[i].Id).text(data.data[i].ProjectName));
+                }
+            }
+        });
+    }
+
+    function convertToJsonDate(jsonDate) {
+        if (jsonDate != undefined && jsonDate != null) {
+            var regex = /-?\d+/;
+            var matches = regex.exec(jsonDate);
+            var date = new Date(parseInt(matches[0]));
+            var d = new Date(date);
+            if (d.getFullYear() < 2000) {
+                return "";
+            }
+            if (!isNaN(d.getDate()) && !isNaN(d.getMonth()) && !isNaN(d.getFullYear())) {
+                formattedDate = d.getDate() + "-" + (d.getMonth() + 1) + "-" + d.getFullYear();
+                return formattedDate;
+            }
+            else {
+                return "";
+            }
+        }
+        else {
+            return "";
+        }
+    }
+    $(document).on('click', "#viewProjectEmployeeDetails", function (e) {
+        var projectName = $("#ddlProjectName").val();
+        var fromMonth = $("#ddlFromMonthName").val();
+        var toMonth = $("#ddlToMonthName").val();
+        var year = $("#ddlYear").val();
+        $("#txtDuration").html(fromMonth, year + "to" + toMonth, year);
+        $.ajax({
+            cache: false,
+            type: 'post',
+            url: '/HR/GetProjectwiseEmployeeDetails',
+            data: { projectId: projectName, fromMonth: fromMonth, toMonth: toMonth, year: year },
+            dataType: "json",
+            success: function (data) {
+
+                $('#tableBody').html('');
+                var fixedCartItemsHtml = "<table id='example1' class='table table-bordered table-striped'>" + " <thead> <tr>  <th>Project Name</th><th>Employee Name</th><th>Start Date</th><th>End Date</th>" +
+                                       " </tr></thead><tbody>";
+
+                for (var i = 0; i < data.data.length; i++) {
+                    //date
+                    var toDate = "Till Date";
+                    if (convertToJsonDate(data.data[i].EndDate) != "@DateTime.Now.ToString("d-M-yyyy")") {
+                        toDate = convertToJsonDate(data.data[i].EndDate);
+                    }
+
+                    fixedCartItemsHtml = fixedCartItemsHtml +
+                                         "<tr>" +
+                                         "<td>" + data.data[i].ProjectName +
+                                         "</td>";
+                    //Description
+                    fixedCartItemsHtml = fixedCartItemsHtml +
+
+                                         "<td>" + data.data[i].EmployeeName +
+                                         "</td>";
+                    fixedCartItemsHtml = fixedCartItemsHtml +
+
+                                       "<td>" + convertToJsonDate(data.data[i].StartDate) +
+                                       "</td>";
+                    fixedCartItemsHtml = fixedCartItemsHtml +
+
+                                       "<td>" + toDate +
+                                       "</td></tr>";
+                }
+                fixedCartItemsHtml = fixedCartItemsHtml + "</tbody></table>";
+                $('#tableBody').html(fixedCartItemsHtml);
+
+                $('#example1').DataTable({
+                    "paging": true,
+                    "lengthChange": true,
+                    "searching": false,
+                    "ordering": true,
+                    "info": true,
+                    "autoWidth": false,
+                });
+                $("#viewDetailsModal").modal('show');
+            }
+        });
+    });
+
+    $(document).on('click', '#btnExportProjectwiseReport', function (e) {
+        var projectId = $("#ddlProjectName").val();
+        var fromMonth = $("#ddlFromMonthName").val();
+        var toMonth = $("#ddlToMonthName").val();
+        var year = $("#ddlYear").val();
+        errorExists = false;
+        $("#divViewDetails").hide();
+        if (projectId == "0") {
+            $("#select2-ddlProjectName-container").parent().css("border-color", 'red');
+            errorExists = true;
+        }
+        if (fromMonth == "") {
+            $("#ddlFromMonthName").css("border-color", 'red');
+            errorExists = true;
+        }
+        if (toMonth == "") {
+            $("#ddlToMonthName").css("border-color", 'red');
+            errorExists = true;
+        }
+
+        if (year == "") {
+            $("#ddlYear").css("border-color", 'red');
+            errorExists = true;
+        }
+        if (errorExists) {
+            return false;
+        }
+        var employeeId = $("#ddlEmployeeId").val();
+        window.location.href = "/HR/GenerateProjectwiseReport/?projectId=" + projectId + "&fromMonth=" + fromMonth + "&toMonth=" + toMonth + "&year=" + year;
+    })
 </script>
