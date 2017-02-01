@@ -162,7 +162,7 @@
                 <div class="form-group" style="padding-bottom:20px">
 
                     <div style="padding-left:20px">
-                        <label>Leave Type</label>
+                        <label>Leave Type <span style="color:red">*</span></label>
                     </div>
                     <span class="form-group has-error" style="display:none" id="divLeaveTypeError">
                         <label class="control-label" for="inputError">
@@ -200,7 +200,7 @@
                     </div>
                     <div class="form-group" id="divDateRange" style="display:none;width: 517px;">
                         <div>
-                            <label>Date range:</label>
+                            <label>Date range <span style="color:red">*</span> :</label>
                         </div>
 
                         <div class="input-group">
@@ -225,7 +225,7 @@
                         </div>
                     </div>
                     <div class="form-group" id="CompoDatePicker" style="display:none;width:517px;">
-                        <label>Date:</label>
+                        <label>Date <span style="color:red">*</span> :</label>
                         <div class="input-group date">
                             <div class="input-group-addon">
                                 <i class="fa fa-calendar"></i>
@@ -252,7 +252,7 @@
                     </div>
                     <div class="form-group">
                         <div>
-                            <label>Reason:</label>
+                            <label>Reason <span style="color:red">*</span> :</label>
                         </div>
 
                         <div>
@@ -657,6 +657,7 @@
                 //days = days - weekend_count;
                 //$("#lblTotalWorkingDays").html(Math.round(days));
                 $("#toggle-advance").hide();
+                $('#divDatePickerError').hide();
             });
             $('#leaveDatepicker ').on('apply.daterangepicker', function (ev, picker) {
 
@@ -1009,14 +1010,20 @@
                     workingDays = 1;
                     return true;
                 }
+                else if ($("#datepicker").val() == "")
+                {
+                    $('#divDateError').show();
+
+                }
                 else if ($("#leaveComment").val() == "" && ($("#datepicker").val() == "" || $("#lblTotalWorkingDays").html()==0)) {
                     $('#divCommentError').show();
-                    $('#divDateError').show();
+                    $('#divDateError').hide();
                     return false;
                 }
                 else {
                     if ($("#leaveComment").val() == "") {
                         $('#divCommentError').show();
+                        $('#divDateError').hide();
                         return false;
                     }
                     else if ($("#datepicker").val() == "") {
@@ -1036,6 +1043,10 @@
                     showMessage("Sorry!! Your max limit for advance leave is  " + '@totalAdvanceLeaveLeft', "2", true);
                     return false;
                 }
+                else if ($('#leaveDatepicker').val()==""){
+                    $('#divDatePickerError').show();
+                    return false;
+                }
                 else  if ($("#leaveComment").val() != "" && ($("#leaveDatepicker").val() != ""|| $("#lblTotalWorkingDays").html()==0)) {
                     //set values
                     fromDate = fromDate;
@@ -1045,11 +1056,11 @@
                 }
                 else if ($("#leaveComment").val() == "" && ($("#leaveDatepicker").val() == "" || $("#lblTotalWorkingDays").html()==0)) {
                     $('#divCommentError').show();
-                    $('#divDatePickerError').show();
                     return false;
                 }
                 else {
                     if ($("#leaveComment").val() == "") {
+                        $('#divDatePickerError').hide();
                         $('#divCommentError').show();
                         return false;
                     }
