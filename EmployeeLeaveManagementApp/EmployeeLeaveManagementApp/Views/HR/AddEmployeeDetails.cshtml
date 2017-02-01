@@ -24,58 +24,113 @@
                         <img class="profile-user-img img-responsive" style="width:150px;height:200px" id="empImageDisplay" src="~/Content/Images/DefaultImage.png" alt="User profile picture">
 
                         <div class="text-center" style="padding-top:10px">
-                            <label class="btn btn-info"><i class="fa fa-upload"></i><input id="employeeImage" type="file" style="display:none" onchange="ValidateAndUploadImage()" /> Upload</label>
+                            <label class="btn btn-info"><i class="fa fa-upload"></i><input id="employeeImage" type="file" style="display:none" onchange="ValidateAndUploadImage()" accept="image/jpg,image/png,image/jpeg,image/gif" /> Upload</label>
                         </div>
                     </div>
                     <div class="form-group col-md-6">
-                        <label for="txtFirstName">FirstName</label>
+                        <label for="txtFirstName">FirstName <span style="color:red">*</span> </label>
                         <input type="text" class="form-control" id="txtFirstName" placeholder="First Name">
+                        <div class="form-group has-error" style="display:none" id="divFirstNameError">
+                            <label class="control-label" for="FirstName">
+                                <i class="fa fa-times-circle-o"></i> Please enter first name
+                            </label>
+                        </div>
                     </div>
                     <div class="form-group col-md-6">
-                        <label for="txtlastname">LastName</label>
+                        <label for="txtlastname">LastName <span style="color:red">*</span> </label>
                         <input type="text" class="form-control" id="txtLastName" placeholder="Last Name">
+                        <div class="form-group has-error" style="display:none" id="divLastNameError">
+                            <label class="control-label" for="LastName">
+                                <i class="fa fa-times-circle-o"></i> Please enter last name
+                            </label>
+                        </div>
                     </div>
                     <div class="form-group col-md-6">
-                        <label for="txtEmail">Email</label>
+                        <label for="txtEmail">Email <span style="color:red">*</span> </label>
                         <input type="email" class="form-control" id="txtEmail" placeholder="Enter Email">
+                        <div class="form-group has-error" style="display:none" id="divEmailError">
+                            <label class="control-label" for="Email">
+                                <i class="fa fa-times-circle-o"></i> Please enter email
+                            </label>
+                        </div>
                     </div>
                     <div class="form-group col-md-6">
-                        <label for="txtEmployeeNumber">Employee Number</label>
+                        <label for="txtEmployeeNumber">Employee Number <span style="color:red">*</span> </label>
                         <input type="email" class="form-control" id="txtEmployeeNumber" placeholder="Employee Number">
+                        <div class="form-group has-error" style="display:none" id="divEmployeeNumberError">
+                            <label class="control-label" for="EmployeeNumber">
+                                <i class="fa fa-times-circle-o"></i> Please enter employee number
+                            </label>
+                        </div>
                     </div>
                     <div class="form-group col-md-6">
-                        <label for="txtJoiningDate">Date Of Joining</label>
+                        <label for="txtJoiningDate">Date Of Joining <span style="color:red">*</span> </label>
                         <input type="text" class="form-control" id="txtJoiningDate">
+                        <div class="form-group has-error" style="display:none" id="divDateOfJoiningError">
+                            <label class="control-label" for="DateOfJoining">
+                                <i class="fa fa-times-circle-o"></i> Please enter date of joining
+                            </label>
+                        </div>
                     </div>
                     <div class="form-group col-md-6">
-                        <label for="txtBirthday">BirthDay</label>
+                        <label for="txtBirthday">BirthDay <span style="color:red">*</span></label>
                         <input type="text" class="form-control" id="txtBirthday">
+                        <div class="form-group has-error" style="display:none" id="divBirthDayError">
+                            <label class="control-label" for="BirthDay">
+                                <i class="fa fa-times-circle-o"></i> Please enter birthday
+                            </label>
+                        </div>
                     </div>
                     <div class="form-group col-md-6">
-                        <label for="txtCity">City</label>
+                        <label for="txtCity">City <span style="color:red">*</span></label>
                         <input type="text" class="form-control" id="txtCity" placeholder="City">
+                        <div class="form-group has-error" style="display:none" id="divCityError">
+                            <label class="control-label" for="City">
+                                <i class="fa fa-times-circle-o"></i> Please enter city
+                            </label>
+                        </div>
                     </div>
                     <div class="form-group col-md-6">
-                        <label for="txtCountry">Country</label>
+                        <label for="txtCountry">Country <span style="color:red">*</span></label>
                         <input type="text" class="form-control" id="txtCountry" placeholder="Country">
+                        <div class="form-group has-error" style="display:none" id="divCountryError">
+                            <label class="control-label" for="country">
+                                <i class="fa fa-times-circle-o"></i> Please enter country
+                            </label>
+                        </div>
                     </div>
                     <div class="form-group col-md-6">
-                        <label for="txtTelephone">Telephone</label>
+                        <label for="txtTelephone">Telephone <span style="color:red">*</span></label>
                         <input type="tel" class="form-control" id="txtTelephone" placeholder="Telephone">
+                        <div class="form-group has-error" style="display:none" id="divTelephoneError">
+                            <label class="control-label" for="telephone">
+                                <i class="fa fa-times-circle-o"></i> Please enter telephone number
+                            </label>
+                        </div>
                     </div>
                     <div class="form-group col-md-6">
-                        <label>Designation</label>
+                        <label>Designation <span style="color:red">*</span></label>
                         <select class="form-control designation" style="width: 100%;" id="ddlDesignation">
                             <option value="">Select</option>
                         </select>
+                        <div class="form-group has-error" style="display:none" id="divDesignationError">
+                            <label class="control-label" for="Designation">
+                                <i class="fa fa-times-circle-o"></i> Please select designation
+                            </label>
+                        </div>
                     </div>
                     <div class="form-group col-md-6">
-                        <label>Employee Type</label>
+                        <label>Employee Type <span style="color:red">*</span></label>
                         <select class="form-control level" style="width: 100%;" id="ddlEmployeeType">
                             <option value="">Select</option>
                             <option value="@Convert.ToInt16(LMS_WebAPP_Utils.EmployeeType.Fresher)">@LMS_WebAPP_Utils.CommonMethods.Description((LMS_WebAPP_Utils.EmployeeType.Fresher))</option>
                             <option value="@Convert.ToInt16(LMS_WebAPP_Utils.EmployeeType.Experienced)">@LMS_WebAPP_Utils.CommonMethods.Description((LMS_WebAPP_Utils.EmployeeType.Experienced))</option>                       
                         </select>
+                        <div class="form-group has-error" style="display:none" id="divEmployeeTypeError">
+                            <label class="control-label" for="EmployeeType">
+                                <i class="fa fa-times-circle-o"></i> Please select employee type
+                            </label>
+                        </div>
                     </div>
                     @*<div class="form-group col-md-6">
                         <label>Level</label>
@@ -90,7 +145,7 @@
                         </select>
                     </div>*@
                     <div class="form-group col-md-6" id="ddlManager">
-                        <label>Manager Name</label>
+                        <label>Manager Name <span style="color:red">*</span></label>
 
                         <select class="form-control managerSelect" style="width: 100%;" id="ddlManagerName">
                             <option value="">Select</option>
@@ -99,6 +154,11 @@
                                 <option value="@m.Id">@m.FirstName</option>
                             }
                         </select>
+                        <div class="form-group has-error" style="display:none" id="divManagerNameError">
+                            <label class="control-label" for="ManagerName">
+                                <i class="fa fa-times-circle-o"></i> Please select manager
+                            </label>
+                        </div>
 
                     </div>
                     <div class="form-group col-md-6" id="ddlProject">
@@ -156,6 +216,11 @@
                                 <option>BTech</option>
                                 <option>MTech</option>
                             </select>
+                            <div class="form-group has-error" style="display:none" id="divGraduationError">
+                                <label class="control-label" for="Graduation">
+                                    <i class="fa fa-times-circle-o"></i> Please select graduation
+                                </label>
+                            </div>
                         </div>
                     </div>
                     <div class="form-group col-md-6">
@@ -166,11 +231,21 @@
                                 <option>EEE</option>
                                 <option>ECE</option>
                             </select>
+                            <div class="form-group has-error" style="display:none" id="divSpecializationError">
+                                <label class="control-label" for="Specialization">
+                                    <i class="fa fa-times-circle-o"></i> Please select specialization
+                                </label>
+                            </div>
                         </div>
                     </div>
                     <div class="form-group col-md-6">
-                        <label >College/University</label>
+                        <label >College/University <span style="color:red">*</span></label>
                         <input type="text" class="form-control" id="txtUniversity" placeholder="Enter College/University">
+                        <div class="form-group has-error" style="display:none" id="divCollegeError">
+                            <label class="control-label" for="College/University">
+                                <i class="fa fa-times-circle-o"></i> Please enter college/university
+                            </label>
+                        </div>
                     </div>
                     <div class="form-group col-md-6">
                         <label for="educationFromDate">Duration</label>
@@ -340,6 +415,76 @@
     });
 
     $(document).on('click', '#btnSubmitEmployeeDetails', function (e) {
+        if (($("#txtFirstName").val() == "") && ($("#txtLastName").val() == "") && ($("#txtEmail").val() == "") && ($("#txtEmployeeNumber").val() == "") && ($("#txtJoiningDate").val() == "") && ($("#txtBirthday").val() == "") && ($("#txtCity").val() == "") && ($("#txtCountry").val() == "") && ($("#txtTelephone").val() == "") && ($("#ddlDesignation").val() == 0) && ($("#ddlEmployeeType").val() == 0) && ($("#ddlManagerName").val() == 0) && ($("#txtUniversity").val() == "")) {
+            $("#divFirstNameError").show();
+            $("#divLastNameError").show();
+            $("#divEmailError").show();
+            $("#divEmployeeNumberError").show();
+            $("#divDateOfJoiningError").show();
+            $("#divBirthDayError").show();
+            $("#divCityError").show();
+            $("#divCountryError").show();
+            $("#divTelephoneError").show();
+            $("#divDesignationError").show();
+            $("#divEmployeeTypeError").show();
+            $("#divManagerNameError").show();
+            $("#divCollegeError").show();
+            return false;
+        }
+
+        if ($("#txtFirstName").val() == "") {
+            $('#divFirstNameError').show();
+            return false;
+        }
+        if ($("#txtLastName").val() == "") {
+            $('#divLastNameError').show();
+            return false;
+        }
+        if ($("#txtEmail").val() == "") {
+            $('#divEmailError').show();
+            return false;
+        }
+        if ($("#txtEmployeeNumber").val() == "") {
+            $('#divEmployeeNumberError').show();
+            return false;
+        }
+        if ($("#txtJoiningDate").val() == "") {
+            $('#divDateOfJoiningError').show();
+            return false;
+        }
+        if ($("#txtBirthday").val() == "") {
+            $('#divBirthDayError').show();
+            return false;
+        }
+        if ($("#txtCity").val() == "") {
+            $('#divCityError').show();
+            return false;
+        }
+        if ($("#txtCountry").val() == "") {
+            $('#divCountryError').show();
+            return false;
+        }
+        if ($("#txtTelephone").val() == "") {
+            $('#divTelephoneError').show();
+            return false;
+        }
+        if ($("#ddlDesignation").val() == 0) {
+            $('#divDesignationError').show();
+            return false;
+        }
+        if ($("#ddlEmployeeType").val() == 0) {
+            $('#divEmployeeTypeError').show();
+            return false;
+        }
+        if ($("#ddlManagerName").val() == 0) {
+            $('#divManagerNameError').show();
+            return false;
+        }
+        if ($("#txtUniversity").val() == "") {
+            $('#divCollegeError').show();
+            return false;
+        }
+
         var imagepath = imgpath != "" ? imgpath : "";
         var educationDetails = {
 
@@ -489,5 +634,65 @@
             }
         });
     }
+
+    $("#txtFirstName").keypress(function (e) {
+        $('#divFirstNameError').hide();
+    });
+    $("#txtLastName").keypress(function (e) {
+        $('#divLastNameError').hide();
+    });
+    $("#txtEmail").keypress(function (e) {
+        $('#divEmailError').hide();
+    });
+    $("#txtEmployeeNumber").keypress(function (e) {
+        $('#divEmployeeNumberError').hide();
+    });
+    $("#txtCity").keypress(function (e) {
+        $('#divCityError').hide();
+    });
+    $("#txtCountry").keypress(function (e) {
+        $('#divCountryError').hide();
+    });
+    $("#txtTelephone").keypress(function (e) {
+        $('#divTelephoneError').hide();
+    });
+    $("#txtUniversity").keypress(function (e) {
+        $('#divCollegeError').hide();
+    });
+
+    $('#ddlDesignation').on('change', function () {
+        if ($("#ddlDesignation").val() != 0) {
+            $("#divDesignationError").hide();
+        }
+        else {
+            $("#divDesignationError").show();
+        }
+    });
+
+    $('#ddlEmployeeType').on('change', function () {
+        if ($("#ddlEmployeeType").val() != 0) {
+            $("#divEmployeeTypeError").hide();
+        }
+        else {
+            $("#divEmployeeTypeError").show();
+        }
+    });
+
+    $('#ddlManagerName').on('change', function () {
+        if ($("#ddlManagerName").val() != 0) {
+            $("#divManagerNameError").hide();
+        }
+        else {
+            $("#divManagerNameError").show();
+        }
+    });
+
+    $('#txtJoiningDate').on('change.datepicker', function (ev, picker) {
+        $('#divDateOfJoiningError').hide();
+    });
+
+    $('#txtBirthday').on('change.datepicker', function (ev, picker) {
+        $('#divBirthDayError').hide();
+    });
 
 </script>
