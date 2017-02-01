@@ -170,9 +170,7 @@
     });
 
     $("#confirmRewardLeave").on("click", function () {
-        debugger
-
-        if (($("#noOfRewardedDays").val() =="") && ($("#txtComment").val() == "")) {
+        if (($("#noOfRewardedDays").val() == "") && ($("#txtComment").val() == "")) {
             $("#divNoofdaysError").show();
             $("#divCommentError").show();
             return false;
@@ -183,12 +181,12 @@
             $("#divCommentError").show();
             return false;
         }
-        if (($("#noOfRewardedDays").val() != "") && ($("#noOfRewardedDays").val() <=0 )&&($("#txtComment").val() != "")) {
+        if (($("#noOfRewardedDays").val() != "") && ($("#noOfRewardedDays").val() <= 0) && ($("#txtComment").val() != "")) {
             $("#divNoofdaysError").hide();
             $("#divNoofdaysinvalidError").show();
             return false;
         }
-        if ($("#noOfRewardedDays").val() =="") {
+        if ($("#noOfRewardedDays").val() == "") {
             $("#divNoofdaysError").show();
             return false;
         }

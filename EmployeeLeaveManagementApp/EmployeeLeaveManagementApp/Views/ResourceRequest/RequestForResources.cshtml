@@ -102,7 +102,7 @@
     <div class="modal-dialog" role="document">
         <div class="modal-content border-radius-modalBottom">
             <div class="modal-header modalHeaderStyle">
-                <button type="button" class="close text-color-white" data-dismiss="modal" aria-label="Close">
+                <button type="button" class="close text-color-white" data-dismiss="modal" aria-label="Close" id="btnclose">
                     <span aria-hidden="true">&times;</span>
                 </button>
                 <h3 class="modal-title">Resource Request</h3>
@@ -111,21 +111,41 @@
                 <div class="box-body">
                     <div class="form-group" style="padding-bottom:20px">
                         <div class="form-group col-md-6">
-                            <label for="txtRequestTitle">Request Title</label>
+                            <label for="txtRequestTitle">Request Title <span style="color:red">*</span></label>
                             <input type="text" class="form-control" id="txtRequestTitle" placeholder="Enter Request Title" maxlength="50">
+                            <div class="form-group has-error" style="display:none" id="divTitleError">
+                                <label class="control-label" for="Title">
+                                    <i class="fa fa-times-circle-o"></i> Please enter title
+                                </label>
+                            </div>
                         </div>
                         <div class="form-group col-md-6">
-                            <label for="txtNoOfResourcesRequired">No of Resources Required</label>
+                            <label for="txtNoOfResourcesRequired">No of Resources Required <span style="color:red">*</span></label>
                             <input type="number" min="1" max="20" class="form-control" id="txtResourcesRequired">
+                            <div class="form-group has-error" style="display:none" id="divNoofresourcesError">
+                                <label class="control-label" for="Noofresources">
+                                    <i class="fa fa-times-circle-o"></i> Please enter no of resources
+                                </label>
+                            </div>
+                            <div class="form-group has-error" style="display:none" id="divNoofresourcesinvalidError">
+                                <label class="control-label" for="Noofresourcesinvalid">
+                                    <i class="fa fa-times-circle-o"></i> Please enter correct no of resource
+                                </label>
+                            </div>
                         </div>
                         <div class="form-group col-md-6">
-                            <label for="ddlSkills">Skills</label>
+                            <label for="ddlSkills">Skills <span style="color:red">*</span></label>
                             <select id="ddlSkills" multiple="multiple" class="form-control skills" style="width: 100%;">
                                 @foreach (var skill in Model.Skills)
                                 {
                                     <option value="@skill">@skill</option>
                                 }
                             </select>
+                            <div class="form-group has-error" style="display:none" id="divSkillsError">
+                                <label class="control-label" for="Skills">
+                                    <i class="fa fa-times-circle-o"></i> Please select skills
+                                </label>
+                            </div>
                         </div>
                         <div class="form-group col-md-6" id="ddlRequestToDiv">
                             <label>Request send to</label>
@@ -254,6 +274,50 @@
     });
 
     $(document).on('click', '#btnSendResourceRequest', function (e) {
+        if (($("#txtRequestTitle").val() == "") && ($("#txtResourcesRequired").val() == "") && ($("#ddlSkills").val() == null)) {
+            $("#divNoofresourcesError").show();
+            $('#divNoofresourcesinvalidError').hide();
+            $("#divTitleError").show();
+            $("#divSkillsError").show();
+            return false;
+        }
+        if (($("#txtRequestTitle").val() == "") && ($("#txtResourcesRequired").val() <= 0) && ($("#ddlSkills").val() == null)) {
+            $("#divNoofresourcesError").hide();
+            $("#divNoofresourcesinvalidError").show();
+            $("#divTitleError").show();
+            $("#divSkillsError").show();
+            return false;
+        }
+        if (($("#txtResourcesRequired").val() != "") && ($("#txtResourcesRequired").val() <= 0) && ($("#ddlSkills").val() != null)) {
+            $("#divNoofresourcesError").hide();
+            $("#divNoofresourcesinvalidError").show();
+            return false;
+        }
+        if (($("#txtResourcesRequired").val() == "") &&  ($("#ddlSkills").val() == null)) {
+            $("#divNoofresourcesError").hide();
+            $("#divNoofresourcesinvalidError").show();
+            $("#divSkillsError").show();
+            return false;
+        }
+        if (($("#txtRequestTitle").val() == "") && ($("#ddlSkills").val() == null)) {
+            $("#divTitleError").show();
+            $("#divSkillsError").show();
+            return false;
+        }
+        if ($("#txtResourcesRequired").val() == "") {
+            $("#divNoofresourcesError").show();
+            $('#divNoofresourcesinvalidError').hide();
+            return false;
+        }
+        if ($("#txtRequestTitle").val() == "") {
+            $("#divTitleError").show();
+            return false;
+        }
+        if ($("#ddlSkills").val() == null) {
+            $("#divSkillsError").show();
+            return false;
+        }
+
         var requestTitle = $("#txtRequestTitle").val();
         if ($(requestTitle).length > 50) {
             $("#txtRequestTitle").val("");
@@ -326,6 +390,10 @@
                 else {
                     showMessage("Request could not be sent", "2", true);
                 }
+                $('#divTitleError').hide();
+                $('#divNoofresourcesError').hide();
+                $('#divNoofresourcesinvalidError').hide();
+                $("#divSkillsError").hide();
 
             }
         });
@@ -444,4 +512,30 @@
             }
         });
     }
+
+    $("#txtRequestTitle").keypress(function (e) {
+        $('#divTitleError').hide();
+    });
+
+    $("#txtResourcesRequired").keypress(function (e) {
+        $('#divNoofresourcesError').hide();
+        $('#divNoofresourcesinvalidError').hide();
+    });
+
+   
+    $('#ddlSkills').on('change', function () {
+        if ($("#ddlSkills").val() != null) {
+            $("#divSkillsError").hide();
+        }
+        else {
+            $("#divSkillsError").show();
+        }
+    });
+
+    $(document).on('click', '#btnclose,.close', function (e) {
+        $('#divTitleError').hide();
+        $('#divNoofresourcesError').hide();
+        $('#divNoofresourcesinvalidError').hide();
+        $("#divSkillsError").hide();
+    });
 </script>
