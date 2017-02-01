@@ -329,6 +329,15 @@
                             </a>
                         </li>
                     }
+                    @if (profileId == (int)ProfileType.CEO)
+                    {
+                        <li>
+                            <a id="reports" href="@Url.Action("Reports", "HR")">
+                                <i class="fa fa-files-o"></i> <span>Reports</span>
+
+                            </a>
+                        </li>
+                    }
                 </ul>
             </section>
             <!-- /.sidebar -->

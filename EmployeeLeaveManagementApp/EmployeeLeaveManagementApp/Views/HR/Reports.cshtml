@@ -1,7 +1,9 @@
 ﻿@model List<LMS_WebAPP_Domain.EmployeeDetailsModel>
+@using LMS_WebAPP_Utils
 @{
     ViewBag.Title = "Reports";
     Layout = "~/Views/Shared/_Layout.cshtml";
+    var profileId = ((LMS_WebAPP_Domain.UserAccount)Session[Constants.SESSION_OBJ_USER]) != null ? ((LMS_WebAPP_Domain.UserAccount)Session[Constants.SESSION_OBJ_USER]).RefProfileType : 0;
 }
 
 <link rel="stylesheet" href="../../plugins/select2/select2.min.css">
@@ -15,6 +17,8 @@
 </section>
 <section class="content">
     <div class="row">
+        @if (profileId == (int)ProfileType.CEO)
+        {
         <div class="col-md-12">
             <div class="box box-success">
                 <div class="box-header with-border">
@@ -98,6 +102,7 @@
                 <!-- /.box-body-->
             </div>
         </div>
+        }
         <div class="col-md-6">
             <!-- general form elements -->
             <div class="box box-success">
@@ -262,6 +267,8 @@
         $('#reports').parent().addClass('active');
         GetProjectsList();
         $(function () {
+            if(@profileId==@Convert.ToInt32(ProfileType.CEO))
+            {
             var bar_data = {
                 data: [["January", 0], ["February", 0], ["March", 0], ["April", 0], ["May", 0], ["June", 0], ["July", 0], ["August", 0], ["September", 0], ["October", 0], ["November", 0], ["December", 0]],
                 color: "#3c8dbc"
@@ -287,7 +294,7 @@
                     min: 0
                 },
             });
-
+        }
             var pieChartCanvas = $("#pieChart").get(0).getContext("2d");
             var pieChart = new Chart(pieChartCanvas);
             var PieData = [
@@ -936,7 +943,6 @@
         if (errorExists) {
             return false;
         }
-        var employeeId = $("#ddlEmployeeId").val();
         window.location.href = "/HR/GenerateProjectwiseReport/?projectId=" + projectId + "&fromMonth=" + fromMonth + "&toMonth=" + toMonth + "&year=" + year;
     })
 </script>
