@@ -52,9 +52,10 @@ namespace EmployeeLeaveManagementWebAPI.Controllers
                     body = sr.ReadToEnd();
                 }
                 var logoPath = HostingEnvironment.MapPath("~/Content/Images/infrrd-logo-main.png");
+                string appurl = ConfigurationManager.AppSettings["AppURL"];
                 WorkFormHomeReasons Reason = (WorkFormHomeReasons)model.RefReason;
                 string WorkFromHomeReason = (model.OtherReason != "") ? model.OtherReason : Reason.Description();
-                string messageBody = string.Format(body, MailDetails.ManagerName, MailDetails.EmployeeName,WorkFromHomeReason);
+                string messageBody = string.Format(body, MailDetails.ManagerName, MailDetails.EmployeeName,WorkFromHomeReason, appurl);
                 string CcMailId = MailDetails.CcMailId + "," + ConfigurationManager.AppSettings["HRMailId"];
                 MailUtility.sendmail(MailDetails.ToMailId, CcMailId, actionName.Description(), messageBody, logoPath);
             }

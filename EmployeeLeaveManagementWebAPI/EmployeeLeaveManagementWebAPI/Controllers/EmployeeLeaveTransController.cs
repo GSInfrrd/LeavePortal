@@ -85,7 +85,8 @@ namespace EmployeeLeaveManagementWebAPI.Controllers
                 }
                 var logoPath = HostingEnvironment.MapPath("~/Content/Images/infrrd-logo-main.png");
                 string numberofworkingdays = workingDays.ToString();
-                string messageBody = string.Format(body, MailDetails.ManagerName, MailDetails.EmployeeName, Convert.ToDateTime(fromDate).ToShortDateString(), Convert.ToDateTime(toDate).ToShortDateString(), numberofworkingdays, comments);
+                string appurl = ConfigurationManager.AppSettings["AppURL"];
+                string messageBody = string.Format(body, MailDetails.ManagerName, MailDetails.EmployeeName, Convert.ToDateTime(fromDate).ToShortDateString(), Convert.ToDateTime(toDate).ToShortDateString(), numberofworkingdays, comments, appurl);
 
                 MailUtility.sendmail(MailDetails.ToMailId, MailDetails.CcMailId, actionName.Description(), messageBody, logoPath);
             }
@@ -199,7 +200,8 @@ namespace EmployeeLeaveManagementWebAPI.Controllers
                     body = sr.ReadToEnd();
                 }
                 var logoPath = HostingEnvironment.MapPath("~/Content/Images/infrrd-logo-main.png");
-                string messageBody = string.Format(body, MailDetails.EmployeeName, MailDetails.ManagerName, model.NumberofDays, model.Comment);
+                string appurl = ConfigurationManager.AppSettings["AppURL"];
+                string messageBody = string.Format(body, MailDetails.EmployeeName, MailDetails.ManagerName, model.NumberofDays, model.Comment, appurl);
                 string CcMailId = MailDetails.CcMailId + "," + ConfigurationManager.AppSettings["HRMailId"];
                 MailUtility.sendmail(MailDetails.ToMailId, CcMailId, actionName.Description(), messageBody, logoPath);
             }

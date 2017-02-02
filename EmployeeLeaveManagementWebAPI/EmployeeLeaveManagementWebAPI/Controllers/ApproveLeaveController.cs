@@ -3,6 +3,7 @@ using LMS_WebAPI_ServiceHelpers;
 using LMS_WebAPI_Utils;
 using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.IO;
 using System.Threading;
 using System.Web;
@@ -109,16 +110,17 @@ namespace EmployeeLeaveManagementWebAPI.Controllers
                 }
 
                 var logoPath = HostingEnvironment.MapPath("~/Content/Images/infrrd-logo-main.png");
+                string appurl = ConfigurationManager.AppSettings["AppURL"];
 
                 string EmployeeName = MailDetails.EmployeeName.Substring(0, MailDetails.EmployeeName.IndexOf(" "));
                 string messageBody;
                 if ((Leavestatus == "Approved") || (Leavestatus == "Rejected"))
                 {
-                    messageBody = string.Format(body, EmployeeName, MailDetails.ManagerName, MailDetails.LeaveFromDate, MailDetails.LeaveToDate, MailDetails.NumberOfWorkingDays, MailDetails.ManagerComments);
+                    messageBody = string.Format(body, EmployeeName, MailDetails.ManagerName, MailDetails.LeaveFromDate, MailDetails.LeaveToDate, MailDetails.NumberOfWorkingDays, MailDetails.ManagerComments, appurl);
                 }
                 else
                 {
-                    messageBody = string.Format(body, EmployeeName, MailDetails.ManagerName, MailDetails.LeaveFromDate, MailDetails.LeaveToDate, MailDetails.NumberOfWorkingDays, MailDetails.ManagerComments, MailDetails.NewManagerName);
+                    messageBody = string.Format(body, EmployeeName, MailDetails.ManagerName, MailDetails.LeaveFromDate, MailDetails.LeaveToDate, MailDetails.NumberOfWorkingDays, MailDetails.ManagerComments, MailDetails.NewManagerName, appurl);
 
                     //Send Mail to New Manager for the applied leaves by employee
                     ActionsForMail ApplyLeaveactionName = ActionsForMail.ApplyLeave;
@@ -132,7 +134,7 @@ namespace EmployeeLeaveManagementWebAPI.Controllers
                         ApplyLeavebody = sr.ReadToEnd();
                     }
                     string NewManagerName = MailDetails.NewManagerName.Substring(0, MailDetails.NewManagerName.IndexOf(" "));
-                    string ApplyLeavemessageBody = string.Format(ApplyLeavebody, NewManagerName, MailDetails.EmployeeName, MailDetails.LeaveFromDate, MailDetails.LeaveToDate, MailDetails.NumberOfWorkingDays, MailDetails.EmployeeComments);
+                    string ApplyLeavemessageBody = string.Format(ApplyLeavebody, NewManagerName, MailDetails.EmployeeName, MailDetails.LeaveFromDate, MailDetails.LeaveToDate, MailDetails.NumberOfWorkingDays, MailDetails.EmployeeComments, appurl);
 
                     MailUtility.sendmail(MailDetails.NewManagerMailId, MailDetails.CcMailId, ApplyLeaveactionName.Description(), ApplyLeavemessageBody, logoPath);
                 }

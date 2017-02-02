@@ -4,6 +4,7 @@ using LMS_WebAPI_ServiceHelpers;
 using LMS_WebAPI_Utils;
 using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.IO;
 using System.Linq;
 using System.Net;
@@ -95,7 +96,8 @@ namespace EmployeeLeaveManagementWebAPI.Controllers
                     body = sr.ReadToEnd();
                 }
                 var logoPath = HostingEnvironment.MapPath("~/Content/Images/infrrd-logo-main.png");
-                string messageBody = string.Format(body, MailDetails.ManagerName, MailDetails.EmployeeName, model.ResourceRequestTitle, model.NumberRequestedResources, model.Skills, ResourceRequestStatus.Requested.Description());
+                string appurl = ConfigurationManager.AppSettings["AppURL"];
+                string messageBody = string.Format(body, MailDetails.ManagerName, MailDetails.EmployeeName, model.ResourceRequestTitle, model.NumberRequestedResources, model.Skills, ResourceRequestStatus.Requested.Description(), appurl);
                 string subject = "Ticket " + "INF-" + model.RequestFromId + randomId + " raised " + (DateTime.Now).ToShortDateString();
                 MailUtility.sendmail(MailDetails.ToMailId, MailDetails.CcMailId, subject, messageBody, logoPath);
             }
@@ -173,7 +175,8 @@ namespace EmployeeLeaveManagementWebAPI.Controllers
                     body = sr.ReadToEnd();
                 }
                 var logoPath = HostingEnvironment.MapPath("~/Content/Images/infrrd-logo-main.png");
-                string messageBody = string.Format(body, MailDetails.EmployeeName, MailDetails.ManagerName, resourceSubmit.ResourceRequestTitle, resourceSubmit.NumberRequestedResources, resourceSubmit.Skills, status);
+                string appurl = ConfigurationManager.AppSettings["AppURL"];
+                string messageBody = string.Format(body, MailDetails.EmployeeName, MailDetails.ManagerName, resourceSubmit.ResourceRequestTitle, resourceSubmit.NumberRequestedResources, resourceSubmit.Skills, status, appurl);
                 string subject = "Ticket " + model.Ticket + " updated " + (DateTime.Now).ToShortDateString();
                 MailUtility.sendmail(MailDetails.ToMailId, MailDetails.CcMailId, subject, messageBody, logoPath);
 
