@@ -177,12 +177,18 @@
                             {
 
                                 var disabledAttr = "";
+                                //  var selectedAttr = "";
                                 if (Convert.ToInt16(LMS_WebAPP_Utils.LeaveType.AdvanceLeave) == @Convert.ToInt16((LMS_WebAPP_Utils.LeaveType)value) ||
                                     Convert.ToInt16(LMS_WebAPP_Utils.LeaveType.LOP) == @Convert.ToInt16((LMS_WebAPP_Utils.LeaveType)value))
                                 {
                                     disabledAttr = "disabled";
                                 }
+                                //if (Convert.ToInt16(LMS_WebAPP_Utils.LeaveType.SickLeave) == @Convert.ToInt16((LMS_WebAPP_Utils.LeaveType)value))
+                                //{
+                                //    selectedAttr = "checked";
+                                //}
                             <div class="col-md-4" style="margin-top:10px">
+
                                 <input type="radio" name="r1" id="RdLeaveType_@Convert.ToInt16((LMS_WebAPP_Utils.LeaveType)value)" class="flat-red" value="@Convert.ToInt16((LMS_WebAPP_Utils.LeaveType)value)" @disabledAttr> @(LMS_WebAPP_Utils.CommonMethods.Description((LMS_WebAPP_Utils.LeaveType)Convert.ToInt16((LMS_WebAPP_Utils.LeaveType)value)))
                             </div>
 
@@ -337,73 +343,9 @@
     }
     var today = (formatDate(new Date()));
 
-    $("#RdLeaveType_" + sickLeaveId).attr('checked', true);
+    $("#RdLeaveType_" + sickLeaveId).iCheck('check');
     $('#SickDatePicker').show();
     $('#sickDate').val(today);
-
-    function CalculteCasualAdvnceCutOffLeavesCalc(workingdays)
-    {
-        var isCasulOnlyPossible =(totalcasualLeft >= workingdays) ?  true : false;
-        var temCasualTodate ;
-        var temAdvanceTodate;
-        var temCompOff ;
-        if(isCasulOnlyPossible)
-        {
-            $("#toggle-advance").hide();
-            $("#btnLeaveRequestSubmit").show();
-            $("#btnCasualAdvanceLeaveSubmit").hide();
-        }
-        else{
-
-            if(totalcasualLeft != 0)
-            {
-                totalCasualCountAppliedFor = (totalcasualLeft);
-                $("#TtCasual").show();
-                $("#TotalCasualLeave").html(totalCasualCountAppliedFor);
-                $("#txtAvailableCasualLeaves").html(totalCasualCountAppliedFor);
-                //set from date   FromCasual
-                $('#FromCasual').html(moment(fromDate).format('MM/DD/YYYY'));
-                $('#toCasual').html(moment(addWeekdays(fromDate,totalCasualCountAppliedFor)).subtract(1, "days").format('MM/DD/YYYY'));
-                temCasualTodate = moment(addWeekdays(fromDate,totalCasualCountAppliedFor)).format('MM/DD/YYYY');
-                totalAdvanceLeaveCountAppliedFor = workingdays - totalcasualLeft;
-                //if(totalAdvanceLeaveCountAppliedFor > totalAdvanceLeaveLeft)
-                //{
-                //    //calculating advance leave and LOP leave
-                //    totalLOP= totalAdvanceLeaveCountAppliedFor - totalAdvanceLeaveLeft;
-                //    totalLopAppliedFor = totalLOP;
-                //    totalAdvanceLeaveCountAppliedFor = totalAdvanceLeaveLeft;
-                //    temAdvanceTodate =  moment(addWeekdays(temCasualTodate,totalAdvanceLeaveCountAppliedFor)).format('MM/DD/YYYY');
-                //    $("#TtAdvnce").show();
-                //    $("#totalAdvanceLeave").val(totalAdvanceLeaveCountAppliedFor);
-                //    $('#FromAdvance').html(moment(temCasualTodate).format('MM/DD/YYYY'));
-                //    $('#toAdvance').html(moment(addWeekdays(temCasualTodate,totalAdvanceLeaveCountAppliedFor)).subtract(1, "days").format('MM/DD/YYYY'));
-                //    $("#TtLOP").show();
-                //    $("#LOP").val(totalLOP);
-                //    $('#FromLop').html(moment(temAdvanceTodate).format('MM/DD/YYYY'));
-                //    $('#toLOP').html(moment(addWeekdays(temAdvanceTodate,totalLopAppliedFor)).subtract(1, "days").format('MM/DD/YYYY'));
-                //    totalLOPAdvanceCount = (parseInt(totalLopAppliedFor)+ parseInt(totalAdvanceLeaveCountAppliedFor));
-                //    previousLOPCOUNT = $("#LOP").val();
-                //    previousAdvance =  $("#totalAdvanceLeave").val();
-                //}
-                //else{
-                //    totalLOP = 0;
-                //    totalLopAppliedFor = 0;
-                //    totalAdvanceLeaveCountAppliedFor =totalAdvanceLeaveCountAppliedFor;
-                //    $("#TtAdvnce").show();
-                //    $("#totalAdvanceLeave").val(totalAdvanceLeaveCountAppliedFor);
-                //    $('#FromAdvance').html(moment(temCasualTodate).format('MM/DD/YYYY'));
-                //    $('#toAdvance').html(moment(addWeekdays(temCasualTodate,totalAdvanceLeaveCountAppliedFor)).subtract(1, "days").format('MM/DD/YYYY'));
-                //    //$("#TtLOP").hide();
-                //    $("#LOP").val(totalLOP);
-                //    previousLOPCOUNT = 0;
-                //    previousAdvance =  $("#totalAdvanceLeave").val();
-                //}
-            }
-            $("#btnLeaveRequestSubmit").hide();
-            $("#btnCasualAdvanceLeaveSubmit").show();
-            $("#toggle-advance").slideToggle("slow");
-        }
-    }
 
 
     $("#LOP").change(function() {
@@ -426,126 +368,7 @@
         return event.charCode >= 48 && event.charCode <= 57;
     });
 
-    //function OnchangeCountCalculation(newValue,IsAdvance)
-    //{
-
-    //    var fromAdvanceLeaveDate ="";
-    //    var toLOPDate ="";
-    //    var AdvanceCount=0;
-    //    var LOPCount=0;
-    //    AdvanceCount = newValue;
-    //    LOPCount =((totalLOPAdvanceCount - AdvanceCount) < 0)? 0 : (totalLOPAdvanceCount - AdvanceCount) ;
-    //    if(IsAdvance)
-    //    {
-    //        if(newValue == 0){
-    //            $("#TtAdvnce").hide();
-    //        }
-    //        else
-    //        {
-    //            $("#TtAdvnce").show();
-    //        }
-
-    //        if(LOPCount == 0){
-    //            $("#TtLOP").hide();
-    //        }
-    //        else
-    //        {
-    //            $("#TtLOP").show();
-    //        }
-
-    //        if(CheckCap(AdvanceCount,LOPCount)){
-    //            $("#LOP").val("");
-    //            $('#FromAdvance').html("");
-    //            $('#toAdvance').html("");
-    //            $('#FromLop').html("");
-    //            $('#toLOP').html("");
-    //            $("#LOP").val(LOPCount);
-    //            var casualTodate =  $('#toCasual').html();
-    //            var  temAdvanceTodate =  moment(addWeekdays(casualTodate,AdvanceCount)).format('MM/DD/YYYY');
-    //            $('#FromAdvance').html(moment(casualTodate).add(1, "days").format('MM/DD/YYYY'));
-    //            $('#toAdvance').html(moment(temAdvanceTodate).format('MM/DD/YYYY'));
-    //            $('#FromLop').html(moment(temAdvanceTodate).add(1, "days").format('MM/DD/YYYY'));
-    //            $('#toLOP').html(moment(addWeekdays(temAdvanceTodate,LOPCount)).subtract(1, "days").format('MM/DD/YYYY'));
-    //            totalAdvanceLeaveCountAppliedFor = AdvanceCount;
-    //            totalLopAppliedFor = LOPCount ;
-    //        }
-    //        else
-    //        {
-    //            $("#LOP").val(previousLOPCOUNT);
-    //            $("#totalAdvanceLeave").val(previousAdvance);
-    //            $("#TtAdvnce").show();
-    //            $("#TtLOP").show();
-    //        }
-    //    }
-    //    else
-    //    {
-    //        LOPCount =  newValue;
-    //        AdvanceCount = ((totalLOPAdvanceCount - LOPCount) < 0) ? 0 : (totalLOPAdvanceCount - LOPCount) ;
-    //        if(newValue == 0){
-    //            $("#TtLOP").hide();
-    //        }
-    //        else
-    //        {
-    //            $("#TtLOP").show();
-    //        }
-
-    //        if(AdvanceCount == 0){
-    //            $("#TtAdvnce").hide();
-    //        }
-    //        else
-    //        {
-    //            $("#TtAdvnce").show();
-    //        }
-    //        if(CheckCap(AdvanceCount,LOPCount)){
-    //            $("#totalAdvanceLeave").val("");
-    //            $('#FromAdvance').html("");
-    //            $('#toAdvance').html("");
-    //            $('#FromLop').html("");
-    //            $('#toLOP').html("");
-    //            $("#totalAdvanceLeave").val(AdvanceCount);
-    //            var casualTodate =  $('#toCasual').html();
-    //            var  temAdvanceTodate =  moment(addWeekdays(casualTodate,AdvanceCount)).format('MM/DD/YYYY');
-    //            $('#FromAdvance').html(moment(casualTodate).add(1, "days").format('MM/DD/YYYY'));
-    //            $('#toAdvance').html(moment(temAdvanceTodate).format('MM/DD/YYYY'));
-    //            $('#FromLop').html(moment(temAdvanceTodate).add(1, "days").format('MM/DD/YYYY'));
-    //            $('#toLOP').html(moment(addWeekdays(temAdvanceTodate,LOPCount)).subtract(1, "days").format('MM/DD/YYYY'));
-    //            totalAdvanceLeaveCountAppliedFor = AdvanceCount;
-    //            totalLopAppliedFor = LOPCount ;
-    //        }
-    //        else
-    //        {
-    //            $("#LOP").val(previousLOPCOUNT);
-    //            $("#totalAdvanceLeave").val(previousAdvance);
-    //            $("#TtAdvnce").show();
-    //            $("#TtLOP").show();
-    //        }
-    //    }
-    //}
-
-    @*function CheckCap(AdvanceCount,LOPCount)
-    {
-        if((parseInt(AdvanceCount) > '@totalAdvanceLeaveLeft') && (parseInt(LOPCount) >'@totalLOPLeft'))
-        {
-            showMessage("Sorry!! Your max limit for advance leave is  " + '@totalAdvanceLeaveLeft' + "and max limit for LOP is "+'@totalLOPLeft', "2", true);
-            return false;
-        }
-        else if(parseInt(AdvanceCount) > '@totalAdvanceLeaveLeft'){
-
-            showMessage("Sorry!! Your max limit for advance leave is  " + '@totalAdvanceLeaveLeft', "2", true);
-            return false;
-        }
-        else if(parseInt(LOPCount) > '@totalLOPLeft'){
-
-            showMessage("Sorry!! Your max limit for LOP is  " + '@totalLOPLeft', "2", true);
-            return false;
-        }
-        else
-        {
-            return true;
-        }
-    }*@
-
-    function addWeekdays(date, days) {
+   function addWeekdays(date, days) {
         date = moment(date); // use a clone
         while (days > 0) {
             date = date.add(1, 'days');
@@ -575,7 +398,6 @@
         totalLopAppliedFor = 0 ;
         $("#btnLeaveRequestSubmit").show();
         $("#btnCasualAdvanceLeaveSubmit").hide();
-        $("#RdLeaveType_" + sickLeaveId).attr('checked', true);
         $('#sickDate').val(today);
         $('#divDateRange').hide();
         $('#divNoOfWorking').hide();
@@ -630,6 +452,9 @@
             $("#example1.dataTables_filter").hide();
             $('#leaveDatepicker ').daterangepicker(
                 {
+                    locale: {
+                        format: 'DD/MM/YYYY'
+                    },
                     minDate: new Date()
                 });
             $('#leaveDatepicker').on('change.daterangepicker', function (ev, picker) {
@@ -644,18 +469,6 @@
                 var endDate = new Date(end);
                 var endMonth = endDate.getMonth() + 1;
                 toDate = endDate.getFullYear() + "-" + endMonth + "-" + endDate.getDate();
-                //toDate = end.toString("YYYY-MM-DD");
-                //var days = (endDate - startDate) / (1000 * 60 * 60 * 24);
-                //days += 1;
-                //var weekend_count = 0;
-                //for (i = startDate.valueOf() ; i <= endDate.valueOf() ; i += 86400000) {
-                //    var temp = new Date(i);
-                //    if (temp.getDay() == 0 || temp.getDay() == 6) {
-                //        weekend_count++;
-                //    }
-                //}
-                //days = days - weekend_count;
-                //$("#lblTotalWorkingDays").html(Math.round(days));
                 $("#toggle-advance").hide();
                 $('#divDatePickerError').hide();
             });
@@ -709,44 +522,17 @@
 
                     }
                 });
-                @*var clickedradioButton = $('input[name=r1]:checked').val();
-            if ($("#lblTotalWorkingDays").html() == "1" && clickedradioButton == '@Convert.ToInt16((LMS_WebAPP_Utils.LeaveType.CasualLeave))') {
-                $('#divHalfDay').show();
-            }
-            else {
-                $('#divHalfDay').hide();
-
-            }
-
-          //  CalculteCasualAdvnceCutOffLeavesCalc(Math.round(days));
-          //  $("#lblTotalWorkingDays").html(Math.round(days));
-            @*if(clickedradioButton=='@Convert.ToInt16((LMS_WebAPP_Utils.LeaveType.AdvanceLeave))')
-            {
-                CheckCap(Math.round(days),0);
-            }
-            if(clickedradioButton=='@Convert.ToInt16((LMS_WebAPP_Utils.LeaveType.LOP))')
-            {
-                CheckCap(0,Math.round(days));
-            }*@
-                //calculate how much casual leaves are left?how many taken as advace and lop div should show.
-
             });
         });
         $('#AddLeaveModal').on('hidden.bs.modal', function () {
             $(this).find("textarea#leaveComment").val('').end();
-            //$("#leaveDatepicker").daterangepicker("destroy");
-            //$("#leaveDatepicker").daterangepicker("refresh");
             $('#divHalfDay').show();
             $("#divCommentError").hide();
             $('#SickDatePicker').show();
             $('#sickDate').val(today);
             $("#divLeaveTypeError").hide();
-            //$(this).find("input.flat-red:checked").parent().removeClass('checked');
             var clickedradioButton = $('input[name=r1]:checked').val();
-            $("#RdLeaveType_" + clickedradioButton).parent().attr('aria-checked',false);
-            $("#RdLeaveType_" + clickedradioButton).parent().removeClass('checked');
-            $("#RdLeaveType_" + sickLeaveId).parent().addClass('checked');
-            //  $('#RdLeaveType_" + sickLeaveId'+" 'input'").iCheck('check');
+            $("#RdLeaveType_" + clickedradioButton).iCheck('uncheck');
         });
     });
     $(function () {
@@ -761,13 +547,6 @@
             var clickedradioButton = $('input[name=r1]:checked').val();
             if ($(this).prop('checked')) {
                 IsFullDay = true;
-                @*switch (clickedradioButton) {
-                    case '@Convert.ToInt16((LMS_WebAPP_Utils.LeaveType.CasualLeave))':
-                        $("#lblTotalWorkingDays").html("1");
-                        break;
-                    default:
-                        break;
-                }*@
             }
             else {
                 IsFullDay = false;
@@ -783,31 +562,8 @@
             }
         })
     })
-    //$(document).on('click', '#btnClose,.close,.Close', function (e) {
-    //    $("#RdLeaveType_" + sickLeaveId).attr('checked', true);
-    //    $('#sickDate').val(today);
-    //    $('#divDateRange').hide();
-    //    $('#divNoOfWorking').hide();
-    //    $('#leaveComment').val("");
-    //    $('#CompoDatePicker').hide();
-    //    $('.modal-footer').show();
-    //    $('#divDateError').hide();
-    //    $('#toggleOne').bootstrapToggle('on');
-    //    $('#divCommentError').hide();
-    //    if (isPossibleToApplyLeave == 0) {
-    //        $('.modal-footer').hide();
-    //    }
-    //    $("#divLeaveTypeError").hide();
-    //    $('#SickDatePicker').show();
-    //    $('#divHalfDay').show();
-    //});
-
-
-
 
     $('input').off('ifChecked').on('ifChecked', function (event) {
-        debugger;
-        //  alert(event.type + ' callback');
         var clickedradioButton = $('input[name=r1]:checked').val();
         switch (clickedradioButton) {
             case '@Convert.ToInt16((LMS_WebAPP_Utils.LeaveType.SickLeave))':
@@ -1132,12 +888,11 @@
         }
     });
     // submitting leave request
-
     $(document).on('click', '#btnLeaveRequestSubmit', function (e) {
         if (FormValidate()) {
             $('#Loading').show();
             var comments = $("#leaveComment").val();
-            $('#AddLeaveModal').modal('hide');
+            debugger;
             var leaveType = $('input[name=r1]:checked').val();
             $.ajax({
                 cache: false,
@@ -1200,8 +955,6 @@
 
 
                                 $('#Loading').hide();
-
-
                                 $('#datepicker').val("");
                                 $('#SelectReason').val("");
                             }
