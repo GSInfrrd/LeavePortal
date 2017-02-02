@@ -26,6 +26,12 @@
                 <div class="box-header with-border">
                     <h3 class="box-title">Project Report</h3>
                     <div class="pull-right box-tools">
+                        @*<div style="padding-top:25px;display:none" id="divViewDetails">
+                            <a href="#" style="padding-left:20px" id="viewProjectEmployeeDetails">View Details </a>
+                        </div>*@
+                        <button class="btn" data-toggle="tooltip" id="viewProjectEmployeeDetails" title="View Details">
+                            <i class="fa fa-table"></i>
+                        </button>
                         <button class="btn" data-toggle="tooltip" id="btnExportProjectwiseReport" title="Export">
                             <i class="fa fa-file-excel-o"></i>
                         </button>
@@ -91,9 +97,7 @@
                     <div class="col-md-1" style="padding-top:25px">
                         <button type="button" id="btnGenerateProjectReport" style="background-color:#222d32 !important" class="btn btn-primary">Submit</button>
                     </div>
-                    <div style="padding-top:25px;display:none" id="divViewDetails">
-                        <a href="#" style="padding-left:20px" id="viewProjectEmployeeDetails">View Details </a>
-                    </div>
+                 
                     <div style="padding-top:70px">
                         <div id="bar-chart" style="height: 300px;"></div>
                     </div>
@@ -755,7 +759,7 @@
         var toMonth ="0";
         var year = $("#ddlYear").val();
         errorExists = false;
-        $("#divViewDetails").hide();
+        //$("#divViewDetails").hide();
         if (projectName == "0") {
             $("#select2-ddlProjectName-container").parent().css("border-color", 'red');
             errorExists = true;
@@ -777,7 +781,7 @@
             return false;
         }
         else {
-            $("#divViewDetails").show();
+            //$("#divViewDetails").show();
             $.ajax({
                 cache: false,
                 type: 'post',
@@ -859,6 +863,27 @@
         var fromMonth = "0";
         var toMonth ="0";
         var year = $("#ddlYear").val();
+        errorExists = false;
+        if (projectName == "0") {
+            $("#select2-ddlProjectName-container").parent().css("border-color", 'red');
+            errorExists = true;
+        }
+        if (fromMonth == "") {
+            $("#ddlFromMonthName").css("border-color", 'red');
+            errorExists = true;
+        }
+        if (toMonth == "") {
+            $("#ddlToMonthName").css("border-color", 'red');
+            errorExists = true;
+        }
+
+        if (year == "") {
+            $("#ddlYear").css("border-color", 'red');
+            errorExists = true;
+        }
+        if (errorExists) {
+            return false;
+        }
         var text=year;
         $("#txtDuration").html(text);
         $.ajax({
@@ -920,7 +945,7 @@
         var toMonth = "0";
         var year = $("#ddlYear").val();
         errorExists = false;
-        $("#divViewDetails").hide();
+        //$("#divViewDetails").hide();
         if (projectId == "0") {
             $("#select2-ddlProjectName-container").parent().css("border-color", 'red');
             errorExists = true;
