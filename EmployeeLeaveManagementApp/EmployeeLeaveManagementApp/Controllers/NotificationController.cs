@@ -91,7 +91,7 @@ namespace EmployeeLeaveManagementApp.Controllers
                 if(NotificationType == @Convert.ToInt16(NotificationTypes.RewardLeave))
                 {
                         Logger.Info("Successfully exiting from NotificationController APP NotificationRedirect method");
-                        return RedirectToAction("Dashboard", "Account");
+                        return RedirectToAction("LeaveTransaction", "LeaveTransaction");
                 }
 
 
