@@ -118,6 +118,7 @@
     var dateList= @Html.Raw(Json.Encode(dateList));
     var dateExists='@Convert.ToInt16(LMS_WebAPP_Utils.ResponseCodes.DateAlreadyExists)';
     var leaveType='@Convert.ToInt16(LMS_WebAPP_Utils.LeaveType.CasualLeave)';
+    
     $('#exampleModal').on('show.bs.modal', function (event) {
     });
 
@@ -220,13 +221,13 @@
     }
 
     $(document).on('click', '#btnAddWorkFromHome ', function (e) {
-
+        debugger;
         if ($("#SelectReason").val() == 0) {
             $("#divSelectReasonError").show();
             return false;
         }
 
-        if ($("#txtOtherReason").val() == "") {
+        if ($("#SelectReason :selected").text()=="Others" && $("#txtOtherReason").val() == "") {
             $("#divOtherReasonError").show();
             return false;
         }
