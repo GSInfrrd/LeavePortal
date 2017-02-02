@@ -411,7 +411,7 @@
     });
 
     $(document).on('click', '#btnSubmitEmployeeDetails', function (e) {
-
+        debugger
         if (($("#txtFirstName").val() == "") && ($("#txtLastName").val() == "") && ($("#txtEmail").val() == "") && ($("#txtEmployeeNumber").val() == "") && ($("#txtJoiningDate").val() == "") && ($("#txtBirthday").val() == "") && ($("#txtCity").val() == "") && ($("#txtCountry").val() == "") && ($("#txtTelephone").val() == "") && ($("#ddlDesignation").val() == 0) && ($("#ddlEmployeeType").val() == 0) && ($("#ddlManagerName").val() == 0) && ($("#txtUniversity").val() == "")) {
             $("#divFirstNameError").show();
             $("#divLastNameError").show();
@@ -426,6 +426,7 @@
             $("#divEmployeeTypeError").show();
             $("#divManagerNameError").show();
             $("#divCollegeError").show();
+            $('#divInvalidEmailError').hide();
             return false;
         }
 
@@ -439,11 +440,19 @@
         }
         if ($("#txtEmail").val() == "") {
             $('#divEmailError').show();
+            $('#divInvalidEmailError').hide();
             return false;
         }
-        if ($("#txtEmail").val() == "") {
+        var reg = /^\w+([-+.']\w+)*@Html.Raw("@")\w+([-.]\w+)*\.\w+([-.]\w+)*$/
+        if (!(reg.test($("#txtEmail").val()))) {
             $('#divInvalidEmailError').show();
+            $('#divEmailError').hide();
             return false;
+        }
+        else
+        {
+            $('#divInvalidEmailError').hide();
+            $('#divEmailError').hide();
         }
         if ($("#txtEmployeeNumber").val() == "") {
             $('#divEmployeeNumberError').show();
