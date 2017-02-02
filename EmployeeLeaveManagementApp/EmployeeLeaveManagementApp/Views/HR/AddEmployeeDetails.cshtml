@@ -28,109 +28,113 @@
                         </div>
                     </div>
                     <div class="form-group col-md-6">
-                        <label for="txtFirstName">FirstName <span style="color:red">*</span> </label>
+                        <label style="margin-bottom: 0px;" for="txtFirstName">FirstName <span style="color:red">*</span><span class="form-group has-error" style="display:none;margin-bottom: 0px;" id="divFirstNameError">
+                        <label style="margin-bottom: 0px;" class="control-label" for="FirstName">
+                        <i class="fa fa-times-circle-o"></i> Please enter first name
+                    </label>
+                    </span> </label>
                         <input type="text" class="form-control" id="txtFirstName" placeholder="First Name">
-                        <div class="form-group has-error" style="display:none" id="divFirstNameError">
-                            <label class="control-label" for="FirstName">
-                                <i class="fa fa-times-circle-o"></i> Please enter first name
-                            </label>
-                        </div>
                     </div>
                     <div class="form-group col-md-6">
-                        <label for="txtlastname">LastName <span style="color:red">*</span> </label>
+                        <label style="margin-bottom: 0px;" for="txtlastname">LastName <span style="color:red">*</span><span class="form-group has-error" style="display:none;margin-bottom: 0px;" id="divLastNameError">
+                        <label style="margin-bottom: 0px;" class="control-label" for="LastName">
+                        <i class="fa fa-times-circle-o"></i> Please enter last name
+                        </label>
+                       </span> </label>
                         <input type="text" class="form-control" id="txtLastName" placeholder="Last Name">
-                        <div class="form-group has-error" style="display:none" id="divLastNameError">
-                            <label class="control-label" for="LastName">
-                                <i class="fa fa-times-circle-o"></i> Please enter last name
-                            </label>
-                        </div>
+                        
                     </div>
                     <div class="form-group col-md-6">
-                        <label for="txtEmail">Email <span style="color:red">*</span> </label>
+                        <label style="margin-bottom: 0px;" for="txtEmail">Email <span style="color:red">*</span><span class="form-group has-error" style="display:none;margin-bottom: 0px;" id="divEmailError">
+                        <label style="margin-bottom: 0px;" class="control-label" for="Email">
+                        <i class="fa fa-times-circle-o"></i> Please enter email id
+                        </label>
+                        </span> </label>
                         <input type="email" class="form-control" id="txtEmail" placeholder="Enter Email">
-                        <div class="form-group has-error" style="display:none" id="divEmailError">
-                            <label class="control-label" for="Email">
-                                <i class="fa fa-times-circle-o"></i> Please enter email
+                        
+                        <div class="form-group has-error" style="display:none;margin-bottom: 0px;" id="divInvalidEmailError">
+                            <label style="margin-bottom: 0px;" class="control-label" for="InvalidEmail">
+                                <i class="fa fa-times-circle-o"></i> Please enter valid email id
                             </label>
                         </div>
                     </div>
                     <div class="form-group col-md-6">
-                        <label for="txtEmployeeNumber">Employee Number <span style="color:red">*</span> </label>
+                        <label style="margin-bottom: 0px;" for="txtEmployeeNumber">Employee Number <span style="color:red">*</span><span class="form-group has-error" style="display:none;margin-bottom: 0px;" id="divEmployeeNumberError">
+                        <label style="margin-bottom: 0px;" class="control-label" for="EmployeeNumber">
+                        <i class="fa fa-times-circle-o"></i> Please enter employee number
+                        </label>
+                        </span> </label>
                         <input type="email" class="form-control" id="txtEmployeeNumber" placeholder="Employee Number">
-                        <div class="form-group has-error" style="display:none" id="divEmployeeNumberError">
-                            <label class="control-label" for="EmployeeNumber">
-                                <i class="fa fa-times-circle-o"></i> Please enter employee number
-                            </label>
-                        </div>
+                        
                     </div>
                     <div class="form-group col-md-6">
-                        <label for="txtJoiningDate">Date Of Joining <span style="color:red">*</span> </label>
+                        <label style="margin-bottom: 0px;" for="txtJoiningDate">Date Of Joining <span style="color:red">*</span><span class="form-group has-error" style="display:none;margin-bottom: 0px;" id="divDateOfJoiningError">
+                        <label style="margin-bottom: 0px;" class="control-label" for="DateOfJoining">
+                        <i class="fa fa-times-circle-o"></i> Please enter date of joining
+                        </label>
+                        </span> </label>
                         <input type="text" class="form-control" id="txtJoiningDate">
-                        <div class="form-group has-error" style="display:none" id="divDateOfJoiningError">
-                            <label class="control-label" for="DateOfJoining">
-                                <i class="fa fa-times-circle-o"></i> Please enter date of joining
-                            </label>
-                        </div>
+                        
                     </div>
                     <div class="form-group col-md-6">
-                        <label for="txtBirthday">BirthDay <span style="color:red">*</span></label>
+                        <label style="margin-bottom: 0px;" for="txtBirthday">BirthDay <span style="color:red">*</span><span class="form-group has-error" style="display:none;margin-bottom: 0px;" id="divBirthDayError">
+                        <label style="margin-bottom: 0px;" class="control-label" for="BirthDay">
+                        <i class="fa fa-times-circle-o"></i> Please enter birthday
+                        </label>
+                        </span></label>
                         <input type="text" class="form-control" id="txtBirthday">
-                        <div class="form-group has-error" style="display:none" id="divBirthDayError">
-                            <label class="control-label" for="BirthDay">
-                                <i class="fa fa-times-circle-o"></i> Please enter birthday
-                            </label>
-                        </div>
+                        
                     </div>
                     <div class="form-group col-md-6">
-                        <label for="txtCity">City <span style="color:red">*</span></label>
+                        <label style="margin-bottom: 0px;" for="txtCity">City <span style="color:red">*</span><span class="form-group has-error" style="display:none;margin-bottom: 0px;" id="divCityError">
+                        <label style="margin-bottom: 0px;" class="control-label" for="City">
+                        <i class="fa fa-times-circle-o"></i> Please enter city
+                        </label>
+                        </span></label>
                         <input type="text" class="form-control" id="txtCity" placeholder="City">
-                        <div class="form-group has-error" style="display:none" id="divCityError">
-                            <label class="control-label" for="City">
-                                <i class="fa fa-times-circle-o"></i> Please enter city
-                            </label>
-                        </div>
+                        
                     </div>
                     <div class="form-group col-md-6">
-                        <label for="txtCountry">Country <span style="color:red">*</span></label>
+                        <label style="margin-bottom: 0px;" for="txtCountry">Country <span style="color:red">*</span><span class="form-group has-error" style="display:none;margin-bottom: 0px;" id="divCountryError">
+                        <label style="margin-bottom: 0px;" class="control-label" for="country">
+                        <i class="fa fa-times-circle-o"></i> Please enter country
+                        </label>
+                        </span></label>
                         <input type="text" class="form-control" id="txtCountry" placeholder="Country">
-                        <div class="form-group has-error" style="display:none" id="divCountryError">
-                            <label class="control-label" for="country">
-                                <i class="fa fa-times-circle-o"></i> Please enter country
-                            </label>
-                        </div>
+                        
                     </div>
                     <div class="form-group col-md-6">
-                        <label for="txtTelephone">Telephone <span style="color:red">*</span></label>
+                        <label style="margin-bottom: 0px;" for="txtTelephone">Telephone <span style="color:red">*</span><span class="form-group has-error" style="display:none;margin-bottom: 0px;" id="divTelephoneError">
+                        <label style="margin-bottom: 0px;" class="control-label" for="telephone">
+                        <i class="fa fa-times-circle-o"></i> Please enter telephone number
+                        </label>
+                        </span></label>
                         <input type="tel" class="form-control" id="txtTelephone" placeholder="Telephone">
-                        <div class="form-group has-error" style="display:none" id="divTelephoneError">
-                            <label class="control-label" for="telephone">
-                                <i class="fa fa-times-circle-o"></i> Please enter telephone number
-                            </label>
-                        </div>
+                        
                     </div>
                     <div class="form-group col-md-6">
-                        <label>Designation <span style="color:red">*</span></label>
+                        <label style="margin-bottom: 0px;">Designation <span style="color:red">*</span><span class="form-group has-error" style="display:none;margin-bottom: 0px;" id="divDesignationError">
+                        <label style="margin-bottom: 0px;" class="control-label" for="Designation">
+                        <i class="fa fa-times-circle-o"></i> Please select designation
+                        </label>
+                        </span></label>
                         <select class="form-control designation" style="width: 100%;" id="ddlDesignation">
                             <option value="">Select</option>
                         </select>
-                        <div class="form-group has-error" style="display:none" id="divDesignationError">
-                            <label class="control-label" for="Designation">
-                                <i class="fa fa-times-circle-o"></i> Please select designation
-                            </label>
-                        </div>
+                        
                     </div>
                     <div class="form-group col-md-6">
-                        <label>Employee Type <span style="color:red">*</span></label>
+                        <label style="margin-bottom: 0px;">Employee Type <span style="color:red">*</span><span class="form-group has-error" style="display:none;margin-bottom: 0px;" id="divEmployeeTypeError">
+                        <label style="margin-bottom: 0px;" class="control-label" for="EmployeeType">
+                        <i class="fa fa-times-circle-o"></i> Please select employee type
+                        </label>
+                        </span></label>
                         <select class="form-control level" style="width: 100%;" id="ddlEmployeeType">
                             <option value="">Select</option>
                             <option value="@Convert.ToInt16(LMS_WebAPP_Utils.EmployeeType.Fresher)">@LMS_WebAPP_Utils.CommonMethods.Description((LMS_WebAPP_Utils.EmployeeType.Fresher))</option>
                             <option value="@Convert.ToInt16(LMS_WebAPP_Utils.EmployeeType.Experienced)">@LMS_WebAPP_Utils.CommonMethods.Description((LMS_WebAPP_Utils.EmployeeType.Experienced))</option>                       
                         </select>
-                        <div class="form-group has-error" style="display:none" id="divEmployeeTypeError">
-                            <label class="control-label" for="EmployeeType">
-                                <i class="fa fa-times-circle-o"></i> Please select employee type
-                            </label>
-                        </div>
+                        
                     </div>
                     @*<div class="form-group col-md-6">
                         <label>Level</label>
@@ -145,7 +149,11 @@
                         </select>
                     </div>*@
                     <div class="form-group col-md-6" id="ddlManager">
-                        <label>Manager Name <span style="color:red">*</span></label>
+                        <label style="margin-bottom: 0px;">Manager Name <span style="color:red">*</span><span class="form-group has-error" style="display:none;margin-bottom: 0px;" id="divManagerNameError">
+                        <label style="margin-bottom: 0px;" class="control-label" for="ManagerName">
+                        <i class="fa fa-times-circle-o"></i> Please select manager
+                        </label>
+                        </span></label>
 
                         <select class="form-control managerSelect" style="width: 100%;" id="ddlManagerName">
                             <option value="">Select</option>
@@ -154,15 +162,11 @@
                                 <option value="@m.Id">@m.FirstName</option>
                             }
                         </select>
-                        <div class="form-group has-error" style="display:none" id="divManagerNameError">
-                            <label class="control-label" for="ManagerName">
-                                <i class="fa fa-times-circle-o"></i> Please select manager
-                            </label>
-                        </div>
+                        
 
                     </div>
                     <div class="form-group col-md-6" id="ddlProject">
-                        <label>Project Name</label>
+                        <label style="margin-bottom: 0px;">Project Name</label>
 
                         <select class="form-control managerSelect" style="width: 100%;" id="ddlProjectName">
                             <option value="">Select</option>
@@ -171,7 +175,7 @@
                     </div>
 
                     <div class="form-group col-md-6" id="ddlProject">
-                        <label>Profile Type</label>
+                        <label style="margin-bottom: 0px;">Profile Type</label>
 
                         <div id="rddiv">
                             @foreach (var value in Enum.GetValues(typeof(LMS_WebAPP_Utils.ProfileType)))
@@ -210,45 +214,37 @@
                 @*<form role="form">*@
                 <div class="box-body">
                     <div class="form-group col-md-6">
-                        <label>Graduation</label>
+                        <label style="margin-bottom: 0px;">Graduation</label>
                         <div>
                             <select id="ddlGraduation" class="form-control graduation" style="width: 100%;">
                                 <option>BTech</option>
                                 <option>MTech</option>
                             </select>
-                            <div class="form-group has-error" style="display:none" id="divGraduationError">
-                                <label class="control-label" for="Graduation">
-                                    <i class="fa fa-times-circle-o"></i> Please select graduation
-                                </label>
-                            </div>
+                            
                         </div>
                     </div>
                     <div class="form-group col-md-6">
-                        <label>Specialization</label>
+                        <label style="margin-bottom: 0px;">Specialization</label>
                         <div>
                             <select id="ddlSpecialization" class="form-control specialization" style="width: 100%;">
                                 <option>CSE</option>
                                 <option>EEE</option>
                                 <option>ECE</option>
                             </select>
-                            <div class="form-group has-error" style="display:none" id="divSpecializationError">
-                                <label class="control-label" for="Specialization">
-                                    <i class="fa fa-times-circle-o"></i> Please select specialization
-                                </label>
-                            </div>
+                            
                         </div>
                     </div>
                     <div class="form-group col-md-6">
-                        <label >College/University <span style="color:red">*</span></label>
+                        <label style="margin-bottom: 0px;" >College/University <span style="color:red">*</span><span class="form-group has-error" style="display:none" id="divCollegeError">
+                        <label style="margin-bottom: 0px;" class="control-label" for="College/University">
+                        <i class="fa fa-times-circle-o"></i> Please enter college/university
+                        </label>
+                        </span></label>
                         <input type="text" class="form-control" id="txtUniversity" placeholder="Enter College/University">
-                        <div class="form-group has-error" style="display:none" id="divCollegeError">
-                            <label class="control-label" for="College/University">
-                                <i class="fa fa-times-circle-o"></i> Please enter college/university
-                            </label>
-                        </div>
+                        
                     </div>
                     <div class="form-group col-md-6">
-                        <label for="educationFromDate">Duration</label>
+                        <label style="margin-bottom: 0px;" for="educationFromDate">Duration</label>
                         <input type="text" class="form-control" id="educationDatePicker">
                     </div>
 
@@ -266,21 +262,21 @@
                 @*<form role="form">*@
                 <div class="box-body">
                     <div class="form-group col-md-6">
-                        <label for="txtEmployer">Employer</label>
+                        <label style="margin-bottom: 0px;" for="txtEmployer">Employer</label>
                         <input type="text" class="form-control" id="txtEmployer" placeholder="Enter Employer">
                     </div>
                     <div class="form-group col-md-6">
-                        <label>Designation</label>
+                        <label style="margin-bottom: 0px;">Designation</label>
                         <select class="form-control experienceDesignation" style="width: 100%;" id="ddlExperienceDesignation">
                             <option value="">Select</option>
                         </select>
                     </div>
                     <div class="form-group col-md-6">
-                        <label for="ExpFromDate">From</label>
+                        <label style="margin-bottom: 0px;" for="ExpFromDate">From</label>
                         <input type="text" class="form-control" id="experienceDatePicker">
                     </div>
                     <div class="form-group col-md-6">
-                        <label>Skills</label>
+                        <label style="margin-bottom: 0px;">Skills</label>
                         <select id="ddlSkills" multiple="multiple" class="form-control skills" style="width: 100%;">
                         </select>
                     </div>
@@ -348,7 +344,7 @@
             $(".managerSelect").select2();
             //$(".level").select2().on('change', function (e) {
 
-                
+
             //});
             $('#educationDatePicker').daterangepicker(
                    {
@@ -415,6 +411,7 @@
     });
 
     $(document).on('click', '#btnSubmitEmployeeDetails', function (e) {
+
         if (($("#txtFirstName").val() == "") && ($("#txtLastName").val() == "") && ($("#txtEmail").val() == "") && ($("#txtEmployeeNumber").val() == "") && ($("#txtJoiningDate").val() == "") && ($("#txtBirthday").val() == "") && ($("#txtCity").val() == "") && ($("#txtCountry").val() == "") && ($("#txtTelephone").val() == "") && ($("#ddlDesignation").val() == 0) && ($("#ddlEmployeeType").val() == 0) && ($("#ddlManagerName").val() == 0) && ($("#txtUniversity").val() == "")) {
             $("#divFirstNameError").show();
             $("#divLastNameError").show();
@@ -442,6 +439,10 @@
         }
         if ($("#txtEmail").val() == "") {
             $('#divEmailError').show();
+            return false;
+        }
+        if ($("#txtEmail").val() == "") {
+            $('#divInvalidEmailError').show();
             return false;
         }
         if ($("#txtEmployeeNumber").val() == "") {
@@ -512,7 +513,7 @@
             Id:$("#ddlProjectName").val()
         }
         projects.push(project);
-        
+
         var model = {
             FirstName: $("#txtFirstName").val(),
             LastName: $("#txtLastName").val(),
