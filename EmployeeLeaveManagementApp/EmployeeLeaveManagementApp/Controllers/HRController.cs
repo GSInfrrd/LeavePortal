@@ -709,7 +709,7 @@ namespace EmployeeLeaveManagementApp.Controllers
             Logger.Info("Entering in HRController APP GetProjectwiseReport method");
             try
             {
-               var model = await hrOperations.GetProjectwiseReportAsync(projectId,fromMonth,toMonth,year);
+               var model = await hrOperations.GetProjectwiseReportAsync(projectId,0,0,year);
                 Logger.Info("Successfully exiting from GetProjectwiseReport APP GetRolesList method");
                 return Json(new { data = model });
             }
@@ -725,7 +725,7 @@ namespace EmployeeLeaveManagementApp.Controllers
             Logger.Info("Entering in HRController APP GetProjectwiseEmployeeDetails method");
             try
             {
-                var model = await hrOperations.GetProjectwiseEmployeeDetailsAsync(projectId, fromMonth, toMonth, year);
+                var model = await hrOperations.GetProjectwiseEmployeeDetailsAsync(projectId, 0, 0, year);
                 Logger.Info("Successfully exiting from GetProjectwiseEmployeeDetails APP GetRolesList method");
                 return Json(new { data = model });
             }

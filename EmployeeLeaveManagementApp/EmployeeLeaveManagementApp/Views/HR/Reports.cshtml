@@ -24,7 +24,7 @@
         <div class="col-md-12">
             <div class="box box-success">
                 <div class="box-header with-border">
-                    <h3 class="box-title">Projectwise Report</h3>
+                    <h3 class="box-title">Project Report</h3>
                     <div class="pull-right box-tools">
                         <button class="btn" data-toggle="tooltip" id="btnExportProjectwiseReport" title="Export">
                             <i class="fa fa-file-excel-o"></i>
@@ -43,7 +43,7 @@
                             <i class="fa fa-times-circle-o"></i> Please select ProjectName
                         </label>
                     </div>
-                    <div class="col-md-2">
+                    @*<div class="col-md-2">
                         <label>From Month <span style="color:red">*</span>:</label>
                         <select class="form-control ddlMonth" id="ddlFromMonthName">
                             <option value="">Select</option>
@@ -78,7 +78,7 @@
                             <option value="11">Nov</option>
                             <option value="12">Dec</option>
                         </select>
-                    </div>
+                    </div>*@
                     <div class="col-md-2">
                         <label>Year <span style="color:red">*</span>:</label>
                         <select id="ddlYear" class="form-control yearSelect" style="width: 100%;">
@@ -731,16 +731,16 @@
         $("#select2-ddlProjectName-container").parent().css("border-color", '#d2d6de');
 
     });
-    $('#ddlFromMonthName').on('change', function () {
+    //$('#ddlFromMonthName').on('change', function () {
 
-        $("#ddlFromMonthName").css("border-color", '#d2d6de');
+    //    $("#ddlFromMonthName").css("border-color", '#d2d6de');
 
-    });
-    $('#ddlToMonthName').on('change', function () {
+    //});
+    //$('#ddlToMonthName').on('change', function () {
 
-        $("#ddlToMonthName").css("border-color", '#d2d6de');
+    //    $("#ddlToMonthName").css("border-color", '#d2d6de');
 
-    });
+    //});
     $('#ddlYear').on('change', function () {
 
         $("#ddlYear").css("border-color", '#d2d6de');
@@ -751,8 +751,8 @@
 
     $(document).on('click', '#btnGenerateProjectReport', function (e) {
         var projectName = $("#ddlProjectName").val();
-        var fromMonth = $("#ddlFromMonthName").val();
-        var toMonth = $("#ddlToMonthName").val();
+        var fromMonth = "0";
+        var toMonth ="0";
         var year = $("#ddlYear").val();
         errorExists = false;
         $("#divViewDetails").hide();
@@ -856,10 +856,10 @@
     }
     $(document).on('click', "#viewProjectEmployeeDetails", function (e) {
         var projectName = $("#ddlProjectName").val();
-        var fromMonth = $("#ddlFromMonthName").val();
-        var toMonth = $("#ddlToMonthName").val();
+        var fromMonth = "0";
+        var toMonth ="0";
         var year = $("#ddlYear").val();
-        var text=$("#ddlFromMonthName :selected").text()+","+ year+ " to " + $("#ddlToMonthName :selected").text()+","+year;
+        var text=year;
         $("#txtDuration").html(text);
         $.ajax({
             cache: false,
@@ -916,8 +916,8 @@
 
     $(document).on('click', '#btnExportProjectwiseReport', function (e) {
         var projectId = $("#ddlProjectName").val();
-        var fromMonth = $("#ddlFromMonthName").val();
-        var toMonth = $("#ddlToMonthName").val();
+        var fromMonth ="0";
+        var toMonth = "0";
         var year = $("#ddlYear").val();
         errorExists = false;
         $("#divViewDetails").hide();

@@ -246,6 +246,7 @@
           <Property Name="RefManagerId" Type="int" Nullable="false" />
           <Property Name="Technology" Type="varchar" MaxLength="250" Nullable="false" />
           <Property Name="ProjectLogo" Type="nvarchar" MaxLength="500" />
+          <Property Name="IsBench" Type="bit" Nullable="false" />
         </EntityType>
         <EntityType Name="ResourceRequestDetail">
           <Key>
@@ -1554,6 +1555,7 @@
           <NavigationProperty Name="EmployeeProjectDetails" Relationship="LeaveManagementSystemModel.FK_EmployeeProjectDetail_ProjectMaster" FromRole="ProjectMaster" ToRole="EmployeeProjectDetail" />
           <NavigationProperty Name="EmployeeRewardedLeaveDetails" Relationship="LeaveManagementSystemModel.FK_EmployeeRewardedLeaveDetails_ProjectMaster" FromRole="ProjectMaster" ToRole="EmployeeRewardedLeaveDetail" />
           <Property Name="ProjectLogo" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="IsBench" Type="Boolean" Nullable="false" />
         </EntityType>
         <EntityType Name="ResourceRequestDetail">
           <Key>
@@ -2394,6 +2396,7 @@
           <EntitySetMapping Name="ProjectMasters">
             <EntityTypeMapping TypeName="LeaveManagementSystemModel.ProjectMaster">
               <MappingFragment StoreEntitySet="ProjectMaster">
+                <ScalarProperty Name="IsBench" ColumnName="IsBench" />
                 <ScalarProperty Name="ProjectLogo" ColumnName="ProjectLogo" />
                 <ScalarProperty Name="Technology" ColumnName="Technology" />
                 <ScalarProperty Name="RefManagerId" ColumnName="RefManagerId" />

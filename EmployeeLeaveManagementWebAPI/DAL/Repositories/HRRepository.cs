@@ -376,6 +376,12 @@ namespace LMS_WebAPI_DAL.Repositories
                     ctx.ProjectMasters.Add(projectInfo);
                     ctx.SaveChanges();
 
+                    var existingProjectDetails = ctx.EmployeeProjectDetails.Where(x => x.RefEmployeeId == refManager && x.ProjectMaster.IsBench == true).ToList();
+                    if(existingProjectDetails!=null)
+                    {
+                        existingProjectDetails.ForEach(x => x.EndDate = DateTime.Now);
+                        ctx.SaveChanges();
+                    }
                     var projectDetails = new EmployeeProjectDetail();
                     projectDetails.RefProjectId = projectInfo.Id;
                     projectDetails.IsActive = true;
@@ -577,19 +583,19 @@ namespace LMS_WebAPI_DAL.Repositories
                 var leaveReport = new LeaveReportModel();
                 using (var ctx = new LeaveManagementSystemEntities1())
                 {
-                    var startDate = new DateTime(year, fromMonth, 1);
+                    var startDate = new DateTime(year, 1, 1);
                     
-                    var endDate = new DateTime(year, toMonth, 1).AddMonths(1);
+                    var endDate = new DateTime(year, 1, 1).AddYears(1).AddDays(-1);
                     var list=ctx.EmployeeProjectDetails.Where(i => i.RefProjectId == projectId &&
-                        (i.StartDate.Value >= startDate && (i.EndDate.Value < endDate || i.EndDate == null)) ||
+                        ((i.StartDate.Value >= startDate && (i.EndDate.Value < endDate || i.EndDate == null)) ||
                         (i.EndDate >= startDate && i.EndDate < endDate) ||
                         (i.StartDate >= startDate && i.StartDate < endDate) ||
-                        (i.StartDate <= startDate && i.EndDate == null)).ToList();
+                        (i.StartDate <= startDate && i.EndDate == null))).ToList();
                       foreach (var item in list)
                     {
-                       for (int date = item.StartDate.Value.Month; date <= toMonth; date++)
+                        for (int date = item.StartDate.Value.Month; date <= endDate.Month; date++)
                         {
-                            if (date >= fromMonth)
+                            if (date >= startDate.Month)
                             {
                                 if (item.EndDate == null || (item.EndDate.HasValue && date <= item.EndDate.Value.Month))
                                 {
@@ -628,18 +634,15 @@ namespace LMS_WebAPI_DAL.Repositories
                 var employeeList = new List<ProjectsList>();
                 using (var ctx = new LeaveManagementSystemEntities1())
                 {
-                    var startDate = new DateTime(year, fromMonth, 1);
-                    if (toMonth == 12)
-                    {
-                        toMonth =1;
-                    }
-                    var endDate = new DateTime(year, toMonth, 1).AddMonths(1);
+                    var startDate = new DateTime(year, 1, 1);
+
+                    var endDate = new DateTime(year, 1, 1).AddYears(1).AddDays(-1);
                     employeeList = ctx.EmployeeProjectDetails.
                         Where(i => i.RefProjectId == projectId &&
-                        (i.StartDate.Value >= startDate && (i.EndDate.Value < endDate || i.EndDate == null)) ||
+                        ((i.StartDate.Value >= startDate && (i.EndDate.Value < endDate || i.EndDate == null)) ||
                         (i.EndDate >= startDate && i.EndDate < endDate) ||
                         (i.StartDate >= startDate && i.StartDate < endDate) ||
-                        (i.StartDate <= startDate && i.EndDate == null)).
+                        (i.StartDate <= startDate && i.EndDate == null))).
                         Select(item => new ProjectsList()
                         {
                             EmployeeName = item.EmployeeDetail.FirstName + "" + item.EmployeeDetail.LastName,

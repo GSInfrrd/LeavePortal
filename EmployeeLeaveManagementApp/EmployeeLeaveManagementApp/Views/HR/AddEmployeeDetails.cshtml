@@ -169,7 +169,7 @@
                         <label style="margin-bottom: 0px;">Project Name</label>
 
                         <select class="form-control managerSelect" style="width: 100%;" id="ddlProjectName">
-                            <option value="">Select</option>
+                            @*<option value="">Select</option>*@
                         </select>
 
                     </div>
@@ -610,6 +610,7 @@
             success: function (data) {
                 for (var i = 0; i < data.data.length; i++) {
                     $("#ddlProjectName").append($('<option></option>').attr("value", data.data[i].Id).text(data.data[i].ProjectName));
+                    $("#ddlProjectName").val(2);
                 }
             }
         });

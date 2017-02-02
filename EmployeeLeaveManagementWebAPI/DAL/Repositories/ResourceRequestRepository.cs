@@ -327,8 +327,18 @@ namespace LMS_WebAPI_DAL.Repositories
                         project.EndDate = DateTime.Now;
                         project.ModifiedDate = DateTime.Now;
                         ctx.SaveChanges();
-                        result = true;
+                      
                     }
+                    var talentPoolProjectId = ctx.ProjectMasters.FirstOrDefault(x => x.IsBench == true).Id;
+                    var newProject = new EmployeeProjectDetail();
+                    newProject.RefEmployeeId = project.RefEmployeeId;
+                    newProject.RefProjectId =talentPoolProjectId;
+                    newProject.IsActive = true;
+                    newProject.StartDate = DateTime.Now;
+                    newProject.CreatedDate = DateTime.Now;
+                    ctx.EmployeeProjectDetails.Add(newProject);
+                    ctx.SaveChanges();
+                    result = true;
                 }
                 Logger.Info("Exiting in ResourceRequestRepository API RemoveProjectResource method");
                 return result;

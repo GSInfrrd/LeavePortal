@@ -20,7 +20,19 @@ namespace LMS_WebAPI_DAL.Repositories
                 using (var ctx = new LeaveManagementSystemEntities1())
                 {
                     List<EmployeeLeaveTransactionModel> retResult = new List<EmployeeLeaveTransactionModel>();
-                    var EmployeeLeaveTransactions = ctx.EmployeeLeaveTransactions.Where(m => m.RefEmployeeId == id).OrderByDescending(m => m.CreatedDate).ToList();
+                    var EmployeeLeaveTransactions = new List<EmployeeLeaveTransaction>();
+                    var empDetails = ctx.EmployeeDetails.FirstOrDefault(x => x.Id == id).RefProfileType;
+                    if (empDetails == (int)ProfileType.Manager)
+                    {
+                        var ids = ctx.EmployeeDetails.Where(x => x.ManagerId == id).Select(x=>x.Id).ToList();
+                        EmployeeLeaveTransactions = ctx.EmployeeLeaveTransactions.Where(m => m.RefEmployeeId == id || ids.Contains(m.RefEmployeeId)).OrderByDescending(m => m.CreatedDate).ToList();
+
+                    }
+
+                    else
+                    {
+                        EmployeeLeaveTransactions = ctx.EmployeeLeaveTransactions.Where(m => m.RefEmployeeId == id).OrderByDescending(m => m.CreatedDate).ToList();
+                    }
 
                     if (leaveType != 0)
                     {
@@ -58,6 +70,7 @@ namespace LMS_WebAPI_DAL.Repositories
                     var newTrans = new EmployeeLeaveTransactionModel();
                     newTrans.Id = m.Id;
                     newTrans.RefEmployeeId = m.RefEmployeeId;
+                    newTrans.EmployeeName = m.EmployeeDetail.FirstName;
                     newTrans.FromDate = Convert.ToDateTime(m.FromDate);
                     newTrans.ToDate = m.ToDate;
                     newTrans.CreatedDate = m.CreatedDate;
