@@ -1,7 +1,11 @@
-﻿
+﻿@using System.Configuration 
 <!DOCTYPE html>
 <html>
 <head>
+    @{ 
+        var webapiurl = ConfigurationManager.AppSettings["ApiURL"];
+        var webapisignalrurl = webapiurl + "signalr/hubs";
+    }
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <title>INFRRD|LMS</title>
@@ -379,7 +383,8 @@
     @* Add Jquery Library *@
     <script src="~/Scripts/jquery.signalR-2.2.1.min.js"></script>
     <script src="~/signalr/hubs"></script>
-    <script src="http://localhost:64476/signalr/hubs"></script>
+    @*<script src="http://localhost:64476/signalr/hubs"></script>*@
+    <script src= webapisignalrurl></script>
       @* Add jquery code for Get Notification & setup signalr *@
     <script type="text/javascript">
 
@@ -534,7 +539,9 @@
 
             // signalr js code for start hub and send receive notification
             var notificationHub = $.connection.notificationHub;
-            $.connection.hub.url = "http://localhost:64476/signalr/";
+            var webapiURl = 
+            //$.connection.hub.url = "http://localhost:64476/signalr/";
+            $.connection.hub.url = webapiURl + "signalr/";
             $.connection.hub.start({ withCredentials: false }).done(function () {
                 console.log('Notification hub started');
             });
