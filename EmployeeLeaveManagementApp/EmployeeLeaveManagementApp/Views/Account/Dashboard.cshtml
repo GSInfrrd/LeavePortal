@@ -104,7 +104,7 @@
                             <i class="fa fa-minus"></i>
                         </button>*@
                     <span class="label pull-right bg-green" style="height: 20.25px;padding-top: 5px;margin-top: 5px;"><strong><text id="recordCount"></text> records found</strong></span>
-                    <div class="btn-group pull-right col-md-3">
+                    <div class="btn-group pull-right col-md-4">
                         <select id="ddlLeave" class="form-control yearSelect" style="width: 100%;">
                             @foreach (var value in Enum.GetValues(typeof(LMS_WebAPP_Utils.LeaveType)))
                             {
@@ -132,12 +132,12 @@
                 <!-- /.box-header -->
                 <div class="box-body">
                     <div class="row">
-                        <div class="col-md-8">
+                        <div class="col-md-12">
                             <p class="text-center">
                                 <strong>Jan,<span id="fromYearSpan">@DateTime.Now.Year</span> - Dec, <span id="toYearSpan">@DateTime.Now.Year</span></strong>
                             </p>
 
-                            <div class="chart" style="width: 138%;">
+                            <div class="chart" style="width: 100%;">
                                 <!-- Sales Chart Canvas -->
                                 <canvas id="salesChart" style="height: 203px; width: 645px;"></canvas>
                             </div>

@@ -251,12 +251,17 @@ Profile
                                         <ul class="products-list product-list-in-box">
                                             @foreach (var item in Model.Projects)
                                             {
+                                                var toDate = "Till Date";
+                                                if(item.EndDate.ToShortDateString()!=DateTime.Now.ToShortDateString())
+                                                {
+                                                    toDate = item.EndDate.ToShortDateString();
+                                                }
                                                 <li class="item">
                                                     <div class="product-info">
                                                         <a href="javascript:void(0)" class="product-title">
                                                             @item.ProjectName</a>
                                                             <span class="product-description">
-                                                                @item.StartDate.ToShortDateString()-@item.EndDate.ToShortDateString()
+                                                                @item.StartDate.ToShortDateString()-@toDate
                                                             </span>
                                                     </div>
                                                 </li>
@@ -464,6 +469,7 @@ Profile
         <script>
             var imgData = "@imagePath";
             $(document).ready(function () {
+                
                 $('#tabProfileView').parent().addClass('active');
                 $(function () {
                     $(".skills").select2();
@@ -560,14 +566,13 @@ Profile
                          {
 
                          });
-                //$("#lnkAddEducationDetails").hide();
             });
             $("#lnkAddExperienceDetails").click(function (e) {
                 var j = parseInt($("#otherExperienceDetails").data('content')) + 1;
                 $("#otherExperienceDetails").data('content',j);
                 var expDiv="<hr><div class='form-group'><label class='col-sm-2 control-label'>Employer</label><div class='col-sm-10'>" +
                     "  <input type='hidden' class='form-control' id='expId_"+j+"' value='0'>" +
-                    "<input type='text' class='form-control' id='txtEmployer_"+j+"' placeholder='Employer'></div></div> <div class='form-group'>" +
+                    "<input type='text' class='form-control expKeyPress' id='txtEmployer_"+j+"' data-attr='"+j+"' placeholder='Employer'></div></div> <div class='form-group'>" +
          "<label class='col-sm-2 control-label'>Designation</label><div class='col-sm-10'>" +
          "<input type='text' class='form-control' id='txtDesignation_"+j+"' placeholder='Designation'></div></div> <div class='form-group'>" +
          "<label class='col-sm-2 control-label'>Duration</label><div class='col-sm-10'>" +
@@ -725,4 +730,24 @@ Profile
             $("#btnBack").on('click',function(){
                 window.location.href='/HR/EmployeeDetails';
             })
+          
+            //$(".expKeyPress").bind('keypress',(function(e){
+            //    alert("hii");
+            //    debugger
+            //    var id=$(this).data('attr');
+            //    var queryString=$("#txtEmployer_"+id).val();
+            //    $.ajax({
+            //        cache: false,
+            //        type: 'post',
+            //        url: '/Profile/GetCompanyNames',
+            //        data: {queryString:queryString},
+
+            //        dataType: "json",
+            //        processData: false,
+            //        success: function (data) {
+                  
+                       
+            //        }
+            //    });
+            //});
         </script>

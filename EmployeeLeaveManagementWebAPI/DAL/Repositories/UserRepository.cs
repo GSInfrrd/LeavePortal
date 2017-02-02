@@ -176,7 +176,7 @@ namespace LMS_WebAPI_DAL.Repositories
                     var ProjectList = new List<ProjectsList>();
                     var projectIdList = ctx.EmployeeProjectDetails.Where(i => i.RefEmployeeId == employeeId && i.ProjectMaster.IsBench==false).Select(m=>m.RefProjectId).Distinct().ToList();
                     var projectDetails = ctx.EmployeeProjectDetails.
-                        Where(m => projectIdList.Contains(m.RefProjectId))
+                        Where(m =>m.RefEmployeeId==employeeId && projectIdList.Contains(m.RefProjectId))
                         .Select(n=>new ProjectsList()
                         {
                             Id=n.Id,

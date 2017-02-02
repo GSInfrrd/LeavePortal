@@ -98,7 +98,7 @@ namespace EmployeeLeaveManagementWebAPI.Controllers
                 var leaveList = eltm.GetEmployeeLeaveTransaction(employeeId, 0);
                 var holidayEvents = holidayList.Select(m => new CalendarEvents() { Title = m.Description, StartDate = m.Date.Value.ToShortDateString() }).ToList();
 
-                var leaveEvents = leaveList.Where(m => m.RefLeaveType != (Int32)LeaveType.RewardLeave && m.RefLeaveType != (Int32)LeaveType.EarnedLeave).
+                var leaveEvents = leaveList.Where(m => m.RefLeaveType != (Int32)LeaveType.RewardLeave && m.RefLeaveType != (Int32)LeaveType.EarnedLeave && m.RefStatus==(Int32)LeaveStatus.Approved).
                         Select(m => new CalendarEvents()
                         {
                             Title = m.RefEmployeeId == employeeId ? m.LeaveTypeName : m.EmployeeName + " : " + m.LeaveTypeName,

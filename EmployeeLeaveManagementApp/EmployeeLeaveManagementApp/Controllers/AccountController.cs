@@ -421,9 +421,19 @@ namespace EmployeeLeaveManagementApp.Controllers
                 {
                     case SignInStatus.Success:
                         var data = await user.GetUserAsync(loginInfo.Email, string.Empty);
-                        Session[LMS_WebAPP_Utils.Constants.SESSION_OBJ_USER] = data;
-                        Logger.Info("Successfully exiting from AccountController APP ExternalLoginCallback method");
-                        return RedirectToLocal(returnUrl);
+                        if (data.Id != 0)
+                        {
+                            Session[LMS_WebAPP_Utils.Constants.SESSION_OBJ_USER] = data;
+                            Logger.Info("Successfully exiting from AccountController APP ExternalLoginCallback method");
+                            return RedirectToAction("Dashboard");
+                        }
+                        else
+                        {
+                            TempData["LoginError"] = "Account has not been Registered.Please Contact HR!";
+                            Logger.Info("Successfully exiting from AccountController APP ExternalLoginCallback method");
+                            return RedirectToAction("Login");
+                        }
+                       
                     case SignInStatus.LockedOut:
                         Logger.Info("Successfully exiting from AccountController APP ExternalLoginCallback method");
                         return View("Lockout");
@@ -536,8 +546,15 @@ namespace EmployeeLeaveManagementApp.Controllers
             try
             {
                 // Request a redirect to the external login provider
-                Logger.Info("Successfully exiting from AccountController APP ExternalLogin method");
-                return new ChallengeResult(provider, Url.Action("ExternalLoginCallback", "Account", new { ReturnUrl = returnUrl }));
+                if (string.IsNullOrEmpty(returnUrl))
+                {
+                    
+
+                }
+                
+                    Logger.Info("Successfully exiting from AccountController APP ExternalLogin method");
+                    return new ChallengeResult(provider, Url.Action("ExternalLoginCallback", "Account", new { ReturnUrl = returnUrl }));
+                
             }
             catch (Exception ex)
             {

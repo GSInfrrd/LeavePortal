@@ -21,6 +21,7 @@ namespace LMS_WebAPI_ServiceHelpers
                 var userData = user.GetUser(UserName, password);
                 if (null != userData)
                 {
+                    VerifiedUser.Id = userData.Id;
                     VerifiedUser.UserName = userData.EmployeeDetail.FirstName+" "+userData.EmployeeDetail.LastName;
                     VerifiedUser.Password = userData.Password;
                     VerifiedUser.Lastlogin = userData.Lastlogin;
