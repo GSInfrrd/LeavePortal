@@ -563,9 +563,9 @@
 
             $('#reportDatepicker').daterangepicker(
                   {
-                      //locale: {
-                      //    format: "MMM YYYY"
-                      //}
+                      locale: {
+                          format: 'DD/MM/YYYY'
+                      }
                   });
             $('#reportDatepicker').on('change.daterangepicker', function (ev, picker) {
                 var date = ev.target.value;

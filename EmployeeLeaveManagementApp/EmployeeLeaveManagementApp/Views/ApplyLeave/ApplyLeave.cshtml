@@ -339,7 +339,7 @@
         var dd = date.getDate();
         var yyyy = date.getFullYear();
         mm = (mm < 10) ? '0' + mm : mm;
-        return mm + "-" + dd + "-" + yyyy;
+        return dd + "-" + mm + "-" + yyyy;
     }
     var today = (formatDate(new Date()));
 
@@ -440,6 +440,23 @@
         $(document).on('click','#leaveDatepickerIcon',function(){
             $("#leaveDatePicker").data('daterangepicker').toggle();
         });
+        $('#datepicker').datepicker({
+            format: 'dd/mm/yyyy',
+            autoclose: true,
+        })
+   .on('changeDate', function (ev) {
+       $('#divDateError').hide();
+       var date = ev.date;
+       console.log(ev.date);
+       var newDate = new Date(date).getTime();
+       console.log(newDate);
+       if ($.inArray(newDate, loop) > -1)
+       {
+           showMessage("The selected date is already existing.Please select new date!!", "2", true);
+           $('#datepicker').datepicker('hide');
+           $('#datepicker').val("");
+       }
+   });
         $(function () {
             $('#example1').DataTable({
                 "paging": true,
@@ -970,47 +987,7 @@
         radioClass: 'iradio_flat-green'
     });
 
-    $('#datepicker').datepicker({
-        autoclose: true,
-        setDate: today
-    })
-    .on('changeDate', function (ev) {
-        $('#divDateError').hide();
-        var date = ev.date;
-        console.log(ev.date);
-        var newDate = new Date(date).getTime();
-        console.log(newDate);
-        if ($.inArray(newDate, loop) > -1)
-        {
-            showMessage("The selected date is already existing.Please select new date!!", "2", true);
-            $('#datepicker').datepicker('hide');
-            $('#datepicker').val("");
-        }
-    });
-
-
-
-
-
-    // $('#datepicker').datepicker('setDate', today);
-
-    $(document).on('click', '#btnApplyLeave', function (e) {
-        var id = $(this).data("content");
-        $.ajax({
-            cache: false,
-            type: 'post',
-            url: '/ApplyLeave/SubmitLeaveForApproval',
-            data: { id: id },
-            //contentType: "application/json; charset=utf-8",
-            dataType: "json",
-            success: function (data) {
-                localStorage.setItem("leaveSubmitted", 1);
-                location.reload();
-            }
-        });
-    }
-    );
-
+   
 
     $(document).on('click', '#btnDeleteLeave', function (e) {
         var id = $(this).data("content");
@@ -1048,7 +1025,6 @@
    );
 
 
-    //Show error Message
     function showMessage(message, Type, fadeOut) {
         //To clear existing toastr
         toastr.clear();
