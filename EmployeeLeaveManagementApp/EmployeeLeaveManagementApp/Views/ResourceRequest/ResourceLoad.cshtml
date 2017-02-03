@@ -266,8 +266,12 @@
         $("#hdnId").val(id);
     })
 
+    var showError=true;
     $(document).on('click',"#btnAddResource",function(){
+        $("#divProjectAssigned").hide();
         $("#addNewResourceModal").modal('show');
+        showError=false;
+        $("#ddlEmployeeList").val("").trigger("change");
     })
 
     $(document).on('click',"#btnConfirmRemoveResource",function(){
@@ -343,7 +347,8 @@
     });
 
     $(document).on('click',"#btnAddNewResource",function(){
-        if ($("#ddlEmployeeList").val() == 0) {
+        debugger
+        if ($("#ddlEmployeeList").val() == "") {
             $("#divresourceError").show();
             return false;
         }
@@ -353,6 +358,14 @@
 
     $(document).on('change',"#ddlEmployeeList",function(){
         $("#divProjectAssigned").hide();
+        if ($("#ddlEmployeeList").val() != "" || ($("#ddlEmployeeList").val() == "" && showError==false)) {
+            $("#divresourceError").hide();
+            showError=true;
+        }
+        else {
+            $("#divresourceError").show();
+            return false;
+        }      
         var employeeId=$("#ddlEmployeeList").val().split("|")[0];
         var isActive=$("#ddlEmployeeList").val().split("|")[1];
         if(isActive=="true")
@@ -361,14 +374,9 @@
         }
     });
 
-    $('#ddlEmployeeList').on('change', function () {
-        if ($("#ddlEmployeeList").val() != 0) {
-            $("#divresourceError").hide();
-        }
-        else {
-            $("#divresourceError").show();
-        }
-    });
+    //$('#ddlEmployeeList').on('change', function () {
+   
+    //});
 
     $(document).on('click', '#btn_addnewresource_cancle,.close', function (e) {
         $("#divresourceError").hide();
@@ -376,24 +384,6 @@
     $(document).on('click', '#btn_addnewresource_close,.close', function (e) {
         $("#divresourceError").hide();
     });
-    //function showMessage(message, Type, fadeOut) {
-    //    //To clear existing toastr
-    //    toastr.clear();
-    //    //fadeOut = false;
-    //    var position = "bottom-full-width";
-    //    toastr.options.positionClass = 'toast-' + position;
-    //    if (typeof fadeOut !== "undefined" && fadeOut == false) { toastr.options.timeOut = 0; }
-    //    else {
-    //        toastr.options.timeOut = 5000;
-    //    }
-    //    switch (Type) {
-    //        case "1":
-    //            toastr.success(message);
-    //            break;
-    //        case "2":
-    //            toastr.error(message);
-    //            break;
-    //    }
-    //}
+
 
 </script>

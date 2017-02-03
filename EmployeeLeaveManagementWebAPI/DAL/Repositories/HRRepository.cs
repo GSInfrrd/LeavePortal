@@ -599,7 +599,7 @@ namespace LMS_WebAPI_DAL.Repositories
                     {
                         for (int date = item.StartDate.Value.Month; date <= endDate.Month; date++)
                         {
-                            if (date >= startDate.Month)
+                            if (date >= startDate.Month && year==item.StartDate.Value.Year)
                             {
                                 if (item.EndDate == null || (item.EndDate.HasValue && date <= item.EndDate.Value.Month))
                                 {
@@ -642,13 +642,13 @@ namespace LMS_WebAPI_DAL.Repositories
 
                     var endDate = new DateTime(year, 1, 1).AddYears(1).AddDays(-1);
                     employeeList = ctx.EmployeeProjectDetails.
-                        Where(i => i.RefProjectId == projectId &&
+                        Where(i => i.RefProjectId == projectId && year>=i.StartDate.Value.Year &&
                         ((i.StartDate.Value >= startDate && (i.EndDate.Value < endDate || i.EndDate == null)) ||
                         (i.EndDate >= startDate && i.EndDate < endDate) ||
                         (i.StartDate >= startDate && i.StartDate < endDate) ||
                         (i.StartDate <= startDate && i.EndDate == null))).
                         Select(item => new ProjectsList()
-                        {
+                        {                            
                             EmployeeName = item.EmployeeDetail.FirstName + "" + item.EmployeeDetail.LastName,
                             ProjectName = item.ProjectMaster.ProjectName,
                             StartDate = item.StartDate.Value,
