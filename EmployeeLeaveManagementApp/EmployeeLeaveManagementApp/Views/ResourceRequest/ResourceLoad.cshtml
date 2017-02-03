@@ -347,7 +347,7 @@
     });
 
     $(document).on('click',"#btnAddNewResource",function(){
-        debugger
+        
         if ($("#ddlEmployeeList").val() == "") {
             $("#divresourceError").show();
             return false;
@@ -373,10 +373,6 @@
             $("#divProjectAssigned").show();
         }
     });
-
-    //$('#ddlEmployeeList').on('change', function () {
-   
-    //});
 
     $(document).on('click', '#btn_addnewresource_cancle,.close', function (e) {
         $("#divresourceError").hide();

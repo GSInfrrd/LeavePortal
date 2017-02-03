@@ -43,12 +43,6 @@ namespace EmployeeLeaveManagementApp.Controllers
             }
         }
 
-        public ActionResult AddLeave()
-        {
-            return View();
-
-        }
-
         [HttpPost]
         public async Task<JsonResult> SubmitLeaveRequest(int leaveType, string fromDate, string toDate, string comments, double workingDays, bool isFullDay = true)
         {

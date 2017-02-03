@@ -144,19 +144,12 @@
 <script src="~/plugins/datatables/dataTables.bootstrap.min.js"></script>
 <script type="text/javascript">
     $('#addHolidays').parent().addClass('active');
-    $('#exampleModal').on('show.bs.modal', function (event) {
-        //$('#datepickerYear').val("");
-        //$('#datepicker').val("");
-        //$('#Description').val("");
-    });
     var totalDate = @Html.Raw(Json.Encode(dateList));
     var loop=[];
     for(i = 0;i<totalDate.length;i++)
     {
         loop.push(new Date(parseInt( totalDate[i].substr(6, 13))).getTime());
     }
-
-
 
     $('#datepicker').datepicker({autoclose: true})
    .on('changeDate', function(ev){
@@ -184,27 +177,7 @@
         });
     });
 
-    @*$('#datepicker').datepicker()
-    .on(picker_event, function(e) {
-        debugger;
-
-    });*@
-
-    //function available(date) {
-    //    debugger;
-
-    //    debugger;
-    //    dmy = date.getDate() + "-" + (date.getMonth() + 1) + "-" + date.getFullYear();
-    //    if ($.inArray(dmy, totalDate) != -1) {
-    //        debugger;
-    //        return false;
-    //    } else {
-    //        return true;
-    //    }
-    //}
-
     //Add Holiday
-
     $(document).on('click', '#btnAddNewHoliday', function (e) {
         $('#exampleModalLabel').text("Add Holiday");
         $('#btnAddHoliday').show();
@@ -266,34 +239,8 @@
         $('#divDescriptionError').hide();
     });
 
-    //Show error Message
-    function showMessage(message, Type, fadeOut) {
-        //To clear existing toastr
-        toastr.clear();
-        //fadeOut = false;
-        var position = "bottom-full-width";
-        toastr.options.positionClass = 'toast-' + position;
-        if (typeof fadeOut !== "undefined" && fadeOut == false) { toastr.options.timeOut = 0; }
-        else {
-            toastr.options.timeOut = 3000;
-        }
-        switch (Type) {
-            case "1":
-                toastr.success(message);
-                break;
-            case "2":
-                toastr.error(message);
-                break;
-        }
-    }
-
-
-
 
     //Form validate
-
-
-
     function formValidate() {
         if (
 
@@ -328,7 +275,7 @@
     var Id=0;
     var updatedDate = null ;
     $(document).on('click', '#btnEditHoliday', function (e) {
-        debugger;
+        
         e.preventDefault();
         $('#exampleModalLabel').text("Edit Holiday");
         Id = $(this).data("content");
@@ -355,7 +302,7 @@
                     success: function (data) {
                         $('#exampleModal').modal('hide');
                         updateDatatable(data);
-                        debugger;
+                        
                        
                       //if((new Date(updatedDate)).getTime() != (new Date(newDate)).getTime())
                       //  {
@@ -377,7 +324,7 @@
     }
     );
     function updateDatatable(data) {
-        debugger;
+        
         $('#DataTablebody').html('');
         var fixedCartItemsHtml = "<table id='example1' class='table table-bordered table-striped'>" + " <thead> <tr>  <th>Date</th><th>Description</th>  <th>Year</th>" +
                                "<th> Edit</th> <th>Delete</th> </tr></thead><tbody>";

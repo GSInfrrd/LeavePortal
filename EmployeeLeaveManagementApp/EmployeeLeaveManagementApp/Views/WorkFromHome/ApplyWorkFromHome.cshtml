@@ -119,9 +119,6 @@
     var dateExists='@Convert.ToInt16(LMS_WebAPP_Utils.ResponseCodes.DateAlreadyExists)';
     var leaveType='@Convert.ToInt16(LMS_WebAPP_Utils.LeaveType.CasualLeave)';
     
-    $('#exampleModal').on('show.bs.modal', function (event) {
-    });
-
     $(document).ready(function()
     {
         $(".reasonSelect").select2();
@@ -152,7 +149,7 @@
             url: '/WorkFromHome/GetWorkFromHomeReasonsList',
             dataType: "json",
             success: function (data) {
-                debugger;
+                
                 for(var i=0;i<data.workFromHomeReasonsList.length;i++)
                 {
                     $("#SelectReason").append($('<option></option>').attr("value", data.workFromHomeReasonsList[i].RefReason).text(data.workFromHomeReasonsList[i].Reason));
@@ -181,7 +178,7 @@
     var today = (formatDate(new Date()));
     $('#datepicker').val(today);
     var loop = [];
-    debugger
+    
     for (i = 0; i < dateList.length; i++) {
         loop.push(convertToJsonDate(dateList[i]));
     }
@@ -221,7 +218,7 @@
     }
 
     $(document).on('click', '#btnAddWorkFromHome ', function (e) {
-        debugger;
+        
         if ($("#SelectReason").val() == 0) {
             $("#divSelectReasonError").show();
             return false;
@@ -274,30 +271,9 @@
         $("#divOtherReason").hide();
     });
 
-    //Show error Message
-    function showMessage(message, Type, fadeOut) {
-        //To clear existing toastr
-        toastr.clear();
-        //fadeOut = false;
-        var position = "bottom-full-width";
-        toastr.options.positionClass = 'toast-' + position;
-        if (typeof fadeOut !== "undefined" && fadeOut == false) { toastr.options.timeOut = 0; }
-        else {
-            toastr.options.timeOut = 3000;
-        }
-        switch (Type) {
-            case "1":
-                toastr.success(message);
-                break;
-            case "2":
-                toastr.error(message);
-                break;
-        }
-    }
-
-    //Form validate
+       //Form validate
     function formValidate() {
-        debugger;
+        
         if($("#SelectReason :selected").html() == "Others" && $("#txtOtherReason").val()!="")
         {
             return true;
@@ -353,6 +329,3 @@
     });
 </script>
 
-<!-- /.modal -->
-<!-- /.content -->
-<!-- ./wrapper -->

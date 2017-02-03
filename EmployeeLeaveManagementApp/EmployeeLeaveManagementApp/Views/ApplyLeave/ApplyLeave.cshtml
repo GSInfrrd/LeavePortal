@@ -2,33 +2,18 @@
 @{
     ViewBag.Title = "LeaveTransaction";
     var data = (LMS_WebAPP_Domain.UserAccount)Session[LMS_WebAPP_Utils.Constants.SESSION_OBJ_USER];
-    var toTalcasualLeave = data.TotalCasualLeave;
-    var sickLeaveType = @Convert.ToInt16((LMS_WebAPP_Utils.LeaveType.SickLeave));
-    var CompoLeavetype = @Convert.ToInt16((LMS_WebAPP_Utils.LeaveType.CompoOff));
+    var totalCasualLeaveLeft = data.TotalCasualLeave;
+     var compoLeavetype = @Convert.ToInt16((LMS_WebAPP_Utils.LeaveType.CompoOff));
     var refLeaveTypeCasual = @Convert.ToInt16((LMS_WebAPP_Utils.LeaveType.CasualLeave));
-    var LeaveStatusIn = @Convert.ToInt16((LMS_WebAPP_Utils.LeaveStatus.Approved));
     var advanceLeaveType = @Convert.ToInt16((LMS_WebAPP_Utils.LeaveType.AdvanceLeave));
-    var LeaveCasualSubmitted = @Convert.ToInt16((LMS_WebAPP_Utils.LeaveStatus.Submitted));
-    var totalCasualSubmitted = (from n in Model where (n.RefLeaveType == refLeaveTypeCasual || n.RefLeaveType == advanceLeaveType) && n.RefStatus == LeaveCasualSubmitted select n).ToList().Count();
-    var totalCombboSubmitted = (from n in Model where n.RefLeaveType == CompoLeavetype && n.RefStatus == LeaveCasualSubmitted select n).ToList().Count();
+    var leaveStatusSubmitted = @Convert.ToInt16((LMS_WebAPP_Utils.LeaveStatus.Submitted));
+    var totalCasualSubmitted = (from n in Model where (n.RefLeaveType == refLeaveTypeCasual || n.RefLeaveType == advanceLeaveType) && n.RefStatus == leaveStatusSubmitted select n).ToList().Count();
+    var totalCompOffSubmitted = (from n in Model where n.RefLeaveType == compoLeavetype && n.RefStatus == leaveStatusSubmitted select n).ToList().Count();
     var totalLOPSubmitted = Model.Where(i => i.RefLeaveType == (int)LMS_WebAPP_Utils.LeaveType.LOP && i.RefStatus == (int)LMS_WebAPP_Utils.LeaveStatus.Submitted).ToList().Count();
     var totalLOPCap = data.TotalLOPLImit;
-    var totalLOPLeft = data.LOPRemaining;
-    var newDay = DateTime.Now.Date;
     var totalAdvanceLeaveLeft = data.TotalAdvanceLeaveTotake;
-    //var advanceLeaveLimit = 6;
-    var totalCasualApproved = (from n in Model where n.RefLeaveType == refLeaveTypeCasual && n.RefStatus == LeaveStatusIn select n.NumberOfWorkingDays).ToList().Sum();
-    var TotalSickLeaveToday = (from n in Model where n.RefLeaveType == sickLeaveType && n.FromDate == newDay select n.NumberOfWorkingDays).ToList().Sum();
-    var ComboDateList = (from n in Model where n.RefLeaveType == CompoLeavetype select n.FromDate).ToList();
-    var totalCasualLeaveLeft = toTalcasualLeave;// 2;// toTalcasualLeave - totalCasualApproved;
-    var totalLeft = 1;
+    var CompOffDateList = (from n in Model where n.RefLeaveType == compoLeavetype select n.FromDate).ToList();
     Layout = "~/Views/Shared/_Layout.cshtml";
-}
-@{
-    if (totalLeft <= 0)
-    {
-        totalLeft = 0;
-    }
 }
 
 <style>
@@ -177,16 +162,11 @@
                             {
 
                                 var disabledAttr = "";
-                                //  var selectedAttr = "";
                                 if (Convert.ToInt16(LMS_WebAPP_Utils.LeaveType.AdvanceLeave) == @Convert.ToInt16((LMS_WebAPP_Utils.LeaveType)value) ||
                                     Convert.ToInt16(LMS_WebAPP_Utils.LeaveType.LOP) == @Convert.ToInt16((LMS_WebAPP_Utils.LeaveType)value))
                                 {
                                     disabledAttr = "disabled";
                                 }
-                                //if (Convert.ToInt16(LMS_WebAPP_Utils.LeaveType.SickLeave) == @Convert.ToInt16((LMS_WebAPP_Utils.LeaveType)value))
-                                //{
-                                //    selectedAttr = "checked";
-                                //}
                             <div class="col-md-4" style="margin-top:10px">
 
                                 <input type="radio" name="r1" id="RdLeaveType_@Convert.ToInt16((LMS_WebAPP_Utils.LeaveType)value)" class="flat-red" value="@Convert.ToInt16((LMS_WebAPP_Utils.LeaveType)value)" @disabledAttr> @(LMS_WebAPP_Utils.CommonMethods.Description((LMS_WebAPP_Utils.LeaveType)Convert.ToInt16((LMS_WebAPP_Utils.LeaveType)value)))
@@ -277,7 +257,7 @@
 
             <div class="modal-footer">
                 <button type="button" id="btnLeaveRequestSubmit" style="background-color:black !important" class="btn btn-primary">Submit</button>
-                <button type="button" id="btnCasualAdvanceLeaveSubmit" style="background-color:#47a97e !important;display:none;" class="btn btn-primary">Yes</button>
+                @*<button type="button" id="btnCasualAdvanceLeaveSubmit" style="background-color:#47a97e !important;display:none;" class="btn btn-primary">Yes</button>*@
                 <button type="button" class="btn btn-default pull-right Close" data-dismiss="modal">Cancel</button>
             </div>
         </div>
@@ -301,24 +281,14 @@
 <script src="../../plugins/iCheck/icheck.min.js"></script>
 <script src="../../plugins/Toastr/toastr.js"></script>
 <script>
-    var leaveType='@Convert.ToInt16(LMS_WebAPP_Utils.LeaveType.CasualLeave)';
     var fromDate;
     var toDate;
     var IsFullDay =true;
-    var workingDays;
     var totalcasualLeft = '@totalCasualLeaveLeft';
     var sickLeaveId = '@Convert.ToInt16((LMS_WebAPP_Utils.LeaveType.SickLeave))';
     var totalAdvanceLeaveLeft = '@totalAdvanceLeaveLeft';
-    var sickleavename = "r1_RdLeaveType_" + sickLeaveId;
-    var totalLOP= 0;
-    var isPossibleToApplyCompo ='@totalCombboSubmitted';
+    var isPossibleToApplyCompo ='@totalCompOffSubmitted';
     var isPossibleToApplyCasual='@totalCasualSubmitted';
-    var totalCasualCountAppliedFor = 0;
-    var totalAdvanceLeaveCountAppliedFor = 0;
-    var  totalLopAppliedFor = 0 ;
-    var totalLOPAdvanceCount = 0;
-    var previousLOPCOUNT = 0;
-    var previousAdvance =  0;
     var totalLOPSubmitted=@totalLOPSubmitted;
     var advanceLeaveEnum='@Convert.ToInt16((LMS_WebAPP_Utils.LeaveType.AdvanceLeave))';
     var lopEnum='@Convert.ToInt16((LMS_WebAPP_Utils.LeaveType.LOP))';
@@ -350,16 +320,12 @@
 
     $("#LOP").change(function() {
         OnchangeCountCalculation( $("#LOP").val(),false);
-        previousLOPCOUNT = $("#LOP").val();
-        previousAdvance =  $("#totalAdvanceLeave").val();
     });
 
 
 
     $("#totalAdvanceLeave").change(function() {
         OnchangeCountCalculation($("#totalAdvanceLeave").val(),true);
-        previousLOPCOUNT = $("#LOP").val();
-        previousAdvance =  $("#totalAdvanceLeave").val();
     });
     $("#LOP").keypress(function(event){
         return (event.charCode >= 48 && event.charCode <= 57)
@@ -381,7 +347,7 @@
     }
 
 
-    var totalCompOffDate = @Html.Raw(Json.Encode(ComboDateList));
+    var totalCompOffDate = @Html.Raw(Json.Encode(CompOffDateList));
     var loop=[];
     for(i = 0;i<totalCompOffDate.length;i++)
     {
@@ -393,9 +359,6 @@
         //    $('.modal-footer').hide();
         //}
         $("#toggle-advance").hide();
-        totalCasualCountAppliedFor = 0;
-        totalAdvanceLeaveCountAppliedFor = 0;
-        totalLopAppliedFor = 0 ;
         $("#btnLeaveRequestSubmit").show();
         $("#btnCasualAdvanceLeaveSubmit").hide();
         $('#sickDate').val(today);
@@ -529,7 +492,6 @@
                                 return false;
                                 break;
                             case @Convert.ToInt16(LMS_WebAPP_Utils.ResponseCodes.OK):
-                                debugger
                                 $("#lblTotalWorkingDays").html(data.result.noOfWorkingDays);
                                 $('.modal-footer').show();
                                 return false;
@@ -585,14 +547,10 @@
         switch (clickedradioButton) {
             case '@Convert.ToInt16((LMS_WebAPP_Utils.LeaveType.SickLeave))':
                 console.log("SickLeave");
-                // $("#toggelDiv").hide();
                 $("#toggle-advance").hide();
                 $('#divDateRange').hide();
                 $('#divNoOfWorking').hide();
-                //clear values
-                totalCasualCountAppliedFor = 0;
-                totalAdvanceLeaveCountAppliedFor = 0;
-                totalLopAppliedFor = 0 ;
+
                 $("#btnLeaveRequestSubmit").show();
                 $("#btnCasualAdvanceLeaveSubmit").hide();
                 $('#leaveComment').val("");
@@ -607,11 +565,9 @@
                 }
                 $("#divLeaveTypeError").hide();
                 $('#SickDatePicker').show();
-                // $("#toggelDiv").slideToggle("slow");
                 $('#divHalfDay').show();
                 break;
             case '@Convert.ToInt16((LMS_WebAPP_Utils.LeaveType.CasualLeave))':
-                //  $("#toggelDiv").hide();
                 $('#divDateRange').show();
                 $("#toggle-advance").hide();
                 $('#divNoOfWorking').show();
@@ -622,10 +578,6 @@
                 //{
                 //    minDate: new Date()
                 //});
-                //clear values
-                totalCasualCountAppliedFor = 0;
-                totalAdvanceLeaveCountAppliedFor = 0;
-                totalLopAppliedFor = 0 ;
                 $("#btnLeaveRequestSubmit").show();
                 $("#btnCasualAdvanceLeaveSubmit").hide();
                 $('#leaveDatepicker').val('');
@@ -646,11 +598,8 @@
                     $('.modal-footer').hide();
                     showMessage("Sorry!!  You cannot Apply for Casual/Advance leave since your manager approves the submitted one", "2", true);
                 }
-
-                // $("#toggelDiv").slideToggle("slow");
                 break;
             case '@Convert.ToInt16((LMS_WebAPP_Utils.LeaveType.AdvanceLeave))':
-                //  $("#toggelDiv").hide();
                 $('#divDateRange').show();
                 $("#toggle-advance").hide();
                 $('#divNoOfWorking').show();
@@ -661,10 +610,6 @@
                 //{
                 //    minDate: new Date()
                 //});
-                //clear values
-                totalCasualCountAppliedFor = 0;
-                totalAdvanceLeaveCountAppliedFor = 0;
-                totalLopAppliedFor = 0 ;
                 $("#btnLeaveRequestSubmit").show();
                 $("#btnCasualAdvanceLeaveSubmit").hide();
                 $('#leaveDatepicker').val('');
@@ -679,11 +624,8 @@
                     $('.modal-footer').hide();
                     showMessage("Sorry!!  You cannot Apply for Casual/Advance leave since your manager approves the submitted one", "2", true);
                 }
-                // $("#toggelDiv").slideToggle("slow");
-
                 break;
             case '@Convert.ToInt16((LMS_WebAPP_Utils.LeaveType.CompoOff))':
-                //  $("#toggelDiv").hide();
                 $('#divDateRange').hide();
                 $('#divNoOfWorking').hide();
                 $('#CompoDatePicker').show();
@@ -692,10 +634,6 @@
                 $('#divCommentError').hide();
                 $('.modal-footer').show();
 
-                //clear values
-                totalCasualCountAppliedFor = 0;
-                totalAdvanceLeaveCountAppliedFor = 0;
-                totalLopAppliedFor = 0 ;
                 $("#btnLeaveRequestSubmit").show();
                 $("#btnCasualAdvanceLeaveSubmit").hide();
                 $('#leaveComment').val("");
@@ -703,7 +641,6 @@
                 $("#divLeaveTypeError").hide();
                 $('#SickDatePicker').hide();
                 $('#divHalfDay').hide();
-                // $("#toggelDiv").slideToggle("slow");
                 if (isPossibleToApplyCompo > 0) {
                     $('.modal-footer').hide();
                     showMessage("Sorry!!  You cannot Apply for Comp Off leave since your manager approves the submitted one", "2", true);
@@ -722,9 +659,6 @@
                 //    minDate: new Date()
                 //});
                 //clear values
-                totalCasualCountAppliedFor = 0;
-                totalAdvanceLeaveCountAppliedFor = 0;
-                totalLopAppliedFor = 0 ;
                 $("#btnLeaveRequestSubmit").show();
                 $("#btnCasualAdvanceLeaveSubmit").hide();
                 $('#leaveDatepicker').val('');
@@ -874,44 +808,43 @@
     }
     //submitting Leavecasual/Advance both together
 
-    $(document).on('click', '#btnCasualAdvanceLeaveSubmit', function (e) {
+    //$(document).on('click', '#btnCasualAdvanceLeaveSubmit', function (e) {
 
-        if (FormValidate()) {
-            var comments = $("#leaveComment").val();
-            $('#AddLeaveModal').modal('hide');
-            $('#Loading').show();
-            $.ajax({
-                cache: false,
-                type: 'post',
-                url: '/ApplyLeave/SubmitLeaveRequestForCasualORAdvance',
-                data: { CasualleaveCount: totalCasualCountAppliedFor, AdvanceLeaveCount: totalAdvanceLeaveCountAppliedFor, LOP: totalLopAppliedFor, fromDate: fromDate, toDate: toDate, comments:comments},
-                dataType: "json",
-                success: function (data) {
+    //    if (FormValidate()) {
+    //        var comments = $("#leaveComment").val();
+    //        $('#AddLeaveModal').modal('hide');
+    //        $('#Loading').show();
+    //        $.ajax({
+    //            cache: false,
+    //            type: 'post',
+    //            url: '/ApplyLeave/SubmitLeaveRequestForCasualORAdvance',
+    //            data: { CasualleaveCount: totalCasualCountAppliedFor, AdvanceLeaveCount: totalAdvanceLeaveCountAppliedFor, LOP: totalLopAppliedFor, fromDate: fromDate, toDate: toDate, comments:comments},
+    //            dataType: "json",
+    //            success: function (data) {
 
-                    $.ajax({
-                        cache: false,
-                        type: 'get',
-                        url: '/ApplyLeave/GetEmployeeLeaveList',
-                        dataType: "json",
-                        success: function (data) {
-                            isPossibleToApplyCasual = isPossibleToApplyCasual + 2;
-                            $('#AddLeaveModal').modal('hide');
-                            updateLeaveTable(data.result);
-                            $('#Loading').hide();
-                            $('#datepicker').val("");
-                            $('#SelectReason').val("");
-                        }
-                    });
-                }
-            });
-        }
-    });
+    //                $.ajax({
+    //                    cache: false,
+    //                    type: 'get',
+    //                    url: '/ApplyLeave/GetEmployeeLeaveList',
+    //                    dataType: "json",
+    //                    success: function (data) {
+    //                        isPossibleToApplyCasual = isPossibleToApplyCasual + 2;
+    //                        $('#AddLeaveModal').modal('hide');
+    //                        updateLeaveTable(data.result);
+    //                        $('#Loading').hide();
+    //                        $('#datepicker').val("");
+    //                        $('#SelectReason').val("");
+    //                    }
+    //                });
+    //            }
+    //        });
+    //    }
+    //});
     // submitting leave request
     $(document).on('click', '#btnLeaveRequestSubmit', function (e) {
         if (FormValidate()) {
             $('#Loading').show();
             var comments = $("#leaveComment").val();
-            debugger;
             var leaveType = $('input[name=r1]:checked').val();
             $.ajax({
                 cache: false,
@@ -1004,7 +937,7 @@
             dataType: "json",
             success: function (data) {
                 switch (leaveTypes) {
-
+                
                     case '@(LMS_WebAPP_Utils.CommonMethods.Description(LMS_WebAPP_Utils.LeaveType.CompoOff))':
                         loop.pop(new Date(deletedDate).getTime());
                         isPossibleToApplyCompo = isPossibleToApplyCompo - 1 ;
@@ -1025,27 +958,6 @@
         });
     }
    );
-
-
-    function showMessage(message, Type, fadeOut) {
-        //To clear existing toastr
-        toastr.clear();
-        //fadeOut = false;
-        var position = "bottom-full-width";
-        toastr.options.positionClass = 'toast-' + position;
-        if (typeof fadeOut !== "undefined" && fadeOut == false) { toastr.options.timeOut = 0; }
-        else {
-            toastr.options.timeOut = 5000;
-        }
-        switch (Type) {
-            case "1":
-                toastr.success(message);
-                break;
-            case "2":
-                toastr.error(message);
-                break;
-        }
-    }
 
     function convertToJsonDate(jsonDate) {
         if (jsonDate != undefined && jsonDate != null) {

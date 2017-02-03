@@ -191,26 +191,6 @@
 
     }
 
-    function showMessage(message, Type, fadeOut) {
-        //To clear existing toastr
-        toastr.clear();
-        //fadeOut = false;
-        var position = "bottom-full-width";
-        toastr.options.positionClass = 'toast-' + position;
-        if (typeof fadeOut !== "undefined" && fadeOut == false) { toastr.options.timeOut = 0; }
-        else {
-            toastr.options.timeOut = 5000;
-        }
-        switch (Type) {
-            case "1":
-                toastr.success(message);
-                break;
-            case "2":
-                toastr.error(message);
-                break;
-        }
-    }
-
     $("#txtTitle").keypress(function (e) {
         $("#divTitleError").hide();
     });

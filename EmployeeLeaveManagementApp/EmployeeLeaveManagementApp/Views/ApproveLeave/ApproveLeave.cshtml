@@ -1,26 +1,9 @@
-﻿
-@{
-    ViewBag.Title = "ApplyLeave";
-    Layout = "~/Views/Shared/_Layout.cshtml";
-}
-@model List<LMS_WebAPP_Domain.ApproveLeave>
+﻿@model List<LMS_WebAPP_Domain.ApproveLeave>
 @{
     ViewBag.Title = "ApproveLeave";
     Layout = "~/Views/Shared/_Layout.cshtml";
-   
-}
 
-<!DOCTYPE html>
-<html>
-<head>
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <title>Approve Leave</title>
-  
-    <!-- Font Awesome -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.5.0/css/font-awesome.min.css">
-    <!-- Ionicons -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/ionicons/2.0.1/css/ionicons.min.css">
+}
     <!-- DataTables -->
     <link rel="stylesheet" href="../../plugins/datatables/dataTables.bootstrap.css">
 
@@ -29,15 +12,6 @@
     <link rel="stylesheet" href="../../dist/css/AdminLTE.min.css">
     <link href="~/Content/Style.css" rel="stylesheet" />
     <link href="~/plugins/Toastr/toastr.css" rel="stylesheet" />
-
-
-    @*<style>
-            .paginate_button{
-                background-color:#222d32 !important;
-            }
-        </style>*@
-</head>
-<body class="hold-transition skin-blue sidebar-mini">
 
     <!-- Content Wrapper. Contains page content -->
     <!-- Main content -->
@@ -113,7 +87,7 @@
                 </div>
                 <div class="modal-body">
                     <div class="form-group" style="padding-left: 20px;">
-                        <div >
+                        <div>
                             <table width="100%">
                                 <tr>
                                     <td width="50%">
@@ -128,21 +102,21 @@
                             </table>
                         </div>
                         <div>
-                            
+
                         </div>
                         <div>
                             <label style="padding-top:20px">From Date : </label> &nbsp;<span id="MdlFromDate"></span>
                             <label style="padding-left:180px">To Date : </label> &nbsp;<span id="MdlToDate"></span>
                         </div>
                         <div>
-                            
+
                         </div>
                         <div>
                             <label style="padding-top:20px">Submitted Date : </label> &nbsp;<span id="MdlSubmittedDate"></span>
                             <label style="padding-left:150px">Number Of Working Days :</label> &nbsp;<span id="MdlNumberOfWorkingDays"></span>
                         </div>
                         <div>
-                            
+
                         </div>
                         <div>
                             <label style="padding-top:20px">Employee Comments :</label> &nbsp;<span id="MdlEmployeeComments"></span>
@@ -152,7 +126,7 @@
                         <div>
                             <label id="managercomments" style="padding-top:20px">Manager Comments <span style="color:red">*</span> :</label>
                         </div>
-                        
+
                         <div>
                             <textarea id="leaveComment" rows="3" style="width:100%" placeholder="Enter ..."></textarea>
                         </div>
@@ -164,18 +138,19 @@
                         </div>
                         <div>
                             <label style="padding-top:20px">Do you want to reassign? <span style="color:red">*</span> :</label>
-                            <span style="padding-top:20px;padding-left:50px">NO
+                            <span style="padding-top:20px;padding-left:50px">
+                                NO
                                 <input id="rd1" value="NO" style="padding-top:20px" type="radio" name="r1" class="flat-red" checked>
                             </span>
-                            <span style="padding-top:20px; padding-left:50px">YES
+                            <span style="padding-top:20px; padding-left:50px">
+                                YES
                                 <input value="YES" style="padding-top:20px" type="radio" name="r1" class="flat-red">
                             </span>
-                            
+
                         </div>
                         <div class="form-group" id="assignto">
                             <label>Assign To:</label>
-                            <select class="form-control select2" style="width: 100%;" id="dropdownassignto" name="dropdownassignto">
-                            </select>
+                            <select class="form-control select2" style="width: 100%;" id="dropdownassignto" name="dropdownassignto"></select>
                         </div>
                         <label id="lblHiddenId" style="display:none"></label>
                         <div class="form-group has-error" style="display:none" id="divselectError">
@@ -197,339 +172,260 @@
 
                 </div>
             </div>
-            </div>
         </div>
-            <!-- /.modal -->
-            <!-- /.content -->
-            <!-- ./wrapper -->
-            <!-- DataTables -->
-            <script src="../../plugins/datatables/jquery.dataTables.min.js"></script>
-            <script src="../../plugins/datatables/dataTables.bootstrap.min.js"></script>
-            <!-- SlimScroll -->
-            <script src="../../plugins/slimScroll/jquery.slimscroll.min.js"></script>
-            <!-- FastClick -->
-            <script src="../../plugins/fastclick/fastclick.js"></script>
-            <!-- AdminLTE App -->
-            <script src="../../dist/js/app.min.js"></script>
-            <!-- AdminLTE for demo purposes -->
-            <script src="../../dist/js/demo.js"></script>
-            <!-- page script -->
-            <script src="~/plugins/daterangepicker/moment.min.js"></script>
-            @*<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.11.2/moment.min.js"></script>*@
-            <script src="../../plugins/daterangepicker/daterangepicker.js"></script>
-            <!-- bootstrap datepicker -->
-            <script src="../../plugins/datepicker/bootstrap-datepicker.js"></script>
-            <script src="../../plugins/iCheck/icheck.min.js"></script>
-            <script src="../../plugins/Toastr/toastr.js"></script>
-            <script>
-                var fromDate;
-                var toDate;
-                $(document).ready(function () {
-                    $('#approveLeave').parent().addClass('active');
-                    if (localStorage.getItem("leaveApproved") == 1) {
-                        showSuccessMessage("Leave request successfully approved");
-                        localStorage.removeItem("leaveApproved");
-                    }
-                    if (localStorage.getItem("leaveRejected") == 1) {
-                        showSuccessMessage("Leave request rejected");
-                        localStorage.removeItem("leaveRejected");
-                    }
-                    if (localStorage.getItem("leaveAssigned") == 1) {
-                        showSuccessMessage("Leave request successfully assigned");
-                        localStorage.removeItem("leaveAssigned");
-                    }
-                    if (localStorage.getItem("leaveCanceled") == 1) {
-                        showSuccessMessage("Leave request Canceled");
-                        localStorage.removeItem("leaveCanceled");
-                    }
-                    $(function () {
-                        $('#example1').DataTable({
-                            "paging": true,
-                            "lengthChange": true,
-                            "searching": false,
-                            "ordering": true,
-                            "info": true,
-                            "autoWidth": false,
-                        });
-                        $("#example1.dataTables_filter").hide();
-                        $('#leaveDatepicker').daterangepicker(
-                            {
-                                minDate: new Date()
-                            });
-                        $('#leaveDatepicker').on('change.daterangepicker', function (ev, picker) {
-                            var date = ev.target.value;
-                            var dates = [];
-                            dates = date.split('-');
-                            var start = dates[0].trim();
-                            var startDate = new Date(start);
-                            var startMonth = startDate.getMonth() + 1;
-                            fromDate = startDate.getFullYear() + "-" + startMonth + "-" + startDate.getDate();
-                            var end = dates[1].trim();
-                            var endDate = new Date(end);
-                            var endMonth = endDate.getMonth() + 1;
-                            toDate = endDate.getFullYear() + "-" + endMonth + "-" + endDate.getDate();
-                            //toDate = end.toString("YYYY-MM-DD");
-                            var days = (endDate - startDate) / (1000 * 60 * 60 * 24);
-                            days += 1;
-                            var weekend_count = 0;
-                            for (i = startDate.valueOf() ; i <= endDate.valueOf() ; i += 86400000) {
-                                var temp = new Date(i);
-                                if (temp.getDay() == 0 || temp.getDay() == 6) {
-                                    weekend_count++;
-                                }
+    </div>
+    <!-- /.modal -->
+    <!-- /.content -->
+    <!-- ./wrapper -->
+    <!-- DataTables -->
+    <script src="../../plugins/datatables/jquery.dataTables.min.js"></script>
+    <script src="../../plugins/datatables/dataTables.bootstrap.min.js"></script>
+    <!-- AdminLTE App -->
+    <script src="../../dist/js/app.min.js"></script>
+    <!-- AdminLTE for demo purposes -->
+    <script src="../../dist/js/demo.js"></script>
+    <!-- page script -->
+    <script src="~/plugins/daterangepicker/moment.min.js"></script>
+    <script src="../../plugins/daterangepicker/daterangepicker.js"></script>
+    <!-- bootstrap datepicker -->
+    <script src="../../plugins/datepicker/bootstrap-datepicker.js"></script>
+    <script src="../../plugins/iCheck/icheck.min.js"></script>
+    <script src="../../plugins/Toastr/toastr.js"></script>
+    <script>
+        var fromDate;
+        var toDate;
+        $(document).ready(function () {
+            $('#approveLeave').parent().addClass('active');
+            if (localStorage.getItem("leaveApproved") == 1) {
+                showMessage("Leave request successfully approved", "1", true);
+                localStorage.removeItem("leaveApproved");
+            }
+            if (localStorage.getItem("leaveRejected") == 1) {
+                showMessage("Leave request rejected", "2", true);
+                localStorage.removeItem("leaveRejected");
+            }
+            if (localStorage.getItem("leaveAssigned") == 1) {
+                showMessage("Leave request successfully assigned", "1", true);
+                localStorage.removeItem("leaveAssigned");
+            }
+            if (localStorage.getItem("leaveCanceled") == 1) {
+                showMessage("Leave request Canceled", "1", true);
+                localStorage.removeItem("leaveCanceled");
+            }
+            $(function () {
+                $('#example1').DataTable({
+                    "paging": true,
+                    "lengthChange": true,
+                    "searching": false,
+                    "ordering": true,
+                    "info": true,
+                    "autoWidth": false,
+                });
+                $("#example1.dataTables_filter").hide();
+            });
+        });
+
+        $("#leaveComment").keypress(function (e) {
+            $("#divCommentError").hide();
+        });
+
+        $('input:radio[name=r1]').change(function (e) {
+            if ($("input[name='r1']:checked").val() == 'NO') {
+                $("#assignto").hide();
+                $("#btnAssignTo").hide();
+                $("#btnApproveLeave").show();
+                $("#btnRejectLeave").show();
+                $("#divselectError").hide();
+            }
+            if ($("input[name='r1']:checked").val() == 'YES') {
+                $("#assignto").show();
+                $("#btnAssignTo").show();
+                $("#btnApproveLeave").hide();
+                $("#btnRejectLeave").hide();
+                $.ajax({
+                    cache: false,
+                    type: 'post',
+                    url: '/ApproveLeave/GetAllManagers',
+                    data: {},
+                    //contentType: "application/json; charset=utf-8",
+                    dataType: "json",
+                    success: function (data) {
+                        $('#dropdownassignto').empty().append('<option selected="selected" value="0">Please select</option>');
+                        for (var i = 0; i < data.result.length; i++) {
+                            var name = data.result[i].FirstName;
+                            if (data.result[i].LastName != null) {
+                                name += " ";
+                                name += data.result[i].LastName;
                             }
-                            days = days - weekend_count;
-                            $("#lblTotalWorkingDays").html(Math.round(days));
-                        });
-                        $('#leaveDatepicker').on('apply.daterangepicker', function (ev, picker) {
-
-                            var start = picker.startDate;
-                            fromDate = start.format('YYYY-MM-DD');
-                            var end = picker.endDate;
-                            toDate = end.format('YYYY-MM-DD');
-                            var days = (end - start) / (1000 * 60 * 60 * 24);
-
-                            var weekend_count = 0;
-                            for (i = start.valueOf() ; i <= end.valueOf() ; i += 86400000) {
-                                var temp = new Date(i);
-                                if (temp.getDay() == 0 || temp.getDay() == 6) {
-                                    weekend_count++;
-                                }
-                            }
-                            days = days - weekend_count
-                            $("#lblTotalWorkingDays").html(Math.round(days));
-                        });
-                    });
-                    $('#AddLeaveModal').on('hidden.bs.modal', function () {
-                        $(this).find("textarea#leaveComment").val('').end();
-                        //$("#leaveDatepicker").daterangepicker("destroy");
-                        //$("#leaveDatepicker").daterangepicker("refresh");
-                        $(this).find("input.flat-red:checked").parent().removeClass('checked');
-                        $("#divCommentError").hide();
-                        $("#divLeaveTypeError").hide();
-
-                    });
-                });
-
-                $("#leaveComment").keypress(function (e) {
-                    $("#divCommentError").hide();
-                });
-
-                $('input:radio[name=r1]').change(function (e) {
-                    if ($("input[name='r1']:checked").val() == 'NO') {
-                        $("#assignto").hide();
-                        $("#btnAssignTo").hide();
-                        $("#btnApproveLeave").show();
-                        $("#btnRejectLeave").show();
-                        $("#divselectError").hide();
-                    }
-                    if ($("input[name='r1']:checked").val() == 'YES') {
-                        $("#assignto").show();
-                        $("#btnAssignTo").show();
-                        $("#btnApproveLeave").hide();
-                        $("#btnRejectLeave").hide();
-                        $.ajax({
-                            cache: false,
-                            type: 'post',
-                            url: '/ApproveLeave/GetAllManagers',
-                            data: { },
-                            //contentType: "application/json; charset=utf-8",
-                            dataType: "json",
-                            success: function (data) {
-                                $('#dropdownassignto').empty().append('<option selected="selected" value="0">Please select</option>');
-                                for (var i = 0; i < data.result.length; i++) {
-                                    var name = data.result[i].FirstName;
-                                    if( data.result[i].LastName != null)
-                                    {
-                                        name += " ";
-                                        name +=  data.result[i].LastName;
-                                    }
-                                    var opt = new Option(name, data.result[i].Id);
-                                    $('#dropdownassignto').append(opt);
-                                }
-                                }
-                        });
-                    }
-
-                });
-
-                $('input:radio[name=r2]:checked').change(function (e) {
-                    debugger;
-                   
-                    if ($("input[name='r1']:checked").val() == 'YES') {
-                        $("#assignto").show();
-                    }
-
-                });
-                
-                $(document).on('click', '#btnViewLeave', function (e) {
-                    var tt = $(this);
-                    var name = tt.parent().parent().children()[0].innerText;
-                    var leavetype = tt.parent().parent().children()[6].innerText;
-                    var fromdate = tt.parent().parent().children()[1].innerText;
-                    var todate = tt.parent().parent().children()[2].innerText;
-                    var submitteddate = tt.parent().parent().children()[3].innerText;
-                    var numberofworkingdays = tt.parent().parent().children()[5].innerText;
-                    var leavetype = tt.parent().parent().children()[6].innerText;
-                    var employeecomments = $(this).attr("data-COMMENT");
-                
-                    $("#rd1").prop('checked', true);
-                    $("#btnApproveLeave").show();
-                    $("#btnRejectLeave").show();
-                    $("#divCommentError").hide();
-                    $("#divselectError").hide();
-                    $('#assignto').hide();
-                    
-                    $('#MdlName').html(name);
-                    $('#MdlLeaveType').html(leavetype);
-                    $('#MdlFromDate').html(fromdate);
-                    $('#MdlToDate').html(todate);
-                    $('#MdlSubmittedDate').html(submitteddate);
-                    $('#MdlNumberOfWorkingDays').html(numberofworkingdays);
-                    $('#MdlEmployeeComments').html(employeecomments);
-                    
-                   
-                    var id = $(this).data("content");
-                    $('#lblHiddenId').html(id);
-                    $("#btnAssignTo").hide();
-                    var status = 1;
-                    $.ajax({
-                        cache: false,
-                        type: 'get',
-                        url: '/ApproveLeave/GetApproveLeave',
-                        data: { id: id , status: status },
-                        //contentType: "application/json; charset=utf-8",
-                        dataType: "json",
-                        success: function (data) {
-                           
-                            $('#ViewLeaveModal').modal('show');
-                            
+                            var opt = new Option(name, data.result[i].Id);
+                            $('#dropdownassignto').append(opt);
                         }
-                    });
-                }
-       );
-
-                $(document).on('click', '#btnApproveLeave', function (e) {
-                    $("#divCommentError").hide();
-                    if ($("#leaveComment").val() == "") {
-                        $("#divCommentError").show();
-                    }
-                    else {
-                        $("#divCommentError").hide();
-                        var Leavecomments = $("#leaveComment").val();
-                        var Leaveid = $("#lblHiddenId").html();
-                        var Leavestatus = "Approved";
-                        var Approverid = 0;
-                        $("#Loading").show();
-                        $.ajax({
-                            cache: false,
-                            type: 'post',
-                            url: '/ApproveLeave/TakeActionOnEmployeeLeave',
-                            data: { Leaveid: Leaveid, Leavecomments: Leavecomments, Leavestatus: Leavestatus, Approverid: Approverid },
-                            //contentType: "application/json; charset=utf-8",
-                            dataType: "json",
-                            success: function (data) {
-                                if (data) {
-                                    $('#ViewLeaveModal').modal('hide');
-                                    localStorage.setItem("leaveApproved", 1);
-                                    location.reload();
-                                            $("#Loading").hide();
-                                }
-                            }
-                        });
-                    }
-                }
-      );
-
-                $(document).on('click', '#btnRejectLeave', function (e) {
-
-                    $("#divCommentError").hide();
-                    if ($("#leaveComment").val() == "") {
-                        $("#divCommentError").show();
-                    }
-                    else {
-                        $("#Loading").show();
-                        $("#divCommentError").hide();
-                        var Leavecomments = $("#leaveComment").val();
-                        var Leaveid = $("#lblHiddenId").html();
-                        var Leavestatus = "Rejected";
-                        var Approverid = 0;
-                        $.ajax({
-                            cache: false,
-                            type: 'post',
-                            url: '/ApproveLeave/TakeActionOnEmployeeLeave',
-                            data: { Leaveid: Leaveid, Leavecomments: Leavecomments, Leavestatus: Leavestatus, Approverid: Approverid },
-                            //contentType: "application/json; charset=utf-8",
-                            dataType: "json",
-                            success: function (data) {
-                                $('#ViewLeaveModal').modal('hide');
-                                localStorage.setItem("leaveRejected", 1);
-                                location.reload();
-                                $("#Loading").hide();
-                            }
-                        });
-                    }
-                }
-     );
-               
-
-                $(document).on('click', '#btnAssignTo', function (e) {
-                    $("#divCommentError").hide();
-                    $("#divselectError").hide();
-                    if ($("#dropdownassignto").val() == 0) {
-                        $("#divselectError").show();
-                    }
-                    else if ($("#leaveComment").val() == "") {
-                        $("#divCommentError").show();
-                    }
-                    else {
-                        $("#Loading").show();
-                        $("#divselectError").hide();
-                        var Leavecomments = $("#leaveComment").val();
-                        var Leaveid = $("#lblHiddenId").html();
-                        var Approverid = $("#dropdownassignto").val();
-                        var Leavestatus = "Reassigned";
-                        $.ajax({
-                            cache: false,
-                            type: 'post',
-                            url: '/ApproveLeave/TakeActionOnEmployeeLeave',
-                            data: { Leaveid: Leaveid, Leavecomments: Leavecomments, Leavestatus: Leavestatus, Approverid: Approverid },
-                            //contentType: "application/json; charset=utf-8",
-                            dataType: "json",
-                            success: function (data) {
-                                $('#ViewLeaveModal').modal('hide');
-                                localStorage.setItem("leaveAssigned", 1);
-                                location.reload();
-                                $("#Loading").hide();
-                            }
-                        });
-                    }
-                }
-     );
-                
-
-                
-
-                function showSuccessMessage(message, fadeOut) {
-                    //To clear existing toastr
-                    toastr.clear();
-                    //fadeOut = false;
-                    var position = "bottom-full-width";
-                    toastr.options.positionClass = 'toast-' + position;
-                    if (typeof fadeOut !== "undefined" && fadeOut == false) { toastr.options.timeOut = 0; }
-                    toastr.success(message);
-                }
-
-                $('#dropdownassignto').on('change', function () {
-                    if ($("#dropdownassignto").val() != 0) {
-                        $("#divselectError").hide();
-                    }
-                    else {
-                        $("#divselectError").show();
                     }
                 });
-            </script>
-</body>
-</html>
+            }
+
+        });
+
+        $('input:radio[name=r2]:checked').change(function (e) {
+            if ($("input[name='r1']:checked").val() == 'YES') {
+                $("#assignto").show();
+            }
+
+        });
+
+        $(document).on('click', '#btnViewLeave', function (e) {
+            var tt = $(this);
+            var name = tt.parent().parent().children()[0].innerText;
+            var leavetype = tt.parent().parent().children()[6].innerText;
+            var fromdate = tt.parent().parent().children()[1].innerText;
+            var todate = tt.parent().parent().children()[2].innerText;
+            var submitteddate = tt.parent().parent().children()[3].innerText;
+            var numberofworkingdays = tt.parent().parent().children()[5].innerText;
+            var leavetype = tt.parent().parent().children()[6].innerText;
+            var employeecomments = $(this).attr("data-COMMENT");
+
+            $("#rd1").prop('checked', true);
+            $("#btnApproveLeave").show();
+            $("#btnRejectLeave").show();
+            $("#divCommentError").hide();
+            $("#divselectError").hide();
+            $('#assignto').hide();
+
+            $('#MdlName').html(name);
+            $('#MdlLeaveType').html(leavetype);
+            $('#MdlFromDate').html(fromdate);
+            $('#MdlToDate').html(todate);
+            $('#MdlSubmittedDate').html(submitteddate);
+            $('#MdlNumberOfWorkingDays').html(numberofworkingdays);
+            $('#MdlEmployeeComments').html(employeecomments);
+
+
+            var id = $(this).data("content");
+            $('#lblHiddenId').html(id);
+            $("#btnAssignTo").hide();
+            var status = 1;
+            $.ajax({
+                cache: false,
+                type: 'get',
+                url: '/ApproveLeave/GetApproveLeave',
+                data: { id: id, status: status },
+                //contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                success: function (data) {
+
+                    $('#ViewLeaveModal').modal('show');
+
+                }
+            });
+        }
+);
+
+        $(document).on('click', '#btnApproveLeave', function (e) {
+            $("#divCommentError").hide();
+            if ($("#leaveComment").val() == "") {
+                $("#divCommentError").show();
+            }
+            else {
+                $("#divCommentError").hide();
+                var Leavecomments = $("#leaveComment").val();
+                var Leaveid = $("#lblHiddenId").html();
+                var Leavestatus = "Approved";
+                var Approverid = 0;
+                $("#Loading").show();
+                $.ajax({
+                    cache: false,
+                    type: 'post',
+                    url: '/ApproveLeave/TakeActionOnEmployeeLeave',
+                    data: { Leaveid: Leaveid, Leavecomments: Leavecomments, Leavestatus: Leavestatus, Approverid: Approverid },
+                    //contentType: "application/json; charset=utf-8",
+                    dataType: "json",
+                    success: function (data) {
+                        if (data) {
+                            $('#ViewLeaveModal').modal('hide');
+                            localStorage.setItem("leaveApproved", 1);
+                            location.reload();
+                            $("#Loading").hide();
+                        }
+                    }
+                });
+            }
+        }
+);
+
+        $(document).on('click', '#btnRejectLeave', function (e) {
+
+            $("#divCommentError").hide();
+            if ($("#leaveComment").val() == "") {
+                $("#divCommentError").show();
+            }
+            else {
+                $("#Loading").show();
+                $("#divCommentError").hide();
+                var Leavecomments = $("#leaveComment").val();
+                var Leaveid = $("#lblHiddenId").html();
+                var Leavestatus = "Rejected";
+                var Approverid = 0;
+                $.ajax({
+                    cache: false,
+                    type: 'post',
+                    url: '/ApproveLeave/TakeActionOnEmployeeLeave',
+                    data: { Leaveid: Leaveid, Leavecomments: Leavecomments, Leavestatus: Leavestatus, Approverid: Approverid },
+                    //contentType: "application/json; charset=utf-8",
+                    dataType: "json",
+                    success: function (data) {
+                        $('#ViewLeaveModal').modal('hide');
+                        localStorage.setItem("leaveRejected", 1);
+                        location.reload();
+                        $("#Loading").hide();
+                    }
+                });
+            }
+        }
+);
+
+
+        $(document).on('click', '#btnAssignTo', function (e) {
+            $("#divCommentError").hide();
+            $("#divselectError").hide();
+            if ($("#dropdownassignto").val() == 0) {
+                $("#divselectError").show();
+            }
+            else if ($("#leaveComment").val() == "") {
+                $("#divCommentError").show();
+            }
+            else {
+                $("#Loading").show();
+                $("#divselectError").hide();
+                var Leavecomments = $("#leaveComment").val();
+                var Leaveid = $("#lblHiddenId").html();
+                var Approverid = $("#dropdownassignto").val();
+                var Leavestatus = "Reassigned";
+                $.ajax({
+                    cache: false,
+                    type: 'post',
+                    url: '/ApproveLeave/TakeActionOnEmployeeLeave',
+                    data: { Leaveid: Leaveid, Leavecomments: Leavecomments, Leavestatus: Leavestatus, Approverid: Approverid },
+                    //contentType: "application/json; charset=utf-8",
+                    dataType: "json",
+                    success: function (data) {
+                        $('#ViewLeaveModal').modal('hide');
+                        localStorage.setItem("leaveAssigned", 1);
+                        location.reload();
+                        $("#Loading").hide();
+                    }
+                });
+            }
+        }
+);
+
+        $('#dropdownassignto').on('change', function () {
+            if ($("#dropdownassignto").val() != 0) {
+                $("#divselectError").hide();
+            }
+            else {
+                $("#divselectError").show();
+            }
+        });
+    </script>
 
 

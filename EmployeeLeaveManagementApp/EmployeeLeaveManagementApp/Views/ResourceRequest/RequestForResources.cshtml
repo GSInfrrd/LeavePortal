@@ -230,15 +230,8 @@
 <script src="~/plugins/FooTable/footable.js"></script>
 <script src="../../plugins/datatables/jquery.dataTables.min.js"></script>
 <script src="../../plugins/datatables/dataTables.bootstrap.min.js"></script>
-<script src="~/Content/Scripts/Common.js"></script>
 @Scripts.Render("~/bundles/Content/js")
 <script>
-    var educationFromDate;
-    var educationToDate;
-    var experienceFromDate;
-    var experienceToDate;
-    var imgpath = "";
-    var imgId;
     $(document).ready(function () {
         $(function () {
             //Initialize Select2 Elements
@@ -256,20 +249,7 @@
                 "info": false,
             });
 
-            $('#experienceDatePicker').on('change.daterangepicker', function (ev, picker) {
-                var date = ev.target.value;
-                var dates = [];
-                dates = date.split('-');
-                var start = dates[0].trim();
-                var startDate = new Date(start);
-                var startMonth = startDate.getMonth() + 1;
-                experienceFromDate = startDate.getFullYear() + "-" + startMonth + "-" + startDate.getDate();
-                var end = dates[1].trim();
-                var endDate = new Date(end);
-                var endMonth = endDate.getMonth() + 1;
-                experienceToDate = endDate.getFullYear() + "-" + endMonth + "-" + endDate.getDate();
-            });
-
+      
         });
     });
 
