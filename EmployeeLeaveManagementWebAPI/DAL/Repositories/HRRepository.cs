@@ -340,9 +340,13 @@ namespace LMS_WebAPI_DAL.Repositories
             try
             {
                 var result = false;
+               
                 using (var ctx = new LeaveManagementSystemEntities1())
                 {
+                    var ids= ctx.MasterDataValues.Select(x => x.Id).ToList();
+                    var id =ctx.MasterDataValues.Where(x => x.RefMasterType == masterDataType).Select(x => x.Id).ToList();
                     var data = new MasterDataValue();
+                    data.Id =!ids.Contains(id.Last()+1)? id.Last() + 1:ids.Last()+1;
                     data.Value = masterDataValue.Trim();
                     data.RefMasterType = masterDataType;
                     ctx.MasterDataValues.Add(data);

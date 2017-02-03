@@ -119,6 +119,7 @@
             $(".managerSelect").select2();
         });
     });
+    var showError=true;
     $(document).on('change', "#ddlMasterData", function (e) {
         if($("#ddlMasterData").val()==2)
         {
@@ -189,7 +190,8 @@
                         data: { masterDataType: $("#ddlMasterData").val(), masterDataValue: $("#txtMasterDataValue").val() },
                         dataType: "json",
                         success: function (data) {
-                            $("#ddlMasterData").val(0).trigger("change");
+                            showError=false;
+                            $("#ddlMasterData").val(0).trigger("change");                        
                             $("#txtMasterDataValue").val("");
                             showMessage("Master data value added successfully", "1", true);
                             $("#Loading").hide();
@@ -283,6 +285,7 @@
                             $("#divProjectInfo").hide();
                             $("#btnProjectInfoSubmit").hide();
                             $("#btnSubmitMasterData").show();
+                            showError=false;
                             $("#ddlMasterData").val(0).trigger("change");
                             $("#txtProjectName").val("");
                             $("#txtProjectDescription").val("");
@@ -357,8 +360,9 @@
     });
 
     $('#ddlMasterData').on('change', function () {
-        if ($("#ddlMasterData").val() != 0) {
+        if ($("#ddlMasterData").val() != 0 || ($("#ddlMasterData").val() == 0 && showError==false)) {
             $("#divMasterDataTypeError").hide();
+            showError=true;
         }
         else {
             $("#divMasterDataTypeError").show();

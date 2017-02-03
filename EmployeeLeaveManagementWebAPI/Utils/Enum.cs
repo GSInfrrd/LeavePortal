@@ -8,7 +8,7 @@ namespace LMS_WebAPI_Utils
         CasualLeave = 62,
         [Description("Sick Leave")]
         SickLeave = 61,
-        [Description("Compo Off")]
+        [Description("Comp Off")]
         CompOff = 63,
         [Description("Advance Leave")]
         AdvanceLeave = 64,
@@ -80,7 +80,9 @@ namespace LMS_WebAPI_Utils
         [Description("Senior UI Designer")]
         SeniorUIDesigner = 21,
         [Description("Sales")]
-        Sales = 22
+        Sales = 22,
+        [Description("Intern/Fresher")]
+        InternOrFresher = 23
     }
 
 

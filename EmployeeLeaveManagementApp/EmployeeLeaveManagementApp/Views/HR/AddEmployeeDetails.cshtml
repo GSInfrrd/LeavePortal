@@ -241,12 +241,12 @@
                                 <select id="ddlGraduation" class="form-control graduation" style="width: 100%;">
                                     <option>B.E/BTech</option>
                                     <option>MTech</option>
-                                    <option>BCA</option> 
-                                    <option>MCA</option> 
-                                    <option>BCA</option> 
-                                    <option>B.Sc</option> 
+                                    <option>BCA</option>
+                                    <option>MCA</option>
+                                    <option>BCA</option>
+                                    <option>B.Sc</option>
                                     <option>MBA</option>
-                                    <option>M.S</option>     
+                                    <option>M.S</option>
                                 </select>
 
                             </div>
@@ -307,7 +307,11 @@
                             <input type="text" class="form-control" id="experienceDatePicker">
                         </div>
                         <div class="form-group col-md-6">
-                            <label style="margin-bottom: 0px;">Skills</label>
+                            <label style="margin-bottom: 0px;">Skills</label><span style="color:red">*</span><span class="form-group has-error" style="display:none" id="divSkillsError">
+                                <label style="margin-bottom: 0px;" class="control-label">
+                                    <i class="fa fa-times-circle-o"></i> Please select atleast one skill
+                                </label>
+                            </span>
                             <select id="ddlSkills" multiple="multiple" class="form-control skills" style="width: 100%;"></select>
                         </div>
 
@@ -344,29 +348,24 @@
             //Initialize Select2 Elements
             $(".experienceDesignation").select2();
             $(".designation").select2().on('change',function(e){
-                ////if ($("#ddlDesignation").val() == levelValue) {
-                ////    $("#ddlManager").hide();
-                ////}
-                ////else {
-                //    $("#ddlManager").show();
+                if ($("#ddlDesignation").val() !=" ") {
+                    var designation = $("#ddlDesignation").val();
+                    $("#ddlManagerName option").remove();
+                    $("#ddlManagerName").append($('<option></option>').attr("value", '').text('Select'));
+                    $.ajax({
+                        cache: false,
+                        type: 'post',
+                        url: '/HR/GetManagerList?refDesignation=' + designation,
+                        dataType: "json",
+                        processData: false,
+                        success: function (data) {
+                            for (var i = 0; i < data.data.length; i++) {
+                                $("#ddlManagerName").append($('<option></option>').attr("value", data.data[i].Id).text(data.data[i].FirstName));
+                            }
 
-                var designation = $("#ddlDesignation").val();
-                $("#ddlManagerName option").remove();
-                $("#ddlManagerName").append($('<option></option>').attr("value", '').text('Select'));
-                $.ajax({
-                    cache: false,
-                    type: 'post',
-                    url: '/HR/GetManagerList?refDesignation=' + designation,
-                    dataType: "json",
-                    processData: false,
-                    success: function (data) {
-                        for (var i = 0; i < data.data.length; i++) {
-                            $("#ddlManagerName").append($('<option></option>').attr("value", data.data[i].Id).text(data.data[i].FirstName));
                         }
-
-                    }
-                });
-                //}
+                    });
+                }
             });
             $(".graduation").select2();
             $(".specialization").select2();
@@ -462,6 +461,7 @@
             $("#divEmployeeTypeError").show();
             $("#divManagerNameError").show();
             $("#divCollegeError").show();
+            $("#divSkillsError").show();
             $('#divInvalidEmailError').hide();
             return false;
         }
@@ -530,6 +530,14 @@
             $('#divCollegeError').show();
             return false;
         }
+        if ($("#ddlSkills").val()== "") {
+            $('#divSkillsError').show();
+            return false;
+        }
+        var bDate = $("#txtBirthday").datepicker('getDate');
+        var birthDate=bDate.toLocaleDateString();
+        var joinDate=$("#txtJoiningDate").datepicker('getDate');
+        var dateOfJoining=joinDate.toLocaleDateString();
 
         var imagepath = imgpath != "" ? imgpath : "";
         var educationDetails = {
@@ -563,7 +571,7 @@
             FirstName: $("#txtFirstName").val(),
             LastName: $("#txtLastName").val(),
             Email: $("#txtEmail").val(),
-            DateOfBirth: $("#txtBirthday").val(),
+            DateOfBirth:birthDate,
             RoleId: $("#ddlDesignation").val(),
             Skills: skills,
             EmployeeNumber: $("#txtEmployeeNumber").val(),
@@ -571,7 +579,7 @@
             Country: $("#txtCountry").val(),
             Telephone: $("#txtTelephone").val(),
             //RefHierarchyLevel: $("#ddlLevel").val(),
-            DateOfJoining: $("#txtJoiningDate").val(),
+            DateOfJoining: dateOfJoining,
             ManagerId: $("#ddlManagerName").val(),
             EmployeeType: $("#ddlEmployeeType").val(),
             RefProfileType:$('input[name=r1]:checked').val(),
@@ -705,6 +713,14 @@
     });
     $("#txtUniversity").keypress(function (e) {
         $('#divCollegeError').hide();
+    });
+    $('#ddlSkills').on('change', function () {
+        if ($("#ddlSkills").val() != 0) {
+            $("#divSkillsError").hide();
+        }
+        else {
+            $("#divSkillsError").show();
+        }
     });
 
     $('#ddlDesignation').on('change', function () {

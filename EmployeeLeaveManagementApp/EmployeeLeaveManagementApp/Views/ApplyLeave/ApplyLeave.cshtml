@@ -339,7 +339,7 @@
         var dd = date.getDate();
         var yyyy = date.getFullYear();
         mm = (mm < 10) ? '0' + mm : mm;
-        return dd + "-" + mm + "-" + yyyy;
+        return dd + "/" + mm + "/" + yyyy;
     }
     var today = (formatDate(new Date()));
 
@@ -764,7 +764,8 @@
                 //check comments
                 if ($("#leaveComment").val() != "") {
                     //set from date to date IsFullDay,noof working days
-                    fromDate = $("#sickDate").val();
+                    var date = $("#sickDate").datepicker('getDate');
+                    fromDate=date.toLocaleDateString();
                     toDate = fromDate;
                     workingDays = 1;
                     return true;
@@ -778,7 +779,8 @@
             case '@Convert.ToInt16((LMS_WebAPP_Utils.LeaveType.CompoOff))':
                 //check date
                 if ($("#leaveComment").val() != "" && ($("#datepicker").val() != "" || $("#lblTotalWorkingDays").html()==0)) {
-                    fromDate = $("#datepicker").val();
+                    var date = $("#datepicker").datepicker('getDate');
+                    fromDate=date.toLocaleDateString();
                     toDate = fromDate;
                     workingDays = 1;
                     return true;
