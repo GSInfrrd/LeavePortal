@@ -3,8 +3,8 @@
 <html>
 <head>
     @{ 
-        var webapiurl = ConfigurationManager.AppSettings["ApiURL"];
-        var webapisignalrurl = webapiurl + "signalr/hubs";
+        var apisignalrURL = ConfigurationManager.AppSettings["SignalRURL"].ToString();
+        var apiJSignalRURL = ConfigurationManager.AppSettings["JSignalRURL"].ToString();
     }
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -383,8 +383,8 @@
     @* Add Jquery Library *@
     <script src="~/Scripts/jquery.signalR-2.2.1.min.js"></script>
     <script src="~/signalr/hubs"></script>
-    @*<script src="http://localhost:64476/signalr/hubs"></script>*@
-    <script src= webapisignalrurl></script>
+    <script src="http://localhost:64476/signalr/hubs"></script>
+    @*<script src= apiJSignalRURL></script>*@
       @* Add jquery code for Get Notification & setup signalr *@
     <script type="text/javascript">
 
@@ -539,9 +539,9 @@
 
             // signalr js code for start hub and send receive notification
             var notificationHub = $.connection.notificationHub;
-            var webapiURl = 
-            //$.connection.hub.url = "http://localhost:64476/signalr/";
-            $.connection.hub.url = webapiURl + "signalr/";
+            var apisignalrURL = 
+            $.connection.hub.url = "http://localhost:64476/signalr/";
+           // $.connection.hub.url = apisignalrURL;
             $.connection.hub.start({ withCredentials: false }).done(function () {
                 console.log('Notification hub started');
             });
