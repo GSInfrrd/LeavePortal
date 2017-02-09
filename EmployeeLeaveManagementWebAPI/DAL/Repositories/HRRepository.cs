@@ -234,7 +234,7 @@ namespace LMS_WebAPI_DAL.Repositories
 
                 var dataList = new List<EmployeeDetail>();
                 var empDatalist = new EmployeeDetail();
-                var detailedDataList = new List<EmployeeLeaveTransactionHistory>();
+                var detailedDataList = new List<WorkflowHistory>();
                 var detailedWfhList = new List<WorkFromHome>();
                 using (var ctx = new LeaveManagementSystemEntities1())
                 {

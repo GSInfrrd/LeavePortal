@@ -12,7 +12,7 @@ namespace LMS_WebAPI_DAL
     using System;
     using System.Collections.Generic;
     
-    public partial class EmployeeLeaveTransactionHistory
+    public partial class WorkflowHistory
     {
         public long PID { get; set; }
         public long Id { get; set; }

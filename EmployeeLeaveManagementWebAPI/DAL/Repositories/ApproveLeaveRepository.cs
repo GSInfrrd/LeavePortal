@@ -267,7 +267,7 @@ namespace LMS_WebAPI_DAL.Repositories
                 {
                     using (var ctx = new LeaveManagementSystemEntities1())
                     {
-                        var m = new EmployeeLeaveTransactionHistory();
+                        var m = new WorkflowHistory();
                         m.Id = wf.EmployeeLeaveTransaction.Id;
                         m.RefEmployeeId = wf.EmployeeLeaveTransaction.EmployeeDetail.Id;
                         m.FromDate = Convert.ToDateTime(wf.EmployeeLeaveTransaction.FromDate);
