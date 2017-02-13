@@ -127,25 +127,6 @@
           <Property Name="RefModifiedBy" Type="int" />
           <Property Name="RefTransactionType" Type="int" Nullable="false" />
         </EntityType>
-        <EntityType Name="WorkflowHistory">
-          <Key>
-            <PropertyRef Name="PID" />
-          </Key>
-          <Property Name="PID" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="Id" Type="bigint" Nullable="false" />
-          <Property Name="RefEmployeeId" Type="int" Nullable="false" />
-          <Property Name="FromDate" Type="datetime2" Precision="7" Nullable="false" />
-          <Property Name="ToDate" Type="datetime2" Precision="7" Nullable="false" />
-          <Property Name="CreatedDate" Type="datetime2" Precision="7" Nullable="false" />
-          <Property Name="RefStatus" Type="int" Nullable="false" />
-          <Property Name="NumberOfWorkingDays" Type="float" Nullable="false" />
-          <Property Name="RefLeaveType" Type="int" Nullable="false" />
-          <Property Name="EmployeeComment" Type="nvarchar(max)" />
-          <Property Name="ManagerComment" Type="nvarchar(max)" />
-          <Property Name="ModifiedDate" Type="datetime2" Precision="7" />
-          <Property Name="RefCreatedBy" Type="int" />
-          <Property Name="RefModifiedBy" Type="int" />
-        </EntityType>
         <EntityType Name="EmployeeProjectDetail">
           <Key>
             <PropertyRef Name="Id" />
@@ -291,6 +272,25 @@
           <Property Name="RefModifiedBy" Type="int" />
           <Property Name="ManagerComments" Type="nvarchar(max)" />
         </EntityType>
+        <EntityType Name="WorkflowHistory">
+          <Key>
+            <PropertyRef Name="PID" />
+          </Key>
+          <Property Name="PID" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Id" Type="bigint" Nullable="false" />
+          <Property Name="RefEmployeeId" Type="int" Nullable="false" />
+          <Property Name="FromDate" Type="datetime2" Precision="7" Nullable="false" />
+          <Property Name="ToDate" Type="datetime2" Precision="7" Nullable="false" />
+          <Property Name="CreatedDate" Type="datetime2" Precision="7" Nullable="false" />
+          <Property Name="RefStatus" Type="int" Nullable="false" />
+          <Property Name="NumberOfWorkingDays" Type="float" Nullable="false" />
+          <Property Name="RefLeaveType" Type="int" Nullable="false" />
+          <Property Name="EmployeeComment" Type="nvarchar(max)" />
+          <Property Name="ManagerComment" Type="nvarchar(max)" />
+          <Property Name="ModifiedDate" Type="datetime2" Precision="7" />
+          <Property Name="RefCreatedBy" Type="int" />
+          <Property Name="RefModifiedBy" Type="int" />
+        </EntityType>
         <EntityType Name="WorkFromHome">
           <Key>
             <PropertyRef Name="Id" />
@@ -354,7 +354,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_EmployeeDetails_WorkflowHistory">
+        <Association Name="FK_EmployeeDetails_EmployeeLeaveTransactionHistory">
           <End Role="EmployeeDetails" Type="Self.EmployeeDetails" Multiplicity="1" />
           <End Role="WorkflowHistory" Type="Self.WorkflowHistory" Multiplicity="*" />
           <ReferentialConstraint>
@@ -474,7 +474,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_EmployeeDetailsCreatedById_WorkflowHistory">
+        <Association Name="FK_EmployeeDetailsCreatedById_EmployeeLeaveTransactionHistory">
           <End Role="EmployeeDetails" Type="Self.EmployeeDetails" Multiplicity="0..1" />
           <End Role="WorkflowHistory" Type="Self.WorkflowHistory" Multiplicity="*" />
           <ReferentialConstraint>
@@ -534,7 +534,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_EmployeeDetilasModifiedById_WorkflowHistory">
+        <Association Name="FK_EmployeeDetilasModifiedById_EmployeeLeaveTransactionHistory">
           <End Role="EmployeeDetails" Type="Self.EmployeeDetails" Multiplicity="0..1" />
           <End Role="WorkflowHistory" Type="Self.WorkflowHistory" Multiplicity="*" />
           <ReferentialConstraint>
@@ -690,7 +690,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_MasterDataValue_WorkflowHistory">
+        <Association Name="FK_MasterDataValue_EmployeeLeaveTransactionHistory">
           <End Role="MasterDataValue" Type="Self.MasterDataValue" Multiplicity="1" />
           <End Role="WorkflowHistory" Type="Self.WorkflowHistory" Multiplicity="*" />
           <ReferentialConstraint>
@@ -738,7 +738,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_MasterDataValueStatus_WorkflowHistory">
+        <Association Name="FK_MasterDataValueStatus_EmployeeLeaveTransactionHistory">
           <End Role="MasterDataValue" Type="Self.MasterDataValue" Multiplicity="1" />
           <End Role="WorkflowHistory" Type="Self.WorkflowHistory" Multiplicity="*" />
           <ReferentialConstraint>
@@ -832,7 +832,6 @@
           <EntitySet Name="EmployeeExperienceDetails" EntityType="Self.EmployeeExperienceDetails" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="EmployeeLeaveMaster" EntityType="Self.EmployeeLeaveMaster" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="EmployeeLeaveTransaction" EntityType="Self.EmployeeLeaveTransaction" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="WorkflowHistory" EntityType="Self.WorkflowHistory" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="EmployeeProjectDetail" EntityType="Self.EmployeeProjectDetail" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="EmployeeRewardedLeaveDetails" EntityType="Self.EmployeeRewardedLeaveDetails" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="EmployeeSkills" EntityType="Self.EmployeeSkills" Schema="dbo" store:Type="Tables" />
@@ -845,6 +844,7 @@
           <EntitySet Name="ResourceRequestDetail" EntityType="Self.ResourceRequestDetail" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="UserAccount" EntityType="Self.UserAccount" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Workflow" EntityType="Self.Workflow" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="WorkflowHistory" EntityType="Self.WorkflowHistory" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="WorkFromHome" EntityType="Self.WorkFromHome" Schema="dbo" store:Type="Tables" />
           <AssociationSet Name="FK_ConsolidatedEmployeeLeaveDetails_EmployeeDetails" Association="Self.FK_ConsolidatedEmployeeLeaveDetails_EmployeeDetails">
             <End Role="EmployeeDetails" EntitySet="EmployeeDetails" />
@@ -862,7 +862,7 @@
             <End Role="EmployeeDetails" EntitySet="EmployeeDetails" />
             <End Role="EmployeeLeaveTransaction" EntitySet="EmployeeLeaveTransaction" />
           </AssociationSet>
-          <AssociationSet Name="FK_EmployeeDetails_WorkflowHistory" Association="Self.FK_EmployeeDetails_WorkflowHistory">
+          <AssociationSet Name="FK_EmployeeDetails_EmployeeLeaveTransactionHistory" Association="Self.FK_EmployeeDetails_EmployeeLeaveTransactionHistory">
             <End Role="EmployeeDetails" EntitySet="EmployeeDetails" />
             <End Role="WorkflowHistory" EntitySet="WorkflowHistory" />
           </AssociationSet>
@@ -902,7 +902,7 @@
             <End Role="EmployeeDetails" EntitySet="EmployeeDetails" />
             <End Role="EmployeeLeaveTransaction" EntitySet="EmployeeLeaveTransaction" />
           </AssociationSet>
-          <AssociationSet Name="FK_EmployeeDetailsCreatedById_WorkflowHistory" Association="Self.FK_EmployeeDetailsCreatedById_WorkflowHistory">
+          <AssociationSet Name="FK_EmployeeDetailsCreatedById_EmployeeLeaveTransactionHistory" Association="Self.FK_EmployeeDetailsCreatedById_EmployeeLeaveTransactionHistory">
             <End Role="EmployeeDetails" EntitySet="EmployeeDetails" />
             <End Role="WorkflowHistory" EntitySet="WorkflowHistory" />
           </AssociationSet>
@@ -922,7 +922,7 @@
             <End Role="EmployeeDetails" EntitySet="EmployeeDetails" />
             <End Role="EmployeeLeaveTransaction" EntitySet="EmployeeLeaveTransaction" />
           </AssociationSet>
-          <AssociationSet Name="FK_EmployeeDetilasModifiedById_WorkflowHistory" Association="Self.FK_EmployeeDetilasModifiedById_WorkflowHistory">
+          <AssociationSet Name="FK_EmployeeDetilasModifiedById_EmployeeLeaveTransactionHistory" Association="Self.FK_EmployeeDetilasModifiedById_EmployeeLeaveTransactionHistory">
             <End Role="EmployeeDetails" EntitySet="EmployeeDetails" />
             <End Role="WorkflowHistory" EntitySet="WorkflowHistory" />
           </AssociationSet>
@@ -974,7 +974,7 @@
             <End Role="MasterDataValue" EntitySet="MasterDataValue" />
             <End Role="EmployeeLeaveTransaction" EntitySet="EmployeeLeaveTransaction" />
           </AssociationSet>
-          <AssociationSet Name="FK_MasterDataValue_WorkflowHistory" Association="Self.FK_MasterDataValue_WorkflowHistory">
+          <AssociationSet Name="FK_MasterDataValue_EmployeeLeaveTransactionHistory" Association="Self.FK_MasterDataValue_EmployeeLeaveTransactionHistory">
             <End Role="MasterDataValue" EntitySet="MasterDataValue" />
             <End Role="WorkflowHistory" EntitySet="WorkflowHistory" />
           </AssociationSet>
@@ -990,7 +990,7 @@
             <End Role="MasterDataValue" EntitySet="MasterDataValue" />
             <End Role="EmployeeLeaveTransaction" EntitySet="EmployeeLeaveTransaction" />
           </AssociationSet>
-          <AssociationSet Name="FK_MasterDataValueStatus_WorkflowHistory" Association="Self.FK_MasterDataValueStatus_WorkflowHistory">
+          <AssociationSet Name="FK_MasterDataValueStatus_EmployeeLeaveTransactionHistory" Association="Self.FK_MasterDataValueStatus_EmployeeLeaveTransactionHistory">
             <End Role="MasterDataValue" EntitySet="MasterDataValue" />
             <End Role="WorkflowHistory" EntitySet="WorkflowHistory" />
           </AssociationSet>
@@ -1036,7 +1036,7 @@
           <EntitySet Name="EmployeeExperienceDetails" EntityType="LeaveManagementSystemModel.EmployeeExperienceDetail" />
           <EntitySet Name="EmployeeLeaveMasters" EntityType="LeaveManagementSystemModel.EmployeeLeaveMaster" />
           <EntitySet Name="EmployeeLeaveTransactions" EntityType="LeaveManagementSystemModel.EmployeeLeaveTransaction" />
-          <EntitySet Name="EmployeeLeaveTransactionHistories" EntityType="LeaveManagementSystemModel.WorkflowHistory" />
+          <EntitySet Name="WorkflowHistories" EntityType="LeaveManagementSystemModel.WorkflowHistory" />
           <EntitySet Name="EmployeeProjectDetails" EntityType="LeaveManagementSystemModel.EmployeeProjectDetail" />
           <EntitySet Name="EmployeeRewardedLeaveDetails" EntityType="LeaveManagementSystemModel.EmployeeRewardedLeaveDetail" />
           <EntitySet Name="EmployeeSkills" EntityType="LeaveManagementSystemModel.EmployeeSkill" />
@@ -1072,7 +1072,7 @@
           </AssociationSet>
           <AssociationSet Name="FK_EmployeeDetails_WorkflowHistory" Association="LeaveManagementSystemModel.FK_EmployeeDetails_WorkflowHistory">
             <End Role="EmployeeDetail" EntitySet="EmployeeDetails" />
-            <End Role="WorkflowHistory" EntitySet="EmployeeLeaveTransactionHistories" />
+            <End Role="WorkflowHistory" EntitySet="WorkflowHistories" />
           </AssociationSet>
           <AssociationSet Name="FK_EmployeeDetails_EmployeeManager" Association="LeaveManagementSystemModel.FK_EmployeeDetails_EmployeeManager">
             <End Role="EmployeeDetail" EntitySet="EmployeeDetails" />
@@ -1112,7 +1112,7 @@
           </AssociationSet>
           <AssociationSet Name="FK_EmployeeDetailsCreatedById_WorkflowHistory" Association="LeaveManagementSystemModel.FK_EmployeeDetailsCreatedById_WorkflowHistory">
             <End Role="EmployeeDetail" EntitySet="EmployeeDetails" />
-            <End Role="WorkflowHistory" EntitySet="EmployeeLeaveTransactionHistories" />
+            <End Role="WorkflowHistory" EntitySet="WorkflowHistories" />
           </AssociationSet>
           <AssociationSet Name="FK_EmployeeDetailsCreatedById_Workflow" Association="LeaveManagementSystemModel.FK_EmployeeDetailsCreatedById_Workflow">
             <End Role="EmployeeDetail" EntitySet="EmployeeDetails" />
@@ -1132,7 +1132,7 @@
           </AssociationSet>
           <AssociationSet Name="FK_EmployeeDetilasModifiedById_WorkflowHistory" Association="LeaveManagementSystemModel.FK_EmployeeDetilasModifiedById_WorkflowHistory">
             <End Role="EmployeeDetail" EntitySet="EmployeeDetails" />
-            <End Role="WorkflowHistory" EntitySet="EmployeeLeaveTransactionHistories" />
+            <End Role="WorkflowHistory" EntitySet="WorkflowHistories" />
           </AssociationSet>
           <AssociationSet Name="FK_EmployeeEducationDetails_EmployeeDetails" Association="LeaveManagementSystemModel.FK_EmployeeEducationDetails_EmployeeDetails">
             <End Role="EmployeeDetail" EntitySet="EmployeeDetails" />
@@ -1184,11 +1184,11 @@
           </AssociationSet>
           <AssociationSet Name="FK_MasterDataValue_WorkflowHistory" Association="LeaveManagementSystemModel.FK_MasterDataValue_WorkflowHistory">
             <End Role="MasterDataValue" EntitySet="MasterDataValues" />
-            <End Role="WorkflowHistory" EntitySet="EmployeeLeaveTransactionHistories" />
+            <End Role="WorkflowHistory" EntitySet="WorkflowHistories" />
           </AssociationSet>
           <AssociationSet Name="FK_MasterDataValueStatus_WorkflowHistory" Association="LeaveManagementSystemModel.FK_MasterDataValueStatus_WorkflowHistory">
             <End Role="MasterDataValue" EntitySet="MasterDataValues" />
-            <End Role="WorkflowHistory" EntitySet="EmployeeLeaveTransactionHistories" />
+            <End Role="WorkflowHistory" EntitySet="WorkflowHistories" />
           </AssociationSet>
           <AssociationSet Name="FK_EmployeeProjectDetail_ProjectMaster" Association="LeaveManagementSystemModel.FK_EmployeeProjectDetail_ProjectMaster">
             <End Role="ProjectMaster" EntitySet="ProjectMasters" />
@@ -1311,7 +1311,7 @@
           <NavigationProperty Name="EmployeeContactDetails" Relationship="LeaveManagementSystemModel.FK_EmpDetails_EmployeeContactDetails" FromRole="EmployeeDetail" ToRole="EmployeeContactDetail" />
           <NavigationProperty Name="EmployeeLeaveMasters" Relationship="LeaveManagementSystemModel.FK_ConsolidatedEmployeeLeaveDetails_EmployeeDetails" FromRole="EmployeeDetail" ToRole="EmployeeLeaveMaster" />
           <NavigationProperty Name="EmployeeLeaveTransactions" Relationship="LeaveManagementSystemModel.FK_EmployeeDetails_EmployeeLeaveTransaction" FromRole="EmployeeDetail" ToRole="EmployeeLeaveTransaction" />
-          <NavigationProperty Name="EmployeeLeaveTransactionHistories" Relationship="LeaveManagementSystemModel.FK_EmployeeDetails_WorkflowHistory" FromRole="EmployeeDetail" ToRole="WorkflowHistory" />
+          <NavigationProperty Name="WorkflowHistories" Relationship="LeaveManagementSystemModel.FK_EmployeeDetails_WorkflowHistory" FromRole="EmployeeDetail" ToRole="WorkflowHistory" />
           <NavigationProperty Name="EmployeeDetails1" Relationship="LeaveManagementSystemModel.FK_EmployeeDetails_EmployeeManager" FromRole="EmployeeDetail" ToRole="EmployeeDetail1" />
           <NavigationProperty Name="EmployeeDetail1" Relationship="LeaveManagementSystemModel.FK_EmployeeDetails_EmployeeManager" FromRole="EmployeeDetail1" ToRole="EmployeeDetail" />
           <NavigationProperty Name="EmployeeProjectDetails" Relationship="LeaveManagementSystemModel.FK_EmployeeDetails_EmployeeProjectDetail" FromRole="EmployeeDetail" ToRole="EmployeeProjectDetail" />
@@ -1322,12 +1322,12 @@
           <NavigationProperty Name="Notifications" Relationship="LeaveManagementSystemModel.FK_EmployeeDetails_Notification" FromRole="EmployeeDetail" ToRole="Notification" />
           <NavigationProperty Name="UserAccounts" Relationship="LeaveManagementSystemModel.FK_EmployeeDetails_UserAccount" FromRole="EmployeeDetail" ToRole="UserAccount" />
           <NavigationProperty Name="EmployeeLeaveTransactions1" Relationship="LeaveManagementSystemModel.FK_EmployeeDetailsCreatedById_EmployeeLeaveTransaction" FromRole="EmployeeDetail" ToRole="EmployeeLeaveTransaction" />
-          <NavigationProperty Name="EmployeeLeaveTransactionHistories1" Relationship="LeaveManagementSystemModel.FK_EmployeeDetailsCreatedById_WorkflowHistory" FromRole="EmployeeDetail" ToRole="WorkflowHistory" />
+          <NavigationProperty Name="WorkflowHistories1" Relationship="LeaveManagementSystemModel.FK_EmployeeDetailsCreatedById_WorkflowHistory" FromRole="EmployeeDetail" ToRole="WorkflowHistory" />
           <NavigationProperty Name="Workflows" Relationship="LeaveManagementSystemModel.FK_EmployeeDetailsCreatedById_Workflow" FromRole="EmployeeDetail" ToRole="Workflow" />
           <NavigationProperty Name="Workflows1" Relationship="LeaveManagementSystemModel.FK_EmployeeDetailsId_Workflow" FromRole="EmployeeDetail" ToRole="Workflow" />
           <NavigationProperty Name="Workflows2" Relationship="LeaveManagementSystemModel.FK_EmployeeDetailsModifiedById_Workflow" FromRole="EmployeeDetail" ToRole="Workflow" />
           <NavigationProperty Name="EmployeeLeaveTransactions2" Relationship="LeaveManagementSystemModel.FK_EmployeeDetialsModifiedById_EmployeeLeaveTransaction" FromRole="EmployeeDetail" ToRole="EmployeeLeaveTransaction" />
-          <NavigationProperty Name="EmployeeLeaveTransactionHistories2" Relationship="LeaveManagementSystemModel.FK_EmployeeDetilasModifiedById_WorkflowHistory" FromRole="EmployeeDetail" ToRole="WorkflowHistory" />
+          <NavigationProperty Name="WorkflowHistories2" Relationship="LeaveManagementSystemModel.FK_EmployeeDetilasModifiedById_WorkflowHistory" FromRole="EmployeeDetail" ToRole="WorkflowHistory" />
           <NavigationProperty Name="EmployeeEducationDetails" Relationship="LeaveManagementSystemModel.FK_EmployeeEducationDetails_EmployeeDetails" FromRole="EmployeeDetail" ToRole="EmployeeEducationDetail" />
           <NavigationProperty Name="EmployeeExperienceDetails" Relationship="LeaveManagementSystemModel.FK_EmployeeExperienceDetails_EmployeeDetails" FromRole="EmployeeDetail" ToRole="EmployeeExperienceDetail" />
           <NavigationProperty Name="EmployeeLeaveMasters1" Relationship="LeaveManagementSystemModel.FK_EmployeeLeaveMaster_EmployeeDetails" FromRole="EmployeeDetail" ToRole="EmployeeLeaveMaster" />
@@ -1517,8 +1517,8 @@
           <NavigationProperty Name="EmployeeDetails3" Relationship="LeaveManagementSystemModel.FK_EmployeeDetails_MasterDataValue3" FromRole="MasterDataValue" ToRole="EmployeeDetail" />
           <NavigationProperty Name="EmployeeLeaveTransactions" Relationship="LeaveManagementSystemModel.FK_MasterDataValue_EmployeeLeaveTransaction" FromRole="MasterDataValue" ToRole="EmployeeLeaveTransaction" />
           <NavigationProperty Name="EmployeeLeaveTransactions1" Relationship="LeaveManagementSystemModel.FK_MasterDataValueStatus_EmployeeLeaveTransaction" FromRole="MasterDataValue" ToRole="EmployeeLeaveTransaction" />
-          <NavigationProperty Name="EmployeeLeaveTransactionHistories" Relationship="LeaveManagementSystemModel.FK_MasterDataValue_WorkflowHistory" FromRole="MasterDataValue" ToRole="WorkflowHistory" />
-          <NavigationProperty Name="EmployeeLeaveTransactionHistories1" Relationship="LeaveManagementSystemModel.FK_MasterDataValueStatus_WorkflowHistory" FromRole="MasterDataValue" ToRole="WorkflowHistory" />
+          <NavigationProperty Name="WorkflowHistories" Relationship="LeaveManagementSystemModel.FK_MasterDataValue_WorkflowHistory" FromRole="MasterDataValue" ToRole="WorkflowHistory" />
+          <NavigationProperty Name="WorkflowHistories1" Relationship="LeaveManagementSystemModel.FK_MasterDataValueStatus_WorkflowHistory" FromRole="MasterDataValue" ToRole="WorkflowHistory" />
           <NavigationProperty Name="LeaveMasters" Relationship="LeaveManagementSystemModel.FK_MasterDataValue_LeaveMaster" FromRole="MasterDataValue" ToRole="LeaveMaster" />
           <NavigationProperty Name="MasterDataType" Relationship="LeaveManagementSystemModel.FK_MasterDataType_MasterDataValue" FromRole="MasterDataValue" ToRole="MasterDataType" />
           <NavigationProperty Name="Notifications" Relationship="LeaveManagementSystemModel.FK_MasterDataValue_Notification" FromRole="MasterDataValue" ToRole="Notification" />
@@ -2278,7 +2278,7 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="EmployeeLeaveTransactionHistories">
+          <EntitySetMapping Name="WorkflowHistories">
             <EntityTypeMapping TypeName="LeaveManagementSystemModel.WorkflowHistory">
               <MappingFragment StoreEntitySet="WorkflowHistory">
                 <ScalarProperty Name="RefModifiedBy" ColumnName="RefModifiedBy" />

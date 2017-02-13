@@ -24,8 +24,8 @@ namespace LMS_WebAPI_DAL
             this.EmployeeDetails3 = new HashSet<EmployeeDetail>();
             this.EmployeeLeaveTransactions = new HashSet<EmployeeLeaveTransaction>();
             this.EmployeeLeaveTransactions1 = new HashSet<EmployeeLeaveTransaction>();
-            this.EmployeeLeaveTransactionHistories = new HashSet<WorkflowHistory>();
-            this.EmployeeLeaveTransactionHistories1 = new HashSet<WorkflowHistory>();
+            this.WorkflowHistories = new HashSet<WorkflowHistory>();
+            this.WorkflowHistories1 = new HashSet<WorkflowHistory>();
             this.LeaveMasters = new HashSet<LeaveMaster>();
             this.Notifications = new HashSet<Notification>();
             this.Workflows = new HashSet<Workflow>();
@@ -52,9 +52,9 @@ namespace LMS_WebAPI_DAL
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<EmployeeLeaveTransaction> EmployeeLeaveTransactions1 { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<WorkflowHistory> EmployeeLeaveTransactionHistories { get; set; }
+        public virtual ICollection<WorkflowHistory> WorkflowHistories { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<WorkflowHistory> EmployeeLeaveTransactionHistories1 { get; set; }
+        public virtual ICollection<WorkflowHistory> WorkflowHistories1 { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<LeaveMaster> LeaveMasters { get; set; }
         public virtual MasterDataType MasterDataType { get; set; }

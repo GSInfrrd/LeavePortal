@@ -36,7 +36,7 @@ namespace LMS_WebAPI_DAL
         public virtual DbSet<EmployeeExperienceDetail> EmployeeExperienceDetails { get; set; }
         public virtual DbSet<EmployeeLeaveMaster> EmployeeLeaveMasters { get; set; }
         public virtual DbSet<EmployeeLeaveTransaction> EmployeeLeaveTransactions { get; set; }
-        public virtual DbSet<WorkflowHistory> EmployeeLeaveTransactionHistories { get; set; }
+        public virtual DbSet<WorkflowHistory> WorkflowHistories { get; set; }
         public virtual DbSet<EmployeeProjectDetail> EmployeeProjectDetails { get; set; }
         public virtual DbSet<EmployeeRewardedLeaveDetail> EmployeeRewardedLeaveDetails { get; set; }
         public virtual DbSet<EmployeeSkill> EmployeeSkills { get; set; }

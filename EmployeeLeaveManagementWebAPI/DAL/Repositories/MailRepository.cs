@@ -265,7 +265,7 @@ namespace LMS_WebAPI_DAL.Repositories
                     retResult.NewManagerName = null;
                     if (actionName== ActionsForMail.ApproveLeave || actionName== ActionsForMail.RejectLeave)
                     {
-                        var LeaveHistoryDetails = ctx.EmployeeLeaveTransactionHistories.Where(x => x.Id == LeaveId).OrderByDescending(x => x.ModifiedDate).FirstOrDefault();
+                        var LeaveHistoryDetails = ctx.WorkflowHistories.Where(x => x.Id == LeaveId).OrderByDescending(x => x.ModifiedDate).FirstOrDefault();
                         retResult.ManagerComments = LeaveHistoryDetails.ManagerComment;
                         //retResult.ManagerName = LeaveHistoryDetails.RefModifiedBy;
                     }

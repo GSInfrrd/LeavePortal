@@ -3,6 +3,8 @@ using LMS_WebAPI_Domain;
 using LMS_WebAPI_Utils;
 using System;
 using System.Collections.Generic;
+using System.Data.Entity;
+using System.Data.Entity.Core.Objects;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -40,7 +42,7 @@ namespace LMS_WebAPI_DAL.Repositories
                 Logger.Info("Entering in ApproveLeaveRepository API GetApproveLeave method");
                 using (var ctx = new LeaveManagementSystemEntities1())
                 {
-                    var ApproveLeaves = ctx.Workflows.Where(m => (m.RefApproverId == id) && ((m.RefStatus ==(Int16) LeaveStatus.Submitted) || (m.RefStatus == (Int16)LeaveStatus.Reassigned))).ToList();
+                    var ApproveLeaves = ctx.Workflows.Where(m => (m.RefApproverId == id) && ((m.RefStatus ==(Int16) LeaveStatus.Submitted) || (m.RefStatus == (Int16)LeaveStatus.Reassigned))).OrderByDescending(m => m.CreatedDate).ToList();
                     var retResult = ToModel(ApproveLeaves);
                     Logger.Info("Successfully exiting from ApproveLeaveRepository API GetApproveLeave method");
                     return retResult;
@@ -49,6 +51,34 @@ namespace LMS_WebAPI_DAL.Repositories
             catch
             {
                 Logger.Info("Exception occured at ApproveLeaveRepository API GetApproveLeave method ");
+                throw;
+            }
+        }
+
+
+        public List<ApproveLeaveModel> GetViewApprovedLeave(int id)
+        {
+            try
+            {
+                Logger.Info("Entering in ApproveLeaveRepository API GetViewApprovedLeave method");
+                using (var ctx = new LeaveManagementSystemEntities1())
+                {
+                    var MyEmployees = ctx.EmployeeDetails.Where(m => m.ManagerId == id).ToList();
+                    List<Int32> EmployeedIds = new List<int>();
+                    foreach (var emp in MyEmployees)
+                    {
+                        EmployeedIds.Add(emp.Id);
+                    }
+                    DateTime bd = DateTime.Now.AddMonths(-2);
+                    var ApprovedLeaves = ctx.EmployeeLeaveTransactions.Where(m => EmployeedIds.Contains(m.RefEmployeeId) && (m.RefStatus == (Int16)LeaveStatus.Approved)&& (DateTime.Compare(m.FromDate.Value, bd)>0)).ToList();
+                    var retResult = ToModelForApprovedLeaves(ApprovedLeaves);
+                    Logger.Info("Successfully exiting from ApproveLeaveRepository API GetViewApprovedLeave method");
+                    return retResult;
+                }
+            }
+            catch(Exception ex)
+            {
+                Logger.Info("Exception occured at ApproveLeaveRepository API GetViewApprovedLeave method ");
                 throw;
             }
         }
@@ -92,7 +122,7 @@ namespace LMS_WebAPI_DAL.Repositories
                         if (leaveDetails.EmployeeLeaveTransaction.RefLeaveType == (int)LMS_WebAPI_Utils.LeaveType.CasualLeave || leaveDetails.EmployeeLeaveTransaction.RefLeaveType == (int)LMS_WebAPI_Utils.LeaveType.SickLeave)
                         {
 
-                            leaveMaster.EarnedCasualLeave = Convert.ToInt32((Double)leaveMaster.EarnedCasualLeave - leaveDetails.EmployeeLeaveTransaction.NumberOfWorkingDays);
+                            leaveMaster.EarnedCasualLeave=(Double)leaveMaster.EarnedCasualLeave - leaveDetails.EmployeeLeaveTransaction.NumberOfWorkingDays;
 
                         }
                         else if (leaveDetails.EmployeeLeaveTransaction.RefLeaveType == (int)LMS_WebAPI_Utils.LeaveType.AdvanceLeave)
@@ -233,6 +263,95 @@ namespace LMS_WebAPI_DAL.Repositories
 
         }
 
+
+        public bool CancelEmployeeLeave(int Leaveid)
+        {
+            var result = false;
+            try
+            {
+                Logger.Info("Entering in ApproveLeaveRepository API CancelEmployeeLeave method");
+                using (var ctx = new LeaveManagementSystemEntities1())
+                {
+
+
+                    var leaveDetails = ctx.EmployeeLeaveTransactions.Where(x => x.Id == Leaveid).FirstOrDefault();
+                    leaveDetails.RefStatus = (int)LeaveStatus.Cancelled;
+                    ctx.SaveChanges();
+                    var leaveTransactionEntity = new EmployeeLeaveTransaction()
+                    {
+                        RefEmployeeId = leaveDetails.RefEmployeeId,
+                        CreatedDate = leaveDetails.CreatedDate,
+                        NumberOfWorkingDays = leaveDetails.NumberOfWorkingDays,
+                        RefLeaveType = (int)LeaveType.CancelledLeave,
+                        RefStatus = (int)LeaveStatus.Cancelled,
+                        FromDate = Convert.ToDateTime(leaveDetails.FromDate),
+                        ToDate = Convert.ToDateTime(leaveDetails.ToDate),
+                        ModifiedDate = DateTime.Now,
+                        RefCreatedBy = leaveDetails.RefCreatedBy,
+                        RefModifiedBy = leaveDetails.RefModifiedBy,
+                        RefTransactionType = (int)TransactionType.Credit
+                    };
+
+                    var leaveTransactionRecord = ctx.EmployeeLeaveTransactions.Add(leaveTransactionEntity);
+                    var leaveTransactionResult = ctx.SaveChanges();
+
+                    var WorkflowHistoryEntity = new WorkflowHistory()
+                    {
+                        Id = leaveDetails.Id,
+                        RefEmployeeId = leaveDetails.RefEmployeeId,
+                        CreatedDate = leaveDetails.CreatedDate,
+                        FromDate = Convert.ToDateTime(leaveDetails.FromDate),
+                        ToDate = Convert.ToDateTime(leaveDetails.ToDate),
+                        NumberOfWorkingDays = leaveDetails.NumberOfWorkingDays,
+                        RefLeaveType = (int)LeaveType.CancelledLeave,
+                        RefStatus = (int)LeaveStatus.Cancelled,
+                        ModifiedDate = DateTime.Now,
+                        RefCreatedBy = leaveDetails.RefCreatedBy,
+                        RefModifiedBy = leaveDetails.RefModifiedBy,
+                    };
+
+                    var WorkflowHistoryRecord = ctx.WorkflowHistories.Add(WorkflowHistoryEntity);
+                    var WorkflowHistoryResult = ctx.SaveChanges();
+
+
+
+
+                    var leaveMasterRecord = ctx.EmployeeLeaveMasters.Where(x => x.RefEmployeeId == leaveDetails.RefEmployeeId).FirstOrDefault();
+                    if (null != leaveMasterRecord)
+                    {
+                        if (null != leaveMasterRecord.EarnedCasualLeave)
+                        { leaveMasterRecord.EarnedCasualLeave += leaveDetails.NumberOfWorkingDays; }
+                        else
+                        { leaveMasterRecord.EarnedCasualLeave = leaveDetails.NumberOfWorkingDays; }
+
+                        var resultLeaveMaster = ctx.SaveChanges();
+                    }
+                    else
+                    {
+                        var employeeLeavemaster = new EmployeeLeaveMaster()
+                        {
+                            RefEmployeeId = leaveDetails.RefEmployeeId,
+                            EarnedCasualLeave = leaveDetails.NumberOfWorkingDays,
+                            ModifiedDate = DateTime.Now,
+                            ModifiedBy = leaveDetails.RefModifiedBy
+                        };
+                        var newLeavemasterRecord = ctx.EmployeeLeaveMasters.Add(employeeLeavemaster);
+                        var resultLeavemasterRecord = ctx.SaveChanges();
+                    }
+                    
+                    Logger.Info("Successfully exiting from ApproveLeaveRepository API CancelEmployeeLeave method");
+                }
+                result = true;
+            }
+            catch
+            {
+                Logger.Info("Exception occured at ApproveLeaveRepository API CancelEmployeeLeave method ");
+                throw;
+            }
+            return result;
+
+        }
+
         public void InsertNotification(int id, string Text, int status, int notificationType)
         {
             try
@@ -282,7 +401,7 @@ namespace LMS_WebAPI_DAL.Repositories
                         m.RefModifiedBy = wf.RefModifiedBy;
                         m.ModifiedDate = Convert.ToDateTime(wf.ModifiedDate);
 
-                        ctx.EmployeeLeaveTransactionHistories.Add(m);
+                        ctx.WorkflowHistories.Add(m);
                         ctx.SaveChanges();
                     }
                 }
@@ -402,6 +521,41 @@ namespace LMS_WebAPI_DAL.Repositories
             catch
             {
                 Logger.Info("Exception occured at ApproveLeaveRepository API ToModel method ");
+                throw;
+            }
+            return Empres;
+        }
+
+        private List<ApproveLeaveModel> ToModelForApprovedLeaves(List<EmployeeLeaveTransaction> LeaveTransaction)
+        {
+            Logger.Info("Entering in ApproveLeaveRepository API ToModelForApprovedLeaves method");
+            List<ApproveLeaveModel> Empres = new List<ApproveLeaveModel>();
+            try
+            {
+                foreach (var m in LeaveTransaction)
+                {
+                    var newTrans = new ApproveLeaveModel();
+                    newTrans.Id = m.Id;
+                    newTrans.EmployeeName = m.EmployeeDetail.FirstName + " " + m.EmployeeDetail.LastName;
+                    newTrans.RefEmployeeId = m.EmployeeDetail.Id;
+                    newTrans.FromDate = m.FromDate.Value;
+                    newTrans.ToDate = m.ToDate;
+                    newTrans.CreatedDate = m.CreatedDate;
+                    newTrans.RefStatus = m.RefStatus;
+                    newTrans.NumberOfWorkingDays = m.NumberOfWorkingDays;
+                    newTrans.RefLeaveType = m.RefLeaveType;
+                    newTrans.EmployeeComment = m.EmployeeComment;
+                    newTrans.LeaveTypeName = m.MasterDataValue.Value;
+                    newTrans.StatusName = m.MasterDataValue1.Value;
+                    //newTrans.ManagerComments = m.ManagerComments;
+                    newTrans.ModifiedDate = m.ModifiedDate;
+                    Empres.Add(newTrans);
+                }
+                Logger.Info("Successfully exiting from ApproveLeaveRepository API ToModelForApprovedLeaves method");
+            }
+            catch
+            {
+                Logger.Info("Exception occured at ApproveLeaveRepository API ToModelForApprovedLeaves method ");
                 throw;
             }
             return Empres;

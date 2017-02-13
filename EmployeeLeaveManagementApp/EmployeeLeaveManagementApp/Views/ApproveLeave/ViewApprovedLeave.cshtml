@@ -1,0 +1,198 @@
+﻿@model List<LMS_WebAPP_Domain.ApproveLeave>
+@{
+    ViewBag.Title = "ApprovedLeave";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+
+}
+    <!-- DataTables -->
+    <link rel="stylesheet" href="../../plugins/datatables/dataTables.bootstrap.css">
+
+    <!-- iCheck for checkboxes and radio inputs -->
+    <link rel="stylesheet" href="../../plugins/iCheck/all.css">
+    <link rel="stylesheet" href="../../dist/css/AdminLTE.min.css">
+    <link href="~/Content/Style.css" rel="stylesheet" />
+    <link href="~/plugins/Toastr/toastr.css" rel="stylesheet" />
+
+    <!-- Content Wrapper. Contains page content -->
+    <!-- Main content -->
+    <section class="content-header" style="height:41px">
+        <h1 class="col-md-9" style="padding-left:0px">
+            Approved Leave
+        </h1>
+
+    </section>
+
+    <section class="content">
+    <div class="row">
+        <div class="col-xs-12">
+            <div class="box box-success">
+                <div class="box-body">
+                    <table id="example1" class="table table-bordered table-striped">
+                        <thead>
+                            <tr>
+                                <th>Employee Name</th>
+                                <th>From Date</th>
+                                <th>To Date</th>
+                                <th>Submitted Date</th>
+                                <th>Status</th>
+                                <th style="width:160px">Number of working Days</th>
+                                <th>Leave Type</th>
+                                <th>Cancel</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (LMS_WebAPP_Domain.ApproveLeave m in Model)
+                            {
+                                var btnDisabled = m.RefStatus > 9 ? "disabled" : "";
+
+
+                                <tr>
+                                    <td>@m.EmployeeName</td>
+                                    <td>@m.FromDate.Date.ToString("dd/MM/yyyy")</td>
+                                    <td>@m.ToDate.Date.ToString("dd/MM/yyyy")</td>
+                                    <td>@m.CreatedDate.Date.ToString("dd/MM/yyyy")</td>
+                                    <td>@(LMS_WebAPP_Utils.CommonMethods.Description((LMS_WebAPP_Utils.LeaveStatus)m.RefStatus))</td>
+                                    <td>@m.NumberOfWorkingDays</td>
+                                    <td>@(LMS_WebAPP_Utils.CommonMethods.Description((LMS_WebAPP_Utils.LeaveType)m.RefLeaveType))</td>
+                                    <td><button type="button" id="btnConfirmCancelLeave" style="background-color:#222d32 !important" data-content="@m.Id" class="btn btn-primary">Cancel</button></td>
+
+                                </tr>
+                            }
+                        </tbody>
+                        <tfoot>
+                            <tr>
+                                <td></td>
+                            </tr>
+                        </tfoot>
+                    </table>
+                </div>
+                <!-- /.box-body -->
+            </div>
+            <!-- /.box -->
+        </div>
+        <!-- /.col -->
+    </div>
+    <!-- /.row -->
+    
+</section>
+<div class="modal rewardLeaveConfirmation-modal" id="CancelLeaveConfirmationModal" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel">
+    <div class="modal-dialog modal-md" role="document">
+        <div class="modal-content mar-left50-right50 border-radius-modalBottom">
+            <div class="modal-header modalHeaderStyle">
+                <button type="button" class="close text-color-white btnCancelLeave" id="" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+                <h3 class="modal-title">Cancel Leave Confirmation</h3>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="paddingtopBottom10-leftRight15">
+                        <div class="col-md-12 padding-bottom-10">
+                            <label class="rewardConfirmTitle"></label>
+                        </div>
+                        <div class="col-md-12 padding-bottom-10">
+                            <div class="col-md-6 text-align_center">
+                                <div class="btn-group">
+                                    <button type="button" id="" class="btn btn-danger width-100 btnCancelLeave" aria-haspopup="true" aria-expanded="false">
+                                        No
+                                    </button>
+                                </div>
+                            </div>
+                            <div class="col-md-6 text-align_center">
+                                <div class="btn-group">
+                                    <button type="button" id="btnCancelLeave" class="btn btn-success width-100" aria-haspopup="true" aria-expanded="false">
+                                        Yes
+                                    </button>
+                                    <label id="lblHiddenId" style="display:none"></label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+</div>
+
+
+    
+    <!-- /.modal -->
+    <!-- /.content -->
+    <!-- ./wrapper -->
+    <!-- DataTables -->
+    <script src="../../plugins/datatables/jquery.dataTables.min.js"></script>
+    <script src="../../plugins/datatables/dataTables.bootstrap.min.js"></script>
+    <!-- AdminLTE App -->
+    <script src="../../dist/js/app.min.js"></script>
+    <!-- AdminLTE for demo purposes -->
+    <script src="../../dist/js/demo.js"></script>
+    <!-- page script -->
+    <script src="~/plugins/daterangepicker/moment.min.js"></script>
+    <script src="../../plugins/daterangepicker/daterangepicker.js"></script>
+    <!-- bootstrap datepicker -->
+    <script src="../../plugins/datepicker/bootstrap-datepicker.js"></script>
+    <script src="../../plugins/iCheck/icheck.min.js"></script>
+    <script src="../../plugins/Toastr/toastr.js"></script>
+    <script>
+        var fromDate;
+        var toDate;
+        $(document).ready(function () {
+            $('#approveLeave').parent().addClass('active');
+            if (localStorage.getItem("leaveCancelled") == 1) {
+                showMessage("Leave request Cancelled", "1", true);
+                localStorage.removeItem("leaveCancelled");
+            }
+            $(function () {
+                $('#example1').DataTable({
+                    "paging": true,
+                    "lengthChange": true,
+                    "searching": false,
+                    "ordering": true,
+                    "info": true,
+                    "autoWidth": false,
+                });
+                $("#example1.dataTables_filter").hide();
+            });
+        });
+
+
+        $(document).on('click', '#btnCancelLeave', function (e) {
+            var Leaveid = $("#lblHiddenId").html();
+            $("#Loading").show();
+            $.ajax({
+                cache: false,
+                type: 'delete',
+                url: '/ApproveLeave/CancelEmployeeLeave',
+                data: { Leaveid: Leaveid },
+                dataType: "json",
+                success: function (data) {
+                    if (data) {
+                        localStorage.setItem("leaveCancelled", 1);
+                        location.reload();
+                        $("#Loading").hide();
+                    }
+                }
+            });
+        }
+
+);
+
+        $(document).on('click', '#btnConfirmCancelLeave', function (e) {
+            var id = $(this).data("content");
+            $('#lblHiddenId').html(id);
+            $(".rewardConfirmTitle").html("Are you sure you want to cancel leave?");
+            $("#CancelLeaveConfirmationModal").modal("show");
+            }
+        
+);
+
+        $(".btnCancelLeave").on("click", function () {
+            $("#CancelLeaveConfirmationModal").modal("hide");
+        });
+
+        
+    </script>
+
+

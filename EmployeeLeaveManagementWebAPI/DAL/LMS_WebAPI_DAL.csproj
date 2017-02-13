@@ -119,12 +119,6 @@
     <Compile Include="EmployeeLeaveTransaction.cs">
       <DependentUpon>EmployeeLeaveManagement.tt</DependentUpon>
     </Compile>
-    <Compile Include="EmployeeLeaveTransactionHistory.cs">
-      <DependentUpon>EmployeeLeaveManagement.tt</DependentUpon>
-    </Compile>
-    <Compile Include="EmployeeLeaveTransactionHistory.Designer.cs">
-      <DependentUpon>EmployeeLeaveTransactionHistory.cs</DependentUpon>
-    </Compile>
     <Compile Include="EmployeeProjectDetail.cs">
       <DependentUpon>EmployeeLeaveManagement.tt</DependentUpon>
     </Compile>
@@ -185,6 +179,9 @@
       <DependentUpon>EmployeeLeaveManagement.tt</DependentUpon>
     </Compile>
     <Compile Include="Workflow.cs">
+      <DependentUpon>EmployeeLeaveManagement.tt</DependentUpon>
+    </Compile>
+    <Compile Include="WorkflowHistory.cs">
       <DependentUpon>EmployeeLeaveManagement.tt</DependentUpon>
     </Compile>
     <Compile Include="WorkFromHome.cs">

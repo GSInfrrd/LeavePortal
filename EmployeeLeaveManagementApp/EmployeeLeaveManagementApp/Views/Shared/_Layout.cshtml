@@ -233,7 +233,11 @@
 
                                     </a>
                                 </li>
-
+                                <li>
+                                    <a id="approveLeave" href="@Url.Action("ViewApprovedLeave", "ApproveLeave")">
+                                        <i class="fa fa-calendar-check-o"></i> <span>View Approved Leave</span>
+                                    </a>
+                                </li>
                                 <li>
                                     <a id="rewardLeave" href="@Url.Action("RewardLeaveTransaction","LeaveTransaction")">
                                         <i class="fa fa-user-plus" aria-hidden="true"></i> <span>Reward Leave</span>
@@ -540,7 +544,7 @@
             // signalr js code for start hub and send receive notification
             var notificationHub = $.connection.notificationHub;
             var apisignalrURL = 
-            $.connection.hub.url = "http://localhost:64476/signalr/";
+             $.connection.hub.url = "http://localhost:64476/signalr/";
            // $.connection.hub.url = apisignalrURL;
             $.connection.hub.start({ withCredentials: false }).done(function () {
                 console.log('Notification hub started');

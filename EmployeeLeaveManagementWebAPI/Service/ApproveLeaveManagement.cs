@@ -44,7 +44,24 @@ namespace LMS_WebAPI_ServiceHelpers
             }
         }
 
-        
+        public List<ApproveLeaveModel> GetViewApprovedLeave(int id)
+        {
+            Logger.Info("Entering into ApproveLeaveManagement Service helper GetViewApprovedLeave method ");
+            try
+            {
+                var ApproveLeaves = EmployeeLeaves.GetViewApprovedLeave(id);
+                Logger.Info("Exiting from into ApproveLeaveManagement Service helper GetViewApprovedLeave method ");
+                return ApproveLeaves;
+            }
+            catch
+            {
+                Logger.Info("Exception occured at ApproveLeaveManagement Service helper GetViewApprovedLeave method ");
+                throw;
+
+            }
+        }
+
+
 
         public bool TakeActionOnEmployeeLeave(int Leaveid, string Leavecomments, string Leavestatus, int Approverid)
         {
@@ -58,6 +75,23 @@ namespace LMS_WebAPI_ServiceHelpers
             catch
             {
                 Logger.Info("Exception occured at ApproveLeaveManagement Service helper ApproveEmployeeLeave method ");
+                throw;
+
+            }
+        }
+
+        public bool CancelEmployeeLeave(int Leaveid)
+        {
+            Logger.Info("Entering into ApproveLeaveManagement Service helper CancelEmployeeLeave method ");
+            try
+            {
+                var ApproveLeaves = EmployeeLeaves.CancelEmployeeLeave(Leaveid);
+                Logger.Info("Exiting from into ApproveLeaveManagement Service helper CancelEmployeeLeave method ");
+                return ApproveLeaves;
+            }
+            catch
+            {
+                Logger.Info("Exception occured at ApproveLeaveManagement Service helper CancelEmployeeLeave method ");
                 throw;
 
             }

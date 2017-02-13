@@ -22,7 +22,9 @@ namespace LMS_WebAPP_Utils
         [Description("Reward Leave")]
         RewardLeave = 66,
         [Description("Earned Leave")]
-        EarnedLeave = 67
+        EarnedLeave = 67,
+        [Description("Cancelled Leave")]
+        CancelledLeave = 68
     }
 
     public enum LeaveStatus

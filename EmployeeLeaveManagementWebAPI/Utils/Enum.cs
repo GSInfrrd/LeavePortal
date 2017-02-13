@@ -17,7 +17,9 @@ namespace LMS_WebAPI_Utils
         [Description("Reward Leave")]
         RewardLeave = 66,
         [Description("Earned Leave")]
-        EarnedLeave = 67
+        EarnedLeave = 67,
+        [Description("Cancelled Leave")]
+        CancelledLeave = 68
     }
     public enum LeaveStatus
     {
@@ -30,8 +32,11 @@ namespace LMS_WebAPI_Utils
         Rejected = 73,
         [Description("Approved")]
         Approved = 74,
+        [Description("Cancelled")]
+        Cancelled = 75,
         [Description("Reassigned")]
-        Reassigned = 76
+        Reassigned = 76,
+        
     }
 
     public enum EmployeeRole

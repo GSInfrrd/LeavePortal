@@ -52,12 +52,30 @@ namespace EmployeeLeaveManagementWebAPI.Controllers
             }
 
         }
-        
+
+        public List<ApproveLeaveModel> GetViewApprovedLeave(int id, string st , bool status)
+        {
+            try
+            {
+                Logger.Info("Entering in ApproveLeaveController API GetViewApprovedLeave method");
+                ApproveLeaveManagement ALM = new ApproveLeaveManagement();
+                var res = ALM.GetViewApprovedLeave(id);
+                Logger.Info("Successfully exiting from ApproveLeaveController API GetViewApprovedLeave method");
+                return res;
+            }
+            catch (Exception ex)
+            {
+                Logger.Error("Error at ApproveLeaveController API GetViewApprovedLeave method.", ex);
+                return null;
+            }
+
+        }
+
         public List<ApproveLeaveModel> GetTakeActionOnEmployeeLeave(int Leaveid, string Leavecomments, string Leavestatus, int Approverid)
         {
             try
             {
-                Logger.Info("Entering in ApproveLeaveController API Get method");
+                Logger.Info("Entering in ApproveLeaveController API GetTakeActionOnEmployeeLeave method");
                 ApproveLeaveManagement ALM = new ApproveLeaveManagement();
                 var EmployeeLeaveApproved = ALM.TakeActionOnEmployeeLeave(Leaveid, Leavecomments, Leavestatus, Approverid);
 
@@ -70,13 +88,32 @@ namespace EmployeeLeaveManagementWebAPI.Controllers
                 {
                     res = ALM.GetApproveLeave(Leaveid);
                 }
-                Logger.Info("Successfully exiting from ApproveLeaveController API Get method");
+                Logger.Info("Successfully exiting from ApproveLeaveController API GetTakeActionOnEmployeeLeave method");
                 return res;
             }
             catch (Exception ex)
             {
-                Logger.Error("Error at ApproveLeaveController API Get method.", ex);
+                Logger.Error("Error at ApproveLeaveController API GetTakeActionOnEmployeeLeave method.", ex);
                 return null;
+            }
+
+        }
+
+        [HttpDelete]
+        public bool CancelEmployeeLeave(int Leaveid)
+        {
+            try
+            {
+                Logger.Info("Entering in ApproveLeaveController API CancelEmployeeLeave method");
+                ApproveLeaveManagement ALM = new ApproveLeaveManagement();
+                var EmployeeLeaveCancelled = ALM.CancelEmployeeLeave(Leaveid);
+                Logger.Info("Successfully exiting from ApproveLeaveController API CancelEmployeeLeave method");
+                return EmployeeLeaveCancelled;
+            }
+            catch (Exception ex)
+            {
+                Logger.Error("Error at ApproveLeaveController API CancelEmployeeLeave method.", ex);
+                return false;
             }
 
         }
