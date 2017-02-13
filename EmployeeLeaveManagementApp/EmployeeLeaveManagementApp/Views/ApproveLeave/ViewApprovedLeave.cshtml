@@ -54,7 +54,7 @@
                                     <td>@(LMS_WebAPP_Utils.CommonMethods.Description((LMS_WebAPP_Utils.LeaveStatus)m.RefStatus))</td>
                                     <td>@m.NumberOfWorkingDays</td>
                                     <td>@(LMS_WebAPP_Utils.CommonMethods.Description((LMS_WebAPP_Utils.LeaveType)m.RefLeaveType))</td>
-                                    <td><button type="button" id="btnConfirmCancelLeave" style="background-color:#222d32 !important" data-content="@m.Id" class="btn btn-primary">Cancel</button></td>
+                                    <td><button type="button" id="btnConfirmCancelLeave" style="background-color:#222d32 !important" data-content="@m.Id" data-EmployeeName="@m.EmployeeName" class="btn btn-primary">Cancel</button></td>
 
                                 </tr>
                             }
@@ -180,9 +180,11 @@
 );
 
         $(document).on('click', '#btnConfirmCancelLeave', function (e) {
+            debugger
             var id = $(this).data("content");
+            var employeeName = $(this).attr("data-EmployeeName");;
             $('#lblHiddenId').html(id);
-            $(".rewardConfirmTitle").html("Are you sure you want to cancel leave?");
+            $(".rewardConfirmTitle").html("Are you sure you want to cancel leave for " + employeeName + " ?");
             $("#CancelLeaveConfirmationModal").modal("show");
             }
         
