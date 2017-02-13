@@ -3,7 +3,7 @@
     ViewBag.Title = "LeaveTransaction";
     var data = (LMS_WebAPP_Domain.UserAccount)Session[LMS_WebAPP_Utils.Constants.SESSION_OBJ_USER];
     var totalCasualLeaveLeft = data.TotalCasualLeave;
-     var compoLeavetype = @Convert.ToInt16((LMS_WebAPP_Utils.LeaveType.CompoOff));
+    var compoLeavetype = @Convert.ToInt16((LMS_WebAPP_Utils.LeaveType.CompoOff));
     var refLeaveTypeCasual = @Convert.ToInt16((LMS_WebAPP_Utils.LeaveType.CasualLeave));
     var advanceLeaveType = @Convert.ToInt16((LMS_WebAPP_Utils.LeaveType.AdvanceLeave));
     var leaveStatusSubmitted = @Convert.ToInt16((LMS_WebAPP_Utils.LeaveStatus.Submitted));
@@ -91,29 +91,29 @@
                                         toDate = m.ToDate.Value.Date.ToString("dd/MM/yyyy");
                                     }
 
-                                <tr>
-                                    <td>@m.FromDate.Date.ToString("dd/MM/yyyy")</td>
-                                    <td>@toDate</td>
-                                    <td>@m.CreatedDate.Date.ToString("dd/MM/yyyy")</td>
+                                    <tr>
+                                        <td>@m.FromDate.Date.ToString("dd/MM/yyyy")</td>
+                                        <td>@toDate</td>
+                                        <td>@m.CreatedDate.Date.ToString("dd/MM/yyyy")</td>
 
-                                    <td>@(LMS_WebAPP_Utils.CommonMethods.Description((LMS_WebAPP_Utils.LeaveStatus)m.RefStatus))</td>
-                                    <td>@m.NumberOfWorkingDays</td>
-                                    <td>@(LMS_WebAPP_Utils.CommonMethods.Description((LMS_WebAPP_Utils.LeaveType)m.RefLeaveType))</td>
+                                        <td>@(LMS_WebAPP_Utils.CommonMethods.Description((LMS_WebAPP_Utils.LeaveStatus)m.RefStatus))</td>
+                                        <td>@m.NumberOfWorkingDays</td>
+                                        <td>@(LMS_WebAPP_Utils.CommonMethods.Description((LMS_WebAPP_Utils.LeaveType)m.RefLeaveType))</td>
 
-                                    @if (m.RefStatus != Convert.ToInt16(LMS_WebAPP_Utils.LeaveStatus.Approved))
-                                    {
-                                        <td>
-                                            <a href="#" id="btnDeleteLeave" style="color:red" data-content="@m.Id">
-                                                <span class="fa fa-close"></span>
-                                            </a>
+                                        @if (m.RefStatus != Convert.ToInt16(LMS_WebAPP_Utils.LeaveStatus.Approved))
+                                        {
+                                            <td>
+                                                <a href="#" id="btnDeleteLeave" style="color:red" data-content="@m.Id">
+                                                    <span class="fa fa-close"></span>
+                                                </a>
 
-                                        </td>
-                                    }
-                                    else
-                                    {
-                                        <td></td>
-                                    }
-                                </tr>
+                                            </td>
+                                        }
+                                        else
+                                        {
+                                            <td></td>
+                                        }
+                                    </tr>
 
                                 }
                             }
@@ -167,10 +167,10 @@
                                 {
                                     disabledAttr = "disabled";
                                 }
-                            <div class="col-md-4" style="margin-top:10px">
+                                <div class="col-md-4" style="margin-top:10px">
 
-                                <input type="radio" name="r1" id="RdLeaveType_@Convert.ToInt16((LMS_WebAPP_Utils.LeaveType)value)" class="flat-red" value="@Convert.ToInt16((LMS_WebAPP_Utils.LeaveType)value)" @disabledAttr> @(LMS_WebAPP_Utils.CommonMethods.Description((LMS_WebAPP_Utils.LeaveType)Convert.ToInt16((LMS_WebAPP_Utils.LeaveType)value)))
-                            </div>
+                                    <input type="radio" name="r1" id="RdLeaveType_@Convert.ToInt16((LMS_WebAPP_Utils.LeaveType)value)" class="flat-red" value="@Convert.ToInt16((LMS_WebAPP_Utils.LeaveType)value)" @disabledAttr> @(LMS_WebAPP_Utils.CommonMethods.Description((LMS_WebAPP_Utils.LeaveType)Convert.ToInt16((LMS_WebAPP_Utils.LeaveType)value)))
+                                </div>
 
                             }
                         }
@@ -204,12 +204,25 @@
 
                         </div>
                     </div>
+                    <div class="form-group" id="divLeaveDetails" style="display: none">
+                        <table id="tblLeaveDetails" class='table table-bordered table-striped'>
+                            <thead>
+                                <tr>
+                                    <th>Date</th>
+                                    <th>Half Day</th>
+                                    <th>Full Day</th>
+                                </tr>
+                            </thead>
+                            <tbody id="tblBodyLeaveDetails"></tbody>
+                        </table>
+                    </div>
                     <div class="form-group" id="divNoOfWorking" style="display:none">
                         <div>
                             <label>Number Of Working Days:</label>
                             <span id="lblTotalWorkingDays">0</span>
                         </div>
                     </div>
+
                     <div class="form-group" id="CompoDatePicker" style="display:none;width:517px;">
                         <label>Date <span style="color:red">*</span> :</label>
                         <div class="input-group date">
@@ -240,7 +253,6 @@
                         <div>
                             <label>Reason <span style="color:red">*</span> :</label>
                         </div>
-
                         <div>
                             <textarea id="leaveComment" rows="3" style="width:520px;resize:none" placeholder="Enter ..."></textarea>
                         </div>
@@ -248,9 +260,7 @@
                             <label class="control-label" for="leaveComment">
                                 <i class="fa fa-times-circle-o"></i> Please enter the reason
                             </label>
-
                         </div>
-
                     </div>
                 </div>
             </div>
@@ -334,7 +344,7 @@
         return event.charCode >= 48 && event.charCode <= 57;
     });
 
-   function addWeekdays(date, days) {
+    function addWeekdays(date, days) {
         date = moment(date); // use a clone
         while (days > 0) {
             date = date.add(1, 'days');
@@ -373,6 +383,8 @@
         if (responseCode==dateExists) {
             $('.modal-footer').hide();
         }
+        $('#divLeaveDetails').hide();
+        $('#tblBodyLeaveDetails').html("");
         $("#divLeaveTypeError").hide();
         $('#SickDatePicker').show();
         $('#divHalfDay').show();
@@ -429,7 +441,16 @@
                 "info": true,
                 "autoWidth": false,
             });
+            $('#tblLeaveDetails').DataTable({
+                "paging": false,
+                "lengthChange": true,
+                "searching": false,
+                "ordering": false,
+                "info": false,
+                "autoWidth": false,
+            });
             $("#example1.dataTables_filter").hide();
+            $("#tblLeaveDetails.dataTables_filter").hide();
             $('#leaveDatepicker ').daterangepicker(
                 {
                     locale: {
@@ -470,7 +491,6 @@
                         {
                             case @Convert.ToInt16(LMS_WebAPP_Utils.ResponseCodes.NoLeaveBalance):
                                 if(leaveType == '@Convert.ToInt16((LMS_WebAPP_Utils.LeaveType.CasualLeave))') {
-
                                     showMessage("Only "+data.result.availableLeaveBalance+" Casual Leave(s) are available,Go for Advance Leave/LOP","2",true);
                                 }
                                 else if(leaveType == '@Convert.ToInt16((LMS_WebAPP_Utils.LeaveType.LOP))')
@@ -494,15 +514,54 @@
                             case @Convert.ToInt16(LMS_WebAPP_Utils.ResponseCodes.OK):
                                 $("#lblTotalWorkingDays").html(data.result.noOfWorkingDays);
                                 $('.modal-footer').show();
+                                $('#divLeaveDetails').show();
+                                var between = [];
+                                var datePickedStr1 = picker.startDate;
+                                var datePickedDate1 = new Date(datePickedStr1);//converts string to date object
+
+                                var datePickedStr2 = picker.endDate;
+                                var datePickedDate2 = new Date(datePickedStr2);
+                                while (datePickedDate1 <= datePickedDate2) {
+                                    between.push(new Date(datePickedDate1));
+                                    datePickedDate1.setDate(datePickedDate1.getDate() + 1);
+                                }
+                                var htmlContent = "";
+                                for (var j = 0; j < between.length; j++) {
+                                    var day = between[j].getDay();
+                                    var isWeekend = (day == 6) || (day == 0);
+                                    if(!isWeekend){
+                                        htmlContent += "<tr><td>" + formatDate(between[j]) + "</td><td><input type='radio' class='leave-selection half-day' name='leave-type-" + j +"' class='flat-red' /></td><td><input class='leave-selection full-day' type='radio' name='leave-type-"+ j +"' class='flat-red' checked='checked' /></td></tr>";
+                                    }
+                                }
+                                $('#tblBodyLeaveDetails').html(htmlContent);
                                 return false;
                                 break;
                         }
-
-
                     }
                 });
             });
         });
+        $(document).on('click', '.leave-selection', function(){
+            if($(this).hasClass('half-day')){
+                var workingDays = parseFloat( $("#lblTotalWorkingDays").html());
+                $("#lblTotalWorkingDays").html(workingDays - 0.5);
+            }
+            else if($(this).hasClass('full-day')){
+                var workingDays = parseFloat( $("#lblTotalWorkingDays").html());
+                $("#lblTotalWorkingDays").html(workingDays + 0.5);
+            }
+        });
+        function formatDate(date) {
+            var d = new Date(date),
+                month = '' + (d.getMonth() + 1),
+                day = '' + d.getDate(),
+                year = d.getFullYear();
+
+            if (month.length < 2) month = '0' + month;
+            if (day.length < 2) day = '0' + day;
+
+            return [year, month, day].join('/');
+        }
         $('#AddLeaveModal').on('hidden.bs.modal', function () {
             $(this).find("textarea#leaveComment").val('').end();
             $('#divHalfDay').show();
@@ -559,9 +618,13 @@
                 $('#divDateError').hide();
                 $('#toggleOne').bootstrapToggle('on');
                 $('#divCommentError').hide();
-                if (responseCode==dateExists) {
+                if (responseCode == dateExists) {
                     $('.modal-footer').hide();
                     showMessage("Sorry!!You already applied for Sick Leave today", "2", true);
+                    $('#leaveDatepicker').prop("disabled", true);
+                }
+                else{
+                    $('#leaveDatepicker').prop("disabled", false);
                 }
                 $("#divLeaveTypeError").hide();
                 $('#SickDatePicker').show();
@@ -592,11 +655,12 @@
                 {
                     $('.modal-footer').hide();
                     showMessage("No Casual Leaves available", "2", true);
-
+                    $('#leaveDatepicker').prop("disabled", false);
                 }
                 else if (isPossibleToApplyCasual > 0) {
                     $('.modal-footer').hide();
                     showMessage("Sorry!!  You cannot Apply for Casual/Advance leave since your manager approves the submitted one", "2", true);
+                    $('#leaveDatepicker').prop("disabled", true);
                 }
                 break;
             case '@Convert.ToInt16((LMS_WebAPP_Utils.LeaveType.AdvanceLeave))':
@@ -623,6 +687,10 @@
                 if (isPossibleToApplyCasual > 0) {
                     $('.modal-footer').hide();
                     showMessage("Sorry!!  You cannot Apply for Casual/Advance leave since your manager approves the submitted one", "2", true);
+                    $('#leaveDatepicker').prop("disabled", true);
+                }
+                else{
+                    $('#leaveDatepicker').prop("disabled", false);
                 }
                 break;
             case '@Convert.ToInt16((LMS_WebAPP_Utils.LeaveType.CompoOff))':
@@ -644,6 +712,10 @@
                 if (isPossibleToApplyCompo > 0) {
                     $('.modal-footer').hide();
                     showMessage("Sorry!!  You cannot Apply for Comp Off leave since your manager approves the submitted one", "2", true);
+                    $('#leaveDatepicker').prop("disabled", true);
+                }
+                else{
+                    $('#leaveDatepicker').prop("disabled", false);
                 }
                 break;
             case '@Convert.ToInt16((LMS_WebAPP_Utils.LeaveType.LOP))':
@@ -673,6 +745,10 @@
                 if (totalLOPSubmitted > 0) {
                     $('.modal-footer').hide();
                     showMessage("Sorry!!  You cannot Apply for LOP leave since your manager approves the submitted one", "2", true);
+                    $('#leaveDatepicker').prop("disabled", true);
+                }
+                else{
+                    $('#leaveDatepicker').prop("disabled", false);
                 }
                 break;
             default:
@@ -922,7 +998,7 @@
         radioClass: 'iradio_flat-green'
     });
 
-   
+
 
     $(document).on('click', '#btnDeleteLeave', function (e) {
         var id = $(this).data("content");
@@ -937,7 +1013,7 @@
             dataType: "json",
             success: function (data) {
                 switch (leaveTypes) {
-                
+
                     case '@(LMS_WebAPP_Utils.CommonMethods.Description(LMS_WebAPP_Utils.LeaveType.CompoOff))':
                         loop.pop(new Date(deletedDate).getTime());
                         isPossibleToApplyCompo = isPossibleToApplyCompo - 1 ;
@@ -990,30 +1066,30 @@
         for (var i = 0; i < data.length; i++) {
             if(data[i].RefLeaveType!='@Convert.ToInt16(LMS_WebAPP_Utils.LeaveType.RewardLeave)' && data[i].RefLeaveType!='@Convert.ToInt16(LMS_WebAPP_Utils.LeaveType.EarnedLeave)')
             {
-            html += "<tr><td>" + data[i].FormattedDate + "</td><td>" + data[i].FormattedToDate + "</td>" +
-               "<td>" + data[i].FormattedCreated + "</td>" +
-                       "<td>" + data[i].StatusName + "</td><td>";
-            html += data[i].NumberOfWorkingDays + "</td>" +
-           "<td>" + data[i].LeaveTypeName + "</td>";
-            if (data[i].RefStatus != '@Convert.ToInt16(LMS_WebAPP_Utils.LeaveStatus.Approved)') {
-                html += "<td><a href='#' id='btnDeleteLeave' style='color:red' data-content='" + data[i].Id + "'><span class='fa fa-close'></span></a> </td> ";
-            }
-            else {
-                html += "<td></td>";
-            }
+                html += "<tr><td>" + data[i].FormattedDate + "</td><td>" + data[i].FormattedToDate + "</td>" +
+                   "<td>" + data[i].FormattedCreated + "</td>" +
+                           "<td>" + data[i].StatusName + "</td><td>";
+                html += data[i].NumberOfWorkingDays + "</td>" +
+               "<td>" + data[i].LeaveTypeName + "</td>";
+                if (data[i].RefStatus != '@Convert.ToInt16(LMS_WebAPP_Utils.LeaveStatus.Approved)') {
+                    html += "<td><a href='#' id='btnDeleteLeave' style='color:red' data-content='" + data[i].Id + "'><span class='fa fa-close'></span></a> </td> ";
+                }
+                else {
+                    html += "<td></td>";
+                }
 
-            html += " </tr>";
-        }}
+                html += " </tr>";
+            }}
 
-    html += "</tbody></table>";
-    $("#tblAppliedLeave").html(html);
-    $('#example1').DataTable({
-        "paging": true,
-        "lengthChange": true,
-        "searching": false,
-        "ordering": true,
-        "info": true,
-        "autoWidth": false,
-    });
+        html += "</tbody></table>";
+        $("#tblAppliedLeave").html(html);
+        $('#example1').DataTable({
+            "paging": true,
+            "lengthChange": true,
+            "searching": false,
+            "ordering": true,
+            "info": true,
+            "autoWidth": false,
+        });
     }
 </script>
