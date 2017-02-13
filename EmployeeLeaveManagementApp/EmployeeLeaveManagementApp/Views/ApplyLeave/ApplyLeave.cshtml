@@ -158,20 +158,23 @@
                     <div id="rddiv">
                         @foreach (var value in Enum.GetValues(typeof(LMS_WebAPP_Utils.LeaveType)))
                         {
-                            if (@Convert.ToInt16(value) != (Int16)LMS_WebAPP_Utils.LeaveType.RewardLeave && @Convert.ToInt16(value) != (Int16)LMS_WebAPP_Utils.LeaveType.EarnedLeave)
+                            if (@Convert.ToInt16(value) != (Int16)LMS_WebAPP_Utils.LeaveType.CancelledLeave)
                             {
-
-                                var disabledAttr = "";
-                                if (Convert.ToInt16(LMS_WebAPP_Utils.LeaveType.AdvanceLeave) == @Convert.ToInt16((LMS_WebAPP_Utils.LeaveType)value) ||
-                                    Convert.ToInt16(LMS_WebAPP_Utils.LeaveType.LOP) == @Convert.ToInt16((LMS_WebAPP_Utils.LeaveType)value))
+                                if (@Convert.ToInt16(value) != (Int16)LMS_WebAPP_Utils.LeaveType.RewardLeave && @Convert.ToInt16(value) != (Int16)LMS_WebAPP_Utils.LeaveType.EarnedLeave)
                                 {
-                                    disabledAttr = "disabled";
-                                }
+
+                                    var disabledAttr = "";
+                                    if (Convert.ToInt16(LMS_WebAPP_Utils.LeaveType.AdvanceLeave) == @Convert.ToInt16((LMS_WebAPP_Utils.LeaveType)value) ||
+                                        Convert.ToInt16(LMS_WebAPP_Utils.LeaveType.LOP) == @Convert.ToInt16((LMS_WebAPP_Utils.LeaveType)value))
+                                    {
+                                        disabledAttr = "disabled";
+                                    }
                                 <div class="col-md-4" style="margin-top:10px">
 
                                     <input type="radio" name="r1" id="RdLeaveType_@Convert.ToInt16((LMS_WebAPP_Utils.LeaveType)value)" class="flat-red" value="@Convert.ToInt16((LMS_WebAPP_Utils.LeaveType)value)" @disabledAttr> @(LMS_WebAPP_Utils.CommonMethods.Description((LMS_WebAPP_Utils.LeaveType)Convert.ToInt16((LMS_WebAPP_Utils.LeaveType)value)))
                                 </div>
 
+                                }
                             }
                         }
                     </div>
@@ -456,7 +459,7 @@
                     locale: {
                         format: 'DD/MM/YYYY'
                     },
-                    minDate: new Date()
+                    //minDate: new Date()
                 });
             $('#leaveDatepicker').on('change.daterangepicker', function (ev, picker) {
                 var date = ev.target.value;
