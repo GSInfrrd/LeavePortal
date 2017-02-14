@@ -29,7 +29,7 @@
                     </div>
                     <div class="form-group col-md-6">
                         <label style="margin-bottom: 0px;" for="txtFirstName">
-                            FirstName <span style="color:red">*</span><span class="form-group has-error" style="display:none;margin-bottom: 0px;" id="divFirstNameError">
+                            First Name <span style="color:red">*</span><span class="form-group has-error" style="display:none;margin-bottom: 0px;" id="divFirstNameError">
                                 <label style="margin-bottom: 0px;" class="control-label" for="FirstName">
                                     <i class="fa fa-times-circle-o"></i> Please enter first name
                                 </label>
@@ -39,7 +39,7 @@
                     </div>
                     <div class="form-group col-md-6">
                         <label style="margin-bottom: 0px;" for="txtlastname">
-                            LastName <span style="color:red">*</span><span class="form-group has-error" style="display:none;margin-bottom: 0px;" id="divLastNameError">
+                            Last Name <span style="color:red">*</span><span class="form-group has-error" style="display:none;margin-bottom: 0px;" id="divLastNameError">
                                 <label style="margin-bottom: 0px;" class="control-label" for="LastName">
                                     <i class="fa fa-times-circle-o"></i> Please enter last name
                                 </label>
@@ -77,7 +77,7 @@
                     </div>
                     <div class="form-group col-md-6">
                         <label style="margin-bottom: 0px;" for="txtJoiningDate">
-                            Date Of Joining <span style="color:red">*</span><span class="form-group has-error" style="display:none;margin-bottom: 0px;" id="divDateOfJoiningError">
+                            Date of Joining <span style="color:red">*</span><span class="form-group has-error" style="display:none;margin-bottom: 0px;" id="divDateOfJoiningError">
                                 <label style="margin-bottom: 0px;" class="control-label" for="DateOfJoining">
                                     <i class="fa fa-times-circle-o"></i> Please enter date of joining
                                 </label>
@@ -88,7 +88,7 @@
                     </div>
                     <div class="form-group col-md-6">
                         <label style="margin-bottom: 0px;" for="txtBirthday">
-                            BirthDay <span style="color:red">*</span><span class="form-group has-error" style="display:none;margin-bottom: 0px;" id="divBirthDayError">
+                            Date of Birth <span style="color:red">*</span><span class="form-group has-error" style="display:none;margin-bottom: 0px;" id="divBirthDayError">
                                 <label style="margin-bottom: 0px;" class="control-label" for="BirthDay">
                                     <i class="fa fa-times-circle-o"></i> Please enter birthday
                                 </label>
@@ -190,9 +190,15 @@
 
                     </div>
                     <div class="form-group col-md-6" id="ddlProject">
-                        <label style="margin-bottom: 0px;">Project Name</label>
+                        <label style="margin-bottom: 0px;">Project Name <span style="color:red">*</span><span class="form-group has-error" style="display:none;margin-bottom: 0px;" id="divProjectNameError">
+                        <label style="margin-bottom: 0px;" class="control-label" for="ProjectName">
+                        <i class="fa fa-times-circle-o"></i> Please select project
+                        </label>
+                        </span></label>
 
-                        <select class="form-control managerSelect" style="width: 100%;" id="ddlProjectName"></select>
+                        <select class="form-control managerSelect" style="width: 100%;" id="ddlProjectName">
+                            <option value="">Select</option>
+                        </select>
 
                     </div>
 
@@ -236,9 +242,14 @@
                     @*<form role="form">*@
                     <div class="box-body">
                         <div class="form-group col-md-6">
-                            <label style="margin-bottom: 0px;">Graduation</label>
+                            <label style="margin-bottom: 0px;">Graduation <span style="color:red">*</span><span class="form-group has-error" style="display:none;margin-bottom: 0px;" id="divGraduationError">
+                            <label style="margin-bottom: 0px;" class="control-label" for="Graduation">
+                            <i class="fa fa-times-circle-o"></i> Please select graduation
+                            </label>
+                            </span></label>
                             <div>
                                 <select id="ddlGraduation" class="form-control graduation" style="width: 100%;">
+                                    <option value="">Select</option>
                                     <option>B.E/BTech</option>
                                     <option>MTech</option>
                                     <option>BCA</option>
@@ -252,9 +263,14 @@
                             </div>
                         </div>
                         <div class="form-group col-md-6">
-                            <label style="margin-bottom: 0px;">Specialization</label>
+                            <label style="margin-bottom: 0px;">Specialization <span style="color:red">*</span><span class="form-group has-error" style="display:none;margin-bottom: 0px;" id="divSpecializationError">
+                            <label style="margin-bottom: 0px;" class="control-label" for="Specialization">
+                            <i class="fa fa-times-circle-o"></i> Please select specialization
+                            </label>
+                            </span> </label>
                             <div>
                                 <select id="ddlSpecialization" class="form-control specialization" style="width: 100%;">
+                                    <option value="">Select</option>
                                     <option>CSE</option>
                                     <option>EEE</option>
                                     <option>ECE</option>
@@ -333,6 +349,7 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.11.2/moment.min.js"></script>
 <script src="../../plugins/daterangepicker/daterangepicker.js"></script>
 <script>
+    
     var educationFromDate;
     var educationToDate;
     var experienceFromDate;
@@ -387,6 +404,7 @@
                           format: 'DD/MM/YYYY'
                       }
                   });
+
             //Date picker
             $('#txtJoiningDate').datepicker({
                 autoclose: true,
@@ -396,6 +414,15 @@
                 autoclose: true,
                 format: 'dd/mm/yyyy'
             });
+            function formatDate(date) {
+                var mm = date.getMonth() + 1;
+                var dd = date.getDate();
+                var yyyy = date.getFullYear();
+                mm = (mm < 10) ? '0' + mm : mm;
+                return dd + "/" + mm + "/" + yyyy;
+            }
+            var today = (formatDate(new Date()));
+            $('#txtJoiningDate').val(today);
 
             $('#educationDatepicker').on('change.daterangepicker', function (ev, picker) {
                 var date = ev.target.value;
@@ -438,7 +465,10 @@
                 experienceToDate = end.format('YYYY-MM-DD');
 
             });
+            //$('#experienceDatePicker').val('');
         })
+        
+        
     });
 
     $('input[type="checkbox"].flat-red, input[type="radio"].flat-red').iCheck({
@@ -447,12 +477,12 @@
     });
 
     $(document).on('click', '#btnSubmitEmployeeDetails', function (e) {
-        if (($("#txtFirstName").val() == "") && ($("#txtLastName").val() == "") && ($("#txtEmail").val() == "") && ($("#txtEmployeeNumber").val() == "") && ($("#txtJoiningDate").val() == "") && ($("#txtBirthday").val() == "") && ($("#txtCity").val() == "") && ($("#txtCountry").val() == "") && ($("#txtTelephone").val() == "") && ($("#ddlDesignation").val() == 0) && ($("#ddlEmployeeType").val() == 0) && ($("#ddlManagerName").val() == 0) && ($("#txtUniversity").val() == "")) {
+        debugger
+        if (($("#txtFirstName").val() == "") && ($("#txtLastName").val() == "") && ($("#txtEmail").val() == "") && ($("#txtEmployeeNumber").val() == "")  && ($("#txtBirthday").val() == "") && ($("#txtCity").val() == "") && ($("#txtCountry").val() == "") && ($("#txtTelephone").val() == "") && ($("#ddlDesignation").val() == 0) && ($("#ddlEmployeeType").val() == 0) && ($("#ddlManagerName").val() == 0) && ($("#ddlProjectName").val() == null) && ($("#ddlGraduation").val() == 0) && ($("#ddlSpecialization").val() == 0) && ($("#txtUniversity").val() == "")) {
             $("#divFirstNameError").show();
             $("#divLastNameError").show();
             $("#divEmailError").show();
             $("#divEmployeeNumberError").show();
-            $("#divDateOfJoiningError").show();
             $("#divBirthDayError").show();
             $("#divCityError").show();
             $("#divCountryError").show();
@@ -462,6 +492,9 @@
             $("#divManagerNameError").show();
             $("#divCollegeError").show();
             $("#divSkillsError").show();
+            $("#divProjectNameError").show();
+            $("#divGraduationError").show();
+            $("#divSpecializationError").show();
             $('#divInvalidEmailError').hide();
             return false;
         }
@@ -526,11 +559,23 @@
             $('#divManagerNameError').show();
             return false;
         }
+        if ($("#ddlProjectName").val() == null) {
+            $('#divProjectNameError').show();
+            return false;
+        }
+        if ($("#ddlGraduation").val() == 0) {
+            $('#divGraduationError').show();
+            return false;
+        }
+        if ($("#ddlSpecialization").val() == 0) {
+            $('#divSpecializationError').show();
+            return false;
+        }
         if ($("#txtUniversity").val() == "") {
             $('#divCollegeError').show();
             return false;
         }
-        if ($("#ddlSkills").val()== "") {
+        if ($("#ddlSkills").val()== null) {
             $('#divSkillsError').show();
             return false;
         }
@@ -654,7 +699,7 @@
             success: function (data) {
                 for (var i = 0; i < data.data.length; i++) {
                     $("#ddlProjectName").append($('<option></option>').attr("value", data.data[i].Id).text(data.data[i].ProjectName));
-                    $("#ddlProjectName").val(2);
+                    $("#ddlProjectName").val(0);
                 }
             }
         });
@@ -747,6 +792,33 @@
         }
         else {
             $("#divManagerNameError").show();
+        }
+    });
+
+    $('#ddlProjectName').on('change', function () {
+        if ($("#ddlProjectName").val() != 0) {
+            $("#divProjectNameError").hide();
+        }
+        else {
+            $("#divProjectNameError").show();
+        }
+    });
+
+    $('#ddlGraduation').on('change', function () {
+        if ($("#ddlGraduation").val() != 0) {
+            $("#divGraduationError").hide();
+        }
+        else {
+            $("#divGraduationError").show();
+        }
+    });
+
+    $('#ddlSpecialization').on('change', function () {
+        if ($("#ddlSpecialization").val() != 0) {
+            $("#divSpecializationError").hide();
+        }
+        else {
+            $("#divSpecializationError").show();
         }
     });
 

@@ -23,7 +23,7 @@ namespace LMS_WebAPI_DAL.Repositories
                 {
                     var EmployeeDetails = ctx.EmployeeDetails.Where(m => m.Id == id).FirstOrDefault();
                     var level = EmployeeDetails.RefHierarchyLevel;
-                    var ManagersDetails = ctx.EmployeeDetails.Where(m => (m.RefHierarchyLevel >= level) && (m.Id != id)).ToList();
+                    var ManagersDetails = ctx.EmployeeDetails.Where(m => (m.RefHierarchyLevel <= level) && (m.Id != id)).ToList();
                     var retResult = ToModelMasterDetails(ManagersDetails);
                     Logger.Info("Successfully exiting from ApproveLeaveRepository API GetAllManagers method");
                     return retResult;
