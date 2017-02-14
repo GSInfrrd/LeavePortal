@@ -280,8 +280,6 @@
     <Content Include="bootstrap\js\bootstrap.js" />
     <Content Include="bootstrap\js\bootstrap.min.js" />
     <Content Include="bootstrap\js\npm.js" />
-    <Content Include="Content\bootstrap-theme.css" />
-    <Content Include="Content\bootstrap-theme.min.css" />
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
     <Content Include="Content\Common.css" />
@@ -290,59 +288,6 @@
     <Content Include="Content\Images\computer-vision-ai-enterprise.jpg" />
     <Content Include="Content\Images\error.jpg" />
     <Content Include="Content\Images\New Year.jpg" />
-    <Content Include="Content\Plugins\select2\i18n\ar.js" />
-    <Content Include="Content\Plugins\select2\i18n\az.js" />
-    <Content Include="Content\Plugins\select2\i18n\bg.js" />
-    <Content Include="Content\Plugins\select2\i18n\ca.js" />
-    <Content Include="Content\Plugins\select2\i18n\cs.js" />
-    <Content Include="Content\Plugins\select2\i18n\da.js" />
-    <Content Include="Content\Plugins\select2\i18n\de.js" />
-    <Content Include="Content\Plugins\select2\i18n\el.js" />
-    <Content Include="Content\Plugins\select2\i18n\en.js" />
-    <Content Include="Content\Plugins\select2\i18n\es.js" />
-    <Content Include="Content\Plugins\select2\i18n\et.js" />
-    <Content Include="Content\Plugins\select2\i18n\eu.js" />
-    <Content Include="Content\Plugins\select2\i18n\fa.js" />
-    <Content Include="Content\Plugins\select2\i18n\fi.js" />
-    <Content Include="Content\Plugins\select2\i18n\fr.js" />
-    <Content Include="Content\Plugins\select2\i18n\gl.js" />
-    <Content Include="Content\Plugins\select2\i18n\he.js" />
-    <Content Include="Content\Plugins\select2\i18n\hi.js" />
-    <Content Include="Content\Plugins\select2\i18n\hr.js" />
-    <Content Include="Content\Plugins\select2\i18n\hu.js" />
-    <Content Include="Content\Plugins\select2\i18n\id.js" />
-    <Content Include="Content\Plugins\select2\i18n\is.js" />
-    <Content Include="Content\Plugins\select2\i18n\it.js" />
-    <Content Include="Content\Plugins\select2\i18n\ja.js" />
-    <Content Include="Content\Plugins\select2\i18n\km.js" />
-    <Content Include="Content\Plugins\select2\i18n\ko.js" />
-    <Content Include="Content\Plugins\select2\i18n\lt.js" />
-    <Content Include="Content\Plugins\select2\i18n\lv.js" />
-    <Content Include="Content\Plugins\select2\i18n\mk.js" />
-    <Content Include="Content\Plugins\select2\i18n\ms.js" />
-    <Content Include="Content\Plugins\select2\i18n\nb.js" />
-    <Content Include="Content\Plugins\select2\i18n\nl.js" />
-    <Content Include="Content\Plugins\select2\i18n\pl.js" />
-    <Content Include="Content\Plugins\select2\i18n\pt-BR.js" />
-    <Content Include="Content\Plugins\select2\i18n\pt.js" />
-    <Content Include="Content\Plugins\select2\i18n\ro.js" />
-    <Content Include="Content\Plugins\select2\i18n\ru.js" />
-    <Content Include="Content\Plugins\select2\i18n\sk.js" />
-    <Content Include="Content\Plugins\select2\i18n\sr-Cyrl.js" />
-    <Content Include="Content\Plugins\select2\i18n\sr.js" />
-    <Content Include="Content\Plugins\select2\i18n\sv.js" />
-    <Content Include="Content\Plugins\select2\i18n\th.js" />
-    <Content Include="Content\Plugins\select2\i18n\tr.js" />
-    <Content Include="Content\Plugins\select2\i18n\uk.js" />
-    <Content Include="Content\Plugins\select2\i18n\vi.js" />
-    <Content Include="Content\Plugins\select2\i18n\zh-CN.js" />
-    <Content Include="Content\Plugins\select2\i18n\zh-TW.js" />
-    <Content Include="Content\Plugins\select2\select2.css" />
-    <Content Include="Content\Plugins\select2\select2.full.js" />
-    <Content Include="Content\Plugins\select2\select2.full.min.js" />
-    <Content Include="Content\Plugins\select2\select2.js" />
-    <Content Include="Content\Plugins\select2\select2.min.css" />
-    <Content Include="Content\Plugins\select2\select2.min.js" />
     <Content Include="Content\Plugins\Toastr\toastr.css" />
     <Content Include="Content\Plugins\Toastr\toastr.js" />
     <Content Include="Content\Scripts\Common.js" />
@@ -1277,7 +1222,9 @@
     <Content Include="Scripts\respond.matchmedia.addListener.min.js" />
     <Content Include="Scripts\respond.min.js" />
     <Content Include="Scripts\_references.js" />
-    <Content Include="Web.config" />
+    <Content Include="Web.config">
+      <SubType>Designer</SubType>
+    </Content>
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </Content>
@@ -1295,7 +1242,6 @@
     <Content Include="Views\Account\Login.cshtml" />
     <Content Include="Views\Account\Dashboard.cshtml" />
     <Content Include="Views\LeaveTransaction\LeaveTransaction.cshtml" />
-    <Content Include="Views\ApplyLeave\AddLeave.cshtml" />
     <Content Include="Views\ApplyLeave\ApplyLeave.cshtml" />
     <Content Include="Views\Account\Profile.cshtml" />
     <Content Include="Views\ApproveLeave\ApproveLeave.cshtml" />
@@ -1303,11 +1249,9 @@
     <Content Include="Views\Shared\EmployeeDetails.cshtml" />
     <Content Include="Views\HR\CompanyAnnouncements.cshtml" />
     <Content Include="Views\HR\Broadcast.cshtml" />
-    <Content Include="Views\HR\AddHolidays.cshtml" />
     <Content Include="Views\HR\HolidayList.cshtml" />
     <Content Include="Views\HR\Reports.cshtml" />
     <Content Include="Views\WorkFromHome\ApplyWorkFromHome.cshtml" />
-    <Content Include="Views\CompoOff\Index.cshtml" />
     <Content Include="Views\Account\ExternalLoginConfirmation.cshtml" />
     <Content Include="Views\Account\ExternalLoginFailure.cshtml" />
     <Content Include="Views\Account\_ExternalLoginsList.cshtml" />
@@ -1331,10 +1275,6 @@
     <Content Include="fonts\glyphicons-halflings-regular.woff" />
     <Content Include="fonts\glyphicons-halflings-regular.ttf" />
     <Content Include="fonts\glyphicons-halflings-regular.eot" />
-    <Content Include="Content\bootstrap.min.css.map" />
-    <Content Include="Content\bootstrap.css.map" />
-    <Content Include="Content\bootstrap-theme.min.css.map" />
-    <Content Include="Content\bootstrap-theme.css.map" />
     <None Include="Project_Readme.html" />
   </ItemGroup>
   <ItemGroup>
