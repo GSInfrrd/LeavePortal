@@ -39,6 +39,7 @@ namespace LMS_WebAPI_Utils
         
     }
 
+
     public enum EmployeeRole
     {
 
@@ -124,6 +125,16 @@ namespace LMS_WebAPI_Utils
         PartialApproval = 185,
         [Description("Requested")]
         Requested = 186
+    }
+
+    public enum Environment
+    {
+        [Description("Prod")]
+        Prod = 1183,
+        [Description("QA")]
+        QA = 1184,
+        [Description("Dev")]
+        Dev = 1185,
     }
 
     public enum MasterDataTypeEnum

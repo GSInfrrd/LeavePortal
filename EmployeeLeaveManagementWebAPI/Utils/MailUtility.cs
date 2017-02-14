@@ -14,9 +14,20 @@ namespace LMS_WebAPI_Utils
             {
 
                 MailMessage mail = new MailMessage();
+                string environment = ConfigurationManager.AppSettings["Environment"];
+                if(environment==Environment.QA.Description() || environment==Environment.Dev.Description())
+                {
+                    string MaleReceiverId = ConfigurationManager.AppSettings["MaleReceiverId"];
+                    mail.To.Add(MaleReceiverId);
+                    mail.CC.Add(MaleReceiverId);
+                    mail.Subject = environment + "_"+ MailSubject;
+                }
+                else
+                { 
                 mail.To.Add(MailTo);
                 mail.CC.Add(CcMailId);
                 mail.Subject = MailSubject;
+                }
                 mail.From = new MailAddress(ConfigurationManager.AppSettings["FromMailId"]);
 
                 var inlineLogo = new LinkedResource(logoPath);
@@ -34,10 +45,10 @@ namespace LMS_WebAPI_Utils
                 smtp.Host = ConfigurationManager.AppSettings["SmtpHost"];
                 smtp.Port = Convert.ToInt32(ConfigurationManager.AppSettings["SmtpPort"]);
                 smtp.UseDefaultCredentials = Convert.ToBoolean(ConfigurationManager.AppSettings["UseDefaultCredentials"]);
-                string fromMailId = ConfigurationManager.AppSettings["FromMailId"];
+                //string fromMailId = ConfigurationManager.AppSettings["FromMailId"];
                 string fromMailIdPassword = ConfigurationManager.AppSettings["FromMailIdPassword"];
                 smtp.Credentials = new System.Net.NetworkCredential
-                (fromMailId, fromMailIdPassword);// Enter seders User name and password
+                (ConfigurationManager.AppSettings["FromMailId"], fromMailIdPassword);// Enter seders User name and password
                 smtp.EnableSsl = Convert.ToBoolean(ConfigurationManager.AppSettings["EnableSsl"]);
                 smtp.Send(mail);
 
