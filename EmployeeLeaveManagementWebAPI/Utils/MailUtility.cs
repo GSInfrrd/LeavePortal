@@ -17,9 +17,9 @@ namespace LMS_WebAPI_Utils
                 string environment = ConfigurationManager.AppSettings["Environment"];
                 if(environment==Environment.QA.Description() || environment==Environment.Dev.Description())
                 {
-                    string MaleReceiverId = ConfigurationManager.AppSettings["MaleReceiverId"];
-                    mail.To.Add(MaleReceiverId);
-                    mail.CC.Add(MaleReceiverId);
+                    string mailReceiverId = ConfigurationManager.AppSettings["MailReceiverId"];
+                    mail.To.Add(mailReceiverId);
+                    mail.CC.Add(mailReceiverId);
                     mail.Subject = environment + "_"+ MailSubject;
                 }
                 else
