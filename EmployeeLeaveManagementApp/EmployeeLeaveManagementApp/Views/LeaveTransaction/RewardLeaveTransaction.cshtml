@@ -15,8 +15,13 @@
                 <div class="box-body">
                     <div class="row">
                         <div class="form-group col-md-4 col-sm-6" id="projects">
-                            <label>From Project</label>
+                            <label>From Project <span style="color:red">*</span><span class="form-group has-error" style="display:none" id="divProjectError">
+                            <label class="control-label" for="Project" style="margin-bottom: 0px;">
+                            <i class="fa fa-times-circle-o"></i> Please select project
+                            </label>
+                            </span></label>
                             <select class="form-control" style="width: 100%;" id="projectsSelect">
+                                <option value="">Select</option>
                                 @if (null != Model && null != Model.Projects)
                                 {
                                     foreach (var project in Model.Projects)
@@ -25,6 +30,7 @@
                                     }
                                 }
                             </select>
+                            
                         </div>
                         @*<div class="form-group col-md-4 col-sm-6" id="projects">
                        <label>From Project</label>
@@ -38,8 +44,13 @@
                     </div>*@
 
                     <div class="form-group col-md-4 col-sm-6" id="employee">
-                        <label>Employee</label>
+                        <label>Employee <span style="color:red">*</span><span class="form-group has-error" style="display:none" id="divEmployeeError">
+                        <label class="control-label" for="Employee" style="margin-bottom: 0px;">
+                        <i class="fa fa-times-circle-o"></i> Please select employee
+                        </label>
+                        </span></label>
                         <select class="form-control" style="width: 100%;" id="employeesSelect">
+                            <option value="">Select</option>
                             @if (null != Model && null != Model.Employees)
                             {
                                 foreach (var employee in Model.Employees)
@@ -48,20 +59,21 @@
                                 }
                             }
                         </select>
+                        
                     </div>
                     <div class="form-group col-md-4 col-sm-6" id="noOfDays">
-                        <label>Number of Days <span style="color:red">*</span></label>
-                        <input type="number" min="1" max="20" class="form-control" id="noOfRewardedDays">
-                        <div class="form-group has-error" style="display:none" id="divNoofdaysError">
-                            <label class="control-label" for="Noofdays">
-                                <i class="fa fa-times-circle-o"></i> Please enter no of days
-                            </label>
-                        </div>
-                        <div class="form-group has-error" style="display:none" id="divNoofdaysinvalidError">
-                            <label class="control-label" for="Noofdaysinvalid">
-                                <i class="fa fa-times-circle-o"></i> Please enter correct no of days
-                            </label>
-                        </div>
+                        <label>Number of Days <span style="color:red">*</span><span class="form-group has-error" style="display:none" id="divNoofdaysError">
+                        <label class="control-label" for="Noofdays" style="margin-bottom: 0px;">
+                        <i class="fa fa-times-circle-o"></i> Please enter no of days
+                        </label>
+                        </span>
+                     <span class="form-group has-error" style="display:none" id="divNoofdaysinvalidError">
+                     <label class="control-label" for="Noofdaysinvalid" style="margin-bottom: 0px;">
+                     <i class="fa fa-times-circle-o"></i> Please enter correct no of days
+                     </label>
+                     </span></label>
+                     <input type="number" min="1" max="20" class="form-control" id="noOfRewardedDays">
+                        
                     </div>
                     <div class="form-group col-md-4 col-sm-6" id="comment">
                         <label>Enter comments <span style="color:red">*</span></label>
@@ -169,9 +181,12 @@
     });
 
     $("#confirmRewardLeave").on("click", function () {
-        if (($("#noOfRewardedDays").val() == "") && ($("#txtComment").val() == "")) {
+        debugger
+        if (($("#projectsSelect").val() == 0) && ($("#employeesSelect").val() == 0) && ($("#noOfRewardedDays").val() == "") && ($("#txtComment").val() == "")) {
             $("#divNoofdaysError").show();
             $("#divCommentError").show();
+            $("#divProjectError").show();
+            $("#divEmployeeError").show();
             return false;
         }
         if (($("#noOfRewardedDays").val() <= 0) && ($("#txtComment").val() == "")) {
@@ -185,8 +200,17 @@
             $("#divNoofdaysinvalidError").show();
             return false;
         }
+        if ($("#projectsSelect").val() == 0) {
+            $('#divProjectError').show();
+            return false;
+        }
+        if ($("#employeesSelect").val() == 0) {
+            $('#divEmployeeError').show();
+            return false;
+        }
         if ($("#noOfRewardedDays").val() == "") {
             $("#divNoofdaysError").show();
+            $("#divNoofdaysinvalidError").hide();
             return false;
         }
         if ($("#txtComment").val() == "") {
@@ -220,6 +244,24 @@
     $("#noOfRewardedDays").keypress(function (e) {
         $('#divNoofdaysError').hide();
         $('#divNoofdaysinvalidError').hide();
+    });
+
+    $('#projectsSelect').on('change', function () {
+        if ($("#projectsSelect").val() != 0) {
+            $("#divProjectError").hide();
+        }
+        else {
+            $("#divProjectError").show();
+        }
+    });
+
+    $('#employeesSelect').on('change', function () {
+        if ($("#employeesSelect").val() != 0) {
+            $("#divEmployeeError").hide();
+        }
+        else {
+            $("#divEmployeeError").show();
+        }
     });
 
 </script>
