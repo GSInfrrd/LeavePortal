@@ -231,9 +231,9 @@
                     @*</form>*@
                 </div>
             </div>
-            <div class="col-md-12">
+            <div class="col-md-12" style="width:1089px;padding:0px">
                 <!-- general form elements -->
-                <div class="box box-success">
+                <div class="box box-success" >
                     <div class="box-header with-border">
                         <h3 class="box-title">Education Details(Highest Degree)</h3>
                     </div>
@@ -309,17 +309,29 @@
                     @*<form role="form">*@
                     <div class="box-body">
                         <div class="form-group col-md-6">
-                            <label style="margin-bottom: 0px;" for="txtEmployer">Employer</label>
+                            <label style="margin-bottom: 0px;" for="txtEmployer">Employer</label><span style="color:red">*</span><span class="form-group has-error" style="display:none" id="divEmployerError">
+                            <label style="margin-bottom: 0px;" class="control-label">
+                            <i class="fa fa-times-circle-o"></i> Please enter employer
+                            </label>
+                            </span>
                             <input type="text" class="form-control" id="txtEmployer" placeholder="Enter Employer">
                         </div>
                         <div class="form-group col-md-6">
-                            <label style="margin-bottom: 0px;">Designation</label>
+                            <label style="margin-bottom: 0px;">Designation</label><span style="color:red">*</span><span class="form-group has-error" style="display:none" id="divEmpDesignationError">
+                            <label style="margin-bottom: 0px;" class="control-label">
+                            <i class="fa fa-times-circle-o"></i> Please select designation
+                            </label>
+                            </span>
                             <select class="form-control experienceDesignation" style="width: 100%;" id="ddlExperienceDesignation">
                                 <option value="">Select</option>
                             </select>
                         </div>
                         <div class="form-group col-md-6">
-                            <label style="margin-bottom: 0px;" for="ExpFromDate">From</label>
+                            <label style="margin-bottom: 0px;" for="ExpFromDate">From</label><span style="color:red">*</span><span class="form-group has-error" style="display:none" id="divFromError">
+                            <label style="margin-bottom: 0px;" class="control-label">
+                            <i class="fa fa-times-circle-o"></i> Please select from
+                            </label>
+                            </span>
                             <input type="text" class="form-control" id="experienceDatePicker">
                         </div>
                         <div class="form-group col-md-6">
@@ -349,7 +361,7 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.11.2/moment.min.js"></script>
 <script src="../../plugins/daterangepicker/daterangepicker.js"></script>
 <script>
-    
+
     var educationFromDate;
     var educationToDate;
     var experienceFromDate;
@@ -422,7 +434,8 @@
                 return dd + "/" + mm + "/" + yyyy;
             }
             var today = (formatDate(new Date()));
-            $('#txtJoiningDate').val(today);
+            //$('#txtJoiningDate').val(today);
+            $('#txtJoiningDate').datepicker('setDate', today);
 
             $('#educationDatepicker').on('change.daterangepicker', function (ev, picker) {
                 var date = ev.target.value;
@@ -456,6 +469,7 @@
                 var endDate = new Date(end);
                 var endMonth = endDate.getMonth() + 1;
                 experienceToDate = endDate.getFullYear() + "-" + endMonth + "-" + endDate.getDate();
+                $("#divFromError").hide();
             });
             $('#experienceDatePicker').on('apply.daterangepicker', function (ev, picker) {
 
@@ -464,11 +478,12 @@
                 var end = picker.endDate;
                 experienceToDate = end.format('YYYY-MM-DD');
 
+
             });
-            //$('#experienceDatePicker').val('');
+            $('#experienceDatePicker').val('');
         })
-        
-        
+
+
     });
 
     $('input[type="checkbox"].flat-red, input[type="radio"].flat-red').iCheck({
@@ -478,7 +493,7 @@
 
     $(document).on('click', '#btnSubmitEmployeeDetails', function (e) {
         debugger
-        if (($("#txtFirstName").val() == "") && ($("#txtLastName").val() == "") && ($("#txtEmail").val() == "") && ($("#txtEmployeeNumber").val() == "")  && ($("#txtBirthday").val() == "") && ($("#txtCity").val() == "") && ($("#txtCountry").val() == "") && ($("#txtTelephone").val() == "") && ($("#ddlDesignation").val() == 0) && ($("#ddlEmployeeType").val() == 0) && ($("#ddlManagerName").val() == 0) && ($("#ddlProjectName").val() == null) && ($("#ddlGraduation").val() == 0) && ($("#ddlSpecialization").val() == 0) && ($("#txtUniversity").val() == "")) {
+        if (($("#txtFirstName").val() == "") && ($("#txtLastName").val() == "") && ($("#txtEmail").val() == "") && ($("#txtEmployeeNumber").val() == "")  && ($("#txtBirthday").val() == "") && ($("#txtCity").val() == "") && ($("#txtCountry").val() == "") && ($("#txtTelephone").val() == "") && ($("#ddlDesignation").val() == 0) && ($("#ddlEmployeeType").val() == 0) && ($("#ddlManagerName").val() == 0) && ($("#ddlProjectName").val() == null) && ($("#ddlGraduation").val() == 0) && ($("#ddlSpecialization").val() == 0) && ($("#txtUniversity").val() == "") && ($("#txtEmployer").val() == "") && ($("#ddlExperienceDesignation").val() == 0) && ($("#ddlSkills").val()== null) && ($("#experienceDatePicker").val()== "")) {
             $("#divFirstNameError").show();
             $("#divLastNameError").show();
             $("#divEmailError").show();
@@ -495,6 +510,9 @@
             $("#divProjectNameError").show();
             $("#divGraduationError").show();
             $("#divSpecializationError").show();
+            $("#divEmpDesignationError").show();
+            $("#divEmployerError").show();
+            $("#divFromError").show();
             $('#divInvalidEmailError').hide();
             return false;
         }
@@ -575,13 +593,28 @@
             $('#divCollegeError').show();
             return false;
         }
-        if ($("#ddlSkills").val()== null) {
+
+        if (($("#txtEmployer").val() == "") && ($("#ddlEmployeeType").val() != (@Convert.ToInt16(LMS_WebAPP_Utils.EmployeeType.Fresher)))) {
+            $('#divEmployerError').show();
+            return false;
+        }
+        if (($("#ddlExperienceDesignation").val() == 0) && ($("#ddlEmployeeType").val() != (@Convert.ToInt16(LMS_WebAPP_Utils.EmployeeType.Fresher)))) {
+            $('#divEmpDesignationError').show();
+            return false;
+        }
+        if (($("#experienceDatePicker").val()== "") && ($("#ddlEmployeeType").val() != (@Convert.ToInt16(LMS_WebAPP_Utils.EmployeeType.Fresher)))) {
+            $('#divFromError').show();
+            return false;
+        }
+
+        if (($("#ddlSkills").val()== null) && ($("#ddlEmployeeType").val() != (@Convert.ToInt16(LMS_WebAPP_Utils.EmployeeType.Fresher)))){
             $('#divSkillsError').show();
             return false;
         }
         var bDate = $("#txtBirthday").datepicker('getDate');
         var birthDate=bDate.toLocaleDateString();
         var joinDate=$("#txtJoiningDate").datepicker('getDate');
+       // var joinDate=$("#txtJoiningDate").val();
         var dateOfJoining=joinDate.toLocaleDateString();
 
         var imagepath = imgpath != "" ? imgpath : "";
@@ -592,17 +625,59 @@
             FromDate: $("#educationDatePicker").val().split("-")[0].trim(),
             ToDate: $("#educationDatePicker").val().split("-")[1].trim()
         }
+        if($("#ddlEmployeeType").val() != (@Convert.ToInt16(LMS_WebAPP_Utils.EmployeeType.Fresher))) {
+            debugger
+            var experienceDetails = {
+                CompanyName: $("#txtEmployer").val(),
+                Role: $("#ddlExperienceDesignation").val(),
+                FromDate: $("#experienceDatePicker").val().split("-")[0].trim(),
+                ToDate: $("#experienceDatePicker").val().split("-")[1].trim(),
+            }
+        }
+        else if($("#experienceDatePicker").val()!="")
+        {
+            var experienceDetails = {
+                CompanyName: $("#txtEmployer").val(),
+                Role: $("#ddlExperienceDesignation").val(),
+                FromDate: $("#experienceDatePicker").val().split("-")[0].trim(),
+                ToDate: $("#experienceDatePicker").val().split("-")[1].trim(),
+                
+            }
+        }
+      else
+      {
         var experienceDetails = {
-
             CompanyName: $("#txtEmployer").val(),
             Role: $("#ddlExperienceDesignation").val(),
-            FromDate: $("#experienceDatePicker").val().split("-")[0].trim(),
-            ToDate: $("#experienceDatePicker").val().split("-")[1].trim()
+            FromDate: $("#experienceDatePicker").val(),
+            ToDate: $("#experienceDatePicker").val(),
         }
+          
+        }
+
         var skills = [];
-        for (i = 0; i < $("#ddlSkills").val().length; i++) {
+        if($("#ddlEmployeeType").val() != (@Convert.ToInt16(LMS_WebAPP_Utils.EmployeeType.Fresher))) {
+            for (i = 0; i < $("#ddlSkills").val().length; i++) {
+                skill = {
+                    SkillName: $("#ddlSkills").val()[i]
+                }
+                skills.push(skill);
+            }
+        }
+        else if($("#ddlSkills").val()!=null)
+        {
+            
+            for (i = 0; i < $("#ddlSkills").val().length; i++) {
+                skill = {
+                    SkillName: $("#ddlSkills").val()[i]
+                }
+                skills.push(skill);
+            }
+        }
+        else
+        {
             skill = {
-                SkillName: $("#ddlSkills").val()[i]
+                SkillName: $("#ddlSkills").val()
             }
             skills.push(skill);
         }
@@ -738,6 +813,9 @@
     $("#txtFirstName").keypress(function (e) {
         $('#divFirstNameError').hide();
     });
+    $("#txtEmployer").keypress(function (e) {
+        $('#divEmployerError').hide();
+    });
     $("#txtLastName").keypress(function (e) {
         $('#divLastNameError').hide();
     });
@@ -778,13 +856,29 @@
     });
 
     $('#ddlEmployeeType').on('change', function () {
+        debugger
         if ($("#ddlEmployeeType").val() != 0) {
             $("#divEmployeeTypeError").hide();
+            if ($("#ddlEmployeeType").val() == (@Convert.ToInt16(LMS_WebAPP_Utils.EmployeeType.Fresher))) {
+                $("#divEmpDesignationError").hide();
+                $("#divEmployerError").hide();
+                $("#divFromError").hide();
+                $("#divSkillsError").hide();
+            }
+            else
+            {
+                $("#divEmpDesignationError").show();
+                $("#divEmployerError").show();
+                $("#divFromError").show();
+                $("#divSkillsError").show();
+            }
         }
         else {
             $("#divEmployeeTypeError").show();
         }
     });
+
+
 
     $('#ddlManagerName').on('change', function () {
         if ($("#ddlManagerName").val() != 0) {
@@ -819,6 +913,15 @@
         }
         else {
             $("#divSpecializationError").show();
+        }
+    });
+
+    $('#ddlExperienceDesignation').on('change', function () {
+        if ($("#ddlExperienceDesignation").val() != 0) {
+            $("#divEmpDesignationError").hide();
+        }
+        else {
+            $("#divEmpDesignationError").show();
         }
     });
 
