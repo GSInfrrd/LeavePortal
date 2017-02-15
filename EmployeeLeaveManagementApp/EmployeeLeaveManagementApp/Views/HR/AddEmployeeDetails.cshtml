@@ -514,26 +514,31 @@
             $("#divEmployerError").show();
             $("#divFromError").show();
             $('#divInvalidEmailError').hide();
+            $("#txtFirstName").focus();
             return false;
         }
 
         if ($("#txtFirstName").val() == "") {
             $('#divFirstNameError').show();
+            $("#txtFirstName").focus();
             return false;
         }
         if ($("#txtLastName").val() == "") {
             $('#divLastNameError').show();
+            $("#txtLastName").focus();
             return false;
         }
         if ($("#txtEmail").val() == "") {
             $('#divEmailError').show();
             $('#divInvalidEmailError').hide();
+            $("#txtEmail").focus();
             return false;
         }
         var reg = /^\w+([-+.']\w+)*@Html.Raw("@")\w+([-.]\w+)*\.\w+([-.]\w+)*$/
         if (!(reg.test($("#txtEmail").val()))) {
             $('#divInvalidEmailError').show();
             $('#divEmailError').hide();
+            $("#txtEmail").focus();
             return false;
         }
         else
@@ -543,72 +548,89 @@
         }
         if ($("#txtEmployeeNumber").val() == "") {
             $('#divEmployeeNumberError').show();
+            $("#txtEmployeeNumber").focus();
             return false;
         }
         if ($("#txtJoiningDate").val() == "") {
             $('#divDateOfJoiningError').show();
+            $("#txtJoiningDate").focus();
             return false;
         }
         if ($("#txtBirthday").val() == "") {
             $('#divBirthDayError').show();
+            $("#txtBirthday").focus();
             return false;
         }
         if ($("#txtCity").val() == "") {
             $('#divCityError').show();
+            $("#txtCity").focus();
             return false;
         }
         if ($("#txtCountry").val() == "") {
             $('#divCountryError').show();
+            $("#txtCountry").focus();
             return false;
         }
         if ($("#txtTelephone").val() == "") {
             $('#divTelephoneError').show();
+            $("#txtTelephone").focus();
             return false;
         }
         if ($("#ddlDesignation").val() == 0) {
             $('#divDesignationError').show();
+            $("#ddlDesignation").focus();
             return false;
         }
         if ($("#ddlEmployeeType").val() == 0) {
             $('#divEmployeeTypeError').show();
+            $("#ddlEmployeeType").focus();
             return false;
         }
         if ($("#ddlManagerName").val() == 0) {
             $('#divManagerNameError').show();
+            $("#ddlManagerName").focus();
             return false;
         }
         if ($("#ddlProjectName").val() == null) {
             $('#divProjectNameError').show();
+            $("#ddlProjectName").focus();
             return false;
         }
         if ($("#ddlGraduation").val() == 0) {
             $('#divGraduationError').show();
+            $("#ddlGraduation").focus();
             return false;
         }
         if ($("#ddlSpecialization").val() == 0) {
             $('#divSpecializationError').show();
+            $("#ddlSpecialization").focus();
             return false;
         }
         if ($("#txtUniversity").val() == "") {
             $('#divCollegeError').show();
+            $("#txtUniversity").focus();
             return false;
         }
 
         if (($("#txtEmployer").val() == "") && ($("#ddlEmployeeType").val() != (@Convert.ToInt16(LMS_WebAPP_Utils.EmployeeType.Fresher)))) {
             $('#divEmployerError').show();
+            $("#txtEmployer").focus();
             return false;
         }
         if (($("#ddlExperienceDesignation").val() == 0) && ($("#ddlEmployeeType").val() != (@Convert.ToInt16(LMS_WebAPP_Utils.EmployeeType.Fresher)))) {
             $('#divEmpDesignationError').show();
+            $("#ddlExperienceDesignation").focus();
             return false;
         }
         if (($("#experienceDatePicker").val()== "") && ($("#ddlEmployeeType").val() != (@Convert.ToInt16(LMS_WebAPP_Utils.EmployeeType.Fresher)))) {
             $('#divFromError').show();
+            $("#experienceDatePicker").focus();
             return false;
         }
 
         if (($("#ddlSkills").val()== null) && ($("#ddlEmployeeType").val() != (@Convert.ToInt16(LMS_WebAPP_Utils.EmployeeType.Fresher)))){
             $('#divSkillsError').show();
+            $("#ddlSkills").focus();
             return false;
         }
         var bDate = $("#txtBirthday").datepicker('getDate');
