@@ -250,6 +250,7 @@ namespace EmployeeLeaveManagementApp.Controllers
                     model.TotalApplied = datares.TotalApplied;
                     model.TotalSpent = datares.TotalSpent;
                     model.CompOffTaken =datares.CompOffTaken!=null? (int) datares.CompOffTaken:0;
+                    model.CompOffReceived = datares.CompOffReceived != null ? (int)datares.CompOffReceived : 0;
                     model.TotalWorkFromHome = (datares.TotalWorkFromHome != null) ? Convert.ToInt16(datares.TotalWorkFromHome) : 0;
                     model.TotalLeft = datares.TotalLeaveCount > 0 ? datares.TotalLeaveCount : 0;
                     model.DateOfJoining = DateTime.Now;

@@ -20,6 +20,7 @@ namespace LMS_WebAPP_Domain
             this.Colors = new List<string>();
             this.Projects = new List<ProjectsList>();
         }
+
         public int Id { get; set; }
 
         public string FirstName { get; set; }
@@ -72,6 +73,8 @@ namespace LMS_WebAPP_Domain
         public int EmployeeType { get; set; }
         public int? LOPRemaining { get; set; }
         public int? CompOffTaken { get; set; }
+
+        public int? CompOffReceived { get; set; }
 
         public int RefProfileType { get; set; }
     }

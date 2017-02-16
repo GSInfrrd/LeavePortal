@@ -53,6 +53,12 @@ namespace LMS_WebAPI_DAL.Repositories
                     var empModel = new EmployeeDetailsModel();
                     var employeeLeaves = employeeDetails.EmployeeLeaveMasters.FirstOrDefault();
                     var leaveTransactions = employeeDetails.EmployeeLeaveTransactions;
+                    var RewardLeaves = ctx.EmployeeRewardedLeaveDetails.Where(x => x.RefEmployeeId == userEmpId).ToList();
+                    int CompOffReceived = 0;
+                    foreach (var RL in RewardLeaves)
+                    {
+                        CompOffReceived += RL.LeaveCount;
+                    }
                     if (employeeDetails != null)
                     {
                         empModel.RoleName = employeeDetails.MasterDataValue.Value;
@@ -68,6 +74,7 @@ namespace LMS_WebAPI_DAL.Repositories
                         empModel.ManagerId = employeeDetails.ManagerId;
                         empModel.CompOffTaken = employeeLeaves.TakenCompOff;
                         empModel.DateOfJoining = Convert.ToDateTime(employeeDetails.DateOfJoining);
+                        empModel.CompOffReceived = CompOffReceived;
                     }
                     ctx.Configuration.LazyLoadingEnabled = false;
                     Logger.Info("Successfully exiting from UserRepository API GetUserDetails method");
@@ -207,10 +214,18 @@ namespace LMS_WebAPI_DAL.Repositories
             {
                 using (var ctx = new LeaveManagementSystemEntities1())
                 {
+                    string imageBase64Data = string.Empty;
+                    if (!string.IsNullOrEmpty(model.ImagePath))
+                    {
+                        byte[] imageByteData = System.IO.File.ReadAllBytes(model.ImagePath);
+                        imageBase64Data = Convert.ToBase64String(imageByteData);
+
+                    }
                     var empData = new EmployeeDetail();
                     empData = ctx.EmployeeDetails.FirstOrDefault(i => i.Id == model.Id);
                     empData.FirstName = model.FirstName;
                     empData.LastName = model.LastName;
+                    empData.ImagePath = imageBase64Data;
                     empData.City = model.City;
                     empData.Country = model.Country;
                     empData.DateOfBirth = model.DateOfBirth;

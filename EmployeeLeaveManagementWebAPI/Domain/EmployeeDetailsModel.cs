@@ -16,6 +16,8 @@ namespace LMS_WebAPI_Domain
             this.EmployeeExperienceDetails = new List<EmployeeExperienceDetails>();
             this.Projects = new List<ProjectsList>();
         }
+
+        
         public int Id { get; set; }
 
         public string FirstName { get; set; }
@@ -70,6 +72,7 @@ namespace LMS_WebAPI_Domain
         public int LOPRemaining { get; set; }
         public int? CompOffTaken { get; set; }
 
+        public int? CompOffReceived { get; set; }
         public int RefProfileType { get; set; }
 
     }

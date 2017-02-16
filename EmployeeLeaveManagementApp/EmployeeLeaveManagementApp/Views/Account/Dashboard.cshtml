@@ -30,15 +30,82 @@
     <div class="row">
         <div class="col-lg-3 col-xs-6">
             <!-- small box -->
+            <div class="small-box bg-green-gradient">
+                <div class="inner">
+                    <h3 class="count" id="txtTotalCount">@Model.TotalLeft</h3>
+                    <p>Earned Leaves</p>
+                </div>
+                <div class="icon">
+                    <i class="fa fa-calendar-plus-o"></i>
+                </div>
+                <a href="@Url.Action("LeaveTransaction", "LeaveTransaction")" class="small-box-footer">More info <i class="fa fa-arrow-circle-right"></i></a>
+            </div>
+        </div>
+        <div class="col-lg-3 col-xs-6">
+            <!-- small box -->
             <div class="small-box bg-aqua">
                 <div class="inner">
                     <h3 class="count" id="txtTotalCount">@Model.TotalLeft</h3>
-                    <p>Available Leaves</p>
+                    <p>Advance Leaves</p>
                 </div>
                 <div class="icon">
                     <i class="ion ion-bag"></i>
                 </div>
                 <a href="@Url.Action("LeaveTransaction", "LeaveTransaction")" class="small-box-footer">More info <i class="fa fa-arrow-circle-right"></i></a>
+            </div>
+        </div>
+        <div class="col-lg-3 col-xs-6">
+            <!-- small box -->
+            <div class="small-box bg-yellow">
+                <div class="inner">
+                    <h3 class="count" id="txtSpentLeaves">@Model.TotalSpent</h3>
+
+                    <p>Leaves Taken</p>
+                </div>
+                <div class="icon">
+                    <i class="ion ion-stats-bars"></i>
+                </div>
+                <a href="@Url.Action("LeaveTransaction", "LeaveTransaction")" class="small-box-footer">More info <i class="fa fa-arrow-circle-right"></i></a>
+            </div>
+        </div>
+        <div class="col-lg-3 col-xs-6">
+            <!-- small box -->
+            <div class="small-box bg-purple">
+                <div class="inner">
+                    <h3 class="count" id="txtTotalCount">@Model.TotalLeft</h3>
+                    <p>Leave Balance</p>
+                </div>
+                <div class="icon">
+                    <i class="fa fa-calendar-minus-o"></i>
+                </div>
+                <a href="@Url.Action("LeaveTransaction", "LeaveTransaction")" class="small-box-footer">More info <i class="fa fa-arrow-circle-right"></i></a>
+            </div>
+        </div>
+        <div class="col-lg-3 col-xs-6">
+            <!-- small box -->
+            <div class="small-box bg-teal">
+                <div class="inner">
+                    <h3 class="count" id="txtTotalCount">@Model.CompOffReceived</h3>
+                    <p>Comp Off Received</p>
+                </div>
+                <div class="icon">
+                    <i class="fa fa-gift"></i>
+                </div>
+                <a href="@Url.Action("LeaveTransaction", "LeaveTransaction")" class="small-box-footer">More info <i class="fa fa-arrow-circle-right"></i></a>
+            </div>
+        </div>
+        <div class="col-lg-3 col-xs-6">
+            <!-- small box -->
+            <div class="small-box bg-red">
+                <div class="inner">
+                    <h3 id="txtLeavesTaken" style="min-height: 40px;">@Model.CompOffTaken</h3>
+
+                    <p>Comp Off Applied</p>
+                </div>
+                <div class="icon">
+                    <i class="fa fa-calendar"></i>
+                </div>
+                <a href="@Url.Action("ApplyLeave", "ApplyLeave")" class="small-box-footer">More info <i class="fa fa-arrow-circle-right"></i></a>
             </div>
         </div>
         <!-- ./col -->
@@ -50,7 +117,7 @@
                     <p>Total WFH</p>
                 </div>
                 <div class="icon">
-                    <i class="ion ion-stats-bars"></i>
+                    <i class="ion ion-home"></i>
                 </div>
                 <a href="@Url.Action("ApplyWorkFromHome", "WorkFromHome")" class="small-box-footer">More info <i class="fa fa-arrow-circle-right"></i></a>
             </div>
@@ -58,30 +125,16 @@
         <!-- ./col -->
         <div class="col-lg-3 col-xs-6">
             <!-- small box -->
-            <div class="small-box bg-yellow">
+            <div class="small-box bg-blue">
                 <div class="inner">
                     <h3 class="count" id="txtSpentLeaves">@Model.TotalSpent</h3>
 
-                    <p>Leaves Taken</p>
+                    <p>Total LOPs</p>
                 </div>
                 <div class="icon">
                     <i class="ion ion-pie-graph"></i>
                 </div>
                 <a href="@Url.Action("LeaveTransaction", "LeaveTransaction")" class="small-box-footer">More info <i class="fa fa-arrow-circle-right"></i></a>
-            </div>
-        </div>
-        <div class="col-lg-3 col-xs-6">
-            <!-- small box -->
-            <div class="small-box bg-red">
-                <div class="inner">
-                    <h3 id="txtLeavesTaken" style="min-height: 40px;">@Model.CompOffTaken</h3>
-
-                    <p>Comp Off Taken</p>
-                </div>
-                <div class="icon">
-                    <i class="fa fa-calendar"></i>
-                </div>
-                <a href="@Url.Action("ApplyLeave", "ApplyLeave")" class="small-box-footer">More info <i class="fa fa-arrow-circle-right"></i></a>
             </div>
         </div>
         <!-- ./col -->
