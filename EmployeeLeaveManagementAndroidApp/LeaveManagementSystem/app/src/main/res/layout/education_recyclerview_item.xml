@@ -12,13 +12,14 @@
         android:layout_height="@dimen/dimen_60_dp"
         android:layout_gravity="center_vertical"
         android:scaleType="centerCrop"
-        android:src="@drawable/default_image" />
+        android:src="@drawable/ic_education_image" />
+
     <LinearLayout
-        android:layout_width="match_parent"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_gravity="center_vertical"
-        android:orientation="horizontal"
-        android:paddingLeft="@dimen/dimen_16_dp">
+        android:layout_weight="1"
+        android:orientation="horizontal">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -28,29 +29,43 @@
             android:paddingLeft="@dimen/dimen_16_dp">
 
             <TextView
-                android:id="@+id/profile_degree"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:fontFamily="sans-serif"
-                android:textColor="@android:color/black"
-                android:textSize="14sp" />
-
-            <TextView
                 android:id="@+id/profile_college_name"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:ellipsize="end"
+                android:fontFamily="sans-serif-condensed"
+                android:maxLines="1"
+                android:scrollHorizontally="true"
+                android:textColor="@color/colorPrimary"
+                android:textSize="14sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/profile_degree"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/dimen_2_dp"
+                android:ellipsize="end"
+                android:fontFamily="sans-serif"
+                android:maxLines="1"
+                android:scrollHorizontally="true"
+                android:textColor="@android:color/black"
                 android:textSize="12sp" />
 
             <TextView
                 android:id="@+id/profile_degree_duration"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/dimen_2_dp"
+                android:textColor="@android:color/black"
                 android:textSize="12sp" />
         </LinearLayout>
+
         <ImageView
+            android:id="@+id/edit_education_data"
             android:layout_width="@dimen/dimen_24_dp"
             android:layout_height="@dimen/dimen_24_dp"
             android:src="@drawable/ic_edit_item"
-            android:id="@+id/edit_education_data"/>
+            android:visibility="gone" />
     </LinearLayout>
 </LinearLayout>

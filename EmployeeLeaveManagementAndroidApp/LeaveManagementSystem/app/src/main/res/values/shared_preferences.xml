@@ -3,4 +3,5 @@
     <string name="user_preferences">USERPREFERENCES</string>
     <string name="user_name">userName</string>
     <string name="emp_id">empId</string>
+    <string name="emp_image">empImage</string>
 </resources>

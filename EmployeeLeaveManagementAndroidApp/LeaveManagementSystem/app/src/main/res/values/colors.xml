@@ -10,6 +10,12 @@
 
     <color name="colorRemainingLeaves">#00A65A</color>
     <color name="colorWorkFromHome">#00C0EF</color>
-    <color name="colorSpentLeaves">#F39C12</color>
+    <color name="colorCompOffTaken">#F39C12</color>
     <color name="colorAppliedLeaves">#DD4B39</color>
+
+    <color name="colorSickLeave">#00A65A</color>
+    <color name="colorCasualLeave">#0288D1</color>
+    <color name="colorLOP">#DD4B39</color>
+    <color name="colorAdvancedLeave">#FFB300</color>
+    <color name="colorCompOff">#FFF59D</color>
 </resources>

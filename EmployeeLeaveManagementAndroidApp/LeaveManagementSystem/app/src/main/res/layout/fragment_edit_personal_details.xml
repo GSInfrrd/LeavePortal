@@ -9,15 +9,18 @@
         android:orientation="vertical">
 
         <LinearLayout
+            android:id="@+id/primary_details_layout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@android:color/white"
             android:orientation="horizontal"
+            android:background="@android:color/white"
             android:padding="@dimen/dimen_16_dp">
 
-            <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent">
+            <FrameLayout
+                android:id="@+id/frame_profile_image"
+                android:layout_width="@dimen/dimen_80_dp"
+                android:layout_height="@dimen/dimen_80_dp"
+                android:layout_gravity="center">
 
                 <de.hdodenhof.circleimageview.CircleImageView
                     android:id="@+id/profile_image"
@@ -25,9 +28,18 @@
                     android:layout_height="@dimen/dimen_60_dp"
                     android:layout_gravity="center"
                     android:src="@drawable/default_image" />
-            </LinearLayout>
+
+                <ImageView
+                    android:id="@+id/edit_profile_image"
+                    android:layout_width="@dimen/dimen_24_dp"
+                    android:layout_height="@dimen/dimen_24_dp"
+                    android:layout_gravity="end|bottom"
+                    android:src="@drawable/ic_edit_image"
+                    android:visibility="invisible" />
+            </FrameLayout>
 
             <LinearLayout
+                android:id="@+id/text_input_details_toggle"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
@@ -62,6 +74,13 @@
                 </android.support.design.widget.TextInputLayout>
 
             </LinearLayout>
+
+            <android.support.v7.widget.AppCompatSpinner
+                android:id="@+id/choose_upload_method_spinner"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:spinnerMode="dialog"
+                android:visibility="invisible" />
         </LinearLayout>
 
         <LinearLayout
@@ -110,7 +129,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:hint="@string/date_of_birth"
-                        android:inputType="text"
+                        android:inputType="date"
                         android:theme="@style/TextInputStyle" />
                 </android.support.design.widget.TextInputLayout>
             </LinearLayout>

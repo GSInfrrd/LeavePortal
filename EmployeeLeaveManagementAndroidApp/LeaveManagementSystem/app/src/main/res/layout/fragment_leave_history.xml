@@ -4,10 +4,43 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/recycler_view_leave_history"
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="@dimen/dimen_120_dp"
+        android:background="@android:color/white"
+        android:orientation="vertical"
+        android:gravity="center">
 
-    </android.support.v7.widget.RecyclerView>
+        <TextView
+            android:id="@+id/count_leave_balance"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textAlignment="center"
+            android:textColor="@android:color/black"
+            android:textSize="36sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/leave_balance"
+            android:textAlignment="center"
+            android:textSize="16sp"
+            android:textColor="@android:color/black" />
+
+    </LinearLayout>
+
+    <android.support.design.widget.TabLayout
+        android:id="@+id/tablayout_leave_history"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:minHeight="?attr/actionBarSize"
+        android:theme="@style/LoginTheme.PopupOverlay"
+        style="@style/MyCustomTabLayout"/>
+
+    <android.support.v4.view.ViewPager
+        android:id="@+id/viewpager_leave_history"
+        android:layout_width="match_parent"
+        android:layout_height="fill_parent" />
+
 </LinearLayout>

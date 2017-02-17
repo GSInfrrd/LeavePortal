@@ -4,13 +4,19 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 
-import utilities.Constants;
+import ai.infrrd.leavemanagementsystem.fragments.EditEducationDetails;
+import ai.infrrd.leavemanagementsystem.fragments.EditExperienceDetails;
+import ai.infrrd.leavemanagementsystem.fragments.EditPersonalDetails;
+import ai.infrrd.leavemanagementsystem.fragments.EditSkillDetail;
+import ai.infrrd.leavemanagementsystem.utilities.Constants;
 
 public class AddActivity extends AppCompatActivity {
 
+    private static final String TAG = AddActivity.class.getSimpleName();
     private int mDetailType;
     private int mDetailId;
 
@@ -48,7 +54,7 @@ public class AddActivity extends AppCompatActivity {
                 getSupportActionBar().setTitle(getString(R.string.skills));
                 break;
         }
-        fragmentTransaction.replace(R.id.content_frame_add_activity, selectedFragment);
+        fragmentTransaction.replace(R.id.content_frame_add_activity, selectedFragment, "abcd");
         fragmentTransaction.commit();
     }
 
@@ -69,5 +75,33 @@ public class AddActivity extends AppCompatActivity {
             //
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void onBackPressed() {
+        Intent intent = new Intent(AddActivity.this, ProfileActivity.class);
+        startActivity(intent);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        Log.i("LOG_TAG", "Calling activity onActivityResult");
+        super.onActivityResult(requestCode, resultCode, data);
+//        Fragment fragmentById = getSupportFragmentManager().findFragmentByTag("abcd");
+//        if(fragmentById == null){
+//            Log.e(TAG, "Fragment is null");
+//        }
+//        else{
+//            Log.e(TAG, "Fragment is not null");
+//        }
+//        try {
+//            Log.d(TAG, "Casting now");
+//            EditPersonalDetails editPersonalDetails = (EditPersonalDetails) fragmentById;
+//            Log.d(TAG, "Calling onActivity result of fragment");
+//            editPersonalDetails.onActivityResult(requestCode, resultCode, data);
+//        } catch (Exception ex) {
+//            Log.e(TAG, "Error casting some shit");
+//            ex.printStackTrace();
+//        }
     }
 }
