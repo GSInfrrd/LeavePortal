@@ -305,5 +305,41 @@ namespace EmployeeLeaveManagementWebAPI.Controllers
             }
         }
 
+        [HttpGet]
+        [Route("CheckEmployeeNumber")]
+        public bool CheckEmployeeNumber(string employeeNumber)
+        {
+            try
+            {
+                Logger.Info("Entering in HRController API CheckEmployeeNumber method");
+                var result = hrOperations.CheckEmployeeNumber(employeeNumber);
+                Logger.Info("Successfully exiting from HRController API CheckEmployeeNumber method");
+                return result;
+            }
+            catch (Exception ex)
+            {
+                Logger.Error("Error at HRController API CheckEmployeeNumber method.", ex);
+                return false;
+            }
+        }
+
+        [HttpGet]
+        [Route("CheckEmployeeMail")]
+        public bool CheckEmployeeMail(string employeeMailid)
+        {
+            try
+            {
+                Logger.Info("Entering in HRController API CheckEmployeeMail method");
+                var result = hrOperations.CheckEmployeeMail(employeeMailid);
+                Logger.Info("Successfully exiting from HRController API CheckEmployeeMail method");
+                return result;
+            }
+            catch (Exception ex)
+            {
+                Logger.Error("Error at HRController API CheckEmployeeMail method.", ex);
+                return false;
+            }
+        }
+
     }
 }

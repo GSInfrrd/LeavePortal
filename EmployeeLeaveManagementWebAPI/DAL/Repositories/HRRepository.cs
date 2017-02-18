@@ -665,5 +665,51 @@ namespace LMS_WebAPI_DAL.Repositories
                 throw;
             }
         }
+
+        public bool CheckEmployeeNumber(string employeeNumber)
+        {
+            Logger.Info("Entering in HRRepository API CheckEmployeeNumber method");
+            try
+            {
+                bool result = false;
+                using (var ctx = new LeaveManagementSystemEntities1())
+                {
+                    var EmpNumber = ctx.EmployeeDetails.Where(x => x.EmpNumber == employeeNumber).FirstOrDefault();
+                    if (EmpNumber != null)
+                        result = true;
+                    
+                }
+                Logger.Info("Successfully exiting from HRRepository API CheckEmployeeNumber method");
+                return result;
+            }
+            catch
+            {
+                Logger.Error("Exception occured at HRRepository API CheckEmployeeNumber method ");
+                throw;
+            }
+        }
+
+        public bool CheckEmployeeMail(string employeeMailid)
+        {
+            Logger.Info("Entering in HRRepository API CheckEmployeeMail method");
+            try
+            {
+                bool result = false;
+                using (var ctx = new LeaveManagementSystemEntities1())
+                {
+                    var EmpNumber = ctx.UserAccounts.Where(x => x.UserName == employeeMailid).FirstOrDefault();
+                    if (EmpNumber != null)
+                        result = true;
+
+                }
+                Logger.Info("Successfully exiting from HRRepository API CheckEmployeeMail method");
+                return result;
+            }
+            catch
+            {
+                Logger.Error("Exception occured at HRRepository API CheckEmployeeMail method ");
+                throw;
+            }
+        }
     }
 }

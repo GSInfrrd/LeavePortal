@@ -63,12 +63,22 @@
                                 <i class="fa fa-times-circle-o"></i> Please enter valid email id
                             </label>
                         </div>
+                        <span class="form-group has-error" style="display:none;margin-bottom: 0px;" id="divEmailAlreadyError">
+                            <label style="margin-bottom: 0px;" class="control-label" for="EmailAlready">
+                                <i class="fa fa-times-circle-o"></i>Email id is already present
+                            </label>
+                        </span>
                     </div>
                     <div class="form-group col-md-6">
                         <label style="margin-bottom: 0px;" for="txtEmployeeNumber">
                             Employee Number <span style="color:red">*</span><span class="form-group has-error" style="display:none;margin-bottom: 0px;" id="divEmployeeNumberError">
                                 <label style="margin-bottom: 0px;" class="control-label" for="EmployeeNumber">
                                     <i class="fa fa-times-circle-o"></i> Please enter employee number
+                                </label>
+                            </span>
+                            <span class="form-group has-error" style="display:none;margin-bottom: 0px;" id="divEmployeeNumberAlreadyError">
+                                <label style="margin-bottom: 0px;" class="control-label" for="EmployeeNumberAlready">
+                                    <i class="fa fa-times-circle-o"></i>Employee number is already present
                                 </label>
                             </span>
                         </label>
@@ -514,6 +524,8 @@
             $("#divEmployerError").show();
             $("#divFromError").show();
             $('#divInvalidEmailError').hide();
+            $('#divEmployeeNumberAlreadyError').hide();
+            $('#divEmailAlreadyError').hide();
             $("#txtFirstName").focus();
             return false;
         }
@@ -531,6 +543,7 @@
         if ($("#txtEmail").val() == "") {
             $('#divEmailError').show();
             $('#divInvalidEmailError').hide();
+            $('#divEmailAlreadyError').hide();
             $("#txtEmail").focus();
             return false;
         }
@@ -548,6 +561,7 @@
         }
         if ($("#txtEmployeeNumber").val() == "") {
             $('#divEmployeeNumberError').show();
+            $('#divEmployeeNumberAlreadyError').hide();
             $("#txtEmployeeNumber").focus();
             return false;
         }
@@ -633,6 +647,23 @@
             $("#ddlSkills").focus();
             return false;
         }
+
+        
+        
+
+        //$.ajax({
+        //    cache: false,
+        //    type: 'get',
+        //    url: '/HR/CheckEmployeeMail',
+        //    contentType: "application/json",
+        //    data: { employeeMailid: employeeMailid},
+        //    processData:false,
+        //    success: function (data) {
+
+        //    }
+        //});
+
+
         var bDate = $("#txtBirthday").datepicker('getDate');
         var birthDate=bDate.toLocaleDateString();
         var joinDate=$("#txtJoiningDate").datepicker('getDate');
@@ -730,24 +761,81 @@
             EmployeeEducation: [educationDetails],
             EmployeeExperience:[experienceDetails]
         };
+
+
+        
+
+        var empNumber = $("#txtEmployeeNumber").val();
+        var employeeMailid = $("#txtEmail").val();
         $.ajax({
             cache: false,
-            type: 'post',
-            url: '/HR/SubmitEmployeeDetails',
-            data: JSON.stringify(model),
+            type: 'get',
+            url: '/HR/CheckEmployeeMail',
+            data: { employeeMailid: employeeMailid},
             contentType: "application/json",
-            dataType: "json",
-            processData:false,
             success: function (data) {
-                localStorage.setItem("EmployeeAdded", 1);
-                window.location.href = "/HR/EmployeeDetails";
+                debugger
+                if(data=="True")
+                {
+                    $('#divEmailError').hide();
+                    $('#divEmailAlreadyError').show();
+                    $("#txtEmail").focus();
+                    return false;
+                }
+                else
+                {
+                    $('#divEmailAlreadyError').hide();
+                    $.ajax({
+                        cache: false,
+                        type: 'get',
+                        url: '/HR/CheckEmployeeNumber',
+                        data: { empNumber: empNumber},
+                        contentType: "application/json",
+                        success: function (data) {
+                            if(data=="True")
+                            {
+                                $('#divEmployeeNumberError').hide();
+                                $('#divEmployeeNumberAlreadyError').show();
+                                $("#txtEmployeeNumber").focus();
+                                return false;
+                            }
+                            else
+                            {
+                                $('#divEmployeeNumberAlreadyError').hide();
+                                $.ajax({
+                                    cache: false,
+                                    type: 'post',
+                                    url: '/HR/SubmitEmployeeDetails',
+                                    data: JSON.stringify(model),
+                                    contentType: "application/json",
+                                    dataType: "json",
+                                    processData:false,
+                                    success: function (data) {
+                                        localStorage.setItem("EmployeeAdded", 1);
+                                        window.location.href = "/HR/EmployeeDetails";
+                                    }
+                                });
+
+                            }
+                
+                        }
+
+                    });
+                }
+
             }
         });
+        
+        
+
+        
+        
     }
    );
 
     function ValidateAndUploadImage()
     {
+        
         var file = document.getElementById("employeeImage").value;
         imgPath = document.getElementById("employeeImage").files[0].name;
 
@@ -842,10 +930,12 @@
         $('#divLastNameError').hide();
     });
     $("#txtEmail").keypress(function (e) {
+        $('#divEmailAlreadyError').hide();
         $('#divEmailError').hide();
     });
     $("#txtEmployeeNumber").keypress(function (e) {
         $('#divEmployeeNumberError').hide();
+        $('#divEmployeeNumberAlreadyError').hide();
     });
     $("#txtCity").keypress(function (e) {
         $('#divCityError').hide();

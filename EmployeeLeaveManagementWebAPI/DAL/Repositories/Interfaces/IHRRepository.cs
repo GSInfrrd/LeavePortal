@@ -29,5 +29,9 @@ namespace LMS_WebAPI_DAL.Repositories.Interfaces
         List<MasterDataModel> GetRolesList();
         LeaveReportModel GetProjectwiseReport(int projectId, int fromMonth, int toMonth, int year);
         List<ProjectsList> GetProjectwiseEmployeeDetails(int projectId, int fromMonth, int toMonth, int year);
+
+        bool CheckEmployeeNumber(string employeeNumber);
+
+        bool CheckEmployeeMail(string employeeMailid);
     }
 }

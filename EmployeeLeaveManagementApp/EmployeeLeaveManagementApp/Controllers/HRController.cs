@@ -100,6 +100,40 @@ namespace EmployeeLeaveManagementApp.Controllers
 
         }
 
+        public async Task<bool> CheckEmployeeNumber(string empNumber)
+        {
+            Logger.Info("Entering in HRController APP CheckEmployeeNumber method");
+            try
+            {
+                var result = await hrOperations.CheckEmployeeNumberAsync(empNumber);
+                Logger.Info("Successfully exiting from HRController APP CheckEmployeeNumber method");
+                return result;
+            }
+            catch (Exception ex)
+            {
+                Logger.Error("Error at HRController APP CheckEmployeeNumber method.", ex);
+                return false;
+            }
+
+        }
+
+        public async Task<bool> CheckEmployeeMail(string employeeMailid)
+        {
+            Logger.Info("Entering in HRController APP CheckEmployeeMail method");
+            try
+            {
+                var result = await hrOperations.CheckEmployeeMailAsync(employeeMailid);
+                Logger.Info("Successfully exiting from HRController APP CheckEmployeeMail method");
+                return result;
+            }
+            catch (Exception ex)
+            {
+                Logger.Error("Error at HRController APP CheckEmployeeMail method.", ex);
+                return false;
+            }
+
+        }
+
         public async Task<ActionResult> Reports()
         {
             Logger.Info("Entering in HRController APP Reports method");

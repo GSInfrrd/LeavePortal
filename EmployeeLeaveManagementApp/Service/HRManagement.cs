@@ -355,6 +355,70 @@ namespace LMS_WebAPP_ServiceHelpers
             }
         }
 
+        public async Task<bool> CheckEmployeeNumberAsync(string employeeNumber)
+        {
+            Logger.Info("Entering into HRManagement APP Service helper CheckEmployeeNumberAsync method ");
+            try
+            {
+                using (HttpClient client = new HttpClient())
+                {
+                    string URL = WebapiURL + "/CheckEmployeeNumber";
+                    urlParameters = "?employeeNumber=" + employeeNumber;
+                    client.BaseAddress = new Uri(URL);
+                    // Add an Accept header for JSON format.
+                    client.DefaultRequestHeaders.Accept.Add(
+                    new MediaTypeWithQualityHeaderValue("application/json"));
+
+                    // List data response.
+                    HttpResponseMessage response = await client.GetAsync(urlParameters);  // Blocking call!
+                    if (response.IsSuccessStatusCode)
+                    {
+                        var dataObjects = response.Content.ReadAsAsync<bool>().Result;
+                        Logger.Info("Exiting from into HRManagement APP Service helper CheckEmployeeNumberAsync method ");
+                        return dataObjects;
+                    }
+                    return false;
+                }
+            }
+            catch
+            {
+                Logger.Error("Exception occured at HRManagement APP Service helper GetProjectsListAsync method ");
+                throw;
+            }
+        }
+
+        public async Task<bool> CheckEmployeeMailAsync(string employeeMailid)
+        {
+            Logger.Info("Entering into HRManagement APP Service helper CheckEmployeeMailAsync method ");
+            try
+            {
+                using (HttpClient client = new HttpClient())
+                {
+                    string URL = WebapiURL + "/CheckEmployeeMail";
+                    urlParameters = "?employeeMailid=" + employeeMailid;
+                    client.BaseAddress = new Uri(URL);
+                    // Add an Accept header for JSON format.
+                    client.DefaultRequestHeaders.Accept.Add(
+                    new MediaTypeWithQualityHeaderValue("application/json"));
+
+                    // List data response.
+                    HttpResponseMessage response = await client.GetAsync(urlParameters);  // Blocking call!
+                    if (response.IsSuccessStatusCode)
+                    {
+                        var dataObjects = response.Content.ReadAsAsync<bool>().Result;
+                        Logger.Info("Exiting from into HRManagement APP Service helper CheckEmployeeMailAsync method ");
+                        return dataObjects;
+                    }
+                    return false;
+                }
+            }
+            catch
+            {
+                Logger.Error("Exception occured at HRManagement APP Service helper CheckEmployeeMailAsync method ");
+                throw;
+            }
+        }
+
         public async Task<List<ConsolidatedEmployeeLeaveDetailsModel>> GenerateIndividualReportAsync(int employeeId)
         {
             Logger.Info("Entering into HRManagement APP Service helper GenerateIndividualReportAsync method ");

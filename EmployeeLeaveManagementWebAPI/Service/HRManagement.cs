@@ -253,6 +253,38 @@ namespace LMS_WebAPI_ServiceHelpers
                 throw;
             }
         }
-        
+
+        public bool CheckEmployeeNumber(string employeeNumber)
+        {
+            Logger.Info("Entering into HRManagement Service helper CheckEmployeeNumber method ");
+            try
+            {
+                var result = hrRepo.CheckEmployeeNumber(employeeNumber);
+                Logger.Info("Exiting from into HRManagement Service helper CheckEmployeeNumber method ");
+                return result;
+            }
+            catch
+            {
+                Logger.Error("Exception occured at HRManagement Service helper CheckEmployeeNumber method ");
+                throw;
+            }
+        }
+
+        public bool CheckEmployeeMail(string employeeMailid)
+        {
+            Logger.Info("Entering into HRManagement Service helper CheckEmployeeMail method ");
+            try
+            {
+                var result = hrRepo.CheckEmployeeMail(employeeMailid);
+                Logger.Info("Exiting from into HRManagement Service helper CheckEmployeeMail method ");
+                return result;
+            }
+            catch
+            {
+                Logger.Error("Exception occured at HRManagement Service helper CheckEmployeeMail method ");
+                throw;
+            }
+        }
+
     }
 }
