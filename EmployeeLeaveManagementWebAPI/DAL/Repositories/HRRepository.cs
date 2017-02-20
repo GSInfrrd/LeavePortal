@@ -71,15 +71,17 @@ namespace LMS_WebAPI_DAL.Repositories
                     ctx.EmployeeDetails.Add(employeeDetails);
                     ctx.SaveChanges();
                     var id = employeeDetails.Id;
+                    GraduationDegree GDegree = (GraduationDegree)Convert.ToInt16(model.EmployeeEducationDetails[0].Degree);
+                    Specialization Spec = (Specialization)Convert.ToInt16(model.EmployeeEducationDetails[0].Specialization);
                     if (model.EmployeeEducationDetails.Count > 0)
                     {
                         var employeeEducationDetails = new EmployeeEducationDetail
                         {
-
-                            Degree = model.EmployeeEducationDetails[0].Degree,
+                            Degree = GDegree.Description(),
                             Institution = model.EmployeeEducationDetails[0].Institution,
                             FromDate = Convert.ToDateTime(model.EmployeeEducationDetails[0].TimePeriod.Split('~')[0]),
                             ToDate = Convert.ToDateTime(model.EmployeeEducationDetails[0].TimePeriod.Split('~')[1]),
+                            Specialization = Spec.Description(),
                             RefEmployeeId = id
                         };
                         ctx.EmployeeEducationDetails.Add(employeeEducationDetails);

@@ -97,6 +97,7 @@ namespace LMS_WebAPP_Domain
         public DateTime FromDate { get; set; }
 
         public DateTime ToDate { get; set; }
+        public string Specialization { get; set; }
 
 
     }

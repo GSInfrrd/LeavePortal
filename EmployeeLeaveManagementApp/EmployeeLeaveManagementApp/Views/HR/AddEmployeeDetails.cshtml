@@ -260,14 +260,14 @@
                             <div>
                                 <select id="ddlGraduation" class="form-control graduation" style="width: 100%;">
                                     <option value="">Select</option>
-                                    <option>B.E/BTech</option>
-                                    <option>MTech</option>
-                                    <option>BCA</option>
-                                    <option>MCA</option>
-                                    <option>BCA</option>
-                                    <option>B.Sc</option>
-                                    <option>MBA</option>
-                                    <option>M.S</option>
+                                    <option value="@Convert.ToInt16(LMS_WebAPP_Utils.GraduationDegree.BTech)">@LMS_WebAPP_Utils.CommonMethods.Description((LMS_WebAPP_Utils.GraduationDegree.BTech))</option>
+                                    <option value="@Convert.ToInt16(LMS_WebAPP_Utils.GraduationDegree.MTech)">@LMS_WebAPP_Utils.CommonMethods.Description((LMS_WebAPP_Utils.GraduationDegree.MTech))</option>
+                                    <option value="@Convert.ToInt16(LMS_WebAPP_Utils.GraduationDegree.BCA)">@LMS_WebAPP_Utils.CommonMethods.Description((LMS_WebAPP_Utils.GraduationDegree.BCA))</option>
+                                    <option value="@Convert.ToInt16(LMS_WebAPP_Utils.GraduationDegree.MCA)">@LMS_WebAPP_Utils.CommonMethods.Description((LMS_WebAPP_Utils.GraduationDegree.MCA))</option>
+                                    <option value="@Convert.ToInt16(LMS_WebAPP_Utils.GraduationDegree.BSc)">@LMS_WebAPP_Utils.CommonMethods.Description((LMS_WebAPP_Utils.GraduationDegree.BSc))</option>
+                                    <option value="@Convert.ToInt16(LMS_WebAPP_Utils.GraduationDegree.MBA)">@LMS_WebAPP_Utils.CommonMethods.Description((LMS_WebAPP_Utils.GraduationDegree.MBA))</option>
+                                    <option value="@Convert.ToInt16(LMS_WebAPP_Utils.GraduationDegree.MS)">@LMS_WebAPP_Utils.CommonMethods.Description((LMS_WebAPP_Utils.GraduationDegree.MS))</option>
+                                   
                                 </select>
 
                             </div>
@@ -281,10 +281,11 @@
                             <div>
                                 <select id="ddlSpecialization" class="form-control specialization" style="width: 100%;">
                                     <option value="">Select</option>
-                                    <option>CSE</option>
-                                    <option>EEE</option>
-                                    <option>ECE</option>
-                                    <option>I.T</option>
+                                    <option value="@Convert.ToInt16(LMS_WebAPP_Utils.Specialization.CSE)">@LMS_WebAPP_Utils.CommonMethods.Description((LMS_WebAPP_Utils.Specialization.CSE))</option>
+                                    <option value="@Convert.ToInt16(LMS_WebAPP_Utils.Specialization.EEE)">@LMS_WebAPP_Utils.CommonMethods.Description((LMS_WebAPP_Utils.Specialization.EEE))</option>
+                                    <option value="@Convert.ToInt16(LMS_WebAPP_Utils.Specialization.ECE)">@LMS_WebAPP_Utils.CommonMethods.Description((LMS_WebAPP_Utils.Specialization.ECE))</option>
+                                    <option value="@Convert.ToInt16(LMS_WebAPP_Utils.Specialization.IT)">@LMS_WebAPP_Utils.CommonMethods.Description((LMS_WebAPP_Utils.Specialization.IT))</option>
+                                    
                                 </select>
 
                             </div>
@@ -648,22 +649,6 @@
             return false;
         }
 
-        
-        
-
-        //$.ajax({
-        //    cache: false,
-        //    type: 'get',
-        //    url: '/HR/CheckEmployeeMail',
-        //    contentType: "application/json",
-        //    data: { employeeMailid: employeeMailid},
-        //    processData:false,
-        //    success: function (data) {
-
-        //    }
-        //});
-
-
         var bDate = $("#txtBirthday").datepicker('getDate');
         var birthDate=bDate.toLocaleDateString();
         var joinDate=$("#txtJoiningDate").datepicker('getDate');
@@ -672,11 +657,11 @@
 
         var imagepath = imgpath != "" ? imgpath : "";
         var educationDetails = {
-
             Graduation: $("#ddlGraduation").val(),
             Institution: $("#txtUniversity").val(),
             FromDate: $("#educationDatePicker").val().split("-")[0].trim(),
-            ToDate: $("#educationDatePicker").val().split("-")[1].trim()
+            ToDate: $("#educationDatePicker").val().split("-")[1].trim(),
+            Specialization: $("#ddlSpecialization").val(),
         }
         if($("#ddlEmployeeType").val() != (@Convert.ToInt16(LMS_WebAPP_Utils.EmployeeType.Fresher))) {
             debugger
@@ -762,8 +747,6 @@
             EmployeeExperience:[experienceDetails]
         };
 
-
-        
 
         var empNumber = $("#txtEmployeeNumber").val();
         var employeeMailid = $("#txtEmail").val();

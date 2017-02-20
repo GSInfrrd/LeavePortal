@@ -82,6 +82,7 @@
           <Property Name="Degree" Type="varchar" MaxLength="100" Nullable="false" />
           <Property Name="FromDate" Type="date" Nullable="false" />
           <Property Name="ToDate" Type="date" Nullable="false" />
+          <Property Name="Specialization" Type="varchar" MaxLength="100" />
         </EntityType>
         <EntityType Name="EmployeeExperienceDetails">
           <Key>
@@ -1349,6 +1350,7 @@
           <Property Name="FromDate" Type="DateTime" Nullable="false" Precision="0" />
           <Property Name="ToDate" Type="DateTime" Nullable="false" Precision="0" />
           <NavigationProperty Name="EmployeeDetail" Relationship="LeaveManagementSystemModel.FK_EmployeeEducationDetails_EmployeeDetails" FromRole="EmployeeEducationDetail" ToRole="EmployeeDetail" />
+          <Property Name="Specialization" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
         </EntityType>
         <EntityType Name="EmployeeExperienceDetail">
           <Key>
@@ -2222,6 +2224,7 @@
           <EntitySetMapping Name="EmployeeEducationDetails">
             <EntityTypeMapping TypeName="LeaveManagementSystemModel.EmployeeEducationDetail">
               <MappingFragment StoreEntitySet="EmployeeEducationDetails">
+                <ScalarProperty Name="Specialization" ColumnName="Specialization" />
                 <ScalarProperty Name="ToDate" ColumnName="ToDate" />
                 <ScalarProperty Name="FromDate" ColumnName="FromDate" />
                 <ScalarProperty Name="Degree" ColumnName="Degree" />

@@ -449,6 +449,7 @@ namespace EmployeeLeaveManagementApp.Controllers
                         eEduDetails.Degree = item.Graduation;
                         eEduDetails.Institution = item.Institution;
                         eEduDetails.TimePeriod = item.FromDate + "~" + item.ToDate;
+                        eEduDetails.Specialization = item.Specialization;
                         eEduList.Add(eEduDetails);
                     }
                 }

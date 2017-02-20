@@ -227,4 +227,35 @@ namespace LMS_WebAPP_Utils
         [Description("Employee")]
         Employee = 203
     }
+
+    public enum GraduationDegree
+    {
+        [Description("B.E/BTech")]
+        BTech = 211,
+        [Description("MTech")]
+        MTech = 212,
+        [Description("BCA")]
+        BCA = 213,
+        [Description("MCA")]
+        MCA = 214,
+        [Description("B.Sc")]
+        BSc = 215,
+        [Description("MBA")]
+        MBA = 216,
+        [Description("M.S")]
+        MS = 217,
+    }
+
+    public enum Specialization
+    {
+        [Description("CSE")]
+        CSE = 231,
+        [Description("EEE")]
+        EEE = 232,
+        [Description("ECE")]
+        ECE = 233,
+        [Description("I.T")]
+        IT = 234,
+        
+    }
 }

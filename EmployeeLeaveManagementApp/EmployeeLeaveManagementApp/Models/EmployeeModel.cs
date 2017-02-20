@@ -39,6 +39,7 @@ namespace EmployeeLeaveManagementApp.Models
         public string Graduation { get; set; }
         public DateTime FromDate { get; set; }
         public DateTime ToDate { get; set; }
+        public string Specialization { get; set; }
     }
 
     public class EmployeeExperienceModel
