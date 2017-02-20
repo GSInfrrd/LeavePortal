@@ -297,5 +297,57 @@ namespace LMS_WebAPI_DAL.Repositories
             }
 
         }
+
+        public MailDetailsModel GetMailTemplateForCancelEmployeeLeave(ActionsForMail actionName, int LeaveId)
+        {
+            try
+            {
+                Logger.Info("Entering in MailRepository API GetMailTemplateForCancelEmployeeLeave method");
+                using (var ctx = new LeaveManagementSystemEntities1())
+                {
+                    var MailDetails = ctx.EmailTemplateMappings.Where(m => m.ActionName == actionName.ToString()).FirstOrDefault();
+                    var TemplatePath = MailDetails.EmailTemplateMaster.Template;
+
+                    var LeaveDetails = ctx.EmployeeLeaveTransactions.FirstOrDefault(x => x.Id == LeaveId);
+                    int EmployeeId = LeaveDetails.RefEmployeeId;
+                    int ManagerId = Convert.ToInt32(LeaveDetails.EmployeeDetail.ManagerId);
+                    string ManagerEmailId = ctx.UserAccounts.Where(m => m.RefEmployeeId == ManagerId).FirstOrDefault().UserName;
+                    var ManagerDetails = ctx.EmployeeDetails.Where(m => m.Id == ManagerId).FirstOrDefault();
+                    string ManagerName = ManagerDetails.FirstName;
+                    string ManagerLastName = ManagerDetails.LastName;
+                    if (ManagerLastName != null)
+                    {
+                        ManagerName = string.Format(ManagerName + " " + ManagerLastName);
+                    }
+                    var EmployeeDetails = ctx.EmployeeDetails.Where(m => m.Id == EmployeeId).FirstOrDefault();
+                    string EmployeeName = EmployeeDetails.FirstName;
+                    string EmployeeLastName = EmployeeDetails.LastName;
+                    if (EmployeeLastName != null)
+                    {
+                        EmployeeName = string.Format(EmployeeName + " " + EmployeeLastName);
+                    }
+                    string EmployeeEmailId = EmployeeDetails.UserAccounts.Where(x => x.RefEmployeeId == EmployeeId).FirstOrDefault().UserName;
+
+                    MailDetailsModel retResult = new MailDetailsModel();
+                    retResult.ToMailId = EmployeeEmailId;
+                    retResult.CcMailId = ManagerEmailId;
+                    retResult.TemplatePath = TemplatePath;
+                    retResult.EmployeeName = EmployeeName;
+                    retResult.ManagerName = ManagerName;
+                    retResult.EmployeeId = EmployeeId;
+                    retResult.LeaveFromDate = Convert.ToString((LeaveDetails.FromDate.Value).ToShortDateString());
+                    retResult.LeaveToDate = Convert.ToString((LeaveDetails.ToDate.Value).ToShortDateString());
+                    retResult.NumberOfWorkingDays = Convert.ToInt32(LeaveDetails.NumberOfWorkingDays);
+                    Logger.Info("Successfully exiting from MailRepository API GetMailTemplateForCancelEmployeeLeave method");
+                    return retResult;
+                }
+            }
+            catch
+            {
+                Logger.Info("Exception occured at MailRepository API GetMailTemplateForCancelEmployeeLeave method ");
+                throw;
+            }
+
+        }
     }
 }

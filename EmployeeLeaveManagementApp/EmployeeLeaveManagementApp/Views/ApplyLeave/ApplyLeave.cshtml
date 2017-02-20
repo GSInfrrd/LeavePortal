@@ -100,7 +100,7 @@
                                         <td>@m.NumberOfWorkingDays</td>
                                         <td>@(LMS_WebAPP_Utils.CommonMethods.Description((LMS_WebAPP_Utils.LeaveType)m.RefLeaveType))</td>
 
-                                        @if (m.RefStatus != Convert.ToInt16(LMS_WebAPP_Utils.LeaveStatus.Approved))
+                                        @if ((m.RefStatus != Convert.ToInt16(LMS_WebAPP_Utils.LeaveStatus.Approved)) && (m.RefStatus != Convert.ToInt16(LMS_WebAPP_Utils.LeaveStatus.Cancelled)))
                                         {
                                             <td>
                                                 <a href="#" id="btnDeleteLeave" style="color:red" data-content="@m.Id">
@@ -1074,7 +1074,7 @@
                            "<td>" + data[i].StatusName + "</td><td>";
                 html += data[i].NumberOfWorkingDays + "</td>" +
                "<td>" + data[i].LeaveTypeName + "</td>";
-                if (data[i].RefStatus != '@Convert.ToInt16(LMS_WebAPP_Utils.LeaveStatus.Approved)') {
+                if ((data[i].RefStatus != '@Convert.ToInt16(LMS_WebAPP_Utils.LeaveStatus.Approved)')&&(data[i].RefStatus != '@Convert.ToInt16(LMS_WebAPP_Utils.LeaveStatus.Cancelled)')) {
                     html += "<td><a href='#' id='btnDeleteLeave' style='color:red' data-content='" + data[i].Id + "'><span class='fa fa-close'></span></a> </td> ";
                 }
                 else {

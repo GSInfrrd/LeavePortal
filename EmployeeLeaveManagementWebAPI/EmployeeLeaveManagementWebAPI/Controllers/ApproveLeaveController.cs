@@ -107,6 +107,11 @@ namespace EmployeeLeaveManagementWebAPI.Controllers
                 Logger.Info("Entering in ApproveLeaveController API CancelEmployeeLeave method");
                 ApproveLeaveManagement ALM = new ApproveLeaveManagement();
                 var EmployeeLeaveCancelled = ALM.CancelEmployeeLeave(Leaveid);
+
+                // Send Mail 
+                Thread MailThread = new Thread(() => SendMailForCancelEmployeeLeave(Leaveid));
+                MailThread.Start();
+
                 Logger.Info("Successfully exiting from ApproveLeaveController API CancelEmployeeLeave method");
                 return EmployeeLeaveCancelled;
             }
@@ -116,6 +121,29 @@ namespace EmployeeLeaveManagementWebAPI.Controllers
                 return false;
             }
 
+        }
+
+        private void SendMailForCancelEmployeeLeave(int Leaveid)
+        {
+            ActionsForMail actionName = ActionsForMail.CancelLeave;
+            MailManagement MM = new MailManagement();
+            var MailDetails = MM.GetMailTemplateForCancelEmployeeLeave(actionName, Leaveid);
+            string TemplatePath = MailDetails.TemplatePath;
+
+            string body;
+            //Read template file from the App_Data folder
+            using (var sr = new StreamReader(HostingEnvironment.MapPath(TemplatePath)))
+            {
+                body = sr.ReadToEnd();
+            }
+
+            var logoPath = HostingEnvironment.MapPath("~/Content/Images/infrrd-logo-main.png");
+            string appurl = ConfigurationManager.AppSettings["AppURL"];
+
+            string EmployeeName = MailDetails.EmployeeName.Substring(0, MailDetails.EmployeeName.IndexOf(" "));
+            string messageBody = string.Format(body, EmployeeName, MailDetails.ManagerName, MailDetails.LeaveFromDate, MailDetails.LeaveToDate, MailDetails.NumberOfWorkingDays, LeaveStatus.Cancelled.Description(), appurl);
+
+            MailUtility.sendmail(MailDetails.ToMailId, MailDetails.CcMailId, actionName.Description(), messageBody, logoPath);
         }
 
         private void SendMailForTakeActionOnEmployeeLeave(bool EmployeeLeaveApproved, int Leaveid, string Leavestatus)

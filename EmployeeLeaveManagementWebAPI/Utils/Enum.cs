@@ -208,7 +208,9 @@ namespace LMS_WebAPI_Utils
         [Description("Resource Request Update")]
         ResourceRequestUpdate = 159,
         [Description("Leave Reward")]
-        RewardLeave = 160
+        RewardLeave = 160,
+        [Description("Leave Cancelled")]
+        CancelLeave = 161
 
 
     }

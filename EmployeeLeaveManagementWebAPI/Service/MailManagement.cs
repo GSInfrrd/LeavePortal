@@ -63,6 +63,22 @@ namespace LMS_WebAPI_ServiceHelpers
             }
         }
 
+        public MailDetailsModel GetMailTemplateForCancelEmployeeLeave(ActionsForMail actionName, int LeaveId)
+        {
+            Logger.Info("Entering into MailManagemet Service helper GetMailTemplateForCancelEmployeeLeave method ");
+            try
+            {
+                var MailDetail = MailDetails.GetMailTemplateForCancelEmployeeLeave(actionName, LeaveId);
+                Logger.Info("Exiting from into MailManagemet Service helper GetMailTemplateForCancelEmployeeLeave method ");
+                return MailDetail;
+            }
+            catch
+            {
+                Logger.Info("Exception occured at MailManagemet Service helper GetMailTemplateForCancelEmployeeLeave method ");
+                throw;
+            }
+        }
+
         public MailDetailsModel GetMailTemplateForAddResourceRequest(ActionsForMail actionName, int EmployeeId , int HrId)
         {
             Logger.Info("Entering into MailManagemet Service helper GetMailTemplateForAddResourceRequest method ");

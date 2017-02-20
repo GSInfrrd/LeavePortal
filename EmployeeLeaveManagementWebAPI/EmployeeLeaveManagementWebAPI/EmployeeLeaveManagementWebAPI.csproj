@@ -336,6 +336,7 @@
     <Content Include="App_Data\EmailTemplates\ResourceRequestUpdate.cshtml" />
     <Content Include="App_Data\EmailTemplates\RewardLeave.cshtml" />
     <Content Include="App_Data\EmailTemplates\WorkFromHome.cshtml" />
+    <Content Include="App_Data\EmailTemplates\CancelLeave.cshtml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
     <Content Include="Scripts\jquery-1.10.2.min.js" />
