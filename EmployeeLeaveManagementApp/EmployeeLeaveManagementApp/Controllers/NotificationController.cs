@@ -68,7 +68,7 @@ namespace EmployeeLeaveManagementApp.Controllers
             {
                 if (null != Session[Constants.SESSION_OBJ_USER])
             {
-                if ((NotificationType == @Convert.ToInt16(NotificationTypes.ApproveLeave))|| (NotificationType == @Convert.ToInt16(NotificationTypes.RejectLeave))|| (NotificationType == @Convert.ToInt16(NotificationTypes.ReassignLeave)))
+                if ((NotificationType == @Convert.ToInt16(NotificationTypes.ApproveLeave))|| (NotificationType == @Convert.ToInt16(NotificationTypes.RejectLeave))|| (NotificationType == @Convert.ToInt16(NotificationTypes.ReassignLeave))||(NotificationType == @Convert.ToInt16(NotificationTypes.CancelLeave)))
                 {
                         Logger.Info("Successfully exiting from NotificationController APP NotificationRedirect method");
                         return RedirectToAction("ApplyLeave", "ApplyLeave");

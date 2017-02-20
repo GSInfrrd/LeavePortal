@@ -217,8 +217,8 @@ namespace LMS_WebAPI_Utils
     {
         [Description("Submit Leave Request")]
         SubmitLeaveRequest = 161,
-        [Description("Take Action On Leave Request")]
-        TakeActionOnLeaveRequest = 162,
+        [Description("Cancel Leave")]
+        CancelLeave = 162,
         [Description("Submit Resource Request")]
         SubmitResourceRequest = 163,
         [Description("Submit Resource Request Response")]

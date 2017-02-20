@@ -422,6 +422,9 @@
                             case @Convert.ToInt16(LMS_WebAPP_Utils.NotificationTypes.SubmitLeaveRequest):
                                 var opti = "<li><a href='javascript:void(0);' onclick='notificationSeen(" + response.result[i].Id + " , " + response.result[i].RefNotificationType + ");return false' ><i class='fa fa-tasks text-aqua'></i>" + response.result[i].Text + "</a></li>";
                                 break;
+                            case @Convert.ToInt16(LMS_WebAPP_Utils.NotificationTypes.CancelLeave):
+                                var opti = "<li><a href='javascript:void(0);' onclick='notificationSeen(" + response.result[i].Id + " , " + response.result[i].RefNotificationType + ");return false' ><i class='fa fa-info text-aqua'></i>" + response.result[i].Text + "</a></li>";
+                                break;
                             case @Convert.ToInt16(LMS_WebAPP_Utils.NotificationTypes.SubmitResourceRequest):
                                 var opti = "<li><a href='javascript:void(0);' onclick='notificationSeen(" + response.result[i].Id + " , " + response.result[i].RefNotificationType + ");return false' ><i class='fa fa-users  text-aqua'></i>" + response.result[i].Text + "</a></li>";
                                 break;

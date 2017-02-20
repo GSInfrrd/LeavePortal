@@ -76,7 +76,7 @@ namespace LMS_WebAPI_DAL.Repositories
                     return retResult;
                 }
             }
-            catch(Exception ex)
+            catch
             {
                 Logger.Info("Exception occured at ApproveLeaveRepository API GetViewApprovedLeave method ");
                 throw;
@@ -338,7 +338,22 @@ namespace LMS_WebAPI_DAL.Repositories
                         var newLeavemasterRecord = ctx.EmployeeLeaveMasters.Add(employeeLeavemaster);
                         var resultLeavemasterRecord = ctx.SaveChanges();
                     }
-                    
+
+                    var EmployeeId = leaveDetails.EmployeeDetail.Id;
+                    var ApproverId = leaveDetails.EmployeeDetail.ManagerId;
+                    int Status = (Int16)NotificationStatus.Active;
+                    var ManagerDetails = ctx.EmployeeDetails.FirstOrDefault(x => x.Id == ApproverId);
+                    string ManagerName = ManagerDetails.FirstName;
+                    if (ManagerDetails.LastName != null)
+                    {
+                        ManagerName += " ";
+                        ManagerName += ManagerDetails.LastName;
+                    }
+
+                    string Text = "Your Manager " + ManagerName + " has cancelled your leave";
+                    int notificationType = (Int16)NotificationTypes.CancelLeave;
+                    InsertNotification(EmployeeId, Text, Status, notificationType);
+
                     Logger.Info("Successfully exiting from ApproveLeaveRepository API CancelEmployeeLeave method");
                 }
                 result = true;
