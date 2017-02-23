@@ -164,7 +164,9 @@ namespace LMS_WebAPI_Utils
         [Description("AdvanceLeaveLimit")]
         AdvanceLeaveLimit = 12,
         [Description("ResourceRequestStatus")]
-        ResourceRequestStatus = 13
+        ResourceRequestStatus = 13,
+        [Description("CreditLeaveLimitMonthly")]
+        CreditLeaveLimitMonthly = 17
     }
 
     public enum WorkFormHomeReasons

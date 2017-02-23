@@ -250,16 +250,19 @@
     <Compile Include="Controllers\CompoOffController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\HRController.cs" />
+    <Compile Include="Controllers\ImageController.cs" />
     <Compile Include="Controllers\LeaveTransactionController.cs" />
     <Compile Include="Controllers\NotificationController.cs" />
     <Compile Include="Controllers\ProfileController.cs" />
     <Compile Include="Controllers\ResourceRequestController.cs" />
     <Compile Include="Controllers\WorkFromHomeController.cs" />
     <Compile Include="EmailResources.Designer.cs" />
+    <Compile Include="FileHelper.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Hubs\MessageHub.cs" />
+    <Compile Include="ImageHelper.cs" />
     <Compile Include="ImageUploadHandler.ashx.cs">
       <DependentUpon>ImageUploadHandler.ashx</DependentUpon>
     </Compile>
@@ -283,11 +286,14 @@
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
     <Content Include="Content\Common.css" />
+    <Content Include="Content\Images\Jcrop.gif" />
     <Content Include="Content\Images\LoadingGif.gif" />
     <Content Include="Content\Images\Christmas.png" />
     <Content Include="Content\Images\computer-vision-ai-enterprise.jpg" />
     <Content Include="Content\Images\error.jpg" />
     <Content Include="Content\Images\New Year.jpg" />
+    <Content Include="Content\jquery.Jcrop.css" />
+    <Content Include="Content\jquery.Jcrop.min.css" />
     <Content Include="Content\Plugins\Toastr\toastr.css" />
     <Content Include="Content\Plugins\Toastr\toastr.js" />
     <Content Include="Content\Scripts\Common.js" />
@@ -1212,6 +1218,9 @@
     <Content Include="Scripts\bootstrap.min.js" />
     <Content Include="App_Browsers\qt.browser" />
     <None Include="Scripts\jquery.validate-vsdoc.js" />
+    <Content Include="Scripts\jquery-3.1.1.min.js" />
+    <Content Include="Scripts\jquery.Jcrop.js" />
+    <Content Include="Scripts\jquery.Jcrop.min.js" />
     <Content Include="Scripts\jquery.validate.js" />
     <Content Include="Scripts\jquery.validate.min.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.js" />
@@ -1268,6 +1277,7 @@
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="Documents\" />
+    <Folder Include="Views\Image\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />

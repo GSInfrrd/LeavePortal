@@ -230,7 +230,7 @@ namespace LMS_WebAPP_ServiceHelpers
             {
                 using (HttpClient client = new HttpClient())
             {
-                string URL = WebapiURL + "/EditEmployeeDetails";
+                string URL = ProfileURL + "/EditEmployeeDetails";
                 urlParameters = "?model=" + model;
                 client.BaseAddress = new Uri(URL);
 

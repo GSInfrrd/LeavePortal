@@ -27,11 +27,16 @@ namespace LMS_WebAPI_Domain
         public string ProjectName { get; set; }
         public String RoleName { get; set; }
         public double? TotalLeaveCount { get; set; }
+
+        public double? EarnedLeave { get; set; }
+
+        public double? LeaveBalence { get; set; }
+        public double? AdvanceLeave { get; set; }
         public double? TotalCasualLeave { get; set; }
         public int? TotalWorkFromHome { get; set; }
 
         public int? TotalLOPLImit { get; set; }
-        public int? TotalAdvanceLeaveTotake { get; set; }
+        public double? TotalAdvanceLeaveTotake { get; set; }
         public double TotalApplied { get; set; }
         public double TotalSpent { get; set; }
         public string ManagerName { get; set; }

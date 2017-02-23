@@ -30,6 +30,11 @@ namespace EmployeeLeaveManagementApp.Models
         public string Projectname { get; set; }
         public String RoleName { get; set; }
         public int TotalLeaveCount { get; set; }
+
+        public double? EarnedLeave { get; set; }
+
+        public double? LeaveBalence { get; set; }
+        public double? AdvanceLeave { get; set; }
         public int TotalWorkFromHome { get; set; }
         public double? TotalLeft { get; set; }
         [DisplayFormat(DataFormatString = "{0:dd MMM yyyy}")]

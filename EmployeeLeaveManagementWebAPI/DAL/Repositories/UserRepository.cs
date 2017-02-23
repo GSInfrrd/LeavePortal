@@ -63,13 +63,18 @@ namespace LMS_WebAPI_DAL.Repositories
                     {
                         empModel.RoleName = employeeDetails.MasterDataValue.Value;
                         empModel.TotalLeaveCount = employeeLeaves.EarnedCasualLeave + (employeeLeaves.RewardedLeaveCount != null ? employeeLeaves.RewardedLeaveCount : 0);
+                        empModel.EarnedLeave = employeeLeaves.EarnedCasualLeave;
                         empModel.TotalApplied = leaveTransactions.Count != 0 ? leaveTransactions.Where(x => x.RefStatus == (Int32)LeaveStatus.Submitted).Select(i => i.NumberOfWorkingDays).Sum() : 0;
                         empModel.TotalSpent = leaveTransactions.Count != 0 ? leaveTransactions.Where(x => x.RefStatus == (Int32)LeaveStatus.Approved && x.RefLeaveType != (Int32)LeaveType.RewardLeave && x.RefLeaveType != (Int32)LeaveType.EarnedLeave).Select(i => i.NumberOfWorkingDays).Sum() : 0;
+                        empModel.AdvanceLeave = employeeLeaves.AdvanceLeave;
+                        empModel.LeaveBalence = employeeLeaves.EarnedCasualLeave + employeeLeaves.AdvanceLeave;
+                        //empModel.LeaveBalence = advanceLeaveLimit + (employeeLeaves.CarryForwardedLeave != null ? employeeLeaves.CarryForwardedLeave : 0) - (empModel.TotalSpent);
                         empModel.TotalWorkFromHome = employeeDetails.WorkFromHomes.Count();
                         empModel.ManagerName = employeeDetails.EmployeeDetail1 != null ? employeeDetails.EmployeeDetail1.FirstName : string.Empty;
                         empModel.TotalLOPLImit = lopLeaveLimit;
                         empModel.TotalCasualLeave = empModel.TotalLeaveCount;
-                        empModel.TotalAdvanceLeaveTotake = (employeeLeaves.SpentAdvanceLeave == 0 || employeeLeaves.SpentAdvanceLeave == null) ? advanceLeaveLimit : advanceLeaveLimit - employeeLeaves.SpentAdvanceLeave;
+                       // empModel.TotalAdvanceLeaveTotake = (employeeLeaves.SpentAdvanceLeave == 0 || employeeLeaves.SpentAdvanceLeave == null) ? advanceLeaveLimit : advanceLeaveLimit - employeeLeaves.SpentAdvanceLeave;
+                        empModel.TotalAdvanceLeaveTotake = employeeLeaves.AdvanceLeave;
                         empModel.MangerEmail = employeeDetails.EmployeeDetail1 != null ? employeeDetails.EmployeeDetail1.UserAccounts.FirstOrDefault().UserName : string.Empty;
                         empModel.ManagerId = employeeDetails.ManagerId;
                         empModel.CompOffTaken = employeeLeaves.TakenCompOff;

@@ -128,12 +128,28 @@ namespace LMS_WebAPI_DAL.Repositories
                     };
                     ctx.UserAccounts.Add(userDetails);
                     ctx.SaveChanges();
-                    var employeeMaster = new EmployeeLeaveMaster
 
+
+                    int DateOfJoiningMonth = model.DateOfJoining.Month;
+                    int DateOfJoiningDay = model.DateOfJoining.Day;
+                    var masterDataValues = ctx.MasterDataValues.ToList();
+                    int advanceLeaveLimit = Convert.ToInt32(masterDataValues.FirstOrDefault(x => x.RefMasterType == (Int32)MasterDataTypeEnum.AdvanceLeaveLimit).Value);
+                    int creditLeaveLimitMonthly = Convert.ToInt32(masterDataValues.FirstOrDefault(x => x.RefMasterType == (Int32)MasterDataTypeEnum.CreditLeaveLimitMonthly).Value);
+                    var employeeMaster = new EmployeeLeaveMaster();
+                    if (DateOfJoiningDay <= 15)
                     {
-                        RefEmployeeId = id,
-                        EarnedCasualLeave = 2
-                    };
+
+                        employeeMaster.RefEmployeeId = id;
+                        employeeMaster.EarnedCasualLeave = creditLeaveLimitMonthly;
+                        employeeMaster.AdvanceLeave = (advanceLeaveLimit - creditLeaveLimitMonthly) - (creditLeaveLimitMonthly * (DateOfJoiningMonth - 1));
+                    }
+                    else
+                    {
+
+                        employeeMaster.RefEmployeeId = id;
+                        employeeMaster.EarnedCasualLeave = creditLeaveLimitMonthly/ creditLeaveLimitMonthly;
+                        employeeMaster.AdvanceLeave = (advanceLeaveLimit - creditLeaveLimitMonthly) - (creditLeaveLimitMonthly * (DateOfJoiningMonth - 1));
+                    }
                     ctx.EmployeeLeaveMasters.Add(employeeMaster);
                     ctx.SaveChanges();
                     var leaveTransaction = new EmployeeLeaveTransaction

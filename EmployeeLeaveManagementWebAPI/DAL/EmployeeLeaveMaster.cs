@@ -23,6 +23,8 @@ namespace LMS_WebAPI_DAL
         public Nullable<int> TakenLossOfPay { get; set; }
         public Nullable<double> EarnedCasualLeave { get; set; }
         public Nullable<int> TakenCompOff { get; set; }
+        public Nullable<double> CarryForwardedLeave { get; set; }
+        public Nullable<double> AdvanceLeave { get; set; }
     
         public virtual EmployeeDetail EmployeeDetail { get; set; }
         public virtual EmployeeDetail EmployeeDetail1 { get; set; }

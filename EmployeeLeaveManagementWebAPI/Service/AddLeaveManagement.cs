@@ -76,8 +76,10 @@ namespace LMS_WebAPI_ServiceHelpers
                     var availableLeaves = leaveMaster.EarnedCasualLeave != null ? leaveMaster.EarnedCasualLeave : 0;
                     var rewardedLeaves = leaveMaster.RewardedLeaveCount != null ? leaveMaster.RewardedLeaveCount : 0;
                     availableLeaves = availableLeaves + rewardedLeaves;
-                    response.availableLeaveBalance = (int)(availableLeaves != null ? availableLeaves : 0);
-                    response.advanceLeaveBalance = (int)(leaveMaster.SpentAdvanceLeave != null ? advanceLeaveLimit - leaveMaster.SpentAdvanceLeave : advanceLeaveLimit - 0);
+                    //response.availableLeaveBalance = (int)(availableLeaves != null ? availableLeaves : 0);
+                    //response.advanceLeaveBalance = (int)(leaveMaster.SpentAdvanceLeave != null ? advanceLeaveLimit - leaveMaster.SpentAdvanceLeave : advanceLeaveLimit - 0);
+                    response.availableLeaveBalance = (availableLeaves != null ? availableLeaves : 0);
+                    response.advanceLeaveBalance = (leaveMaster.AdvanceLeave);
                     response.lopLeaveBalance = (int)(leaveMaster.TakenLossOfPay != null ? lopLeaveLimit - leaveMaster.TakenLossOfPay : lopLeaveLimit - 0);
 
                     if (leaveType == (int)LeaveType.CasualLeave && (availableLeaves == null || noOfWorkingDays > availableLeaves))

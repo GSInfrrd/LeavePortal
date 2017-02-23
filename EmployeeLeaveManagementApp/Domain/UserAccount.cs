@@ -20,7 +20,7 @@ namespace LMS_WebAPP_Domain
         public string ProjectName { get; set; }
         public int RefRoleId { get; set; }
         public double? TotalLeaveCount { get; set; }
-        public int? TotalAdvanceLeaveTotake { get; set; }
+        public double? TotalAdvanceLeaveTotake { get; set; }
         public double? TotalCasualLeave { get; set; }
         public int? TotalLOPLImit { get; set; }
         public int TotalCountTaken { get; set; }

@@ -10,8 +10,8 @@ namespace LMS_WebAPI_Domain
     {
         public int noOfWorkingDays { get; set; } 
 
-        public int availableLeaveBalance { get; set; }
-        public int advanceLeaveBalance { get; set; }
+        public double? availableLeaveBalance { get; set; }
+        public double? advanceLeaveBalance { get; set; }
         public int lopLeaveBalance { get; set; }
 
         public int responseCode { get; set; }

@@ -32,7 +32,7 @@
             <!-- small box -->
             <div class="small-box bg-green-gradient">
                 <div class="inner">
-                    <h3 class="count" id="txtTotalCount">@Model.TotalLeft</h3>
+                    <h3 class="count" id="txtTotalCount">@Model.EarnedLeave</h3>
                     <p>Earned Leaves</p>
                 </div>
                 <div class="icon">
@@ -45,11 +45,11 @@
             <!-- small box -->
             <div class="small-box bg-aqua">
                 <div class="inner">
-                    <h3 class="count" id="txtTotalCount">@Model.TotalLeft</h3>
+                    <h3 class="count" id="txtTotalCount">@Model.AdvanceLeave</h3>
                     <p>Advance Leaves</p>
                 </div>
                 <div class="icon">
-                    <i class="ion ion-bag"></i>
+                    <i class="ion ion-stats-bars"></i>
                 </div>
                 <a href="@Url.Action("LeaveTransaction", "LeaveTransaction")" class="small-box-footer">More info <i class="fa fa-arrow-circle-right"></i></a>
             </div>
@@ -63,7 +63,7 @@
                     <p>Leaves Taken</p>
                 </div>
                 <div class="icon">
-                    <i class="ion ion-stats-bars"></i>
+                    <i class="fa fa-calendar-minus-o"></i>
                 </div>
                 <a href="@Url.Action("LeaveTransaction", "LeaveTransaction")" class="small-box-footer">More info <i class="fa fa-arrow-circle-right"></i></a>
             </div>
@@ -72,11 +72,11 @@
             <!-- small box -->
             <div class="small-box bg-purple">
                 <div class="inner">
-                    <h3 class="count" id="txtTotalCount">@Model.TotalLeft</h3>
+                    <h3 class="count" id="txtTotalCount">@Model.LeaveBalence</h3>
                     <p>Leave Balance</p>
                 </div>
                 <div class="icon">
-                    <i class="fa fa-calendar-minus-o"></i>
+                    <i class="ion ion-bag"></i>
                 </div>
                 <a href="@Url.Action("LeaveTransaction", "LeaveTransaction")" class="small-box-footer">More info <i class="fa fa-arrow-circle-right"></i></a>
             </div>

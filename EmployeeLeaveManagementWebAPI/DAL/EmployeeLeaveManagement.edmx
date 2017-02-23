@@ -109,6 +109,8 @@
           <Property Name="TakenLossOfPay" Type="int" />
           <Property Name="EarnedCasualLeave" Type="float" />
           <Property Name="TakenCompOff" Type="int" />
+          <Property Name="CarryForwardedLeave" Type="float" />
+          <Property Name="AdvanceLeave" Type="float" />
         </EntityType>
         <EntityType Name="EmployeeLeaveTransaction">
           <Key>
@@ -1380,6 +1382,8 @@
           <Property Name="TakenCompOff" Type="Int32" />
           <NavigationProperty Name="EmployeeDetail" Relationship="LeaveManagementSystemModel.FK_ConsolidatedEmployeeLeaveDetails_EmployeeDetails" FromRole="EmployeeLeaveMaster" ToRole="EmployeeDetail" />
           <NavigationProperty Name="EmployeeDetail1" Relationship="LeaveManagementSystemModel.FK_EmployeeLeaveMaster_EmployeeDetails" FromRole="EmployeeLeaveMaster" ToRole="EmployeeDetail" />
+          <Property Name="CarryForwardedLeave" Type="Double" />
+          <Property Name="AdvanceLeave" Type="Double" />
         </EntityType>
         <EntityType Name="EmployeeLeaveTransaction">
           <Key>
@@ -2250,6 +2254,8 @@
           <EntitySetMapping Name="EmployeeLeaveMasters">
             <EntityTypeMapping TypeName="LeaveManagementSystemModel.EmployeeLeaveMaster">
               <MappingFragment StoreEntitySet="EmployeeLeaveMaster">
+                <ScalarProperty Name="AdvanceLeave" ColumnName="AdvanceLeave" />
+                <ScalarProperty Name="CarryForwardedLeave" ColumnName="CarryForwardedLeave" />
                 <ScalarProperty Name="TakenCompOff" ColumnName="TakenCompOff" />
                 <ScalarProperty Name="EarnedCasualLeave" ColumnName="EarnedCasualLeave" />
                 <ScalarProperty Name="TakenLossOfPay" ColumnName="TakenLossOfPay" />

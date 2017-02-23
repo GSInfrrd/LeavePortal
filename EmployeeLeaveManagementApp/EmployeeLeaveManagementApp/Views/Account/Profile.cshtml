@@ -4,7 +4,7 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
     var userId = ((LMS_WebAPP_Domain.UserAccount)Session[LMS_WebAPP_Utils.Constants.SESSION_OBJ_USER]).RefEmployeeId;
     var roleId = ((LMS_WebAPP_Domain.UserAccount)Session[LMS_WebAPP_Utils.Constants.SESSION_OBJ_USER]).RefRoleId;
-   var imagePath = !string.IsNullOrEmpty(Model.ImagePath) ? Model.ImagePath : "/Content/Images/DefaultImage.png";
+    var imagePath = !string.IsNullOrEmpty(Model.ImagePath) ? Model.ImagePath : "/Content/Images/DefaultImage.png";
 
     var educationDatePickerCount = Model.EmployeeEducationDetails.Count - 1;
     var experienceDatePickerCount = Model.EmployeeExperienceDetails.Count - 1;
@@ -15,6 +15,9 @@
 <link rel="stylesheet" href="../../plugins/select2/select2.min.css">
 <link rel="stylesheet" href="../../dist/css/AdminLTE.min.css">
 <link href="~/plugins/Toastr/toastr.css" rel="stylesheet" />
+<link href="~/Content/jquery.Jcrop.min.css" rel="stylesheet" />
+<link href="~/Content/Style.css" rel="stylesheet" />
+
 <style>
     .products-list .product-info {
         margin-left: 0px !important;
@@ -25,27 +28,27 @@
     employeeId = Convert.ToInt32(TempData["EmpId"]);
     employeeName = TempData["EmpName"].ToString();
 }
-@if(employeeId!=0)
+@if (employeeId != 0)
 {
     profileHeader = employeeName + "'s Profile";
 }
 <section class="content-header" style="height:41px">
     @*<h1 class="col-md-2">
-Profile
-    </h1>*@ 
+        Profile
+            </h1>*@
     @if (employeeId != 0)
     {
         @*<ol class="breadcrumb">
-            <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
-            <li class="active">Dashboard</li>
-        </ol>*@
-        <button type="button" id="btnBack" class="btn btn-primary"><i class="fa fa-backward"></i></button> 
+                <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
+                <li class="active">Dashboard</li>
+            </ol>*@
+        <button type="button" id="btnBack" class="btn btn-primary"><i class="fa fa-backward"></i></button>
 
     }
     <div style="padding-right:0px" class="pull-right">
         @if (employeeId == 0)
         {
-        <button type="button" id="generatePdf" class="btn btn-primary"><i class="fa fa-download"></i>@Html.ActionLink(" Generate PDF", "DownloadPDF", new { @userId = userId }, new { style = "color:white" }) </button>
+            <button type="button" id="generatePdf" class="btn btn-primary"><i class="fa fa-download"></i>@Html.ActionLink(" Generate PDF", "DownloadPDF", new { @userId = userId }, new { style = "color:white" }) </button>
         }
         else
         {
@@ -73,10 +76,10 @@ Profile
                     <div class="box-body">
                         @if (Model.EmployeeEducationDetails.Count != 0)
                         {
-                        <strong><i class="fa fa-book margin-r-5"></i> Education</strong>
-                        <p class="text-muted">
-                            @Model.EmployeeEducationDetails[0].Degree from @Model.EmployeeEducationDetails[0].Institution
-                        </p>
+                            <strong><i class="fa fa-book margin-r-5"></i> Education</strong>
+                            <p class="text-muted">
+                                @Model.EmployeeEducationDetails[0].Degree from @Model.EmployeeEducationDetails[0].Institution
+                            </p>
                         }
                         <hr>
                         <strong><i class="fa fa-map-marker margin-r-5"></i> Location</strong>
@@ -92,7 +95,7 @@ Profile
                                 }
                                 if (Model.Skills[i].IsSelected)
                                 {
-                                <span class="label label-@Model.Colors[j]">@Model.Skills[i].SkillName.Trim()</span>
+                                    <span class="label label-@Model.Colors[j]">@Model.Skills[i].SkillName.Trim()</span>
                                     j++;
                                 }
 
@@ -116,8 +119,8 @@ Profile
             <div class="nav-tabs-custom">
                 <ul class="nav nav-tabs">
                     @*<li class="active"><a href="#activity" data-toggle="tab">Activity</a></li>*@
-                   
-                     <li class="active"><a href="#profile" id="tabProfile" data-toggle="tab">@profileHeader</a></li>
+
+                    <li class="active"><a href="#profile" id="tabProfile" data-toggle="tab">@profileHeader</a></li>
                     <li><a href="#personalDetails" id="tabPersonalDetails" data-toggle="tab" style="display:none">Personal Details</a></li>
                     <li><a href="#educationDetails" id="tabEducationDetails" data-toggle="tab" style="display:none">Education Details</a></li>
                     <li><a href="#experienceDetails" id="tabExperienceDetails" data-toggle="tab" style="display:none">Experience Details</a></li>
@@ -129,10 +132,10 @@ Profile
                         <!-- The timeline -->
                         @*<div id="profile-tab" class="tab-pane active">*@
                         <div class="pd-20">
-                         @if (employeeId==0)
-                         {
+                            @if (employeeId == 0)
+                            {
                                 <div class="vd_info tr"> <a class="btn btn-xs bg-yellow pull-right" id="editEmployeeDetails"> <i class="fa fa-pencil append-icon"></i> Edit </a> </div>
-                         }
+                            }
                             <h3 class="mgbt-xs-15 mgtp-10 font-semibold"><i class="fa fa-user"></i> ABOUT</h3>
                             <div class="row">
                                 <div class="col-sm-6">
@@ -252,17 +255,18 @@ Profile
                                             @foreach (var item in Model.Projects)
                                             {
                                                 var toDate = "Till Date";
-                                                if(item.EndDate.ToShortDateString()!=DateTime.Now.ToShortDateString())
+                                                if (item.EndDate.ToShortDateString() != DateTime.Now.ToShortDateString())
                                                 {
                                                     toDate = item.EndDate.ToShortDateString();
                                                 }
                                                 <li class="item">
                                                     <div class="product-info">
                                                         <a href="javascript:void(0)" class="product-title">
-                                                            @item.ProjectName</a>
-                                                            <span class="product-description">
-                                                                @item.StartDate.ToShortDateString()-@toDate
-                                                            </span>
+                                                            @item.ProjectName
+                                                        </a>
+                                                        <span class="product-description">
+                                                            @item.StartDate.ToShortDateString()-@toDate
+                                                        </span>
                                                     </div>
                                                 </li>
                                             }
@@ -279,6 +283,14 @@ Profile
                         <form class="form-horizontal">
                             <div id="divPersonalInfo">
                                 <h3>Personal Details</h3>
+                                <div class="form-group">
+                                    <div id="imageuploadsection">
+                                        <img class="profile-user-img img-responsive" style="width:162px;height:212px;" id="UserProfileImageDisplay" src="@imagePath" alt="User profile picture">
+                                        <div style="padding-top:10px;text-align:center">
+                                            <label class="btn btn-info"><i class="fa fa-upload"></i><input id="UserProfileImage" type="file" style="display:none" onchange="ValidateAndUploadImage()"  accept="image/jpg,image/png,image/jpeg,image/gif" /> Upload</label>
+                                        </div>
+                                    </div>
+                                </div>
                                 <div class="form-group">
                                     <label for="inputName" class="col-sm-2 control-label">First Name</label>
                                     <div class="col-sm-10">
@@ -429,9 +441,9 @@ Profile
                                         @foreach (var item in Model.Skills)
                                         {
                                             var selectedClass = "";
-                                            if(item.IsSelected)
+                                            if (item.IsSelected)
                                             {
-                                                selectedClass= "selected ='selected'";
+                                                selectedClass = "selected ='selected'";
                                             }
                                             <option @selectedClass>@item.SkillName</option>
 
@@ -460,275 +472,578 @@ Profile
         </div>
         <!-- /.col -->
     </div>
-        </section >
-        <script src="~/plugins/daterangepicker/moment.min.js"></script>
-        @*<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.11.2/moment.min.js"></script>*@
-        <script src="../../plugins/daterangepicker/daterangepicker.js"></script>
-        <script src="../../plugins/select2/select2.full.min.js"></script>
-<script src="../../plugins/Toastr/toastr.js"></script>
-        <script>
-            var imgData = "@imagePath";
-            $(document).ready(function () {
-                
-                $('#tabProfileView').parent().addClass('active');
-                $(function () {
-                    $(".skills").select2();
-                    for (var i = 0; i <= @educationDatePickerCount;i++)
-                    {
+</section>
+<div class="modal bs-add-leave-modal" id="CropImageModal" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content border-radius-modalBottom" style="width: 450px;">
+            <div class="modal-header modalHeaderStyle">
+                <button id="btn_cropimagemodelclose" type="button" class="close text-color-white" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+                <h3 class="modal-title">Crop Image</h3>
+            </div>
+            <div class="modal-body">
+                <div class="form-group" style="padding-bottom:20px">
+
+                    <div class="form-group">
+                        <br />
+                        <br />
+                        <table border="0" cellpadding="0" cellspacing="5">
+                            <tr>
+                                <td>
+                                    <img id="Image1" src="" alt="" style="display: none" />
+                                </td>
+                                <td>
+                                    <canvas id="canvas"></canvas>
+                                </td>
+                            </tr>
+                        </table>
+                        <br />
+                        <input type="button" id="btnCrop" value="Crop" style="display: none" />
+                        <input type="hidden" name="imgX1" id="imgX1" />
+                        <input type="hidden" name="imgY1" id="imgY1" />
+                        <input type="hidden" name="imgWidth" id="imgWidth" />
+                        <input type="hidden" name="imgHeight" id="imgHeight" />
+                        <input type="hidden" name="imgCropped" id="imgCropped" />
+
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+            </div>
+        </div>
+    </div>
+</div>
+
+                    <script src="~/plugins/daterangepicker/moment.min.js"></script>
+                    @*<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.11.2/moment.min.js"></script>*@
+                    <script src="../../plugins/daterangepicker/daterangepicker.js"></script>
+                    <script src="../../plugins/select2/select2.full.min.js"></script>
+                    @*<script src="~/Scripts/jquery-3.1.1.min.js"></script>*@
+                    <script src="~/Scripts/jquery.Jcrop.min.js"></script>
+                    <script src="../../plugins/Toastr/toastr.js"></script>
+                    <script>
+
+                        var jcrop_api = null;
+                        $(function () {
+                            $('#UserProfileImage').change(function () {
+                                $('#Image1').hide();
+                                $('#btnCrop').hide();
+                                var reader = new FileReader();
+                                reader.onload = function (e) {
+                                    $('#Image1').show();
+                                    $('#Image1').replaceWith('<img id="Image1" src=""/>');
+                                    $('#Image1').attr("src", e.target.result);
+                                    debugger
+                                    if($('#Image1').width()>400 || $('#Image1').height()>280)
+                                    {
+                                        $('#CropImageModal').hide();
+                                        alert("please select image with max size 400x280 PX.");
+                                       // $("#UserProfileImageDisplay").attr("src", "@imagePath");
+                                        return;
+                                    }
+                                    $('#Image1').Jcrop({
+                                        onChange: SetCoordinates,
+                                        onSelect: SetCoordinates
+                                    });
+                                    jcrop_api = $('#Image1').data('Jcrop');
+                                }
+                                reader.readAsDataURL($(this)[0].files[0]);
+                                if($('#Image1').width()<400 || $('#Image1').height()<280)
+                                {
+                                    $('#CropImageModal').show();
+                                }
+                                else
+                                {
+                                    $('#CropImageModal').hide();
+                                }
+                                this.value = null;
+                            });
+
+                            btn_cropimagemodelclose
+                            $('#btn_cropimagemodelclose').click(function () {
+                                $('#CropImageModal').hide();
+                                $('#Image1').hide();
+                                $('#canvas').hide();
+                                jcrop_api.destroy();
+                                        jcrop_api.disable();
+                                        jcrop_api.release();
+                                        $('.jcrop-holder').remove();
+                            });
+
+
+                            $('#btnCrop').click(function () {
+
+                                if ($('#imgWidth').val() == 0 && $('#imgHeight').val() == 0) {
+                                            alert("Please select crop area.");
+                                            return;
+                                        }
+
+                                $('#CropImageModal').hide();
+                                var x1 = $('#imgX1').val();
+                                var y1 = $('#imgY1').val();
+                                var width = $('#imgWidth').val();
+                                var height = $('#imgHeight').val();
+                                var canvas = $("#canvas")[0];
+                                var context = canvas.getContext('2d');
+                                var img = new Image();
+                                img.onload = function () {
+                                    debugger
+                                    canvas.height = height;
+                                    canvas.width = width;
+                                    context.drawImage(img, x1, y1, width, height, 0, 0, width, height);
+                                    $('#imgCropped').val(canvas.toDataURL());
+                                    $("#UserProfileImageDisplay").attr("src", canvas.toDataURL());
+                                };
+
+                                debugger
+                                img.src = $('#Image1').attr("src");
+
+                                $.ajax({
+                                    url: '/Image/CropImage',
+                                    type: 'POST',
+                                    data: {
+                                        imagePath: $('#Image1').attr("src"),
+                                        cropPointX: x1,
+                                        cropPointY: y1,
+                                        imageCropWidth: width,
+                                        imageCropHeight: height
+                                    },
+                                    success: function (data) {
+                                        debugger
+                                        //$("#UserProfileImageDisplay")
+                                        //    .attr("src", data.photoPath);
+                                        tempFolderNamePath = data.tempcropImagepath;
+                                        jcrop_api.destroy();
+                                        jcrop_api.disable();
+                                        jcrop_api.release();
+                                        $('.jcrop-holder').remove();
+
+                                    },
+                                    error: function (data) { }
+                                });
+                            });
+                        });
+
+                        function resetCoords() {
+                            debugger
+                            $('#imgX1').val("0");
+                            $('#imgY1').val("0");
+                            $('#imgWidth').val("0");
+                            $('#imgHeight').val("0");
+                        };
+
+                        function SetCoordinates(c) {
+                            debugger
+                            $('#imgX1').val(c.x);
+                            $('#imgY1').val(c.y);
+                            $('#imgWidth').val(c.w);
+                            $('#imgHeight').val(c.h);
+                            $('#btnCrop').show();
+                        };
+
+                        var imageCropWidth = 0;
+                        var imageCropHeight = 0;
+                        var cropPointX = 0;
+                        var cropPointY = 0;
+
+
+                        //$("#hl-crop-image").on("click", function (e) {
+                        //    e.preventDefault();
+                        //    cropImage();
+                        //});
+
+                        //function initCrop() {
+                        //    $('#my-origin-image').Jcrop({
+                        //        onSelect: setCoordsAndImgSize,
+                        //        aspectRatio: 1
+                        //    });
+                        //}
+
+                        //function setCoordsAndImgSize(e) {
+                        //      imageCropWidth = e.w;
+                        //      imageCropHeight = e.h;
+                        //      cropPointX = e.x;
+                        //      cropPointY = e.y;
+                        //}
+                        //var tempFolderNamePath='';
+                        //function cropImage() {
+
+                        //    if (imageCropWidth == 0 && imageCropHeight == 0) {
+                        //        alert("Please select crop area.");
+                        //        return;
+                        //    }
+
+                        //    $.ajax({
+                        //        url: '/Image/CropImage',
+                        //        type: 'POST',
+                        //        data: {
+                        //            imagePath: $('.jcrop-holder img').attr('src'),
+                        //            cropPointX: cropPointX,
+                        //            cropPointY: cropPointY,
+                        //            imageCropWidth: imageCropWidth,
+                        //            imageCropHeight: imageCropHeight
+                        //        },
+                        //        success: function (data) {
+                        //            debugger
+                        //            $("#my-cropped-image")
+                        //                .attr("src", data.photoPath + "?t=" + new Date().getTime())
+                        //                .hide();
+                        //            $("#UserProfileImageDisplay")
+                        //                .attr("src", data.photoPath);
+                        //            $('#imageuploadsection').show();
+                        //            $('#imagecropsection').hide();
+                        //            tempFolderNamePath = data.tempcropImagepath;
+
+                        //        },
+                        //        error: function (data) { }
+                        //    });
+                        //}
+
+
+                        var imgData = "@imagePath";
+                        var imgpath = "";
+                        var imageName = "";
+                        $(document).ready(function () {
+
+                            $('#tabProfileView').parent().addClass('active');
+                            $(function () {
+                                $(".skills").select2();
+                                for (var i = 0; i <= @educationDatePickerCount;i++)
+                                {
+
+                                    $("#educationDatePicker_" + i).daterangepicker(
+                                                   {
+
+                                                   });
+                                }
+                                for(var j=0;j<=@experienceDatePickerCount;j++)
+                                {
+                                    $('#experienceDatePicker_'+j).daterangepicker(
+                                          {
+                                          });
+                                }
+                                $('#dateOfBirthDatePicker').datepicker(
+                                     {
+                                     });
+                            })
+                        });
+                        $("#editEmployeeDetails").on('click', function (e) {
+                            $("#tabPersonalDetails").parent().addClass('active');
+                            $("#tabPersonalDetails").show();
+                            $("#tabEducationDetails").show();
+                            $("#tabExperienceDetails").show();
+                            $("#tabSkills").show();
+                            $("#tabProfile").hide();
+                            $("#personalDetails").show();
+                            $("#profile").hide();
+                        })
+                        $("#tabEducationDetails").on('click', function (e) {
+                            $("#tabPersonalDetails").show();
+                            $("#tabEducationDetails").show();
+                            $("#tabExperienceDetails").show();
+                            $("#tabSkills").show();
+                            $("#tabProfile").hide();
+                            $("#personalDetails").hide();
+                            $("#skills").hide();
+                            $("#experienceDetails").hide();
+                            $("#educationDetails").show();
+                            $("#profile").hide();
+                        })
+                        $("#tabPersonalDetails").on('click', function (e) {
+                            $("#tabPersonalDetails").show();
+                            $("#tabEducationDetails").show();
+                            $("#tabExperienceDetails").show();
+                            $("#tabSkills").show();
+                            $("#tabProfile").hide();
+                            $("#personalDetails").show();
+                            $("#skills").hide();
+                            $("#experienceDetails").hide();
+                            $("#educationDetails").hide();
+                            $("#profile").hide();
+                        })
+                        $("#tabExperienceDetails").on('click', function (e) {
+                            $("#tabPersonalDetails").show();
+                            $("#tabEducationDetails").show();
+                            $("#tabExperienceDetails").show();
+                            $("#tabSkills").show();
+                            $("#tabProfile").hide();
+                            $("#personalDetails").hide();
+                            $("#educationDetails").hide();
+                            $("#skills").hide();
+                            $("#experienceDetails").show();
+                            $("#profile").hide();
+                        })
+                        $("#tabSkills").on('click', function (e) {
+                            $("#tabPersonalDetails").show();
+                            $("#tabEducationDetails").show();
+                            $("#tabExperienceDetails").show();
+                            $("#tabSkills").show();
+                            $("#tabProfile").hide();
+                            $("#personalDetails").hide();
+                            $("#educationDetails").hide();
+                            $("#experienceDetails").hide();
+                            $("#skills").show();
+                            $("#profile").hide();
+                        })
+
+                        $("#lnkAddEducationDetails").click(function (e) {
+                            var i = parseInt($("#divEducationDetails").data('content')) + 1;
+                            $("#divEducationDetails").data('content',i);
+                            var data = "<hr><div class='form-group'><label class='col-sm-2 control-label'>Graduation</label> <div class='col-sm-10'>" +
+                                "  <input type='hidden' class='form-control' id='Id_"+i+"' value='0'>"+
+                                "<input type='text' class='form-control' id='txtGraduation_"+i+"' placeholder='Graduation'></div></div> <div class='form-group'>" +
+                    "<label class='col-sm-2 control-label'>Institution</label><div class='col-sm-10'>" +
+                    "<input type='text' class='form-control' id='txtInstitution_"+i+"' placeholder='Institution'></div></div> <div class='form-group'>" +
+                    "<label class='col-sm-2 control-label'>Duration</label><div class='col-sm-10'>" +
+                    "<input type='text' class='form-control' id='educationDatePicker_"+i+"'></div>";
+                            $("#divEducationDetails").append(data);
+                            $('#educationDatePicker_'+i).daterangepicker(
+                                     {
+
+                                     });
+                        });
+                        $("#lnkAddExperienceDetails").click(function (e) {
+                            var j = parseInt($("#otherExperienceDetails").data('content')) + 1;
+                            $("#otherExperienceDetails").data('content',j);
+                            var expDiv="<hr><div class='form-group'><label class='col-sm-2 control-label'>Employer</label><div class='col-sm-10'>" +
+                                "  <input type='hidden' class='form-control' id='expId_"+j+"' value='0'>" +
+                                "<input type='text' class='form-control expKeyPress' id='txtEmployer_"+j+"' data-attr='"+j+"' placeholder='Employer'></div></div> <div class='form-group'>" +
+                     "<label class='col-sm-2 control-label'>Designation</label><div class='col-sm-10'>" +
+                     "<input type='text' class='form-control' id='txtDesignation_"+j+"' placeholder='Designation'></div></div> <div class='form-group'>" +
+                     "<label class='col-sm-2 control-label'>Duration</label><div class='col-sm-10'>" +
+                     "<input type='text' class='form-control' id='experienceDatePicker_"+j+"'></div>";
+                            $("#otherExperienceDetails").append(expDiv);
+                            $('#experienceDatePicker_'+j).daterangepicker(
+                                 {
+                                 });
+                        });
+
+                        $("#btnSubmitPersonalDetails").click(function (e) {
+                            debugger
+                            //var ImagePath = imgpath != "" ? imgpath : "";
+                            //var ImagePath = $("#UserProfileImageDisplay").attr("src");
+                            var ImagePath = tempFolderNamePath;
+                            var model=
+                                {
+                                    ImagePath: ImagePath,
+                                    Id: $("#txtEmployeeID").val(),
+                                    FirstName: $("#txtEditFirstName").val(),
+                                    LastName: $("#txtEditLastName").val(),
+                                    DateOfBirth: $("#dateOfBirthDatePicker").val(),
+                                    City: $("#txtEditCity").val(),
+                                    Country: $("#txtEditCountry").val(),
+                                    Telephone: $("#txtEditTelephone").val(),
+                                    FacebookLink:$("#txtFacebookLink").val(),
+                                    TwitterLink:$("#txtTwitterLink").val(),
+                                    GooglePlusLink:$("#txtGooglePlusLink").val()
+                                }
+                            $.ajax({
+                                cache: false,
+                                type: 'post',
+                                url: '/Profile/EditEmployeeDetails',
+                                data:JSON.stringify(model),
+                                contentType: "application/json",
+                                dataType: "json",
+                                processData: false,
+                                success: function (data) {
+                                    debugger
+                                    showMessage("Employee details saved successfully","1",true);
+                                    // ShowAndHidetabs();
+                                }
+                            });
+                        });
+
+                        $(document).on('click',"#btnSubmitEducationDetails",function (e) {
+                            var total = $("#divEducationDetails").data('content');
+                            var educationDetails = [];
+                            for (var j = 0; j <= total; j++) {
+                                var details = {
+                                    Id: $("#Id_" + j).val(),
+                                    Institution: $("#txtInstitution_" + j).val(),
+                                    Degree: $("#txtGraduation_" + j).val(),
+                                    TimePeriod:$("#educationDatePicker_"+j).val()
+
+                                }
+                                educationDetails.push(details);
+                            }
+                            $.ajax({
+                                cache: false,
+                                type: 'post',
+                                url: '/Profile/EditEmployeeEducationDetails',
+                                data: JSON.stringify(educationDetails),
+                                contentType: "application/json",
+                                dataType: "json",
+                                processData: false,
+                                success: function (data) {
+                                    //ShowAndHidetabs();
+                                    showMessage("Education details saved successfully","1",true);
+                                }
+                            });
+                        });
+
+
+                        $(document).on('click',"#btnSubmitExperienceDetails",function (e) {
+                            var total = $("#otherExperienceDetails").data('content');
+                            var experienceDetails = [];
+                            for (var k = 0; k <= total; k++) {
+                                var details = {
+                                    Id: $("#expId_" + k).val(),
+                                    Company: $("#txtEmployer_" + k).val(),
+                                    Role: $("#txtDesignation_" + k).val(),
+                                    TimePeriod:$("#experienceDatePicker_"+k).val()
+
+                                }
+                                experienceDetails.push(details);
+                            }
+                            $.ajax({
+                                cache: false,
+                                type: 'post',
+                                url: '/Profile/EditEmployeeExperienceDetails',
+                                data: JSON.stringify(experienceDetails),
+                                contentType: "application/json",
+                                dataType: "json",
+                                processData: false,
+                                success: function (data) {
+                                    showMessage("Experience details saved successfully","1",true);
+                                    //ShowAndHidetabs();
+
+                                }
+                            });
+                        });
+
+                        $("#btnSubmitSkills").click(function (e) {
+                            var skills = [];
+                            for (i = 0; i < $("#ddlSkills").val().length; i++) {
+                                skill = {
+                                    SkillName: $("#ddlSkills").val()[i]
+                                }
+                                skills.push(skill);
+                            }
+                            $.ajax({
+                                cache: false,
+                                type: 'post',
+                                url: '/Profile/EditEmployeeSkills',
+                                data: JSON.stringify(skills),
+                                contentType: "application/json",
+                                dataType: "json",
+                                processData: false,
+                                success: function (data) {
+                                    showMessage("Skills saved successfully","1",true);
+                                    //ShowAndHidetabs();
+
+                                }
+                            });
+                        });
+
+                        function ShowAndHidetabs()
+                        {
+                            $("#tabPersonalDetails").hide();
+                            $("#tabEducationDetails").hide();
+                            $("#tabExperienceDetails").hide();
+                            $("#tabSkills").hide();
+                            $("#tabProfile").show();
+                            $("#personalDetails").hide();
+                            $("#skills").hide();
+                            $("#experienceDetails").hide();
+                            $("#educationDetails").hide();
+                            $("#profile").show();
+                        }
+
+                        $("#btnBack").on('click',function(){
+                            window.location.href='/HR/EmployeeDetails';
+                        })
+
+
+
+                        //$(".expKeyPress").bind('keypress',(function(e){
+                        //    alert("hii");
+                        //
+                        //    var id=$(this).data('attr');
+                        //    var queryString=$("#txtEmployer_"+id).val();
+                        //    $.ajax({
+                        //        cache: false,
+                        //        type: 'post',
+                        //        url: '/Profile/GetCompanyNames',
+                        //        data: {queryString:queryString},
+
+                        //        dataType: "json",
+                        //        processData: false,
+                        //        success: function (data) {
+
+
+                        //        }
+                        //    });
+                        //});
+
                        
-                            $("#educationDatePicker_" + i).daterangepicker(
-                                           {
+                        function ValidateAndUploadImage() {
+                            debugger
+                            var file = document.getElementById("UserProfileImage").value;
+                            imgPath = document.getElementById("UserProfileImage").files[0].name;
+                            imageName = imgPath;
 
-                                           });
-                    }
-                    for(var j=0;j<=@experienceDatePickerCount;j++)
-                    {
-                        $('#experienceDatePicker_'+j).daterangepicker(
-                              {
-                              });
-                    }
-                    $('#dateOfBirthDatePicker').datepicker(
-                         {
-                         });
-                })
-            });
-            $("#editEmployeeDetails").on('click', function (e) {
-                $("#tabPersonalDetails").parent().addClass('active');
-                $("#tabPersonalDetails").show();
-                $("#tabEducationDetails").show();
-                $("#tabExperienceDetails").show();
-                $("#tabSkills").show();
-                $("#tabProfile").hide();
-                $("#personalDetails").show();
-                $("#profile").hide();                             
-            })
-            $("#tabEducationDetails").on('click', function (e) {
-                $("#tabPersonalDetails").show();
-                $("#tabEducationDetails").show();
-                $("#tabExperienceDetails").show();
-                $("#tabSkills").show();
-                $("#tabProfile").hide();
-                $("#personalDetails").hide();
-                $("#skills").hide();
-                $("#experienceDetails").hide();
-                $("#educationDetails").show();
-                $("#profile").hide();
-            })
-            $("#tabPersonalDetails").on('click', function (e) {
-                $("#tabPersonalDetails").show();
-                $("#tabEducationDetails").show();
-                $("#tabExperienceDetails").show();
-                $("#tabSkills").show();
-                $("#tabProfile").hide();
-                $("#personalDetails").show();
-                $("#skills").hide();
-                $("#experienceDetails").hide();
-                $("#educationDetails").hide();
-                $("#profile").hide();
-            })
-            $("#tabExperienceDetails").on('click', function (e) {
-                $("#tabPersonalDetails").show();
-                $("#tabEducationDetails").show();
-                $("#tabExperienceDetails").show();
-                $("#tabSkills").show();
-                $("#tabProfile").hide();
-                $("#personalDetails").hide();
-                $("#educationDetails").hide();
-                $("#skills").hide();
-                $("#experienceDetails").show();
-                $("#profile").hide();
-            })
-            $("#tabSkills").on('click', function (e) {
-                $("#tabPersonalDetails").show();
-                $("#tabEducationDetails").show();
-                $("#tabExperienceDetails").show();
-                $("#tabSkills").show();
-                $("#tabProfile").hide();
-                $("#personalDetails").hide();
-                $("#educationDetails").hide();
-                $("#experienceDetails").hide();
-                $("#skills").show();
-                $("#profile").hide();
-            })
+                            var ext = file.split(".");
+                            ext = ext[ext.length - 1].toLowerCase();
+                            var arrayExtensions = ["jpg", "jpeg", "png", "bmp", "gif"];
 
-            $("#lnkAddEducationDetails").click(function (e) {
-                var i = parseInt($("#divEducationDetails").data('content')) + 1;
-                $("#divEducationDetails").data('content',i);
-                var data = "<hr><div class='form-group'><label class='col-sm-2 control-label'>Graduation</label> <div class='col-sm-10'>" +
-                    "  <input type='hidden' class='form-control' id='Id_"+i+"' value='0'>"+
-                    "<input type='text' class='form-control' id='txtGraduation_"+i+"' placeholder='Graduation'></div></div> <div class='form-group'>" +
-        "<label class='col-sm-2 control-label'>Institution</label><div class='col-sm-10'>" +
-        "<input type='text' class='form-control' id='txtInstitution_"+i+"' placeholder='Institution'></div></div> <div class='form-group'>" +
-        "<label class='col-sm-2 control-label'>Duration</label><div class='col-sm-10'>" +
-        "<input type='text' class='form-control' id='educationDatePicker_"+i+"'></div>";
-                $("#divEducationDetails").append(data);
-                $('#educationDatePicker_'+i).daterangepicker(
-                         {
-
-                         });
-            });
-            $("#lnkAddExperienceDetails").click(function (e) {
-                var j = parseInt($("#otherExperienceDetails").data('content')) + 1;
-                $("#otherExperienceDetails").data('content',j);
-                var expDiv="<hr><div class='form-group'><label class='col-sm-2 control-label'>Employer</label><div class='col-sm-10'>" +
-                    "  <input type='hidden' class='form-control' id='expId_"+j+"' value='0'>" +
-                    "<input type='text' class='form-control expKeyPress' id='txtEmployer_"+j+"' data-attr='"+j+"' placeholder='Employer'></div></div> <div class='form-group'>" +
-         "<label class='col-sm-2 control-label'>Designation</label><div class='col-sm-10'>" +
-         "<input type='text' class='form-control' id='txtDesignation_"+j+"' placeholder='Designation'></div></div> <div class='form-group'>" +
-         "<label class='col-sm-2 control-label'>Duration</label><div class='col-sm-10'>" +
-         "<input type='text' class='form-control' id='experienceDatePicker_"+j+"'></div>";
-                $("#otherExperienceDetails").append(expDiv);
-                $('#experienceDatePicker_'+j).daterangepicker(
-                     {
-                     });
-            });
-
-            $("#btnSubmitPersonalDetails").click(function (e) {
-                var model=
-                    {
-                        Id: $("#txtEmployeeID").val(),
-                        FirstName: $("#txtEditFirstName").val(),
-                        LastName: $("#txtEditLastName").val(),
-                        DateOfBirth: $("#dateOfBirthDatePicker").val(),
-                        City: $("#txtEditCity").val(),
-                        Country: $("#txtEditCountry").val(),
-                        Telephone: $("#txtEditTelephone").val(),
-                        FacebookLink:$("#txtFacebookLink").val(),
-                        TwitterLink:$("#txtTwitterLink").val(),
-                        GooglePlusLink:$("#txtGooglePlusLink").val()
-                    }
-                $.ajax({
-                    cache: false,
-                    type: 'post',
-                    url: '/Profile/EditEmployeeDetails',
-                    data:JSON.stringify(model),
-                    contentType: "application/json",
-                    dataType: "json",
-                    processData: false,
-                    success: function (data) {
-                        showMessage("Employee details saved successfully","1",true);
-                       // ShowAndHidetabs();
-                    }
-                });
-            });
-
-            $(document).on('click',"#btnSubmitEducationDetails",function (e) {
-                var total = $("#divEducationDetails").data('content');
-                var educationDetails = [];
-                for (var j = 0; j <= total; j++) {
-                    var details = {
-                        Id: $("#Id_" + j).val(),
-                        Institution: $("#txtInstitution_" + j).val(),
-                        Degree: $("#txtGraduation_" + j).val(),
-                        TimePeriod:$("#educationDatePicker_"+j).val()
-
-                    }
-                    educationDetails.push(details);
-                }
-                $.ajax({
-                    cache: false,
-                    type: 'post',
-                    url: '/Profile/EditEmployeeEducationDetails',
-                    data: JSON.stringify(educationDetails),
-                    contentType: "application/json",
-                    dataType: "json",
-                    processData: false,
-                    success: function (data) {
-                        //ShowAndHidetabs();
-                        showMessage("Education details saved successfully","1",true);                    
-                    }
-                });
-            });
+                            if (arrayExtensions.lastIndexOf(ext) == -1) {
+                                alert("upload only image file.");
+                                $("#UserProfileImageDisplay").attr('src', "@imagePath")
+                                $("#UserProfileImage").val("");
+                            }
 
 
-        $(document).on('click',"#btnSubmitExperienceDetails",function (e) {
-                var total = $("#otherExperienceDetails").data('content');
-                var experienceDetails = [];
-                for (var k = 0; k <= total; k++) {
-                    var details = {
-                        Id: $("#expId_" + k).val(),
-                        Company: $("#txtEmployer_" + k).val(),
-                        Role: $("#txtDesignation_" + k).val(),
-                        TimePeriod:$("#experienceDatePicker_"+k).val()
+                            var reader = new FileReader();
 
-                    }
-                    experienceDetails.push(details);
-                }
-                $.ajax({
-                    cache: false,
-                    type: 'post',
-                    url: '/Profile/EditEmployeeExperienceDetails',
-                    data: JSON.stringify(experienceDetails),
-                    contentType: "application/json",
-                    dataType: "json",
-                    processData: false,
-                    success: function (data) {
-                        showMessage("Experience details saved successfully","1",true);
-                        //ShowAndHidetabs();
+                            //reader.onload = function (e) {
+                            //    $('#UserProfileImageDisplay')
+                            //        .attr('src', e.target.result)
+                            //        .width(150)
+                            //        .height(200);
+                            //};
+                            reader.readAsDataURL(document.getElementById("UserProfileImage").files[0]);
 
-                    }
-                });
-            });
-            
-            $("#btnSubmitSkills").click(function (e) {
-                var skills = [];
-                for (i = 0; i < $("#ddlSkills").val().length; i++) {
-                    skill = {
-                        SkillName: $("#ddlSkills").val()[i]
-                    }
-                    skills.push(skill);
-                }
-                $.ajax({
-                    cache: false,
-                    type: 'post',
-                    url: '/Profile/EditEmployeeSkills',
-                    data: JSON.stringify(skills),
-                    contentType: "application/json",
-                    dataType: "json",
-                    processData: false,
-                    success: function (data) {
-                        showMessage("Skills saved successfully","1",true);
-                        //ShowAndHidetabs();
-                       
-                    }
-                });
-            });
+                            var fileUpload = $("#UserProfileImage").get(0);
+                            var files = fileUpload.files;
+                            var test = new FormData();
+                            for (var i = 0; i < files.length; i++) {
+                                test.append(files[i].name, files[i]);
+                            }
+                            $.ajax({
+                                url: "../ImageUploadHandler.ashx",
+                                type: "POST",
+                                contentType: false,
+                                processData: false,
+                                data: test,
+                                // dataType: "json",
+                                success: function (result) {
+                                    imgpath = result;
+                                    $('.jcrop-keymgr img').attr('src',imgpath);
+                                    var crimppath = '\\Content\\Images\\EmployeeImages\\' + imageName;
+                                    imgpath = crimppath;
+                                    $('.jcrop-holder img').attr('src', crimppath);
+                                    $('#Image1').attr('src', crimppath);
+                                    $('#Image1').hide();
+                                    $('#canvas').hide();
+                                    //alert(result);
+                                },
+                                error: function (err) {
+                                    //alert(err.statusText);
+                                }
+                            });
 
-            function ShowAndHidetabs()
-            {
-                $("#tabPersonalDetails").hide();
-                $("#tabEducationDetails").hide();
-                $("#tabExperienceDetails").hide();
-                $("#tabSkills").hide();
-                $("#tabProfile").show();
-                $("#personalDetails").hide();
-                $("#skills").hide();
-                $("#experienceDetails").hide();
-                $("#educationDetails").hide();
-                $("#profile").show();
-            }
-
-            $("#btnBack").on('click',function(){
-                window.location.href='/HR/EmployeeDetails';
-            })
-          
-            //$(".expKeyPress").bind('keypress',(function(e){
-            //    alert("hii");
-            //    
-            //    var id=$(this).data('attr');
-            //    var queryString=$("#txtEmployer_"+id).val();
-            //    $.ajax({
-            //        cache: false,
-            //        type: 'post',
-            //        url: '/Profile/GetCompanyNames',
-            //        data: {queryString:queryString},
-
-            //        dataType: "json",
-            //        processData: false,
-            //        success: function (data) {
-                  
-                       
-            //        }
-            //    });
-            //});
-        </script>
+                            //$('.jcrop-holder img').Jcrop({
+                            //    onSelect: function (coords) {
+                            //        // fix crop size: find ratio dividing current per real size
+                            //        var ratioW = $('.jcrop-holder img')[0].naturalWidth / $('.jcrop-holder img').width();
+                            //        var ratioH = $('.jcrop-holder img')[0].naturalHeight / $('.jcrop-holder img').height();
+                            //        var currentRatio = Math.min(ratioW, ratioH);
+                            //        $('#x').val(Math.round(coords.x * currentRatio));
+                            //        $('#y').val(Math.round(coords.y * currentRatio));
+                            //        $('#w').val(Math.round(coords.w * currentRatio));
+                            //        $('#h').val(Math.round(coords.h * currentRatio));
+                            //    }
+                            //});
+                        }
+                    </script>

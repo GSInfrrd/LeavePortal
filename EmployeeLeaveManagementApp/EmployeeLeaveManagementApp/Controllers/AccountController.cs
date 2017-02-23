@@ -247,6 +247,9 @@ namespace EmployeeLeaveManagementApp.Controllers
                     model.UserName = data.UserName;
                     model.ManagerName = datares.ManagerName;
                     model.TotalLeaveCount = Convert.ToInt16(datares.TotalLeaveCount);
+                    model.EarnedLeave = datares.EarnedLeave;
+                    model.AdvanceLeave = datares.AdvanceLeave;
+                    model.LeaveBalence = datares.LeaveBalence;
                     model.TotalApplied = datares.TotalApplied;
                     model.TotalSpent = datares.TotalSpent;
                     model.CompOffTaken =datares.CompOffTaken!=null? (int) datares.CompOffTaken:0;

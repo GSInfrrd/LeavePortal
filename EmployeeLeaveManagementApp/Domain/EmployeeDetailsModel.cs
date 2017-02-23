@@ -30,6 +30,10 @@ namespace LMS_WebAPP_Domain
         public string ProjectName { get; set; }
         public String RoleName { get; set; }
         public double? TotalLeaveCount { get; set; }
+
+        public double? EarnedLeave { get; set; }
+        public double? LeaveBalence { get; set; }
+        public double? AdvanceLeave { get; set; }
         public double TotalApplied { get; set; }
         public double TotalSpent { get; set; }
         public int TotalLeft { get; set; }
@@ -39,7 +43,7 @@ namespace LMS_WebAPP_Domain
         public System.DateTime DateOfJoining { get; set; }
         public List<string> Colors { get; set; }
         public double? TotalCasualLeave { get; set; }
-        public int? TotalAdvanceLeaveTotake { get; set; }
+        public double? TotalAdvanceLeaveTotake { get; set; }
         public int? TotalWorkFromHome { get; set; }
         public List<Announcement> Announcements { get; set; }
 
