@@ -14,16 +14,17 @@
             <!-- general form elements -->
             <div class="box box-success">
                 <div class="box-header with-border">
-                    <a href="#EmpPersonalInfoToggle" data-toggle="collapse">
-                        <h3 class="box-title">Employee Personal Info</h3>
+                    <a id="btn_EmpPersonalInfo_collapse_Text" href="#EmpPersonalInfoToggle" data-toggle="collapse">
+                        <b><span id="CollapseTextEmpPersonalInfo" class="fa fa-minus" style="color:black;"></span></b>
+                        <h3 class="box-title" style="color:black">Employee Personal Info</h3>
                     </a>
-                    
+
                 </div>
                 <!-- /.box-header -->
                 <!-- form start -->
                 @*<form role="form">*@
-                <div class="box-body collapse in" id="EmpPersonalInfoToggle">
-                    
+                <div class="box-body collapse in " id="EmpPersonalInfoToggle">
+
                     <div class="form-group col-md-6">
                         <label style="margin-bottom: 0px;" for="txtFirstName">
                             First Name <span style="color:red">*</span><span class="form-group has-error" style="display:none;margin-bottom: 0px;" id="divFirstNameError">
@@ -83,7 +84,7 @@
                         <input type="tel" class="form-control" id="txtTelephone" placeholder="Telephone">
 
                     </div>
-                    
+
 
                     <div class="form-group col-md-6">
                         <label style="margin-bottom: 0px;" for="txtBirthday">
@@ -96,45 +97,20 @@
                         <input type="text" class="form-control" id="txtBirthday">
 
                     </div>
-                    
-                    @*<div class="form-group col-md-6">
-                        <label style="margin-bottom: 0px;" for="txtCountry">
-                            Country <span style="color:red">*</span><span class="form-group has-error" style="display:none;margin-bottom: 0px;" id="divCountryError">
-                                <label style="margin-bottom: 0px;" class="control-label" for="country">
-                                    <i class="fa fa-times-circle-o"></i> Please enter country
-                                </label>
-                            </span>
-                        </label>
-                        <select class="form-control designation" style="width: 100%;" id="ddlCountry">
-                            <option value="">Select</option>
-                        </select>
 
-                    </div>*@
-                    @*<div class="form-group col-md-6">
-                        <label style="margin-bottom: 0px;" for="txtCity">
-                            City <span style="color:red">*</span><span class="form-group has-error" style="display:none;margin-bottom: 0px;" id="divCityError">
-                                <label style="margin-bottom: 0px;" class="control-label" for="City">
-                                    <i class="fa fa-times-circle-o"></i> Please enter city
-                                </label>
-                            </span>
-                        </label>
-                        <input type="text" class="form-control" id="txtCity" placeholder="City">
-
-                    </div>*@
-                    
                     <div class="form-group col-md-6">
                         <label style="margin-bottom: 0px;" for="txtPassportNumber">
-                            Passport Number 
+                            Passport Number
                         </label>
                         <input type="text" class="form-control" id="txtPassportNumber" placeholder="Passport Number">
                     </div>
                     <div class="form-group col-md-6">
                         <label style="margin-bottom: 0px;" for="txtBloodGroup">
                             Blood Group @*<span style="color:red">*</span><span class="form-group has-error" style="display:none;margin-bottom: 0px;" id="divBloodGroupError">
-                                <label style="margin-bottom: 0px;" class="control-label" for="BloodGroup">
-                                    <i class="fa fa-times-circle-o"></i> Please enter blood group
-                                </label>
-                            </span>*@
+                                    <label style="margin-bottom: 0px;" class="control-label" for="BloodGroup">
+                                        <i class="fa fa-times-circle-o"></i> Please enter blood group
+                                    </label>
+                                </span>*@
                         </label>
                         <input type="text" class="form-control" id="txtBloodGroup" placeholder="Blood Group">
                     </div>
@@ -177,8 +153,10 @@
                 <!-- general form elements -->
                 <div class="box box-success">
                     <div class="box-header with-border">
-                        <a href="#EmpCompanyInfoToggle" data-toggle="collapse">
-                        <h3 class="box-title">Employee Company Info</h3></a>
+                        <a id="btn_EmpCompanyInfo_collapse_Text" href="#EmpCompanyInfoToggle" data-toggle="collapse">
+                            <b><span id="CollapseTextEmpCompanyInfo" class="fa fa-minus" style="color:black;"></span></b>
+                            <h3 class="box-title" style="color:black">Employee Company Info</h3>
+                        </a>
                     </div>
                     <!-- /.box-header -->
                     <!-- form start -->
@@ -332,7 +310,7 @@
                                 }
                             </div>
                         </div>
-                        
+
 
                     </div>
                     @*</form>*@
@@ -340,8 +318,10 @@
                 </div>
                 <div class="box box-success">
                     <div class="box-header with-border">
-                        <a href="#EmpEmergencyContactDetailsToggle" data-toggle="collapse">
-                        <h3 class="box-title">Emergency Contact Details</h3></a>
+                        <a id="btn_EmpEmergencyContactDetails_collapse_Text" href="#EmpEmergencyContactDetailsToggle" data-toggle="collapse">
+                            <b><span id="CollapseTextEmpEmergencyContactDetails" class="fa fa-minus" style="color:black;"></span></b>
+                            <h3 class="box-title" style="color:black">Emergency Contact Details</h3>
+                        </a>
                     </div>
                     <!-- /.box-header -->
                     <!-- form start -->
@@ -401,10 +381,10 @@
                         <div class="form-group col-md-6">
                             <label style="margin-bottom: 0px;">
                                 State @*<span style="color:red">*</span><span class="form-group has-error" style="display:none" id="divEmergencyContactStateError">
-                    <label style="margin-bottom: 0px;" class="control-label" for="PermanentState">
-                        <i class="fa fa-times-circle-o"></i> Please select State
-                    </label>
-                </span>*@
+                                        <label style="margin-bottom: 0px;" class="control-label" for="PermanentState">
+                                            <i class="fa fa-times-circle-o"></i> Please select State
+                                        </label>
+                                    </span>*@
                             </label>
                             <div>
                                 <select id="ddlEmergencyContactState" class="form-control specialization" style="width: 100%;">
@@ -416,10 +396,10 @@
                         <div class="form-group col-md-6">
                             <label style="margin-bottom: 0px;">
                                 City @*<span style="color:red">*</span><span class="form-group has-error" style="display:none" id="divEmergencyContactCityError">
-                    <label style="margin-bottom: 0px;" class="control-label" for="PermanentCity">
-                        <i class="fa fa-times-circle-o"></i> Please select city
-                    </label>
-                </span>*@
+                                        <label style="margin-bottom: 0px;" class="control-label" for="PermanentCity">
+                                            <i class="fa fa-times-circle-o"></i> Please select city
+                                        </label>
+                                    </span>*@
                             </label>
                             <select id="ddlEmergencyContactCity" class="form-control specialization" style="width: 100%;">
                                 <option value="">Select</option>
@@ -429,20 +409,20 @@
                         <div class="form-group col-md-6">
                             <label style="margin-bottom: 0px;" for="educationFromDate">
                                 AddressLine1 @*<span style="color:red">*</span><span class="form-group has-error" style="display:none" id="divEmergencyContactAddressLine1Error">
-                                    <label style="margin-bottom: 0px;" class="control-label" for="EmergencyContactAddressLine1">
-                                        <i class="fa fa-times-circle-o"></i> Please enter address
-                                    </label>
-                                </span>*@
+                                        <label style="margin-bottom: 0px;" class="control-label" for="EmergencyContactAddressLine1">
+                                            <i class="fa fa-times-circle-o"></i> Please enter address
+                                        </label>
+                                    </span>*@
                             </label>
                             <input type="text" class="form-control" id="txtEmergencyContactAddressLine1" placeholder="Address">
                         </div>
                         <div class="form-group col-md-6">
                             <label style="margin-bottom: 0px;" for="educationFromDate">
                                 AddressLine2 @*<span style="color:red">*</span><span class="form-group has-error" style="display:none" id="divEmergencyContactAddressLine2Error">
-                                    <label style="margin-bottom: 0px;" class="control-label" for="EmergencyContactAddressLine2">
-                                        <i class="fa fa-times-circle-o"></i> Please enter address
-                                    </label>
-                                </span>*@
+                                        <label style="margin-bottom: 0px;" class="control-label" for="EmergencyContactAddressLine2">
+                                            <i class="fa fa-times-circle-o"></i> Please enter address
+                                        </label>
+                                    </span>*@
                             </label>
                             <input type="text" class="form-control" id="txtEmergencyContactAddressLine2" placeholder="Address">
                         </div>
@@ -453,13 +433,15 @@
                 </div>
                 <div class="box box-success">
                     <div class="box-header with-border">
-                        <a href="#EmpPermanentAddressDetailsToggle" data-toggle="collapse">
-                        <h3 class="box-title">Permanent Address Details</h3></a>
+                        <a id="btn_EmpPermanentAddressDetails_collapse_Text" href="#EmpPermanentAddressDetailsToggle" data-toggle="collapse">
+                            <b><span id="CollapseTextEmpPermanentAddressDetails" class="fa fa-minus" style="color:black;"></span></b>
+                            <h3 class="box-title" style="color:black">Permanent Address Details</h3>
+                        </a>
                     </div>
                     <!-- /.box-header -->
                     <!-- form start -->
                     @*<form role="form">*@
-                    <div class="box-body collapse in" id="EmpPermanentAddressDetailsToggle" >
+                    <div class="box-body collapse in" id="EmpPermanentAddressDetailsToggle">
                         <div class="form-group col-md-6">
                             <label style="margin-bottom: 0px;">
                                 Country <span style="color:red">*</span><span class="form-group has-error" style="display:none;margin-bottom: 0px;" id="divPermanentCountryError">
@@ -478,10 +460,10 @@
                         <div class="form-group col-md-6">
                             <label style="margin-bottom: 0px;">
                                 State @*<span style="color:red">*</span><span class="form-group has-error" style="display:none" id="divPermanentStateError">
-                                    <label style="margin-bottom: 0px;" class="control-label" for="PermanentState">
-                                        <i class="fa fa-times-circle-o"></i> Please select State
-                                    </label>
-                                </span>*@
+                                        <label style="margin-bottom: 0px;" class="control-label" for="PermanentState">
+                                            <i class="fa fa-times-circle-o"></i> Please select State
+                                        </label>
+                                    </span>*@
                             </label>
                             <div>
                                 <select id="ddlPermanentState" class="form-control specialization" style="width: 100%;">
@@ -493,10 +475,10 @@
                         <div class="form-group col-md-6">
                             <label style="margin-bottom: 0px;">
                                 City @*<span style="color:red">*</span><span class="form-group has-error" style="display:none" id="divPermanentCityError">
-                                    <label style="margin-bottom: 0px;" class="control-label" for="PermanentCity">
-                                        <i class="fa fa-times-circle-o"></i> Please select city
-                                    </label>
-                                </span>*@
+                                        <label style="margin-bottom: 0px;" class="control-label" for="PermanentCity">
+                                            <i class="fa fa-times-circle-o"></i> Please select city
+                                        </label>
+                                    </span>*@
                             </label>
                             <select id="ddlPermanentCity" class="form-control specialization" style="width: 100%;">
                                 <option value="">Select</option>
@@ -520,8 +502,10 @@
                 </div>
                 <div class="box box-success">
                     <div class="box-header with-border">
-                        <a href="#EmpCurrentAddressDetailsToggle" data-toggle="collapse">
-                        <h3 class="box-title">Current Address Details</h3></a>
+                        <a id="btn_EmpCurrentAddressDetails_collapse_Text" href="#EmpCurrentAddressDetailsToggle" data-toggle="collapse">
+                            <b><span id="CollapseTextEmpCurrentAddressDetails" class="fa fa-minus" style="color:black;"></span></b>
+                            <h3 class="box-title" style="color:black">Current Address Details</h3>
+                        </a>
                     </div>
                     <!-- /.box-header -->
                     <!-- form start -->
@@ -545,10 +529,10 @@
                         <div class="form-group col-md-6">
                             <label style="margin-bottom: 0px;">
                                 State @*<span style="color:red">*</span><span class="form-group has-error" style="display:none" id="divCurrentStateError">
-                                    <label style="margin-bottom: 0px;" class="control-label" for="CurrentState">
-                                        <i class="fa fa-times-circle-o"></i> Please select State
-                                    </label>
-                                </span>*@
+                                        <label style="margin-bottom: 0px;" class="control-label" for="CurrentState">
+                                            <i class="fa fa-times-circle-o"></i> Please select State
+                                        </label>
+                                    </span>*@
                             </label>
                             <div>
                                 <select id="ddlCurrentState" class="form-control specialization" style="width: 100%;">
@@ -560,10 +544,10 @@
                         <div class="form-group col-md-6">
                             <label style="margin-bottom: 0px;">
                                 City @*<span style="color:red">*</span><span class="form-group has-error" style="display:none" id="divCurrentCityError">
-                                    <label style="margin-bottom: 0px;" class="control-label" for="CurrentCity">
-                                        <i class="fa fa-times-circle-o"></i> Please select city
-                                    </label>
-                                </span>*@
+                                        <label style="margin-bottom: 0px;" class="control-label" for="CurrentCity">
+                                            <i class="fa fa-times-circle-o"></i> Please select city
+                                        </label>
+                                    </span>*@
                             </label>
                             <select id="ddlCurrentCity" class="form-control specialization" style="width: 100%;">
                                 <option value="">Select</option>
@@ -587,8 +571,10 @@
                 </div>
                 <div class="box box-success">
                     <div class="box-header with-border">
-                        <a href="#EmpWorkLocationDetailsToggle" data-toggle="collapse">
-                        <h3 class="box-title">Work Location</h3></a>
+                        <a id="btn_EmpWorkAddressDetails_collapse_Text"  href="#EmpWorkLocationDetailsToggle" data-toggle="collapse">
+                            <b><span id="CollapseTextEmpWorkAddressDetails" class="fa fa-minus" style="color:black;"></span></b>
+                            <h3 class="box-title" style="color:black">Work Location</h3>
+                        </a>
                     </div>
                     <!-- /.box-header -->
                     <!-- form start -->
@@ -597,10 +583,10 @@
                         <div class="form-group col-md-6">
                             <label style="margin-bottom: 0px;" for="educationFromDate">
                                 Facility <span style="color:red">*</span><span class="form-group has-error" style="display:none" id="divFacilityError">
-                               <label style="margin-bottom: 0px;" class="control-label" for="Facility">
-                               <i class="fa fa-times-circle-o"></i> Please select facility
-                           </label>
-                           </span>
+                                    <label style="margin-bottom: 0px;" class="control-label" for="Facility">
+                                        <i class="fa fa-times-circle-o"></i> Please select facility
+                                    </label>
+                                </span>
                             </label>
                             <select id="ddlFacility" class="form-control specialization" style="width: 100%;">
                                 <option value="">Select</option>
@@ -609,10 +595,10 @@
                         <div class="form-group col-md-6">
                             <label style="margin-bottom: 0px;">
                                 City @*<span style="color:red">*</span><span class="form-group has-error" style="display:none" id="divWorkCityError">
-                                <label style="margin-bottom: 0px;" class="control-label" for="WorkCity">
-                                <i class="fa fa-times-circle-o"></i> Please select city
-                                </label>
-                            </span>*@
+                                        <label style="margin-bottom: 0px;" class="control-label" for="WorkCity">
+                                        <i class="fa fa-times-circle-o"></i> Please select city
+                                        </label>
+                                    </span>*@
                             </label>
                             <select id="ddlWorkCity" class="form-control specialization" style="width: 100%;">
                                 <option value="">Select</option>
@@ -620,11 +606,13 @@
 
                         </div>
                         <div class="form-group col-md-6">
-                            <label style="margin-bottom: 0px;">State @*<span style="color:red">*</span><span class="form-group has-error" style="display:none" id="divWorkStateError">
-                            <label style="margin-bottom: 0px;" class="control-label" for="WorkState">
-                            <i class="fa fa-times-circle-o"></i> Please select State
+                            <label style="margin-bottom: 0px;">
+                                State @*<span style="color:red">*</span><span class="form-group has-error" style="display:none" id="divWorkStateError">
+                                    <label style="margin-bottom: 0px;" class="control-label" for="WorkState">
+                                    <i class="fa fa-times-circle-o"></i> Please select State
+                                    </label>
+                                    </span>*@
                             </label>
-                            </span>*@ </label>
                             <div>
                                 <select id="ddlWorkState" class="form-control specialization" style="width: 100%;">
                                     <option value="">Select</option>
@@ -632,14 +620,14 @@
 
                             </div>
                         </div>
-                        
+
                         <div class="form-group col-md-6">
                             <label style="margin-bottom: 0px;">
                                 Country @*<span style="color:red">*</span><span class="form-group has-error" style="display:none;margin-bottom: 0px;" id="divWorkCountryError">
-                                    <label style="margin-bottom: 0px;" class="control-label" for="WorkCountry">
-                                        <i class="fa fa-times-circle-o"></i> Please select Country
-                                    </label>
-                                </span>*@
+                                        <label style="margin-bottom: 0px;" class="control-label" for="WorkCountry">
+                                            <i class="fa fa-times-circle-o"></i> Please select Country
+                                        </label>
+                                    </span>*@
                             </label>
                             <div>
                                 <select id="ddlWorkCountry" class="form-control graduation" style="width: 100%;">
@@ -648,27 +636,31 @@
 
                             </div>
                         </div>
-                        
+
 
                     </div>
                     @*</form>*@
 
                 </div>
-                <div class="box box-success" >
+                <div class="box box-success">
                     <div class="box-header with-border">
-                        <a href="#EmpEducationDetailsToggle" data-toggle="collapse">
-                        <h3 class="box-title">Education Details(Highest Degree)</h3></a>
+                        <a id="btn_EmpEducationDetails_collapse_Text"  href="#EmpEducationDetailsToggle" data-toggle="collapse">
+                            <b><span id="CollapseTextEmpEducationDetails" class="fa fa-minus" style="color:black;"></span></b>
+                            <h3 class="box-title" style="color:black">Education Details(Highest Degree)</h3>
+                        </a>
                     </div>
                     <!-- /.box-header -->
                     <!-- form start -->
                     @*<form role="form">*@
                     <div class="box-body collapse in" id="EmpEducationDetailsToggle">
                         <div class="form-group col-md-6">
-                            <label style="margin-bottom: 0px;">Education <span style="color:red">*</span><span class="form-group has-error" style="display:none;margin-bottom: 0px;" id="divGraduationError">
-                            <label style="margin-bottom: 0px;" class="control-label" for="Graduation">
-                            <i class="fa fa-times-circle-o"></i> Please select graduation
+                            <label style="margin-bottom: 0px;">
+                                Education <span style="color:red">*</span><span class="form-group has-error" style="display:none;margin-bottom: 0px;" id="divGraduationError">
+                                    <label style="margin-bottom: 0px;" class="control-label" for="Graduation">
+                                        <i class="fa fa-times-circle-o"></i> Please select graduation
+                                    </label>
+                                </span>
                             </label>
-                            </span></label>
                             <div>
                                 <select id="ddlGraduation" class="form-control graduation" style="width: 100%;">
                                     <option value="">Select</option>
@@ -679,7 +671,7 @@
                                     <option value="@Convert.ToInt16(LMS_WebAPP_Utils.GraduationDegree.BSc)">@LMS_WebAPP_Utils.CommonMethods.Description((LMS_WebAPP_Utils.GraduationDegree.BSc))</option>
                                     <option value="@Convert.ToInt16(LMS_WebAPP_Utils.GraduationDegree.MBA)">@LMS_WebAPP_Utils.CommonMethods.Description((LMS_WebAPP_Utils.GraduationDegree.MBA))</option>
                                     <option value="@Convert.ToInt16(LMS_WebAPP_Utils.GraduationDegree.MS)">@LMS_WebAPP_Utils.CommonMethods.Description((LMS_WebAPP_Utils.GraduationDegree.MS))</option>
-                                   
+
                                 </select>
 
                             </div>
@@ -693,7 +685,7 @@
                                     <option value="@Convert.ToInt16(LMS_WebAPP_Utils.Specialization.EEE)">@LMS_WebAPP_Utils.CommonMethods.Description((LMS_WebAPP_Utils.Specialization.EEE))</option>
                                     <option value="@Convert.ToInt16(LMS_WebAPP_Utils.Specialization.ECE)">@LMS_WebAPP_Utils.CommonMethods.Description((LMS_WebAPP_Utils.Specialization.ECE))</option>
                                     <option value="@Convert.ToInt16(LMS_WebAPP_Utils.Specialization.IT)">@LMS_WebAPP_Utils.CommonMethods.Description((LMS_WebAPP_Utils.Specialization.IT))</option>
-                                    
+
                                 </select>
 
                             </div>
@@ -721,8 +713,10 @@
 
                 <div class="box box-success">
                     <div class="box-header with-border">
-                        <a href="#EmpExperienceDetailsToggle" data-toggle="collapse">
-                        <h3 class="box-title">Experience Details(Last Employer Details)</h3></a>
+                        <a id="btn_EmpExperienceDetails_collapse_Text" href="#EmpExperienceDetailsToggle" data-toggle="collapse">
+                            <b><span id="CollapseTextEmpExperienceDetails" class="fa fa-minus" style="color:black;"></span></b>
+                            <h3 class="box-title" style="color:black">Experience Details(Last Employer Details)</h3>
+                        </a>
                     </div>
                     <!-- /.box-header -->
                     <!-- form start -->
@@ -730,17 +724,17 @@
                     <div class="box-body collapse in" id="EmpExperienceDetailsToggle">
                         <div class="form-group col-md-6">
                             <label style="margin-bottom: 0px;" for="txtEmployer">Employer</label><span style="color:red">*</span><span class="form-group has-error" style="display:none" id="divEmployerError">
-                            <label style="margin-bottom: 0px;" class="control-label">
-                            <i class="fa fa-times-circle-o"></i> Please enter employer
-                            </label>
+                                <label style="margin-bottom: 0px;" class="control-label">
+                                    <i class="fa fa-times-circle-o"></i> Please enter employer
+                                </label>
                             </span>
                             <input type="text" class="form-control" id="txtEmployer" placeholder="Enter Employer">
                         </div>
                         <div class="form-group col-md-6">
                             <label style="margin-bottom: 0px;">Designation</label><span style="color:red">*</span><span class="form-group has-error" style="display:none" id="divEmpDesignationError">
-                            <label style="margin-bottom: 0px;" class="control-label">
-                            <i class="fa fa-times-circle-o"></i> Please select designation
-                            </label>
+                                <label style="margin-bottom: 0px;" class="control-label">
+                                    <i class="fa fa-times-circle-o"></i> Please select designation
+                                </label>
                             </span>
                             <select class="form-control experienceDesignation" style="width: 100%;" id="ddlExperienceDesignation">
                                 <option value="">Select</option>
@@ -748,9 +742,9 @@
                         </div>
                         <div class="form-group col-md-6">
                             <label style="margin-bottom: 0px;" for="ExpFromDate">From</label><span style="color:red">*</span><span class="form-group has-error" style="display:none" id="divFromError">
-                            <label style="margin-bottom: 0px;" class="control-label">
-                            <i class="fa fa-times-circle-o"></i> Please select from
-                            </label>
+                                <label style="margin-bottom: 0px;" class="control-label">
+                                    <i class="fa fa-times-circle-o"></i> Please select from
+                                </label>
                             </span>
                             <input type="text" class="form-control" id="experienceDatePicker">
                         </div>
@@ -772,7 +766,7 @@
                 </div>
             </div>
         </div>
-
+    </div>
         <!-- /.row -->
 </section>
 <script src="../../plugins/iCheck/icheck.min.js"></script>
@@ -918,6 +912,128 @@
         radioClass: 'iradio_flat-green'
     });
 
+    $(document).on('click', '#btn_EmpPersonalInfo_collapse_Text', function (e) {
+        if($("#CollapseTextEmpPersonalInfo").hasClass('fa-minus'))
+        {
+            $("#CollapseTextEmpPersonalInfo").removeClass('fa-minus');
+            $("#CollapseTextEmpPersonalInfo").addClass('fa-plus');
+        }
+        else
+        {
+            $("#CollapseTextEmpPersonalInfo").removeClass('fa-plus');
+            $("#CollapseTextEmpPersonalInfo").addClass('fa-minus');
+
+        }
+        
+    });
+
+    $(document).on('click', '#btn_EmpCompanyInfo_collapse_Text', function (e) {
+        if($("#CollapseTextEmpCompanyInfo").hasClass('fa-minus'))
+        {
+            $("#CollapseTextEmpCompanyInfo").removeClass('fa-minus');
+            $("#CollapseTextEmpCompanyInfo").addClass('fa-plus');
+        }
+        else
+        {
+            $("#CollapseTextEmpCompanyInfo").removeClass('fa-plus');
+            $("#CollapseTextEmpCompanyInfo").addClass('fa-minus');
+
+        }
+        
+    });
+
+    $(document).on('click', '#btn_EmpEmergencyContactDetails_collapse_Text', function (e) {
+        if($("#CollapseTextEmpEmergencyContactDetails").hasClass('fa-minus'))
+        {
+            $("#CollapseTextEmpEmergencyContactDetails").removeClass('fa-minus');
+            $("#CollapseTextEmpEmergencyContactDetails").addClass('fa-plus');
+        }
+        else
+        {
+            $("#CollapseTextEmpEmergencyContactDetails").removeClass('fa-plus');
+            $("#CollapseTextEmpEmergencyContactDetails").addClass('fa-minus');
+
+        }
+        
+    });
+
+    $(document).on('click', '#btn_EmpPermanentAddressDetails_collapse_Text', function (e) {
+        if($("#CollapseTextEmpPermanentAddressDetails").hasClass('fa-minus'))
+        {
+            $("#CollapseTextEmpPermanentAddressDetails").removeClass('fa-minus');
+            $("#CollapseTextEmpPermanentAddressDetails").addClass('fa-plus');
+        }
+        else
+        {
+            $("#CollapseTextEmpPermanentAddressDetails").removeClass('fa-plus');
+            $("#CollapseTextEmpPermanentAddressDetails").addClass('fa-minus');
+
+        }
+        
+    });
+
+    $(document).on('click', '#btn_EmpCurrentAddressDetails_collapse_Text', function (e) {
+        if($("#CollapseTextEmpCurrentAddressDetails").hasClass('fa-minus'))
+        {
+            $("#CollapseTextEmpCurrentAddressDetails").removeClass('fa-minus');
+            $("#CollapseTextEmpCurrentAddressDetails").addClass('fa-plus');
+        }
+        else
+        {
+            $("#CollapseTextEmpCurrentAddressDetails").removeClass('fa-plus');
+            $("#CollapseTextEmpCurrentAddressDetails").addClass('fa-minus');
+
+        }
+        
+    });
+
+    $(document).on('click', '#btn_EmpWorkAddressDetails_collapse_Text', function (e) {
+        if($("#CollapseTextEmpWorkAddressDetails").hasClass('fa-minus'))
+        {
+            $("#CollapseTextEmpWorkAddressDetails").removeClass('fa-minus');
+            $("#CollapseTextEmpWorkAddressDetails").addClass('fa-plus');
+        }
+        else
+        {
+            $("#CollapseTextEmpWorkAddressDetails").removeClass('fa-plus');
+            $("#CollapseTextEmpWorkAddressDetails").addClass('fa-minus');
+
+        }
+        
+    });
+
+    $(document).on('click', '#btn_EmpEducationDetails_collapse_Text', function (e) {
+        if($("#CollapseTextEmpEducationDetails").hasClass('fa-minus'))
+        {
+            $("#CollapseTextEmpEducationDetails").removeClass('fa-minus');
+            $("#CollapseTextEmpEducationDetails").addClass('fa-plus');
+        }
+        else
+        {
+            $("#CollapseTextEmpEducationDetails").removeClass('fa-plus');
+            $("#CollapseTextEmpEducationDetails").addClass('fa-minus');
+
+        }
+        
+    });
+
+    $(document).on('click', '#btn_EmpExperienceDetails_collapse_Text', function (e) {
+        if($("#CollapseTextEmpExperienceDetails").hasClass('fa-minus'))
+        {
+            $("#CollapseTextEmpExperienceDetails").removeClass('fa-minus');
+            $("#CollapseTextEmpExperienceDetails").addClass('fa-plus');
+        }
+        else
+        {
+            $("#CollapseTextEmpExperienceDetails").removeClass('fa-plus');
+            $("#CollapseTextEmpExperienceDetails").addClass('fa-minus');
+
+        }
+        
+    });
+
+
+
     $(document).on('click', '#btnSubmitEmployeeDetails', function (e) {
         if (($("#txtFirstName").val() == "") && ($("#txtLastName").val() == "") && ($("#txtEmail").val() == "") && ($("#txtTelephone").val() == "") && ($('input[name=r2]:checked').length<=0) && ($("#txtBirthday").val() == "")
             && ($("#txtEmployeeNumber").val() == "") && ($("#txtInfrrdEmail").val() == "") && ($("#ddlDesignation").val() == 0) && ($("#ddlEmployeeType").val() == 0) && ($("#ddlEmployeeContractType").val() == 0) && ($("#ddlManagerName").val() == 0) && ($("#ddlProjectName").val() == null)
@@ -961,6 +1077,16 @@
             $('#divEmailAlreadyError').hide();
             $('#EmpPersonalInfoToggle').collapse('show');
             $("#txtFirstName").focus();
+            if($("#EmpPersonalInfoToggle").attr("aria-expanded"))
+            {
+                $("#CollapseTextEmpPersonalInfo").removeClass('fa-plus');
+                $("#CollapseTextEmpPersonalInfo").addClass('fa-minus');
+            }
+            else
+            {
+                $("#CollapseTextEmpPersonalInfo").removeClass('fa-minus');
+                $("#CollapseTextEmpPersonalInfo").addClass('fa-plus');
+            }
             
             return false;
         }
@@ -969,12 +1095,32 @@
             $('#EmpPersonalInfoToggle').collapse('show');
             $('#divFirstNameError').show();
             $("#txtFirstName").focus();
+            if($("#EmpPersonalInfoToggle").attr("aria-expanded"))
+            {
+                $("#CollapseTextEmpPersonalInfo").removeClass('fa-plus');
+                $("#CollapseTextEmpPersonalInfo").addClass('fa-minus');
+            }
+            else
+            {
+                $("#CollapseTextEmpPersonalInfo").removeClass('fa-minus');
+                $("#CollapseTextEmpPersonalInfo").addClass('fa-plus');
+            }
             return false;
         }
         if ($("#txtLastName").val() == "") {
             $('#EmpPersonalInfoToggle').collapse('show');
             $('#divLastNameError').show();
             $("#txtLastName").focus();
+            if($("#EmpPersonalInfoToggle").attr("aria-expanded"))
+            {
+                $("#CollapseTextEmpPersonalInfo").removeClass('fa-plus');
+                $("#CollapseTextEmpPersonalInfo").addClass('fa-minus');
+            }
+            else
+            {
+                $("#CollapseTextEmpPersonalInfo").removeClass('fa-minus');
+                $("#CollapseTextEmpPersonalInfo").addClass('fa-plus');
+            }
             return false;
         }
         if ($("#txtEmail").val() == "") {
@@ -983,6 +1129,16 @@
             $('#divInvalidEmailError').hide();
             $('#divEmailAlreadyError').hide();
             $("#txtEmail").focus();
+            if($("#EmpPersonalInfoToggle").attr("aria-expanded"))
+            {
+                $("#CollapseTextEmpPersonalInfo").removeClass('fa-plus');
+                $("#CollapseTextEmpPersonalInfo").addClass('fa-minus');
+            }
+            else
+            {
+                $("#CollapseTextEmpPersonalInfo").removeClass('fa-minus');
+                $("#CollapseTextEmpPersonalInfo").addClass('fa-plus');
+            }
             return false;
         }
         var reg = /^\w+([-+.']\w+)*@Html.Raw("@")\w+([-.]\w+)*\.\w+([-.]\w+)*$/
@@ -991,6 +1147,16 @@
             $('#divInvalidEmailError').show();
             $('#divEmailError').hide();
             $("#txtEmail").focus();
+            if($("#EmpPersonalInfoToggle").attr("aria-expanded"))
+            {
+                $("#CollapseTextEmpPersonalInfo").removeClass('fa-plus');
+                $("#CollapseTextEmpPersonalInfo").addClass('fa-minus');
+            }
+            else
+            {
+                $("#CollapseTextEmpPersonalInfo").removeClass('fa-minus');
+                $("#CollapseTextEmpPersonalInfo").addClass('fa-plus');
+            }
             return false;
         }
         else
@@ -1004,6 +1170,16 @@
             $('#EmpPersonalInfoToggle').collapse('show');
             $('#divTelephoneError').show();
             $("#txtTelephone").focus();
+            if($("#EmpPersonalInfoToggle").attr("aria-expanded"))
+            {
+                $("#CollapseTextEmpPersonalInfo").removeClass('fa-plus');
+                $("#CollapseTextEmpPersonalInfo").addClass('fa-minus');
+            }
+            else
+            {
+                $("#CollapseTextEmpPersonalInfo").removeClass('fa-minus');
+                $("#CollapseTextEmpPersonalInfo").addClass('fa-plus');
+            }
             return false;
         }
 
@@ -1011,6 +1187,16 @@
             $('#EmpPersonalInfoToggle').collapse('show');
             $('#divGenderError').show();
             $("input[name=r2]").focus();
+            if($("#EmpPersonalInfoToggle").attr("aria-expanded"))
+            {
+                $("#CollapseTextEmpPersonalInfo").removeClass('fa-plus');
+                $("#CollapseTextEmpPersonalInfo").addClass('fa-minus');
+            }
+            else
+            {
+                $("#CollapseTextEmpPersonalInfo").removeClass('fa-minus');
+                $("#CollapseTextEmpPersonalInfo").addClass('fa-plus');
+            }
             return false;
         }
 
@@ -1018,6 +1204,16 @@
             $('#EmpPersonalInfoToggle').collapse('show');
             $('#divBirthDayError').show();
             $("#txtBirthday").focus();
+            if($("#EmpPersonalInfoToggle").attr("aria-expanded"))
+            {
+                $("#CollapseTextEmpPersonalInfo").removeClass('fa-plus');
+                $("#CollapseTextEmpPersonalInfo").addClass('fa-minus');
+            }
+            else
+            {
+                $("#CollapseTextEmpPersonalInfo").removeClass('fa-minus');
+                $("#CollapseTextEmpPersonalInfo").addClass('fa-plus');
+            }
             return false;
         }
         if ($("#txtEmployeeNumber").val() == "") {
@@ -1025,6 +1221,16 @@
             $('#divEmployeeNumberError').show();
             $('#divEmployeeNumberAlreadyError').hide();
             $("#txtEmployeeNumber").focus();
+            if($("#EmpCompanyInfoToggle").attr("aria-expanded"))
+            {
+                $("#CollapseTextEmpCompanyInfo").removeClass('fa-plus');
+                $("#CollapseTextEmpCompanyInfo").addClass('fa-minus');
+            }
+            else
+            {
+                $("#CollapseTextEmpCompanyInfo").removeClass('fa-minus');
+                $("#CollapseTextEmpCompanyInfo").addClass('fa-plus');
+            }
             return false;
         }
 
@@ -1034,6 +1240,16 @@
             $('#divInfrrdEmailError').show();
             $('#divInvalidInfrrdEmailError').hide();
             $("#txtInfrrdEmail").focus();
+            if($("#EmpCompanyInfoToggle").attr("aria-expanded"))
+            {
+                $("#CollapseTextEmpCompanyInfo").removeClass('fa-plus');
+                $("#CollapseTextEmpCompanyInfo").addClass('fa-minus');
+            }
+            else
+            {
+                $("#CollapseTextEmpCompanyInfo").removeClass('fa-minus');
+                $("#CollapseTextEmpCompanyInfo").addClass('fa-plus');
+            }
             return false;
         }
         var reg = /^\w+([-+.']\w+)*@Html.Raw("@")\w+([-.]\w+)*\.\w+([-.]\w+)*$/
@@ -1042,6 +1258,16 @@
             $('#divInvalidInfrrdEmailError').show();
             $('#divInfrrdEmailError').hide();
             $("#txtInfrrdEmail").focus();
+            if($("#EmpCompanyInfoToggle").attr("aria-expanded"))
+            {
+                $("#CollapseTextEmpCompanyInfo").removeClass('fa-plus');
+                $("#CollapseTextEmpCompanyInfo").addClass('fa-minus');
+            }
+            else
+            {
+                $("#CollapseTextEmpCompanyInfo").removeClass('fa-minus');
+                $("#CollapseTextEmpCompanyInfo").addClass('fa-plus');
+            }
             return false;
         }
         else
@@ -1054,6 +1280,16 @@
             $('#EmpCompanyInfoToggle').collapse('show');
             $('#divDateOfJoiningError').show();
             $("#txtJoiningDate").focus();
+            if($("#EmpCompanyInfoToggle").attr("aria-expanded"))
+            {
+                $("#CollapseTextEmpCompanyInfo").removeClass('fa-plus');
+                $("#CollapseTextEmpCompanyInfo").addClass('fa-minus');
+            }
+            else
+            {
+                $("#CollapseTextEmpCompanyInfo").removeClass('fa-minus');
+                $("#CollapseTextEmpCompanyInfo").addClass('fa-plus');
+            }
             return false;
         }
 
@@ -1061,6 +1297,16 @@
             $('#EmpCompanyInfoToggle').collapse('show');
             $('#divDesignationError').show();
             $("#ddlDesignation").focus();
+            if($("#EmpCompanyInfoToggle").attr("aria-expanded"))
+            {
+                $("#CollapseTextEmpCompanyInfo").removeClass('fa-plus');
+                $("#CollapseTextEmpCompanyInfo").addClass('fa-minus');
+            }
+            else
+            {
+                $("#CollapseTextEmpCompanyInfo").removeClass('fa-minus');
+                $("#CollapseTextEmpCompanyInfo").addClass('fa-plus');
+            }
             return false;
         }
 
@@ -1068,6 +1314,16 @@
             $('#EmpCompanyInfoToggle').collapse('show');
             $('#divEmployeeTypeError').show();
             $("#ddlEmployeeType").focus();
+            if($("#EmpCompanyInfoToggle").attr("aria-expanded"))
+            {
+                $("#CollapseTextEmpCompanyInfo").removeClass('fa-plus');
+                $("#CollapseTextEmpCompanyInfo").addClass('fa-minus');
+            }
+            else
+            {
+                $("#CollapseTextEmpCompanyInfo").removeClass('fa-minus');
+                $("#CollapseTextEmpCompanyInfo").addClass('fa-plus');
+            }
             return false;
         }
 
@@ -1075,25 +1331,65 @@
             $('#EmpCompanyInfoToggle').collapse('show');
             $('#divEmployeeContractTypeError').show();
             $("#ddlEmployeeContractType").focus();
+            if($("#EmpCompanyInfoToggle").attr("aria-expanded"))
+            {
+                $("#CollapseTextEmpCompanyInfo").removeClass('fa-plus');
+                $("#CollapseTextEmpCompanyInfo").addClass('fa-minus');
+            }
+            else
+            {
+                $("#CollapseTextEmpCompanyInfo").removeClass('fa-minus');
+                $("#CollapseTextEmpCompanyInfo").addClass('fa-plus');
+            }
             return false;
         }
         if ($("#ddlManagerName").val() == 0) {
             $('#EmpCompanyInfoToggle').collapse('show');
             $('#divManagerNameError').show();
             $("#ddlManagerName").focus();
+            if($("#EmpCompanyInfoToggle").attr("aria-expanded"))
+            {
+                $("#CollapseTextEmpCompanyInfo").removeClass('fa-plus');
+                $("#CollapseTextEmpCompanyInfo").addClass('fa-minus');
+            }
+            else
+            {
+                $("#CollapseTextEmpCompanyInfo").removeClass('fa-minus');
+                $("#CollapseTextEmpCompanyInfo").addClass('fa-plus');
+            }
             return false;
         }
         if ($("#ddlProjectName").val() == null) {
             $('#EmpCompanyInfoToggle').collapse('show');
             $('#divProjectNameError').show();
             $("#ddlProjectName").focus();
+            if($("#EmpCompanyInfoToggle").attr("aria-expanded"))
+            {
+                $("#CollapseTextEmpCompanyInfo").removeClass('fa-plus');
+                $("#CollapseTextEmpCompanyInfo").addClass('fa-minus');
+            }
+            else
+            {
+                $("#CollapseTextEmpCompanyInfo").removeClass('fa-minus');
+                $("#CollapseTextEmpCompanyInfo").addClass('fa-plus');
+            }
             return false;
         }
-
+        
         if ($("#txtEmergencyContactName").val() == "") {
             $('#EmpEmergencyContactDetailsToggle').collapse('show');
             $('#divEmergencyContactNameError').show();
             $("#txtEmergencyContactName").focus();
+            if($("#EmpEmergencyContactDetailsToggle").attr("aria-expanded"))
+            {
+                $("#CollapseTextEmpEmergencyContactDetails").removeClass('fa-plus');
+                $("#CollapseTextEmpEmergencyContactDetails").addClass('fa-minus');
+            }
+            else
+            {
+                $("#CollapseTextEmpEmergencyContactDetails").removeClass('fa-minus');
+                $("#CollapseTextEmpEmergencyContactDetails").addClass('fa-plus');
+            }
             return false;
         }
 
@@ -1101,6 +1397,16 @@
             $('#EmpEmergencyContactDetailsToggle').collapse('show');
             $('#divEmergencyContactRelationshipError').show();
             $("#ddlEmergencyContactRelationship").focus();
+            if($("#EmpEmergencyContactDetailsToggle").attr("aria-expanded"))
+            {
+                $("#CollapseTextEmpEmergencyContactDetails").removeClass('fa-plus');
+                $("#CollapseTextEmpEmergencyContactDetails").addClass('fa-minus');
+            }
+            else
+            {
+                $("#CollapseTextEmpEmergencyContactDetails").removeClass('fa-minus');
+                $("#CollapseTextEmpEmergencyContactDetails").addClass('fa-plus');
+            }
             return false;
         }
 
@@ -1108,6 +1414,16 @@
             $('#EmpEmergencyContactDetailsToggle').collapse('show');
             $('#divEmergencyContactTelephoneError').show();
             $("#txtEmergencyContactTelephone").focus();
+            if($("#EmpEmergencyContactDetailsToggle").attr("aria-expanded"))
+            {
+                $("#CollapseTextEmpEmergencyContactDetails").removeClass('fa-plus');
+                $("#CollapseTextEmpEmergencyContactDetails").addClass('fa-minus');
+            }
+            else
+            {
+                $("#CollapseTextEmpEmergencyContactDetails").removeClass('fa-minus');
+                $("#CollapseTextEmpEmergencyContactDetails").addClass('fa-plus');
+            }
             return false;
         }
 
@@ -1115,6 +1431,16 @@
             $('#EmpEmergencyContactDetailsToggle').collapse('show');
             $('#divEmergencyContactCountryError').show();
             $("#ddlEmergencyContactCountry").focus();
+            if($("#EmpEmergencyContactDetailsToggle").attr("aria-expanded"))
+            {
+                $("#CollapseTextEmpEmergencyContactDetails").removeClass('fa-plus');
+                $("#CollapseTextEmpEmergencyContactDetails").addClass('fa-minus');
+            }
+            else
+            {
+                $("#CollapseTextEmpEmergencyContactDetails").removeClass('fa-minus');
+                $("#CollapseTextEmpEmergencyContactDetails").addClass('fa-plus');
+            }
             return false;
         }
 
@@ -1122,6 +1448,16 @@
             $('#EmpPermanentAddressDetailsToggle').collapse('show');
             $('#divPermanentCountryError').show();
             $("#ddlPermanentCountry").focus();
+            if($("#EmpPermanentAddressDetailsToggle").attr("aria-expanded"))
+            {
+                $("#CollapseTextEmpPermanentAddressDetails").removeClass('fa-plus');
+                $("#CollapseTextEmpPermanentAddressDetails").addClass('fa-minus');
+            }
+            else
+            {
+                $("#CollapseTextEmpPermanentAddressDetails").removeClass('fa-minus');
+                $("#CollapseTextEmpPermanentAddressDetails").addClass('fa-plus');
+            }
             return false;
         }
 
@@ -1129,6 +1465,16 @@
             $('#EmpPermanentAddressDetailsToggle').collapse('show');
             $('#divPermanentAddressError').show();
             $("#txtPermanentAddress").focus();
+            if($("#EmpPermanentAddressDetailsToggle").attr("aria-expanded"))
+            {
+                $("#CollapseTextEmpPermanentAddressDetails").removeClass('fa-plus');
+                $("#CollapseTextEmpPermanentAddressDetails").addClass('fa-minus');
+            }
+            else
+            {
+                $("#CollapseTextEmpPermanentAddressDetails").removeClass('fa-minus');
+                $("#CollapseTextEmpPermanentAddressDetails").addClass('fa-plus');
+            }
             return false;
         }
 
@@ -1136,6 +1482,16 @@
             $('#EmpCurrentAddressDetailsToggle').collapse('show');
             $('#divCurrentCountryError').show();
             $("#ddlCurrentCountry").focus();
+            if($("#EmpCurrentAddressDetailsToggle").attr("aria-expanded"))
+            {
+                $("#CollapseTextEmpCurrentAddressDetails").removeClass('fa-plus');
+                $("#CollapseTextEmpCurrentAddressDetails").addClass('fa-minus');
+            }
+            else
+            {
+                $("#CollapseTextEmpCurrentAddressDetails").removeClass('fa-minus');
+                $("#CollapseTextEmpCurrentAddressDetails").addClass('fa-plus');
+            }
             return false;
         }
 
@@ -1143,6 +1499,16 @@
             $('#EmpCurrentAddressDetailsToggle').collapse('show');
             $('#divCurrentAddressError').show();
             $("#txtCurrentAddress").focus();
+            if($("#EmpCurrentAddressDetailsToggle").attr("aria-expanded"))
+            {
+                $("#CollapseTextEmpCurrentAddressDetails").removeClass('fa-plus');
+                $("#CollapseTextEmpCurrentAddressDetails").addClass('fa-minus');
+            }
+            else
+            {
+                $("#CollapseTextEmpCurrentAddressDetails").removeClass('fa-minus');
+                $("#CollapseTextEmpCurrentAddressDetails").addClass('fa-plus');
+            }
             return false;
         }
 
@@ -1150,6 +1516,16 @@
             $('#EmpWorkLocationDetailsToggle').collapse('show');
             $('#divFacilityError').show();
             $("#ddlFacility").focus();
+            if($("#EmpWorkLocationDetailsToggle").attr("aria-expanded"))
+            {
+                $("#CollapseTextEmpWorkAddressDetails").removeClass('fa-plus');
+                $("#CollapseTextEmpWorkAddressDetails").addClass('fa-minus');
+            }
+            else
+            {
+                $("#CollapseTextEmpWorkAddressDetails").removeClass('fa-minus');
+                $("#CollapseTextEmpWorkAddressDetails").addClass('fa-plus');
+            }
             return false;
         }
 
@@ -1159,6 +1535,16 @@
             $('#EmpEducationDetailsToggle').collapse('show');
             $('#divGraduationError').show();
             $("#ddlGraduation").focus();
+            if($("#EmpEducationDetailsToggle").attr("aria-expanded"))
+            {
+                $("#CollapseTextEmpEducationDetails").removeClass('fa-plus');
+                $("#CollapseTextEmpEducationDetails").addClass('fa-minus');
+            }
+            else
+            {
+                $("#CollapseTextEmpEducationDetails").removeClass('fa-minus');
+                $("#CollapseTextEmpEducationDetails").addClass('fa-plus');
+            }
             return false;
         }
 
@@ -1166,6 +1552,16 @@
             $('#EmpEducationDetailsToggle').collapse('show');
             $('#divCollegeError').show();
             $("#txtUniversity").focus();
+            if($("#EmpEducationDetailsToggle").attr("aria-expanded"))
+            {
+                $("#CollapseTextEmpEducationDetails").removeClass('fa-plus');
+                $("#CollapseTextEmpEducationDetails").addClass('fa-minus');
+            }
+            else
+            {
+                $("#CollapseTextEmpEducationDetails").removeClass('fa-minus');
+                $("#CollapseTextEmpEducationDetails").addClass('fa-plus');
+            }
             return false;
         }
 
@@ -1173,18 +1569,48 @@
             $('#EmpExperienceDetailsToggle').collapse('show');
             $('#divEmployerError').show();
             $("#txtEmployer").focus();
+            if($("#EmpExperienceDetailsToggle").attr("aria-expanded"))
+            {
+                $("#CollapseTextEmpExperienceDetails").removeClass('fa-plus');
+                $("#CollapseTextEmpExperienceDetails").addClass('fa-minus');
+            }
+            else
+            {
+                $("#CollapseTextEmpExperienceDetails").removeClass('fa-minus');
+                $("#CollapseTextEmpExperienceDetails").addClass('fa-plus');
+            }
             return false;
         }
         if (($("#ddlExperienceDesignation").val() == 0) && ($("#ddlEmployeeType").val() != (@Convert.ToInt16(LMS_WebAPP_Utils.EmployeeType.Fresher)))) {
             $('#EmpExperienceDetailsToggle').collapse('show');
             $('#divEmpDesignationError').show();
             $("#ddlExperienceDesignation").focus();
+            if($("#EmpExperienceDetailsToggle").attr("aria-expanded"))
+            {
+                $("#CollapseTextEmpExperienceDetails").removeClass('fa-plus');
+                $("#CollapseTextEmpExperienceDetails").addClass('fa-minus');
+            }
+            else
+            {
+                $("#CollapseTextEmpExperienceDetails").removeClass('fa-minus');
+                $("#CollapseTextEmpExperienceDetails").addClass('fa-plus');
+            }
             return false;
         }
         if (($("#experienceDatePicker").val()== "") && ($("#ddlEmployeeType").val() != (@Convert.ToInt16(LMS_WebAPP_Utils.EmployeeType.Fresher)))) {
             $('#EmpExperienceDetailsToggle').collapse('show');
             $('#divFromError').show();
             $("#experienceDatePicker").focus();
+            if($("#EmpExperienceDetailsToggle").attr("aria-expanded"))
+            {
+                $("#CollapseTextEmpExperienceDetails").removeClass('fa-plus');
+                $("#CollapseTextEmpExperienceDetails").addClass('fa-minus');
+            }
+            else
+            {
+                $("#CollapseTextEmpExperienceDetails").removeClass('fa-minus');
+                $("#CollapseTextEmpExperienceDetails").addClass('fa-plus');
+            }
             return false;
         }
 
@@ -1192,6 +1618,16 @@
             $('#EmpExperienceDetailsToggle').collapse('show');
             $('#divSkillsError').show();
             $("#ddlSkills").focus();
+            if($("#EmpExperienceDetailsToggle").attr("aria-expanded"))
+            {
+                $("#CollapseTextEmpExperienceDetails").removeClass('fa-plus');
+                $("#CollapseTextEmpExperienceDetails").addClass('fa-minus');
+            }
+            else
+            {
+                $("#CollapseTextEmpExperienceDetails").removeClass('fa-minus');
+                $("#CollapseTextEmpExperienceDetails").addClass('fa-plus');
+            }
             return false;
         }
 
@@ -1353,6 +1789,16 @@
                     $('#divEmailError').hide();
                     $('#divEmailAlreadyError').show();
                     $("#txtEmail").focus();
+                    if($("#EmpPersonalInfoToggle").attr("aria-expanded"))
+                    {
+                        $("#CollapseTextEmpPersonalInfo").removeClass('fa-plus');
+                        $("#CollapseTextEmpPersonalInfo").addClass('fa-minus');
+                    }
+                    else
+                    {
+                        $("#CollapseTextEmpPersonalInfo").removeClass('fa-minus');
+                        $("#CollapseTextEmpPersonalInfo").addClass('fa-plus');
+                    }
                     return false;
                 }
                 else
@@ -1372,6 +1818,16 @@
                                 $('#divEmployeeNumberError').hide();
                                 $('#divEmployeeNumberAlreadyError').show();
                                 $("#txtEmployeeNumber").focus();
+                                if($("#EmpCompanyInfoToggle").attr("aria-expanded"))
+                                {
+                                    $("#CollapseTextEmpCompanyInfo").removeClass('fa-plus');
+                                    $("#CollapseTextEmpCompanyInfo").addClass('fa-minus');
+                                }
+                                else
+                                {
+                                    $("#CollapseTextEmpCompanyInfo").removeClass('fa-minus');
+                                    $("#CollapseTextEmpCompanyInfo").addClass('fa-plus');
+                                }
                                 return false;
                             }
                             else
