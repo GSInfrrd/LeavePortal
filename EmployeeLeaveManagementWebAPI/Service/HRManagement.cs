@@ -112,12 +112,12 @@ namespace LMS_WebAPI_ServiceHelpers
             }
         }
 
-        public bool AddNewProjectInfo(string projectName, string description, string technology, DateTime startDate, int refManager)
+        public bool AddNewProjectInfo(string projectName, string description ,string technology, string technologyDetails, DateTime startDate, int refManager)
         {
             Logger.Info("Entering into HRManagement Service helper AddNewProjectInfo method ");
             try
             {
-                var result = hrRepo.AddNewProjectInfo(projectName, description, technology, startDate, refManager);
+                var result = hrRepo.AddNewProjectInfo(projectName, description, technology, technologyDetails, startDate, refManager);
                 Logger.Info("Exiting from into HRManagement Service helper AddNewProjectInfo method ");
                 return result;
             }
@@ -172,6 +172,149 @@ namespace LMS_WebAPI_ServiceHelpers
             catch
             {
                 Logger.Error("Exception occured at HRManagement Service helper GetSkillsList method ");
+                throw;
+            }
+        }
+
+        public List<CountryDetails> GetCountries()
+        {
+            Logger.Info("Entering into HRManagement Service helper GetCountries method ");
+            try
+            {
+                var result = hrRepo.GetCountries();
+                Logger.Info("Exiting from into HRManagement Service helper GetCountries method ");
+                return result;
+            }
+            catch
+            {
+                Logger.Error("Exception occured at HRManagement Service helper GetCountries method ");
+                throw;
+            }
+        }
+
+        public List<RelationshipDetails> GetRelationships()
+        {
+            Logger.Info("Entering into HRManagement Service helper GetRelationships method ");
+            try
+            {
+                var result = hrRepo.GetRelationships();
+                Logger.Info("Exiting from into HRManagement Service helper GetRelationships method ");
+                return result;
+            }
+            catch
+            {
+                Logger.Error("Exception occured at HRManagement Service helper GetRelationships method ");
+                throw;
+            }
+        }
+
+        public List<FacilityDetails> GetFacilities()
+        {
+            Logger.Info("Entering into HRManagement Service helper GetFacilities method ");
+            try
+            {
+                var result = hrRepo.GetFacilities();
+                Logger.Info("Exiting from into HRManagement Service helper GetFacilities method ");
+                return result;
+            }
+            catch
+            {
+                Logger.Error("Exception occured at HRManagement Service helper GetFacilities method ");
+                throw;
+            }
+        }
+
+
+        public List<StateDetails> GetStates(int CountryId)
+        {
+            Logger.Info("Entering into HRManagement Service helper GetStates method ");
+            try
+            {
+                var result = hrRepo.GetStates(CountryId);
+                Logger.Info("Exiting from into HRManagement Service helper GetStates method ");
+                return result;
+            }
+            catch
+            {
+                Logger.Error("Exception occured at HRManagement Service helper GetStates method ");
+                throw;
+            }
+        }
+
+        public FacilityDetails GetWorkFacilityDetails(int FacilityId)
+        {
+            Logger.Info("Entering into HRManagement Service helper GetWorkFacilityDetails method ");
+            try
+            {
+                var result = hrRepo.GetWorkFacilityDetails(FacilityId);
+                Logger.Info("Exiting from into HRManagement Service helper GetWorkFacilityDetails method ");
+                return result;
+            }
+            catch
+            {
+                Logger.Error("Exception occured at HRManagement Service helper GetWorkFacilityDetails method ");
+                throw;
+            }
+        }
+        public List<CityDetails> GetCities(int StateId)
+        {
+            Logger.Info("Entering into HRManagement Service helper GetCities method ");
+            try
+            {
+                var result = hrRepo.GetCities(StateId);
+                Logger.Info("Exiting from into HRManagement Service helper GetCities method ");
+                return result;
+            }
+            catch
+            {
+                Logger.Error("Exception occured at HRManagement Service helper GetCities method ");
+                throw;
+            }
+        }
+
+        public List<FacilityDetails> GetFacilities(int CityId)
+        {
+            Logger.Info("Entering into HRManagement Service helper GetFacilities method ");
+            try
+            {
+                var result = hrRepo.GetFacilities(CityId);
+                Logger.Info("Exiting from into HRManagement Service helper GetFacilities method ");
+                return result;
+            }
+            catch
+            {
+                Logger.Error("Exception occured at HRManagement Service helper GetFacilities method ");
+                throw;
+            }
+        }
+        public List<TechnologyDetails> GetTechnologiesList()
+        {
+            Logger.Info("Entering into HRManagement Service helper GetTechnologiesList method ");
+            try
+            {
+                var result = hrRepo.GetTechnologiesList();
+                Logger.Info("Exiting from into HRManagement Service helper GetTechnologiesList method ");
+                return result;
+            }
+            catch
+            {
+                Logger.Error("Exception occured at HRManagement Service helper GetTechnologiesList method ");
+                throw;
+            }
+        }
+
+        public List<TechnologyDescriptions> GetTechnologyDetailsList(List<TechnologyDetails> technologies)
+        {
+            Logger.Info("Entering into HRManagement Service helper GetTechnologyDetailsList method ");
+            try
+            {
+                var result = hrRepo.GetTechnologyDetailsList(technologies);
+                Logger.Info("Exiting from into HRManagement Service helper GetTechnologyDetailsList method ");
+                return result;
+            }
+            catch
+            {
+                Logger.Error("Exception occured at HRManagement Service helper GetTechnologyDetailsList method ");
                 throw;
             }
         }

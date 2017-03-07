@@ -50,6 +50,18 @@ namespace LMS_WebAPI_DAL
         public virtual DbSet<UserAccount> UserAccounts { get; set; }
         public virtual DbSet<Workflow> Workflows { get; set; }
         public virtual DbSet<WorkFromHome> WorkFromHomes { get; set; }
+        public virtual DbSet<TechnologyDetail> TechnologyDetails { get; set; }
+        public virtual DbSet<TechnologyMaster> TechnologyMasters { get; set; }
+        public virtual DbSet<CityDetail> CityDetails { get; set; }
+        public virtual DbSet<CountryDetail> CountryDetails { get; set; }
+        public virtual DbSet<EmployeeCurrentAddressDetail> EmployeeCurrentAddressDetails { get; set; }
+        public virtual DbSet<EmployeeEmergencyContactDetail> EmployeeEmergencyContactDetails { get; set; }
+        public virtual DbSet<EmployeePermanentAddressDetail> EmployeePermanentAddressDetails { get; set; }
+        public virtual DbSet<Geo_Location_Country_Master> Geo_Location_Country_Master { get; set; }
+        public virtual DbSet<Geo_Location_City_Master> Geo_Location_City_Master { get; set; }
+        public virtual DbSet<Geo_Location_State_Master> Geo_Location_State_Master { get; set; }
+        public virtual DbSet<Geo_Location_Facility_Master> Geo_Location_Facility_Master { get; set; }
+        public virtual DbSet<EmployeeWorkLocationDetail> EmployeeWorkLocationDetails { get; set; }
     
         public virtual ObjectResult<GetLeaveReportProcedure_Result> GetLeaveReportProcedure(string year)
         {

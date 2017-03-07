@@ -41,6 +41,10 @@ namespace LMS_WebAPI_DAL
             this.ProjectMasters = new HashSet<ProjectMaster>();
             this.ResourceRequestDetails = new HashSet<ResourceRequestDetail>();
             this.WorkFromHomes = new HashSet<WorkFromHome>();
+            this.EmployeeCurrentAddressDetails = new HashSet<EmployeeCurrentAddressDetail>();
+            this.EmployeeEmergencyContactDetails = new HashSet<EmployeeEmergencyContactDetail>();
+            this.EmployeePermanentAddressDetails = new HashSet<EmployeePermanentAddressDetail>();
+            this.EmployeeWorkLocationDetails = new HashSet<EmployeeWorkLocationDetail>();
         }
     
         public int Id { get; set; }
@@ -67,6 +71,12 @@ namespace LMS_WebAPI_DAL
         public string GooglePlusLink { get; set; }
         public int RefEmployeeType { get; set; }
         public int RefProfileType { get; set; }
+        public string Gender { get; set; }
+        public string PassportNumber { get; set; }
+        public string InfrrdEmailId { get; set; }
+        public Nullable<int> RefEmployeeContractType { get; set; }
+        public Nullable<System.DateTime> DateOfConfirmation { get; set; }
+        public string BloodGroup { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<EmployeeContactDetail> EmployeeContactDetails { get; set; }
@@ -121,5 +131,13 @@ namespace LMS_WebAPI_DAL
         public virtual ICollection<ResourceRequestDetail> ResourceRequestDetails { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<WorkFromHome> WorkFromHomes { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<EmployeeCurrentAddressDetail> EmployeeCurrentAddressDetails { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<EmployeeEmergencyContactDetail> EmployeeEmergencyContactDetails { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<EmployeePermanentAddressDetail> EmployeePermanentAddressDetails { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<EmployeeWorkLocationDetail> EmployeeWorkLocationDetails { get; set; }
     }
 }

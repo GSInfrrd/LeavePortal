@@ -216,6 +216,14 @@ namespace LMS_WebAPP_Utils
         Experienced = 152
     }
 
+    public enum EmployeeContractType
+    {
+        [Description("Permanent")]
+        Permanent = 261,
+        [Description("Temprary")]
+        Temprary = 262
+    }
+
     public enum ProfileType
     {
         [Description("CEO")]
@@ -226,6 +234,14 @@ namespace LMS_WebAPP_Utils
         Manager = 202,
         [Description("Employee")]
         Employee = 203
+    }
+
+    public enum EmployeeGender
+    {
+        [Description("Male")]
+        Male = 291,
+        [Description("Female")]
+        Female = 292
     }
 
     public enum GraduationDegree

@@ -126,12 +126,12 @@ namespace EmployeeLeaveManagementWebAPI.Controllers
         }
 
         [System.Web.Http.HttpGet]
-        public bool AddNewProjectInfo(string projectName, string description, string technology, DateTime startDate, int refManager)
+        public bool AddNewProjectInfo(string projectName, string description, string technology, string technologyDetails, DateTime startDate, int refManager)
         {
             try
             {
                 Logger.Info("Entering in HRController API AddNewProjectInfo method");
-                var empData = hrOperations.AddNewProjectInfo(projectName, description, technology, startDate, refManager);
+                var empData = hrOperations.AddNewProjectInfo(projectName, description, technology, technologyDetails, startDate, refManager);
                 Logger.Info("Successfully exiting from HRController API AddNewProjectInfo method");
                 return empData;
             }
@@ -212,6 +212,170 @@ namespace EmployeeLeaveManagementWebAPI.Controllers
             catch (Exception ex)
             {
                 Logger.Error("Error at HRController API GetSkillsList method.", ex);
+                return null;
+            }
+        }
+
+        [HttpGet]
+        [Route("GetCountries")]
+        public List<CountryDetails> GetCountries()
+        {
+            try
+            {
+                Logger.Info("Entering in HRController API GetCountries method");
+                var result = hrOperations.GetCountries();
+                Logger.Info("Successfully exiting from HRController API GetCountries method");
+                return result;
+            }
+            catch (Exception ex)
+            {
+                Logger.Error("Error at HRController API GetCountries method.", ex);
+                return null;
+            }
+        }
+
+
+        [HttpGet]
+        [Route("GetRelationships")]
+        public List<RelationshipDetails> GetRelationships()
+        {
+            try
+            {
+                Logger.Info("Entering in HRController API GetRelationships method");
+                var result = hrOperations.GetRelationships();
+                Logger.Info("Successfully exiting from HRController API GetRelationships method");
+                return result;
+            }
+            catch (Exception ex)
+            {
+                Logger.Error("Error at HRController API GetRelationships method.", ex);
+                return null;
+            }
+        }
+
+        [HttpGet]
+        [Route("GetFacilities")]
+        public List<FacilityDetails> GetFacilities()
+        {
+            try
+            {
+                Logger.Info("Entering in HRController API GetFacilities method");
+                var result = hrOperations.GetFacilities();
+                Logger.Info("Successfully exiting from HRController API GetFacilities method");
+                return result;
+            }
+            catch (Exception ex)
+            {
+                Logger.Error("Error at HRController API GetFacilities method.", ex);
+                return null;
+            }
+        }
+
+
+        [HttpGet]
+        [Route("GetStates")]
+        public List<StateDetails> GetStates(int CountryId)
+        {
+            try
+            {
+                Logger.Info("Entering in HRController API GetStates method");
+                var result = hrOperations.GetStates(CountryId);
+                Logger.Info("Successfully exiting from HRController API GetStates method");
+                return result;
+            }
+            catch (Exception ex)
+            {
+                Logger.Error("Error at HRController API GetStates method.", ex);
+                return null;
+            }
+        }
+
+        [HttpGet]
+        [Route("GetWorkFacilityDetails")]
+        public FacilityDetails GetWorkFacilityDetails(int FacilityId)
+        {
+            try
+            {
+                Logger.Info("Entering in HRController API GetWorkFacilityDetails method");
+                var result = hrOperations.GetWorkFacilityDetails(FacilityId);
+                Logger.Info("Successfully exiting from HRController API GetWorkFacilityDetails method");
+                return result;
+            }
+            catch (Exception ex)
+            {
+                Logger.Error("Error at HRController API GetWorkFacilityDetails method.", ex);
+                return null;
+            }
+        }
+
+        [HttpGet]
+        [Route("GetCities")]
+        public List<CityDetails> GetCities(int StateId)
+        {
+            try
+            {
+                Logger.Info("Entering in HRController API GetCities method");
+                var result = hrOperations.GetCities(StateId);
+                Logger.Info("Successfully exiting from HRController API GetCities method");
+                return result;
+            }
+            catch (Exception ex)
+            {
+                Logger.Error("Error at HRController API GetCities method.", ex);
+                return null;
+            }
+        }
+
+        [HttpGet]
+        [Route("GetFacilities")]
+        public List<FacilityDetails> GetFacilities(int CityId)
+        {
+            try
+            {
+                Logger.Info("Entering in HRController API GetFacilities method");
+                var result = hrOperations.GetFacilities(CityId);
+                Logger.Info("Successfully exiting from HRController API GetFacilities method");
+                return result;
+            }
+            catch (Exception ex)
+            {
+                Logger.Error("Error at HRController API GetFacilities method.", ex);
+                return null;
+            }
+        }
+
+        [HttpGet]
+        [Route("GetTechnologiesList")]
+        public List<TechnologyDetails> GetTechnologiesList()
+        {
+            try
+            {
+                Logger.Info("Entering in HRController API GetTechnologiesList method");
+                var result = hrOperations.GetTechnologiesList();
+                Logger.Info("Successfully exiting from HRController API GetTechnologiesList method");
+                return result;
+            }
+            catch (Exception ex)
+            {
+                Logger.Error("Error at HRController API GetTechnologiesList method.", ex);
+                return null;
+            }
+        }
+
+        [HttpPost]
+        [Route("GetTechnologyDetailsList")]
+        public List<TechnologyDescriptions> GetTechnologyDetailsList(List<TechnologyDetails> technologies)
+        {
+            try
+            {
+                Logger.Info("Entering in HRController API GetTechnologyDetailsList method");
+                var result = hrOperations.GetTechnologyDetailsList(technologies);
+                Logger.Info("Successfully exiting from HRController API GetTechnologyDetailsList method");
+                return result;
+            }
+            catch (Exception ex)
+            {
+                Logger.Error("Error at HRController API GetTechnologyDetailsList method.", ex);
                 return null;
             }
         }

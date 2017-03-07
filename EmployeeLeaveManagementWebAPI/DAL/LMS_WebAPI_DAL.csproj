@@ -78,6 +78,12 @@
     <Compile Include="Announcement.cs">
       <DependentUpon>EmployeeLeaveManagement.tt</DependentUpon>
     </Compile>
+    <Compile Include="CityDetail.cs">
+      <DependentUpon>EmployeeLeaveManagement.tt</DependentUpon>
+    </Compile>
+    <Compile Include="CountryDetail.cs">
+      <DependentUpon>EmployeeLeaveManagement.tt</DependentUpon>
+    </Compile>
     <Compile Include="EmailTemplateMapping.cs">
       <DependentUpon>EmployeeLeaveManagement.tt</DependentUpon>
     </Compile>
@@ -87,10 +93,16 @@
     <Compile Include="EmployeeContactDetail.cs">
       <DependentUpon>EmployeeLeaveManagement.tt</DependentUpon>
     </Compile>
+    <Compile Include="EmployeeCurrentAddressDetail.cs">
+      <DependentUpon>EmployeeLeaveManagement.tt</DependentUpon>
+    </Compile>
     <Compile Include="EmployeeDetail.cs">
       <DependentUpon>EmployeeLeaveManagement.tt</DependentUpon>
     </Compile>
     <Compile Include="EmployeeEducationDetail.cs">
+      <DependentUpon>EmployeeLeaveManagement.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EmployeeEmergencyContactDetail.cs">
       <DependentUpon>EmployeeLeaveManagement.tt</DependentUpon>
     </Compile>
     <Compile Include="EmployeeExperienceDetail.cs">
@@ -119,6 +131,9 @@
     <Compile Include="EmployeeLeaveTransaction.cs">
       <DependentUpon>EmployeeLeaveManagement.tt</DependentUpon>
     </Compile>
+    <Compile Include="EmployeePermanentAddressDetail.cs">
+      <DependentUpon>EmployeeLeaveManagement.tt</DependentUpon>
+    </Compile>
     <Compile Include="EmployeeProjectDetail.cs">
       <DependentUpon>EmployeeLeaveManagement.tt</DependentUpon>
     </Compile>
@@ -126,6 +141,21 @@
       <DependentUpon>EmployeeLeaveManagement.tt</DependentUpon>
     </Compile>
     <Compile Include="EmployeeSkill.cs">
+      <DependentUpon>EmployeeLeaveManagement.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EmployeeWorkLocationDetail.cs">
+      <DependentUpon>EmployeeLeaveManagement.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Geo_Location_City_Master.cs">
+      <DependentUpon>EmployeeLeaveManagement.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Geo_Location_Country_Master.cs">
+      <DependentUpon>EmployeeLeaveManagement.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Geo_Location_Facility_Master.cs">
+      <DependentUpon>EmployeeLeaveManagement.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Geo_Location_State_Master.cs">
       <DependentUpon>EmployeeLeaveManagement.tt</DependentUpon>
     </Compile>
     <Compile Include="GetLeaveReportProcedure_Result.cs">
@@ -173,6 +203,12 @@
     <Compile Include="Repositories\UserRepository.cs" />
     <Compile Include="Repositories\WorkFromHomeRepository.cs" />
     <Compile Include="ResourceRequestDetail.cs">
+      <DependentUpon>EmployeeLeaveManagement.tt</DependentUpon>
+    </Compile>
+    <Compile Include="TechnologyDetail.cs">
+      <DependentUpon>EmployeeLeaveManagement.tt</DependentUpon>
+    </Compile>
+    <Compile Include="TechnologyMaster.cs">
       <DependentUpon>EmployeeLeaveManagement.tt</DependentUpon>
     </Compile>
     <Compile Include="UserAccount.cs">

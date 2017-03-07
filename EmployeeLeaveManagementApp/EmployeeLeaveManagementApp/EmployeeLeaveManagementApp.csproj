@@ -271,6 +271,7 @@
     <Compile Include="Models\LoginModel.cs" />
     <Compile Include="Models\Messages.cs" />
     <Compile Include="Models\MessagesRepository.cs" />
+    <Compile Include="Models\ProjectDetails.cs" />
     <Compile Include="Models\ResourceDetailsModel.cs" />
     <Compile Include="NotificationHub.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -283,9 +284,23 @@
     <Content Include="bootstrap\js\bootstrap.js" />
     <Content Include="bootstrap\js\bootstrap.min.js" />
     <Content Include="bootstrap\js\npm.js" />
+    <Content Include="Content\bootstrap-theme.css" />
+    <Content Include="Content\bootstrap-theme.min.css" />
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
     <Content Include="Content\Common.css" />
+    <Content Include="Content\Images\AnnouncementImage.jpg" />
+    <Content Include="Content\Images\DefaultImage.png" />
+    <Content Include="Content\Images\difference between abstraction and encapsulation.png" />
+    <Content Include="Content\Images\EmployeeImages\Alekya.jpg" />
+    <Content Include="Content\Images\EmployeeImages\difference between abstraction and encapsulation.png" />
+    <Content Include="Content\Images\EmployeeImages\Girija.jpg" />
+    <Content Include="Content\Images\EmployeeImages\High level solution Diagram.png" />
+    <Content Include="Content\Images\EmployeeImages\Pruthvi.jpg" />
+    <Content Include="Content\Images\EmployeeImages\Riya.jpg" />
+    <Content Include="Content\Images\EmployeeImages\riya.png" />
+    <Content Include="Content\Images\EmployeeImages\vikash_image1.jpg" />
+    <Content Include="Content\Images\Flag.png" />
     <Content Include="Content\Images\Jcrop.gif" />
     <Content Include="Content\Images\LoadingGif.gif" />
     <Content Include="Content\Images\Christmas.png" />
@@ -1217,6 +1232,12 @@
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
     <Content Include="App_Browsers\qt.browser" />
+    <Content Include="Content\Images\EmployeeImages\Vikash_Resume_2016.docx" />
+    <Content Include="Content\bootstrap-theme.css.map" />
+    <Content Include="Content\bootstrap-theme.min.css.map" />
+    <Content Include="Content\bootstrap.css.map" />
+    <Content Include="Content\bootstrap.min.css.map" />
+    <None Include="Properties\PublishProfiles\APP.pubxml" />
     <None Include="Scripts\jquery.validate-vsdoc.js" />
     <Content Include="Scripts\jquery-3.1.1.min.js" />
     <Content Include="Scripts\jquery.Jcrop.js" />
@@ -1276,6 +1297,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Content\Plugins\select2\i18n\" />
     <Folder Include="Documents\" />
     <Folder Include="Views\Image\" />
   </ItemGroup>

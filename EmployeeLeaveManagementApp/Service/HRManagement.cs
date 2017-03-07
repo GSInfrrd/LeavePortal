@@ -240,15 +240,28 @@ namespace LMS_WebAPP_ServiceHelpers
             }
         }
 
-        public async Task<bool> AddNewProjectInfoAsync(string projectName, string description, string technology, DateTime startDate, int refManager)
+        public async Task<bool> AddNewProjectInfoAsync(string projectName, string description, List<string> technologies, List<string> technologyDescriptions, DateTime startDate, int refManager)
         {
             Logger.Info("Entering into HRManagement APP Service helper AddNewProjectInfoAsync method ");
             try
             {
                 using (HttpClient client = new HttpClient())
                 {
-                    string URL = WebapiURL + "/AddNewMasterDataValues";
-                    urlParameters = "?projectName=" + projectName + "&description=" + description + "&technology=" + technology + "&startDate=" + startDate + "&refManager=" + refManager;
+                    string technology = "";
+                    string technologyDetails = "";
+                    foreach (var TN in technologies)
+                    {
+                        technology += TN + ",";
+                    }
+                    foreach (var TND in technologyDescriptions)
+                    {
+                        technologyDetails += TND + ",";
+                    }
+                    technology = technology.TrimEnd(',');
+                    technologyDetails = technologyDetails.TrimEnd(',');
+                    technologyDetails = technologyDetails.Replace("#", "Sharp");
+                    string URL = WebapiURL + "/AddNewProjectInfo";
+                    urlParameters = "?projectName=" + projectName + "&description=" + description + "&technology=" + technology + "&technologyDetails=" + technologyDetails + "&startDate=" + startDate + "&refManager=" + refManager;
                     client.BaseAddress = new Uri(URL);
                     // Add an Accept header for JSON format.
                     client.DefaultRequestHeaders.Accept.Add(
@@ -492,6 +505,343 @@ namespace LMS_WebAPP_ServiceHelpers
             catch
             {
                 Logger.Error("Exception occured at HRManagement APP Service helper GetSkillsListAsync method ");
+                throw;
+            }
+        }
+
+        public async Task<List<CountryDetails>> GetCountriesAsync()
+        {
+            Logger.Info("Entering into HRManagement APP Service helper GetCountriesAsync method ");
+            try
+            {
+                using (HttpClient client = new HttpClient())
+                {
+                    string URL = WebapiURL + "/GetCountries";
+                    client.BaseAddress = new Uri(URL);
+                    // Add an Accept header for JSON format.
+                    client.DefaultRequestHeaders.Accept.Add(
+                    new MediaTypeWithQualityHeaderValue("application/json"));
+
+                    // List data response.
+                    HttpResponseMessage response = await client.GetAsync(URL);  // Blocking call!
+                    if (response.IsSuccessStatusCode)
+                    {
+                        // Parse the response body. Blocking!
+                        var dataObjects = response.Content.ReadAsAsync<List<CountryDetails>>().Result.ToList();
+                        Logger.Info("Exiting from into HRManagement APP Service helper GetCountriesAsync method ");
+                        return dataObjects;
+                    }
+                    else
+                    {
+                        Console.WriteLine("{0} ({1})", (int)response.StatusCode, response.ReasonPhrase);
+                        Logger.Info("Exiting from into HRManagement APP Service helper GetCountriesAsync method ");
+                        return null;
+                    }
+                }
+            }
+            catch
+            {
+                Logger.Error("Exception occured at HRManagement APP Service helper GetCountriesAsync method ");
+                throw;
+            }
+        }
+
+        public async Task<List<RelationshipDetails>> GetRelationshipsAsync()
+        {
+            Logger.Info("Entering into HRManagement APP Service helper GetRelationshipsAsync method ");
+            try
+            {
+                using (HttpClient client = new HttpClient())
+                {
+                    string URL = WebapiURL + "/GetRelationships";
+                    client.BaseAddress = new Uri(URL);
+                    // Add an Accept header for JSON format.
+                    client.DefaultRequestHeaders.Accept.Add(
+                    new MediaTypeWithQualityHeaderValue("application/json"));
+
+                    // List data response.
+                    HttpResponseMessage response = await client.GetAsync(URL);  // Blocking call!
+                    if (response.IsSuccessStatusCode)
+                    {
+                        // Parse the response body. Blocking!
+                        var dataObjects = response.Content.ReadAsAsync<List<RelationshipDetails>>().Result.ToList();
+                        Logger.Info("Exiting from into HRManagement APP Service helper GetRelationshipsAsync method ");
+                        return dataObjects;
+                    }
+                    else
+                    {
+                        Console.WriteLine("{0} ({1})", (int)response.StatusCode, response.ReasonPhrase);
+                        Logger.Info("Exiting from into HRManagement APP Service helper GetRelationshipsAsync method ");
+                        return null;
+                    }
+                }
+            }
+            catch
+            {
+                Logger.Error("Exception occured at HRManagement APP Service helper GetRelationshipsAsync method ");
+                throw;
+            }
+        }
+
+        public async Task<List<FacilityDetails>> GetFacilitiesAsync()
+        {
+            Logger.Info("Entering into HRManagement APP Service helper GetFacilitiesAsync method ");
+            try
+            {
+                using (HttpClient client = new HttpClient())
+                {
+                    string URL = WebapiURL + "/GetFacilities";
+                    client.BaseAddress = new Uri(URL);
+                    // Add an Accept header for JSON format.
+                    client.DefaultRequestHeaders.Accept.Add(
+                    new MediaTypeWithQualityHeaderValue("application/json"));
+
+                    // List data response.
+                    HttpResponseMessage response = await client.GetAsync(URL);  // Blocking call!
+                    if (response.IsSuccessStatusCode)
+                    {
+                        // Parse the response body. Blocking!
+                        var dataObjects = response.Content.ReadAsAsync<List<FacilityDetails>>().Result.ToList();
+                        Logger.Info("Exiting from into HRManagement APP Service helper GetFacilitiesAsync method ");
+                        return dataObjects;
+                    }
+                    else
+                    {
+                        Console.WriteLine("{0} ({1})", (int)response.StatusCode, response.ReasonPhrase);
+                        Logger.Info("Exiting from into HRManagement APP Service helper GetFacilitiesAsync method ");
+                        return null;
+                    }
+                }
+            }
+            catch
+            {
+                Logger.Error("Exception occured at HRManagement APP Service helper GetFacilitiesAsync method ");
+                throw;
+            }
+        }
+
+        public async Task<List<StateDetails>> GetStatesAsync(int CountryId)
+        {
+            Logger.Info("Entering into HRManagement APP Service helper GetStatesAsync method ");
+            try
+            {
+                using (HttpClient client = new HttpClient())
+                {
+                    string URL = WebapiURL + "/GetStates";
+                    urlParameters = "?CountryId=" + CountryId;
+                    client.BaseAddress = new Uri(URL);
+                    // Add an Accept header for JSON format.
+                    client.DefaultRequestHeaders.Accept.Add(
+                    new MediaTypeWithQualityHeaderValue("application/json"));
+
+                    // List data response.
+                    HttpResponseMessage response = await client.GetAsync(urlParameters);  // Blocking call!
+                    if (response.IsSuccessStatusCode)
+                    {
+                        // Parse the response body. Blocking!
+                        var dataObjects = response.Content.ReadAsAsync<List<StateDetails>>().Result.ToList();
+                        Logger.Info("Exiting from into HRManagement APP Service helper GetStatesAsync method ");
+                        return dataObjects;
+                    }
+                    else
+                    {
+                        Console.WriteLine("{0} ({1})", (int)response.StatusCode, response.ReasonPhrase);
+                        Logger.Info("Exiting from into HRManagement APP Service helper GetStatesAsync method ");
+                        return null;
+                    }
+                }
+            }
+            catch
+            {
+                Logger.Error("Exception occured at HRManagement APP Service helper GetStatesAsync method ");
+                throw;
+            }
+        }
+
+        public async Task<FacilityDetails> GetWorkFacilityDetailsAsync(int FacilityId)
+        {
+            Logger.Info("Entering into HRManagement APP Service helper GetWorkFacilityDetailsAsync method ");
+            try
+            {
+                using (HttpClient client = new HttpClient())
+                {
+                    string URL = WebapiURL + "/GetWorkFacilityDetails";
+                    urlParameters = "?FacilityId=" + FacilityId;
+                    client.BaseAddress = new Uri(URL);
+                    // Add an Accept header for JSON format.
+                    client.DefaultRequestHeaders.Accept.Add(
+                    new MediaTypeWithQualityHeaderValue("application/json"));
+
+                    // List data response.
+                    HttpResponseMessage response = await client.GetAsync(urlParameters);  // Blocking call!
+                    if (response.IsSuccessStatusCode)
+                    {
+                        // Parse the response body. Blocking!
+                        var dataObjects = response.Content.ReadAsAsync<FacilityDetails>().Result;
+                        Logger.Info("Exiting from into HRManagement APP Service helper GetWorkFacilityDetailsAsync method ");
+                        return dataObjects;
+                    }
+                    else
+                    {
+                        Console.WriteLine("{0} ({1})", (int)response.StatusCode, response.ReasonPhrase);
+                        Logger.Info("Exiting from into HRManagement APP Service helper GetWorkFacilityDetailsAsync method ");
+                        return null;
+                    }
+                }
+            }
+            catch
+            {
+                Logger.Error("Exception occured at HRManagement APP Service helper GetWorkFacilityDetailsAsync method ");
+                throw;
+            }
+        }
+
+        public async Task<List<CityDetails>> GetCitiesAsync(int StateId)
+        {
+            Logger.Info("Entering into HRManagement APP Service helper GetCitiesAsync method ");
+            try
+            {
+                using (HttpClient client = new HttpClient())
+                {
+                    string URL = WebapiURL + "/GetCities";
+                    urlParameters = "?StateId=" + StateId;
+                    client.BaseAddress = new Uri(URL);
+                    // Add an Accept header for JSON format.
+                    client.DefaultRequestHeaders.Accept.Add(
+                    new MediaTypeWithQualityHeaderValue("application/json"));
+
+                    // List data response.
+                    HttpResponseMessage response = await client.GetAsync(urlParameters);  // Blocking call!
+                    if (response.IsSuccessStatusCode)
+                    {
+                        // Parse the response body. Blocking!
+                        var dataObjects = response.Content.ReadAsAsync<List<CityDetails>>().Result.ToList();
+                        Logger.Info("Exiting from into HRManagement APP Service helper GetCitiesAsync method ");
+                        return dataObjects;
+                    }
+                    else
+                    {
+                        Console.WriteLine("{0} ({1})", (int)response.StatusCode, response.ReasonPhrase);
+                        Logger.Info("Exiting from into HRManagement APP Service helper GetCitiesAsync method ");
+                        return null;
+                    }
+                }
+            }
+            catch
+            {
+                Logger.Error("Exception occured at HRManagement APP Service helper GetCitiesAsync method ");
+                throw;
+            }
+        }
+
+        public async Task<List<FacilityDetails>> GetFacilitiesAsync(int CityId)
+        {
+            Logger.Info("Entering into HRManagement APP Service helper GetFacilitiesAsync method ");
+            try
+            {
+                using (HttpClient client = new HttpClient())
+                {
+                    string URL = WebapiURL + "/GetFacilities";
+                    urlParameters = "?CityId=" + CityId;
+                    client.BaseAddress = new Uri(URL);
+                    // Add an Accept header for JSON format.
+                    client.DefaultRequestHeaders.Accept.Add(
+                    new MediaTypeWithQualityHeaderValue("application/json"));
+
+                    // List data response.
+                    HttpResponseMessage response = await client.GetAsync(urlParameters);  // Blocking call!
+                    if (response.IsSuccessStatusCode)
+                    {
+                        // Parse the response body. Blocking!
+                        var dataObjects = response.Content.ReadAsAsync<List<FacilityDetails>>().Result.ToList();
+                        Logger.Info("Exiting from into HRManagement APP Service helper GetFacilitiesAsync method ");
+                        return dataObjects;
+                    }
+                    else
+                    {
+                        Console.WriteLine("{0} ({1})", (int)response.StatusCode, response.ReasonPhrase);
+                        Logger.Info("Exiting from into HRManagement APP Service helper GetFacilitiesAsync method ");
+                        return null;
+                    }
+                }
+            }
+            catch
+            {
+                Logger.Error("Exception occured at HRManagement APP Service helper GetFacilitiesAsync method ");
+                throw;
+            }
+        }
+
+        public async Task<List<TechnologyDetails>> GetTechnologiesListAsync()
+        {
+            Logger.Info("Entering into HRManagement APP Service helper GetTechnologiesListAsync method ");
+            try
+            {
+                using (HttpClient client = new HttpClient())
+                {
+                    string URL = WebapiURL + "/GetTechnologiesList";
+                    client.BaseAddress = new Uri(URL);
+                    // Add an Accept header for JSON format.
+                    client.DefaultRequestHeaders.Accept.Add(
+                    new MediaTypeWithQualityHeaderValue("application/json"));
+
+                    // List data response.
+                    HttpResponseMessage response = await client.GetAsync(URL);  // Blocking call!
+                    if (response.IsSuccessStatusCode)
+                    {
+                        // Parse the response body. Blocking!
+                        var dataObjects = response.Content.ReadAsAsync<List<TechnologyDetails>>().Result.ToList();
+                        Logger.Info("Exiting from into HRManagement APP Service helper GetTechnologiesListAsync method ");
+                        return dataObjects;
+                    }
+                    else
+                    {
+                        Console.WriteLine("{0} ({1})", (int)response.StatusCode, response.ReasonPhrase);
+                        Logger.Info("Exiting from into HRManagement APP Service helper GetTechnologiesListAsync method ");
+                        return null;
+                    }
+                }
+            }
+            catch
+            {
+                Logger.Error("Exception occured at HRManagement APP Service helper GetTechnologiesListAsync method ");
+                throw;
+            }
+        }
+
+        public async Task<List<TechnologyDescriptions>> GetTechnologyDetailsListAsync(List<TechnologyDetails> technologies)
+        {
+            Logger.Info("Entering into HRManagement APP Service helper GetTechnologyDetailsListAsync method ");
+            try
+            {
+                using (HttpClient client = new HttpClient())
+                {
+                    string URL = WebapiURL + "/GetTechnologyDetailsList";
+                    client.BaseAddress = new Uri(URL);
+                    // Add an Accept header for JSON format.
+                    client.DefaultRequestHeaders.Accept.Add(
+                    new MediaTypeWithQualityHeaderValue("application/json"));
+
+                    // List data response.
+                    HttpResponseMessage response = await client.PostAsJsonAsync(URL, technologies);  // Blocking call!
+                    if (response.IsSuccessStatusCode)
+                    {
+                        // Parse the response body. Blocking!
+                        var dataObjects = response.Content.ReadAsAsync<List<TechnologyDescriptions>>().Result.ToList();
+                        Logger.Info("Exiting from into HRManagement APP Service helper GetTechnologyDetailsListAsync method ");
+                        return dataObjects;
+                    }
+                    else
+                    {
+                        Console.WriteLine("{0} ({1})", (int)response.StatusCode, response.ReasonPhrase);
+                        Logger.Info("Exiting from into HRManagement APP Service helper GetTechnologyDetailsListAsync method ");
+                        return null;
+                    }
+                }
+            }
+            catch
+            {
+                Logger.Error("Exception occured at HRManagement APP Service helper GetTechnologyDetailsListAsync method ");
                 throw;
             }
         }

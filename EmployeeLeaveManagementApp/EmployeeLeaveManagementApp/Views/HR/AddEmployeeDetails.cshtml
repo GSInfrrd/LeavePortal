@@ -14,19 +14,16 @@
             <!-- general form elements -->
             <div class="box box-success">
                 <div class="box-header with-border">
-                    <h3 class="box-title">Employee Info</h3>
+                    <a href="#EmpPersonalInfoToggle" data-toggle="collapse">
+                        <h3 class="box-title">Employee Personal Info</h3>
+                    </a>
+                    
                 </div>
                 <!-- /.box-header -->
                 <!-- form start -->
                 @*<form role="form">*@
-                <div class="box-body">
-                    <div class="form-group col-md-6">
-                        <img class="profile-user-img img-responsive" style="width:150px;height:200px" id="empImageDisplay" src="~/Content/Images/DefaultImage.png" alt="User profile picture">
-
-                        <div class="text-center" style="padding-top:10px">
-                            <label class="btn btn-info"><i class="fa fa-upload"></i><input id="employeeImage" type="file" style="display:none" onchange="ValidateAndUploadImage()" accept="image/jpg,image/png,image/jpeg,image/gif" /> Upload</label>
-                        </div>
-                    </div>
+                <div class="box-body collapse in" id="EmpPersonalInfoToggle">
+                    
                     <div class="form-group col-md-6">
                         <label style="margin-bottom: 0px;" for="txtFirstName">
                             First Name <span style="color:red">*</span><span class="form-group has-error" style="display:none;margin-bottom: 0px;" id="divFirstNameError">
@@ -38,6 +35,13 @@
                         <input type="text" class="form-control" id="txtFirstName" placeholder="First Name">
                     </div>
                     <div class="form-group col-md-6">
+                        <img class="profile-user-img img-responsive" style="width:150px;height:200px" id="empImageDisplay" src="~/Content/Images/DefaultImage.png" alt="User profile picture">
+
+                        <div class="text-center" style="padding-top:10px">
+                            <label class="btn btn-info"><i class="fa fa-upload"></i><input id="employeeImage" type="file" style="display:none" onchange="ValidateAndUploadImage()" accept="image/jpg,image/png,image/jpeg,image/gif" /> Upload</label>
+                        </div>
+                    </div>
+                    <div class="form-group col-md-6" style="margin-top:-195px">
                         <label style="margin-bottom: 0px;" for="txtlastname">
                             Last Name <span style="color:red">*</span><span class="form-group has-error" style="display:none;margin-bottom: 0px;" id="divLastNameError">
                                 <label style="margin-bottom: 0px;" class="control-label" for="LastName">
@@ -48,54 +52,39 @@
                         <input type="text" class="form-control" id="txtLastName" placeholder="Last Name">
 
                     </div>
-                    <div class="form-group col-md-6">
+                    <div class="form-group col-md-6" style="margin-top:-132px">
                         <label style="margin-bottom: 0px;" for="txtEmail">
                             Email <span style="color:red">*</span><span class="form-group has-error" style="display:none;margin-bottom: 0px;" id="divEmailError">
                                 <label style="margin-bottom: 0px;" class="control-label" for="Email">
                                     <i class="fa fa-times-circle-o"></i> Please enter email id
                                 </label>
                             </span>
+                            <span class="form-group has-error" style="display:none;margin-bottom: 0px;" id="divInvalidEmailError">
+                                <label style="margin-bottom: 0px;" class="control-label" for="InvalidEmail">
+                                    <i class="fa fa-times-circle-o"></i> Please enter valid email id
+                                </label>
+                            </span>
+                            <span class="form-group has-error" style="display:none;margin-bottom: 0px;" id="divEmailAlreadyError">
+                                <label style="margin-bottom: 0px;" class="control-label" for="EmailAlready">
+                                    <i class="fa fa-times-circle-o"></i>Email id is already present
+                                </label>
+                            </span>
                         </label>
                         <input type="email" class="form-control" id="txtEmail" placeholder="Enter Email">
-
-                        <div class="form-group has-error" style="display:none;margin-bottom: 0px;" id="divInvalidEmailError">
-                            <label style="margin-bottom: 0px;" class="control-label" for="InvalidEmail">
-                                <i class="fa fa-times-circle-o"></i> Please enter valid email id
-                            </label>
-                        </div>
-                        <span class="form-group has-error" style="display:none;margin-bottom: 0px;" id="divEmailAlreadyError">
-                            <label style="margin-bottom: 0px;" class="control-label" for="EmailAlready">
-                                <i class="fa fa-times-circle-o"></i>Email id is already present
-                            </label>
-                        </span>
                     </div>
-                    <div class="form-group col-md-6">
-                        <label style="margin-bottom: 0px;" for="txtEmployeeNumber">
-                            Employee Number <span style="color:red">*</span><span class="form-group has-error" style="display:none;margin-bottom: 0px;" id="divEmployeeNumberError">
-                                <label style="margin-bottom: 0px;" class="control-label" for="EmployeeNumber">
-                                    <i class="fa fa-times-circle-o"></i> Please enter employee number
-                                </label>
-                            </span>
-                            <span class="form-group has-error" style="display:none;margin-bottom: 0px;" id="divEmployeeNumberAlreadyError">
-                                <label style="margin-bottom: 0px;" class="control-label" for="EmployeeNumberAlready">
-                                    <i class="fa fa-times-circle-o"></i>Employee number is already present
+                    <div class="form-group col-md-6" style="margin-top:-69px">
+                        <label style="margin-bottom: 0px;" for="txtTelephone">
+                            Telephone <span style="color:red">*</span><span class="form-group has-error" style="display:none;margin-bottom: 0px;" id="divTelephoneError">
+                                <label style="margin-bottom: 0px;" class="control-label" for="telephone">
+                                    <i class="fa fa-times-circle-o"></i> Please enter telephone number
                                 </label>
                             </span>
                         </label>
-                        <input type="email" class="form-control" id="txtEmployeeNumber" placeholder="Employee Number">
+                        <input type="tel" class="form-control" id="txtTelephone" placeholder="Telephone">
 
                     </div>
-                    <div class="form-group col-md-6">
-                        <label style="margin-bottom: 0px;" for="txtJoiningDate">
-                            Date of Joining <span style="color:red">*</span><span class="form-group has-error" style="display:none;margin-bottom: 0px;" id="divDateOfJoiningError">
-                                <label style="margin-bottom: 0px;" class="control-label" for="DateOfJoining">
-                                    <i class="fa fa-times-circle-o"></i> Please enter date of joining
-                                </label>
-                            </span>
-                        </label>
-                        <input type="text" class="form-control" id="txtJoiningDate">
+                    
 
-                    </div>
                     <div class="form-group col-md-6">
                         <label style="margin-bottom: 0px;" for="txtBirthday">
                             Date of Birth <span style="color:red">*</span><span class="form-group has-error" style="display:none;margin-bottom: 0px;" id="divBirthDayError">
@@ -107,7 +96,21 @@
                         <input type="text" class="form-control" id="txtBirthday">
 
                     </div>
-                    <div class="form-group col-md-6">
+                    
+                    @*<div class="form-group col-md-6">
+                        <label style="margin-bottom: 0px;" for="txtCountry">
+                            Country <span style="color:red">*</span><span class="form-group has-error" style="display:none;margin-bottom: 0px;" id="divCountryError">
+                                <label style="margin-bottom: 0px;" class="control-label" for="country">
+                                    <i class="fa fa-times-circle-o"></i> Please enter country
+                                </label>
+                            </span>
+                        </label>
+                        <select class="form-control designation" style="width: 100%;" id="ddlCountry">
+                            <option value="">Select</option>
+                        </select>
+
+                    </div>*@
+                    @*<div class="form-group col-md-6">
                         <label style="margin-bottom: 0px;" for="txtCity">
                             City <span style="color:red">*</span><span class="form-group has-error" style="display:none;margin-bottom: 0px;" id="divCityError">
                                 <label style="margin-bottom: 0px;" class="control-label" for="City">
@@ -117,56 +120,41 @@
                         </label>
                         <input type="text" class="form-control" id="txtCity" placeholder="City">
 
-                    </div>
+                    </div>*@
+                    
                     <div class="form-group col-md-6">
-                        <label style="margin-bottom: 0px;" for="txtCountry">
-                            Country <span style="color:red">*</span><span class="form-group has-error" style="display:none;margin-bottom: 0px;" id="divCountryError">
-                                <label style="margin-bottom: 0px;" class="control-label" for="country">
-                                    <i class="fa fa-times-circle-o"></i> Please enter country
-                                </label>
-                            </span>
+                        <label style="margin-bottom: 0px;" for="txtPassportNumber">
+                            Passport Number 
                         </label>
-                        <input type="text" class="form-control" id="txtCountry" placeholder="Country">
-
+                        <input type="text" class="form-control" id="txtPassportNumber" placeholder="Passport Number">
                     </div>
                     <div class="form-group col-md-6">
-                        <label style="margin-bottom: 0px;" for="txtTelephone">
-                            Telephone <span style="color:red">*</span><span class="form-group has-error" style="display:none;margin-bottom: 0px;" id="divTelephoneError">
-                                <label style="margin-bottom: 0px;" class="control-label" for="telephone">
-                                    <i class="fa fa-times-circle-o"></i> Please enter telephone number
+                        <label style="margin-bottom: 0px;" for="txtBloodGroup">
+                            Blood Group @*<span style="color:red">*</span><span class="form-group has-error" style="display:none;margin-bottom: 0px;" id="divBloodGroupError">
+                                <label style="margin-bottom: 0px;" class="control-label" for="BloodGroup">
+                                    <i class="fa fa-times-circle-o"></i> Please enter blood group
                                 </label>
-                            </span>
+                            </span>*@
                         </label>
-                        <input type="tel" class="form-control" id="txtTelephone" placeholder="Telephone">
-
+                        <input type="text" class="form-control" id="txtBloodGroup" placeholder="Blood Group">
                     </div>
-                    <div class="form-group col-md-6">
+                    <div class="form-group col-md-6" id="ddlGender">
                         <label style="margin-bottom: 0px;">
-                            Designation <span style="color:red">*</span><span class="form-group has-error" style="display:none;margin-bottom: 0px;" id="divDesignationError">
-                                <label style="margin-bottom: 0px;" class="control-label" for="Designation">
-                                    <i class="fa fa-times-circle-o"></i> Please select designation
+                            Gender <span style="color:red">*</span>
+                            <span class="form-group has-error" style="display:none;margin-bottom: 0px;" id="divGenderError">
+                                <label style="margin-bottom: 0px;" class="control-label" for="gender">
+                                    <i class="fa fa-times-circle-o"></i> Please select gender
                                 </label>
                             </span>
                         </label>
-                        <select class="form-control designation" style="width: 100%;" id="ddlDesignation">
-                            <option value="">Select</option>
-                        </select>
-
-                    </div>
-                    <div class="form-group col-md-6">
-                        <label style="margin-bottom: 0px;">
-                            Employee Type <span style="color:red">*</span><span class="form-group has-error" style="display:none;margin-bottom: 0px;" id="divEmployeeTypeError">
-                                <label style="margin-bottom: 0px;" class="control-label" for="EmployeeType">
-                                    <i class="fa fa-times-circle-o"></i> Please select employee type
-                                </label>
-                            </span>
-                        </label>
-                        <select class="form-control level" style="width: 100%;" id="ddlEmployeeType">
-                            <option value="">Select</option>
-                            <option value="@Convert.ToInt16(LMS_WebAPP_Utils.EmployeeType.Fresher)">@LMS_WebAPP_Utils.CommonMethods.Description((LMS_WebAPP_Utils.EmployeeType.Fresher))</option>
-                            <option value="@Convert.ToInt16(LMS_WebAPP_Utils.EmployeeType.Experienced)">@LMS_WebAPP_Utils.CommonMethods.Description((LMS_WebAPP_Utils.EmployeeType.Experienced))</option>
-                        </select>
-
+                        <div id="rddiv">
+                            @foreach (var value in Enum.GetValues(typeof(LMS_WebAPP_Utils.EmployeeGender)))
+                            {
+                                <div class="col-md-3" style="margin-top:3px">
+                                    <input type="radio" name="r2" id="RdGender_@Convert.ToInt16((LMS_WebAPP_Utils.EmployeeGender)value)" class="flat-red" value="@Convert.ToInt16((LMS_WebAPP_Utils.EmployeeGender)value)"> @(LMS_WebAPP_Utils.CommonMethods.Description((LMS_WebAPP_Utils.EmployeeGender)Convert.ToInt16((LMS_WebAPP_Utils.EmployeeGender)value)))
+                                </div>
+                            }
+                        </div>
                     </div>
                     @*<div class="form-group col-md-6">
                             <label>Level</label>
@@ -180,79 +168,503 @@
                                 <option value="@Convert.ToInt16(LMS_WebAPP_Utils.HierarchyLevel.Level5)">@LMS_WebAPP_Utils.CommonMethods.Description((LMS_WebAPP_Utils.HierarchyLevel.Level5))</option>
                             </select>
                         </div>*@
-                    <div class="form-group col-md-6" id="ddlManager">
-                        <label style="margin-bottom: 0px;">
-                            Manager Name <span style="color:red">*</span><span class="form-group has-error" style="display:none;margin-bottom: 0px;" id="divManagerNameError">
-                                <label style="margin-bottom: 0px;" class="control-label" for="ManagerName">
-                                    <i class="fa fa-times-circle-o"></i> Please select manager
-                                </label>
-                            </span>
-                        </label>
 
-                        <select class="form-control managerSelect" style="width: 100%;" id="ddlManagerName">
-                            <option value="">Select</option>
-                            @foreach (var m in Model)
-                            {
-                                <option value="@m.Id">@m.FirstName</option>
-                            }
-                        </select>
-
-
-                    </div>
-                    <div class="form-group col-md-6" id="ddlProject">
-                        <label style="margin-bottom: 0px;">Project Name <span style="color:red">*</span><span class="form-group has-error" style="display:none;margin-bottom: 0px;" id="divProjectNameError">
-                        <label style="margin-bottom: 0px;" class="control-label" for="ProjectName">
-                        <i class="fa fa-times-circle-o"></i> Please select project
-                        </label>
-                        </span></label>
-
-                        <select class="form-control managerSelect" style="width: 100%;" id="ddlProjectName">
-                            <option value="">Select</option>
-                        </select>
-
-                    </div>
-
-                    <div class="form-group col-md-6" id="ddlProject">
-                        <label style="margin-bottom: 0px;">Profile Type</label>
-
-                        <div id="rddiv">
-                            @foreach (var value in Enum.GetValues(typeof(LMS_WebAPP_Utils.ProfileType)))
-                            {
-                                if (Convert.ToInt16(LMS_WebAPP_Utils.ProfileType.CEO) != @Convert.ToInt16((LMS_WebAPP_Utils.ProfileType)value))
-                                {
-                                    var selectedAttr = "";
-                                    if (Convert.ToInt16(LMS_WebAPP_Utils.ProfileType.Employee) == @Convert.ToInt16((LMS_WebAPP_Utils.ProfileType)value) ||
-                                        Convert.ToInt16(LMS_WebAPP_Utils.ProfileType.Employee) == @Convert.ToInt16((LMS_WebAPP_Utils.ProfileType)value))
-                                    {
-                                        selectedAttr = "checked";
-                                    }
-
-                                    <div class="col-md-3" style="margin-top:3px">
-                                        <input type="radio" name="r1" id="RdLeaveType_@Convert.ToInt16((LMS_WebAPP_Utils.ProfileType)value)" class="flat-red" value="@Convert.ToInt16((LMS_WebAPP_Utils.ProfileType)value)" @selectedAttr> @(LMS_WebAPP_Utils.CommonMethods.Description((LMS_WebAPP_Utils.ProfileType)Convert.ToInt16((LMS_WebAPP_Utils.ProfileType)value)))
-
-                                    </div>
-                                }
-                            }
-
-                        </div>
-
-                    </div>
                     <!-- /.box-body -->
                     @*</form>*@
                 </div>
             </div>
             <div class="col-md-12" style="width:1089px;padding:0px">
                 <!-- general form elements -->
-                <div class="box box-success" >
+                <div class="box box-success">
                     <div class="box-header with-border">
-                        <h3 class="box-title">Education Details(Highest Degree)</h3>
+                        <a href="#EmpCompanyInfoToggle" data-toggle="collapse">
+                        <h3 class="box-title">Employee Company Info</h3></a>
                     </div>
                     <!-- /.box-header -->
                     <!-- form start -->
                     @*<form role="form">*@
-                    <div class="box-body">
+                    <div class="box-body collapse in" id="EmpCompanyInfoToggle">
                         <div class="form-group col-md-6">
-                            <label style="margin-bottom: 0px;">Graduation <span style="color:red">*</span><span class="form-group has-error" style="display:none;margin-bottom: 0px;" id="divGraduationError">
+                            <label style="margin-bottom: 0px;" for="txtEmployeeNumber">
+                                Employee Number <span style="color:red">*</span><span class="form-group has-error" style="display:none;margin-bottom: 0px;" id="divEmployeeNumberError">
+                                    <label style="margin-bottom: 0px;" class="control-label" for="EmployeeNumber">
+                                        <i class="fa fa-times-circle-o"></i> Please enter employee number
+                                    </label>
+                                </span>
+                                <span class="form-group has-error" style="display:none;margin-bottom: 0px;" id="divEmployeeNumberAlreadyError">
+                                    <label style="margin-bottom: 0px;" class="control-label" for="EmployeeNumberAlready">
+                                        <i class="fa fa-times-circle-o"></i>Employee number is already present
+                                    </label>
+                                </span>
+                            </label>
+                            <input type="email" class="form-control" id="txtEmployeeNumber" placeholder="Employee Number">
+
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label style="margin-bottom: 0px;" for="txtInfrrdEmail">
+                                Email(Infrrd) <span style="color:red">*</span><span class="form-group has-error" style="display:none;margin-bottom: 0px;" id="divInfrrdEmailError">
+                                    <label style="margin-bottom: 0px;" class="control-label" for="InfrrdEmail">
+                                        <i class="fa fa-times-circle-o"></i> Please enter email id
+                                    </label>
+                                </span>
+                                <span class="form-group has-error" style="display:none;margin-bottom: 0px;" id="divInvalidInfrrdEmailError">
+                                    <label style="margin-bottom: 0px;" class="control-label" for="InvalidInfrrdEmail">
+                                        <i class="fa fa-times-circle-o"></i> Please enter valid email id
+                                    </label>
+                                </span>
+                                <span class="form-group has-error" style="display:none;margin-bottom: 0px;" id="divInfrrdEmailAlreadyError">
+                                    <label style="margin-bottom: 0px;" class="control-label" for="InfrrdEmailAlready">
+                                        <i class="fa fa-times-circle-o"></i>Email id is already present
+                                    </label>
+                                </span>
+                            </label>
+                            <input type="email" class="form-control" id="txtInfrrdEmail" placeholder="Enter Infrrd Email">
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label style="margin-bottom: 0px;" for="txtJoiningDate">
+                                Date of Joining <span style="color:red">*</span><span class="form-group has-error" style="display:none;margin-bottom: 0px;" id="divDateOfJoiningError">
+                                    <label style="margin-bottom: 0px;" class="control-label" for="DateOfJoining">
+                                        <i class="fa fa-times-circle-o"></i> Please enter date of joining
+                                    </label>
+                                </span>
+                            </label>
+                            <input type="text" class="form-control" id="txtJoiningDate">
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label style="margin-bottom: 0px;">
+                                Designation <span style="color:red">*</span><span class="form-group has-error" style="display:none;margin-bottom: 0px;" id="divDesignationError">
+                                    <label style="margin-bottom: 0px;" class="control-label" for="Designation">
+                                        <i class="fa fa-times-circle-o"></i> Please select designation
+                                    </label>
+                                </span>
+                            </label>
+                            <select class="form-control designation" style="width: 100%;" id="ddlDesignation">
+                                <option value="">Select</option>
+                            </select>
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label style="margin-bottom: 0px;">
+                                Employee Type <span style="color:red">*</span><span class="form-group has-error" style="display:none;margin-bottom: 0px;" id="divEmployeeTypeError">
+                                    <label style="margin-bottom: 0px;" class="control-label" for="EmployeeType">
+                                        <i class="fa fa-times-circle-o"></i> Please select employee type
+                                    </label>
+                                </span>
+                            </label>
+                            <select class="form-control level" style="width: 100%;" id="ddlEmployeeType">
+                                <option value="">Select</option>
+                                <option value="@Convert.ToInt16(LMS_WebAPP_Utils.EmployeeType.Fresher)">@LMS_WebAPP_Utils.CommonMethods.Description((LMS_WebAPP_Utils.EmployeeType.Fresher))</option>
+                                <option value="@Convert.ToInt16(LMS_WebAPP_Utils.EmployeeType.Experienced)">@LMS_WebAPP_Utils.CommonMethods.Description((LMS_WebAPP_Utils.EmployeeType.Experienced))</option>
+                            </select>
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label style="margin-bottom: 0px;">
+                                Employee Contract Type <span style="color:red">*</span><span class="form-group has-error" style="display:none;margin-bottom: 0px;" id="divEmployeeContractTypeError">
+                                    <label style="margin-bottom: 0px;" class="control-label" for="EmployeeContractType">
+                                        <i class="fa fa-times-circle-o"></i> Please select employee contract type
+                                    </label>
+                                </span>
+                            </label>
+                            <select class="form-control level" style="width: 100%;" id="ddlEmployeeContractType">
+                                <option value="">Select</option>
+                                <option value="@Convert.ToInt16(LMS_WebAPP_Utils.EmployeeContractType.Permanent)">@LMS_WebAPP_Utils.CommonMethods.Description((LMS_WebAPP_Utils.EmployeeContractType.Permanent))</option>
+                                <option value="@Convert.ToInt16(LMS_WebAPP_Utils.EmployeeContractType.Temprary)">@LMS_WebAPP_Utils.CommonMethods.Description((LMS_WebAPP_Utils.EmployeeContractType.Temprary))</option>
+                            </select>
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label style="margin-bottom: 0px;" for="txtConfirmationDate">
+                                Date of Confirmation <span style="color:red">*</span><span class="form-group has-error" style="display:none;margin-bottom: 0px;" id="divDateOfConfirmationError">
+                                    <label style="margin-bottom: 0px;" class="control-label" for="DateOfConfirmation">
+                                        <i class="fa fa-times-circle-o"></i> Please enter date of confirmation
+                                    </label>
+                                </span>
+                            </label>
+                            <input type="text" class="form-control" id="txtConfirmationDate">
+                        </div>
+                        <div class="form-group col-md-6" id="ddlManager">
+                            <label style="margin-bottom: 0px;">
+                                Manager Name <span style="color:red">*</span><span class="form-group has-error" style="display:none;margin-bottom: 0px;" id="divManagerNameError">
+                                    <label style="margin-bottom: 0px;" class="control-label" for="ManagerName">
+                                        <i class="fa fa-times-circle-o"></i> Please select manager
+                                    </label>
+                                </span>
+                            </label>
+
+                            <select class="form-control managerSelect" style="width: 100%;" id="ddlManagerName">
+                                <option value="">Select</option>
+                                @foreach (var m in Model)
+                                {
+                                    <option value="@m.Id">@m.FirstName</option>
+                                }
+                            </select>
+                        </div>
+                        <div class="form-group col-md-6" id="ddlProject">
+                            <label style="margin-bottom: 0px;">
+                                Project Name <span style="color:red">*</span><span class="form-group has-error" style="display:none;margin-bottom: 0px;" id="divProjectNameError">
+                                    <label style="margin-bottom: 0px;" class="control-label" for="ProjectName">
+                                        <i class="fa fa-times-circle-o"></i> Please select project
+                                    </label>
+                                </span>
+                            </label>
+
+                            <select class="form-control managerSelect" style="width: 100%;" id="ddlProjectName">
+                                <option value="">Select</option>
+                            </select>
+                        </div>
+                        <div class="form-group col-md-6" id="ddlProject">
+                            <label style="margin-bottom: 0px;">Profile Type</label>
+                            <div id="rddiv">
+                                @foreach (var value in Enum.GetValues(typeof(LMS_WebAPP_Utils.ProfileType)))
+                                {
+                                    if (Convert.ToInt16(LMS_WebAPP_Utils.ProfileType.CEO) != @Convert.ToInt16((LMS_WebAPP_Utils.ProfileType)value))
+                                    {
+                                        var selectedAttr = "";
+                                        if (Convert.ToInt16(LMS_WebAPP_Utils.ProfileType.Employee) == @Convert.ToInt16((LMS_WebAPP_Utils.ProfileType)value) ||
+                                            Convert.ToInt16(LMS_WebAPP_Utils.ProfileType.Employee) == @Convert.ToInt16((LMS_WebAPP_Utils.ProfileType)value))
+                                        {
+                                            selectedAttr = "checked";
+                                        }
+
+                                        <div class="col-md-3" style="margin-top:3px">
+                                            <input type="radio" name="r1" id="RdLeaveType_@Convert.ToInt16((LMS_WebAPP_Utils.ProfileType)value)" class="flat-red" value="@Convert.ToInt16((LMS_WebAPP_Utils.ProfileType)value)" @selectedAttr> @(LMS_WebAPP_Utils.CommonMethods.Description((LMS_WebAPP_Utils.ProfileType)Convert.ToInt16((LMS_WebAPP_Utils.ProfileType)value)))
+
+                                        </div>
+                                    }
+                                }
+                            </div>
+                        </div>
+                        
+
+                    </div>
+                    @*</form>*@
+
+                </div>
+                <div class="box box-success">
+                    <div class="box-header with-border">
+                        <a href="#EmpEmergencyContactDetailsToggle" data-toggle="collapse">
+                        <h3 class="box-title">Emergency Contact Details</h3></a>
+                    </div>
+                    <!-- /.box-header -->
+                    <!-- form start -->
+                    @*<form role="form">*@
+                    <div class="box-body collapse in" id="EmpEmergencyContactDetailsToggle">
+                        <div class="form-group col-md-6">
+                            <label style="margin-bottom: 0px;">
+                                Name <span style="color:red">*</span><span class="form-group has-error" style="display:none;margin-bottom: 0px;" id="divEmergencyContactNameError">
+                                    <label style="margin-bottom: 0px;" class="control-label" for="EmergencyContactName">
+                                        <i class="fa fa-times-circle-o"></i> Please enter name
+                                    </label>
+                                </span>
+                            </label>
+                            <div>
+                                <input type="text" class="form-control" id="txtEmergencyContactName" placeholder="Name">
+                            </div>
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label style="margin-bottom: 0px;">
+                                Relationship <span style="color:red">*</span><span class="form-group has-error" style="display:none" id="divEmergencyContactRelationshipError">
+                                    <label style="margin-bottom: 0px;" class="control-label" for="EmergencyContactRelationship">
+                                        <i class="fa fa-times-circle-o"></i> Please select relationship
+                                    </label>
+                                </span>
+                            </label>
+                            <div>
+                                <select class="form-control managerSelect" style="width: 100%;" id="ddlEmergencyContactRelationship">
+                                    <option value="">Select</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label style="margin-bottom: 0px;">
+                                Telephone <span style="color:red">*</span><span class="form-group has-error" style="display:none" id="divEmergencyContactTelephoneError">
+                                    <label style="margin-bottom: 0px;" class="control-label" for="EmergencyContactTelephone">
+                                        <i class="fa fa-times-circle-o"></i> Please enter telephone
+                                    </label>
+                                </span>
+                            </label>
+                            <input type="text" class="form-control" id="txtEmergencyContactTelephone" placeholder="Telephone">
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label style="margin-bottom: 0px;">
+                                Country <span style="color:red">*</span><span class="form-group has-error" style="display:none;margin-bottom: 0px;" id="divEmergencyContactCountryError">
+                                    <label style="margin-bottom: 0px;" class="control-label" for="EmergencyContactCountry">
+                                        <i class="fa fa-times-circle-o"></i> Please select Country
+                                    </label>
+                                </span>
+                            </label>
+                            <div>
+                                <select id="ddlEmergencyContactCountry" class="form-control graduation" style="width: 100%;">
+                                    <option value="">Select</option>
+                                </select>
+
+                            </div>
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label style="margin-bottom: 0px;">
+                                State @*<span style="color:red">*</span><span class="form-group has-error" style="display:none" id="divEmergencyContactStateError">
+                    <label style="margin-bottom: 0px;" class="control-label" for="PermanentState">
+                        <i class="fa fa-times-circle-o"></i> Please select State
+                    </label>
+                </span>*@
+                            </label>
+                            <div>
+                                <select id="ddlEmergencyContactState" class="form-control specialization" style="width: 100%;">
+                                    <option value="">Select</option>
+                                </select>
+
+                            </div>
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label style="margin-bottom: 0px;">
+                                City @*<span style="color:red">*</span><span class="form-group has-error" style="display:none" id="divEmergencyContactCityError">
+                    <label style="margin-bottom: 0px;" class="control-label" for="PermanentCity">
+                        <i class="fa fa-times-circle-o"></i> Please select city
+                    </label>
+                </span>*@
+                            </label>
+                            <select id="ddlEmergencyContactCity" class="form-control specialization" style="width: 100%;">
+                                <option value="">Select</option>
+                            </select>
+
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label style="margin-bottom: 0px;" for="educationFromDate">
+                                AddressLine1 @*<span style="color:red">*</span><span class="form-group has-error" style="display:none" id="divEmergencyContactAddressLine1Error">
+                                    <label style="margin-bottom: 0px;" class="control-label" for="EmergencyContactAddressLine1">
+                                        <i class="fa fa-times-circle-o"></i> Please enter address
+                                    </label>
+                                </span>*@
+                            </label>
+                            <input type="text" class="form-control" id="txtEmergencyContactAddressLine1" placeholder="Address">
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label style="margin-bottom: 0px;" for="educationFromDate">
+                                AddressLine2 @*<span style="color:red">*</span><span class="form-group has-error" style="display:none" id="divEmergencyContactAddressLine2Error">
+                                    <label style="margin-bottom: 0px;" class="control-label" for="EmergencyContactAddressLine2">
+                                        <i class="fa fa-times-circle-o"></i> Please enter address
+                                    </label>
+                                </span>*@
+                            </label>
+                            <input type="text" class="form-control" id="txtEmergencyContactAddressLine2" placeholder="Address">
+                        </div>
+
+                    </div>
+                    @*</form>*@
+
+                </div>
+                <div class="box box-success">
+                    <div class="box-header with-border">
+                        <a href="#EmpPermanentAddressDetailsToggle" data-toggle="collapse">
+                        <h3 class="box-title">Permanent Address Details</h3></a>
+                    </div>
+                    <!-- /.box-header -->
+                    <!-- form start -->
+                    @*<form role="form">*@
+                    <div class="box-body collapse in" id="EmpPermanentAddressDetailsToggle" >
+                        <div class="form-group col-md-6">
+                            <label style="margin-bottom: 0px;">
+                                Country <span style="color:red">*</span><span class="form-group has-error" style="display:none;margin-bottom: 0px;" id="divPermanentCountryError">
+                                    <label style="margin-bottom: 0px;" class="control-label" for="PermanentCountry">
+                                        <i class="fa fa-times-circle-o"></i> Please select Country
+                                    </label>
+                                </span>
+                            </label>
+                            <div>
+                                <select id="ddlPermanentCountry" class="form-control graduation" style="width: 100%;">
+                                    <option value="">Select</option>
+                                </select>
+
+                            </div>
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label style="margin-bottom: 0px;">
+                                State @*<span style="color:red">*</span><span class="form-group has-error" style="display:none" id="divPermanentStateError">
+                                    <label style="margin-bottom: 0px;" class="control-label" for="PermanentState">
+                                        <i class="fa fa-times-circle-o"></i> Please select State
+                                    </label>
+                                </span>*@
+                            </label>
+                            <div>
+                                <select id="ddlPermanentState" class="form-control specialization" style="width: 100%;">
+                                    <option value="">Select</option>
+                                </select>
+
+                            </div>
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label style="margin-bottom: 0px;">
+                                City @*<span style="color:red">*</span><span class="form-group has-error" style="display:none" id="divPermanentCityError">
+                                    <label style="margin-bottom: 0px;" class="control-label" for="PermanentCity">
+                                        <i class="fa fa-times-circle-o"></i> Please select city
+                                    </label>
+                                </span>*@
+                            </label>
+                            <select id="ddlPermanentCity" class="form-control specialization" style="width: 100%;">
+                                <option value="">Select</option>
+                            </select>
+
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label style="margin-bottom: 0px;" for="educationFromDate">
+                                Address <span style="color:red">*</span><span class="form-group has-error" style="display:none" id="divPermanentAddressError">
+                                    <label style="margin-bottom: 0px;" class="control-label" for="PermanentAddress">
+                                        <i class="fa fa-times-circle-o"></i> Please enter address
+                                    </label>
+                                </span>
+                            </label>
+                            <input type="text" class="form-control" id="txtPermanentAddress" placeholder="Address">
+                        </div>
+
+                    </div>
+                    @*</form>*@
+
+                </div>
+                <div class="box box-success">
+                    <div class="box-header with-border">
+                        <a href="#EmpCurrentAddressDetailsToggle" data-toggle="collapse">
+                        <h3 class="box-title">Current Address Details</h3></a>
+                    </div>
+                    <!-- /.box-header -->
+                    <!-- form start -->
+                    @*<form role="form">*@
+                    <div class="box-body collapse in" id="EmpCurrentAddressDetailsToggle">
+                        <div class="form-group col-md-6">
+                            <label style="margin-bottom: 0px;">
+                                Country <span style="color:red">*</span><span class="form-group has-error" style="display:none;margin-bottom: 0px;" id="divCurrentCountryError">
+                                    <label style="margin-bottom: 0px;" class="control-label" for="CurrentCountry">
+                                        <i class="fa fa-times-circle-o"></i> Please select Country
+                                    </label>
+                                </span>
+                            </label>
+                            <div>
+                                <select id="ddlCurrentCountry" class="form-control graduation" style="width: 100%;">
+                                    <option value="">Select</option>
+                                </select>
+
+                            </div>
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label style="margin-bottom: 0px;">
+                                State @*<span style="color:red">*</span><span class="form-group has-error" style="display:none" id="divCurrentStateError">
+                                    <label style="margin-bottom: 0px;" class="control-label" for="CurrentState">
+                                        <i class="fa fa-times-circle-o"></i> Please select State
+                                    </label>
+                                </span>*@
+                            </label>
+                            <div>
+                                <select id="ddlCurrentState" class="form-control specialization" style="width: 100%;">
+                                    <option value="">Select</option>
+                                </select>
+
+                            </div>
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label style="margin-bottom: 0px;">
+                                City @*<span style="color:red">*</span><span class="form-group has-error" style="display:none" id="divCurrentCityError">
+                                    <label style="margin-bottom: 0px;" class="control-label" for="CurrentCity">
+                                        <i class="fa fa-times-circle-o"></i> Please select city
+                                    </label>
+                                </span>*@
+                            </label>
+                            <select id="ddlCurrentCity" class="form-control specialization" style="width: 100%;">
+                                <option value="">Select</option>
+                            </select>
+
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label style="margin-bottom: 0px;" for="educationFromDate">
+                                Address <span style="color:red">*</span><span class="form-group has-error" style="display:none" id="divCurrentAddressError">
+                                    <label style="margin-bottom: 0px;" class="control-label" for="CurrentAddress">
+                                        <i class="fa fa-times-circle-o"></i> Please enter address
+                                    </label>
+                                </span>
+                            </label>
+                            <input type="text" class="form-control" id="txtCurrentAddress" placeholder="Address">
+                        </div>
+
+                    </div>
+                    @*</form>*@
+
+                </div>
+                <div class="box box-success">
+                    <div class="box-header with-border">
+                        <a href="#EmpWorkLocationDetailsToggle" data-toggle="collapse">
+                        <h3 class="box-title">Work Location</h3></a>
+                    </div>
+                    <!-- /.box-header -->
+                    <!-- form start -->
+                    @*<form role="form">*@
+                    <div class="box-body collapse in" id="EmpWorkLocationDetailsToggle">
+                        <div class="form-group col-md-6">
+                            <label style="margin-bottom: 0px;" for="educationFromDate">
+                                Facility <span style="color:red">*</span><span class="form-group has-error" style="display:none" id="divFacilityError">
+                               <label style="margin-bottom: 0px;" class="control-label" for="Facility">
+                               <i class="fa fa-times-circle-o"></i> Please select facility
+                           </label>
+                           </span>
+                            </label>
+                            <select id="ddlFacility" class="form-control specialization" style="width: 100%;">
+                                <option value="">Select</option>
+                            </select>
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label style="margin-bottom: 0px;">
+                                City @*<span style="color:red">*</span><span class="form-group has-error" style="display:none" id="divWorkCityError">
+                                <label style="margin-bottom: 0px;" class="control-label" for="WorkCity">
+                                <i class="fa fa-times-circle-o"></i> Please select city
+                                </label>
+                            </span>*@
+                            </label>
+                            <select id="ddlWorkCity" class="form-control specialization" style="width: 100%;">
+                                <option value="">Select</option>
+                            </select>
+
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label style="margin-bottom: 0px;">State @*<span style="color:red">*</span><span class="form-group has-error" style="display:none" id="divWorkStateError">
+                            <label style="margin-bottom: 0px;" class="control-label" for="WorkState">
+                            <i class="fa fa-times-circle-o"></i> Please select State
+                            </label>
+                            </span>*@ </label>
+                            <div>
+                                <select id="ddlWorkState" class="form-control specialization" style="width: 100%;">
+                                    <option value="">Select</option>
+                                </select>
+
+                            </div>
+                        </div>
+                        
+                        <div class="form-group col-md-6">
+                            <label style="margin-bottom: 0px;">
+                                Country @*<span style="color:red">*</span><span class="form-group has-error" style="display:none;margin-bottom: 0px;" id="divWorkCountryError">
+                                    <label style="margin-bottom: 0px;" class="control-label" for="WorkCountry">
+                                        <i class="fa fa-times-circle-o"></i> Please select Country
+                                    </label>
+                                </span>*@
+                            </label>
+                            <div>
+                                <select id="ddlWorkCountry" class="form-control graduation" style="width: 100%;">
+                                    <option value="">Select</option>
+                                </select>
+
+                            </div>
+                        </div>
+                        
+
+                    </div>
+                    @*</form>*@
+
+                </div>
+                <div class="box box-success" >
+                    <div class="box-header with-border">
+                        <a href="#EmpEducationDetailsToggle" data-toggle="collapse">
+                        <h3 class="box-title">Education Details(Highest Degree)</h3></a>
+                    </div>
+                    <!-- /.box-header -->
+                    <!-- form start -->
+                    @*<form role="form">*@
+                    <div class="box-body collapse in" id="EmpEducationDetailsToggle">
+                        <div class="form-group col-md-6">
+                            <label style="margin-bottom: 0px;">Education <span style="color:red">*</span><span class="form-group has-error" style="display:none;margin-bottom: 0px;" id="divGraduationError">
                             <label style="margin-bottom: 0px;" class="control-label" for="Graduation">
                             <i class="fa fa-times-circle-o"></i> Please select graduation
                             </label>
@@ -273,11 +685,7 @@
                             </div>
                         </div>
                         <div class="form-group col-md-6">
-                            <label style="margin-bottom: 0px;">Specialization <span style="color:red">*</span><span class="form-group has-error" style="display:none;margin-bottom: 0px;" id="divSpecializationError">
-                            <label style="margin-bottom: 0px;" class="control-label" for="Specialization">
-                            <i class="fa fa-times-circle-o"></i> Please select specialization
-                            </label>
-                            </span> </label>
+                            <label style="margin-bottom: 0px;">Specialization </label>
                             <div>
                                 <select id="ddlSpecialization" class="form-control specialization" style="width: 100%;">
                                     <option value="">Select</option>
@@ -313,12 +721,13 @@
 
                 <div class="box box-success">
                     <div class="box-header with-border">
-                        <h3 class="box-title">Experience Details(Last Employer Details)</h3>
+                        <a href="#EmpExperienceDetailsToggle" data-toggle="collapse">
+                        <h3 class="box-title">Experience Details(Last Employer Details)</h3></a>
                     </div>
                     <!-- /.box-header -->
                     <!-- form start -->
                     @*<form role="form">*@
-                    <div class="box-body">
+                    <div class="box-body collapse in" id="EmpExperienceDetailsToggle">
                         <div class="form-group col-md-6">
                             <label style="margin-bottom: 0px;" for="txtEmployer">Employer</label><span style="color:red">*</span><span class="form-group has-error" style="display:none" id="divEmployerError">
                             <label style="margin-bottom: 0px;" class="control-label">
@@ -385,6 +794,9 @@
             GetProjectsList();
             GetSkillsList();
             GetRolesList();
+            GetCountries();
+            GetWorkFacilities();
+            GetRelationships();
             //Initialize Select2 Elements
             $(".experienceDesignation").select2();
             $(".designation").select2().on('change',function(e){
@@ -432,6 +844,9 @@
             $('#txtJoiningDate').datepicker({
                 autoclose: true,
                 format: 'dd/mm/yyyy'            });
+            $('#txtConfirmationDate').datepicker({
+                autoclose: true,
+                format: 'dd/mm/yyyy'            });
             //Date picker
             $('#txtBirthday').datepicker({
                 autoclose: true,
@@ -447,6 +862,7 @@
             var today = (formatDate(new Date()));
             //$('#txtJoiningDate').val(today);
             $('#txtJoiningDate').datepicker('setDate', today);
+            $('#txtConfirmationDate').datepicker('setDate', today);
 
             $('#educationDatepicker').on('change.daterangepicker', function (ev, picker) {
                 var date = ev.target.value;
@@ -503,45 +919,66 @@
     });
 
     $(document).on('click', '#btnSubmitEmployeeDetails', function (e) {
-        debugger
-        if (($("#txtFirstName").val() == "") && ($("#txtLastName").val() == "") && ($("#txtEmail").val() == "") && ($("#txtEmployeeNumber").val() == "")  && ($("#txtBirthday").val() == "") && ($("#txtCity").val() == "") && ($("#txtCountry").val() == "") && ($("#txtTelephone").val() == "") && ($("#ddlDesignation").val() == 0) && ($("#ddlEmployeeType").val() == 0) && ($("#ddlManagerName").val() == 0) && ($("#ddlProjectName").val() == null) && ($("#ddlGraduation").val() == 0) && ($("#ddlSpecialization").val() == 0) && ($("#txtUniversity").val() == "") && ($("#txtEmployer").val() == "") && ($("#ddlExperienceDesignation").val() == 0) && ($("#ddlSkills").val()== null) && ($("#experienceDatePicker").val()== "")) {
+        if (($("#txtFirstName").val() == "") && ($("#txtLastName").val() == "") && ($("#txtEmail").val() == "") && ($("#txtTelephone").val() == "") && ($('input[name=r2]:checked').length<=0) && ($("#txtBirthday").val() == "")
+            && ($("#txtEmployeeNumber").val() == "") && ($("#txtInfrrdEmail").val() == "") && ($("#ddlDesignation").val() == 0) && ($("#ddlEmployeeType").val() == 0) && ($("#ddlEmployeeContractType").val() == 0) && ($("#ddlManagerName").val() == 0) && ($("#ddlProjectName").val() == null)
+            && ($("#txtEmergencyContactName").val() == "") && ($("#ddlEmergencyContactRelationship").val() == 0) && ($("#txtEmergencyContactTelephone").val() == "") && ($("#ddlEmergencyContactCountry").val() == 0)
+            && ($("#ddlPermanentCountry").val() == 0) && ($("#txtPermanentAddress").val() == "")
+            && ($("#ddlCurrentCountry").val() == 0) && ($("#txtCurrentAddress").val() == "")
+            && ($("#ddlFacility").val() == 0)
+            && ($("#ddlGraduation").val() == 0)  && ($("#txtUniversity").val() == "")
+            && ($("#txtEmployer").val() == "") && ($("#ddlExperienceDesignation").val() == 0) && ($("#ddlSkills").val()== null) && ($("#experienceDatePicker").val()== "")) {
             $("#divFirstNameError").show();
             $("#divLastNameError").show();
             $("#divEmailError").show();
-            $("#divEmployeeNumberError").show();
-            $("#divBirthDayError").show();
-            $("#divCityError").show();
-            $("#divCountryError").show();
             $("#divTelephoneError").show();
+            $("#divGenderError").show();
+            $("#divBirthDayError").show();
+            $("#divEmployeeNumberError").show();
+            $("#divInfrrdEmailError").show();
             $("#divDesignationError").show();
             $("#divEmployeeTypeError").show();
+            $("#divEmployeeContractTypeError").show();
             $("#divManagerNameError").show();
-            $("#divCollegeError").show();
-            $("#divSkillsError").show();
             $("#divProjectNameError").show();
+            $("#divEmergencyContactNameError").show();
+            $("#divEmergencyContactRelationshipError").show();
+            $("#divEmergencyContactTelephoneError").show();
+            $("#divEmergencyContactCountryError").show();
+            $("#divPermanentCountryError").show();
+            $("#divPermanentAddressError").show();
+            $("#divCurrentCountryError").show();
+            $("#divCurrentAddressError").show();
+            $("#divFacilityError").show();
             $("#divGraduationError").show();
-            $("#divSpecializationError").show();
-            $("#divEmpDesignationError").show();
+            $("#divCollegeError").show();
             $("#divEmployerError").show();
+            $("#divEmpDesignationError").show();
+            $("#divSkillsError").show();
             $("#divFromError").show();
             $('#divInvalidEmailError').hide();
+            $('#divInvalidInfrrdEmailError').hide();
             $('#divEmployeeNumberAlreadyError').hide();
             $('#divEmailAlreadyError').hide();
+            $('#EmpPersonalInfoToggle').collapse('show');
             $("#txtFirstName").focus();
+            
             return false;
         }
 
         if ($("#txtFirstName").val() == "") {
+            $('#EmpPersonalInfoToggle').collapse('show');
             $('#divFirstNameError').show();
             $("#txtFirstName").focus();
             return false;
         }
         if ($("#txtLastName").val() == "") {
+            $('#EmpPersonalInfoToggle').collapse('show');
             $('#divLastNameError').show();
             $("#txtLastName").focus();
             return false;
         }
         if ($("#txtEmail").val() == "") {
+            $('#EmpPersonalInfoToggle').collapse('show');
             $('#divEmailError').show();
             $('#divInvalidEmailError').hide();
             $('#divEmailAlreadyError').hide();
@@ -550,6 +987,7 @@
         }
         var reg = /^\w+([-+.']\w+)*@Html.Raw("@")\w+([-.]\w+)*\.\w+([-.]\w+)*$/
         if (!(reg.test($("#txtEmail").val()))) {
+            $('#EmpPersonalInfoToggle').collapse('show');
             $('#divInvalidEmailError').show();
             $('#divEmailError').hide();
             $("#txtEmail").focus();
@@ -560,90 +998,198 @@
             $('#divInvalidEmailError').hide();
             $('#divEmailError').hide();
         }
+
+
+        if ($("#txtTelephone").val() == "") {
+            $('#EmpPersonalInfoToggle').collapse('show');
+            $('#divTelephoneError').show();
+            $("#txtTelephone").focus();
+            return false;
+        }
+
+        if ($('input[name=r2]:checked').length<=0) {
+            $('#EmpPersonalInfoToggle').collapse('show');
+            $('#divGenderError').show();
+            $("input[name=r2]").focus();
+            return false;
+        }
+
+        if ($("#txtBirthday").val() == "") {
+            $('#EmpPersonalInfoToggle').collapse('show');
+            $('#divBirthDayError').show();
+            $("#txtBirthday").focus();
+            return false;
+        }
         if ($("#txtEmployeeNumber").val() == "") {
+            $('#EmpCompanyInfoToggle').collapse('show');
             $('#divEmployeeNumberError').show();
             $('#divEmployeeNumberAlreadyError').hide();
             $("#txtEmployeeNumber").focus();
             return false;
         }
+
+
+        if ($("#txtInfrrdEmail").val() == "") {
+            $('#EmpCompanyInfoToggle').collapse('show');
+            $('#divInfrrdEmailError').show();
+            $('#divInvalidInfrrdEmailError').hide();
+            $("#txtInfrrdEmail").focus();
+            return false;
+        }
+        var reg = /^\w+([-+.']\w+)*@Html.Raw("@")\w+([-.]\w+)*\.\w+([-.]\w+)*$/
+        if (!(reg.test($("#txtInfrrdEmail").val()))) {
+            $('#EmpCompanyInfoToggle').collapse('show');
+            $('#divInvalidInfrrdEmailError').show();
+            $('#divInfrrdEmailError').hide();
+            $("#txtInfrrdEmail").focus();
+            return false;
+        }
+        else
+        {
+            $('#divInvalidInfrrdEmailError').hide();
+            $('#divInfrrdEmailError').hide();
+        }
+
         if ($("#txtJoiningDate").val() == "") {
+            $('#EmpCompanyInfoToggle').collapse('show');
             $('#divDateOfJoiningError').show();
             $("#txtJoiningDate").focus();
             return false;
         }
-        if ($("#txtBirthday").val() == "") {
-            $('#divBirthDayError').show();
-            $("#txtBirthday").focus();
-            return false;
-        }
-        if ($("#txtCity").val() == "") {
-            $('#divCityError').show();
-            $("#txtCity").focus();
-            return false;
-        }
-        if ($("#txtCountry").val() == "") {
-            $('#divCountryError').show();
-            $("#txtCountry").focus();
-            return false;
-        }
-        if ($("#txtTelephone").val() == "") {
-            $('#divTelephoneError').show();
-            $("#txtTelephone").focus();
-            return false;
-        }
+
         if ($("#ddlDesignation").val() == 0) {
+            $('#EmpCompanyInfoToggle').collapse('show');
             $('#divDesignationError').show();
             $("#ddlDesignation").focus();
             return false;
         }
+
         if ($("#ddlEmployeeType").val() == 0) {
+            $('#EmpCompanyInfoToggle').collapse('show');
             $('#divEmployeeTypeError').show();
             $("#ddlEmployeeType").focus();
             return false;
         }
+
+        if ($("#ddlEmployeeContractType").val() == 0) {
+            $('#EmpCompanyInfoToggle').collapse('show');
+            $('#divEmployeeContractTypeError').show();
+            $("#ddlEmployeeContractType").focus();
+            return false;
+        }
         if ($("#ddlManagerName").val() == 0) {
+            $('#EmpCompanyInfoToggle').collapse('show');
             $('#divManagerNameError').show();
             $("#ddlManagerName").focus();
             return false;
         }
         if ($("#ddlProjectName").val() == null) {
+            $('#EmpCompanyInfoToggle').collapse('show');
             $('#divProjectNameError').show();
             $("#ddlProjectName").focus();
             return false;
         }
+
+        if ($("#txtEmergencyContactName").val() == "") {
+            $('#EmpEmergencyContactDetailsToggle').collapse('show');
+            $('#divEmergencyContactNameError').show();
+            $("#txtEmergencyContactName").focus();
+            return false;
+        }
+
+        if ($("#ddlEmergencyContactRelationship").val() == 0) {
+            $('#EmpEmergencyContactDetailsToggle').collapse('show');
+            $('#divEmergencyContactRelationshipError').show();
+            $("#ddlEmergencyContactRelationship").focus();
+            return false;
+        }
+
+        if ($("#txtEmergencyContactTelephone").val() == "") {
+            $('#EmpEmergencyContactDetailsToggle').collapse('show');
+            $('#divEmergencyContactTelephoneError').show();
+            $("#txtEmergencyContactTelephone").focus();
+            return false;
+        }
+
+        if ($("#ddlEmergencyContactCountry").val() == 0) {
+            $('#EmpEmergencyContactDetailsToggle').collapse('show');
+            $('#divEmergencyContactCountryError').show();
+            $("#ddlEmergencyContactCountry").focus();
+            return false;
+        }
+
+        if ($("#ddlPermanentCountry").val() == 0) {
+            $('#EmpPermanentAddressDetailsToggle').collapse('show');
+            $('#divPermanentCountryError').show();
+            $("#ddlPermanentCountry").focus();
+            return false;
+        }
+
+        if ($("#txtPermanentAddress").val() == "") {
+            $('#EmpPermanentAddressDetailsToggle').collapse('show');
+            $('#divPermanentAddressError').show();
+            $("#txtPermanentAddress").focus();
+            return false;
+        }
+
+        if ($("#ddlCurrentCountry").val() == 0) {
+            $('#EmpCurrentAddressDetailsToggle').collapse('show');
+            $('#divCurrentCountryError').show();
+            $("#ddlCurrentCountry").focus();
+            return false;
+        }
+
+        if ($("#txtCurrentAddress").val() == "") {
+            $('#EmpCurrentAddressDetailsToggle').collapse('show');
+            $('#divCurrentAddressError').show();
+            $("#txtCurrentAddress").focus();
+            return false;
+        }
+
+        if ($("#ddlFacility").val() == 0) {
+            $('#EmpWorkLocationDetailsToggle').collapse('show');
+            $('#divFacilityError').show();
+            $("#ddlFacility").focus();
+            return false;
+        }
+
+
+
         if ($("#ddlGraduation").val() == 0) {
+            $('#EmpEducationDetailsToggle').collapse('show');
             $('#divGraduationError').show();
             $("#ddlGraduation").focus();
             return false;
         }
-        if ($("#ddlSpecialization").val() == 0) {
-            $('#divSpecializationError').show();
-            $("#ddlSpecialization").focus();
-            return false;
-        }
+
         if ($("#txtUniversity").val() == "") {
+            $('#EmpEducationDetailsToggle').collapse('show');
             $('#divCollegeError').show();
             $("#txtUniversity").focus();
             return false;
         }
 
         if (($("#txtEmployer").val() == "") && ($("#ddlEmployeeType").val() != (@Convert.ToInt16(LMS_WebAPP_Utils.EmployeeType.Fresher)))) {
+            $('#EmpExperienceDetailsToggle').collapse('show');
             $('#divEmployerError').show();
             $("#txtEmployer").focus();
             return false;
         }
         if (($("#ddlExperienceDesignation").val() == 0) && ($("#ddlEmployeeType").val() != (@Convert.ToInt16(LMS_WebAPP_Utils.EmployeeType.Fresher)))) {
+            $('#EmpExperienceDetailsToggle').collapse('show');
             $('#divEmpDesignationError').show();
             $("#ddlExperienceDesignation").focus();
             return false;
         }
         if (($("#experienceDatePicker").val()== "") && ($("#ddlEmployeeType").val() != (@Convert.ToInt16(LMS_WebAPP_Utils.EmployeeType.Fresher)))) {
+            $('#EmpExperienceDetailsToggle').collapse('show');
             $('#divFromError').show();
             $("#experienceDatePicker").focus();
             return false;
         }
 
         if (($("#ddlSkills").val()== null) && ($("#ddlEmployeeType").val() != (@Convert.ToInt16(LMS_WebAPP_Utils.EmployeeType.Fresher)))){
+            $('#EmpExperienceDetailsToggle').collapse('show');
             $('#divSkillsError').show();
             $("#ddlSkills").focus();
             return false;
@@ -652,9 +1198,10 @@
         var bDate = $("#txtBirthday").datepicker('getDate');
         var birthDate=bDate.toLocaleDateString();
         var joinDate=$("#txtJoiningDate").datepicker('getDate');
+        var confirmationDate=$("#txtConfirmationDate").datepicker('getDate');
        // var joinDate=$("#txtJoiningDate").val();
         var dateOfJoining=joinDate.toLocaleDateString();
-
+        var dateOfconfirmation=confirmationDate.toLocaleDateString();
         var imagepath = imgpath != "" ? imgpath : "";
         var educationDetails = {
             Graduation: $("#ddlGraduation").val(),
@@ -662,6 +1209,38 @@
             FromDate: $("#educationDatePicker").val().split("-")[0].trim(),
             ToDate: $("#educationDatePicker").val().split("-")[1].trim(),
             Specialization: $("#ddlSpecialization").val(),
+        }
+
+        var worklocationDetails = {
+            Country: $("#ddlWorkCountry").val(),
+            State: $("#ddlWorkState").val(),
+            City: $("#ddlWorkCity").val(),
+            Facility: $("#ddlFacility").val(),
+        }
+
+        var permanentaddressDetails = {
+            Country: $("#ddlPermanentCountry").val(),
+            State: $("#ddlPermanentState").val(),
+            City: $("#ddlPermanentCity").val(),
+            Address : $("#txtPermanentAddress").val(),
+        }
+
+        var currentaddressDetails = {
+            Country: $("#ddlCurrentCountry").val(),
+            State: $("#ddlCurrentState").val(),
+            City: $("#ddlCurrentCity").val(),
+            Address : $("#txtCurrentAddress").val(),
+        }
+
+        var emergencycontactDetails = {
+            Name: $("#txtEmergencyContactName").val(),
+            Relationship: $("#ddlEmergencyContactRelationship").val(),
+            Telephone: $("#txtEmergencyContactTelephone").val(),
+            Country: $("#ddlEmergencyContactCountry").val(),
+            State: $("#ddlEmergencyContactState").val(),
+            City: $("#ddlEmergencyContactCity").val(),
+            AddressLine1 : $("#txtEmergencyContactAddressLine1").val(),
+            AddressLine2 : $("#txtEmergencyContactAddressLine2").val(),
         }
         if($("#ddlEmployeeType").val() != (@Convert.ToInt16(LMS_WebAPP_Utils.EmployeeType.Fresher))) {
             debugger
@@ -679,7 +1258,7 @@
                 Role: $("#ddlExperienceDesignation").val(),
                 FromDate: $("#experienceDatePicker").val().split("-")[0].trim(),
                 ToDate: $("#experienceDatePicker").val().split("-")[1].trim(),
-                
+
             }
         }
       else
@@ -690,7 +1269,7 @@
             FromDate: $("#experienceDatePicker").val(),
             ToDate: $("#experienceDatePicker").val(),
         }
-          
+
         }
 
         var skills = [];
@@ -704,7 +1283,7 @@
         }
         else if($("#ddlSkills").val()!=null)
         {
-            
+
             for (i = 0; i < $("#ddlSkills").val().length; i++) {
                 skill = {
                     SkillName: $("#ddlSkills").val()[i]
@@ -736,6 +1315,12 @@
             City: $("#txtCity").val(),
             Country: $("#txtCountry").val(),
             Telephone: $("#txtTelephone").val(),
+            Gender : $('input[name=r2]:checked').val(),
+            PassportNumber : $("#txtPassportNumber").val(),
+            BloodGroup : $("#txtBloodGroup").val(),
+            InfrrdEmailId : $("#txtInfrrdEmail").val(),
+            EmployeeConractType : $("#ddlEmployeeContractType").val(),
+            DateOfConfirmation : dateOfconfirmation,
             //RefHierarchyLevel: $("#ddlLevel").val(),
             DateOfJoining: dateOfJoining,
             ManagerId: $("#ddlManagerName").val(),
@@ -744,10 +1329,14 @@
             Projects:projects,
             Imagepath: imagepath,
             EmployeeEducation: [educationDetails],
-            EmployeeExperience:[experienceDetails]
+            EmployeeExperience:[experienceDetails],
+            EmployeeWorkLocationDetail: [worklocationDetails],
+            EmployeeCurrentAddressDetail: [currentaddressDetails],
+            EmployeePermanentAddressDetail: [permanentaddressDetails],
+            EmployeeEmergencyContactDetail: [emergencycontactDetails],
         };
 
-
+        
         var empNumber = $("#txtEmployeeNumber").val();
         var employeeMailid = $("#txtEmail").val();
         $.ajax({
@@ -757,9 +1346,10 @@
             data: { employeeMailid: employeeMailid},
             contentType: "application/json",
             success: function (data) {
-                debugger
+                $("#Loading").hide();
                 if(data=="True")
                 {
+                    $('#EmpPersonalInfoToggle').collapse('show');
                     $('#divEmailError').hide();
                     $('#divEmailAlreadyError').show();
                     $("#txtEmail").focus();
@@ -775,8 +1365,10 @@
                         data: { empNumber: empNumber},
                         contentType: "application/json",
                         success: function (data) {
+                            $("#Loading").hide();
                             if(data=="True")
                             {
+                                $('#EmpCompanyInfoToggle').collapse('show');
                                 $('#divEmployeeNumberError').hide();
                                 $('#divEmployeeNumberAlreadyError').show();
                                 $("#txtEmployeeNumber").focus();
@@ -784,6 +1376,7 @@
                             }
                             else
                             {
+                                $("#Loading").show();
                                 $('#divEmployeeNumberAlreadyError').hide();
                                 $.ajax({
                                     cache: false,
@@ -796,11 +1389,12 @@
                                     success: function (data) {
                                         localStorage.setItem("EmployeeAdded", 1);
                                         window.location.href = "/HR/EmployeeDetails";
+                                        $("#Loading").hide();
                                     }
                                 });
 
                             }
-                
+
                         }
 
                     });
@@ -808,17 +1402,17 @@
 
             }
         });
-        
-        
 
-        
-        
+
+
+
+
     }
    );
 
     function ValidateAndUploadImage()
     {
-        
+
         var file = document.getElementById("employeeImage").value;
         imgPath = document.getElementById("employeeImage").files[0].name;
 
@@ -887,6 +1481,244 @@
         });
     }
 
+    function GetCountries() {
+        $.ajax({
+            cache: false,
+            type: 'post',
+            url: '/HR/GetCountries',
+            contentType: "application/json",
+            dataType: "json",
+            success: function (data) {
+                for (var i = 0; i < data.data.length; i++) {
+                    $("#ddlCurrentCountry").append($('<option></option>').attr("value", data.data[i].Id).text(data.data[i].CountryName));
+                    //$("#ddlWorkCountry").append($('<option></option>').attr("value", data.data[i].Id).text(data.data[i].CountryName));
+                    $("#ddlPermanentCountry").append($('<option></option>').attr("value", data.data[i].Id).text(data.data[i].CountryName));
+                    $("#ddlEmergencyContactCountry").append($('<option></option>').attr("value", data.data[i].Id).text(data.data[i].CountryName));
+                }
+            }
+        });
+    }
+
+    function GetWorkFacilities() {
+        $.ajax({
+            cache: false,
+            type: 'post',
+            url: '/HR/GetWorkFacilities',
+            contentType: "application/json",
+            dataType: "json",
+            success: function (data) {
+                for (var i = 0; i < data.data.length; i++) {
+                    $("#ddlFacility").append($('<option></option>').attr("value", data.data[i].Id).text(data.data[i].FacilityName));
+                }
+            }
+        });
+    }
+
+    function GetRelationships() {
+        $.ajax({
+            cache: false,
+            type: 'post',
+            url: '/HR/GetRelationships',
+            contentType: "application/json",
+            dataType: "json",
+            success: function (data) {
+                for (var i = 0; i < data.data.length; i++) {
+                    $("#ddlEmergencyContactRelationship").append($('<option></option>').attr("value", data.data[i].Id).text(data.data[i].Relationship));
+                }
+            }
+        });
+    }
+
+    $(document).on('change', "#ddlFacility", function (e) {
+        $("#ddlWorkCity").empty();
+        $("#ddlWorkCity").append($('<option></option>').attr("value", '').text('Select'));
+        $("#ddlWorkState").empty();
+        $("#ddlWorkState").append($('<option></option>').attr("value", '').text('Select'));
+        $("#ddlWorkCountry").empty();
+        $("#ddlWorkCountry").append($('<option></option>').attr("value", '').text('Select'));
+
+        var facilityId = $("#ddlFacility").val();
+        $.ajax({
+            cache: false,
+            type: 'post',
+            url: '/HR/GetWorkFacilityDetails',
+            data: { FacilityId: facilityId},
+            //contentType: "application/json",
+            success: function (data) {
+                debugger
+                    $("#ddlWorkCity").append($('<option></option>').attr("value", data.data.CityId).text(data.data.CityName));
+                    $("#ddlWorkState").append($('<option></option>').attr("value", data.data.StateId).text(data.data.StateName));
+                    $("#ddlWorkCountry").append($('<option></option>').attr("value", data.data.CountryId).text(data.data.CountryName));
+                    $("#ddlWorkCity").val(data.data.CityId);
+                    $("#ddlWorkState").val(data.data.StateId);
+                    $("#ddlWorkCountry").val(data.data.CountryId);
+            }
+        });
+    });
+
+
+    $(document).on('change', "#ddlEmergencyContactCountry", function (e) {
+        $("#ddlEmergencyContactState").empty();
+        $("#ddlEmergencyContactState").append($('<option></option>').attr("value", '').text('Select'));
+        var countryId = $("#ddlEmergencyContactCountry").val();
+        $.ajax({
+            cache: false,
+            type: 'post',
+            url: '/HR/GetStates',
+            data: { CountryId: countryId},
+            //contentType: "application/json",
+            success: function (data) {
+                for (var i = 0; i < data.data.length; i++) {
+                    $("#ddlEmergencyContactState").append($('<option></option>').attr("value", data.data[i].Id).text(data.data[i].StateName));
+                }
+            }
+        });
+    });
+
+    $(document).on('change', "#ddlCurrentCountry", function (e) {
+        $("#ddlCurrentState").empty();
+        $("#ddlCurrentState").append($('<option></option>').attr("value", '').text('Select'));
+        var countryId = $("#ddlCurrentCountry").val();
+        $.ajax({
+            cache: false,
+            type: 'post',
+            url: '/HR/GetStates',
+            data: { CountryId: countryId},
+            //contentType: "application/json",
+            success: function (data) {
+                for (var i = 0; i < data.data.length; i++) {
+                    $("#ddlCurrentState").append($('<option></option>').attr("value", data.data[i].Id).text(data.data[i].StateName));
+                }
+            }
+        });
+    });
+
+    $(document).on('change', "#ddlPermanentCountry", function (e) {
+        $("#ddlPermanentState").empty();
+        $("#ddlPermanentState").append($('<option></option>').attr("value", '').text('Select'));
+        var countryId = $("#ddlPermanentCountry").val();
+        $.ajax({
+            cache: false,
+            type: 'post',
+            url: '/HR/GetStates',
+            data: { CountryId: countryId},
+            //contentType: "application/json",
+            success: function (data) {
+                for (var i = 0; i < data.data.length; i++) {
+                    $("#ddlPermanentState").append($('<option></option>').attr("value", data.data[i].Id).text(data.data[i].StateName));
+                }
+            }
+        });
+    });
+
+    //$(document).on('change', "#ddlWorkCountry", function (e) {
+    //    $("#ddlWorkState").empty();
+    //    $("#ddlWorkState").append($('<option></option>').attr("value", '').text('Select'));
+    //    var countryId = $("#ddlWorkCountry").val();
+    //    $.ajax({
+    //        cache: false,
+    //        type: 'post',
+    //        url: '/HR/GetStates',
+    //        data: { CountryId: countryId},
+    //        //contentType: "application/json",
+    //        success: function (data) {
+    //            for (var i = 0; i < data.data.length; i++) {
+    //                $("#ddlWorkState").append($('<option></option>').attr("value", data.data[i].Id).text(data.data[i].StateName));
+    //            }
+    //        }
+    //    });
+    //});
+
+    $(document).on('change', "#ddlEmergencyContactState", function (e) {
+        $("#ddlEmergencyContactCity").empty();
+        $("#ddlEmergencyContactCity").append($('<option></option>').attr("value", '').text('Select'));
+        var stateId = $("#ddlEmergencyContactState").val();
+        $.ajax({
+            cache: false,
+            type: 'post',
+            url: '/HR/GetCities',
+            data: { StateId: stateId},
+            //contentType: "application/json",
+            success: function (data) {
+                for (var i = 0; i < data.data.length; i++) {
+                    $("#ddlEmergencyContactCity").append($('<option></option>').attr("value", data.data[i].Id).text(data.data[i].CityName));
+                }
+            }
+        });
+    });
+
+    $(document).on('change', "#ddlCurrentState", function (e) {
+        $("#ddlCurrentCity").empty();
+        $("#ddlCurrentCity").append($('<option></option>').attr("value", '').text('Select'));
+        var stateId = $("#ddlCurrentState").val();
+        $.ajax({
+            cache: false,
+            type: 'post',
+            url: '/HR/GetCities',
+            data: { StateId: stateId},
+            //contentType: "application/json",
+            success: function (data) {
+                for (var i = 0; i < data.data.length; i++) {
+                    $("#ddlCurrentCity").append($('<option></option>').attr("value", data.data[i].Id).text(data.data[i].CityName));
+                }
+            }
+        });
+    });
+
+    $(document).on('change', "#ddlPermanentState", function (e) {
+        $("#ddlPermanentCity").empty();
+        $("#ddlPermanentCity").append($('<option></option>').attr("value", '').text('Select'));
+        var stateId = $("#ddlPermanentState").val();
+        $.ajax({
+            cache: false,
+            type: 'post',
+            url: '/HR/GetCities',
+            data: { StateId: stateId},
+            //contentType: "application/json",
+            success: function (data) {
+                for (var i = 0; i < data.data.length; i++) {
+                    $("#ddlPermanentCity").append($('<option></option>').attr("value", data.data[i].Id).text(data.data[i].CityName));
+                }
+            }
+        });
+    });
+
+    //$(document).on('change', "#ddlWorkState", function (e) {
+    //    $("#ddlWorkCity").empty();
+    //    $("#ddlWorkCity").append($('<option></option>').attr("value", '').text('Select'));
+    //    var stateId = $("#ddlWorkState").val();
+    //    $.ajax({
+    //        cache: false,
+    //        type: 'post',
+    //        url: '/HR/GetCities',
+    //        data: { StateId: stateId},
+    //        //contentType: "application/json",
+    //        success: function (data) {
+    //            for (var i = 0; i < data.data.length; i++) {
+    //                $("#ddlWorkCity").append($('<option></option>').attr("value", data.data[i].Id).text(data.data[i].CityName));
+    //            }
+    //        }
+    //    });
+    //});
+
+    //$(document).on('change', "#ddlWorkCity", function (e) {
+    //    $("#ddlFacility").empty();
+    //    $("#ddlFacility").append($('<option></option>').attr("value", '').text('Select'));
+    //    var cityId = $("#ddlWorkCity").val();
+    //    $.ajax({
+    //        cache: false,
+    //        type: 'post',
+    //        url: '/HR/GetFacilities',
+    //        data: { CityId: cityId},
+    //        //contentType: "application/json",
+    //        success: function (data) {
+    //            for (var i = 0; i < data.data.length; i++) {
+    //                $("#ddlFacility").append($('<option></option>').attr("value", data.data[i].Id).text(data.data[i].FacilityName));
+    //            }
+    //        }
+    //    });
+    //});
+
     function GetRolesList() {
         $.ajax({
             cache: false,
@@ -916,6 +1748,15 @@
         $('#divEmailAlreadyError').hide();
         $('#divEmailError').hide();
     });
+
+    $("#txtInfrrdEmail").keypress(function (e) {
+        $('#divInfrrdEmailError').hide();
+    });
+
+    $('input[name="r2"]:radio').off('ifChecked').on('ifChecked', function (event) {
+        $('#divGenderError').hide();
+    });
+
     $("#txtEmployeeNumber").keypress(function (e) {
         $('#divEmployeeNumberError').hide();
         $('#divEmployeeNumberAlreadyError').hide();
@@ -932,6 +1773,44 @@
     $("#txtUniversity").keypress(function (e) {
         $('#divCollegeError').hide();
     });
+
+    $("#txtEmergencyContactName").keypress(function (e) {
+        $('#divEmergencyContactNameError').hide();
+    });
+    
+
+    $("#txtEmergencyContactTelephone").keypress(function (e) {
+        $('#divEmergencyContactTelephoneError').hide();
+    });
+
+    
+
+    $("#txtCurrentAddress").keypress(function (e) {
+        $('#divCurrentAddressError').hide();
+    });
+
+    $("#txtPermanentAddress").keypress(function (e) {
+        $('#divPermanentAddressError').hide();
+    });
+
+    $('#ddlEmergencyContactRelationship').on('change', function () {
+        if ($("#ddlEmergencyContactRelationship").val() != 0) {
+            $("#divEmergencyContactRelationshipError").hide();
+        }
+        else {
+            $("#divEmergencyContactRelationshipError").show();
+        }
+    });
+
+    $('#ddlEmergencyContactCountry').on('change', function () {
+        if ($("#ddlEmergencyContactCountry").val() != 0) {
+            $("#divEmergencyContactCountryError").hide();
+        }
+        else {
+            $("#divEmergencyContactCountryError").show();
+        }
+    });
+
     $('#ddlSkills').on('change', function () {
         if ($("#ddlSkills").val() != 0) {
             $("#divSkillsError").hide();
@@ -950,8 +1829,34 @@
         }
     });
 
+    $('#ddlCurrentCountry').on('change', function () {
+        if ($("#ddlCurrentCountry").val() != 0) {
+            $("#divCurrentCountryError").hide();
+        }
+        else {
+            $("#divCurrentCountryError").show();
+        }
+    });
+
+    $('#ddlPermanentCountry').on('change', function () {
+        if ($("#ddlPermanentCountry").val() != 0) {
+            $("#divPermanentCountryError").hide();
+        }
+        else {
+            $("#divPermanentCountryError").show();
+        }
+    });
+
+    $('#ddlFacility').on('change', function () {
+        if ($("#ddlFacility").val() != 0) {
+            $("#divFacilityError").hide();
+        }
+        else {
+            $("#divFacilityError").show();
+        }
+    });
+
     $('#ddlEmployeeType').on('change', function () {
-        debugger
         if ($("#ddlEmployeeType").val() != 0) {
             $("#divEmployeeTypeError").hide();
             if ($("#ddlEmployeeType").val() == (@Convert.ToInt16(LMS_WebAPP_Utils.EmployeeType.Fresher))) {
@@ -970,6 +1875,15 @@
         }
         else {
             $("#divEmployeeTypeError").show();
+        }
+    });
+
+    $('#ddlEmployeeContractType').on('change', function () {
+        if ($("#ddlEmployeeContractType").val() != 0) {
+            $("#divEmployeeContractTypeError").hide();
+        }
+        else {
+            $("#divEmployeeContractTypeError").show();
         }
     });
 
@@ -1002,14 +1916,7 @@
         }
     });
 
-    $('#ddlSpecialization').on('change', function () {
-        if ($("#ddlSpecialization").val() != 0) {
-            $("#divSpecializationError").hide();
-        }
-        else {
-            $("#divSpecializationError").show();
-        }
-    });
+
 
     $('#ddlExperienceDesignation').on('change', function () {
         if ($("#ddlExperienceDesignation").val() != 0) {

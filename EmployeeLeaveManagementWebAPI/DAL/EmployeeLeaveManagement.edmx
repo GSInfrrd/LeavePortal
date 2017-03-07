@@ -15,6 +15,21 @@
           <Property Name="ImagePath" Type="varchar(max)" />
           <Property Name="IsActive" Type="bit" />
         </EntityType>
+        <EntityType Name="CityDetails">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="RefCountryId" Type="int" Nullable="false" />
+          <Property Name="City" Type="nvarchar" MaxLength="100" Nullable="false" />
+        </EntityType>
+        <EntityType Name="CountryDetails">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Country" Type="nvarchar" MaxLength="100" Nullable="false" />
+        </EntityType>
         <EntityType Name="EmailTemplateMapping">
           <Key>
             <PropertyRef Name="Id" />
@@ -42,6 +57,22 @@
           <Property Name="RefEmpId" Type="int" Nullable="false" />
           <Property Name="CreatedBy" Type="nvarchar" MaxLength="50" />
           <Property Name="ModifiedBy" Type="nvarchar" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="EmployeeCurrentAddressDetails">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="RefEmployeeId" Type="int" Nullable="false" />
+          <Property Name="Country" Type="nvarchar" MaxLength="100" Nullable="false" />
+          <Property Name="State" Type="nvarchar" MaxLength="200" />
+          <Property Name="City" Type="nvarchar" MaxLength="200" />
+          <Property Name="Address" Type="nvarchar(max)" />
+          <Property Name="IsActive" Type="int" Nullable="false" />
+          <Property Name="CreatedDate" Type="date" />
+          <Property Name="ModifiedDate" Type="date" />
+          <Property Name="RefCreatedBy" Type="int" />
+          <Property Name="RefModifiedBy" Type="int" />
         </EntityType>
         <EntityType Name="EmployeeDetails">
           <Key>
@@ -71,6 +102,12 @@
           <Property Name="GooglePlusLink" Type="varchar(max)" />
           <Property Name="RefEmployeeType" Type="int" Nullable="false" />
           <Property Name="RefProfileType" Type="int" Nullable="false" />
+          <Property Name="Gender" Type="nvarchar" MaxLength="20" />
+          <Property Name="PassportNumber" Type="nvarchar" MaxLength="200" />
+          <Property Name="BloodGroup" Type="nvarchar" MaxLength="200" />
+          <Property Name="InfrrdEmailId" Type="nvarchar" MaxLength="200" />
+          <Property Name="RefEmployeeContractType" Type="int" />
+          <Property Name="DateOfConfirmation" Type="date" />
         </EntityType>
         <EntityType Name="EmployeeEducationDetails">
           <Key>
@@ -83,6 +120,27 @@
           <Property Name="FromDate" Type="date" Nullable="false" />
           <Property Name="ToDate" Type="date" Nullable="false" />
           <Property Name="Specialization" Type="varchar" MaxLength="100" />
+        </EntityType>
+        <EntityType Name="EmployeeEmergencyContactDetails">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="RefEmployeeId" Type="int" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" MaxLength="100" Nullable="false" />
+          <Property Name="Relationship" Type="nvarchar" MaxLength="200" />
+          <Property Name="Telephone" Type="nvarchar" MaxLength="100" />
+          <Property Name="Address" Type="nvarchar(max)" />
+          <Property Name="IsActive" Type="int" Nullable="false" />
+          <Property Name="CreatedDate" Type="date" />
+          <Property Name="ModifiedDate" Type="date" />
+          <Property Name="RefCreatedBy" Type="int" />
+          <Property Name="RefModifiedBy" Type="int" />
+          <Property Name="Country" Type="nvarchar" MaxLength="200" />
+          <Property Name="State" Type="nvarchar" MaxLength="200" />
+          <Property Name="City" Type="nvarchar" MaxLength="200" />
+          <Property Name="AddressLine1" Type="nvarchar(max)" />
+          <Property Name="AddressLine2" Type="nvarchar(max)" />
         </EntityType>
         <EntityType Name="EmployeeExperienceDetails">
           <Key>
@@ -130,6 +188,22 @@
           <Property Name="RefModifiedBy" Type="int" />
           <Property Name="RefTransactionType" Type="int" Nullable="false" />
         </EntityType>
+        <EntityType Name="EmployeePermanentAddressDetails">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="RefEmployeeId" Type="int" Nullable="false" />
+          <Property Name="Country" Type="nvarchar" MaxLength="100" Nullable="false" />
+          <Property Name="State" Type="nvarchar" MaxLength="200" />
+          <Property Name="City" Type="nvarchar" MaxLength="200" />
+          <Property Name="Address" Type="nvarchar(max)" />
+          <Property Name="IsActive" Type="int" Nullable="false" />
+          <Property Name="CreatedDate" Type="date" />
+          <Property Name="ModifiedDate" Type="date" />
+          <Property Name="RefCreatedBy" Type="int" />
+          <Property Name="RefModifiedBy" Type="int" />
+        </EntityType>
         <EntityType Name="EmployeeProjectDetail">
           <Key>
             <PropertyRef Name="Id" />
@@ -163,6 +237,55 @@
           <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="RefEmployeeId" Type="int" Nullable="false" />
           <Property Name="Skill" Type="nchar" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="EmployeeWorkLocationDetails">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="RefEmployeeId" Type="int" Nullable="false" />
+          <Property Name="Country" Type="nvarchar" MaxLength="100" />
+          <Property Name="State" Type="nvarchar" MaxLength="200" />
+          <Property Name="City" Type="nvarchar" MaxLength="200" />
+          <Property Name="Facility" Type="nvarchar(max)" />
+          <Property Name="IsActive" Type="int" Nullable="false" />
+          <Property Name="CreatedDate" Type="date" />
+          <Property Name="ModifiedDate" Type="date" />
+          <Property Name="RefCreatedBy" Type="int" />
+          <Property Name="RefModifiedBy" Type="int" />
+        </EntityType>
+        <EntityType Name="Geo_Location_City_Master">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="varchar" MaxLength="30" Nullable="false" />
+          <Property Name="RefStateId" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Geo_Location_Country_Master">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Sortname" Type="varchar" MaxLength="3" Nullable="false" />
+          <Property Name="Name" Type="varchar" MaxLength="150" Nullable="false" />
+          <Property Name="Phonecode" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Geo_Location_Facility_Master">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="varchar" MaxLength="30" Nullable="false" />
+          <Property Name="RefCityId" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Geo_Location_State_Master">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="varchar" MaxLength="30" Nullable="false" />
+          <Property Name="RefCountryId" Type="int" Nullable="false" />
         </EntityType>
         <EntityType Name="Holidays">
           <Key>
@@ -231,6 +354,7 @@
           <Property Name="Technology" Type="varchar" MaxLength="250" Nullable="false" />
           <Property Name="ProjectLogo" Type="nvarchar" MaxLength="500" />
           <Property Name="IsBench" Type="bit" Nullable="false" />
+          <Property Name="TechnologyDetails" Type="nvarchar(max)" />
         </EntityType>
         <EntityType Name="ResourceRequestDetail">
           <Key>
@@ -246,6 +370,21 @@
           <Property Name="CreatedDate" Type="datetime2" Precision="7" Nullable="false" />
           <Property Name="UpdatedDate" Type="datetime2" Precision="7" Nullable="false" />
           <Property Name="Status" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="TechnologyDetails">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="RefTechnologyId" Type="int" Nullable="false" />
+          <Property Name="TechnologyDetails" Type="nvarchar(max)" Nullable="false" />
+        </EntityType>
+        <EntityType Name="TechnologyMaster">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Technology" Type="nvarchar" MaxLength="100" Nullable="false" />
         </EntityType>
         <EntityType Name="UserAccount">
           <Key>
@@ -309,6 +448,18 @@
           <Property Name="RefReason" Type="int" Nullable="false" />
           <Property Name="OtherReason" Type="varchar(max)" />
         </EntityType>
+        <Association Name="FK_CityDetails_CountryDetails">
+          <End Role="CountryDetails" Type="Self.CountryDetails" Multiplicity="1" />
+          <End Role="CityDetails" Type="Self.CityDetails" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="CountryDetails">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="CityDetails">
+              <PropertyRef Name="RefCountryId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_ConsolidatedEmployeeLeaveDetails_EmployeeDetails">
           <End Role="EmployeeDetails" Type="Self.EmployeeDetails" Multiplicity="1" />
           <End Role="EmployeeLeaveMaster" Type="Self.EmployeeLeaveMaster" Multiplicity="*" />
@@ -342,6 +493,18 @@
             </Principal>
             <Dependent Role="EmployeeContactDetails">
               <PropertyRef Name="RefEmpId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_EmployeeCurrentAddressDetails_EmployeeDetails">
+          <End Role="EmployeeDetails" Type="Self.EmployeeDetails" Multiplicity="1" />
+          <End Role="EmployeeCurrentAddressDetails" Type="Self.EmployeeCurrentAddressDetails" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="EmployeeDetails">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="EmployeeCurrentAddressDetails">
+              <PropertyRef Name="RefEmployeeId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -561,6 +724,18 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_EmployeeEmergencyContactDetails_EmployeeDetails">
+          <End Role="EmployeeDetails" Type="Self.EmployeeDetails" Multiplicity="1" />
+          <End Role="EmployeeEmergencyContactDetails" Type="Self.EmployeeEmergencyContactDetails" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="EmployeeDetails">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="EmployeeEmergencyContactDetails">
+              <PropertyRef Name="RefEmployeeId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_EmployeeExperienceDetails_EmployeeDetails">
           <End Role="EmployeeDetails" Type="Self.EmployeeDetails" Multiplicity="1" />
           <End Role="EmployeeExperienceDetails" Type="Self.EmployeeExperienceDetails" Multiplicity="*" />
@@ -594,6 +769,18 @@
             </Principal>
             <Dependent Role="Workflow">
               <PropertyRef Name="RefLeaveTransactionId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_EmployeePermanentAddressDetails_EmployeeDetails">
+          <End Role="EmployeeDetails" Type="Self.EmployeeDetails" Multiplicity="1" />
+          <End Role="EmployeePermanentAddressDetails" Type="Self.EmployeePermanentAddressDetails" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="EmployeeDetails">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="EmployeePermanentAddressDetails">
+              <PropertyRef Name="RefEmployeeId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -654,6 +841,54 @@
             </Principal>
             <Dependent Role="EmployeeSkills">
               <PropertyRef Name="RefEmployeeId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_EmployeeWorkLocationDetails_EmployeeDetails">
+          <End Role="EmployeeDetails" Type="Self.EmployeeDetails" Multiplicity="1" />
+          <End Role="EmployeeWorkLocationDetails" Type="Self.EmployeeWorkLocationDetails" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="EmployeeDetails">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="EmployeeWorkLocationDetails">
+              <PropertyRef Name="RefEmployeeId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Geo_Location_City_Master_Geo_Location_State_Master">
+          <End Role="Geo_Location_State_Master" Type="Self.Geo_Location_State_Master" Multiplicity="1" />
+          <End Role="Geo_Location_City_Master" Type="Self.Geo_Location_City_Master" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Geo_Location_State_Master">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Geo_Location_City_Master">
+              <PropertyRef Name="RefStateId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Geo_Location_Facility_Master_Geo_Location_City_Master">
+          <End Role="Geo_Location_City_Master" Type="Self.Geo_Location_City_Master" Multiplicity="1" />
+          <End Role="Geo_Location_Facility_Master" Type="Self.Geo_Location_Facility_Master" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Geo_Location_City_Master">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Geo_Location_Facility_Master">
+              <PropertyRef Name="RefCityId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Geo_Location_State_Master_Geo_Location_Country_Master">
+          <End Role="Geo_Location_Country_Master" Type="Self.Geo_Location_Country_Master" Multiplicity="1" />
+          <End Role="Geo_Location_State_Master" Type="Self.Geo_Location_State_Master" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Geo_Location_Country_Master">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Geo_Location_State_Master">
+              <PropertyRef Name="RefCountryId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -789,6 +1024,18 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_TechnologyDetails_TechnologyMaster">
+          <End Role="TechnologyMaster" Type="Self.TechnologyMaster" Multiplicity="1" />
+          <End Role="TechnologyDetails" Type="Self.TechnologyDetails" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TechnologyMaster">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="TechnologyDetails">
+              <PropertyRef Name="RefTechnologyId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_WorkFromHome_refEmpID">
           <End Role="EmployeeDetails" Type="Self.EmployeeDetails" Multiplicity="1" />
           <End Role="WorkFromHome" Type="Self.WorkFromHome" Multiplicity="*" />
@@ -827,17 +1074,27 @@
         </Association>
         <EntityContainer Name="LeaveManagementSystemModelStoreContainer">
           <EntitySet Name="Announcements" EntityType="Self.Announcements" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="CityDetails" EntityType="Self.CityDetails" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="CountryDetails" EntityType="Self.CountryDetails" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="EmailTemplateMapping" EntityType="Self.EmailTemplateMapping" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="EmailTemplateMaster" EntityType="Self.EmailTemplateMaster" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="EmployeeContactDetails" EntityType="Self.EmployeeContactDetails" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="EmployeeCurrentAddressDetails" EntityType="Self.EmployeeCurrentAddressDetails" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="EmployeeDetails" EntityType="Self.EmployeeDetails" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="EmployeeEducationDetails" EntityType="Self.EmployeeEducationDetails" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="EmployeeEmergencyContactDetails" EntityType="Self.EmployeeEmergencyContactDetails" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="EmployeeExperienceDetails" EntityType="Self.EmployeeExperienceDetails" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="EmployeeLeaveMaster" EntityType="Self.EmployeeLeaveMaster" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="EmployeeLeaveTransaction" EntityType="Self.EmployeeLeaveTransaction" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="EmployeePermanentAddressDetails" EntityType="Self.EmployeePermanentAddressDetails" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="EmployeeProjectDetail" EntityType="Self.EmployeeProjectDetail" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="EmployeeRewardedLeaveDetails" EntityType="Self.EmployeeRewardedLeaveDetails" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="EmployeeSkills" EntityType="Self.EmployeeSkills" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="EmployeeWorkLocationDetails" EntityType="Self.EmployeeWorkLocationDetails" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Geo_Location_City_Master" EntityType="Self.Geo_Location_City_Master" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Geo_Location_Country_Master" EntityType="Self.Geo_Location_Country_Master" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Geo_Location_Facility_Master" EntityType="Self.Geo_Location_Facility_Master" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Geo_Location_State_Master" EntityType="Self.Geo_Location_State_Master" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Holidays" EntityType="Self.Holidays" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="LeaveMaster" EntityType="Self.LeaveMaster" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="MasterDataType" EntityType="Self.MasterDataType" Schema="dbo" store:Type="Tables" />
@@ -845,10 +1102,16 @@
           <EntitySet Name="Notification" EntityType="Self.Notification" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="ProjectMaster" EntityType="Self.ProjectMaster" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="ResourceRequestDetail" EntityType="Self.ResourceRequestDetail" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="TechnologyDetails" EntityType="Self.TechnologyDetails" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="TechnologyMaster" EntityType="Self.TechnologyMaster" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="UserAccount" EntityType="Self.UserAccount" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Workflow" EntityType="Self.Workflow" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="WorkflowHistory" EntityType="Self.WorkflowHistory" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="WorkFromHome" EntityType="Self.WorkFromHome" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_CityDetails_CountryDetails" Association="Self.FK_CityDetails_CountryDetails">
+            <End Role="CountryDetails" EntitySet="CountryDetails" />
+            <End Role="CityDetails" EntitySet="CityDetails" />
+          </AssociationSet>
           <AssociationSet Name="FK_ConsolidatedEmployeeLeaveDetails_EmployeeDetails" Association="Self.FK_ConsolidatedEmployeeLeaveDetails_EmployeeDetails">
             <End Role="EmployeeDetails" EntitySet="EmployeeDetails" />
             <End Role="EmployeeLeaveMaster" EntitySet="EmployeeLeaveMaster" />
@@ -860,6 +1123,10 @@
           <AssociationSet Name="FK_EmpDetails_EmployeeContactDetails" Association="Self.FK_EmpDetails_EmployeeContactDetails">
             <End Role="EmployeeDetails" EntitySet="EmployeeDetails" />
             <End Role="EmployeeContactDetails" EntitySet="EmployeeContactDetails" />
+          </AssociationSet>
+          <AssociationSet Name="FK_EmployeeCurrentAddressDetails_EmployeeDetails" Association="Self.FK_EmployeeCurrentAddressDetails_EmployeeDetails">
+            <End Role="EmployeeDetails" EntitySet="EmployeeDetails" />
+            <End Role="EmployeeCurrentAddressDetails" EntitySet="EmployeeCurrentAddressDetails" />
           </AssociationSet>
           <AssociationSet Name="FK_EmployeeDetails_EmployeeLeaveTransaction" Association="Self.FK_EmployeeDetails_EmployeeLeaveTransaction">
             <End Role="EmployeeDetails" EntitySet="EmployeeDetails" />
@@ -933,6 +1200,10 @@
             <End Role="EmployeeDetails" EntitySet="EmployeeDetails" />
             <End Role="EmployeeEducationDetails" EntitySet="EmployeeEducationDetails" />
           </AssociationSet>
+          <AssociationSet Name="FK_EmployeeEmergencyContactDetails_EmployeeDetails" Association="Self.FK_EmployeeEmergencyContactDetails_EmployeeDetails">
+            <End Role="EmployeeDetails" EntitySet="EmployeeDetails" />
+            <End Role="EmployeeEmergencyContactDetails" EntitySet="EmployeeEmergencyContactDetails" />
+          </AssociationSet>
           <AssociationSet Name="FK_EmployeeExperienceDetails_EmployeeDetails" Association="Self.FK_EmployeeExperienceDetails_EmployeeDetails">
             <End Role="EmployeeDetails" EntitySet="EmployeeDetails" />
             <End Role="EmployeeExperienceDetails" EntitySet="EmployeeExperienceDetails" />
@@ -944,6 +1215,10 @@
           <AssociationSet Name="FK_EmployeeLeaveTransaction_Workflow" Association="Self.FK_EmployeeLeaveTransaction_Workflow">
             <End Role="EmployeeLeaveTransaction" EntitySet="EmployeeLeaveTransaction" />
             <End Role="Workflow" EntitySet="Workflow" />
+          </AssociationSet>
+          <AssociationSet Name="FK_EmployeePermanentAddressDetails_EmployeeDetails" Association="Self.FK_EmployeePermanentAddressDetails_EmployeeDetails">
+            <End Role="EmployeeDetails" EntitySet="EmployeeDetails" />
+            <End Role="EmployeePermanentAddressDetails" EntitySet="EmployeePermanentAddressDetails" />
           </AssociationSet>
           <AssociationSet Name="FK_EmployeeProjectDetail_ProjectMaster" Association="Self.FK_EmployeeProjectDetail_ProjectMaster">
             <End Role="ProjectMaster" EntitySet="ProjectMaster" />
@@ -964,6 +1239,22 @@
           <AssociationSet Name="FK_EmployeeSkills_EmployeeDetails" Association="Self.FK_EmployeeSkills_EmployeeDetails">
             <End Role="EmployeeDetails" EntitySet="EmployeeDetails" />
             <End Role="EmployeeSkills" EntitySet="EmployeeSkills" />
+          </AssociationSet>
+          <AssociationSet Name="FK_EmployeeWorkLocationDetails_EmployeeDetails" Association="Self.FK_EmployeeWorkLocationDetails_EmployeeDetails">
+            <End Role="EmployeeDetails" EntitySet="EmployeeDetails" />
+            <End Role="EmployeeWorkLocationDetails" EntitySet="EmployeeWorkLocationDetails" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Geo_Location_City_Master_Geo_Location_State_Master" Association="Self.FK_Geo_Location_City_Master_Geo_Location_State_Master">
+            <End Role="Geo_Location_State_Master" EntitySet="Geo_Location_State_Master" />
+            <End Role="Geo_Location_City_Master" EntitySet="Geo_Location_City_Master" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Geo_Location_Facility_Master_Geo_Location_City_Master" Association="Self.FK_Geo_Location_Facility_Master_Geo_Location_City_Master">
+            <End Role="Geo_Location_City_Master" EntitySet="Geo_Location_City_Master" />
+            <End Role="Geo_Location_Facility_Master" EntitySet="Geo_Location_Facility_Master" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Geo_Location_State_Master_Geo_Location_Country_Master" Association="Self.FK_Geo_Location_State_Master_Geo_Location_Country_Master">
+            <End Role="Geo_Location_Country_Master" EntitySet="Geo_Location_Country_Master" />
+            <End Role="Geo_Location_State_Master" EntitySet="Geo_Location_State_Master" />
           </AssociationSet>
           <AssociationSet Name="FK_MasterDataType_MasterDataValue" Association="Self.FK_MasterDataType_MasterDataValue">
             <End Role="MasterDataType" EntitySet="MasterDataType" />
@@ -1008,6 +1299,10 @@
           <AssociationSet Name="FK_ResourceRequestDetail_EmployeeDetails" Association="Self.FK_ResourceRequestDetail_EmployeeDetails">
             <End Role="EmployeeDetails" EntitySet="EmployeeDetails" />
             <End Role="ResourceRequestDetail" EntitySet="ResourceRequestDetail" />
+          </AssociationSet>
+          <AssociationSet Name="FK_TechnologyDetails_TechnologyMaster" Association="Self.FK_TechnologyDetails_TechnologyMaster">
+            <End Role="TechnologyMaster" EntitySet="TechnologyMaster" />
+            <End Role="TechnologyDetails" EntitySet="TechnologyDetails" />
           </AssociationSet>
           <AssociationSet Name="FK_WorkFromHome_refEmpID" Association="Self.FK_WorkFromHome_refEmpID">
             <End Role="EmployeeDetails" EntitySet="EmployeeDetails" />
@@ -1225,6 +1520,54 @@
             <End Role="MasterDataValue" EntitySet="MasterDataValues" />
             <End Role="WorkFromHome" EntitySet="WorkFromHomes" />
           </AssociationSet>
+          <EntitySet Name="TechnologyDetails" EntityType="LeaveManagementSystemModel.TechnologyDetail" />
+          <EntitySet Name="TechnologyMasters" EntityType="LeaveManagementSystemModel.TechnologyMaster" />
+          <AssociationSet Name="FK_TechnologyDetails_TechnologyMaster" Association="LeaveManagementSystemModel.FK_TechnologyDetails_TechnologyMaster">
+            <End Role="TechnologyMaster" EntitySet="TechnologyMasters" />
+            <End Role="TechnologyDetail" EntitySet="TechnologyDetails" />
+          </AssociationSet>
+          <EntitySet Name="CityDetails" EntityType="LeaveManagementSystemModel.CityDetail" />
+          <EntitySet Name="CountryDetails" EntityType="LeaveManagementSystemModel.CountryDetail" />
+          <AssociationSet Name="FK_CityDetails_CountryDetails" Association="LeaveManagementSystemModel.FK_CityDetails_CountryDetails">
+            <End Role="CountryDetail" EntitySet="CountryDetails" />
+            <End Role="CityDetail" EntitySet="CityDetails" />
+          </AssociationSet>
+          <EntitySet Name="EmployeeCurrentAddressDetails" EntityType="LeaveManagementSystemModel.EmployeeCurrentAddressDetail" />
+          <EntitySet Name="EmployeeEmergencyContactDetails" EntityType="LeaveManagementSystemModel.EmployeeEmergencyContactDetail" />
+          <EntitySet Name="EmployeePermanentAddressDetails" EntityType="LeaveManagementSystemModel.EmployeePermanentAddressDetail" />
+          <AssociationSet Name="FK_EmployeeCurrentAddressDetails_EmployeeDetails" Association="LeaveManagementSystemModel.FK_EmployeeCurrentAddressDetails_EmployeeDetails">
+            <End Role="EmployeeDetail" EntitySet="EmployeeDetails" />
+            <End Role="EmployeeCurrentAddressDetail" EntitySet="EmployeeCurrentAddressDetails" />
+          </AssociationSet>
+          <AssociationSet Name="FK_EmployeeEmergencyContactDetails_EmployeeDetails" Association="LeaveManagementSystemModel.FK_EmployeeEmergencyContactDetails_EmployeeDetails">
+            <End Role="EmployeeDetail" EntitySet="EmployeeDetails" />
+            <End Role="EmployeeEmergencyContactDetail" EntitySet="EmployeeEmergencyContactDetails" />
+          </AssociationSet>
+          <AssociationSet Name="FK_EmployeePermanentAddressDetails_EmployeeDetails" Association="LeaveManagementSystemModel.FK_EmployeePermanentAddressDetails_EmployeeDetails">
+            <End Role="EmployeeDetail" EntitySet="EmployeeDetails" />
+            <End Role="EmployeePermanentAddressDetail" EntitySet="EmployeePermanentAddressDetails" />
+          </AssociationSet>
+          <EntitySet Name="Geo_Location_Country_Master" EntityType="LeaveManagementSystemModel.Geo_Location_Country_Master" />
+          <EntitySet Name="Geo_Location_City_Master" EntityType="LeaveManagementSystemModel.Geo_Location_City_Master" />
+          <EntitySet Name="Geo_Location_State_Master" EntityType="LeaveManagementSystemModel.Geo_Location_State_Master" />
+          <AssociationSet Name="FK_Geo_Location_City_Master_Geo_Location_State_Master" Association="LeaveManagementSystemModel.FK_Geo_Location_City_Master_Geo_Location_State_Master">
+            <End Role="Geo_Location_State_Master" EntitySet="Geo_Location_State_Master" />
+            <End Role="Geo_Location_City_Master" EntitySet="Geo_Location_City_Master" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Geo_Location_State_Master_Geo_Location_Country_Master" Association="LeaveManagementSystemModel.FK_Geo_Location_State_Master_Geo_Location_Country_Master">
+            <End Role="Geo_Location_Country_Master" EntitySet="Geo_Location_Country_Master" />
+            <End Role="Geo_Location_State_Master" EntitySet="Geo_Location_State_Master" />
+          </AssociationSet>
+          <EntitySet Name="Geo_Location_Facility_Master" EntityType="LeaveManagementSystemModel.Geo_Location_Facility_Master" />
+          <AssociationSet Name="FK_Geo_Location_Facility_Master_Geo_Location_City_Master" Association="LeaveManagementSystemModel.FK_Geo_Location_Facility_Master_Geo_Location_City_Master">
+            <End Role="Geo_Location_City_Master" EntitySet="Geo_Location_City_Master" />
+            <End Role="Geo_Location_Facility_Master" EntitySet="Geo_Location_Facility_Master" />
+          </AssociationSet>
+          <EntitySet Name="EmployeeWorkLocationDetails" EntityType="LeaveManagementSystemModel.EmployeeWorkLocationDetail" />
+          <AssociationSet Name="FK_EmployeeWorkLocationDetails_EmployeeDetails" Association="LeaveManagementSystemModel.FK_EmployeeWorkLocationDetails_EmployeeDetails">
+            <End Role="EmployeeDetail" EntitySet="EmployeeDetails" />
+            <End Role="EmployeeWorkLocationDetail" EntitySet="EmployeeWorkLocationDetails" />
+          </AssociationSet>
           </EntityContainer>
         <ComplexType Name="GetLeaveReportProcedure_Result">
           <Property Type="Int32" Name="Year" Nullable="true" />
@@ -1340,6 +1683,16 @@
           <NavigationProperty Name="ProjectMasters" Relationship="LeaveManagementSystemModel.FK_ProjectMaster_EmployeeDetails" FromRole="EmployeeDetail" ToRole="ProjectMaster" />
           <NavigationProperty Name="ResourceRequestDetails" Relationship="LeaveManagementSystemModel.FK_ResourceRequestDetail_EmployeeDetails" FromRole="EmployeeDetail" ToRole="ResourceRequestDetail" />
           <NavigationProperty Name="WorkFromHomes" Relationship="LeaveManagementSystemModel.FK_WorkFromHome_refEmpID" FromRole="EmployeeDetail" ToRole="WorkFromHome" />
+          <NavigationProperty Name="EmployeeCurrentAddressDetails" Relationship="LeaveManagementSystemModel.FK_EmployeeCurrentAddressDetails_EmployeeDetails" FromRole="EmployeeDetail" ToRole="EmployeeCurrentAddressDetail" />
+          <NavigationProperty Name="EmployeeEmergencyContactDetails" Relationship="LeaveManagementSystemModel.FK_EmployeeEmergencyContactDetails_EmployeeDetails" FromRole="EmployeeDetail" ToRole="EmployeeEmergencyContactDetail" />
+          <NavigationProperty Name="EmployeePermanentAddressDetails" Relationship="LeaveManagementSystemModel.FK_EmployeePermanentAddressDetails_EmployeeDetails" FromRole="EmployeeDetail" ToRole="EmployeePermanentAddressDetail" />
+          <Property Name="Gender" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+          <Property Name="PassportNumber" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="InfrrdEmailId" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="RefEmployeeContractType" Type="Int32" />
+          <Property Name="DateOfConfirmation" Type="DateTime" Precision="0" />
+          <Property Name="BloodGroup" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="EmployeeWorkLocationDetails" Relationship="LeaveManagementSystemModel.FK_EmployeeWorkLocationDetails_EmployeeDetails" FromRole="EmployeeDetail" ToRole="EmployeeWorkLocationDetail" />
         </EntityType>
         <EntityType Name="EmployeeEducationDetail">
           <Key>
@@ -1562,6 +1915,7 @@
           <NavigationProperty Name="EmployeeRewardedLeaveDetails" Relationship="LeaveManagementSystemModel.FK_EmployeeRewardedLeaveDetails_ProjectMaster" FromRole="ProjectMaster" ToRole="EmployeeRewardedLeaveDetail" />
           <Property Name="ProjectLogo" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
           <Property Name="IsBench" Type="Boolean" Nullable="false" />
+          <Property Name="TechnologyDetails" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
         </EntityType>
         <EntityType Name="ResourceRequestDetail">
           <Key>
@@ -2147,6 +2501,259 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <EntityType Name="TechnologyDetail">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="RefTechnologyId" Type="Int32" Nullable="false" />
+          <Property Name="TechnologyDetails" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="TechnologyMaster" Relationship="LeaveManagementSystemModel.FK_TechnologyDetails_TechnologyMaster" FromRole="TechnologyDetail" ToRole="TechnologyMaster" />
+        </EntityType>
+        <EntityType Name="TechnologyMaster">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Technology" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="TechnologyDetails" Relationship="LeaveManagementSystemModel.FK_TechnologyDetails_TechnologyMaster" FromRole="TechnologyMaster" ToRole="TechnologyDetail" />
+        </EntityType>
+        <Association Name="FK_TechnologyDetails_TechnologyMaster">
+          <End Type="LeaveManagementSystemModel.TechnologyMaster" Role="TechnologyMaster" Multiplicity="1" />
+          <End Type="LeaveManagementSystemModel.TechnologyDetail" Role="TechnologyDetail" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TechnologyMaster">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="TechnologyDetail">
+              <PropertyRef Name="RefTechnologyId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="CityDetail">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="RefCountryId" Type="Int32" Nullable="false" />
+          <Property Name="City" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="CountryDetail" Relationship="LeaveManagementSystemModel.FK_CityDetails_CountryDetails" FromRole="CityDetail" ToRole="CountryDetail" />
+        </EntityType>
+        <EntityType Name="CountryDetail">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Country" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="CityDetails" Relationship="LeaveManagementSystemModel.FK_CityDetails_CountryDetails" FromRole="CountryDetail" ToRole="CityDetail" />
+        </EntityType>
+        <Association Name="FK_CityDetails_CountryDetails">
+          <End Type="LeaveManagementSystemModel.CountryDetail" Role="CountryDetail" Multiplicity="1" />
+          <End Type="LeaveManagementSystemModel.CityDetail" Role="CityDetail" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="CountryDetail">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="CityDetail">
+              <PropertyRef Name="RefCountryId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="EmployeeCurrentAddressDetail">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="RefEmployeeId" Type="Int32" Nullable="false" />
+          <Property Name="Country" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="State" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="City" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="Address" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="IsActive" Type="Int32" Nullable="false" />
+          <Property Name="CreatedDate" Type="DateTime" Precision="0" />
+          <Property Name="ModifiedDate" Type="DateTime" Precision="0" />
+          <Property Name="RefCreatedBy" Type="Int32" />
+          <Property Name="RefModifiedBy" Type="Int32" />
+          <NavigationProperty Name="EmployeeDetail" Relationship="LeaveManagementSystemModel.FK_EmployeeCurrentAddressDetails_EmployeeDetails" FromRole="EmployeeCurrentAddressDetail" ToRole="EmployeeDetail" />
+        </EntityType>
+        <EntityType Name="EmployeeEmergencyContactDetail">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="RefEmployeeId" Type="Int32" Nullable="false" />
+          <Property Name="Name" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="Relationship" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="Telephone" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="IsActive" Type="Int32" Nullable="false" />
+          <Property Name="CreatedDate" Type="DateTime" Precision="0" />
+          <Property Name="ModifiedDate" Type="DateTime" Precision="0" />
+          <Property Name="RefCreatedBy" Type="Int32" />
+          <Property Name="RefModifiedBy" Type="Int32" />
+          <NavigationProperty Name="EmployeeDetail" Relationship="LeaveManagementSystemModel.FK_EmployeeEmergencyContactDetails_EmployeeDetails" FromRole="EmployeeEmergencyContactDetail" ToRole="EmployeeDetail" />
+          <Property Name="Country" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="State" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="City" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="AddressLine1" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="AddressLine2" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <EntityType Name="EmployeePermanentAddressDetail">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="RefEmployeeId" Type="Int32" Nullable="false" />
+          <Property Name="Country" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="State" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="City" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="Address" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="IsActive" Type="Int32" Nullable="false" />
+          <Property Name="CreatedDate" Type="DateTime" Precision="0" />
+          <Property Name="ModifiedDate" Type="DateTime" Precision="0" />
+          <Property Name="RefCreatedBy" Type="Int32" />
+          <Property Name="RefModifiedBy" Type="Int32" />
+          <NavigationProperty Name="EmployeeDetail" Relationship="LeaveManagementSystemModel.FK_EmployeePermanentAddressDetails_EmployeeDetails" FromRole="EmployeePermanentAddressDetail" ToRole="EmployeeDetail" />
+        </EntityType>
+        <Association Name="FK_EmployeeCurrentAddressDetails_EmployeeDetails">
+          <End Type="LeaveManagementSystemModel.EmployeeDetail" Role="EmployeeDetail" Multiplicity="1" />
+          <End Type="LeaveManagementSystemModel.EmployeeCurrentAddressDetail" Role="EmployeeCurrentAddressDetail" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="EmployeeDetail">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="EmployeeCurrentAddressDetail">
+              <PropertyRef Name="RefEmployeeId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_EmployeeEmergencyContactDetails_EmployeeDetails">
+          <End Type="LeaveManagementSystemModel.EmployeeDetail" Role="EmployeeDetail" Multiplicity="1" />
+          <End Type="LeaveManagementSystemModel.EmployeeEmergencyContactDetail" Role="EmployeeEmergencyContactDetail" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="EmployeeDetail">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="EmployeeEmergencyContactDetail">
+              <PropertyRef Name="RefEmployeeId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_EmployeePermanentAddressDetails_EmployeeDetails">
+          <End Type="LeaveManagementSystemModel.EmployeeDetail" Role="EmployeeDetail" Multiplicity="1" />
+          <End Type="LeaveManagementSystemModel.EmployeePermanentAddressDetail" Role="EmployeePermanentAddressDetail" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="EmployeeDetail">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="EmployeePermanentAddressDetail">
+              <PropertyRef Name="RefEmployeeId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="Geo_Location_Country_Master">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Sortname" Type="String" Nullable="false" MaxLength="3" FixedLength="false" Unicode="false" />
+          <Property Name="Name" Type="String" Nullable="false" MaxLength="150" FixedLength="false" Unicode="false" />
+          <Property Name="Phonecode" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Geo_Location_State_Master" Relationship="LeaveManagementSystemModel.FK_Geo_Location_State_Master_Geo_Location_Country_Master" FromRole="Geo_Location_Country_Master" ToRole="Geo_Location_State_Master" />
+        </EntityType>
+        <EntityType Name="Geo_Location_City_Master">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" Nullable="false" MaxLength="30" FixedLength="false" Unicode="false" />
+          <Property Name="RefStateId" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Geo_Location_State_Master" Relationship="LeaveManagementSystemModel.FK_Geo_Location_City_Master_Geo_Location_State_Master" FromRole="Geo_Location_City_Master" ToRole="Geo_Location_State_Master" />
+          <NavigationProperty Name="Geo_Location_Facility_Master" Relationship="LeaveManagementSystemModel.FK_Geo_Location_Facility_Master_Geo_Location_City_Master" FromRole="Geo_Location_City_Master" ToRole="Geo_Location_Facility_Master" />
+        </EntityType>
+        <EntityType Name="Geo_Location_State_Master">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" Nullable="false" MaxLength="30" FixedLength="false" Unicode="false" />
+          <Property Name="RefCountryId" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Geo_Location_City_Master" Relationship="LeaveManagementSystemModel.FK_Geo_Location_City_Master_Geo_Location_State_Master" FromRole="Geo_Location_State_Master" ToRole="Geo_Location_City_Master" />
+          <NavigationProperty Name="Geo_Location_Country_Master" Relationship="LeaveManagementSystemModel.FK_Geo_Location_State_Master_Geo_Location_Country_Master" FromRole="Geo_Location_State_Master" ToRole="Geo_Location_Country_Master" />
+        </EntityType>
+        <Association Name="FK_Geo_Location_City_Master_Geo_Location_State_Master">
+          <End Type="LeaveManagementSystemModel.Geo_Location_State_Master" Role="Geo_Location_State_Master" Multiplicity="1" />
+          <End Type="LeaveManagementSystemModel.Geo_Location_City_Master" Role="Geo_Location_City_Master" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Geo_Location_State_Master">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Geo_Location_City_Master">
+              <PropertyRef Name="RefStateId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Geo_Location_State_Master_Geo_Location_Country_Master">
+          <End Type="LeaveManagementSystemModel.Geo_Location_Country_Master" Role="Geo_Location_Country_Master" Multiplicity="1" />
+          <End Type="LeaveManagementSystemModel.Geo_Location_State_Master" Role="Geo_Location_State_Master" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Geo_Location_Country_Master">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Geo_Location_State_Master">
+              <PropertyRef Name="RefCountryId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="Geo_Location_Facility_Master">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" Nullable="false" MaxLength="30" FixedLength="false" Unicode="false" />
+          <Property Name="RefCityId" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Geo_Location_City_Master" Relationship="LeaveManagementSystemModel.FK_Geo_Location_Facility_Master_Geo_Location_City_Master" FromRole="Geo_Location_Facility_Master" ToRole="Geo_Location_City_Master" />
+        </EntityType>
+        <Association Name="FK_Geo_Location_Facility_Master_Geo_Location_City_Master">
+          <End Type="LeaveManagementSystemModel.Geo_Location_City_Master" Role="Geo_Location_City_Master" Multiplicity="1" />
+          <End Type="LeaveManagementSystemModel.Geo_Location_Facility_Master" Role="Geo_Location_Facility_Master" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Geo_Location_City_Master">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Geo_Location_Facility_Master">
+              <PropertyRef Name="RefCityId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="EmployeeWorkLocationDetail">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="RefEmployeeId" Type="Int32" Nullable="false" />
+          <Property Name="Country" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="State" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="City" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="Facility" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="IsActive" Type="Int32" Nullable="false" />
+          <Property Name="CreatedDate" Type="DateTime" Precision="0" />
+          <Property Name="ModifiedDate" Type="DateTime" Precision="0" />
+          <Property Name="RefCreatedBy" Type="Int32" />
+          <Property Name="RefModifiedBy" Type="Int32" />
+          <NavigationProperty Name="EmployeeDetail" Relationship="LeaveManagementSystemModel.FK_EmployeeWorkLocationDetails_EmployeeDetails" FromRole="EmployeeWorkLocationDetail" ToRole="EmployeeDetail" />
+        </EntityType>
+        <Association Name="FK_EmployeeWorkLocationDetails_EmployeeDetails">
+          <End Type="LeaveManagementSystemModel.EmployeeDetail" Role="EmployeeDetail" Multiplicity="1" />
+          <End Type="LeaveManagementSystemModel.EmployeeWorkLocationDetail" Role="EmployeeWorkLocationDetail" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="EmployeeDetail">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="EmployeeWorkLocationDetail">
+              <PropertyRef Name="RefEmployeeId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -2198,6 +2805,12 @@
           <EntitySetMapping Name="EmployeeDetails">
             <EntityTypeMapping TypeName="LeaveManagementSystemModel.EmployeeDetail">
               <MappingFragment StoreEntitySet="EmployeeDetails">
+                <ScalarProperty Name="BloodGroup" ColumnName="BloodGroup" />
+                <ScalarProperty Name="DateOfConfirmation" ColumnName="DateOfConfirmation" />
+                <ScalarProperty Name="RefEmployeeContractType" ColumnName="RefEmployeeContractType" />
+                <ScalarProperty Name="InfrrdEmailId" ColumnName="InfrrdEmailId" />
+                <ScalarProperty Name="PassportNumber" ColumnName="PassportNumber" />
+                <ScalarProperty Name="Gender" ColumnName="Gender" />
                 <ScalarProperty Name="RefProfileType" ColumnName="RefProfileType" />
                 <ScalarProperty Name="RefEmployeeType" ColumnName="RefEmployeeType" />
                 <ScalarProperty Name="GooglePlusLink" ColumnName="GooglePlusLink" />
@@ -2405,6 +3018,7 @@
           <EntitySetMapping Name="ProjectMasters">
             <EntityTypeMapping TypeName="LeaveManagementSystemModel.ProjectMaster">
               <MappingFragment StoreEntitySet="ProjectMaster">
+                <ScalarProperty Name="TechnologyDetails" ColumnName="TechnologyDetails" />
                 <ScalarProperty Name="IsBench" ColumnName="IsBench" />
                 <ScalarProperty Name="ProjectLogo" ColumnName="ProjectLogo" />
                 <ScalarProperty Name="Technology" ColumnName="Technology" />
@@ -2475,6 +3089,149 @@
                 <ScalarProperty Name="RefStatus" ColumnName="RefStatus" />
                 <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
                 <ScalarProperty Name="Date" ColumnName="Date" />
+                <ScalarProperty Name="RefEmployeeId" ColumnName="RefEmployeeId" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="TechnologyDetails">
+            <EntityTypeMapping TypeName="LeaveManagementSystemModel.TechnologyDetail">
+              <MappingFragment StoreEntitySet="TechnologyDetails">
+                <ScalarProperty Name="TechnologyDetails" ColumnName="TechnologyDetails" />
+                <ScalarProperty Name="RefTechnologyId" ColumnName="RefTechnologyId" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="TechnologyMasters">
+            <EntityTypeMapping TypeName="LeaveManagementSystemModel.TechnologyMaster">
+              <MappingFragment StoreEntitySet="TechnologyMaster">
+                <ScalarProperty Name="Technology" ColumnName="Technology" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="CityDetails">
+            <EntityTypeMapping TypeName="LeaveManagementSystemModel.CityDetail">
+              <MappingFragment StoreEntitySet="CityDetails">
+                <ScalarProperty Name="City" ColumnName="City" />
+                <ScalarProperty Name="RefCountryId" ColumnName="RefCountryId" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="CountryDetails">
+            <EntityTypeMapping TypeName="LeaveManagementSystemModel.CountryDetail">
+              <MappingFragment StoreEntitySet="CountryDetails">
+                <ScalarProperty Name="Country" ColumnName="Country" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="EmployeeCurrentAddressDetails">
+            <EntityTypeMapping TypeName="LeaveManagementSystemModel.EmployeeCurrentAddressDetail">
+              <MappingFragment StoreEntitySet="EmployeeCurrentAddressDetails">
+                <ScalarProperty Name="RefModifiedBy" ColumnName="RefModifiedBy" />
+                <ScalarProperty Name="RefCreatedBy" ColumnName="RefCreatedBy" />
+                <ScalarProperty Name="ModifiedDate" ColumnName="ModifiedDate" />
+                <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
+                <ScalarProperty Name="IsActive" ColumnName="IsActive" />
+                <ScalarProperty Name="Address" ColumnName="Address" />
+                <ScalarProperty Name="City" ColumnName="City" />
+                <ScalarProperty Name="State" ColumnName="State" />
+                <ScalarProperty Name="Country" ColumnName="Country" />
+                <ScalarProperty Name="RefEmployeeId" ColumnName="RefEmployeeId" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="EmployeeEmergencyContactDetails">
+            <EntityTypeMapping TypeName="LeaveManagementSystemModel.EmployeeEmergencyContactDetail">
+              <MappingFragment StoreEntitySet="EmployeeEmergencyContactDetails">
+                <ScalarProperty Name="AddressLine2" ColumnName="AddressLine2" />
+                <ScalarProperty Name="AddressLine1" ColumnName="AddressLine1" />
+                <ScalarProperty Name="City" ColumnName="City" />
+                <ScalarProperty Name="State" ColumnName="State" />
+                <ScalarProperty Name="Country" ColumnName="Country" />
+                <ScalarProperty Name="RefModifiedBy" ColumnName="RefModifiedBy" />
+                <ScalarProperty Name="RefCreatedBy" ColumnName="RefCreatedBy" />
+                <ScalarProperty Name="ModifiedDate" ColumnName="ModifiedDate" />
+                <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
+                <ScalarProperty Name="IsActive" ColumnName="IsActive" />
+                <ScalarProperty Name="Telephone" ColumnName="Telephone" />
+                <ScalarProperty Name="Relationship" ColumnName="Relationship" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="RefEmployeeId" ColumnName="RefEmployeeId" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="EmployeePermanentAddressDetails">
+            <EntityTypeMapping TypeName="LeaveManagementSystemModel.EmployeePermanentAddressDetail">
+              <MappingFragment StoreEntitySet="EmployeePermanentAddressDetails">
+                <ScalarProperty Name="RefModifiedBy" ColumnName="RefModifiedBy" />
+                <ScalarProperty Name="RefCreatedBy" ColumnName="RefCreatedBy" />
+                <ScalarProperty Name="ModifiedDate" ColumnName="ModifiedDate" />
+                <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
+                <ScalarProperty Name="IsActive" ColumnName="IsActive" />
+                <ScalarProperty Name="Address" ColumnName="Address" />
+                <ScalarProperty Name="City" ColumnName="City" />
+                <ScalarProperty Name="State" ColumnName="State" />
+                <ScalarProperty Name="Country" ColumnName="Country" />
+                <ScalarProperty Name="RefEmployeeId" ColumnName="RefEmployeeId" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Geo_Location_Country_Master">
+            <EntityTypeMapping TypeName="LeaveManagementSystemModel.Geo_Location_Country_Master">
+              <MappingFragment StoreEntitySet="Geo_Location_Country_Master">
+                <ScalarProperty Name="Phonecode" ColumnName="Phonecode" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Sortname" ColumnName="Sortname" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Geo_Location_City_Master">
+            <EntityTypeMapping TypeName="LeaveManagementSystemModel.Geo_Location_City_Master">
+              <MappingFragment StoreEntitySet="Geo_Location_City_Master">
+                <ScalarProperty Name="RefStateId" ColumnName="RefStateId" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Geo_Location_State_Master">
+            <EntityTypeMapping TypeName="LeaveManagementSystemModel.Geo_Location_State_Master">
+              <MappingFragment StoreEntitySet="Geo_Location_State_Master">
+                <ScalarProperty Name="RefCountryId" ColumnName="RefCountryId" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Geo_Location_Facility_Master">
+            <EntityTypeMapping TypeName="LeaveManagementSystemModel.Geo_Location_Facility_Master">
+              <MappingFragment StoreEntitySet="Geo_Location_Facility_Master">
+                <ScalarProperty Name="RefCityId" ColumnName="RefCityId" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="EmployeeWorkLocationDetails">
+            <EntityTypeMapping TypeName="LeaveManagementSystemModel.EmployeeWorkLocationDetail">
+              <MappingFragment StoreEntitySet="EmployeeWorkLocationDetails">
+                <ScalarProperty Name="RefModifiedBy" ColumnName="RefModifiedBy" />
+                <ScalarProperty Name="RefCreatedBy" ColumnName="RefCreatedBy" />
+                <ScalarProperty Name="ModifiedDate" ColumnName="ModifiedDate" />
+                <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
+                <ScalarProperty Name="IsActive" ColumnName="IsActive" />
+                <ScalarProperty Name="Facility" ColumnName="Facility" />
+                <ScalarProperty Name="City" ColumnName="City" />
+                <ScalarProperty Name="State" ColumnName="State" />
+                <ScalarProperty Name="Country" ColumnName="Country" />
                 <ScalarProperty Name="RefEmployeeId" ColumnName="RefEmployeeId" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
               </MappingFragment>

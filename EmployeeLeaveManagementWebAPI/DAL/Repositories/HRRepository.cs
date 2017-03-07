@@ -48,6 +48,7 @@ namespace LMS_WebAPI_DAL.Repositories
                     {
                         hierarchyLevel = (Int32)HierarchyLevel.Level4;
                     }
+                    EmployeeGender EGender = (EmployeeGender)Convert.ToInt16(model.Gender);
                     var employeeDetails = new EmployeeDetail
                     {
                         FirstName = model.FirstName,
@@ -59,6 +60,12 @@ namespace LMS_WebAPI_DAL.Repositories
                         CreatedDate = DateTime.Now,
                         EmpNumber = model.EmployeeNumber.ToString(),
                         PhoneNumber = model.Telephone,
+                        Gender = EGender.Description(),
+                        PassportNumber = model.PassportNumber,
+                        BloodGroup = model.BloodGroup,
+                        InfrrdEmailId = model.InfrrdEmailId,
+                        RefEmployeeContractType = model.EmployeeConractType,
+                        DateOfConfirmation = model.DateOfConfirmation,
                         RefHierarchyLevel = hierarchyLevel,
                         ManagerId = model.ManagerId != null ? model.ManagerId : hrManagerId,
                         DateOfJoining = model.DateOfJoining,
@@ -81,12 +88,91 @@ namespace LMS_WebAPI_DAL.Repositories
                             Institution = model.EmployeeEducationDetails[0].Institution,
                             FromDate = Convert.ToDateTime(model.EmployeeEducationDetails[0].TimePeriod.Split('~')[0]),
                             ToDate = Convert.ToDateTime(model.EmployeeEducationDetails[0].TimePeriod.Split('~')[1]),
-                            Specialization = Spec.Description(),
+                            Specialization = Spec != 0 ? Spec.Description() : "",
                             RefEmployeeId = id
                         };
                         ctx.EmployeeEducationDetails.Add(employeeEducationDetails);
                         ctx.SaveChanges();
                     }
+
+                    if (model.EmployeeEmergencyContactDetail.Count > 0)
+                    {
+                        var employeeEmergencyContactDetails = new EmployeeEmergencyContactDetail
+                        {
+                            Name = model.EmployeeEmergencyContactDetail[0].Name,
+                            Relationship = model.EmployeeEmergencyContactDetail[0].Relationship,
+                            Telephone = model.EmployeeEmergencyContactDetail[0].Telephone,
+                            Country = model.EmployeeEmergencyContactDetail[0].Country,
+                            State = model.EmployeeEmergencyContactDetail[0].State,
+                            City = model.EmployeeEmergencyContactDetail[0].City,
+                            AddressLine1 = model.EmployeeEmergencyContactDetail[0].AddressLine1,
+                            AddressLine2 = model.EmployeeEmergencyContactDetail[0].AddressLine2,
+                            RefEmployeeId = id,
+                            IsActive = 1,
+                            CreatedDate = (DateTime.Now).Date,
+                            RefCreatedBy = model.EmployeeEmergencyContactDetail[0].RefCreatedBy
+
+                        };
+                        ctx.EmployeeEmergencyContactDetails.Add(employeeEmergencyContactDetails);
+                        ctx.SaveChanges();
+                    }
+
+                    if (model.EmployeeCurrentAddressDetail.Count > 0)
+                    {
+                        var employeeCurrentAddressDetails = new EmployeeCurrentAddressDetail
+                        {
+                            Country = model.EmployeeCurrentAddressDetail[0].Country,
+                            State = model.EmployeeCurrentAddressDetail[0].State,
+                            City = model.EmployeeCurrentAddressDetail[0].City,
+                            Address = model.EmployeeCurrentAddressDetail[0].Address,
+                            RefEmployeeId = id,
+                            IsActive = 1,
+                            CreatedDate = (DateTime.Now).Date,
+                            RefCreatedBy = model.EmployeeCurrentAddressDetail[0].RefCreatedBy
+
+                        };
+                        ctx.EmployeeCurrentAddressDetails.Add(employeeCurrentAddressDetails);
+                        ctx.SaveChanges();
+                    }
+
+                    if (model.EmployeePermanentAddressDetail.Count > 0)
+                    {
+                        var employeePermanentAddressDetails = new EmployeePermanentAddressDetail
+                        {
+                            Country = model.EmployeePermanentAddressDetail[0].Country,
+                            State = model.EmployeePermanentAddressDetail[0].State,
+                            City = model.EmployeePermanentAddressDetail[0].City,
+                            Address = model.EmployeePermanentAddressDetail[0].Address,
+                            RefEmployeeId = id,
+                            IsActive = 1,
+                            CreatedDate = (DateTime.Now).Date,
+                            RefCreatedBy = model.EmployeePermanentAddressDetail[0].RefCreatedBy
+
+                        };
+                        ctx.EmployeePermanentAddressDetails.Add(employeePermanentAddressDetails);
+                        ctx.SaveChanges();
+                    }
+
+                    if (model.EmployeeWorkLocationDetail.Count > 0)
+                    {
+                        var employeeWorkLocationDetails = new EmployeeWorkLocationDetail
+                        {
+                            Country = model.EmployeeWorkLocationDetail[0].Country,
+                            State = model.EmployeeWorkLocationDetail[0].State,
+                            City = model.EmployeeWorkLocationDetail[0].City,
+                            Facility = model.EmployeeWorkLocationDetail[0].Facility,
+                            RefEmployeeId = id,
+                            IsActive = 1,
+                            CreatedDate = (DateTime.Now).Date,
+                            RefCreatedBy = model.EmployeeWorkLocationDetail[0].RefCreatedBy
+
+                        };
+                        ctx.EmployeeWorkLocationDetails.Add(employeeWorkLocationDetails);
+                        ctx.SaveChanges();
+                    }
+
+                    
+
                     if (model.EmployeeExperienceDetails.Count > 0)
                     {
                         var employeeExperienceDetails = new EmployeeExperienceDetail
@@ -381,19 +467,21 @@ namespace LMS_WebAPI_DAL.Repositories
             }
         }
 
-        public bool AddNewProjectInfo(string projectName, string description, string technology, DateTime startDate, int refManager)
+        public bool AddNewProjectInfo(string projectName, string description, string technology, string technologyDetails, DateTime startDate, int refManager)
         {
             Logger.Info("Entering in HRRepository API AddNewProjectInfo method");
             try
             {
                 using (var ctx = new LeaveManagementSystemEntities1())
                 {
+                    technologyDetails = technologyDetails.Replace("Sharp", "#");
                     var projectInfo = new ProjectMaster();
                     projectInfo.ProjectName = projectName;
                     projectInfo.Description = description;
                     projectInfo.IsActive = true;
                     projectInfo.StartDate = startDate;
                     projectInfo.Technology = technology;
+                    projectInfo.TechnologyDetails = technologyDetails;
                     projectInfo.RefManagerId = refManager;
                     ctx.ProjectMasters.Add(projectInfo);
                     ctx.SaveChanges();
@@ -515,6 +603,288 @@ namespace LMS_WebAPI_DAL.Repositories
             catch
             {
                 Logger.Error("Exception occured at HRRepository API GetSkillsList method ");
+                throw;
+            }
+
+        }
+
+        public List<CountryDetails> GetCountries()
+        {
+            Logger.Info("Entering in HRRepository API GetCountries method");
+            try
+            {
+                var CountriesList = new List<CountryDetails>();
+                using (var ctx = new LeaveManagementSystemEntities1())
+                {
+                    var list = ctx.Geo_Location_Country_Master.ToList();
+                    foreach (var item in list)
+                    {
+                        var country = new CountryDetails();
+                        country.Id = item.Id;
+                        country.CountryName = item.Name;
+                        CountriesList.Add(country);
+
+
+                    }
+                }
+                Logger.Info("Successfully exiting from HRRepository API GetCountries method");
+                return CountriesList;
+            }
+            catch
+            {
+                Logger.Error("Exception occured at HRRepository API GetCountries method ");
+                throw;
+            }
+
+        }
+
+        public List<RelationshipDetails> GetRelationships()
+        {
+            Logger.Info("Entering in HRRepository API GetRelationships method");
+            try
+            {
+                var RelationshipsList = new List<RelationshipDetails>();
+                using (var ctx = new LeaveManagementSystemEntities1())
+                {
+                    var list = ctx.MasterDataValues.Where(x => x.RefMasterType == (int)MasterDataTypeEnum.Relationship).ToList();
+                    foreach (var item in list)
+                    {
+                        var relationship = new RelationshipDetails();
+                        relationship.Id = item.Id;
+                        relationship.Relationship = item.Value;
+                        RelationshipsList.Add(relationship);
+
+
+                    }
+                }
+                Logger.Info("Successfully exiting from HRRepository API GetRelationships method");
+                return RelationshipsList;
+            }
+            catch
+            {
+                Logger.Error("Exception occured at HRRepository API GetRelationships method ");
+                throw;
+            }
+
+        }
+
+        public List<FacilityDetails> GetFacilities()
+        {
+            Logger.Info("Entering in HRRepository API GetFacilities method");
+            try
+            {
+                var FacilitiesList = new List<FacilityDetails>();
+                using (var ctx = new LeaveManagementSystemEntities1())
+                {
+                    var list = ctx.Geo_Location_Facility_Master.ToList();
+                    foreach (var item in list)
+                    {
+                        var facility = new FacilityDetails();
+                        facility.Id = item.Id;
+                        facility.FacilityName = item.Name;
+                        FacilitiesList.Add(facility);
+
+
+                    }
+                }
+                Logger.Info("Successfully exiting from HRRepository API GetFacilities method");
+                return FacilitiesList;
+            }
+            catch
+            {
+                Logger.Error("Exception occured at HRRepository API GetFacilities method ");
+                throw;
+            }
+
+        }
+
+        public List<StateDetails> GetStates(int CountryId)
+        {
+            Logger.Info("Entering in HRRepository API GetStates method");
+            try
+            {
+                var StatesList = new List<StateDetails>();
+                using (var ctx = new LeaveManagementSystemEntities1())
+                {
+                    var list = ctx.Geo_Location_State_Master.Where(x => x.RefCountryId == CountryId).ToList();
+                    foreach (var item in list)
+                    {
+                        var state = new StateDetails();
+                        state.Id = item.Id;
+                        state.StateName = item.Name;
+                        StatesList.Add(state);
+
+
+                    }
+                }
+                Logger.Info("Successfully exiting from HRRepository API GetStates method");
+                return StatesList;
+            }
+            catch
+            {
+                Logger.Error("Exception occured at HRRepository API GetStates method ");
+                throw;
+            }
+
+        }
+
+        public FacilityDetails GetWorkFacilityDetails(int FacilityId)
+        {
+            Logger.Info("Entering in HRRepository API GetWorkFacilityDetails method");
+            try
+            {
+                var FacilityDetail = new FacilityDetails();
+                using (var ctx = new LeaveManagementSystemEntities1())
+                {
+                    var facilityDetails = ctx.Geo_Location_Facility_Master.Where(x => x.Id == FacilityId).FirstOrDefault();
+                    var cityDetails = ctx.Geo_Location_City_Master.Where(x => x.Id == facilityDetails.RefCityId).FirstOrDefault();
+                    var stateDetails = ctx.Geo_Location_State_Master.Where(x => x.Id == cityDetails.RefStateId).FirstOrDefault();
+                    var countryDetails = ctx.Geo_Location_Country_Master.Where(x => x.Id == stateDetails.RefCountryId).FirstOrDefault();
+
+                    FacilityDetail.CountryId = countryDetails.Id;
+                    FacilityDetail.CountryName = countryDetails.Name;
+                    FacilityDetail.StateId = stateDetails.Id;
+                    FacilityDetail.StateName = stateDetails.Name;
+                    FacilityDetail.CityId = cityDetails.Id;
+                    FacilityDetail.CityName = cityDetails.Name;
+                }
+                Logger.Info("Successfully exiting from HRRepository API GetWorkFacilityDetails method");
+                return FacilityDetail;
+            }
+            catch
+            {
+                Logger.Error("Exception occured at HRRepository API GetWorkFacilityDetails method ");
+                throw;
+            }
+
+        }
+
+        public List<CityDetails> GetCities(int StateId)
+        {
+            Logger.Info("Entering in HRRepository API GetCities method");
+            try
+            {
+                var CitiesList = new List<CityDetails>();
+                using (var ctx = new LeaveManagementSystemEntities1())
+                {
+                    var list = ctx.Geo_Location_City_Master.Where(x => x.RefStateId == StateId).ToList();
+                    foreach (var item in list)
+                    {
+                        var city = new CityDetails();
+                        city.Id = item.Id;
+                        city.CityName = item.Name;
+                        CitiesList.Add(city);
+
+
+                    }
+                }
+                Logger.Info("Successfully exiting from HRRepository API GetCities method");
+                return CitiesList;
+            }
+            catch
+            {
+                Logger.Error("Exception occured at HRRepository API GetCities method ");
+                throw;
+            }
+
+        }
+
+
+        public List<FacilityDetails> GetFacilities(int CityId)
+        {
+            Logger.Info("Entering in HRRepository API GetFacilities method");
+            try
+            {
+                var FacilitiesList = new List<FacilityDetails>();
+                using (var ctx = new LeaveManagementSystemEntities1())
+                {
+                    var list = ctx.Geo_Location_Facility_Master.Where(x => x.RefCityId == CityId).ToList();
+                    foreach (var item in list)
+                    {
+                        var facility = new FacilityDetails();
+                        facility.Id = item.Id;
+                        facility.FacilityName = item.Name;
+                        FacilitiesList.Add(facility);
+                    }
+                }
+                Logger.Info("Successfully exiting from HRRepository API GetFacilities method");
+                return FacilitiesList;
+            }
+            catch
+            {
+                Logger.Error("Exception occured at HRRepository API GetFacilities method ");
+                throw;
+            }
+
+        }
+        public List<TechnologyDetails> GetTechnologiesList()
+        {
+            Logger.Info("Entering in HRRepository API GetTechnologiesList method");
+            try
+            {
+                var TechnologiesList = new List<TechnologyDetails>();
+                using (var ctx = new LeaveManagementSystemEntities1())
+                {
+                    var list = ctx.TechnologyMasters.ToList();
+                    foreach (var item in list)
+                    {
+                        var Technology = new TechnologyDetails();
+                        Technology.Id = item.Id;
+                        Technology.Technology = item.Technology;
+                        TechnologiesList.Add(Technology);
+
+
+                    }
+                }
+                Logger.Info("Successfully exiting from HRRepository API GetTechnologiesList method");
+                return TechnologiesList;
+            }
+            catch
+            {
+                Logger.Error("Exception occured at HRRepository API GetTechnologiesList method ");
+                throw;
+            }
+
+        }
+
+        public List<TechnologyDescriptions> GetTechnologyDetailsList(List<TechnologyDetails> technologies)
+        {
+            Logger.Info("Entering in HRRepository API GetTechnologyDetailsList method");
+            try
+            {
+                var TechnologyDetailsList = new List<TechnologyDescriptions>();
+                using (var ctx = new LeaveManagementSystemEntities1())
+                {
+                    
+                    List<string> TechnologyNames = new List<string>();
+                    foreach (var TN in technologies)
+                    {
+                        TechnologyNames.Add(TN.Technology);
+                    }
+                    var TList = ctx.TechnologyMasters.Where(m => TechnologyNames.Contains(m.Technology)).ToList();
+                    List<int> TechnologyIds = new List<int>();
+                    foreach (var TID in TList)
+                    {
+                        TechnologyIds.Add(TID.Id);
+                    }
+                    var list = ctx.TechnologyDetails.Where(m => TechnologyIds.Contains(m.RefTechnologyId)).ToList();
+                    foreach (var item in list)
+                    {
+                        var TechnologyDetail = new TechnologyDescriptions();
+                        TechnologyDetail.Id = item.Id;
+                        TechnologyDetail.RefTechnology = item.RefTechnologyId;
+                        TechnologyDetail.TechnologyDetails = item.TechnologyDetails;
+                        TechnologyDetailsList.Add(TechnologyDetail);
+
+
+                    }
+                }
+                Logger.Info("Successfully exiting from HRRepository API GetTechnologyDetailsList method");
+                return TechnologyDetailsList;
+            }
+            catch
+            {
+                Logger.Error("Exception occured at HRRepository API GetTechnologyDetailsList method ");
                 throw;
             }
 

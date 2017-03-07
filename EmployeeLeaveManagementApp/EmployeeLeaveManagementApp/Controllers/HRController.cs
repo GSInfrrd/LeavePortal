@@ -424,6 +424,7 @@ namespace EmployeeLeaveManagementApp.Controllers
             Logger.Info("Entering in HRController APP SubmitEmployeeDetails method");
             try
             {
+                var userdata = (UserAccount)Session[Constants.SESSION_OBJ_USER];
                 LMS_WebAPP_Domain.EmployeeDetailsModel empModel = new LMS_WebAPP_Domain.EmployeeDetailsModel();
                 empModel.FirstName = model.FirstName;
                 empModel.LastName = model.LastName;
@@ -438,6 +439,12 @@ namespace EmployeeLeaveManagementApp.Controllers
                // empModel.RefHierarchyLevel = model.RefHierarchyLevel;
                 empModel.ManagerId = model.ManagerId;
                 empModel.Telephone = model.Telephone;
+                empModel.Gender = model.Gender;
+                empModel.BloodGroup = model.BloodGroup;
+                empModel.PassportNumber = model.PassportNumber;
+                empModel.DateOfConfirmation = model.DateOfConfirmation;
+                empModel.EmployeeConractType = model.EmployeeConractType;
+                empModel.InfrrdEmailId = model.InfrrdEmailId;
                 empModel.EmployeeType = model.EmployeeType;
                 empModel.RefProfileType = model.RefProfileType;
                 List<EmployeeEducationDetails> eEduList = new List<EmployeeEducationDetails>();
@@ -454,6 +461,63 @@ namespace EmployeeLeaveManagementApp.Controllers
                     }
                 }
                 empModel.EmployeeEducationDetails = eEduList;
+
+                List<EmployeeWorkLocationDetail> eWorkLocationList = new List<EmployeeWorkLocationDetail>();
+                foreach (var item in model.EmployeeWorkLocationDetail)
+                {
+                        EmployeeWorkLocationDetail eWorkLocationDetails = new EmployeeWorkLocationDetail();
+                    eWorkLocationDetails.Country = item.Country;
+                    eWorkLocationDetails.State = item.State;
+                    eWorkLocationDetails.City = item.City;
+                    eWorkLocationDetails.Facility = item.Facility;
+                    eWorkLocationDetails.RefCreatedBy = userdata.RefEmployeeId;
+                    eWorkLocationList.Add(eWorkLocationDetails);
+                }
+                empModel.EmployeeWorkLocationDetail = eWorkLocationList;
+
+                List<EmployeePermanentAddressDetail> ePermanentAddressList = new List<EmployeePermanentAddressDetail>();
+                foreach (var item in model.EmployeePermanentAddressDetail)
+                {
+                    EmployeePermanentAddressDetail ePermanentAddressDetails = new EmployeePermanentAddressDetail();
+                    ePermanentAddressDetails.Country = item.Country;
+                    ePermanentAddressDetails.State = item.State;
+                    ePermanentAddressDetails.City = item.City;
+                    ePermanentAddressDetails.Address = item.Address;
+                    ePermanentAddressDetails.RefCreatedBy = userdata.RefEmployeeId;
+                    ePermanentAddressList.Add(ePermanentAddressDetails);
+                }
+                empModel.EmployeePermanentAddressDetail = ePermanentAddressList;
+
+                List<EmployeeCurrentAddressDetail> eCurrentAddressList = new List<EmployeeCurrentAddressDetail>();
+                foreach (var item in model.EmployeeCurrentAddressDetail)
+                {
+                    EmployeeCurrentAddressDetail eCurrentAddressDetails = new EmployeeCurrentAddressDetail();
+                    eCurrentAddressDetails.Country = item.Country;
+                    eCurrentAddressDetails.State = item.State;
+                    eCurrentAddressDetails.City = item.City;
+                    eCurrentAddressDetails.Address = item.Address;
+                    eCurrentAddressDetails.RefCreatedBy = userdata.RefEmployeeId;
+                    eCurrentAddressList.Add(eCurrentAddressDetails);
+                }
+                empModel.EmployeeCurrentAddressDetail = eCurrentAddressList;
+
+                List<EmployeeEmergencyContactDetail> eEmergencyContactList = new List<EmployeeEmergencyContactDetail>();
+                foreach (var item in model.EmployeeEmergencyContactDetail)
+                {
+                    EmployeeEmergencyContactDetail eEmergencyContactDetails = new EmployeeEmergencyContactDetail();
+                    eEmergencyContactDetails.Name = item.Name;
+                    eEmergencyContactDetails.Relationship = item.Relationship;
+                    eEmergencyContactDetails.Telephone = item.Telephone;
+                    eEmergencyContactDetails.Country = item.Country;
+                    eEmergencyContactDetails.State = item.State;
+                    eEmergencyContactDetails.City = item.City;
+                    eEmergencyContactDetails.AddressLine1 = item.AddressLine1;
+                    eEmergencyContactDetails.AddressLine2 = item.AddressLine2;
+                    eEmergencyContactDetails.RefCreatedBy = userdata.RefEmployeeId;
+                    eEmergencyContactList.Add(eEmergencyContactDetails);
+                }
+                empModel.EmployeeEmergencyContactDetail = eEmergencyContactList;
+
                 List<EmployeeExperienceDetails> eExpList = new List<EmployeeExperienceDetails>();
                 foreach (var item in model.EmployeeExperience)
                 {
@@ -620,20 +684,46 @@ namespace EmployeeLeaveManagementApp.Controllers
             }
         }
 
-        public async Task<JsonResult> AddNewProjectInfo(string projectName, string description, string technology, DateTime startDate, int refManager)
+        public async Task<JsonResult> AddNewProjectInfo(string projectName, string description, List<string> technologies, List<string> technologyDescriptions, DateTime startDate, int refManager)
         {
             Logger.Info("Entering in HRController APP AddNewProjectInfo method");
             try
             {
-                var model = false;
+                LMS_WebAPP_Domain.ProjectDetails projectModel = new LMS_WebAPP_Domain.ProjectDetails();
 
-                if (null != Session[Constants.SESSION_OBJ_USER])
-                {
-                    model = await hrOperations.AddNewProjectInfoAsync(projectName, description, technology, startDate, refManager);
+                //projectModel.ProjectName = model.ProjectName;
+                //projectModel.Description = model.Description;
+                //projectModel.startDate = model.StartDate;
+                //projectModel.RefManager = model.RefManager;
 
-                }
+                //List<TechnologyDetails> technologies = new List<TechnologyDetails>();
+                //foreach (var item in model.Technologies)
+                //{
+
+                //        TechnologyDetails technologyDetail = new TechnologyDetails();
+                //      //  technologyDetail.Id = item.Id;
+                //       // technologyDetail.Technology = item.Technology;
+                //        technologies.Add(technologyDetail);
+                    
+                //}
+                //projectModel.Technologies = technologies;
+
+                //List<TechnologyDescriptions> technologyDescriptionList = new List<TechnologyDescriptions>();
+                //foreach (var item in model.TechnologyDetails)
+                //{
+
+                //    TechnologyDescriptions technologyDescriptions = new TechnologyDescriptions();
+                //    //technologyDescriptions.Id = item.Id;
+                //    //technologyDescriptions.RefTechnology = item.RefTechnology;
+                //    //technologyDescriptions.TechnologyDetails = item.TechnologyDetails;
+                //    technologyDescriptionList.Add(technologyDescriptions);
+
+                //}
+                //projectModel.TechnologyDetails = technologyDescriptionList;
+                
+                var data = await hrOperations.AddNewProjectInfoAsync(projectName, description, technologies,technologyDescriptions, startDate, refManager);
                 Logger.Info("Successfully exiting from HRController APP AddNewProjectInfo method");
-                return Json(new { result = model });
+                return Json(new { result = data });
             }
             catch (Exception ex)
             {
@@ -684,6 +774,168 @@ namespace EmployeeLeaveManagementApp.Controllers
             catch (Exception ex)
             {
                 Logger.Error("Error at HRController APP GetSkillsList method.", ex);
+                return null;
+            }
+
+        }
+
+        public async Task<JsonResult> GetCountries()
+        {
+            Logger.Info("Entering in HRController APP GetCountries method");
+            try
+            {
+                var model = new List<CountryDetails>();
+                model = await hrOperations.GetCountriesAsync();
+                Logger.Info("Successfully exiting from HRController APP GetCountries method");
+                return Json(new { data = model });
+            }
+            catch (Exception ex)
+            {
+                Logger.Error("Error at HRController APP GetCountries method.", ex);
+                return null;
+            }
+
+        }
+
+        public async Task<JsonResult> GetRelationships()
+        {
+            Logger.Info("Entering in HRController APP GetRelationships method");
+            try
+            {
+                var model = new List<RelationshipDetails>();
+                model = await hrOperations.GetRelationshipsAsync();
+                Logger.Info("Successfully exiting from HRController APP GetRelationships method");
+                return Json(new { data = model });
+            }
+            catch (Exception ex)
+            {
+                Logger.Error("Error at HRController APP GetRelationships method.", ex);
+                return null;
+            }
+
+        }
+
+        public async Task<JsonResult> GetWorkFacilities()
+        {
+            Logger.Info("Entering in HRController APP GetWorkFacilities method");
+            try
+            {
+                var model = new List<FacilityDetails>();
+                model = await hrOperations.GetFacilitiesAsync();
+                Logger.Info("Successfully exiting from HRController APP GetWorkFacilities method");
+                return Json(new { data = model });
+            }
+            catch (Exception ex)
+            {
+                Logger.Error("Error at HRController APP GetWorkFacilities method.", ex);
+                return null;
+            }
+
+        }
+
+        public async Task<JsonResult> GetStates(int CountryId)
+        {
+            Logger.Info("Entering in HRController APP GetStates method");
+            try
+            {
+                var model = new List<StateDetails>();
+                model = await hrOperations.GetStatesAsync(CountryId);
+                Logger.Info("Successfully exiting from HRController APP GetStates method");
+                return Json(new { data = model });
+            }
+            catch (Exception ex)
+            {
+                Logger.Error("Error at HRController APP GetStates method.", ex);
+                return null;
+            }
+
+        }
+
+        public async Task<JsonResult> GetWorkFacilityDetails(int FacilityId)
+        {
+            Logger.Info("Entering in HRController APP GetWorkFacilityDetails method");
+            try
+            {
+                var model = new FacilityDetails();
+                model = await hrOperations.GetWorkFacilityDetailsAsync(FacilityId);
+                Logger.Info("Successfully exiting from HRController APP GetWorkFacilityDetails method");
+                return Json(new { data = model });
+            }
+            catch (Exception ex)
+            {
+                Logger.Error("Error at HRController APP GetWorkFacilityDetails method.", ex);
+                return null;
+            }
+
+        }
+
+        public async Task<JsonResult> GetCities(int StateId)
+        {
+            Logger.Info("Entering in HRController APP GetCities method");
+            try
+            {
+                var model = new List<CityDetails>();
+                model = await hrOperations.GetCitiesAsync(StateId);
+                Logger.Info("Successfully exiting from HRController APP GetCities method");
+                return Json(new { data = model });
+            }
+            catch (Exception ex)
+            {
+                Logger.Error("Error at HRController APP GetCities method.", ex);
+                return null;
+            }
+
+        }
+
+        public async Task<JsonResult> GetFacilities(int CityId)
+        {
+            Logger.Info("Entering in HRController APP GetFacilities method");
+            try
+            {
+                var model = new List<FacilityDetails>();
+                model = await hrOperations.GetFacilitiesAsync(CityId);
+                Logger.Info("Successfully exiting from HRController APP GetFacilities method");
+                return Json(new { data = model });
+            }
+            catch (Exception ex)
+            {
+                Logger.Error("Error at HRController APP GetFacilities method.", ex);
+                return null;
+            }
+
+        }
+
+        public async Task<JsonResult> GetTechnologiesList()
+        {
+            Logger.Info("Entering in HRController APP GetTechnologiesList method");
+            try
+            {
+                var model = new List<TechnologyDetails>();
+                model = await hrOperations.GetTechnologiesListAsync();
+                Logger.Info("Successfully exiting from HRController APP GetTechnologiesList method");
+                return Json(new { data = model });
+            }
+            catch (Exception ex)
+            {
+                Logger.Error("Error at HRController APP GetTechnologiesList method.", ex);
+                return null;
+            }
+
+        }
+
+        public async Task<JsonResult> GetTechnologyDetailsList(List<TechnologyDetails> technologies)
+        {
+            Logger.Info("Entering in HRController APP GetTechnologyDetailsList method");
+            try
+            {
+                var model = new List<TechnologyDescriptions>();
+                model = await hrOperations.GetTechnologyDetailsListAsync(technologies);
+                Logger.Info("Successfully exiting from HRController APP GetTechnologyDetailsList method");
+                return Json(new { data = model });
+            }
+            catch (Exception ex)
+            {
+                Logger.Error("Error at HRController APP GetTechnologyDetailsList method.", ex);
                 return null;
             }
 

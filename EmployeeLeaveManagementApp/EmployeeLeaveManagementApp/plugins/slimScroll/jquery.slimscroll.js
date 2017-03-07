@@ -10,13 +10,13 @@
   $.fn.extend({
     slimScroll: function(options) {
 
-      var defaults = {
+        var defaults = {
 
         // width in pixels of the visible scroll area
         width : 'auto',
 
         // height in pixels of the visible scroll area
-        height : '250px',
+        height : 'auto',
 
         // width in pixels of the scrollbar and rail
         size : '7px',

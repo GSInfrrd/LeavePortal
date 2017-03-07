@@ -31,6 +31,7 @@ namespace LMS_WebAPI_DAL
         public string Technology { get; set; }
         public string ProjectLogo { get; set; }
         public bool IsBench { get; set; }
+        public string TechnologyDetails { get; set; }
     
         public virtual EmployeeDetail EmployeeDetail { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]

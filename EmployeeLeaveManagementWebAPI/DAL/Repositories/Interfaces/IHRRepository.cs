@@ -18,11 +18,29 @@ namespace LMS_WebAPI_DAL.Repositories.Interfaces
        ConsolidatedEmployeeLeaveDetailsModel GetChartDetails(int employeeId);
 
         bool AddNewMasterDataValues(int masterDataType, string masterDataValue);
-        bool AddNewProjectInfo(string projectName, string description, string technology, DateTime startDate, int refManager);
+        bool AddNewProjectInfo(string projectName, string description, string technology, string technologyDetails, DateTime startDate, int refManager);
 
         bool AddCompanyAnnouncements(string title, string carouselContent, string imagePath);
         List<ProjectsList> GetProjectsList(int managerId=0);
         List<EmployeeSkillDetails> GetSkillsList();
+
+        List<CountryDetails> GetCountries();
+
+        List<RelationshipDetails> GetRelationships();
+
+        List<FacilityDetails> GetFacilities();
+
+        List<StateDetails> GetStates(int CountryId);
+
+        FacilityDetails GetWorkFacilityDetails(int FacilityId);
+
+        List<CityDetails> GetCities(int StateId);
+
+        List<FacilityDetails> GetFacilities(int CityId);
+
+        List<TechnologyDetails> GetTechnologiesList();
+
+        List<TechnologyDescriptions> GetTechnologyDetailsList(List<TechnologyDetails> technologies);
         bool CheckForExistingMasterDataValues(int masterDataType, string masterDataValue);
         bool CheckForExistingProjectMasterDataValues(string projectName, string technology, int refManager);
 

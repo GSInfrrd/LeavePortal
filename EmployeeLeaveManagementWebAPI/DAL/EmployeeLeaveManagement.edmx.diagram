@@ -71,6 +71,27 @@
         <AssociationConnector Association="LeaveManagementSystemModel.FK_MasterDataValueStatus_Workflow" />
         <AssociationConnector Association="LeaveManagementSystemModel.FK_WorkFromHome_RefReason" />
         <AssociationConnector Association="LeaveManagementSystemModel.FK_WorkFromHome_RefStatus" />
+        <EntityTypeShape EntityType="LeaveManagementSystemModel.TechnologyDetail" Width="1.5" PointX="7.625" PointY="0.875" />
+        <EntityTypeShape EntityType="LeaveManagementSystemModel.TechnologyMaster" Width="1.5" PointX="5.375" PointY="1" />
+        <AssociationConnector Association="LeaveManagementSystemModel.FK_TechnologyDetails_TechnologyMaster" />
+        <EntityTypeShape EntityType="LeaveManagementSystemModel.CityDetail" Width="1.5" PointX="7.625" PointY="3.875" />
+        <EntityTypeShape EntityType="LeaveManagementSystemModel.CountryDetail" Width="1.5" PointX="5.375" PointY="4" />
+        <AssociationConnector Association="LeaveManagementSystemModel.FK_CityDetails_CountryDetails" />
+        <EntityTypeShape EntityType="LeaveManagementSystemModel.EmployeeCurrentAddressDetail" Width="1.5" PointX="7.5" PointY="52.125" />
+        <EntityTypeShape EntityType="LeaveManagementSystemModel.EmployeeEmergencyContactDetail" Width="1.5" PointX="7.5" PointY="43" />
+        <EntityTypeShape EntityType="LeaveManagementSystemModel.EmployeePermanentAddressDetail" Width="1.5" PointX="7.5" PointY="13.875" />
+        <AssociationConnector Association="LeaveManagementSystemModel.FK_EmployeeCurrentAddressDetails_EmployeeDetails" />
+        <AssociationConnector Association="LeaveManagementSystemModel.FK_EmployeeEmergencyContactDetails_EmployeeDetails" />
+        <AssociationConnector Association="LeaveManagementSystemModel.FK_EmployeePermanentAddressDetails_EmployeeDetails" />
+        <EntityTypeShape EntityType="LeaveManagementSystemModel.Geo_Location_Country_Master" Width="1.5" PointX="0.75" PointY="7.75" />
+        <EntityTypeShape EntityType="LeaveManagementSystemModel.Geo_Location_City_Master" Width="1.5" PointX="5.25" PointY="7.875" />
+        <EntityTypeShape EntityType="LeaveManagementSystemModel.Geo_Location_State_Master" Width="1.5" PointX="3" PointY="7.75" />
+        <AssociationConnector Association="LeaveManagementSystemModel.FK_Geo_Location_City_Master_Geo_Location_State_Master" />
+        <AssociationConnector Association="LeaveManagementSystemModel.FK_Geo_Location_State_Master_Geo_Location_Country_Master" />
+        <EntityTypeShape EntityType="LeaveManagementSystemModel.Geo_Location_Facility_Master" Width="1.5" PointX="7.5" PointY="70" />
+        <AssociationConnector Association="LeaveManagementSystemModel.FK_Geo_Location_Facility_Master_Geo_Location_City_Master" />
+        <EntityTypeShape EntityType="LeaveManagementSystemModel.EmployeeWorkLocationDetail" Width="1.5" PointX="7.5" PointY="9.5" />
+        <AssociationConnector Association="LeaveManagementSystemModel.FK_EmployeeWorkLocationDetails_EmployeeDetails" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

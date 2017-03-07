@@ -43,12 +43,25 @@ namespace LMS_WebAPI_Domain
         public string MangerEmail { get; set; }
         public int? ManagerId { get; set; }
         public System.DateTime DateOfJoining { get; set; }
-
+        public string Gender { get; set; }
+        public string PassportNumber { get; set; }
+        public string BloodGroup { get; set; }
+        public string InfrrdEmailId { get; set; }
+        public int EmployeeConractType { get; set; }
+        public DateTime DateOfConfirmation { get; set; }
         public List<Announcement> Announcements { get; set; }
 
         public LeaveReportModel leaveDetails { get; set; }
 
         public List<EmployeeEducationDetails> EmployeeEducationDetails { get; set; }
+
+        public List<EmployeeWorkLocationDetail> EmployeeWorkLocationDetail { get; set; }
+
+        public List<EmployeePermanentAddressDetail> EmployeePermanentAddressDetail { get; set; }
+
+        public List<EmployeeCurrentAddressDetail> EmployeeCurrentAddressDetail { get; set; }
+
+        public List<EmployeeEmergencyContactDetail> EmployeeEmergencyContactDetail { get; set; }
 
         public List<EmployeeExperienceDetails> EmployeeExperienceDetails { get; set; }
 
@@ -101,6 +114,72 @@ namespace LMS_WebAPI_Domain
         public string Specialization { get; set; }
     }
 
+    public class EmployeeWorkLocationDetail
+    {
+        public int Id { get; set; }
+        public int RefEmployeeId { get; set; }
+        public string Country { get; set; }
+        public string State { get; set; }
+        public string City { get; set; }
+
+        public string Facility { get; set; }
+        public int IsActive { get; set; }
+        public Nullable<System.DateTime> CreatedDate { get; set; }
+        public Nullable<System.DateTime> ModifiedDate { get; set; }
+        public Nullable<int> RefCreatedBy { get; set; }
+        public Nullable<int> RefModifiedBy { get; set; }
+    }
+
+    public class EmployeePermanentAddressDetail
+    {
+        public int Id { get; set; }
+        public int RefEmployeeId { get; set; }
+        public string Country { get; set; }
+        public string State { get; set; }
+        public string City { get; set; }
+        public string Address { get; set; }
+        public int IsActive { get; set; }
+        public Nullable<System.DateTime> CreatedDate { get; set; }
+        public Nullable<System.DateTime> ModifiedDate { get; set; }
+        public Nullable<int> RefCreatedBy { get; set; }
+        public Nullable<int> RefModifiedBy { get; set; }
+    }
+
+    public class EmployeeCurrentAddressDetail
+    {
+        public int Id { get; set; }
+        public int RefEmployeeId { get; set; }
+        public string Country { get; set; }
+        public string State { get; set; }
+        public string City { get; set; }
+        public string Address { get; set; }
+        public int IsActive { get; set; }
+        public Nullable<System.DateTime> CreatedDate { get; set; }
+        public Nullable<System.DateTime> ModifiedDate { get; set; }
+        public Nullable<int> RefCreatedBy { get; set; }
+        public Nullable<int> RefModifiedBy { get; set; }
+    }
+
+
+    public class EmployeeEmergencyContactDetail
+    {
+        public int Id { get; set; }
+        public int RefEmployeeId { get; set; }
+        public string Name { get; set; }
+        public string Relationship { get; set; }
+        public string Telephone { get; set; }
+        public string Country { get; set; }
+        public string State { get; set; }
+        public string City { get; set; }
+        public string AddressLine1 { get; set; }
+        public string AddressLine2 { get; set; }
+        public int IsActive { get; set; }
+        public Nullable<System.DateTime> CreatedDate { get; set; }
+        public Nullable<System.DateTime> ModifiedDate { get; set; }
+        public Nullable<int> RefCreatedBy { get; set; }
+        public Nullable<int> RefModifiedBy { get; set; }
+    }
+
     public class EmployeeExperienceDetails
     {
         public int Id { get; set; }
@@ -121,6 +200,62 @@ namespace LMS_WebAPI_Domain
         public string SkillName { get; set; }
         public bool IsSelected { get; set; }
 
+    }
+
+    public class CountryDetails
+    {
+        public int Id { get; set; }
+        public string CountryName { get; set; }
+    }
+
+    public class RelationshipDetails
+    {
+        public int Id { get; set; }
+        public string Relationship { get; set; }
+    }
+
+    public class CityDetails
+    {
+        public int Id { get; set; }
+        public string CityName { get; set; }
+    }
+
+    public class FacilityDetails
+    {
+        public int Id { get; set; }
+        public string FacilityName { get; set; }
+
+        public int CountryId { get; set; }
+        public string CountryName { get; set; }
+
+        public int StateId { get; set; }
+        public string StateName { get; set; }
+
+        public int CityId { get; set; }
+        public string CityName { get; set; }
+    }
+
+    public class StateDetails
+    {
+        public int Id { get; set; }
+        public string StateName { get; set; }
+    }
+
+    public class TechnologyDetails
+    {
+        public int Id { get; set; }
+        public string Technology { get; set; }
+        public string RefEmployeeId { get; set; }
+        public bool IsSelected { get; set; }
+    }
+
+    public class TechnologyDescriptions
+    {
+        public int Id { get; set; }
+        public int RefTechnology { get; set; }
+        public string TechnologyDetails { get; set; }
+        public string RefEmployeeId { get; set; }
+        public bool IsSelected { get; set; }
     }
 
     public class MasterDataModel

@@ -52,6 +52,7 @@
     <Compile Include="LeaveTransactionResponse.cs" />
     <Compile Include="Messages.cs" />
     <Compile Include="Notification.cs" />
+    <Compile Include="ProjectDetails.cs" />
     <Compile Include="ResourceDetails.cs" />
     <Compile Include="ResourceRequestDetailModel.cs" />
     <Compile Include="RewardLeaveModel.cs" />

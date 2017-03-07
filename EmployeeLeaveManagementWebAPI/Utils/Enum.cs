@@ -166,7 +166,9 @@ namespace LMS_WebAPI_Utils
         [Description("ResourceRequestStatus")]
         ResourceRequestStatus = 13,
         [Description("CreditLeaveLimitMonthly")]
-        CreditLeaveLimitMonthly = 17
+        CreditLeaveLimitMonthly = 17,
+        [Description("Relationship")]
+        Relationship = 19
     }
 
     public enum WorkFormHomeReasons
@@ -215,6 +217,14 @@ namespace LMS_WebAPI_Utils
         CancelLeave = 161
 
 
+    }
+
+    public enum EmployeeGender
+    {
+        [Description("Male")]
+        Male = 291,
+        [Description("Female")]
+        Female = 292
     }
 
     public enum NotificationTypes

@@ -6,6 +6,7 @@
 <link href="~/plugins/Toastr/toastr.css" rel="stylesheet" />
   <!-- Select2 -->
 <link rel="stylesheet" href="../../plugins/select2/select2.min.css">
+<link rel="stylesheet" href="../../dist/css/AdminLTE.min.css">
 <section class="content-header">
     <h1>Add Master Data</h1>
 </section>
@@ -66,10 +67,19 @@
                         </div>
                         <div class="form-group">
                             <label>Technology <span style="color:red">*</span></label>
-                            <input type="text" class="form-control" id="txtTechnology" placeholder="Technology">
+                            <select id="ddlTechnology" multiple="multiple" class="form-control technologies" style="width: 100%;"></select>
                             <div class="form-group has-error" style="display:none" id="divTechnologyError">
                                 <label class="control-label" for="Technology">
-                                    <i class="fa fa-times-circle-o"></i> Please enter technology
+                                    <i class="fa fa-times-circle-o"></i> Please select technology
+                                </label>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label>Technology Details <span style="color:red">*</span></label>
+                            <select id="ddlTechnologyDetails" multiple="multiple" class="form-control technologiesdetails" style="width: 100%;"></select>
+                            <div class="form-group has-error" style="display:none" id="divTechnologyDetailsError">
+                                <label class="control-label" for="TechnologyDetails">
+                                    <i class="fa fa-times-circle-o"></i> Please select technology details
                                 </label>
                             </div>
                         </div>
@@ -110,6 +120,7 @@
 <script src="../../plugins/select2/select2.full.min.js"></script>
 <script>
     $(document).ready(function () {
+        
         $('#addMasterData').parent().addClass('active');
         $(function () {
             $('#txtStartDate').datepicker({
@@ -117,6 +128,8 @@
             });
             $(".masterDataSelect").select2();
             $(".managerSelect").select2();
+            $(".technologies").select2();
+            $(".technologiesdetails").select2();
         });
     });
     var showError=true;
@@ -142,6 +155,7 @@
             $("#divProjectInfo").show();
             $("#btnProjectInfoSubmit").show();
             $("#btnSubmitMasterData").hide();
+            GetTechnologiesList();
         }
         else
         {
@@ -150,6 +164,29 @@
             $("#btnProjectInfoSubmit").hide();
             $("#btnSubmitMasterData").show();
         }
+    });
+
+    $(document).on('change', "#ddlTechnology", function (e) {
+        $("#ddlTechnologyDetails").empty();
+        var Technologies = [];
+        for (i = 0; i < $("#ddlTechnology").val().length; i++) {
+                technology = {
+                    Technology: $("#ddlTechnology").val()[i]
+                }
+                Technologies.push(technology);
+            }
+            $.ajax({
+                cache: false,
+                type: 'post',
+                url: '/HR/GetTechnologyDetailsList',
+                data: {Technologies:Technologies},
+                dataType: "json",
+                success: function (data) {
+                    for (var i = 0; i < data.data.length; i++) {
+                        $("#ddlTechnologyDetails").append($('<option></option>').attr("value", data.data[i].TechnologyDetails).text(data.data[i].TechnologyDetails));
+                    }
+                }
+            });
     });
 
     $(document).on('click', "#btnSubmitMasterData", function (e) {
@@ -191,7 +228,7 @@
                         dataType: "json",
                         success: function (data) {
                             showError=false;
-                            $("#ddlMasterData").val(0).trigger("change");                        
+                            $("#ddlMasterData").val(0).trigger("change");
                             $("#txtMasterDataValue").val("");
                             showMessage("Master data value added successfully", "1", true);
                             $("#Loading").hide();
@@ -212,23 +249,26 @@
 
     $(document).on('click', "#btnProjectInfoSubmit", function (e) {
 
-        if (($("#txtProjectName").val() == "") && ($("#txtProjectDescription").val() == "") && ($("#txtTechnology").val() == "") && ($("#txtStartDate").val() == "") && ($("#ddlManagerName").val() == 0)) {
+        if (($("#txtProjectName").val() == "") && ($("#txtProjectDescription").val() == "")  && ($("#ddlTechnology").val()== null) && ($("#ddlTechnologyDetails").val()== null) && ($("#txtStartDate").val() == "") && ($("#ddlManagerName").val() == 0)) {
             $("#divProjectNameError").show();
             $("#divDescriptionError").show();
             $("#divTechnologyError").show();
+            $("#divTechnologyDetailsError").show();
             $("#divStartDateError").show();
             $("#divManagerError").show();
             return false;
         }
-        if (($("#txtProjectDescription").val() == "") && ($("#txtTechnology").val() == "") && ($("#txtStartDate").val() == "") && ($("#ddlManagerName").val() == 0)) {
+        if (($("#txtProjectDescription").val() == "") && ($("#ddlTechnology").val()== null) &&  ($("#ddlTechnologyDetails").val()== null) && ($("#txtStartDate").val() == "") && ($("#ddlManagerName").val() == 0)) {
             $("#divDescriptionError").show();
             $("#divTechnologyError").show();
+            $("#divTechnologyDetailsError").show();
             $("#divStartDateError").show();
             $("#divManagerError").show();
             return false;
         }
-        if (($("#txtTechnology").val() == "") && ($("#txtStartDate").val() == "") && ($("#ddlManagerName").val() == 0)) {
+        if (($("#ddlTechnology").val()== null) &&  ($("#ddlTechnologyDetails").val()== null) && ($("#txtStartDate").val() == "") && ($("#ddlManagerName").val() == 0)) {
             $("#divTechnologyError").show();
+            $("#divTechnologyDetailsError").show();
             $("#divStartDateError").show();
             $("#divManagerError").show();
             return false;
@@ -246,8 +286,12 @@
             $("#divDescriptionError").show();
             return false;
         }
-        if ($("#txtTechnology").val() == "") {
+        if ($("#ddlTechnology").val()== null) {
             $("#divTechnologyError").show();
+            return false;
+        }
+        if ($("#ddlTechnologyDetails").val()== null) {
+            $("#divTechnologyDetailsError").show();
             return false;
         }
         if ($("#txtStartDate").val() == "") {
@@ -260,25 +304,63 @@
         }
 
 
-        if($("#txtProjectName").val()=="" || $("#txtProjectDescription").val()=="" || $("#txtTechnology").val()=="" || $("#txtStartDate").val()==""||  $("#ddlManagerName").val()=="" )
+        if($("#txtProjectName").val()=="" || $("#txtProjectDescription").val()=="" || $("#ddlTechnology").val()=="" || $("#txtStartDate").val()==""||  $("#ddlManagerName").val()=="" )
         {
             showMessage("Enter all fields","2",true);
             return false;
         }
+
+        debugger
+        var Technologies = [];
+        for (i = 0; i < $("#ddlTechnology").val().length; i++) {
+            //technology = {
+            //    Technology: $("#ddlTechnology").v()[i]
+            //}
+            Technologies.push($("#ddlTechnology").val()[i]);
+        }
+
+        var TechnologyDetails = [];
+        for (i = 0; i < $("#ddlTechnologyDetails").val().length; i++) {
+            //technologydetail = {
+            //    TechnologyDetails: $("#ddlTechnologyDetails").val()[i]
+            //}
+            TechnologyDetails.push($("#ddlTechnologyDetails").val()[i]);
+        }
+
         $("#Loading").show();
+        debugger
+        var model = {
+            ProjectName: $("#txtProjectName").val(),
+            Description: $("#txtProjectDescription").val(),
+            Technologies:Technologies,
+            TechnologyDetails:TechnologyDetails,
+            StartDate: $("#txtStartDate").val(),
+            RefManager: $("#ddlManagerName").val()
+        };
+        debugger
         $.ajax({
             cache: false,
             type: 'post',
             url: '/HR/CheckForExistingProjectMasterDataValues',
-            data: { projectName: $("#txtProjectName").val(),technology:$("#txtTechnology").val(),refManager: $("#ddlManagerName").val() },
+            data: { projectName: $("#txtProjectName").val(),technology:$("#ddlTechnology").val(),refManager: $("#ddlManagerName").val() },
             dataType: "json",
             success: function (data) {
+                debugger
                 if (!data.result) {
                     $.ajax({
                         cache: false,
                         type: 'post',
                         url: '/HR/AddNewProjectInfo',
-                        data: { projectName: $("#txtProjectName").val(), description: $("#txtProjectDescription").val(), technology: $("#txtTechnology").val(), startDate: $("#txtStartDate").val(), refManager: $("#ddlManagerName").val() },
+                        data: {
+                            ProjectName: $("#txtProjectName").val(),
+                            Description: $("#txtProjectDescription").val(),
+                            Technologies:Technologies,
+                            technologyDescriptions:TechnologyDetails,
+                            StartDate: $("#txtStartDate").val(),
+                            RefManager: $("#ddlManagerName").val()
+                        },
+                        //contentType: "application/json",
+                        //data: { projectName: $("#txtProjectName").val(), description: $("#txtProjectDescription").val(), Technologies:Technologies,  technologyDescriptions:TechnologyDetails, startDate: $("#txtStartDate").val(), refManager: $("#ddlManagerName").val() },
                         dataType: "json",
                         success: function (data) {
                             $("#divMasterDataValue").show();
@@ -289,7 +371,8 @@
                             $("#ddlMasterData").val(0).trigger("change");
                             $("#txtProjectName").val("");
                             $("#txtProjectDescription").val("");
-                            $("#txtTechnology").val("");
+                            $("#ddlTechnology").empty();
+                            $("#ddlTechnologyDetails").empty();
                             $("#ddlManagerName").val(0);
                             $("#txtStartDate").val("");
                             $("#txtMasterDataValue").val("");
@@ -319,8 +402,22 @@
         $('#divDescriptionError').hide();
     });
 
-    $("#txtTechnology").keypress(function (e) {
-        $('#divTechnologyError').hide();
+    $('#ddlTechnology').on('change', function () {
+        if ($("#ddlTechnology").val() != 0) {
+            $("#divTechnologyError").hide();
+        }
+        else {
+            $("#divTechnologyError").show();
+        }
+    });
+
+    $('#ddlTechnologyDetails').on('change', function () {
+        if ($("#ddlTechnologyDetails").val() != 0) {
+            $("#divTechnologyDetailsError").hide();
+        }
+        else {
+            $("#divTechnologyDetailsError").show();
+        }
     });
 
     $('#txtStartDate').on('change.datepicker', function (ev, picker) {
@@ -349,6 +446,21 @@
             $("#divMasterDataTypeError").show();
         }
     });
+
+    function GetTechnologiesList() {
+        $.ajax({
+            cache: false,
+            type: 'post',
+            url: '/HR/GetTechnologiesList',
+            contentType: "application/json",
+            dataType: "json",
+            success: function (data) {
+                for (var i = 0; i < data.data.length; i++) {
+                    $("#ddlTechnology").append($('<option></option>').attr("value", data.data[i].Technology).text(data.data[i].Technology));
+                }
+            }
+        });
+    }
 
 
 </script>
