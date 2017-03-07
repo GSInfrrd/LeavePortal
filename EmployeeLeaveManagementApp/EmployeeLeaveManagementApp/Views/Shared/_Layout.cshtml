@@ -170,6 +170,8 @@
                 <!-- /.search form -->
                 <!-- sidebar menu: : style can be found in sidebar.less -->
                 <ul class="sidebar-menu">
+                    @if (profileId != (int)ProfileType.SuperAdmin)
+                    {
                     <li class="treeview">
                         <a id="dashboard" href="@Url.Action("Dashboard", "Account")">
                             <i class="fa fa-dashboard"></i> <span>Dashboard</span>
@@ -177,13 +179,17 @@
                         </a>
 
                     </li>
+                    }
+                    @if (profileId != (int)ProfileType.SuperAdmin)
+                    {
                     <li class="treeview">
                         <a id="tabProfileView" href="@Url.Action("Profile", "Account")">
                             <i class="fa fa-files-o"></i>
                             <span>Profile</span>
                         </a>
                     </li>
-                    @if ((profileId != (int)ProfileType.CEO))
+                    }
+                    @if ((profileId != (int)ProfileType.CEO) && (profileId != (int)ProfileType.SuperAdmin))
                     {
                         <li class="treeview">
                             <a href="#">
@@ -260,7 +266,7 @@
                         </li>
 
                     }
-                    @if (profileId == (int)ProfileType.CEO || profileId==(int)ProfileType.HR || profileId == (int)ProfileType.SuperAdmin)
+                    @if (profileId == (int)ProfileType.CEO || profileId==(int)ProfileType.HR)
                     {
                         <li>
                             <a id="approveLeave" href="@Url.Action("ApproveLeave", "ApproveLeave")">
@@ -316,7 +322,7 @@
                             </ul>
                         </li>
                     }
-                    @if (profileId == (int)ProfileType.HR || profileId == (int)ProfileType.SuperAdmin)
+                    @if (profileId == (int)ProfileType.HR)
                     {
                         <li>
                             <a id="employeeDetails" href="@Url.Action("EmployeeDetails", "HR")">
@@ -337,7 +343,7 @@
                             </a>
                         </li>
                     }
-                    @if (profileId == (int)ProfileType.CEO)
+                    @if (profileId == (int)ProfileType.CEO || profileId == (int)ProfileType.SuperAdmin)
                     {
                         <li>
                             <a id="reports" href="@Url.Action("Reports", "HR")">
