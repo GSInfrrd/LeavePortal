@@ -92,7 +92,9 @@ namespace LMS_WebAPP_Utils
         [Description("Sales")]
         Sales = 22,
         [Description("Interns/Fresher")]
-        InternOrFresher = 23
+        InternOrFresher = 23,
+        [Description("SuperAdmin")]
+        SuperAdmin = 24
     }
 
     public enum HierarchyLevel
@@ -233,7 +235,9 @@ namespace LMS_WebAPP_Utils
         [Description("Manager")]
         Manager = 202,
         [Description("Employee")]
-        Employee = 203
+        Employee = 203,
+        [Description("SuperAdmin")]
+        SuperAdmin = 204
     }
 
     public enum EmployeeGender

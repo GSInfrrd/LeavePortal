@@ -1,7 +1,8 @@
-﻿
+﻿@using LMS_WebAPP_Utils
 @{
     ViewBag.Title = "Add Master Data";
     Layout = "~/Views/Shared/_Layout.cshtml";
+    var profileId = ((LMS_WebAPP_Domain.UserAccount)Session[Constants.SESSION_OBJ_USER]) != null ? ((LMS_WebAPP_Domain.UserAccount)Session[Constants.SESSION_OBJ_USER]).RefProfileType : 0;
 }
 <link href="~/plugins/Toastr/toastr.css" rel="stylesheet" />
   <!-- Select2 -->
@@ -24,8 +25,10 @@
                         <label for="txtFirstName">Master Data Type <span style="color:red">*</span></label>
                         <select id="ddlMasterData" class="form-control masterDataSelect" style="width: 100%;">
                             <option value="0">Select</option>
-                      
+                      @if ((profileId == (int)ProfileType.SuperAdmin))
+                      {
                               <option value="@Convert.ToInt16(LMS_WebAPP_Utils.MasterDataType.ProjectName)">@(LMS_WebAPP_Utils.CommonMethods.Description(LMS_WebAPP_Utils.MasterDataType.ProjectName))</option>
+                      }
                             <option value="@Convert.ToInt16(LMS_WebAPP_Utils.MasterDataType.Skills)">@(LMS_WebAPP_Utils.CommonMethods.Description(LMS_WebAPP_Utils.MasterDataType.Skills))</option>
                             <option value="@Convert.ToInt16(LMS_WebAPP_Utils.MasterDataType.Role)">@(LMS_WebAPP_Utils.CommonMethods.Description(LMS_WebAPP_Utils.MasterDataType.Role))</option>
 

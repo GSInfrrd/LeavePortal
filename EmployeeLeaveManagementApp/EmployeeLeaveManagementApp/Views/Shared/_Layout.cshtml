@@ -260,7 +260,7 @@
                         </li>
 
                     }
-                    @if (profileId == (int)ProfileType.CEO || profileId==(int)ProfileType.HR)
+                    @if (profileId == (int)ProfileType.CEO || profileId==(int)ProfileType.HR || profileId == (int)ProfileType.SuperAdmin)
                     {
                         <li>
                             <a id="approveLeave" href="@Url.Action("ApproveLeave", "ApproveLeave")">
@@ -269,7 +269,7 @@
                             </a>
                         </li>
                     }
-                    @if (profileId == (int)ProfileType.Manager || profileId == (int)ProfileType.CEO)
+                    @if (profileId == (int)ProfileType.Manager || profileId == (int)ProfileType.CEO || profileId == (int)ProfileType.SuperAdmin)
                     {
                         <li>
                             <a id="employeeDetails" href="@Url.Action("EmployeeDetails", "HR")">
@@ -278,7 +278,7 @@
                             </a>
                         </li>
                     }
-                    @if (profileId == (int)ProfileType.HR)
+                    @if (profileId == (int)ProfileType.HR || profileId == (int)ProfileType.SuperAdmin)
                     {
                         <li class="treeview">
                             <a href="#">
@@ -316,7 +316,7 @@
                             </ul>
                         </li>
                     }
-                    @if (profileId == (int)ProfileType.HR)
+                    @if (profileId == (int)ProfileType.HR || profileId == (int)ProfileType.SuperAdmin)
                     {
                         <li>
                             <a id="employeeDetails" href="@Url.Action("EmployeeDetails", "HR")">

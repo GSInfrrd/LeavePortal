@@ -88,7 +88,9 @@ namespace LMS_WebAPI_Utils
         [Description("Sales")]
         Sales = 22,
         [Description("Intern/Fresher")]
-        InternOrFresher = 23
+        InternOrFresher = 23,
+        [Description("SuperAdmin")]
+        SuperAdmin = 24
     }
 
 
@@ -282,7 +284,9 @@ namespace LMS_WebAPI_Utils
         [Description("Manager")]
         Manager = 202,
         [Description("Employee")]
-        Employee = 203
+        Employee = 203,
+        [Description("SuperAdmin")]
+        SuperAdmin = 204
     }
 
     public enum GraduationDegree
