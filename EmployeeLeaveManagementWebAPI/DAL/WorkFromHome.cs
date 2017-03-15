@@ -25,8 +25,8 @@ namespace LMS_WebAPI_DAL
         public int RefReason { get; set; }
         public string OtherReason { get; set; }
     
-        public virtual EmployeeDetail EmployeeDetail { get; set; }
         public virtual MasterDataValue MasterDataValue { get; set; }
         public virtual MasterDataValue MasterDataValue1 { get; set; }
+        public virtual EmployeeDetail EmployeeDetail { get; set; }
     }
 }

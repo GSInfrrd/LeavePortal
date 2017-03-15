@@ -21,8 +21,8 @@ namespace LMS_WebAPI_DAL
         public int LeaveCount { get; set; }
         public System.DateTime RewardedDate { get; set; }
     
+        public virtual ProjectMaster ProjectMaster { get; set; }
         public virtual EmployeeDetail EmployeeDetail { get; set; }
         public virtual EmployeeDetail EmployeeDetail1 { get; set; }
-        public virtual ProjectMaster ProjectMaster { get; set; }
     }
 }

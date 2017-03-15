@@ -19,6 +19,11 @@ namespace LMS_WebAPI_DAL.Repositories.Interfaces
         LeaveReportModel GetLeaveReportDetails(int year, int employeeId = 0,int leaveType=0);
         EmployeeDetail GetUserProfileDetails(int employeeId, out List<MasterDataModel> skills,out List<ProjectsList> projects);
         bool EditEmployeeDetails(EmployeeDetailsModel model);
+
+        bool EditEmployeeEmergencyContactDetails(LMS_WebAPI_Domain.EmployeeEmergencyContactDetail model);
+
+        bool EditEmployeeCurrentAddressDetails(LMS_WebAPI_Domain.EmployeeCurrentAddressDetail model);
+        bool EditEmployeePermanentAddressDetails(LMS_WebAPI_Domain.EmployeePermanentAddressDetail model);
         bool EditEmployeeEducationDetails(List<EmployeeEducationDetails> educationDetails,int employeeId);
 
         bool EditEmployeeExperienceDetails(List<EmployeeExperienceDetails> experienceDetails, int employeeId);

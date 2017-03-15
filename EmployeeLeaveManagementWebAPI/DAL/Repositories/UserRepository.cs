@@ -176,8 +176,50 @@ namespace LMS_WebAPI_DAL.Repositories
                 using (var ctx = new LeaveManagementSystemEntities1())
                 {
                     var Skills = new List<MasterDataModel>();
-                    var profileDetails = ctx.EmployeeDetails.Include("EmployeeEducationDetails").Include("EmployeeExperienceDetails").Include("UserAccounts").Include("EmployeeSkills").Include("MasterDataValue2").FirstOrDefault(i => i.Id == employeeId);
+                    var profileDetails = ctx.EmployeeDetails.Include("EmployeeEducationDetails").Include("EmployeeExperienceDetails").Include("UserAccounts").Include("EmployeeSkills").Include("MasterDataValue2").Include("EmployeeCurrentAddressDetails").Include("EmployeePermanentAddressDetails").Include("EmployeeWorkLocationDetails").Include("EmployeeEmergencyContactDetails").FirstOrDefault(i => i.Id == employeeId);
                     var allSkills = ctx.MasterDataValues.Where(i => i.RefMasterType == (int)MasterDataTypeEnum.Skills).ToList();
+                    int cityid = Convert.ToInt32(profileDetails.EmployeeCurrentAddressDetails.FirstOrDefault().City);
+                    int countryid = Convert.ToInt32(profileDetails.EmployeeCurrentAddressDetails.FirstOrDefault().Country);
+                    int roleid = Convert.ToInt32(profileDetails.RefRoleId);
+                    string city = cityid != 0 ? ctx.Geo_Location_City_Master.Where(i => i.Id == cityid).FirstOrDefault().Name : "";
+                    string country = ctx.Geo_Location_Country_Master.Where(i => i.Id == countryid).FirstOrDefault().Name;
+                    string RoleName = ctx.MasterDataValues.Where(i => i.Id == roleid).FirstOrDefault().Value;
+                    int ProjectId = profileDetails.EmployeeProjectDetails.FirstOrDefault().RefProjectId;
+                    string ProjectName = ctx.ProjectMasters.Where(i => i.Id == ProjectId).FirstOrDefault().ProjectName;
+                    int ManagerId = Convert.ToInt32(profileDetails.ManagerId);
+                    string ManagerName = ManagerId !=0 ? ctx.EmployeeDetails.Where(i => i.Id == ManagerId).FirstOrDefault().FirstName : "";
+                    string ManagerLastName = ManagerId != 0 ?  ctx.EmployeeDetails.Where(i => i.Id == ManagerId).FirstOrDefault().LastName : "";
+                    int EmployeeTypeId = Convert.ToInt32(profileDetails.RefEmployeeType);
+                    string EmployeeType = EmployeeTypeId !=0 ?  ctx.MasterDataValues.Where(i => i.Id == EmployeeTypeId).FirstOrDefault().Value : "";
+                    int EmployeeContractTypeId =  Convert.ToInt32(profileDetails.RefEmployeeContractType);
+                    string EmployeeContractType = EmployeeContractTypeId != 0 ? ctx.MasterDataValues.Where(i => i.Id == EmployeeContractTypeId).FirstOrDefault().Value : "";
+                    int profileTypeId = profileDetails.RefProfileType;
+                    string profileType = profileTypeId != 0 ? ctx.MasterDataValues.Where(i => i.Id == profileTypeId).FirstOrDefault().Value : "";
+                    int facilityId = profileDetails.EmployeeWorkLocationDetails.Count > 0 ? Convert.ToInt32(profileDetails.EmployeeWorkLocationDetails.FirstOrDefault().Facility) : 0;
+                    string facilityName = facilityId !=0 ? ctx.Geo_Location_Facility_Master.Where(i => i.Id == facilityId).FirstOrDefault().Name : "";
+                    int countryId = profileDetails.EmployeeWorkLocationDetails.Count > 0 ? Convert.ToInt32(profileDetails.EmployeeWorkLocationDetails.FirstOrDefault().Country) : 0;
+                    string countryName = countryId !=0 ? ctx.Geo_Location_Country_Master.Where(i => i.Id == countryId).FirstOrDefault().Name : "";
+                    int stateId = profileDetails.EmployeeWorkLocationDetails.Count > 0 ? Convert.ToInt32(profileDetails.EmployeeWorkLocationDetails.FirstOrDefault().State) : 0;
+                    string stateName =  stateId != 0 ? ctx.Geo_Location_State_Master.Where(i => i.Id == stateId).FirstOrDefault().Name : "";
+                    int cityId = profileDetails.EmployeeWorkLocationDetails.Count > 0 ? Convert.ToInt32(profileDetails.EmployeeWorkLocationDetails.FirstOrDefault().City) : 0;
+                    string cityName = cityId !=0 ? ctx.Geo_Location_City_Master.Where(i => i.Id == cityId).FirstOrDefault().Name : "";
+                    if (ManagerLastName!=null)
+                    {
+                        ManagerName += " ";
+                        ManagerName += ManagerLastName;
+                    }
+                    profileDetails.City = city;
+                    profileDetails.Country = country;
+                    profileDetails.EmployeeWorkLocationDetails.FirstOrDefault().Facility = facilityName;
+                    profileDetails.EmployeeWorkLocationDetails.FirstOrDefault().Country = countryName;
+                    profileDetails.EmployeeWorkLocationDetails.FirstOrDefault().State = stateName;
+                    profileDetails.EmployeeWorkLocationDetails.FirstOrDefault().City = cityName;
+                    profileDetails.RoleName = RoleName;
+                    profileDetails.ProjectName = ProjectName;
+                    profileDetails.ManagerName = ManagerName;
+                    profileDetails.EmployeeType = EmployeeType;
+                    profileDetails.EmployeeContractType = EmployeeContractType;
+                    profileDetails.ProfileType = profileType;
                     foreach (var item in allSkills)
                     {
                         var skill = new MasterDataModel();
@@ -231,8 +273,6 @@ namespace LMS_WebAPI_DAL.Repositories
                     empData.FirstName = model.FirstName;
                     empData.LastName = model.LastName;
                     empData.ImagePath = imageBase64Data;
-                    empData.City = model.City;
-                    empData.Country = model.Country;
                     empData.DateOfBirth = model.DateOfBirth;
                     empData.PhoneNumber = model.Telephone;
                     empData.ModifiedDate = DateTime.Now;
@@ -241,6 +281,11 @@ namespace LMS_WebAPI_DAL.Repositories
                     empData.TwitterLink = model.TwitterLink;
                     empData.GooglePlusLink = model.GooglePlusLink;
                     ctx.SaveChanges();
+
+                    var empcurrentaddress = new EmployeeCurrentAddressDetail();
+                    empcurrentaddress.City = model.City;
+                    empcurrentaddress.Country = model.Country;
+                    ctx.SaveChanges();
                     Logger.Info("Successfully exiting from UserRepository API EditEmployeeDetails method");
                     return true;
                 }
@@ -248,6 +293,97 @@ namespace LMS_WebAPI_DAL.Repositories
             catch
             {
                 Logger.Error("Exception occured at UserRepository EditEmployeeDetails method ");
+                throw;
+            }
+        }
+
+
+        public bool EditEmployeeEmergencyContactDetails(LMS_WebAPI_Domain.EmployeeEmergencyContactDetail model)
+        {
+            Logger.Info("Entering in UserRepository API EditEmployeeEmergencyContactDetails method");
+            try
+            {
+                using (var ctx = new LeaveManagementSystemEntities1())
+                {
+                    
+                    var empData = new EmployeeEmergencyContactDetail();
+                    empData = ctx.EmployeeEmergencyContactDetails.FirstOrDefault(i => i.RefEmployeeId == model.RefEmployeeId);
+                    empData.Name = model.Name;
+                    empData.Relationship= model.Relationship;
+                    empData.Telephone = model.Telephone;
+                    empData.Country = model.Country;
+                    empData.State = model.State;
+                    empData.City = model.City;
+                    empData.AddressLine1 = model.AddressLine1;
+                    empData.AddressLine2 = model.AddressLine2;
+                    ctx.SaveChanges();
+                    Logger.Info("Successfully exiting from UserRepository API EditEmployeeDetails method");
+                    return true;
+                }
+            }
+            catch
+            {
+                Logger.Error("Exception occured at UserRepository EditEmployeeDetails method ");
+                throw;
+            }
+        }
+
+        public bool EditEmployeeCurrentAddressDetails(LMS_WebAPI_Domain.EmployeeCurrentAddressDetail model)
+        {
+            Logger.Info("Entering in UserRepository API EditEmployeeCurrentAddressDetails method");
+            try
+            {
+                using (var ctx = new LeaveManagementSystemEntities1())
+                {
+
+                    var empData = new EmployeeCurrentAddressDetail();
+                    empData = ctx.EmployeeCurrentAddressDetails.FirstOrDefault(i => i.RefEmployeeId == model.RefEmployeeId);
+                    empData.Country = model.Country;
+                    empData.State = model.State;
+                    empData.City = model.City;
+                    empData.Pincode = model.Pincode;
+                    empData.AddressLine1 = model.AddressLine1;
+                    empData.AddressLine2 = model.AddressLine2;
+                    empData.RefModifiedBy = model.RefEmployeeId;
+                    empData.ModifiedDate = DateTime.Now.Date;
+                    ctx.SaveChanges();
+                    Logger.Info("Successfully exiting from UserRepository API EditEmployeeCurrentAddressDetails method");
+                    return true;
+                }
+            }
+            catch
+            {
+                Logger.Error("Exception occured at UserRepository EditEmployeeCurrentAddressDetails method ");
+                throw;
+            }
+        }
+
+        public bool EditEmployeePermanentAddressDetails(LMS_WebAPI_Domain.EmployeePermanentAddressDetail model)
+        {
+            Logger.Info("Entering in UserRepository API EditEmployeePermanentAddressDetails method");
+            try
+            {
+                using (var ctx = new LeaveManagementSystemEntities1())
+                {
+
+                    var empData = new EmployeePermanentAddressDetail();
+                    empData = ctx.EmployeePermanentAddressDetails.FirstOrDefault(i => i.RefEmployeeId == model.RefEmployeeId);
+                    empData.Country = model.Country;
+                    empData.State = model.State;
+                    empData.City = model.City;
+                    empData.Pincode = model.Pincode;
+                    empData.AddressLine1 = model.AddressLine1;
+                    empData.AddressLine2 = model.AddressLine2;
+                    empData.RefModifiedBy = model.RefEmployeeId;
+                    empData.ModifiedDate = DateTime.Now.Date;
+                    ctx.SaveChanges();
+                    Logger.Info("Successfully exiting from UserRepository API EditEmployeePermanentAddressDetails method");
+                    return true;
+                }
+            }
+            catch
+            {
+                Logger.Error("Exception occured at UserRepository EditEmployeePermanentAddressDetails method ");
                 throw;
             }
         }

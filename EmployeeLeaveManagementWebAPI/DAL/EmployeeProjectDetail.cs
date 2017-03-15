@@ -25,7 +25,7 @@ namespace LMS_WebAPI_DAL
         public Nullable<System.DateTime> StartDate { get; set; }
         public Nullable<System.DateTime> EndDate { get; set; }
     
-        public virtual EmployeeDetail EmployeeDetail { get; set; }
         public virtual ProjectMaster ProjectMaster { get; set; }
+        public virtual EmployeeDetail EmployeeDetail { get; set; }
     }
 }

@@ -30,6 +30,54 @@ namespace EmployeeLeaveManagementApp.Controllers
             }
         }
 
+        public async Task<JsonResult> EditEmployeeEmergencyContactDetails(EmployeeEmergencyContactDetail model)
+        {
+            Logger.Info("Entering in ProfileController APP EditEmployeeEmergencyContactDetails method");
+            try
+            {
+                var result = await usrManagement.EditEmployeeEmergencyContactDetailsAsync(model);
+                Logger.Info("Successfully exiting from ProfileController APP EditEmployeeEmergencyContactDetails method");
+                return Json(new { result = result });
+            }
+            catch (Exception ex)
+            {
+                Logger.Error("Error at ProfileController APP EditEmployeeEmergencyContactDetails method.", ex);
+                return null;
+            }
+        }
+
+        public async Task<JsonResult> EditEmployeeCurrentAddressDetails(EmployeeCurrentAddressDetail model)
+        {
+            Logger.Info("Entering in ProfileController APP EditEmployeeCurrentAddressDetails method");
+            try
+            {
+                var result = await usrManagement.EditEmployeeCurrentAddressDetailsAsync(model);
+                Logger.Info("Successfully exiting from ProfileController APP EditEmployeeCurrentAddressDetails method");
+                return Json(new { result = result });
+            }
+            catch (Exception ex)
+            {
+                Logger.Error("Error at ProfileController APP EditEmployeeCurrentAddressDetails method.", ex);
+                return null;
+            }
+        }
+
+        public async Task<JsonResult> EditEmployeePermanentAddressDetails(EmployeePermanentAddressDetail model)
+        {
+            Logger.Info("Entering in ProfileController APP EditEmployeePermanentAddressDetails method");
+            try
+            {
+                var result = await usrManagement.EditEmployeePermanentAddressDetailsAsync(model);
+                Logger.Info("Successfully exiting from ProfileController APP EditEmployeePermanentAddressDetails method");
+                return Json(new { result = result });
+            }
+            catch (Exception ex)
+            {
+                Logger.Error("Error at ProfileController APP EditEmployeePermanentAddressDetails method.", ex);
+                return null;
+            }
+        }
+
         public async Task<JsonResult> EditEmployeeEducationDetails(List<EmployeeEducationDetails> educationDetails)
         {
             Logger.Info("Entering in ProfileController APP EditEmployeeEducationDetails method");

@@ -31,7 +31,6 @@ namespace LMS_WebAPI_DAL
         public virtual DbSet<EmailTemplateMapping> EmailTemplateMappings { get; set; }
         public virtual DbSet<EmailTemplateMaster> EmailTemplateMasters { get; set; }
         public virtual DbSet<EmployeeContactDetail> EmployeeContactDetails { get; set; }
-        public virtual DbSet<EmployeeDetail> EmployeeDetails { get; set; }
         public virtual DbSet<EmployeeEducationDetail> EmployeeEducationDetails { get; set; }
         public virtual DbSet<EmployeeExperienceDetail> EmployeeExperienceDetails { get; set; }
         public virtual DbSet<EmployeeLeaveMaster> EmployeeLeaveMasters { get; set; }
@@ -54,14 +53,15 @@ namespace LMS_WebAPI_DAL
         public virtual DbSet<TechnologyMaster> TechnologyMasters { get; set; }
         public virtual DbSet<CityDetail> CityDetails { get; set; }
         public virtual DbSet<CountryDetail> CountryDetails { get; set; }
-        public virtual DbSet<EmployeeCurrentAddressDetail> EmployeeCurrentAddressDetails { get; set; }
-        public virtual DbSet<EmployeeEmergencyContactDetail> EmployeeEmergencyContactDetails { get; set; }
-        public virtual DbSet<EmployeePermanentAddressDetail> EmployeePermanentAddressDetails { get; set; }
         public virtual DbSet<Geo_Location_Country_Master> Geo_Location_Country_Master { get; set; }
         public virtual DbSet<Geo_Location_City_Master> Geo_Location_City_Master { get; set; }
         public virtual DbSet<Geo_Location_State_Master> Geo_Location_State_Master { get; set; }
         public virtual DbSet<Geo_Location_Facility_Master> Geo_Location_Facility_Master { get; set; }
         public virtual DbSet<EmployeeWorkLocationDetail> EmployeeWorkLocationDetails { get; set; }
+        public virtual DbSet<EmployeeCurrentAddressDetail> EmployeeCurrentAddressDetails { get; set; }
+        public virtual DbSet<EmployeePermanentAddressDetail> EmployeePermanentAddressDetails { get; set; }
+        public virtual DbSet<EmployeeEmergencyContactDetail> EmployeeEmergencyContactDetails { get; set; }
+        public virtual DbSet<EmployeeDetail> EmployeeDetails { get; set; }
     
         public virtual ObjectResult<GetLeaveReportProcedure_Result> GetLeaveReportProcedure(string year)
         {

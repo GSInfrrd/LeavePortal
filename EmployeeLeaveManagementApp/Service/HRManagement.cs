@@ -583,6 +583,43 @@ namespace LMS_WebAPP_ServiceHelpers
             }
         }
 
+
+        public async Task<List<BloodGroupDetails>> GetBloodGroupsAsync()
+        {
+            Logger.Info("Entering into HRManagement APP Service helper GetBloodGroupsAsync method ");
+            try
+            {
+                using (HttpClient client = new HttpClient())
+                {
+                    string URL = WebapiURL + "/GetBloodGroups";
+                    client.BaseAddress = new Uri(URL);
+                    // Add an Accept header for JSON format.
+                    client.DefaultRequestHeaders.Accept.Add(
+                    new MediaTypeWithQualityHeaderValue("application/json"));
+
+                    // List data response.
+                    HttpResponseMessage response = await client.GetAsync(URL);  // Blocking call!
+                    if (response.IsSuccessStatusCode)
+                    {
+                        // Parse the response body. Blocking!
+                        var dataObjects = response.Content.ReadAsAsync<List<BloodGroupDetails>>().Result.ToList();
+                        Logger.Info("Exiting from into HRManagement APP Service helper GetBloodGroupsAsync method ");
+                        return dataObjects;
+                    }
+                    else
+                    {
+                        Console.WriteLine("{0} ({1})", (int)response.StatusCode, response.ReasonPhrase);
+                        Logger.Info("Exiting from into HRManagement APP Service helper GetBloodGroupsAsync method ");
+                        return null;
+                    }
+                }
+            }
+            catch
+            {
+                Logger.Error("Exception occured at HRManagement APP Service helper GetBloodGroupsAsync method ");
+                throw;
+            }
+        }
         public async Task<List<FacilityDetails>> GetFacilitiesAsync()
         {
             Logger.Info("Entering into HRManagement APP Service helper GetFacilitiesAsync method ");

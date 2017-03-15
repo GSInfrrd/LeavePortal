@@ -170,7 +170,9 @@ namespace LMS_WebAPI_Utils
         [Description("CreditLeaveLimitMonthly")]
         CreditLeaveLimitMonthly = 17,
         [Description("Relationship")]
-        Relationship = 19
+        Relationship = 19,
+        [Description("BloodGroup")]
+        BloodGroup = 20
     }
 
     public enum WorkFormHomeReasons

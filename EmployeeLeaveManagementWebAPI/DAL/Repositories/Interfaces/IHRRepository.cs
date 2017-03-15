@@ -28,6 +28,8 @@ namespace LMS_WebAPI_DAL.Repositories.Interfaces
 
         List<RelationshipDetails> GetRelationships();
 
+        List<BloodGroupDetails> GetBloodGroups();
+
         List<FacilityDetails> GetFacilities();
 
         List<StateDetails> GetStates(int CountryId);

@@ -21,7 +21,7 @@ namespace LMS_WebAPI_DAL
         public int Status { get; set; }
         public int RefNotificationType { get; set; }
     
-        public virtual EmployeeDetail EmployeeDetail { get; set; }
         public virtual MasterDataValue MasterDataValue { get; set; }
+        public virtual EmployeeDetail EmployeeDetail { get; set; }
     }
 }

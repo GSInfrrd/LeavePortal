@@ -208,6 +208,22 @@ namespace LMS_WebAPI_ServiceHelpers
             }
         }
 
+        public List<BloodGroupDetails> GetBloodGroups()
+        {
+            Logger.Info("Entering into HRManagement Service helper GetBloodGroups method ");
+            try
+            {
+                var result = hrRepo.GetBloodGroups();
+                Logger.Info("Exiting from into HRManagement Service helper GetBloodGroups method ");
+                return result;
+            }
+            catch
+            {
+                Logger.Error("Exception occured at HRManagement Service helper GetBloodGroups method ");
+                throw;
+            }
+        }
+
         public List<FacilityDetails> GetFacilities()
         {
             Logger.Info("Entering into HRManagement Service helper GetFacilities method ");

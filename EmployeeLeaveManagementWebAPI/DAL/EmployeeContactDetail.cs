@@ -23,7 +23,7 @@ namespace LMS_WebAPI_DAL
         public string CreatedBy { get; set; }
         public string ModifiedBy { get; set; }
     
-        public virtual EmployeeDetail EmployeeDetail { get; set; }
         public virtual MasterDataValue MasterDataValue { get; set; }
+        public virtual EmployeeDetail EmployeeDetail { get; set; }
     }
 }

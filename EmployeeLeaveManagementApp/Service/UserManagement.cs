@@ -262,6 +262,123 @@ namespace LMS_WebAPP_ServiceHelpers
             }
         }
 
+
+        public async Task<bool> EditEmployeeEmergencyContactDetailsAsync(EmployeeEmergencyContactDetail model)
+        {
+            Logger.Info("Entering into UserManagement APP Service helper EditEmployeeEmergencyContactDetailsAsync method ");
+            try
+            {
+                using (HttpClient client = new HttpClient())
+                {
+                    string URL = ProfileURL + "/EditEmployeeEmergencyContactDetails";
+                    urlParameters = "?model=" + model;
+                    client.BaseAddress = new Uri(URL);
+
+                    // Add an Accept header for JSON format.
+                    client.DefaultRequestHeaders.Accept.Add(
+                    new MediaTypeWithQualityHeaderValue("application/json"));
+
+                    // List data response.
+                    HttpResponseMessage response = await client.PostAsJsonAsync(URL, model);  // Blocking call!
+                    if (response.IsSuccessStatusCode)
+                    {
+                        // Parse the response body. Blocking!
+                        var dataObjects = await response.Content.ReadAsAsync<bool>();
+                        Logger.Info("Exiting from into UserManagement APP Service helper EditEmployeeEmergencyContactDetailsAsync method ");
+                        return dataObjects;
+                    }
+                    else
+                    {
+                        Console.WriteLine("{0} ({1})", (int)response.StatusCode, response.ReasonPhrase);
+                        Logger.Info("Exiting from into UserManagement APP Service helper EditEmployeeEmergencyContactDetailsAsync method ");
+                        return false;
+                    }
+                }
+            }
+            catch
+            {
+                Logger.Info("Exception occured at UserManagement APP Service helper EditEmployeeEmergencyContactDetailsAsync method ");
+                throw;
+            }
+        }
+
+        public async Task<bool> EditEmployeeCurrentAddressDetailsAsync(EmployeeCurrentAddressDetail model)
+        {
+            Logger.Info("Entering into UserManagement APP Service helper EditEmployeeCurrentAddressDetailsAsync method ");
+            try
+            {
+                using (HttpClient client = new HttpClient())
+                {
+                    string URL = ProfileURL + "/EditEmployeeCurrentAddressDetails";
+                    urlParameters = "?model=" + model;
+                    client.BaseAddress = new Uri(URL);
+
+                    // Add an Accept header for JSON format.
+                    client.DefaultRequestHeaders.Accept.Add(
+                    new MediaTypeWithQualityHeaderValue("application/json"));
+
+                    // List data response.
+                    HttpResponseMessage response = await client.PostAsJsonAsync(URL, model);  // Blocking call!
+                    if (response.IsSuccessStatusCode)
+                    {
+                        // Parse the response body. Blocking!
+                        var dataObjects = await response.Content.ReadAsAsync<bool>();
+                        Logger.Info("Exiting from into UserManagement APP Service helper EditEmployeeCurrentAddressDetailsAsync method ");
+                        return dataObjects;
+                    }
+                    else
+                    {
+                        Console.WriteLine("{0} ({1})", (int)response.StatusCode, response.ReasonPhrase);
+                        Logger.Info("Exiting from into UserManagement APP Service helper EditEmployeeCurrentAddressDetailsAsync method ");
+                        return false;
+                    }
+                }
+            }
+            catch
+            {
+                Logger.Info("Exception occured at UserManagement APP Service helper EditEmployeeCurrentAddressDetailsAsync method ");
+                throw;
+            }
+        }
+
+        public async Task<bool> EditEmployeePermanentAddressDetailsAsync(EmployeePermanentAddressDetail model)
+        {
+            Logger.Info("Entering into UserManagement APP Service helper EditEmployeePermanentAddressDetailsAsync method ");
+            try
+            {
+                using (HttpClient client = new HttpClient())
+                {
+                    string URL = ProfileURL + "/EditEmployeePermanentAddressDetails";
+                    urlParameters = "?model=" + model;
+                    client.BaseAddress = new Uri(URL);
+
+                    // Add an Accept header for JSON format.
+                    client.DefaultRequestHeaders.Accept.Add(
+                    new MediaTypeWithQualityHeaderValue("application/json"));
+
+                    // List data response.
+                    HttpResponseMessage response = await client.PostAsJsonAsync(URL, model);  // Blocking call!
+                    if (response.IsSuccessStatusCode)
+                    {
+                        // Parse the response body. Blocking!
+                        var dataObjects = await response.Content.ReadAsAsync<bool>();
+                        Logger.Info("Exiting from into UserManagement APP Service helper EditEmployeePermanentAddressDetailsAsync method ");
+                        return dataObjects;
+                    }
+                    else
+                    {
+                        Console.WriteLine("{0} ({1})", (int)response.StatusCode, response.ReasonPhrase);
+                        Logger.Info("Exiting from into UserManagement APP Service helper EditEmployeePermanentAddressDetailsAsync method ");
+                        return false;
+                    }
+                }
+            }
+            catch
+            {
+                Logger.Info("Exception occured at UserManagement APP Service helper EditEmployeePermanentAddressDetailsAsync method ");
+                throw;
+            }
+        }
         public async Task<bool> EditEmployeeEducationDetailsAsync(List<EmployeeEducationDetails> educationDetails, int employeeId)
         {
             Logger.Info("Entering into UserManagement APP Service helper EditEmployeeEducationDetailsAsync method ");

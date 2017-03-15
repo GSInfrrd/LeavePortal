@@ -52,6 +52,61 @@ namespace EmployeeLeaveManagementWebAPI.Controllers
             }
         }
 
+
+        [HttpPost]
+        [Route("EditEmployeeEmergencyContactDetails")]
+        public bool EditEmployeeEmergencyContactDetails(EmployeeEmergencyContactDetail model)
+        {
+            try
+            {
+                Logger.Info("Entering in ProfileController API EditEmployeeEmergencyContactDetails method");
+                var result = userManager.EditEmployeeEmergencyContactDetails(model);
+                Logger.Info("Successfully exiting from ProfileController API EditEmployeeEmergencyContactDetails method");
+                return true;
+            }
+            catch (Exception ex)
+            {
+                Logger.Error("Error at ProfileController API EditEmployeeEmergencyContactDetails method.", ex);
+                return false;
+            }
+        }
+
+        [HttpPost]
+        [Route("EditEmployeeCurrentAddressDetails")]
+        public bool EditEmployeeCurrentAddressDetails(EmployeeCurrentAddressDetail model)
+        {
+            try
+            {
+                Logger.Info("Entering in ProfileController API EditEmployeeCurrentAddressDetails method");
+                var result = userManager.EditEmployeeCurrentAddressDetails(model);
+                Logger.Info("Successfully exiting from ProfileController API EditEmployeeCurrentAddressDetails method");
+                return true;
+            }
+            catch (Exception ex)
+            {
+                Logger.Error("Error at ProfileController API EditEmployeeCurrentAddressDetails method.", ex);
+                return false;
+            }
+        }
+
+        [HttpPost]
+        [Route("EditEmployeePermanentAddressDetails")]
+        public bool EditEmployeePermanentAddressDetails(EmployeePermanentAddressDetail model)
+        {
+            try
+            {
+                Logger.Info("Entering in ProfileController API EditEmployeePermanentAddressDetails method");
+                var result = userManager.EditEmployeePermanentAddressDetails(model);
+                Logger.Info("Successfully exiting from ProfileController API EditEmployeePermanentAddressDetails method");
+                return true;
+            }
+            catch (Exception ex)
+            {
+                Logger.Error("Error at ProfileController API EditEmployeePermanentAddressDetails method.", ex);
+                return false;
+            }
+        }
+
         [HttpPost]
         [Route("EditEmployeeEducationDetails")]
         public bool EditEmployeeEducationDetails(List<EmployeeEducationDetails> educationDetails,int employeeId)

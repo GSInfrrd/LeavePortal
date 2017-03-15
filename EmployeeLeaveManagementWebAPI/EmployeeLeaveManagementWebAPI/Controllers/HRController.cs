@@ -254,6 +254,24 @@ namespace EmployeeLeaveManagementWebAPI.Controllers
         }
 
         [HttpGet]
+        [Route("GetBloodGroups")]
+        public List<BloodGroupDetails> GetBloodGroups()
+        {
+            try
+            {
+                Logger.Info("Entering in HRController API GetBloodGroups method");
+                var result = hrOperations.GetBloodGroups();
+                Logger.Info("Successfully exiting from HRController API GetBloodGroups method");
+                return result;
+            }
+            catch (Exception ex)
+            {
+                Logger.Error("Error at HRController API GetBloodGroups method.", ex);
+                return null;
+            }
+        }
+
+        [HttpGet]
         [Route("GetFacilities")]
         public List<FacilityDetails> GetFacilities()
         {

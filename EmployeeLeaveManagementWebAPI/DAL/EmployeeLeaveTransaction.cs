@@ -34,12 +34,12 @@ namespace LMS_WebAPI_DAL
         public Nullable<int> RefModifiedBy { get; set; }
         public int RefTransactionType { get; set; }
     
-        public virtual EmployeeDetail EmployeeDetail { get; set; }
-        public virtual EmployeeDetail EmployeeDetail1 { get; set; }
-        public virtual EmployeeDetail EmployeeDetail2 { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Workflow> Workflows { get; set; }
         public virtual MasterDataValue MasterDataValue { get; set; }
         public virtual MasterDataValue MasterDataValue1 { get; set; }
+        public virtual EmployeeDetail EmployeeDetail { get; set; }
+        public virtual EmployeeDetail EmployeeDetail1 { get; set; }
+        public virtual EmployeeDetail EmployeeDetail2 { get; set; }
     }
 }

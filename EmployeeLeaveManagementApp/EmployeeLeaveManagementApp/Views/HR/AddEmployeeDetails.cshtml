@@ -55,7 +55,7 @@
                     </div>
                     <div class="form-group col-md-6" style="margin-top:-132px">
                         <label style="margin-bottom: 0px;" for="txtEmail">
-                            Email <span style="color:red">*</span><span class="form-group has-error" style="display:none;margin-bottom: 0px;" id="divEmailError">
+                            Email(Personal) <span style="color:red">*</span><span class="form-group has-error" style="display:none;margin-bottom: 0px;" id="divEmailError">
                                 <label style="margin-bottom: 0px;" class="control-label" for="Email">
                                     <i class="fa fa-times-circle-o"></i> Please enter email id
                                 </label>
@@ -63,11 +63,6 @@
                             <span class="form-group has-error" style="display:none;margin-bottom: 0px;" id="divInvalidEmailError">
                                 <label style="margin-bottom: 0px;" class="control-label" for="InvalidEmail">
                                     <i class="fa fa-times-circle-o"></i> Please enter valid email id
-                                </label>
-                            </span>
-                            <span class="form-group has-error" style="display:none;margin-bottom: 0px;" id="divEmailAlreadyError">
-                                <label style="margin-bottom: 0px;" class="control-label" for="EmailAlready">
-                                    <i class="fa fa-times-circle-o"></i>Email id is already present
                                 </label>
                             </span>
                         </label>
@@ -81,7 +76,7 @@
                                 </label>
                             </span>
                         </label>
-                        <input type="tel" class="form-control" id="txtTelephone" placeholder="Telephone">
+                        <input type="tel" class="form-control numbersOnly" id="txtTelephone" placeholder="Telephone">
 
                     </div>
 
@@ -105,14 +100,16 @@
                         <input type="text" class="form-control" id="txtPassportNumber" placeholder="Passport Number">
                     </div>
                     <div class="form-group col-md-6">
-                        <label style="margin-bottom: 0px;" for="txtBloodGroup">
+                        <label style="margin-bottom: 0px;" for="ddlBloodGroup">
                             Blood Group @*<span style="color:red">*</span><span class="form-group has-error" style="display:none;margin-bottom: 0px;" id="divBloodGroupError">
                                     <label style="margin-bottom: 0px;" class="control-label" for="BloodGroup">
                                         <i class="fa fa-times-circle-o"></i> Please enter blood group
                                     </label>
                                 </span>*@
                         </label>
-                        <input type="text" class="form-control" id="txtBloodGroup" placeholder="Blood Group">
+                        <select class="form-control managerSelect" style="width: 100%;" id="ddlBloodGroup">
+                            <option value="">Select</option>
+                        </select>
                     </div>
                     <div class="form-group col-md-6" id="ddlGender">
                         <label style="margin-bottom: 0px;">
@@ -293,7 +290,8 @@
                             <div id="rddiv">
                                 @foreach (var value in Enum.GetValues(typeof(LMS_WebAPP_Utils.ProfileType)))
                                 {
-                                    if (Convert.ToInt16(LMS_WebAPP_Utils.ProfileType.CEO) != @Convert.ToInt16((LMS_WebAPP_Utils.ProfileType)value))
+
+                                    if( (Convert.ToInt16(LMS_WebAPP_Utils.ProfileType.CEO) != @Convert.ToInt16((LMS_WebAPP_Utils.ProfileType)value)) && (Convert.ToInt16(LMS_WebAPP_Utils.ProfileType.SuperAdmin) != @Convert.ToInt16((LMS_WebAPP_Utils.ProfileType)value)))
                                     {
                                         var selectedAttr = "";
                                         if (Convert.ToInt16(LMS_WebAPP_Utils.ProfileType.Employee) == @Convert.ToInt16((LMS_WebAPP_Utils.ProfileType)value) ||
@@ -329,11 +327,11 @@
                     <div class="box-body collapse in" id="EmpEmergencyContactDetailsToggle">
                         <div class="form-group col-md-6">
                             <label style="margin-bottom: 0px;">
-                                Name <span style="color:red">*</span><span class="form-group has-error" style="display:none;margin-bottom: 0px;" id="divEmergencyContactNameError">
+                                Name @*<span style="color:red">*</span><span class="form-group has-error" style="display:none;margin-bottom: 0px;" id="divEmergencyContactNameError">
                                     <label style="margin-bottom: 0px;" class="control-label" for="EmergencyContactName">
                                         <i class="fa fa-times-circle-o"></i> Please enter name
                                     </label>
-                                </span>
+                                </span>*@
                             </label>
                             <div>
                                 <input type="text" class="form-control" id="txtEmergencyContactName" placeholder="Name">
@@ -341,11 +339,11 @@
                         </div>
                         <div class="form-group col-md-6">
                             <label style="margin-bottom: 0px;">
-                                Relationship <span style="color:red">*</span><span class="form-group has-error" style="display:none" id="divEmergencyContactRelationshipError">
+                                Relationship @*<span style="color:red">*</span><span class="form-group has-error" style="display:none" id="divEmergencyContactRelationshipError">
                                     <label style="margin-bottom: 0px;" class="control-label" for="EmergencyContactRelationship">
                                         <i class="fa fa-times-circle-o"></i> Please select relationship
                                     </label>
-                                </span>
+                                </span>*@
                             </label>
                             <div>
                                 <select class="form-control managerSelect" style="width: 100%;" id="ddlEmergencyContactRelationship">
@@ -355,27 +353,27 @@
                         </div>
                         <div class="form-group col-md-6">
                             <label style="margin-bottom: 0px;">
-                                Telephone <span style="color:red">*</span><span class="form-group has-error" style="display:none" id="divEmergencyContactTelephoneError">
+                                Telephone @*<span style="color:red">*</span><span class="form-group has-error" style="display:none" id="divEmergencyContactTelephoneError">
                                     <label style="margin-bottom: 0px;" class="control-label" for="EmergencyContactTelephone">
                                         <i class="fa fa-times-circle-o"></i> Please enter telephone
                                     </label>
-                                </span>
+                                </span>*@
                             </label>
-                            <input type="text" class="form-control" id="txtEmergencyContactTelephone" placeholder="Telephone">
+                            <input type="text" class="form-control numbersOnly" id="txtEmergencyContactTelephone" placeholder="Telephone">
                         </div>
                         <div class="form-group col-md-6">
                             <label style="margin-bottom: 0px;">
-                                Country <span style="color:red">*</span><span class="form-group has-error" style="display:none;margin-bottom: 0px;" id="divEmergencyContactCountryError">
+                                Country @*<span style="color:red">*</span><span class="form-group has-error" style="display:none;margin-bottom: 0px;" id="divEmergencyContactCountryError">
                                     <label style="margin-bottom: 0px;" class="control-label" for="EmergencyContactCountry">
                                         <i class="fa fa-times-circle-o"></i> Please select Country
                                     </label>
-                                </span>
+                                </span>*@
                             </label>
                             <div>
                                 <select id="ddlEmergencyContactCountry" class="form-control graduation" style="width: 100%;">
                                     <option value="">Select</option>
                                 </select>
-
+                                
                             </div>
                         </div>
                         <div class="form-group col-md-6">
@@ -433,6 +431,103 @@
                 </div>
                 <div class="box box-success">
                     <div class="box-header with-border">
+                        <a id="btn_EmpCurrentAddressDetails_collapse_Text" href="#EmpCurrentAddressDetailsToggle" data-toggle="collapse">
+                            <b><span id="CollapseTextEmpCurrentAddressDetails" class="fa fa-minus" style="color:black;"></span></b>
+                            <h3 class="box-title" style="color:black; padding-left:5px">Current Address Details</h3>
+                        </a>
+                    </div>
+                    <!-- /.box-header -->
+                    <!-- form start -->
+                    @*<form role="form">*@
+                    <div class="box-body collapse in" id="EmpCurrentAddressDetailsToggle">
+                        <div class="form-group col-md-6">
+                            <label style="margin-bottom: 0px;" for="educationFromDate">
+                                AddressLine1 <span style="color:red">*</span><span class="form-group has-error" style="display:none" id="divCurrentAddressError">
+                                    <label style="margin-bottom: 0px;" class="control-label" for="CurrentAddressLine1">
+                                        <i class="fa fa-times-circle-o"></i> Please enter address
+                                    </label>
+                                </span>
+                            </label>
+                            <input type="text" class="form-control" id="txtCurrentAddressLine1" placeholder="Address">
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label style="margin-bottom: 0px;" for="educationFromDate">
+                                AddressLine2 @*<span style="color:red">*</span><span class="form-group has-error" style="display:none" id="divCurrentAddressError">
+                    <label style="margin-bottom: 0px;" class="control-label" for="CurrentAddressLine2">
+                        <i class="fa fa-times-circle-o"></i> Please enter address
+                    </label>
+                </span>*@
+                            </label>
+                            <input type="text" class="form-control" id="txtCurrentAddressLine2" placeholder="Address">
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label style="margin-bottom: 0px;">
+                                Country <span style="color:red">*</span><span class="form-group has-error" style="display:none;margin-bottom: 0px;" id="divCurrentCountryError">
+                                    <label style="margin-bottom: 0px;" class="control-label" for="CurrentCountry">
+                                        <i class="fa fa-times-circle-o"></i> Please select Country
+                                    </label>
+                                </span>
+                            </label>
+                            <div>
+                                <select id="ddlCurrentCountry" class="form-control graduation" style="width: 100%;">
+                                    <option value="">Select</option>
+                                </select>
+
+                            </div>
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label style="margin-bottom: 0px;">
+                                State @*<span style="color:red">*</span><span class="form-group has-error" style="display:none" id="divCurrentStateError">
+                            <label style="margin-bottom: 0px;" class="control-label" for="CurrentState">
+                                <i class="fa fa-times-circle-o"></i> Please select State
+                            </label>
+                        </span>*@
+                            </label>
+                            <div>
+                                <select id="ddlCurrentState" class="form-control specialization" style="width: 100%;">
+                                    <option value="">Select</option>
+                                </select>
+
+                            </div>
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label style="margin-bottom: 0px;">
+                                City @*<span style="color:red">*</span><span class="form-group has-error" style="display:none" id="divCurrentCityError">
+                            <label style="margin-bottom: 0px;" class="control-label" for="CurrentCity">
+                                <i class="fa fa-times-circle-o"></i> Please select city
+                            </label>
+                        </span>*@
+                            </label>
+                            <select id="ddlCurrentCity" class="form-control specialization" style="width: 100%;">
+                                <option value="">Select</option>
+                            </select>
+
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label style="margin-bottom: 0px;" for="educationFromDate">
+                                Pincode @*<span style="color:red">*</span><span class="form-group has-error" style="display:none" id="divCurrentPincodeError">
+                            <label style="margin-bottom: 0px;" class="control-label" for="CurrentPincode">
+                                <i class="fa fa-times-circle-o"></i> Please enter pincode
+                            </label>
+                        </span>*@
+                            </label>
+                            <input type="text" class="form-control" id="txtCurrentPincode" placeholder="Pincode">
+                        </div>
+                        
+                        <div class="form-group col-md-6">
+                            <input type="checkbox" class="checkbox inline" id="chkSamePermanentAddress">
+                            <label style="margin-bottom: 0px;" for="educationFromDate">
+                                Is permanet Address same? 
+                            </label>
+                            
+                        </div>
+
+                    </div>
+                    @*</form>*@
+
+                </div>
+                <div class="box box-success">
+                    <div class="box-header with-border">
                         <a id="btn_EmpPermanentAddressDetails_collapse_Text" href="#EmpPermanentAddressDetailsToggle" data-toggle="collapse">
                             <b><span id="CollapseTextEmpPermanentAddressDetails" class="fa fa-minus" style="color:black;"></span></b>
                             <h3 class="box-title" style="color:black; padding-left:5px">Permanent Address Details</h3>
@@ -442,6 +537,26 @@
                     <!-- form start -->
                     @*<form role="form">*@
                     <div class="box-body collapse in" id="EmpPermanentAddressDetailsToggle">
+                        <div class="form-group col-md-6">
+                            <label style="margin-bottom: 0px;" for="educationFromDate">
+                                AddressLine1 <span style="color:red">*</span><span class="form-group has-error" style="display:none" id="divPermanentAddressError">
+                                    <label style="margin-bottom: 0px;" class="control-label" for="PermanentAddressLine1">
+                                        <i class="fa fa-times-circle-o"></i> Please enter address
+                                    </label>
+                                </span>
+                            </label>
+                            <input type="text" class="form-control" id="txtPermanentAddressLine1" placeholder="Address">
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label style="margin-bottom: 0px;" for="educationFromDate">
+                                AddressLine2 @*<span style="color:red">*</span><span class="form-group has-error" style="display:none" id="divPermanentAddressError">
+                    <label style="margin-bottom: 0px;" class="control-label" for="PermanentAddressLine1">
+                        <i class="fa fa-times-circle-o"></i> Please enter address
+                    </label>
+                </span>*@
+                            </label>
+                            <input type="text" class="form-control" id="txtPermanentAddressLine2" placeholder="Address">
+                        </div>
                         <div class="form-group col-md-6">
                             <label style="margin-bottom: 0px;">
                                 Country <span style="color:red">*</span><span class="form-group has-error" style="display:none;margin-bottom: 0px;" id="divPermanentCountryError">
@@ -466,7 +581,7 @@
                                     </span>*@
                             </label>
                             <div>
-                                <select id="ddlPermanentState" class="form-control specialization" style="width: 100%;">
+                                <select id="ddlPermanentState" class="form-control graduation" style="width: 100%;">
                                     <option value="">Select</option>
                                 </select>
 
@@ -487,88 +602,21 @@
                         </div>
                         <div class="form-group col-md-6">
                             <label style="margin-bottom: 0px;" for="educationFromDate">
-                                Address <span style="color:red">*</span><span class="form-group has-error" style="display:none" id="divPermanentAddressError">
-                                    <label style="margin-bottom: 0px;" class="control-label" for="PermanentAddress">
-                                        <i class="fa fa-times-circle-o"></i> Please enter address
+                                Pincode @*<span style="color:red">*</span><span class="form-group has-error" style="display:none" id="divPermanentPincodeError">
+                                    <label style="margin-bottom: 0px;" class="control-label" for="PermanentPincode">
+                                        <i class="fa fa-times-circle-o"></i> Please enter pincode
                                     </label>
-                                </span>
+                                </span>*@
                             </label>
-                            <input type="text" class="form-control" id="txtPermanentAddress" placeholder="Address">
+                            <input type="text" class="form-control" id="txtPermanentPincode" placeholder="Pincode">
                         </div>
+                        
 
                     </div>
                     @*</form>*@
 
                 </div>
-                <div class="box box-success">
-                    <div class="box-header with-border">
-                        <a id="btn_EmpCurrentAddressDetails_collapse_Text" href="#EmpCurrentAddressDetailsToggle" data-toggle="collapse">
-                            <b><span id="CollapseTextEmpCurrentAddressDetails" class="fa fa-minus" style="color:black;"></span></b>
-                            <h3 class="box-title" style="color:black; padding-left:5px">Current Address Details</h3>
-                        </a>
-                    </div>
-                    <!-- /.box-header -->
-                    <!-- form start -->
-                    @*<form role="form">*@
-                    <div class="box-body collapse in" id="EmpCurrentAddressDetailsToggle">
-                        <div class="form-group col-md-6">
-                            <label style="margin-bottom: 0px;">
-                                Country <span style="color:red">*</span><span class="form-group has-error" style="display:none;margin-bottom: 0px;" id="divCurrentCountryError">
-                                    <label style="margin-bottom: 0px;" class="control-label" for="CurrentCountry">
-                                        <i class="fa fa-times-circle-o"></i> Please select Country
-                                    </label>
-                                </span>
-                            </label>
-                            <div>
-                                <select id="ddlCurrentCountry" class="form-control graduation" style="width: 100%;">
-                                    <option value="">Select</option>
-                                </select>
-
-                            </div>
-                        </div>
-                        <div class="form-group col-md-6">
-                            <label style="margin-bottom: 0px;">
-                                State @*<span style="color:red">*</span><span class="form-group has-error" style="display:none" id="divCurrentStateError">
-                                        <label style="margin-bottom: 0px;" class="control-label" for="CurrentState">
-                                            <i class="fa fa-times-circle-o"></i> Please select State
-                                        </label>
-                                    </span>*@
-                            </label>
-                            <div>
-                                <select id="ddlCurrentState" class="form-control specialization" style="width: 100%;">
-                                    <option value="">Select</option>
-                                </select>
-
-                            </div>
-                        </div>
-                        <div class="form-group col-md-6">
-                            <label style="margin-bottom: 0px;">
-                                City @*<span style="color:red">*</span><span class="form-group has-error" style="display:none" id="divCurrentCityError">
-                                        <label style="margin-bottom: 0px;" class="control-label" for="CurrentCity">
-                                            <i class="fa fa-times-circle-o"></i> Please select city
-                                        </label>
-                                    </span>*@
-                            </label>
-                            <select id="ddlCurrentCity" class="form-control specialization" style="width: 100%;">
-                                <option value="">Select</option>
-                            </select>
-
-                        </div>
-                        <div class="form-group col-md-6">
-                            <label style="margin-bottom: 0px;" for="educationFromDate">
-                                Address <span style="color:red">*</span><span class="form-group has-error" style="display:none" id="divCurrentAddressError">
-                                    <label style="margin-bottom: 0px;" class="control-label" for="CurrentAddress">
-                                        <i class="fa fa-times-circle-o"></i> Please enter address
-                                    </label>
-                                </span>
-                            </label>
-                            <input type="text" class="form-control" id="txtCurrentAddress" placeholder="Address">
-                        </div>
-
-                    </div>
-                    @*</form>*@
-
-                </div>
+                
                 <div class="box box-success">
                     <div class="box-header with-border">
                         <a id="btn_EmpWorkAddressDetails_collapse_Text"  href="#EmpWorkLocationDetailsToggle" data-toggle="collapse">
@@ -655,11 +703,11 @@
                     <div class="box-body collapse in" id="EmpEducationDetailsToggle">
                         <div class="form-group col-md-6">
                             <label style="margin-bottom: 0px;">
-                                Education <span style="color:red">*</span><span class="form-group has-error" style="display:none;margin-bottom: 0px;" id="divGraduationError">
+                                Education @*<span style="color:red">*</span><span class="form-group has-error" style="display:none;margin-bottom: 0px;" id="divGraduationError">
                                     <label style="margin-bottom: 0px;" class="control-label" for="Graduation">
-                                        <i class="fa fa-times-circle-o"></i> Please select graduation
+                                        <i class="fa fa-times-circle-o"></i> Please select Education
                                     </label>
-                                </span>
+                                </span>*@
                             </label>
                             <div>
                                 <select id="ddlGraduation" class="form-control graduation" style="width: 100%;">
@@ -692,11 +740,11 @@
                         </div>
                         <div class="form-group col-md-6">
                             <label style="margin-bottom: 0px;">
-                                College/University <span style="color:red">*</span><span class="form-group has-error" style="display:none" id="divCollegeError">
+                                College/University @*<span style="color:red">*</span><span class="form-group has-error" style="display:none" id="divCollegeError">
                                     <label style="margin-bottom: 0px;" class="control-label" for="College/University">
                                         <i class="fa fa-times-circle-o"></i> Please enter college/university
                                     </label>
-                                </span>
+                                </span>*@
                             </label>
                             <input type="text" class="form-control" id="txtUniversity" placeholder="Enter College/University">
 
@@ -791,6 +839,7 @@
             GetCountries();
             GetWorkFacilities();
             GetRelationships();
+            GetBloodGroups();
             //Initialize Select2 Elements
             $(".experienceDesignation").select2();
             $(".designation").select2().on('change',function(e){
@@ -912,6 +961,28 @@
         radioClass: 'iradio_flat-green'
     });
 
+    $(document).on('click', '#chkSamePermanentAddress', function (e) {
+        debugger
+        if($('#chkSamePermanentAddress').is(':checked'))
+        { 
+            var ddlCurrentCountryValue = $("#ddlCurrentCountry").val();
+            $("#ddlPermanentCountry").val(ddlCurrentCountryValue).trigger('change');
+            $("#txtPermanentPincode").val($("#txtCurrentPincode").val());
+            $("#txtPermanentAddressLine1").val($("#txtCurrentAddressLine1").val());
+            $("#txtPermanentAddressLine2").val($("#txtCurrentAddressLine2").val());
+        }
+        else
+        {
+            $("#txtPermanentPincode").val(""),
+            $("#txtPermanentAddressLine1").val(""),
+            $("#txtPermanentAddressLine2").val(""),
+            $("#ddlPermanentCountry").val("").trigger('change'),
+            $("#ddlPermanentState").val("").trigger('change'),
+            $("#ddlPermanentCity").val("").trigger('change')
+        }
+    
+    })
+
     $(document).on('click', '#btn_EmpPersonalInfo_collapse_Text', function (e) {
         if($("#CollapseTextEmpPersonalInfo").hasClass('fa-minus'))
         {
@@ -1032,16 +1103,22 @@
         
     });
 
+    $('.numbersOnly').keyup(function () {
+        if (this.value != this.value.replace(/[^0-9\.]/g, '')) {
+            this.value = this.value.replace(/[^0-9\.]/g, '');
+        }
+    });
+
 
 
     $(document).on('click', '#btnSubmitEmployeeDetails', function (e) {
         if (($("#txtFirstName").val() == "") && ($("#txtLastName").val() == "") && ($("#txtEmail").val() == "") && ($("#txtTelephone").val() == "") && ($('input[name=r2]:checked').length<=0) && ($("#txtBirthday").val() == "")
             && ($("#txtEmployeeNumber").val() == "") && ($("#txtInfrrdEmail").val() == "") && ($("#ddlDesignation").val() == 0) && ($("#ddlEmployeeType").val() == 0) && ($("#ddlEmployeeContractType").val() == 0) && ($("#ddlManagerName").val() == 0) && ($("#ddlProjectName").val() == null)
-            && ($("#txtEmergencyContactName").val() == "") && ($("#ddlEmergencyContactRelationship").val() == 0) && ($("#txtEmergencyContactTelephone").val() == "") && ($("#ddlEmergencyContactCountry").val() == 0)
-            && ($("#ddlPermanentCountry").val() == 0) && ($("#txtPermanentAddress").val() == "")
-            && ($("#ddlCurrentCountry").val() == 0) && ($("#txtCurrentAddress").val() == "")
+            //&& ($("#txtEmergencyContactName").val() == "") && ($("#ddlEmergencyContactRelationship").val() == 0) && ($("#txtEmergencyContactTelephone").val() == "") && ($("#ddlEmergencyContactCountry").val() == 0)
+            && ($("#txtCurrentAddressLine1").val() == "")  && ($("#ddlCurrentCountry").val() == 0) 
+            && ($("#txtPermanentAddressLine1").val() == "") && ($("#ddlPermanentCountry").val() == 0)
             && ($("#ddlFacility").val() == 0)
-            && ($("#ddlGraduation").val() == 0)  && ($("#txtUniversity").val() == "")
+            //&& ($("#ddlGraduation").val() == 0)  && ($("#txtUniversity").val() == "")
             && ($("#txtEmployer").val() == "") && ($("#ddlExperienceDesignation").val() == 0) && ($("#ddlSkills").val()== null) && ($("#experienceDatePicker").val()== "")) {
             $("#divFirstNameError").show();
             $("#divLastNameError").show();
@@ -1056,17 +1133,17 @@
             $("#divEmployeeContractTypeError").show();
             $("#divManagerNameError").show();
             $("#divProjectNameError").show();
-            $("#divEmergencyContactNameError").show();
-            $("#divEmergencyContactRelationshipError").show();
-            $("#divEmergencyContactTelephoneError").show();
-            $("#divEmergencyContactCountryError").show();
+            //$("#divEmergencyContactNameError").show();
+            //$("#divEmergencyContactRelationshipError").show();
+            //$("#divEmergencyContactTelephoneError").show();
+            //$("#divEmergencyContactCountryError").show();
             $("#divPermanentCountryError").show();
             $("#divPermanentAddressError").show();
             $("#divCurrentCountryError").show();
             $("#divCurrentAddressError").show();
             $("#divFacilityError").show();
-            $("#divGraduationError").show();
-            $("#divCollegeError").show();
+            //$("#divGraduationError").show();
+            //$("#divCollegeError").show();
             $("#divEmployerError").show();
             $("#divEmpDesignationError").show();
             $("#divSkillsError").show();
@@ -1376,104 +1453,87 @@
             return false;
         }
         
-        if ($("#txtEmergencyContactName").val() == "") {
-            $('#EmpEmergencyContactDetailsToggle').collapse('show');
-            $('#divEmergencyContactNameError').show();
-            $("#txtEmergencyContactName").focus();
-            if($("#EmpEmergencyContactDetailsToggle").attr("aria-expanded"))
-            {
-                $("#CollapseTextEmpEmergencyContactDetails").removeClass('fa-plus');
-                $("#CollapseTextEmpEmergencyContactDetails").addClass('fa-minus');
-            }
-            else
-            {
-                $("#CollapseTextEmpEmergencyContactDetails").removeClass('fa-minus');
-                $("#CollapseTextEmpEmergencyContactDetails").addClass('fa-plus');
-            }
-            return false;
-        }
+        //if ($("#txtEmergencyContactName").val() == "") {
+        //    $('#EmpEmergencyContactDetailsToggle').collapse('show');
+        //    $('#divEmergencyContactNameError').show();
+        //    $("#txtEmergencyContactName").focus();
+        //    if($("#EmpEmergencyContactDetailsToggle").attr("aria-expanded"))
+        //    {
+        //        $("#CollapseTextEmpEmergencyContactDetails").removeClass('fa-plus');
+        //        $("#CollapseTextEmpEmergencyContactDetails").addClass('fa-minus');
+        //    }
+        //    else
+        //    {
+        //        $("#CollapseTextEmpEmergencyContactDetails").removeClass('fa-minus');
+        //        $("#CollapseTextEmpEmergencyContactDetails").addClass('fa-plus');
+        //    }
+        //    return false;
+        //}
 
-        if ($("#ddlEmergencyContactRelationship").val() == 0) {
-            $('#EmpEmergencyContactDetailsToggle').collapse('show');
-            $('#divEmergencyContactRelationshipError').show();
-            $("#ddlEmergencyContactRelationship").focus();
-            if($("#EmpEmergencyContactDetailsToggle").attr("aria-expanded"))
-            {
-                $("#CollapseTextEmpEmergencyContactDetails").removeClass('fa-plus');
-                $("#CollapseTextEmpEmergencyContactDetails").addClass('fa-minus');
-            }
-            else
-            {
-                $("#CollapseTextEmpEmergencyContactDetails").removeClass('fa-minus');
-                $("#CollapseTextEmpEmergencyContactDetails").addClass('fa-plus');
-            }
-            return false;
-        }
+        //if ($("#ddlEmergencyContactRelationship").val() == 0) {
+        //    $('#EmpEmergencyContactDetailsToggle').collapse('show');
+        //    $('#divEmergencyContactRelationshipError').show();
+        //    $("#ddlEmergencyContactRelationship").focus();
+        //    if($("#EmpEmergencyContactDetailsToggle").attr("aria-expanded"))
+        //    {
+        //        $("#CollapseTextEmpEmergencyContactDetails").removeClass('fa-plus');
+        //        $("#CollapseTextEmpEmergencyContactDetails").addClass('fa-minus');
+        //    }
+        //    else
+        //    {
+        //        $("#CollapseTextEmpEmergencyContactDetails").removeClass('fa-minus');
+        //        $("#CollapseTextEmpEmergencyContactDetails").addClass('fa-plus');
+        //    }
+        //    return false;
+        //}
 
-        if ($("#txtEmergencyContactTelephone").val() == "") {
-            $('#EmpEmergencyContactDetailsToggle').collapse('show');
-            $('#divEmergencyContactTelephoneError').show();
-            $("#txtEmergencyContactTelephone").focus();
-            if($("#EmpEmergencyContactDetailsToggle").attr("aria-expanded"))
-            {
-                $("#CollapseTextEmpEmergencyContactDetails").removeClass('fa-plus');
-                $("#CollapseTextEmpEmergencyContactDetails").addClass('fa-minus');
-            }
-            else
-            {
-                $("#CollapseTextEmpEmergencyContactDetails").removeClass('fa-minus');
-                $("#CollapseTextEmpEmergencyContactDetails").addClass('fa-plus');
-            }
-            return false;
-        }
+        //if ($("#txtEmergencyContactTelephone").val() == "") {
+        //    $('#EmpEmergencyContactDetailsToggle').collapse('show');
+        //    $('#divEmergencyContactTelephoneError').show();
+        //    $("#txtEmergencyContactTelephone").focus();
+        //    if($("#EmpEmergencyContactDetailsToggle").attr("aria-expanded"))
+        //    {
+        //        $("#CollapseTextEmpEmergencyContactDetails").removeClass('fa-plus');
+        //        $("#CollapseTextEmpEmergencyContactDetails").addClass('fa-minus');
+        //    }
+        //    else
+        //    {
+        //        $("#CollapseTextEmpEmergencyContactDetails").removeClass('fa-minus');
+        //        $("#CollapseTextEmpEmergencyContactDetails").addClass('fa-plus');
+        //    }
+        //    return false;
+        //}
 
-        if ($("#ddlEmergencyContactCountry").val() == 0) {
-            $('#EmpEmergencyContactDetailsToggle').collapse('show');
-            $('#divEmergencyContactCountryError').show();
-            $("#ddlEmergencyContactCountry").focus();
-            if($("#EmpEmergencyContactDetailsToggle").attr("aria-expanded"))
-            {
-                $("#CollapseTextEmpEmergencyContactDetails").removeClass('fa-plus');
-                $("#CollapseTextEmpEmergencyContactDetails").addClass('fa-minus');
-            }
-            else
-            {
-                $("#CollapseTextEmpEmergencyContactDetails").removeClass('fa-minus');
-                $("#CollapseTextEmpEmergencyContactDetails").addClass('fa-plus');
-            }
-            return false;
-        }
+        //if ($("#ddlEmergencyContactCountry").val() == 0) {
+        //    $('#EmpEmergencyContactDetailsToggle').collapse('show');
+        //    $('#divEmergencyContactCountryError').show();
+        //    $("#ddlEmergencyContactCountry").focus();
+        //    if($("#EmpEmergencyContactDetailsToggle").attr("aria-expanded"))
+        //    {
+        //        $("#CollapseTextEmpEmergencyContactDetails").removeClass('fa-plus');
+        //        $("#CollapseTextEmpEmergencyContactDetails").addClass('fa-minus');
+        //    }
+        //    else
+        //    {
+        //        $("#CollapseTextEmpEmergencyContactDetails").removeClass('fa-minus');
+        //        $("#CollapseTextEmpEmergencyContactDetails").addClass('fa-plus');
+        //    }
+        //    return false;
+        //}
 
-        if ($("#ddlPermanentCountry").val() == 0) {
-            $('#EmpPermanentAddressDetailsToggle').collapse('show');
-            $('#divPermanentCountryError').show();
-            $("#ddlPermanentCountry").focus();
-            if($("#EmpPermanentAddressDetailsToggle").attr("aria-expanded"))
+        if ($("#txtCurrentAddressLine1").val() == "") {
+            $('#EmpCurrentAddressDetailsToggle').collapse('show');
+            $('#divCurrentAddressError').show();
+            $("#txtCurrentAddressLine1").focus();
+            if($("#EmpCurrentAddressDetailsToggle").attr("aria-expanded"))
             {
-                $("#CollapseTextEmpPermanentAddressDetails").removeClass('fa-plus');
-                $("#CollapseTextEmpPermanentAddressDetails").addClass('fa-minus');
+                $("#CollapseTextEmpCurrentAddressDetails").removeClass('fa-plus');
+                $("#CollapseTextEmpCurrentAddressDetails").addClass('fa-minus');
             }
             else
             {
-                $("#CollapseTextEmpPermanentAddressDetails").removeClass('fa-minus');
-                $("#CollapseTextEmpPermanentAddressDetails").addClass('fa-plus');
-            }
-            return false;
-        }
-
-        if ($("#txtPermanentAddress").val() == "") {
-            $('#EmpPermanentAddressDetailsToggle').collapse('show');
-            $('#divPermanentAddressError').show();
-            $("#txtPermanentAddress").focus();
-            if($("#EmpPermanentAddressDetailsToggle").attr("aria-expanded"))
-            {
-                $("#CollapseTextEmpPermanentAddressDetails").removeClass('fa-plus');
-                $("#CollapseTextEmpPermanentAddressDetails").addClass('fa-minus');
-            }
-            else
-            {
-                $("#CollapseTextEmpPermanentAddressDetails").removeClass('fa-minus');
-                $("#CollapseTextEmpPermanentAddressDetails").addClass('fa-plus');
+                $("#CollapseTextEmpCurrentAddressDetails").removeClass('fa-minus');
+                $("#CollapseTextEmpCurrentAddressDetails").addClass('fa-plus');
             }
             return false;
         }
@@ -1495,22 +1555,43 @@
             return false;
         }
 
-        if ($("#txtCurrentAddress").val() == "") {
-            $('#EmpCurrentAddressDetailsToggle').collapse('show');
-            $('#divCurrentAddressError').show();
-            $("#txtCurrentAddress").focus();
-            if($("#EmpCurrentAddressDetailsToggle").attr("aria-expanded"))
+        
+
+        if ($("#txtPermanentAddressLine1").val() == "") {
+            $('#EmpPermanentAddressDetailsToggle').collapse('show');
+            $('#divPermanentAddressError').show();
+            $("#txtPermanentAddressLine1").focus();
+            if($("#EmpPermanentAddressDetailsToggle").attr("aria-expanded"))
             {
-                $("#CollapseTextEmpCurrentAddressDetails").removeClass('fa-plus');
-                $("#CollapseTextEmpCurrentAddressDetails").addClass('fa-minus');
+                $("#CollapseTextEmpPermanentAddressDetails").removeClass('fa-plus');
+                $("#CollapseTextEmpPermanentAddressDetails").addClass('fa-minus');
             }
             else
             {
-                $("#CollapseTextEmpCurrentAddressDetails").removeClass('fa-minus');
-                $("#CollapseTextEmpCurrentAddressDetails").addClass('fa-plus');
+                $("#CollapseTextEmpPermanentAddressDetails").removeClass('fa-minus');
+                $("#CollapseTextEmpPermanentAddressDetails").addClass('fa-plus');
             }
             return false;
         }
+
+        if ($("#ddlPermanentCountry").val() == 0) {
+            $('#EmpPermanentAddressDetailsToggle').collapse('show');
+            $('#divPermanentCountryError').show();
+            $("#ddlPermanentCountry").focus();
+            if($("#EmpPermanentAddressDetailsToggle").attr("aria-expanded"))
+            {
+                $("#CollapseTextEmpPermanentAddressDetails").removeClass('fa-plus');
+                $("#CollapseTextEmpPermanentAddressDetails").addClass('fa-minus');
+            }
+            else
+            {
+                $("#CollapseTextEmpPermanentAddressDetails").removeClass('fa-minus');
+                $("#CollapseTextEmpPermanentAddressDetails").addClass('fa-plus');
+            }
+            return false;
+        }
+
+        
 
         if ($("#ddlFacility").val() == 0) {
             $('#EmpWorkLocationDetailsToggle').collapse('show');
@@ -1531,39 +1612,39 @@
 
 
 
-        if ($("#ddlGraduation").val() == 0) {
-            $('#EmpEducationDetailsToggle').collapse('show');
-            $('#divGraduationError').show();
-            $("#ddlGraduation").focus();
-            if($("#EmpEducationDetailsToggle").attr("aria-expanded"))
-            {
-                $("#CollapseTextEmpEducationDetails").removeClass('fa-plus');
-                $("#CollapseTextEmpEducationDetails").addClass('fa-minus');
-            }
-            else
-            {
-                $("#CollapseTextEmpEducationDetails").removeClass('fa-minus');
-                $("#CollapseTextEmpEducationDetails").addClass('fa-plus');
-            }
-            return false;
-        }
+        //if ($("#ddlGraduation").val() == 0) {
+        //    $('#EmpEducationDetailsToggle').collapse('show');
+        //    $('#divGraduationError').show();
+        //    $("#ddlGraduation").focus();
+        //    if($("#EmpEducationDetailsToggle").attr("aria-expanded"))
+        //    {
+        //        $("#CollapseTextEmpEducationDetails").removeClass('fa-plus');
+        //        $("#CollapseTextEmpEducationDetails").addClass('fa-minus');
+        //    }
+        //    else
+        //    {
+        //        $("#CollapseTextEmpEducationDetails").removeClass('fa-minus');
+        //        $("#CollapseTextEmpEducationDetails").addClass('fa-plus');
+        //    }
+        //    return false;
+        //}
 
-        if ($("#txtUniversity").val() == "") {
-            $('#EmpEducationDetailsToggle').collapse('show');
-            $('#divCollegeError').show();
-            $("#txtUniversity").focus();
-            if($("#EmpEducationDetailsToggle").attr("aria-expanded"))
-            {
-                $("#CollapseTextEmpEducationDetails").removeClass('fa-plus');
-                $("#CollapseTextEmpEducationDetails").addClass('fa-minus');
-            }
-            else
-            {
-                $("#CollapseTextEmpEducationDetails").removeClass('fa-minus');
-                $("#CollapseTextEmpEducationDetails").addClass('fa-plus');
-            }
-            return false;
-        }
+        //if ($("#txtUniversity").val() == "") {
+        //    $('#EmpEducationDetailsToggle').collapse('show');
+        //    $('#divCollegeError').show();
+        //    $("#txtUniversity").focus();
+        //    if($("#EmpEducationDetailsToggle").attr("aria-expanded"))
+        //    {
+        //        $("#CollapseTextEmpEducationDetails").removeClass('fa-plus');
+        //        $("#CollapseTextEmpEducationDetails").addClass('fa-minus');
+        //    }
+        //    else
+        //    {
+        //        $("#CollapseTextEmpEducationDetails").removeClass('fa-minus');
+        //        $("#CollapseTextEmpEducationDetails").addClass('fa-plus');
+        //    }
+        //    return false;
+        //}
 
         if (($("#txtEmployer").val() == "") && ($("#ddlEmployeeType").val() != (@Convert.ToInt16(LMS_WebAPP_Utils.EmployeeType.Fresher)))) {
             $('#EmpExperienceDetailsToggle').collapse('show');
@@ -1658,14 +1739,18 @@
             Country: $("#ddlPermanentCountry").val(),
             State: $("#ddlPermanentState").val(),
             City: $("#ddlPermanentCity").val(),
-            Address : $("#txtPermanentAddress").val(),
+            Pincode: $("#txtPermanentPincode").val(),
+            AddressLine1 : $("#txtPermanentAddressLine1").val(),
+            AddressLine2 : $("#txtPermanentAddressLine2").val()
         }
 
         var currentaddressDetails = {
             Country: $("#ddlCurrentCountry").val(),
             State: $("#ddlCurrentState").val(),
             City: $("#ddlCurrentCity").val(),
-            Address : $("#txtCurrentAddress").val(),
+            Pincode : $("#txtCurrentPincode").val(),
+            AddressLine1 : $("#txtCurrentAddressLine1").val(),
+            AddressLine2 : $("#txtCurrentAddressLine2").val()
         }
 
         var emergencycontactDetails = {
@@ -1753,7 +1838,7 @@
             Telephone: $("#txtTelephone").val(),
             Gender : $('input[name=r2]:checked').val(),
             PassportNumber : $("#txtPassportNumber").val(),
-            BloodGroup : $("#txtBloodGroup").val(),
+            BloodGroup : $("#ddlBloodGroup").val(),
             InfrrdEmailId : $("#txtInfrrdEmail").val(),
             EmployeeConractType : $("#ddlEmployeeContractType").val(),
             DateOfConfirmation : dateOfconfirmation,
@@ -1774,7 +1859,7 @@
 
         
         var empNumber = $("#txtEmployeeNumber").val();
-        var employeeMailid = $("#txtEmail").val();
+        var employeeMailid = $("#txtInfrrdEmail").val();
         $.ajax({
             cache: false,
             type: 'get',
@@ -1785,19 +1870,19 @@
                 $("#Loading").hide();
                 if(data=="True")
                 {
-                    $('#EmpPersonalInfoToggle').collapse('show');
-                    $('#divEmailError').hide();
-                    $('#divEmailAlreadyError').show();
-                    $("#txtEmail").focus();
-                    if($("#EmpPersonalInfoToggle").attr("aria-expanded"))
+                    $('#EmpCompanyInfoToggle').collapse('show');
+                    $('#divInfrrdEmailError').hide();
+                    $('#divInfrrdEmailAlreadyError').show();
+                    $("#txtInfrrdEmail").focus();
+                    if($("#EmpCompanyInfoToggle").attr("aria-expanded"))
                     {
-                        $("#CollapseTextEmpPersonalInfo").removeClass('fa-plus');
-                        $("#CollapseTextEmpPersonalInfo").addClass('fa-minus');
+                        $("#CollapseTextEmpCompanyInfo").removeClass('fa-plus');
+                        $("#CollapseTextEmpCompanyInfo").addClass('fa-minus');
                     }
                     else
                     {
-                        $("#CollapseTextEmpPersonalInfo").removeClass('fa-minus');
-                        $("#CollapseTextEmpPersonalInfo").addClass('fa-plus');
+                        $("#CollapseTextEmpCompanyInfo").removeClass('fa-minus');
+                        $("#CollapseTextEmpCompanyInfo").addClass('fa-plus');
                     }
                     return false;
                 }
@@ -1985,6 +2070,21 @@
         });
     }
 
+    function GetBloodGroups() {
+        $.ajax({
+            cache: false,
+            type: 'post',
+            url: '/HR/GetBloodGroups',
+            contentType: "application/json",
+            dataType: "json",
+            success: function (data) {
+                for (var i = 0; i < data.data.length; i++) {
+                    $("#ddlBloodGroup").append($('<option></option>').attr("value", data.data[i].Id).text(data.data[i].BloodGroup));
+                }
+            }
+        });
+    }
+
     $(document).on('change', "#ddlFacility", function (e) {
         $("#ddlWorkCity").empty();
         $("#ddlWorkCity").append($('<option></option>').attr("value", '').text('Select'));
@@ -2053,18 +2153,30 @@
         $("#ddlPermanentState").empty();
         $("#ddlPermanentState").append($('<option></option>').attr("value", '').text('Select'));
         var countryId = $("#ddlPermanentCountry").val();
-        $.ajax({
-            cache: false,
-            type: 'post',
-            url: '/HR/GetStates',
-            data: { CountryId: countryId},
-            //contentType: "application/json",
-            success: function (data) {
-                for (var i = 0; i < data.data.length; i++) {
-                    $("#ddlPermanentState").append($('<option></option>').attr("value", data.data[i].Id).text(data.data[i].StateName));
+        if(countryId != null)
+        {
+            $.ajax({
+                cache: false,
+                type: 'post',
+                url: '/HR/GetStates',
+                data: { CountryId: countryId},
+                //contentType: "application/json",
+                success: function (data) {
+                    for (var i = 0; i < data.data.length; i++) {
+                        $("#ddlPermanentState").append($('<option></option>').attr("value", data.data[i].Id).text(data.data[i].StateName));
+                    }
+                    if($('#chkSamePermanentAddress').is(':checked'))
+                    {
+                        debugger
+                        var ddlCurrentStateValue =  $("#ddlCurrentState").val();
+                        $("#ddlPermanentState").val(ddlCurrentStateValue).trigger('change');
+                    }
                 }
-            }
-        });
+            });
+        }
+        
+
+        
     });
 
     //$(document).on('change', "#ddlWorkCountry", function (e) {
@@ -2107,36 +2219,48 @@
         $("#ddlCurrentCity").empty();
         $("#ddlCurrentCity").append($('<option></option>').attr("value", '').text('Select'));
         var stateId = $("#ddlCurrentState").val();
-        $.ajax({
-            cache: false,
-            type: 'post',
-            url: '/HR/GetCities',
-            data: { StateId: stateId},
-            //contentType: "application/json",
-            success: function (data) {
-                for (var i = 0; i < data.data.length; i++) {
-                    $("#ddlCurrentCity").append($('<option></option>').attr("value", data.data[i].Id).text(data.data[i].CityName));
+        if(stateId != null)
+        {
+            $.ajax({
+                cache: false,
+                type: 'post',
+                url: '/HR/GetCities',
+                data: { StateId: stateId},
+                //contentType: "application/json",
+                success: function (data) {
+                    for (var i = 0; i < data.data.length; i++) {
+                        $("#ddlCurrentCity").append($('<option></option>').attr("value", data.data[i].Id).text(data.data[i].CityName));
+                    }
                 }
-            }
-        });
+            });
+        }
     });
 
     $(document).on('change', "#ddlPermanentState", function (e) {
+        debugger;
         $("#ddlPermanentCity").empty();
         $("#ddlPermanentCity").append($('<option></option>').attr("value", '').text('Select'));
         var stateId = $("#ddlPermanentState").val();
-        $.ajax({
-            cache: false,
-            type: 'post',
-            url: '/HR/GetCities',
-            data: { StateId: stateId},
-            //contentType: "application/json",
-            success: function (data) {
-                for (var i = 0; i < data.data.length; i++) {
-                    $("#ddlPermanentCity").append($('<option></option>').attr("value", data.data[i].Id).text(data.data[i].CityName));
+        if(stateId != null)
+        {
+            $.ajax({
+                cache: false,
+                type: 'post',
+                url: '/HR/GetCities',
+                data: { StateId: stateId},
+                //contentType: "application/json",
+                success: function (data) {
+                    for (var i = 0; i < data.data.length; i++) {
+                        $("#ddlPermanentCity").append($('<option></option>').attr("value", data.data[i].Id).text(data.data[i].CityName));
+                    }
+                    if($('#chkSamePermanentAddress').is(':checked'))
+                    {
+                        debugger
+                        var ddlCurrentCityValue =  $("#ddlCurrentCity").val();
+                        $("#ddlPermanentCity").val(ddlCurrentCityValue);
+                    }
                 }
-            }
-        });
+            });}
     });
 
     //$(document).on('change', "#ddlWorkState", function (e) {
@@ -2184,8 +2308,11 @@
             dataType: "json",
             success: function (data) {
                 for (var i = 0; i < data.data.length; i++) {
-                    $("#ddlDesignation").append($('<option></option>').attr("value", data.data[i].Id).text(data.data[i].Value));
-                    $("#ddlExperienceDesignation").append($('<option></option>').attr("value", data.data[i].Value).text(data.data[i].Value));
+                    if(data.data[i].Value != 'SuperAdmin')
+                    {
+                        $("#ddlDesignation").append($('<option></option>').attr("value", data.data[i].Id).text(data.data[i].Value));
+                        $("#ddlExperienceDesignation").append($('<option></option>').attr("value", data.data[i].Value).text(data.data[i].Value));
+                    }
                 }
             }
         });
@@ -2226,46 +2353,46 @@
     $("#txtTelephone").keypress(function (e) {
         $('#divTelephoneError').hide();
     });
-    $("#txtUniversity").keypress(function (e) {
-        $('#divCollegeError').hide();
-    });
+    //$("#txtUniversity").keypress(function (e) {
+    //    $('#divCollegeError').hide();
+    //});
 
-    $("#txtEmergencyContactName").keypress(function (e) {
-        $('#divEmergencyContactNameError').hide();
-    });
+    //$("#txtEmergencyContactName").keypress(function (e) {
+    //    $('#divEmergencyContactNameError').hide();
+    //});
     
 
-    $("#txtEmergencyContactTelephone").keypress(function (e) {
-        $('#divEmergencyContactTelephoneError').hide();
-    });
+    //$("#txtEmergencyContactTelephone").keypress(function (e) {
+    //    $('#divEmergencyContactTelephoneError').hide();
+    //});
 
     
 
-    $("#txtCurrentAddress").keypress(function (e) {
+    $("#txtCurrentAddressLine1").keypress(function (e) {
         $('#divCurrentAddressError').hide();
     });
 
-    $("#txtPermanentAddress").keypress(function (e) {
+    $("#txtPermanentAddressLine1").keypress(function (e) {
         $('#divPermanentAddressError').hide();
     });
 
-    $('#ddlEmergencyContactRelationship').on('change', function () {
-        if ($("#ddlEmergencyContactRelationship").val() != 0) {
-            $("#divEmergencyContactRelationshipError").hide();
-        }
-        else {
-            $("#divEmergencyContactRelationshipError").show();
-        }
-    });
+    //$('#ddlEmergencyContactRelationship').on('change', function () {
+    //    if ($("#ddlEmergencyContactRelationship").val() != 0) {
+    //        $("#divEmergencyContactRelationshipError").hide();
+    //    }
+    //    else {
+    //        $("#divEmergencyContactRelationshipError").show();
+    //    }
+    //});
 
-    $('#ddlEmergencyContactCountry').on('change', function () {
-        if ($("#ddlEmergencyContactCountry").val() != 0) {
-            $("#divEmergencyContactCountryError").hide();
-        }
-        else {
-            $("#divEmergencyContactCountryError").show();
-        }
-    });
+    //$('#ddlEmergencyContactCountry').on('change', function () {
+    //    if ($("#ddlEmergencyContactCountry").val() != 0) {
+    //        $("#divEmergencyContactCountryError").hide();
+    //    }
+    //    else {
+    //        $("#divEmergencyContactCountryError").show();
+    //    }
+    //});
 
     $('#ddlSkills').on('change', function () {
         if ($("#ddlSkills").val() != 0) {
@@ -2315,19 +2442,6 @@
     $('#ddlEmployeeType').on('change', function () {
         if ($("#ddlEmployeeType").val() != 0) {
             $("#divEmployeeTypeError").hide();
-            if ($("#ddlEmployeeType").val() == (@Convert.ToInt16(LMS_WebAPP_Utils.EmployeeType.Fresher))) {
-                $("#divEmpDesignationError").hide();
-                $("#divEmployerError").hide();
-                $("#divFromError").hide();
-                $("#divSkillsError").hide();
-            }
-            else
-            {
-                $("#divEmpDesignationError").show();
-                $("#divEmployerError").show();
-                $("#divFromError").show();
-                $("#divSkillsError").show();
-            }
         }
         else {
             $("#divEmployeeTypeError").show();
@@ -2363,14 +2477,14 @@
         }
     });
 
-    $('#ddlGraduation').on('change', function () {
-        if ($("#ddlGraduation").val() != 0) {
-            $("#divGraduationError").hide();
-        }
-        else {
-            $("#divGraduationError").show();
-        }
-    });
+    //$('#ddlGraduation').on('change', function () {
+    //    if ($("#ddlGraduation").val() != 0) {
+    //        $("#divGraduationError").hide();
+    //    }
+    //    else {
+    //        $("#divGraduationError").show();
+    //    }
+    //});
 
 
 

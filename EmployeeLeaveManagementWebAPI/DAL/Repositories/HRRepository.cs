@@ -63,7 +63,7 @@ namespace LMS_WebAPI_DAL.Repositories
                         Gender = EGender.Description(),
                         PassportNumber = model.PassportNumber,
                         BloodGroup = model.BloodGroup,
-                        InfrrdEmailId = model.InfrrdEmailId,
+                        EmailId = model.Email,
                         RefEmployeeContractType = model.EmployeeConractType,
                         DateOfConfirmation = model.DateOfConfirmation,
                         RefHierarchyLevel = hierarchyLevel,
@@ -78,13 +78,15 @@ namespace LMS_WebAPI_DAL.Repositories
                     ctx.EmployeeDetails.Add(employeeDetails);
                     ctx.SaveChanges();
                     var id = employeeDetails.Id;
-                    GraduationDegree GDegree = (GraduationDegree)Convert.ToInt16(model.EmployeeEducationDetails[0].Degree);
-                    Specialization Spec = (Specialization)Convert.ToInt16(model.EmployeeEducationDetails[0].Specialization);
+                    
                     if (model.EmployeeEducationDetails.Count > 0)
                     {
+
+                        GraduationDegree GDegree = (GraduationDegree)Convert.ToInt16(model.EmployeeEducationDetails[0].Degree);
+                        Specialization Spec = (Specialization)Convert.ToInt16(model.EmployeeEducationDetails[0].Specialization);
                         var employeeEducationDetails = new EmployeeEducationDetail
                         {
-                            Degree = GDegree.Description(),
+                            Degree = GDegree != 0 ? GDegree.Description() : "",
                             Institution = model.EmployeeEducationDetails[0].Institution,
                             FromDate = Convert.ToDateTime(model.EmployeeEducationDetails[0].TimePeriod.Split('~')[0]),
                             ToDate = Convert.ToDateTime(model.EmployeeEducationDetails[0].TimePeriod.Split('~')[1]),
@@ -124,7 +126,9 @@ namespace LMS_WebAPI_DAL.Repositories
                             Country = model.EmployeeCurrentAddressDetail[0].Country,
                             State = model.EmployeeCurrentAddressDetail[0].State,
                             City = model.EmployeeCurrentAddressDetail[0].City,
-                            Address = model.EmployeeCurrentAddressDetail[0].Address,
+                            Pincode = model.EmployeeCurrentAddressDetail[0].Pincode,
+                            AddressLine1 = model.EmployeeCurrentAddressDetail[0].AddressLine1,
+                            AddressLine2 = model.EmployeeCurrentAddressDetail[0].AddressLine2,
                             RefEmployeeId = id,
                             IsActive = 1,
                             CreatedDate = (DateTime.Now).Date,
@@ -142,7 +146,9 @@ namespace LMS_WebAPI_DAL.Repositories
                             Country = model.EmployeePermanentAddressDetail[0].Country,
                             State = model.EmployeePermanentAddressDetail[0].State,
                             City = model.EmployeePermanentAddressDetail[0].City,
-                            Address = model.EmployeePermanentAddressDetail[0].Address,
+                            Pincode = model.EmployeePermanentAddressDetail[0].Pincode,
+                            AddressLine1 = model.EmployeePermanentAddressDetail[0].AddressLine1,
+                            AddressLine2 = model.EmployeePermanentAddressDetail[0].AddressLine2,
                             RefEmployeeId = id,
                             IsActive = 1,
                             CreatedDate = (DateTime.Now).Date,
@@ -186,13 +192,17 @@ namespace LMS_WebAPI_DAL.Repositories
                         ctx.EmployeeExperienceDetails.Add(employeeExperienceDetails);
                         ctx.SaveChanges();
                     }
+                    
                     foreach (var skill in model.Skills)
                     {
+                        if(skill.SkillName != null)
+                        { 
                         var empSkill = new EmployeeSkill();
                         empSkill.RefEmployeeId = id;
                         empSkill.Skill = skill.SkillName;
                         ctx.EmployeeSkills.Add(empSkill);
                         ctx.SaveChanges();
+                        }
                     }
                     if (model.Projects.Count > 0)
                     {
@@ -207,7 +217,7 @@ namespace LMS_WebAPI_DAL.Repositories
                     }
                     var userDetails = new UserAccount
                     {
-                        UserName = model.Email,
+                        UserName = model.InfrrdEmailId,
                         Password = "Temp@123",
                         RefEmployeeId = id,
                         CreatedDate = DateTime.Now
@@ -668,6 +678,34 @@ namespace LMS_WebAPI_DAL.Repositories
 
         }
 
+        public List<BloodGroupDetails> GetBloodGroups()
+        {
+            Logger.Info("Entering in HRRepository API GetBloodGroups method");
+            try
+            {
+                var BloodGroupsList = new List<BloodGroupDetails>();
+                using (var ctx = new LeaveManagementSystemEntities1())
+                {
+                    var list = ctx.MasterDataValues.Where(x => x.RefMasterType == (int)MasterDataTypeEnum.BloodGroup).ToList();
+                    foreach (var item in list)
+                    {
+                        var bloodGroup = new BloodGroupDetails();
+                        bloodGroup.Id = item.Id;
+                        bloodGroup.BloodGroup = item.Value;
+                        BloodGroupsList.Add(bloodGroup);
+                    }
+                }
+                Logger.Info("Successfully exiting from HRRepository API GetBloodGroups method");
+                return BloodGroupsList;
+            }
+            catch
+            {
+                Logger.Error("Exception occured at HRRepository API GetBloodGroups method ");
+                throw;
+            }
+
+        }
+
         public List<FacilityDetails> GetFacilities()
         {
             Logger.Info("Entering in HRRepository API GetFacilities method");
@@ -706,16 +744,16 @@ namespace LMS_WebAPI_DAL.Repositories
                 var StatesList = new List<StateDetails>();
                 using (var ctx = new LeaveManagementSystemEntities1())
                 {
-                    var list = ctx.Geo_Location_State_Master.Where(x => x.RefCountryId == CountryId).ToList();
-                    foreach (var item in list)
-                    {
-                        var state = new StateDetails();
-                        state.Id = item.Id;
-                        state.StateName = item.Name;
-                        StatesList.Add(state);
-
-
-                    }
+                    
+                        var list = ctx.Geo_Location_State_Master.Where(x=>x.RefCountryId == CountryId).ToList();
+                        foreach (var item in list)
+                        {
+                            var state = new StateDetails();
+                            state.Id = item.Id;
+                            state.StateName = item.Name;
+                            StatesList.Add(state);
+                        }
+                   
                 }
                 Logger.Info("Successfully exiting from HRRepository API GetStates method");
                 return StatesList;
@@ -767,16 +805,15 @@ namespace LMS_WebAPI_DAL.Repositories
                 var CitiesList = new List<CityDetails>();
                 using (var ctx = new LeaveManagementSystemEntities1())
                 {
-                    var list = ctx.Geo_Location_City_Master.Where(x => x.RefStateId == StateId).ToList();
-                    foreach (var item in list)
-                    {
-                        var city = new CityDetails();
-                        city.Id = item.Id;
-                        city.CityName = item.Name;
-                        CitiesList.Add(city);
-
-
-                    }
+                    
+                        var list = ctx.Geo_Location_City_Master.Where(x=>x.RefStateId == StateId).ToList();
+                        foreach (var item in list)
+                        {
+                            var city = new CityDetails();
+                            city.Id = item.Id;
+                            city.CityName = item.Name;
+                            CitiesList.Add(city);
+                        }
                 }
                 Logger.Info("Successfully exiting from HRRepository API GetCities method");
                 return CitiesList;

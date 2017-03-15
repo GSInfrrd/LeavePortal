@@ -24,10 +24,10 @@ namespace LMS_WebAPI_DAL
         public Nullable<int> RefModifiedBy { get; set; }
         public string ManagerComments { get; set; }
     
+        public virtual EmployeeLeaveTransaction EmployeeLeaveTransaction { get; set; }
+        public virtual MasterDataValue MasterDataValue { get; set; }
         public virtual EmployeeDetail EmployeeDetail { get; set; }
         public virtual EmployeeDetail EmployeeDetail1 { get; set; }
         public virtual EmployeeDetail EmployeeDetail2 { get; set; }
-        public virtual EmployeeLeaveTransaction EmployeeLeaveTransaction { get; set; }
-        public virtual MasterDataValue MasterDataValue { get; set; }
     }
 }

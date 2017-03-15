@@ -146,6 +146,16 @@ namespace LMS_WebAPI_ServiceHelpers
                 profileDetails.FacebookLink = userData.FacebookLink;
                 profileDetails.TwitterLink = userData.TwitterLink;
                 profileDetails.GooglePlusLink = userData.GooglePlusLink;
+                profileDetails.EmployeeNumber = Convert.ToInt32(userData.EmpNumber);
+                profileDetails.InfrrdEmailId = userData.UserAccounts.FirstOrDefault(i => i.RefEmployeeId == EmpId).UserName;
+                profileDetails.DateOfJoining = Convert.ToDateTime(userData.DateOfJoining).Date;
+                profileDetails.RoleName = userData.RoleName;
+                profileDetails.EmployeeTypeName = userData.EmployeeType;
+                profileDetails.EmployeeConractTypeName = userData.EmployeeContractType;
+                profileDetails.DateOfConfirmation = Convert.ToDateTime(userData.DateOfConfirmation).Date;
+                profileDetails.ManagerName = userData.ManagerName;
+                profileDetails.ProjectName = userData.ProjectName;
+                profileDetails.ProfileTypeName = userData.ProfileType;
                 foreach (var item in userData.EmployeeEducationDetails)
                 {
                     var edet = new EmployeeEducationDetails();
@@ -184,13 +194,59 @@ namespace LMS_WebAPI_ServiceHelpers
                     employeeSkills.Add(employeeSkill);
 
                 }
+                List<LMS_WebAPI_Domain.EmployeeCurrentAddressDetail> ECADetails = new List<LMS_WebAPI_Domain.EmployeeCurrentAddressDetail>();
+                var employeeCurrentAddressDetials = new LMS_WebAPI_Domain.EmployeeCurrentAddressDetail();
+                employeeCurrentAddressDetials.Country = userData.EmployeeCurrentAddressDetails.FirstOrDefault().Country;
+                employeeCurrentAddressDetials.State = userData.EmployeeCurrentAddressDetails.FirstOrDefault().State;
+                employeeCurrentAddressDetials.City = userData.EmployeeCurrentAddressDetails.FirstOrDefault().City;
+                employeeCurrentAddressDetials.Pincode = userData.EmployeeCurrentAddressDetails.FirstOrDefault().Pincode;
+                employeeCurrentAddressDetials.AddressLine1 = userData.EmployeeCurrentAddressDetails.FirstOrDefault().AddressLine1;
+                employeeCurrentAddressDetials.AddressLine2 = userData.EmployeeCurrentAddressDetails.FirstOrDefault().AddressLine2;
+                ECADetails.Add(employeeCurrentAddressDetials);
+                profileDetails.EmployeeCurrentAddressDetail = ECADetails;
+
+                List<LMS_WebAPI_Domain.EmployeePermanentAddressDetail> EPADetails = new List<LMS_WebAPI_Domain.EmployeePermanentAddressDetail>();
+                var employeePermanentAddressDetials = new LMS_WebAPI_Domain.EmployeePermanentAddressDetail();
+                employeePermanentAddressDetials.Country = userData.EmployeePermanentAddressDetails.FirstOrDefault().Country;
+                employeePermanentAddressDetials.State = userData.EmployeePermanentAddressDetails.FirstOrDefault().State;
+                employeePermanentAddressDetials.City = userData.EmployeePermanentAddressDetails.FirstOrDefault().City;
+                employeePermanentAddressDetials.Pincode = userData.EmployeePermanentAddressDetails.FirstOrDefault().Pincode;
+                employeePermanentAddressDetials.AddressLine1 = userData.EmployeePermanentAddressDetails.FirstOrDefault().AddressLine1;
+                employeePermanentAddressDetials.AddressLine2 = userData.EmployeePermanentAddressDetails.FirstOrDefault().AddressLine2;
+                EPADetails.Add(employeePermanentAddressDetials);
+                profileDetails.EmployeePermanentAddressDetail = EPADetails;
+
+                List<LMS_WebAPI_Domain.EmployeeWorkLocationDetail> EWLDetails = new List<LMS_WebAPI_Domain.EmployeeWorkLocationDetail>();
+                var employeeWorkLocationDetials = new LMS_WebAPI_Domain.EmployeeWorkLocationDetail();
+                employeeWorkLocationDetials.Facility = userData.EmployeeWorkLocationDetails.FirstOrDefault().Facility;
+                employeeWorkLocationDetials.Country = userData.EmployeeWorkLocationDetails.FirstOrDefault().Country;
+                employeeWorkLocationDetials.State = userData.EmployeeWorkLocationDetails.FirstOrDefault().State;
+                employeeWorkLocationDetials.City = userData.EmployeeWorkLocationDetails.FirstOrDefault().City;
+                EWLDetails.Add(employeeWorkLocationDetials);
+                profileDetails.EmployeeWorkLocationDetail = EWLDetails;
+
+                List<LMS_WebAPI_Domain.EmployeeEmergencyContactDetail> EECDDetails = new List<LMS_WebAPI_Domain.EmployeeEmergencyContactDetail>();
+                var employeeEmergencyContactDetials = new LMS_WebAPI_Domain.EmployeeEmergencyContactDetail();
+                employeeEmergencyContactDetials.Name = userData.EmployeeEmergencyContactDetails.FirstOrDefault().Name;
+                employeeEmergencyContactDetials.Relationship = userData.EmployeeEmergencyContactDetails.FirstOrDefault().Relationship;
+                employeeEmergencyContactDetials.Telephone = userData.EmployeeEmergencyContactDetails.FirstOrDefault().Telephone;
+                employeeEmergencyContactDetials.Country = userData.EmployeeEmergencyContactDetails.FirstOrDefault().Country;
+                employeeEmergencyContactDetials.State = userData.EmployeeEmergencyContactDetails.FirstOrDefault().State;
+                employeeEmergencyContactDetials.City = userData.EmployeeEmergencyContactDetails.FirstOrDefault().City;
+                employeeEmergencyContactDetials.AddressLine1 = userData.EmployeeEmergencyContactDetails.FirstOrDefault().AddressLine1;
+                employeeEmergencyContactDetials.AddressLine2 = userData.EmployeeEmergencyContactDetails.FirstOrDefault().AddressLine2;
+                EECDDetails.Add(employeeEmergencyContactDetials);
+                profileDetails.EmployeeEmergencyContactDetail = EECDDetails;
+
+
+
                 profileDetails.Skills = employeeSkills;
                   profileDetails.Projects = projects;
 
                 Logger.Info("Exiting from into UserManagement Service helper GetUserProfileDetails method ");
                 return profileDetails;
             }
-            catch 
+            catch
             {
                 Logger.Info("Exception occured at UserManagement Service helper GetUserProfileDetails method ");
                 throw;
@@ -210,6 +266,54 @@ namespace LMS_WebAPI_ServiceHelpers
             catch 
             {
                 Logger.Info("Exception occured at UserManagement Service helper EditEmployeeDetails method ");
+                throw;
+            }
+        }
+
+        public bool EditEmployeeEmergencyContactDetails(LMS_WebAPI_Domain.EmployeeEmergencyContactDetail model)
+        {
+            Logger.Info("Entering into UserManagement Service helper EditEmployeeEmergencyContactDetails method ");
+            try
+            {
+                var result = user.EditEmployeeEmergencyContactDetails(model);
+                Logger.Info("Exiting from into UserManagement Service helper EditEmployeeEmergencyContactDetails method ");
+                return result;
+            }
+            catch
+            {
+                Logger.Info("Exception occured at UserManagement Service helper EditEmployeeEmergencyContactDetails method ");
+                throw;
+            }
+        }
+
+        public bool EditEmployeeCurrentAddressDetails(LMS_WebAPI_Domain.EmployeeCurrentAddressDetail model)
+        {
+            Logger.Info("Entering into UserManagement Service helper EditEmployeeCurrentAddressDetails method ");
+            try
+            {
+                var result = user.EditEmployeeCurrentAddressDetails(model);
+                Logger.Info("Exiting from into UserManagement Service helper EditEmployeeCurrentAddressDetails method ");
+                return result;
+            }
+            catch
+            {
+                Logger.Info("Exception occured at UserManagement Service helper EditEmployeeCurrentAddressDetails method ");
+                throw;
+            }
+        }
+
+        public bool EditEmployeePermanentAddressDetails(LMS_WebAPI_Domain.EmployeePermanentAddressDetail model)
+        {
+            Logger.Info("Entering into UserManagement Service helper EditEmployeePermanentAddressDetails method ");
+            try
+            {
+                var result = user.EditEmployeePermanentAddressDetails(model);
+                Logger.Info("Exiting from into UserManagement Service helper EditEmployeePermanentAddressDetails method ");
+                return result;
+            }
+            catch
+            {
+                Logger.Info("Exception occured at UserManagement Service helper EditEmployeePermanentAddressDetails method ");
                 throw;
             }
         }

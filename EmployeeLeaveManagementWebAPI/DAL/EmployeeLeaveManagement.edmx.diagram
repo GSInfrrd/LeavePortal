@@ -9,7 +9,6 @@
         <EntityTypeShape EntityType="LeaveManagementSystemModel.EmailTemplateMapping" Width="1.5" PointX="3" PointY="0.875" />
         <EntityTypeShape EntityType="LeaveManagementSystemModel.EmailTemplateMaster" Width="1.5" PointX="0.75" PointY="1" />
         <EntityTypeShape EntityType="LeaveManagementSystemModel.EmployeeContactDetail" Width="1.5" PointX="7.5" PointY="23.875" />
-        <EntityTypeShape EntityType="LeaveManagementSystemModel.EmployeeDetail" Width="1.5" PointX="5.25" PointY="24.625" />
         <EntityTypeShape EntityType="LeaveManagementSystemModel.EmployeeEducationDetail" Width="1.5" PointX="7.5" PointY="35.375" />
         <EntityTypeShape EntityType="LeaveManagementSystemModel.EmployeeExperienceDetail" Width="1.5" PointX="7.5" PointY="59.125" />
         <EntityTypeShape EntityType="LeaveManagementSystemModel.EmployeeLeaveMaster" Width="1.5" PointX="7.5" PointY="18.5" />
@@ -29,35 +28,7 @@
         <EntityTypeShape EntityType="LeaveManagementSystemModel.Workflow" Width="1.5" PointX="12.75" PointY="28.375" />
         <EntityTypeShape EntityType="LeaveManagementSystemModel.WorkFromHome" Width="1.5" PointX="10.5" PointY="32.5" />
         <AssociationConnector Association="LeaveManagementSystemModel.FK_EmailTemplateMaster_EmailTemplateMapping" />
-        <AssociationConnector Association="LeaveManagementSystemModel.FK_EmpDetails_EmployeeContactDetails" />
         <AssociationConnector Association="LeaveManagementSystemModel.FK_MasterDataValue_EmployeeContactDetails" />
-        <AssociationConnector Association="LeaveManagementSystemModel.FK_ConsolidatedEmployeeLeaveDetails_EmployeeDetails" />
-        <AssociationConnector Association="LeaveManagementSystemModel.FK_EmployeeDetails_EmployeeLeaveTransaction" />
-        <AssociationConnector Association="LeaveManagementSystemModel.FK_EmployeeDetails_WorkflowHistory" />
-        <AssociationConnector Association="LeaveManagementSystemModel.FK_EmployeeDetails_EmployeeManager" />
-        <AssociationConnector Association="LeaveManagementSystemModel.FK_EmployeeDetails_EmployeeProjectDetail" />
-        <AssociationConnector Association="LeaveManagementSystemModel.FK_EmployeeDetails_MasterDataValue" />
-        <AssociationConnector Association="LeaveManagementSystemModel.FK_EmployeeDetails_MasterDataValue1" />
-        <AssociationConnector Association="LeaveManagementSystemModel.FK_EmployeeDetails_MasterDataValue2" />
-        <AssociationConnector Association="LeaveManagementSystemModel.FK_EmployeeDetails_MasterDataValue3" />
-        <AssociationConnector Association="LeaveManagementSystemModel.FK_EmployeeDetails_Notification" />
-        <AssociationConnector Association="LeaveManagementSystemModel.FK_EmployeeDetails_UserAccount" />
-        <AssociationConnector Association="LeaveManagementSystemModel.FK_EmployeeDetailsCreatedById_EmployeeLeaveTransaction" />
-        <AssociationConnector Association="LeaveManagementSystemModel.FK_EmployeeDetailsCreatedById_WorkflowHistory" />
-        <AssociationConnector Association="LeaveManagementSystemModel.FK_EmployeeDetailsCreatedById_Workflow" />
-        <AssociationConnector Association="LeaveManagementSystemModel.FK_EmployeeDetailsId_Workflow" />
-        <AssociationConnector Association="LeaveManagementSystemModel.FK_EmployeeDetailsModifiedById_Workflow" />
-        <AssociationConnector Association="LeaveManagementSystemModel.FK_EmployeeDetialsModifiedById_EmployeeLeaveTransaction" />
-        <AssociationConnector Association="LeaveManagementSystemModel.FK_EmployeeDetilasModifiedById_WorkflowHistory" />
-        <AssociationConnector Association="LeaveManagementSystemModel.FK_EmployeeEducationDetails_EmployeeDetails" />
-        <AssociationConnector Association="LeaveManagementSystemModel.FK_EmployeeExperienceDetails_EmployeeDetails" />
-        <AssociationConnector Association="LeaveManagementSystemModel.FK_EmployeeLeaveMaster_EmployeeDetails" />
-        <AssociationConnector Association="LeaveManagementSystemModel.FK_EmployeeRewardedLeaveDetails_EmployeeDetails" />
-        <AssociationConnector Association="LeaveManagementSystemModel.FK_EmployeeRewardedLeaveDetails_EmployeeDetails1" />
-        <AssociationConnector Association="LeaveManagementSystemModel.FK_EmployeeSkills_EmployeeDetails" />
-        <AssociationConnector Association="LeaveManagementSystemModel.FK_ProjectMaster_EmployeeDetails" />
-        <AssociationConnector Association="LeaveManagementSystemModel.FK_ResourceRequestDetail_EmployeeDetails" />
-        <AssociationConnector Association="LeaveManagementSystemModel.FK_WorkFromHome_refEmpID" />
         <AssociationConnector Association="LeaveManagementSystemModel.FK_EmployeeLeaveTransaction_Workflow" />
         <AssociationConnector Association="LeaveManagementSystemModel.FK_MasterDataValue_EmployeeLeaveTransaction" />
         <AssociationConnector Association="LeaveManagementSystemModel.FK_MasterDataValueStatus_EmployeeLeaveTransaction" />
@@ -77,12 +48,6 @@
         <EntityTypeShape EntityType="LeaveManagementSystemModel.CityDetail" Width="1.5" PointX="7.625" PointY="3.875" />
         <EntityTypeShape EntityType="LeaveManagementSystemModel.CountryDetail" Width="1.5" PointX="5.375" PointY="4" />
         <AssociationConnector Association="LeaveManagementSystemModel.FK_CityDetails_CountryDetails" />
-        <EntityTypeShape EntityType="LeaveManagementSystemModel.EmployeeCurrentAddressDetail" Width="1.5" PointX="7.5" PointY="52.125" />
-        <EntityTypeShape EntityType="LeaveManagementSystemModel.EmployeeEmergencyContactDetail" Width="1.5" PointX="7.5" PointY="43" />
-        <EntityTypeShape EntityType="LeaveManagementSystemModel.EmployeePermanentAddressDetail" Width="1.5" PointX="7.5" PointY="13.875" />
-        <AssociationConnector Association="LeaveManagementSystemModel.FK_EmployeeCurrentAddressDetails_EmployeeDetails" />
-        <AssociationConnector Association="LeaveManagementSystemModel.FK_EmployeeEmergencyContactDetails_EmployeeDetails" />
-        <AssociationConnector Association="LeaveManagementSystemModel.FK_EmployeePermanentAddressDetails_EmployeeDetails" />
         <EntityTypeShape EntityType="LeaveManagementSystemModel.Geo_Location_Country_Master" Width="1.5" PointX="0.75" PointY="7.75" />
         <EntityTypeShape EntityType="LeaveManagementSystemModel.Geo_Location_City_Master" Width="1.5" PointX="5.25" PointY="7.875" />
         <EntityTypeShape EntityType="LeaveManagementSystemModel.Geo_Location_State_Master" Width="1.5" PointX="3" PointY="7.75" />
@@ -91,7 +56,42 @@
         <EntityTypeShape EntityType="LeaveManagementSystemModel.Geo_Location_Facility_Master" Width="1.5" PointX="7.5" PointY="70" />
         <AssociationConnector Association="LeaveManagementSystemModel.FK_Geo_Location_Facility_Master_Geo_Location_City_Master" />
         <EntityTypeShape EntityType="LeaveManagementSystemModel.EmployeeWorkLocationDetail" Width="1.5" PointX="7.5" PointY="9.5" />
+        <EntityTypeShape EntityType="LeaveManagementSystemModel.EmployeeCurrentAddressDetail" Width="1.5" PointX="7.5" PointY="72.625" />
+        <EntityTypeShape EntityType="LeaveManagementSystemModel.EmployeePermanentAddressDetail" Width="1.5" PointX="7.5" PointY="52.125" />
+        <EntityTypeShape EntityType="LeaveManagementSystemModel.EmployeeEmergencyContactDetail" Width="1.5" PointX="7.5" PointY="78" />
+        <EntityTypeShape EntityType="LeaveManagementSystemModel.EmployeeDetail" Width="1.5" PointX="5.25" PointY="25.375" />
+        <AssociationConnector Association="LeaveManagementSystemModel.FK_EmpDetails_EmployeeContactDetails" />
+        <AssociationConnector Association="LeaveManagementSystemModel.FK_EmployeeCurrentAddressDetails_EmployeeDetails" />
+        <AssociationConnector Association="LeaveManagementSystemModel.FK_ConsolidatedEmployeeLeaveDetails_EmployeeDetails" />
+        <AssociationConnector Association="LeaveManagementSystemModel.FK_EmployeeDetails_EmployeeLeaveTransaction" />
+        <AssociationConnector Association="LeaveManagementSystemModel.FK_EmployeeDetails_EmployeeLeaveTransactionHistory" />
+        <AssociationConnector Association="LeaveManagementSystemModel.FK_EmployeeDetails_EmployeeManager" />
+        <AssociationConnector Association="LeaveManagementSystemModel.FK_EmployeeDetails_EmployeeProjectDetail" />
+        <AssociationConnector Association="LeaveManagementSystemModel.FK_EmployeeDetails_MasterDataValue" />
+        <AssociationConnector Association="LeaveManagementSystemModel.FK_EmployeeDetails_MasterDataValue1" />
+        <AssociationConnector Association="LeaveManagementSystemModel.FK_EmployeeDetails_MasterDataValue2" />
+        <AssociationConnector Association="LeaveManagementSystemModel.FK_EmployeeDetails_MasterDataValue3" />
+        <AssociationConnector Association="LeaveManagementSystemModel.FK_EmployeeDetails_Notification" />
+        <AssociationConnector Association="LeaveManagementSystemModel.FK_EmployeeDetails_UserAccount" />
+        <AssociationConnector Association="LeaveManagementSystemModel.FK_EmployeeDetailsCreatedById_EmployeeLeaveTransaction" />
+        <AssociationConnector Association="LeaveManagementSystemModel.FK_EmployeeDetailsCreatedById_EmployeeLeaveTransactionHistory" />
+        <AssociationConnector Association="LeaveManagementSystemModel.FK_EmployeeDetailsCreatedById_Workflow" />
+        <AssociationConnector Association="LeaveManagementSystemModel.FK_EmployeeDetailsId_Workflow" />
+        <AssociationConnector Association="LeaveManagementSystemModel.FK_EmployeeDetailsModifiedById_Workflow" />
+        <AssociationConnector Association="LeaveManagementSystemModel.FK_EmployeeDetialsModifiedById_EmployeeLeaveTransaction" />
+        <AssociationConnector Association="LeaveManagementSystemModel.FK_EmployeeDetilasModifiedById_EmployeeLeaveTransactionHistory" />
+        <AssociationConnector Association="LeaveManagementSystemModel.FK_EmployeeEducationDetails_EmployeeDetails" />
+        <AssociationConnector Association="LeaveManagementSystemModel.FK_EmployeeEmergencyContactDetails_EmployeeDetails" />
+        <AssociationConnector Association="LeaveManagementSystemModel.FK_EmployeeExperienceDetails_EmployeeDetails" />
+        <AssociationConnector Association="LeaveManagementSystemModel.FK_EmployeeLeaveMaster_EmployeeDetails" />
+        <AssociationConnector Association="LeaveManagementSystemModel.FK_EmployeePermanentAddressDetails_EmployeeDetails" />
+        <AssociationConnector Association="LeaveManagementSystemModel.FK_EmployeeRewardedLeaveDetails_EmployeeDetails" />
+        <AssociationConnector Association="LeaveManagementSystemModel.FK_EmployeeRewardedLeaveDetails_EmployeeDetails1" />
+        <AssociationConnector Association="LeaveManagementSystemModel.FK_EmployeeSkills_EmployeeDetails" />
         <AssociationConnector Association="LeaveManagementSystemModel.FK_EmployeeWorkLocationDetails_EmployeeDetails" />
+        <AssociationConnector Association="LeaveManagementSystemModel.FK_ProjectMaster_EmployeeDetails" />
+        <AssociationConnector Association="LeaveManagementSystemModel.FK_ResourceRequestDetail_EmployeeDetails" />
+        <AssociationConnector Association="LeaveManagementSystemModel.FK_WorkFromHome_refEmpID" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

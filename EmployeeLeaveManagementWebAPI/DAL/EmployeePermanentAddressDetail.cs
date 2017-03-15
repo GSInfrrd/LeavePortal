@@ -19,7 +19,9 @@ namespace LMS_WebAPI_DAL
         public string Country { get; set; }
         public string State { get; set; }
         public string City { get; set; }
-        public string Address { get; set; }
+        public string Pincode { get; set; }
+        public string AddressLine1 { get; set; }
+        public string AddressLine2 { get; set; }
         public int IsActive { get; set; }
         public Nullable<System.DateTime> CreatedDate { get; set; }
         public Nullable<System.DateTime> ModifiedDate { get; set; }

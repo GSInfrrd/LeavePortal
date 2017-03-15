@@ -482,7 +482,9 @@ namespace EmployeeLeaveManagementApp.Controllers
                     ePermanentAddressDetails.Country = item.Country;
                     ePermanentAddressDetails.State = item.State;
                     ePermanentAddressDetails.City = item.City;
-                    ePermanentAddressDetails.Address = item.Address;
+                    ePermanentAddressDetails.Pincode = item.Pincode;
+                    ePermanentAddressDetails.AddressLine1 = item.AddressLine1;
+                    ePermanentAddressDetails.AddressLine2 = item.AddressLine2;
                     ePermanentAddressDetails.RefCreatedBy = userdata.RefEmployeeId;
                     ePermanentAddressList.Add(ePermanentAddressDetails);
                 }
@@ -495,7 +497,9 @@ namespace EmployeeLeaveManagementApp.Controllers
                     eCurrentAddressDetails.Country = item.Country;
                     eCurrentAddressDetails.State = item.State;
                     eCurrentAddressDetails.City = item.City;
-                    eCurrentAddressDetails.Address = item.Address;
+                    eCurrentAddressDetails.Pincode = item.Pincode;
+                    eCurrentAddressDetails.AddressLine1 = item.AddressLine1;
+                    eCurrentAddressDetails.AddressLine2 = item.AddressLine2;
                     eCurrentAddressDetails.RefCreatedBy = userdata.RefEmployeeId;
                     eCurrentAddressList.Add(eCurrentAddressDetails);
                 }
@@ -810,6 +814,24 @@ namespace EmployeeLeaveManagementApp.Controllers
             catch (Exception ex)
             {
                 Logger.Error("Error at HRController APP GetRelationships method.", ex);
+                return null;
+            }
+
+        }
+
+        public async Task<JsonResult> GetBloodGroups()
+        {
+            Logger.Info("Entering in HRController APP GetBloodGroups method");
+            try
+            {
+                var model = new List<BloodGroupDetails>();
+                model = await hrOperations.GetBloodGroupsAsync();
+                Logger.Info("Successfully exiting from HRController APP GetBloodGroups method");
+                return Json(new { data = model });
+            }
+            catch (Exception ex)
+            {
+                Logger.Error("Error at HRController APP GetBloodGroups method.", ex);
                 return null;
             }
 

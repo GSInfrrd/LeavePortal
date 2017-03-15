@@ -29,6 +29,10 @@ namespace EmployeeLeaveManagementApp.Models
         public string ManagerName { get; set; }
         public string Projectname { get; set; }
         public String RoleName { get; set; }
+
+        public String ProfileTypeName { get; set; }
+        public string EmployeeConractTypeName { get; set; }
+        public string EmployeeTypeName { get; set; }
         public int TotalLeaveCount { get; set; }
 
         public double? EarnedLeave { get; set; }

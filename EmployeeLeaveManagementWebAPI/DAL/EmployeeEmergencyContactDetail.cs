@@ -19,6 +19,7 @@ namespace LMS_WebAPI_DAL
         public string Name { get; set; }
         public string Relationship { get; set; }
         public string Telephone { get; set; }
+        public string Address { get; set; }
         public int IsActive { get; set; }
         public Nullable<System.DateTime> CreatedDate { get; set; }
         public Nullable<System.DateTime> ModifiedDate { get; set; }

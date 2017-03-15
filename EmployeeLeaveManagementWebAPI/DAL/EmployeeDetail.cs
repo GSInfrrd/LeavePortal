@@ -18,6 +18,7 @@ namespace LMS_WebAPI_DAL
         public EmployeeDetail()
         {
             this.EmployeeContactDetails = new HashSet<EmployeeContactDetail>();
+            this.EmployeeCurrentAddressDetails = new HashSet<EmployeeCurrentAddressDetail>();
             this.EmployeeLeaveMasters = new HashSet<EmployeeLeaveMaster>();
             this.EmployeeLeaveTransactions = new HashSet<EmployeeLeaveTransaction>();
             this.WorkflowHistories = new HashSet<WorkflowHistory>();
@@ -33,25 +34,30 @@ namespace LMS_WebAPI_DAL
             this.EmployeeLeaveTransactions2 = new HashSet<EmployeeLeaveTransaction>();
             this.WorkflowHistories2 = new HashSet<WorkflowHistory>();
             this.EmployeeEducationDetails = new HashSet<EmployeeEducationDetail>();
+            this.EmployeeEmergencyContactDetails = new HashSet<EmployeeEmergencyContactDetail>();
             this.EmployeeExperienceDetails = new HashSet<EmployeeExperienceDetail>();
             this.EmployeeLeaveMasters1 = new HashSet<EmployeeLeaveMaster>();
+            this.EmployeePermanentAddressDetails = new HashSet<EmployeePermanentAddressDetail>();
             this.EmployeeRewardedLeaveDetails = new HashSet<EmployeeRewardedLeaveDetail>();
             this.EmployeeRewardedLeaveDetails1 = new HashSet<EmployeeRewardedLeaveDetail>();
             this.EmployeeSkills = new HashSet<EmployeeSkill>();
+            this.EmployeeWorkLocationDetails = new HashSet<EmployeeWorkLocationDetail>();
             this.ProjectMasters = new HashSet<ProjectMaster>();
             this.ResourceRequestDetails = new HashSet<ResourceRequestDetail>();
             this.WorkFromHomes = new HashSet<WorkFromHome>();
-            this.EmployeeCurrentAddressDetails = new HashSet<EmployeeCurrentAddressDetail>();
-            this.EmployeeEmergencyContactDetails = new HashSet<EmployeeEmergencyContactDetail>();
-            this.EmployeePermanentAddressDetails = new HashSet<EmployeePermanentAddressDetail>();
-            this.EmployeeWorkLocationDetails = new HashSet<EmployeeWorkLocationDetail>();
         }
     
         public int Id { get; set; }
         public string FirstName { get; set; }
         public int RefRoleId { get; set; }
+
+        public string RoleName { get; set; }
+
+        public string ProjectName { get; set; }
         public Nullable<System.DateTime> DateOfJoining { get; set; }
         public Nullable<int> ManagerId { get; set; }
+
+        public string ManagerName { get; set; }
         public System.DateTime CreatedDate { get; set; }
         public Nullable<System.DateTime> ModifiedDate { get; set; }
         public Nullable<int> Experience { get; set; }
@@ -70,16 +76,23 @@ namespace LMS_WebAPI_DAL
         public string TwitterLink { get; set; }
         public string GooglePlusLink { get; set; }
         public int RefEmployeeType { get; set; }
+
+        public string EmployeeType { get; set; }
         public int RefProfileType { get; set; }
+
+        public string ProfileType { get; set; }
         public string Gender { get; set; }
         public string PassportNumber { get; set; }
-        public string InfrrdEmailId { get; set; }
-        public Nullable<int> RefEmployeeContractType { get; set; }
-        public Nullable<System.DateTime> DateOfConfirmation { get; set; }
         public string BloodGroup { get; set; }
+        public string EmailId { get; set; }
+        public Nullable<int> RefEmployeeContractType { get; set; }
+        public string EmployeeContractType { get; set; }
+        public Nullable<System.DateTime> DateOfConfirmation { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<EmployeeContactDetail> EmployeeContactDetails { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<EmployeeCurrentAddressDetail> EmployeeCurrentAddressDetails { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<EmployeeLeaveMaster> EmployeeLeaveMasters { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
@@ -116,9 +129,13 @@ namespace LMS_WebAPI_DAL
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<EmployeeEducationDetail> EmployeeEducationDetails { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<EmployeeEmergencyContactDetail> EmployeeEmergencyContactDetails { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<EmployeeExperienceDetail> EmployeeExperienceDetails { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<EmployeeLeaveMaster> EmployeeLeaveMasters1 { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<EmployeePermanentAddressDetail> EmployeePermanentAddressDetails { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<EmployeeRewardedLeaveDetail> EmployeeRewardedLeaveDetails { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
@@ -126,18 +143,12 @@ namespace LMS_WebAPI_DAL
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<EmployeeSkill> EmployeeSkills { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<EmployeeWorkLocationDetail> EmployeeWorkLocationDetails { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<ProjectMaster> ProjectMasters { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<ResourceRequestDetail> ResourceRequestDetails { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<WorkFromHome> WorkFromHomes { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<EmployeeCurrentAddressDetail> EmployeeCurrentAddressDetails { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<EmployeeEmergencyContactDetail> EmployeeEmergencyContactDetails { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<EmployeePermanentAddressDetail> EmployeePermanentAddressDetails { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<EmployeeWorkLocationDetail> EmployeeWorkLocationDetails { get; set; }
     }
 }

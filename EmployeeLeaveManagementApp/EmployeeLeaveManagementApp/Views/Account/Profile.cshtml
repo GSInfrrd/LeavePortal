@@ -17,7 +17,6 @@
 <link href="~/plugins/Toastr/toastr.css" rel="stylesheet" />
 <link href="~/Content/jquery.Jcrop.min.css" rel="stylesheet" />
 <link href="~/Content/Style.css" rel="stylesheet" />
-
 <style>
     .products-list .product-info {
         margin-left: 0px !important;
@@ -122,6 +121,11 @@
 
                     <li class="active"><a href="#profile" id="tabProfile" data-toggle="tab">@profileHeader</a></li>
                     <li><a href="#personalDetails" id="tabPersonalDetails" data-toggle="tab" style="display:none">Personal Details</a></li>
+                    <li><a href="#companyDetails" id="tabCompanyDetails" data-toggle="tab" style="display:none">Company Details</a></li>
+                    <li><a href="#emergencyContactDetails" id="tabEmergencyContactDetails" data-toggle="tab" style="display:none">Emergency Contact Details</a></li>
+                    <li><a href="#currentAddressDetails" id="tabCurrentAddressDetails" data-toggle="tab" style="display:none">Current Address Details</a></li>
+                    <li><a href="#permanentAddressDetails" id="tabPermanentAddressDetails" data-toggle="tab" style="display:none">Permanent Address Details</a></li>
+                    <li><a href="#workLocationDetails" id="tabWorkLocationDetails" data-toggle="tab" style="display:none">Work Location Details</a></li>
                     <li><a href="#educationDetails" id="tabEducationDetails" data-toggle="tab" style="display:none">Education Details</a></li>
                     <li><a href="#experienceDetails" id="tabExperienceDetails" data-toggle="tab" style="display:none">Experience Details</a></li>
                     <li><a href="#skills" id="tabSkills" data-toggle="tab" style="display:none">Skills</a></li>
@@ -306,18 +310,6 @@
                                     </div>
                                 </div>
                                 <div class="form-group">
-                                    <label for="inputEmail" class="col-sm-2 control-label">City</label>
-                                    <div class="col-sm-10">
-                                        <input type="text" class="form-control" id="txtEditCity" value="@Model.City" placeholder="City">
-                                    </div>
-                                </div>
-                                <div class="form-group">
-                                    <label for="inputEmail" class="col-sm-2 control-label">Country</label>
-                                    <div class="col-sm-10">
-                                        <input type="text" class="form-control" id="txtEditCountry" value="@Model.Country" placeholder="Country">
-                                    </div>
-                                </div>
-                                <div class="form-group">
                                     <label for="inputEmail" class="col-sm-2 control-label">Date Of Birth</label>
                                     <div class="col-sm-10">
                                         <input type="text" class="form-control" id="dateOfBirthDatePicker" value="@Model.DateOfBirth.Date.ToString("MM/dd/yyyy")">
@@ -350,6 +342,287 @@
                                 <div class="form-group">
                                     <div class="col-sm-offset-2 col-sm-10">
                                         <button type="submit" id="btnSubmitPersonalDetails" class="btn btn-danger">Submit</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                    <div class="tab-pane" id="companyDetails">
+                        <form class="form-horizontal">
+                            <div id="divCompanyInfo">
+                                <h3>Company Details</h3>
+                                <div class="form-group">
+                                    <label for="inputName" class="col-sm-2 control-label">Employee Number</label>
+                                    <div class="col-sm-10">
+                                        <input type="text" readonly="readonly" class="form-control"  value="@Model.EmployeeNumber">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="inputName" class="col-sm-2 control-label">Email(Infrrd)</label>
+                                    <div class="col-sm-10">
+                                        <input type="text" readonly="readonly" class="form-control"  value="@Model.InfrrdEmailId">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="inputName" class="col-sm-2 control-label">Date Of Joining</label>
+                                    <div class="col-sm-10">
+                                        <input type="text" readonly="readonly" class="form-control"  value="@Model.DateOfJoining.ToShortDateString()">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="inputName" class="col-sm-2 control-label">Designation</label>
+                                    <div class="col-sm-10">
+                                        <input type="text" readonly="readonly" class="form-control" value="@Model.RoleName">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="inputName" class="col-sm-2 control-label">Employee Type</label>
+                                    <div class="col-sm-10">
+                                        <input type="text" readonly="readonly" class="form-control" value="@Model.EmployeeTypeName">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="inputName" class="col-sm-2 control-label">Employee Contract Type</label>
+                                    <div class="col-sm-10">
+                                        <input type="text" readonly="readonly" class="form-control" value="@Model.EmployeeConractTypeName">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="inputName" class="col-sm-2 control-label">Date Of Confirmation</label>
+                                    <div class="col-sm-10">
+                                        <input type="text" readonly="readonly" class="form-control" value="@Model.DateOfConfirmation.ToShortDateString()">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="inputName" class="col-sm-2 control-label">Manager Name</label>
+                                    <div class="col-sm-10">
+                                        <input type="text" readonly="readonly" class="form-control" value="@Model.ManagerName">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="inputName" class="col-sm-2 control-label">Project Name</label>
+                                    <div class="col-sm-10">
+                                        <input type="text" readonly="readonly" class="form-control" value="@Model.ProjectName">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="inputName" class="col-sm-2 control-label">Profile Type</label>
+                                    <div class="col-sm-10">
+                                        <input type="text" readonly="readonly" class="form-control" value="@Model.ProfileTypeName">
+                                    </div>
+                                </div>
+                               
+                                
+                               
+                               
+                            </div>
+                        </form>
+                    </div>
+                    <div class="tab-pane" id="emergencyContactDetails">
+                        <form class="form-horizontal">
+                            <div id="divemergencyContactInfo">
+                                <h3>Emergency Contact Details</h3>
+                                <div class="form-group">
+                                    <label for="inputName" class="col-sm-2 control-label">Name</label>
+                                    <div class="col-sm-10">
+                                        <input type="hidden" class="form-control" id="txtEmpID" placeholder="First Name" value="@Model.Id">
+                                        <input type="text" class="form-control" id="txtEmergencyContactName" value="@Model.EmployeeEmergencyContactDetail[0].Name">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="inputName" class="col-sm-2 control-label">Relationship</label>
+                                    <div class="col-sm-10">
+                                        <select class="form-control graduation" style="width: 100%;" id="ddlEmergencyContactRelationship">
+                                            <option value="">Select</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="inputName" class="col-sm-2 control-label">Telephone</label>
+                                    <div class="col-sm-10">
+                                        <input type="text" class="form-control" id="txtEmergencyContactTelephone" value="@Model.EmployeeEmergencyContactDetail[0].Telephone">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="inputName" class="col-sm-2 control-label">Country</label>
+                                    <div class="col-sm-10">
+                                        <select id="ddlEmergencyContactCountry" class="form-control graduation" style="width: 100%;">
+                                            <option value="">Select</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="inputName" class="col-sm-2 control-label">State</label>
+                                    <div class="col-sm-10">
+                                        <select id="ddlEmergencyContactState" class="form-control graduation" style="width: 100%;">
+                                            <option value="">Select</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="inputName" class="col-sm-2 control-label">City</label>
+                                    <div class="col-sm-10">
+                                        <select id="ddlEmergencyContactCity" class="form-control graduation" style="width: 100%;">
+                                            <option value="">Select</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="inputName" class="col-sm-2 control-label">AddressLine1</label>
+                                    <div class="col-sm-10">
+                                        <input type="text" class="form-control" id="txtEmergencyContactAddressLine1" value="@Model.EmployeeEmergencyContactDetail[0].AddressLine1">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="inputName" class="col-sm-2 control-label">AddressLine2</label>
+                                    <div class="col-sm-10">
+                                        <input type="text" class="form-control" id="txtEmergencyContactAddressLine2" value="@Model.EmployeeEmergencyContactDetail[0].AddressLine2">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <div class="col-sm-offset-2 col-sm-10">
+                                        <button type="submit" id="btnSubmitEmergencyContactDetails" class="btn btn-danger">Submit</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                    <div class="tab-pane" id="currentAddressDetails">
+                        <form class="form-horizontal">
+                            <div id="divcurrentAddressInfo">
+                                <h3>Current Address</h3>
+                                <div class="form-group">
+                                    <input type="hidden" class="form-control" id="txtEmpID1" placeholder="First Name" value="@Model.Id">
+                                    <label for="inputName" class="col-sm-2 control-label">Country</label>
+                                    <div class="col-sm-10">
+                                        <select id="ddlCurrentAddressCountry" class="form-control graduation" style="width: 100%;">
+                                            <option value="">Select</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="inputName" class="col-sm-2 control-label">State</label>
+                                    <div class="col-sm-10">
+                                        <select id="ddlCurrentAddressState" class="form-control graduation" style="width: 100%;">
+                                            <option value="">Select</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="inputName" class="col-sm-2 control-label">City</label>
+                                    <div class="col-sm-10">
+                                        <select id="ddlCurrentAddressCity" class="form-control graduation" style="width: 100%;">
+                                            <option value="">Select</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="inputName" class="col-sm-2 control-label">Pincode</label>
+                                    <div class="col-sm-10">
+                                        <input type="text" class="form-control" id="txtcurrentAddressPincode" value="@Model.EmployeeCurrentAddressDetail[0].Pincode">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="inputName" class="col-sm-2 control-label">AddressLine1</label>
+                                    <div class="col-sm-10">
+                                        <input type="text" class="form-control" id="txtcurrentAddressLine1" value="@Model.EmployeeCurrentAddressDetail[0].AddressLine1">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="inputName" class="col-sm-2 control-label">AddressLine2</label>
+                                    <div class="col-sm-10">
+                                        <input type="text" class="form-control" id="txtcurrentAddressLine2" value="@Model.EmployeeCurrentAddressDetail[0].AddressLine2">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <div class="col-sm-offset-2 col-sm-10">
+                                        <button type="submit" id="btnSubmitCurrentAddressDetails" class="btn btn-danger">Submit</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                    <div class="tab-pane" id="permanentAddressDetails">
+                        <form class="form-horizontal">
+                            <div id="divpermanentAddressInfo">
+                                <h3>Permanent Address</h3>
+                                <div class="form-group">
+                                    <input type="hidden" class="form-control" id="txtEmpID2" placeholder="First Name" value="@Model.Id">
+                                    <label for="inputName" class="col-sm-2 control-label">Country</label>
+                                    <div class="col-sm-10">
+                                        <select id="ddlPermanentAddressCountry" class="form-control graduation" style="width: 100%;">
+                                            <option value="">Select</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="inputName" class="col-sm-2 control-label">State</label>
+                                    <div class="col-sm-10">
+                                        <select id="ddlPermanentAddressState" class="form-control graduation" style="width: 100%;">
+                                            <option value="">Select</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="inputName" class="col-sm-2 control-label">City</label>
+                                    <div class="col-sm-10">
+                                        <select id="ddlPermanentAddressCity" class="form-control graduation" style="width: 100%;">
+                                            <option value="">Select</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="inputName" class="col-sm-2 control-label">Pincode</label>
+                                    <div class="col-sm-10">
+                                        <input type="text" class="form-control" id="txtPermanentAddressPincode" value="@Model.EmployeePermanentAddressDetail[0].Pincode">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="inputName" class="col-sm-2 control-label">AddressLine1</label>
+                                    <div class="col-sm-10">
+                                        <input type="text" class="form-control" id="txtPermanentAddressLine1" value="@Model.EmployeePermanentAddressDetail[0].AddressLine1">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="inputName" class="col-sm-2 control-label">AddressLine2</label>
+                                    <div class="col-sm-10">
+                                        <input type="text" class="form-control" id="txtPermanentAddressLine2" value="@Model.EmployeePermanentAddressDetail[0].AddressLine2">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <div class="col-sm-offset-2 col-sm-10">
+                                        <button type="submit" id="btnSubmitPermanentAddressDetails" class="btn btn-danger">Submit</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                    <div class="tab-pane" id="workLocationDetails">
+                        <form class="form-horizontal">
+                            <div id="divworkLocationInfo">
+                                <h3>Work Location</h3>
+                                <div class="form-group">
+                                    <label for="inputName" class="col-sm-2 control-label">Facility</label>
+                                    <div class="col-sm-10">
+                                        <input type="text" class="form-control" readonly="readonly" value="@Model.EmployeeWorkLocationDetail[0].Facility">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="inputName" class="col-sm-2 control-label">Country</label>
+                                    <div class="col-sm-10">
+                                        <input type="text" class="form-control" readonly="readonly" value="@Model.EmployeeWorkLocationDetail[0].Country">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="inputName" class="col-sm-2 control-label">State</label>
+                                    <div class="col-sm-10">
+                                        <input type="text" class="form-control" readonly="readonly" value="@Model.EmployeeWorkLocationDetail[0].State">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="inputName" class="col-sm-2 control-label">City</label>
+                                    <div class="col-sm-10">
+                                        <input type="text" class="form-control" readonly="readonly"  value="@Model.EmployeeWorkLocationDetail[0].City">
                                     </div>
                                 </div>
                             </div>
@@ -523,7 +796,6 @@
                     <script src="~/Scripts/jquery.Jcrop.min.js"></script>
                     <script src="../../plugins/Toastr/toastr.js"></script>
                     <script>
-
                         var jcrop_api = null;
                         $(function () {
                             $('#UserProfileImage').change(function () {
@@ -648,63 +920,16 @@
                         var cropPointY = 0;
 
 
-                        //$("#hl-crop-image").on("click", function (e) {
-                        //    e.preventDefault();
-                        //    cropImage();
-                        //});
 
-                        //function initCrop() {
-                        //    $('#my-origin-image').Jcrop({
-                        //        onSelect: setCoordsAndImgSize,
-                        //        aspectRatio: 1
-                        //    });
-                        //}
-
-                        //function setCoordsAndImgSize(e) {
-                        //      imageCropWidth = e.w;
-                        //      imageCropHeight = e.h;
-                        //      cropPointX = e.x;
-                        //      cropPointY = e.y;
-                        //}
-                        //var tempFolderNamePath='';
-                        //function cropImage() {
-
-                        //    if (imageCropWidth == 0 && imageCropHeight == 0) {
-                        //        alert("Please select crop area.");
-                        //        return;
-                        //    }
-
-                        //    $.ajax({
-                        //        url: '/Image/CropImage',
-                        //        type: 'POST',
-                        //        data: {
-                        //            imagePath: $('.jcrop-holder img').attr('src'),
-                        //            cropPointX: cropPointX,
-                        //            cropPointY: cropPointY,
-                        //            imageCropWidth: imageCropWidth,
-                        //            imageCropHeight: imageCropHeight
-                        //        },
-                        //        success: function (data) {
-                        //            debugger
-                        //            $("#my-cropped-image")
-                        //                .attr("src", data.photoPath + "?t=" + new Date().getTime())
-                        //                .hide();
-                        //            $("#UserProfileImageDisplay")
-                        //                .attr("src", data.photoPath);
-                        //            $('#imageuploadsection').show();
-                        //            $('#imagecropsection').hide();
-                        //            tempFolderNamePath = data.tempcropImagepath;
-
-                        //        },
-                        //        error: function (data) { }
-                        //    });
-                        //}
 
 
                         var imgData = "@imagePath";
                         var imgpath = "";
                         var imageName = "";
                         $(document).ready(function () {
+                            $(".graduation").select2();
+                            GetCountries();
+                            GetRelationships();
 
                             $('#tabProfileView').parent().addClass('active');
                             $(function () {
@@ -731,6 +956,11 @@
                         $("#editEmployeeDetails").on('click', function (e) {
                             $("#tabPersonalDetails").parent().addClass('active');
                             $("#tabPersonalDetails").show();
+                            $("#tabCompanyDetails").show();
+                            $("#tabEmergencyContactDetails").show();
+                            $("#tabCurrentAddressDetails").show();
+                            $("#tabPermanentAddressDetails").show();
+                            $("#tabWorkLocationDetails").show();
                             $("#tabEducationDetails").show();
                             $("#tabExperienceDetails").show();
                             $("#tabSkills").show();
@@ -740,11 +970,21 @@
                         })
                         $("#tabEducationDetails").on('click', function (e) {
                             $("#tabPersonalDetails").show();
+                            $("#tabCompanyDetails").show();
+                            $("#tabEmergencyContactDetails").show();
+                            $("#tabCurrentAddressDetails").show();
+                            $("#tabPermanentAddressDetails").show();
+                            $("#tabWorkLocationDetails").show();
                             $("#tabEducationDetails").show();
                             $("#tabExperienceDetails").show();
                             $("#tabSkills").show();
                             $("#tabProfile").hide();
                             $("#personalDetails").hide();
+                            $("#companyDetails").hide();
+                            $("#emergencyContactDetails").hide();
+                            $("#currentAddressDetails").hide();
+                            $("#permanentAddressDetails").hide();
+                            $("#workLocationDetails").hide();
                             $("#skills").hide();
                             $("#experienceDetails").hide();
                             $("#educationDetails").show();
@@ -752,11 +992,131 @@
                         })
                         $("#tabPersonalDetails").on('click', function (e) {
                             $("#tabPersonalDetails").show();
+                            $("#tabCompanyDetails").show();
+                            $("#tabEmergencyContactDetails").show();
+                            $("#tabCurrentAddressDetails").show();
+                            $("#tabPermanentAddressDetails").show();
+                            $("#tabWorkLocationDetails").show();
                             $("#tabEducationDetails").show();
                             $("#tabExperienceDetails").show();
                             $("#tabSkills").show();
                             $("#tabProfile").hide();
                             $("#personalDetails").show();
+                            $("#companyDetails").hide();
+                            $("#emergencyContactDetails").hide();
+                            $("#currentAddressDetails").hide();
+                            $("#permanentAddressDetails").hide();
+                            $("#workLocationDetails").hide();
+                            $("#skills").hide();
+                            $("#experienceDetails").hide();
+                            $("#educationDetails").hide();
+                            $("#profile").hide();
+                        })
+                        $("#tabCompanyDetails").on('click', function (e) {
+                            $("#tabPersonalDetails").show();
+                            $("#tabCompanyDetails").show();
+                            $("#tabEmergencyContactDetails").show();
+                            $("#tabCurrentAddressDetails").show();
+                            $("#tabPermanentAddressDetails").show();
+                            $("#tabWorkLocationDetails").show();
+                            $("#tabEducationDetails").show();
+                            $("#tabExperienceDetails").show();
+                            $("#tabSkills").show();
+                            $("#tabProfile").hide();
+                            $("#personalDetails").hide();
+                            $("#companyDetails").show();
+                            $("#emergencyContactDetails").hide();
+                            $("#currentAddressDetails").hide();
+                            $("#permanentAddressDetails").hide();
+                            $("#workLocationDetails").hide();
+                            $("#skills").hide();
+                            $("#experienceDetails").hide();
+                            $("#educationDetails").hide();
+                            $("#profile").hide();
+                        })
+                        $("#tabEmergencyContactDetails").on('click', function (e) {
+                            $("#tabPersonalDetails").show();
+                            $("#tabCompanyDetails").show();
+                            $("#tabEmergencyContactDetails").show();
+                            $("#tabCurrentAddressDetails").show();
+                            $("#tabPermanentAddressDetails").show();
+                            $("#tabWorkLocationDetails").show();
+                            $("#tabEducationDetails").show();
+                            $("#tabExperienceDetails").show();
+                            $("#tabSkills").show();
+                            $("#tabProfile").hide();
+                            $("#personalDetails").hide();
+                            $("#companyDetails").hide();
+                            $("#emergencyContactDetails").show();
+                            $("#currentAddressDetails").hide();
+                            $("#permanentAddressDetails").hide();
+                            $("#workLocationDetails").hide();
+                            $("#skills").hide();
+                            $("#experienceDetails").hide();
+                            $("#educationDetails").hide();
+                            $("#profile").hide();
+                        })
+                        $("#tabCurrentAddressDetails").on('click', function (e) {
+                            $("#tabPersonalDetails").show();
+                            $("#tabCompanyDetails").show();
+                            $("#tabEmergencyContactDetails").show();
+                            $("#tabCurrentAddressDetails").show();
+                            $("#tabPermanentAddressDetails").show();
+                            $("#tabWorkLocationDetails").show();
+                            $("#tabEducationDetails").show();
+                            $("#tabExperienceDetails").show();
+                            $("#tabSkills").show();
+                            $("#tabProfile").hide();
+                            $("#personalDetails").hide();
+                            $("#companyDetails").hide();
+                            $("#emergencyContactDetails").hide();
+                            $("#currentAddressDetails").show();
+                            $("#permanentAddressDetails").hide();
+                            $("#workLocationDetails").hide();
+                            $("#skills").hide();
+                            $("#experienceDetails").hide();
+                            $("#educationDetails").hide();
+                            $("#profile").hide();
+                        })
+                        $("#tabPermanentAddressDetails").on('click', function (e) {
+                            $("#tabPersonalDetails").show();
+                            $("#tabCompanyDetails").show();
+                            $("#tabEmergencyContactDetails").show();
+                            $("#tabCurrentAddressDetails").show();
+                            $("#tabPermanentAddressDetails").show();
+                            $("#tabWorkLocationDetails").show();
+                            $("#tabEducationDetails").show();
+                            $("#tabExperienceDetails").show();
+                            $("#tabSkills").show();
+                            $("#tabProfile").hide();
+                            $("#personalDetails").hide();
+                            $("#companyDetails").hide();
+                            $("#emergencyContactDetails").hide();
+                            $("#currentAddressDetails").hide();
+                            $("#permanentAddressDetails").show();
+                            $("#workLocationDetails").hide();
+                            $("#skills").hide();
+                            $("#experienceDetails").hide();
+                            $("#educationDetails").hide();
+                            $("#profile").hide();
+                        })
+                        $("#tabWorkLocationDetails").on('click', function (e) {
+                            $("#tabPersonalDetails").show();
+                            $("#tabCompanyDetails").show();
+                            $("#tabEmergencyContactDetails").show();
+                            $("#tabCurrentAddressDetails").show();
+                            $("#tabPermanentAddressDetails").show();
+                            $("#tabWorkLocationDetails").show();
+                            $("#tabEducationDetails").show();
+                            $("#tabExperienceDetails").show();
+                            $("#tabSkills").show();
+                            $("#tabProfile").hide();
+                            $("#personalDetails").hide();
+                            $("#companyDetails").hide();
+                            $("#emergencyContactDetails").hide();
+                            $("#currentAddressDetails").hide();
+                            $("#permanentAddressDetails").hide();
+                            $("#workLocationDetails").show();
                             $("#skills").hide();
                             $("#experienceDetails").hide();
                             $("#educationDetails").hide();
@@ -764,11 +1124,21 @@
                         })
                         $("#tabExperienceDetails").on('click', function (e) {
                             $("#tabPersonalDetails").show();
+                            $("#tabCompanyDetails").show();
+                            $("#tabEmergencyContactDetails").show();
+                            $("#tabCurrentAddressDetails").show();
+                            $("#tabPermanentAddressDetails").show();
+                            $("#tabWorkLocationDetails").show();
                             $("#tabEducationDetails").show();
                             $("#tabExperienceDetails").show();
                             $("#tabSkills").show();
                             $("#tabProfile").hide();
                             $("#personalDetails").hide();
+                            $("#companyDetails").hide();
+                            $("#emergencyContactDetails").hide();
+                            $("#currentAddressDetails").hide();
+                            $("#permanentAddressDetails").hide();
+                            $("#workLocationDetails").hide();
                             $("#educationDetails").hide();
                             $("#skills").hide();
                             $("#experienceDetails").show();
@@ -776,11 +1146,21 @@
                         })
                         $("#tabSkills").on('click', function (e) {
                             $("#tabPersonalDetails").show();
+                            $("#tabCompanyDetails").show();
+                            $("#tabEmergencyContactDetails").show();
+                            $("#tabCurrentAddressDetails").show();
+                            $("#tabPermanentAddressDetails").show();
+                            $("#tabWorkLocationDetails").show();
                             $("#tabEducationDetails").show();
                             $("#tabExperienceDetails").show();
                             $("#tabSkills").show();
                             $("#tabProfile").hide();
                             $("#personalDetails").hide();
+                            $("#companyDetails").hide();
+                            $("#emergencyContactDetails").hide();
+                            $("#currentAddressDetails").hide();
+                            $("#permanentAddressDetails").hide();
+                            $("#workLocationDetails").hide();
                             $("#educationDetails").hide();
                             $("#experienceDetails").hide();
                             $("#skills").show();
@@ -820,9 +1200,6 @@
                         });
 
                         $("#btnSubmitPersonalDetails").click(function (e) {
-                            debugger
-                            //var ImagePath = imgpath != "" ? imgpath : "";
-                            //var ImagePath = $("#UserProfileImageDisplay").attr("src");
                             var ImagePath = tempFolderNamePath;
                             var model=
                                 {
@@ -849,6 +1226,90 @@
                                 success: function (data) {
                                     debugger
                                     showMessage("Employee details saved successfully","1",true);
+                                    window.location.href='/Account/Profile';
+                                    // ShowAndHidetabs();
+                                }
+                            });
+                        });
+
+                        $("#btnSubmitEmergencyContactDetails").click(function (e) {
+                            var model=
+                                {
+                                    RefEmployeeId: $("#txtEmpID").val(),
+                                    Name: $("#txtEmergencyContactName").val(),
+                                    Relationship: $("#ddlEmergencyContactRelationship").val(),
+                                    Telephone: $("#txtEmergencyContactTelephone").val(),
+                                    Country: $("#ddlEmergencyContactCountry").val(),
+                                    State: $("#ddlEmergencyContactState").val(),
+                                    City: $("#ddlEmergencyContactCity").val(),
+                                    AddressLine1:$("#txtEmergencyContactAddressLine1").val(),
+                                    AddressLine2:$("#txtEmergencyContactAddressLine2").val(),
+                                }
+                            $.ajax({
+                                cache: false,
+                                type: 'post',
+                                url: '/Profile/EditEmployeeEmergencyContactDetails',
+                                data:JSON.stringify(model),
+                                contentType: "application/json",
+                                dataType: "json",
+                                processData: false,
+                                success: function (data) {
+                                    showMessage("Employee details saved successfully","1",true);
+                                    window.location.href='/Account/Profile';
+                                    // ShowAndHidetabs();
+                                }
+                            });
+                        });
+
+                        $("#btnSubmitCurrentAddressDetails").click(function (e) {
+                            var model=
+                                {
+                                    RefEmployeeId: $("#txtEmpID1").val(),
+                                    Country: $("#ddlCurrentAddressCountry").val(),
+                                    State: $("#ddlCurrentAddressState").val(),
+                                    City: $("#ddlCurrentAddressCity").val(),
+                                    Pincode: $("#txtcurrentAddressPincode").val(),
+                                    AddressLine1:$("#txtcurrentAddressLine1").val(),
+                                    AddressLine2:$("#txtcurrentAddressLine2").val(),
+                                }
+                            $.ajax({
+                                cache: false,
+                                type: 'post',
+                                url: '/Profile/EditEmployeeCurrentAddressDetails',
+                                data:JSON.stringify(model),
+                                contentType: "application/json",
+                                dataType: "json",
+                                processData: false,
+                                success: function (data) {
+                                    showMessage("Employee details saved successfully","1",true);
+                                    window.location.href='/Account/Profile';
+                                    // ShowAndHidetabs();
+                                }
+                            });
+                        });
+
+                        $("#btnSubmitPermanentAddressDetails").click(function (e) {
+                            var model=
+                                {
+                                    RefEmployeeId: $("#txtEmpID2").val(),
+                                    Country: $("#ddlPermanentAddressCountry").val(),
+                                    State: $("#ddlPermanentAddressState").val(),
+                                    City: $("#ddlPermanentAddressCity").val(),
+                                    Pincode: $("#txtPermanentAddressPincode").val(),
+                                    AddressLine1:$("#txtPermanentAddressLine1").val(),
+                                    AddressLine2:$("#txtPermanentAddressLine2").val(),
+                                }
+                            $.ajax({
+                                cache: false,
+                                type: 'post',
+                                url: '/Profile/EditEmployeePermanentAddressDetails',
+                                data:JSON.stringify(model),
+                                contentType: "application/json",
+                                dataType: "json",
+                                processData: false,
+                                success: function (data) {
+                                    showMessage("Employee details saved successfully","1",true);
+                                    window.location.href='/Account/Profile';
                                     // ShowAndHidetabs();
                                 }
                             });
@@ -939,11 +1400,15 @@
                         function ShowAndHidetabs()
                         {
                             $("#tabPersonalDetails").hide();
+                            $("#tabCompanyDetails").hide();
+                            $("#tabEmergencyContactDetails").hide();
                             $("#tabEducationDetails").hide();
                             $("#tabExperienceDetails").hide();
                             $("#tabSkills").hide();
                             $("#tabProfile").show();
                             $("#personalDetails").hide();
+                            $("#companyDetails").hide();
+                            $("#emergencyContactDetails").hide();
                             $("#skills").hide();
                             $("#experienceDetails").hide();
                             $("#educationDetails").hide();
@@ -976,7 +1441,7 @@
                         //    });
                         //});
 
-                       
+
                         function ValidateAndUploadImage() {
                             debugger
                             var file = document.getElementById("UserProfileImage").value;
@@ -1046,4 +1511,269 @@
                             //    }
                             //});
                         }
+                        function GetRelationships() {
+                            $.ajax({
+                                cache: false,
+                                type: 'post',
+                                url: '/HR/GetRelationships',
+                                contentType: "application/json",
+                                dataType: "json",
+                                success: function (data) {
+                                    for (var i = 0; i < data.data.length; i++) {
+                                        $("#ddlEmergencyContactRelationship").append($('<option></option>').attr("value", data.data[i].Id).text(data.data[i].Relationship));
+                                    }
+                                    $("#ddlEmergencyContactRelationship").val('@Model.EmployeeEmergencyContactDetail.FirstOrDefault().Relationship');
+                                }
+                            });
+                        }
+
+                        function GetCountries() {
+                            debugger
+                            $.ajax({
+                                cache: false,
+                                type: 'post',
+                                url: '/HR/GetCountries',
+                                contentType: "application/json",
+                                dataType: "json",
+                                success: function (data) {
+                                    for (var i = 0; i < data.data.length; i++) {
+                                        $("#ddlEmergencyContactCountry").append($('<option></option>').attr("value", data.data[i].Id).text(data.data[i].CountryName));
+                                        $("#ddlCurrentAddressCountry").append($('<option></option>').attr("value", data.data[i].Id).text(data.data[i].CountryName));
+                                        $("#ddlPermanentAddressCountry").append($('<option></option>').attr("value", data.data[i].Id).text(data.data[i].CountryName));
+                                    }
+                                    $("#ddlEmergencyContactCountry").val('@Model.EmployeeEmergencyContactDetail.FirstOrDefault().Country');
+                                    $("#ddlCurrentAddressCountry").val('@Model.EmployeeCurrentAddressDetail.FirstOrDefault().Country');
+                                    $("#ddlPermanentAddressCountry").val('@Model.EmployeePermanentAddressDetail.FirstOrDefault().Country');
+                                    GetStatesForEmergencyContactDetails();
+                                    GetStatesForCurrentAddressDetails();
+                                    GetStatesForPermanentAddressDetails();
+                                }
+                            });
+                        }
+
+                        function GetStatesForEmergencyContactDetails() {
+                            $("#ddlEmergencyContactState").empty();
+                            $("#ddlEmergencyContactState").append($('<option></option>').attr("value", '').text('Select'));
+                            var countryId = $("#ddlEmergencyContactCountry").val();
+                            $.ajax({
+                                cache: false,
+                                type: 'post',
+                                url: '/HR/GetStates',
+                                data: { CountryId: countryId},
+                                //contentType: "application/json",
+                                success: function (data) {
+                                    for (var i = 0; i < data.data.length; i++) {
+                                        $("#ddlEmergencyContactState").append($('<option></option>').attr("value", data.data[i].Id).text(data.data[i].StateName));
+                                    }
+                                    $("#ddlEmergencyContactState").val('@Model.EmployeeEmergencyContactDetail.FirstOrDefault().State');
+                                    GetCitiesForEmergencyContactDetails();
+                                }
+                            });
+                        }
+
+                        function GetStatesForCurrentAddressDetails() {
+                            $("#ddlCurrentAddressState").empty();
+                            $("#ddlCurrentAddressState").append($('<option></option>').attr("value", '').text('Select'));
+                            var countryId = $("#ddlCurrentAddressCountry").val();
+                            $.ajax({
+                                cache: false,
+                                type: 'post',
+                                url: '/HR/GetStates',
+                                data: { CountryId: countryId},
+                                //contentType: "application/json",
+                                success: function (data) {
+                                    for (var i = 0; i < data.data.length; i++) {
+                                        $("#ddlCurrentAddressState").append($('<option></option>').attr("value", data.data[i].Id).text(data.data[i].StateName));
+                                    }
+                                    $("#ddlCurrentAddressState").val('@Model.EmployeeCurrentAddressDetail.FirstOrDefault().State');
+                                    GetCitiesForCurrentAddressDetails();
+                                }
+                            });
+                        }
+
+                        function GetStatesForPermanentAddressDetails() {
+                            $("#ddlPermanentAddressState").empty();
+                            $("#ddlPermanentAddressState").append($('<option></option>').attr("value", '').text('Select'));
+                            var countryId = $("#ddlPermanentAddressCountry").val();
+                            $.ajax({
+                                cache: false,
+                                type: 'post',
+                                url: '/HR/GetStates',
+                                data: { CountryId: countryId},
+                                //contentType: "application/json",
+                                success: function (data) {
+                                    for (var i = 0; i < data.data.length; i++) {
+                                        $("#ddlPermanentAddressState").append($('<option></option>').attr("value", data.data[i].Id).text(data.data[i].StateName));
+                                    }
+                                    $("#ddlPermanentAddressState").val('@Model.EmployeePermanentAddressDetail.FirstOrDefault().State');
+                                    GetCitiesForPermanentAddressDetails();
+                                }
+                            });
+                        }
+                        function GetCitiesForEmergencyContactDetails() {
+                            $("#ddlEmergencyContactCity").empty();
+                            $("#ddlEmergencyContactCity").append($('<option></option>').attr("value", '').text('Select'));
+                            var stateId = $("#ddlEmergencyContactState").val();
+                            $.ajax({
+                                cache: false,
+                                type: 'post',
+                                url: '/HR/GetCities',
+                                data: { StateId: stateId},
+                                //contentType: "application/json",
+                                success: function (data) {
+                                    for (var i = 0; i < data.data.length; i++) {
+                                        $("#ddlEmergencyContactCity").append($('<option></option>').attr("value", data.data[i].Id).text(data.data[i].CityName));
+                                    }
+                                    $("#ddlEmergencyContactCity").val('@Model.EmployeeEmergencyContactDetail.FirstOrDefault().City');
+                                }
+                            });
+                        }
+
+                        function GetCitiesForCurrentAddressDetails() {
+                            $("#ddlCurrentAddressCity").empty();
+                            $("#ddlCurrentAddressCity").append($('<option></option>').attr("value", '').text('Select'));
+                            var stateId = $("#ddlCurrentAddressState").val();
+                            $.ajax({
+                                cache: false,
+                                type: 'post',
+                                url: '/HR/GetCities',
+                                data: { StateId: stateId},
+                                //contentType: "application/json",
+                                success: function (data) {
+                                    for (var i = 0; i < data.data.length; i++) {
+                                        $("#ddlCurrentAddressCity").append($('<option></option>').attr("value", data.data[i].Id).text(data.data[i].CityName));
+                                    }
+                                    $("#ddlCurrentAddressCity").val('@Model.EmployeeCurrentAddressDetail.FirstOrDefault().City');
+                                }
+                            });
+                        }
+
+                        function GetCitiesForPermanentAddressDetails() {
+                            $("#ddlPermanentAddressCity").empty();
+                            $("#ddlPermanentAddressCity").append($('<option></option>').attr("value", '').text('Select'));
+                            var stateId = $("#ddlPermanentAddressState").val();
+                            $.ajax({
+                                cache: false,
+                                type: 'post',
+                                url: '/HR/GetCities',
+                                data: { StateId: stateId},
+                                //contentType: "application/json",
+                                success: function (data) {
+                                    for (var i = 0; i < data.data.length; i++) {
+                                        $("#ddlPermanentAddressCity").append($('<option></option>').attr("value", data.data[i].Id).text(data.data[i].CityName));
+                                    }
+                                    $("#ddlPermanentAddressCity").val('@Model.EmployeePermanentAddressDetail.FirstOrDefault().City');
+                                }
+                            });
+                        }
+
+
+
+                        $(document).on('change', "#ddlEmergencyContactCountry", function (e) {
+                            $("#ddlEmergencyContactState").empty();
+                            $("#ddlEmergencyContactState").append($('<option></option>').attr("value", '').text('Select'));
+                            var countryId = $("#ddlEmergencyContactCountry").val();
+                            $.ajax({
+                                cache: false,
+                                type: 'post',
+                                url: '/HR/GetStates',
+                                data: { CountryId: countryId},
+                                //contentType: "application/json",
+                                success: function (data) {
+                                    for (var i = 0; i < data.data.length; i++) {
+                                        $("#ddlEmergencyContactState").append($('<option></option>').attr("value", data.data[i].Id).text(data.data[i].StateName));
+                                    }
+                                }
+                            });
+                        });
+
+                        $(document).on('change', "#ddlEmergencyContactState", function (e) {
+                            $("#ddlEmergencyContactCity").empty();
+                            $("#ddlEmergencyContactCity").append($('<option></option>').attr("value", '').text('Select'));
+                            var stateId = $("#ddlEmergencyContactState").val();
+                            $.ajax({
+                                cache: false,
+                                type: 'post',
+                                url: '/HR/GetCities',
+                                data: { StateId: stateId},
+                                //contentType: "application/json",
+                                success: function (data) {
+                                    for (var i = 0; i < data.data.length; i++) {
+                                        $("#ddlEmergencyContactCity").append($('<option></option>').attr("value", data.data[i].Id).text(data.data[i].CityName));
+                                    }
+                                }
+                            });
+                        });
+
+                        $(document).on('change', "#ddlCurrentAddressCountry", function (e) {
+                            $("#ddlCurrentAddressState").empty();
+                            $("#ddlCurrentAddressState").append($('<option></option>').attr("value", '').text('Select'));
+                            var countryId = $("#ddlCurrentAddressCountry").val();
+                            $.ajax({
+                                cache: false,
+                                type: 'post',
+                                url: '/HR/GetStates',
+                                data: { CountryId: countryId},
+                                //contentType: "application/json",
+                                success: function (data) {
+                                    for (var i = 0; i < data.data.length; i++) {
+                                        $("#ddlCurrentAddressState").append($('<option></option>').attr("value", data.data[i].Id).text(data.data[i].StateName));
+                                    }
+                                }
+                            });
+                        });
+
+                        $(document).on('change', "#ddlCurrentAddressState", function (e) {
+                            $("#ddlCurrentAddressCity").empty();
+                            $("#ddlCurrentAddressCity").append($('<option></option>').attr("value", '').text('Select'));
+                            var stateId = $("#ddlCurrentAddressState").val();
+                            $.ajax({
+                                cache: false,
+                                type: 'post',
+                                url: '/HR/GetCities',
+                                data: { StateId: stateId},
+                                //contentType: "application/json",
+                                success: function (data) {
+                                    for (var i = 0; i < data.data.length; i++) {
+                                        $("#ddlCurrentAddressCity").append($('<option></option>').attr("value", data.data[i].Id).text(data.data[i].CityName));
+                                    }
+                                }
+                            });
+                        });
+
+                        $(document).on('change', "#ddlPermanentAddressCountry", function (e) {
+                            $("#ddlPermanentAddressState").empty();
+                            $("#ddlPermanentAddressState").append($('<option></option>').attr("value", '').text('Select'));
+                            var countryId = $("#ddlPermanentAddressCountry").val();
+                            $.ajax({
+                                cache: false,
+                                type: 'post',
+                                url: '/HR/GetStates',
+                                data: { CountryId: countryId},
+                                //contentType: "application/json",
+                                success: function (data) {
+                                    for (var i = 0; i < data.data.length; i++) {
+                                        $("#ddlPermanentAddressState").append($('<option></option>').attr("value", data.data[i].Id).text(data.data[i].StateName));
+                                    }
+                                }
+                            });
+                        });
+
+                        $(document).on('change', "#ddlPermanentAddressState", function (e) {
+                            $("#ddlPermanentAddressCity").empty();
+                            $("#ddlPermanentAddressCity").append($('<option></option>').attr("value", '').text('Select'));
+                            var stateId = $("#ddlPermanentAddressState").val();
+                            $.ajax({
+                                cache: false,
+                                type: 'post',
+                                url: '/HR/GetCities',
+                                data: { StateId: stateId},
+                                //contentType: "application/json",
+                                success: function (data) {
+                                    for (var i = 0; i < data.data.length; i++) {
+                                        $("#ddlPermanentAddressCity").append($('<option></option>').attr("value", data.data[i].Id).text(data.data[i].CityName));
+                                    }
+                                }
+                            });
+                        });
                     </script>

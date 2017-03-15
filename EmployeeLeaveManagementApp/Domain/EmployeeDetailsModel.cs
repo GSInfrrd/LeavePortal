@@ -69,6 +69,11 @@ namespace LMS_WebAPP_Domain
         public string BloodGroup { get; set; }
         public string InfrrdEmailId { get; set; }
         public int EmployeeConractType { get; set; }
+
+        public string EmployeeConractTypeName { get; set; }
+        public string EmployeeTypeName { get; set; }
+
+        public String ProfileTypeName { get; set; }
         public DateTime DateOfConfirmation { get; set; }
         public string DateOfBirthAsString { get; set; }
         public DateTime DateOfBirth { get; set; }
@@ -164,7 +169,9 @@ namespace LMS_WebAPP_Domain
         public string Country { get; set; }
         public string State { get; set; }
         public string City { get; set; }
-        public string Address { get; set; }
+        public string Pincode { get; set; }
+        public string AddressLine1 { get; set; }
+        public string AddressLine2 { get; set; }
         public int IsActive { get; set; }
         public Nullable<System.DateTime> CreatedDate { get; set; }
         public Nullable<System.DateTime> ModifiedDate { get; set; }
@@ -179,7 +186,9 @@ namespace LMS_WebAPP_Domain
         public string Country { get; set; }
         public string State { get; set; }
         public string City { get; set; }
-        public string Address { get; set; }
+        public string Pincode { get; set; }
+        public string AddressLine1 { get; set; }
+        public string AddressLine2 { get; set; }
         public int IsActive { get; set; }
         public Nullable<System.DateTime> CreatedDate { get; set; }
         public Nullable<System.DateTime> ModifiedDate { get; set; }
@@ -220,6 +229,11 @@ namespace LMS_WebAPP_Domain
         public string Relationship { get; set; }
     }
 
+    public class BloodGroupDetails
+    {
+        public int Id { get; set; }
+        public string BloodGroup { get; set; }
+    }
     public class CityDetails
     {
         public int Id { get; set; }
