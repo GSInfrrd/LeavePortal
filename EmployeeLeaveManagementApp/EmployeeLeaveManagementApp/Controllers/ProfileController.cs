@@ -20,6 +20,15 @@ namespace EmployeeLeaveManagementApp.Controllers
             try
             {
                 var result =await usrManagement.EditEmployeeDetailsAsync(model);
+                string imageBase64Data = string.Empty;
+                if (!string.IsNullOrEmpty(model.ImagePath))
+                {
+                    byte[] imageByteData = System.IO.File.ReadAllBytes(model.ImagePath);
+                    imageBase64Data = Convert.ToBase64String(imageByteData);
+
+                }
+                string ImagePath = !string.IsNullOrEmpty(imageBase64Data) ? string.Format("data:image/png;base64,{0}", imageBase64Data) : string.Empty;
+                ((UserAccount)Session[Constants.SESSION_OBJ_USER]).Imagepath = ImagePath;
                 Logger.Info("Successfully exiting from ProfileController APP EditEmployeeDetails method");
                 return Json(new { result=result});
             }
