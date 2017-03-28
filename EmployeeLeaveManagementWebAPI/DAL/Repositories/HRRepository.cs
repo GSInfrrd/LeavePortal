@@ -290,7 +290,7 @@ namespace LMS_WebAPI_DAL.Repositories
                         listItem.LastName = item.LastName;
                         listItem.ManagerName = item.ManagerId != null ? ctx.EmployeeDetails.FirstOrDefault(i => i.Id == item.ManagerId).FirstName : string.Empty;
                         listItem.DateOfJoining = Convert.ToDateTime(item.DateOfJoining);
-                        listItem.EmployeeNumber = Convert.ToInt32(item.EmpNumber);
+                        listItem.EmployeeNumber = item.EmpNumber;
                         listItem.RoleName = item.RefRoleId != 0 ? ctx.MasterDataValues.FirstOrDefault(i => i.Id == item.RefRoleId).Value : string.Empty;
                         list.Add(listItem);
                     }
@@ -430,11 +430,14 @@ namespace LMS_WebAPI_DAL.Repositories
 
                     listItem.RefEmployeeId = empDatalist.Id;
                     listItem.EmployeeName = empDatalist.FirstName;
-                    listItem.AppliedLeavesCount = (int)empDatalist.WorkflowHistories.Where(i => i.RefEmployeeId == empDatalist.Id && (i.RefLeaveType != (int)LeaveType.AdvanceLeave || i.RefLeaveType != (int)LeaveType.CompOff)).Select(i => i.NumberOfWorkingDays).Sum();
-                    listItem.LossofPayCount = listItem.AppliedLeavesCount > totalLeaves ? listItem.AppliedLeavesCount - totalLeaves : 0;
+                    listItem.AppliedLeavesCount = (int)empDatalist.EmployeeLeaveTransactions.Where(i => i.RefEmployeeId == empDatalist.Id && (i.RefLeaveType != (int)LeaveType.AdvanceLeave || i.RefLeaveType != (int)LeaveType.CompOff)).Select(i => i.NumberOfWorkingDays).Sum();
+                    listItem.AppliedCasualLeavesCount = (int)empDatalist.EmployeeLeaveTransactions.Where(i => i.RefEmployeeId == empDatalist.Id && (i.RefLeaveType == (int)LeaveType.CasualLeave) && (i.RefStatus == (int)LeaveStatus.Approved)).Select(i => i.NumberOfWorkingDays).Sum();
+                    listItem.AppliedSickLeavesCount = (int)empDatalist.EmployeeLeaveTransactions.Where(i => i.RefEmployeeId == empDatalist.Id && (i.RefLeaveType == (int)LeaveType.SickLeave)).Select(i => i.NumberOfWorkingDays).Sum();
+                    //listItem.LossofPayCount = listItem.AppliedLeavesCount > totalLeaves ? listItem.AppliedLeavesCount - totalLeaves : 0;
+                    listItem.LossofPayCount = (int)empDatalist.EmployeeLeaveTransactions.Where(i => i.RefEmployeeId == empDatalist.Id && (i.RefLeaveType == (int)LeaveType.LOP) && (i.RefStatus == (int)LeaveStatus.Approved)).Select(i => i.NumberOfWorkingDays).Sum();
                     listItem.WorkFromHomeCount = empDatalist.WorkFromHomes.Where(i => i.RefEmployeeId == empDatalist.Id).ToList().Count;
-                    listItem.CompOffCount = (int)empDatalist.WorkflowHistories.Where(i => i.RefEmployeeId == empDatalist.Id && i.RefLeaveType == (int)LeaveType.CompOff).Select(i => i.NumberOfWorkingDays).Sum();
-                    listItem.AdvancedLeavesCount = (int)empDatalist.WorkflowHistories.Where(i => i.RefEmployeeId == empDatalist.Id && i.RefLeaveType == (int)LeaveType.AdvanceLeave).Select(i => i.NumberOfWorkingDays).Sum();
+                    listItem.CompOffCount = (int)empDatalist.EmployeeLeaveTransactions.Where(i => i.RefEmployeeId == empDatalist.Id && i.RefLeaveType == (int)LeaveType.CompOff && (i.RefStatus == (int)LeaveStatus.Approved)).Select(i => i.NumberOfWorkingDays).Sum();
+                    listItem.AdvancedLeavesCount = (int)empDatalist.EmployeeLeaveTransactions.Where(i => i.RefEmployeeId == empDatalist.Id && i.RefLeaveType == (int)LeaveType.AdvanceLeave && (i.RefStatus == (int)LeaveStatus.Approved)).Select(i => i.NumberOfWorkingDays).Sum();
 
 
                 }

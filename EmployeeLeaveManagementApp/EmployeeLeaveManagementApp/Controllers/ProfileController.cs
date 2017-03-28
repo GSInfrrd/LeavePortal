@@ -28,7 +28,10 @@ namespace EmployeeLeaveManagementApp.Controllers
 
                 }
                 string ImagePath = !string.IsNullOrEmpty(imageBase64Data) ? string.Format("data:image/png;base64,{0}", imageBase64Data) : string.Empty;
-                ((UserAccount)Session[Constants.SESSION_OBJ_USER]).Imagepath = ImagePath;
+                if (!string.IsNullOrEmpty(ImagePath))
+                {
+                    ((UserAccount)Session[Constants.SESSION_OBJ_USER]).Imagepath = ImagePath;
+                }
                 Logger.Info("Successfully exiting from ProfileController APP EditEmployeeDetails method");
                 return Json(new { result=result});
             }

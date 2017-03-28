@@ -94,7 +94,9 @@ namespace LMS_WebAPP_Utils
         [Description("Interns/Fresher")]
         InternOrFresher = 23,
         [Description("SuperAdmin")]
-        SuperAdmin = 24
+        SuperAdmin = 24,
+        [Description("Custom Role")]
+        CustomRole = 25
     }
 
     public enum HierarchyLevel

@@ -189,7 +189,7 @@
                         </a>
                     </li>
                     }
-                    @if ((profileId != (int)ProfileType.CEO) && (profileId != (int)ProfileType.SuperAdmin))
+                    @if (@*(profileId != (int)ProfileType.CEO) &&*@ (profileId != (int)ProfileType.SuperAdmin))
                     {
                         <li class="treeview">
                             <a href="#">
@@ -313,12 +313,12 @@
 
                                     </a>
                                 </li>
-                                <li>
+                                @*<li>
                                     <a id="broadcast" href="@Url.Action("Broadcast", "HR")">
                                         <i class="fa fa-wifi"></i> <span>Broadcast</span>
 
                                     </a>
-                                </li>
+                                </li>*@
                             </ul>
                         </li>
                     }

@@ -38,7 +38,7 @@ namespace EmployeeLeaveManagementApp.Controllers
                 return View("Error");
             }
         }
-
+        //[HttpPost]
         public async Task<JsonResult> AddWorkFromHomes(DateTime date, int Reason,string textReason="")
         {
             Logger.Info("Entering in WorkFromHomeController APP AddWorkFromHomes method");

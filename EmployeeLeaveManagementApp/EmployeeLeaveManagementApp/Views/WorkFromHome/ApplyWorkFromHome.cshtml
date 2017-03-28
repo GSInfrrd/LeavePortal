@@ -173,10 +173,15 @@
         var dd = date.getDate();
         var yyyy = date.getFullYear();
         mm = (mm < 10) ? '0' + mm : mm;
-        return dd + "-" + mm + "-" + yyyy;
+        return dd + "/" + mm + "/" + yyyy;
     }
+    //Date picker
+    $('#datepicker').datepicker({
+        autoclose: true,
+        format: 'dd/mm/yyyy'            });
     var today = (formatDate(new Date()));
-    $('#datepicker').val(today);
+    $('#datepicker').datepicker('setDate', today);
+    //$('#datepicker').val(today);
     var loop = [];
     
     for (i = 0; i < dateList.length; i++) {
@@ -223,13 +228,19 @@
             $("#divSelectReasonError").show();
             return false;
         }
+        else
+        {
+            $("#divSelectReasonError").hide();
+        }
 
         if ($("#SelectReason :selected").text()=="Others" && $("#txtOtherReason").val() == "") {
             $("#divOtherReasonError").show();
             return false;
         }
-
-        var selectedDate= $('#datepicker').val();
+        debugger
+        //var selectedDate= $('#datepicker').val().toLocaleDateString();
+        var WFHselectedDate =  $('#datepicker').datepicker('getDate')
+        var selectedDate=WFHselectedDate.toLocaleDateString();
         $('#btnAddWorkFromHome').attr("disabled", true);
         if ($.inArray(selectedDate, loop) != -1 ||responseCode==dateExists)
         {
@@ -239,19 +250,21 @@
         }
         if (formValidate() == true) {
             $('#Loading').show();
-                $.ajax({
+            $.ajax({
                     cache: false,
-                    type: 'post',
+                    //type: 'post',
                     url: '/WorkFromHome/AddWorkFromHomes',
-                    data: { date: selectedDate, reason: $('#SelectReason').val(),textReason:$("#txtOtherReason").val() },
+                    data: { date: selectedDate, Reason: $('#SelectReason').val(),textReason:$("#txtOtherReason").val() },
                     dataType: "json",
                     success: function (data) {
+                        debugger;
                         $('#exampleModal').modal('hide');
                         $('#btnAddWorkFromHome').attr("disabled", false);
                         loop.push(selectedDate);
                         $("#txtOtherReason").val("");
                         $('#SelectReason').val("").trigger("change");
                         $("#divOtherReason").hide();
+                        $("#divSelectReasonError").hide();
                         updateDatatable(data.wfhList, true);
                         showMessage("New WorkFromHome added successfully", "1", true);
                         $('#Loading').hide();
@@ -269,6 +282,7 @@
         $("#txtOtherReason").val("");
         $('#SelectReason').val("").trigger("change");
         $("#divOtherReason").hide();
+        $("#divSelectReasonError").hide();
     });
 
        //Form validate

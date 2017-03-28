@@ -223,7 +223,8 @@
                                 <li><i class="fa fa-circle-o text-green"></i> Comp Off : <text id="compOffText">0</text></li>
                                 <li><i class="fa fa-circle-o text-yellow"></i> Advanced Leaves :<text id="advancedLeavesText">0</text></li>
                                 <li><i class="fa fa-circle-o text-aqua"></i> Work from Home :<text id="wfhText">0</text></li>
-                                <li><i class="fa fa-circle-o text-light-blue"></i> Applied Leaves :<text id="appliedLeavesText">0</text></li>
+                                <li><i class="fa fa-circle-o text-light-blue"></i> Casual Leaves :<text id="CasualLeavesText">0</text></li>
+                                <li><i class="fa fa-circle-o text-lime"></i> Sick Leaves :<text id="SickLeavesText">0</text></li>
                             </ul>
                         </div>
                         <!-- /.col -->
@@ -358,7 +359,9 @@
                             $("#lopText").html(data.result.LossofPayCount);
                             $("#wfhText").html(data.result.WorkFromHomeCount);
                             $("#advancedLeavesText").html(data.result.AdvancedLeavesCount);
-                            $("#appliedLeavesText").html(data.result.AppliedLeavesCount);
+                            //$("#appliedLeavesText").html(data.result.AppliedLeavesCount);
+                            $("#CasualLeavesText").html(data.result.AppliedCasualLeavesCount);
+                            $("#SickLeavesText").html(data.result.AppliedSickLeavesCount);
                             $("#compOffText").html(data.result.CompOffCount);
                             if (data.result.LossofPayCount == 0 && data.result.WorkFromHomeCount == 0 && data.result.AdvancedLeavesCount == 0 && data.result.AppliedLeavesCount == 0 && data.result.CompOffCount == 0) {
                                 var pieChartContent = document.getElementById('pieChartContent');
@@ -435,10 +438,16 @@
                                       label: "Work From Home"
                                   },
                                   {
-                                      value: data.result.AppliedLeavesCount,
+                                      value: data.result.AppliedCasualLeavesCount,
                                       color: "#3c8dbc",
                                       highlight: "#3c8dbc",
-                                      label: "Applied Leaves"
+                                      label: "Casual Leaves"
+                                  },
+                                  {
+                                      value: data.result.AppliedSickLeavesCount,
+                                      color: "#00FF00",
+                                      highlight: "#00FF00",
+                                      label: "Sick Leaves"
                                   }
                                 ];
                                 var pieOptions = {

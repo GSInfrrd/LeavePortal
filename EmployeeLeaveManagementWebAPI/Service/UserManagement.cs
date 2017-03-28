@@ -146,7 +146,7 @@ namespace LMS_WebAPI_ServiceHelpers
                 profileDetails.FacebookLink = userData.FacebookLink;
                 profileDetails.TwitterLink = userData.TwitterLink;
                 profileDetails.GooglePlusLink = userData.GooglePlusLink;
-                profileDetails.EmployeeNumber = Convert.ToInt32(userData.EmpNumber);
+                profileDetails.EmployeeNumber = userData.EmpNumber;
                 profileDetails.InfrrdEmailId = userData.UserAccounts.FirstOrDefault(i => i.RefEmployeeId == EmpId).UserName;
                 profileDetails.DateOfJoining = Convert.ToDateTime(userData.DateOfJoining).Date;
                 profileDetails.RoleName = userData.RoleName;

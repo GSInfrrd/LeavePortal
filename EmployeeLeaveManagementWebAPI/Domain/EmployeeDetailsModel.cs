@@ -81,7 +81,7 @@ namespace LMS_WebAPI_Domain
         public string Bio { get; set; }
         public int RefRoleId { get; set; }
         public List<EmployeeSkillDetails> Skills { get; set; }
-        public int EmployeeNumber { get; set; }
+        public string EmployeeNumber { get; set; }
         public int RefHierarchyLevel { get; set; }
         public string FacebookLink { get; set; }
         public string TwitterLink { get; set; }

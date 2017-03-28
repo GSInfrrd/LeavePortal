@@ -22,6 +22,12 @@ namespace LMS_WebAPI_Domain
 
         [DisplayAttribute(Name = "Applied Leaves")]
         public Nullable<int> AppliedLeavesCount { get; set; }
+
+        [DisplayAttribute(Name = "Casual Leaves")]
+        public Nullable<int> AppliedCasualLeavesCount { get; set; }
+
+        [DisplayAttribute(Name = "Sick Leaves")]
+        public Nullable<int> AppliedSickLeavesCount { get; set; }
         [DisplayAttribute(Name = "Work from Home")]
         public Nullable<int> WorkFromHomeCount { get; set; }
         [DisplayAttribute(Name = "Loss of Pay")]

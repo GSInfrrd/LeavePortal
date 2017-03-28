@@ -581,8 +581,10 @@ namespace EmployeeLeaveManagementApp.Controllers
                     var leaveData = Array.ConvertAll(leaveType.TrimEnd(':').Split(':'), int.Parse);
                     var detailsList = new List<DetailedLeaveReport>();
                     model = await hrOperations.GenerateReportsAsync(employeeId, fromDate, toDate);
-                    detailsList = model[0].DetailedLeaveReports;
-
+                    if(model != null)
+                    { 
+                    detailsList =  model[0].DetailedLeaveReports;
+                    }
                     string filterValue = String.Empty;
                     var filtersList = new List<ExcelDownloadFilterList>();
                     if (leaveData.Count() >= 1 && leaveData[0] != 0)

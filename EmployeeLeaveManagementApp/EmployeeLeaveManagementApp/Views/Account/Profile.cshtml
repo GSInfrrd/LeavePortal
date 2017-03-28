@@ -82,7 +82,16 @@
                         }
                         <hr>
                         <strong><i class="fa fa-map-marker margin-r-5"></i> Location</strong>
-                        <p class="text-muted">@Model.City,@Model.Country</p>
+                        @if (@Model.City != "") {
+                        <p class="text-muted"> @Model.City, @Model.Country
+                        </p>
+                        }
+                        else
+                        {
+                            <p class="text-muted">
+                                 @Model.Country
+                            </p>
+                        }
                         <hr>
                         <strong><i class="fa fa-flask margin-r-5"></i> Skills</strong>
                         <p>
@@ -318,7 +327,7 @@
                                 <div class="form-group">
                                     <label for="inputEmail" class="col-sm-2 control-label">Telephone</label>
                                     <div class="col-sm-10">
-                                        <input type="tel" class="form-control" id="txtEditTelephone" value="@Model.Telephone" placeholder="Telephone">
+                                        <input type="tel" class="form-control numbersOnly" id="txtEditTelephone" value="@Model.Telephone" placeholder="Telephone">
                                     </div>
                                 </div>
                                 <div class="form-group">
@@ -440,7 +449,7 @@
                                 <div class="form-group">
                                     <label for="inputName" class="col-sm-2 control-label">Telephone</label>
                                     <div class="col-sm-10">
-                                        <input type="text" class="form-control" id="txtEmergencyContactTelephone" value="@Model.EmployeeEmergencyContactDetail[0].Telephone">
+                                        <input type="text" class="form-control numbersOnly" id="txtEmergencyContactTelephone" value="@Model.EmployeeEmergencyContactDetail[0].Telephone">
                                     </div>
                                 </div>
                                 <div class="form-group">
@@ -493,11 +502,15 @@
                                 <h3>Current Address</h3>
                                 <div class="form-group">
                                     <input type="hidden" class="form-control" id="txtEmpID1" placeholder="First Name" value="@Model.Id">
-                                    <label for="inputName" class="col-sm-2 control-label">Country</label>
+                                    <label for="inputName" class="col-sm-2 control-label">Country
+                                        <span style="color:red">*</span></label>
                                     <div class="col-sm-10">
                                         <select id="ddlCurrentAddressCountry" class="form-control graduation" style="width: 100%;">
                                             <option value="">Select</option>
                                         </select>
+                                            <label id="divCurrentCountryError" style="margin-bottom: 0px;color:red; display:none" class="control-label" for="CurrentCountry">
+                                                <i class="fa fa-times-circle-o"></i> Please select Country
+                                            </label>
                                     </div>
                                 </div>
                                 <div class="form-group">
@@ -553,6 +566,9 @@
                                         <select id="ddlPermanentAddressCountry" class="form-control graduation" style="width: 100%;">
                                             <option value="">Select</option>
                                         </select>
+                                        <label id="divPermanentCountryError" style="margin-bottom: 0px;color:red; display:none" class="control-label" for="PermanentCountry">
+                                            <i class="fa fa-times-circle-o"></i> Please select Country
+                                        </label>
                                     </div>
                                 </div>
                                 <div class="form-group">
@@ -928,9 +944,7 @@
                         var imageName = "";
                         $(document).ready(function () {
                             $(".graduation").select2();
-                            GetCountries();
                             GetRelationships();
-
                             $('#tabProfileView').parent().addClass('active');
                             $(function () {
                                 $(".skills").select2();
@@ -954,6 +968,7 @@
                             })
                         });
                         $("#editEmployeeDetails").on('click', function (e) {
+                            GetCountries();
                             $("#tabPersonalDetails").parent().addClass('active');
                             $("#tabPersonalDetails").show();
                             $("#tabCompanyDetails").show();
@@ -1200,7 +1215,11 @@
                         });
 
                         $("#btnSubmitPersonalDetails").click(function (e) {
-                            var ImagePath = tempFolderNamePath;
+                            var ImagePath;
+                            if( typeof tempFolderNamePath !== 'undefined')
+                            {
+                                ImagePath = tempFolderNamePath;
+                            }
                             var model=
                                 {
                                     ImagePath: ImagePath,
@@ -1261,6 +1280,12 @@
                         });
 
                         $("#btnSubmitCurrentAddressDetails").click(function (e) {
+
+                            if ($("#ddlCurrentAddressCountry").val() == 0) {
+                                $('#divCurrentCountryError').show();
+                                $("#ddlCurrentAddressCountry").focus();
+                                return false;
+                            }
                             var model=
                                 {
                                     RefEmployeeId: $("#txtEmpID1").val(),
@@ -1287,7 +1312,18 @@
                             });
                         });
 
+                        $('.numbersOnly').keyup(function () {
+                            if (this.value != this.value.replace(/[^0-9\.]/g, '')) {
+                                this.value = this.value.replace(/[^0-9\.]/g, '');
+                            }
+                        });
+
                         $("#btnSubmitPermanentAddressDetails").click(function (e) {
+                            if ($("#ddlPermanentAddressCountry").val() == 0) {
+                                $('#divPermanentCountryError').show();
+                                $("#ddlPermanentAddressCountry").focus();
+                                return false;
+                            }
                             var model=
                                 {
                                     RefEmployeeId: $("#txtEmpID2").val(),
@@ -1551,23 +1587,27 @@
                         }
 
                         function GetStatesForEmergencyContactDetails() {
+                            debugger
                             $("#ddlEmergencyContactState").empty();
                             $("#ddlEmergencyContactState").append($('<option></option>').attr("value", '').text('Select'));
                             var countryId = $("#ddlEmergencyContactCountry").val();
-                            $.ajax({
-                                cache: false,
-                                type: 'post',
-                                url: '/HR/GetStates',
-                                data: { CountryId: countryId},
-                                //contentType: "application/json",
-                                success: function (data) {
-                                    for (var i = 0; i < data.data.length; i++) {
-                                        $("#ddlEmergencyContactState").append($('<option></option>').attr("value", data.data[i].Id).text(data.data[i].StateName));
+                            if(countryId !=0)
+                            {
+                                $.ajax({
+                                    cache: false,
+                                    type: 'post',
+                                    url: '/HR/GetStates',
+                                    data: { CountryId: countryId},
+                                    //contentType: "application/json",
+                                    success: function (data) {
+                                        for (var i = 0; i < data.data.length; i++) {
+                                            $("#ddlEmergencyContactState").append($('<option></option>').attr("value", data.data[i].Id).text(data.data[i].StateName));
+                                        }
+                                        $("#ddlEmergencyContactState").val('@Model.EmployeeEmergencyContactDetail.FirstOrDefault().State');
+                                        GetCitiesForEmergencyContactDetails();
                                     }
-                                    $("#ddlEmergencyContactState").val('@Model.EmployeeEmergencyContactDetail.FirstOrDefault().State');
-                                    GetCitiesForEmergencyContactDetails();
-                                }
-                            });
+                                });
+                            }
                         }
 
                         function GetStatesForCurrentAddressDetails() {
@@ -1613,57 +1653,66 @@
                             $("#ddlEmergencyContactCity").empty();
                             $("#ddlEmergencyContactCity").append($('<option></option>').attr("value", '').text('Select'));
                             var stateId = $("#ddlEmergencyContactState").val();
-                            $.ajax({
-                                cache: false,
-                                type: 'post',
-                                url: '/HR/GetCities',
-                                data: { StateId: stateId},
-                                //contentType: "application/json",
-                                success: function (data) {
-                                    for (var i = 0; i < data.data.length; i++) {
-                                        $("#ddlEmergencyContactCity").append($('<option></option>').attr("value", data.data[i].Id).text(data.data[i].CityName));
+                            if(stateId !=0)
+                            {
+                                $.ajax({
+                                    cache: false,
+                                    type: 'post',
+                                    url: '/HR/GetCities',
+                                    data: { StateId: stateId},
+                                    //contentType: "application/json",
+                                    success: function (data) {
+                                        for (var i = 0; i < data.data.length; i++) {
+                                            $("#ddlEmergencyContactCity").append($('<option></option>').attr("value", data.data[i].Id).text(data.data[i].CityName));
+                                        }
+                                        $("#ddlEmergencyContactCity").val('@Model.EmployeeEmergencyContactDetail.FirstOrDefault().City');
                                     }
-                                    $("#ddlEmergencyContactCity").val('@Model.EmployeeEmergencyContactDetail.FirstOrDefault().City');
-                                }
-                            });
+                                });
+                            }
                         }
 
                         function GetCitiesForCurrentAddressDetails() {
                             $("#ddlCurrentAddressCity").empty();
                             $("#ddlCurrentAddressCity").append($('<option></option>').attr("value", '').text('Select'));
                             var stateId = $("#ddlCurrentAddressState").val();
-                            $.ajax({
-                                cache: false,
-                                type: 'post',
-                                url: '/HR/GetCities',
-                                data: { StateId: stateId},
-                                //contentType: "application/json",
-                                success: function (data) {
-                                    for (var i = 0; i < data.data.length; i++) {
-                                        $("#ddlCurrentAddressCity").append($('<option></option>').attr("value", data.data[i].Id).text(data.data[i].CityName));
+                            if(stateId !=0)
+                            {
+                                $.ajax({
+                                    cache: false,
+                                    type: 'post',
+                                    url: '/HR/GetCities',
+                                    data: { StateId: stateId},
+                                    //contentType: "application/json",
+                                    success: function (data) {
+                                        for (var i = 0; i < data.data.length; i++) {
+                                            $("#ddlCurrentAddressCity").append($('<option></option>').attr("value", data.data[i].Id).text(data.data[i].CityName));
+                                        }
+                                        $("#ddlCurrentAddressCity").val('@Model.EmployeeCurrentAddressDetail.FirstOrDefault().City');
                                     }
-                                    $("#ddlCurrentAddressCity").val('@Model.EmployeeCurrentAddressDetail.FirstOrDefault().City');
-                                }
-                            });
+                                });
+                            }
                         }
 
                         function GetCitiesForPermanentAddressDetails() {
                             $("#ddlPermanentAddressCity").empty();
                             $("#ddlPermanentAddressCity").append($('<option></option>').attr("value", '').text('Select'));
                             var stateId = $("#ddlPermanentAddressState").val();
-                            $.ajax({
-                                cache: false,
-                                type: 'post',
-                                url: '/HR/GetCities',
-                                data: { StateId: stateId},
-                                //contentType: "application/json",
-                                success: function (data) {
-                                    for (var i = 0; i < data.data.length; i++) {
-                                        $("#ddlPermanentAddressCity").append($('<option></option>').attr("value", data.data[i].Id).text(data.data[i].CityName));
+                            if(stateId !=0)
+                            {
+                                $.ajax({
+                                    cache: false,
+                                    type: 'post',
+                                    url: '/HR/GetCities',
+                                    data: { StateId: stateId},
+                                    //contentType: "application/json",
+                                    success: function (data) {
+                                        for (var i = 0; i < data.data.length; i++) {
+                                            $("#ddlPermanentAddressCity").append($('<option></option>').attr("value", data.data[i].Id).text(data.data[i].CityName));
+                                        }
+                                        $("#ddlPermanentAddressCity").val('@Model.EmployeePermanentAddressDetail.FirstOrDefault().City');
                                     }
-                                    $("#ddlPermanentAddressCity").val('@Model.EmployeePermanentAddressDetail.FirstOrDefault().City');
-                                }
-                            });
+                                });
+                            }
                         }
 
 
@@ -1774,5 +1823,23 @@
                                     }
                                 }
                             });
+                        });
+
+                        $('#ddlCurrentAddressCountry').on('change', function () {
+                            if ($("#ddlCurrentAddressCountry").val() != 0) {
+                                $("#divCurrentCountryError").hide();
+                            }
+                            else {
+                                $("#divCurrentCountryError").show();
+                            }
+                        });
+
+                        $('#ddlPermanentAddressCountry').on('change', function () {
+                            if ($("#ddlPermanentAddressCountry").val() != 0) {
+                                $("#divPermanentCountryError").hide();
+                            }
+                            else {
+                                $("#divPermanentCountryError").show();
+                            }
                         });
                     </script>

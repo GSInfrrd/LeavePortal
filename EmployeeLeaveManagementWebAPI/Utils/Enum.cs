@@ -90,7 +90,9 @@ namespace LMS_WebAPI_Utils
         [Description("Intern/Fresher")]
         InternOrFresher = 23,
         [Description("SuperAdmin")]
-        SuperAdmin = 24
+        SuperAdmin = 24,
+        [Description("Custom Role")]
+        CustomRole = 25
     }
 
 

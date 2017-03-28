@@ -15,7 +15,7 @@ namespace EmployeeLeaveManagementApp.Models
         public int RoleId { get; set; }
         public List<EmployeeSkillsModel> Skills { get; set; }
 
-        public int EmployeeNumber { get; set; }
+        public string EmployeeNumber { get; set; }
         public string City { get; set; }
         public string Country { get; set; }
         public int RefHierarchyLevel { get; set; }

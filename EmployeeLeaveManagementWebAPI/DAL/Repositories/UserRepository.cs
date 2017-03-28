@@ -272,7 +272,8 @@ namespace LMS_WebAPI_DAL.Repositories
                     empData = ctx.EmployeeDetails.FirstOrDefault(i => i.Id == model.Id);
                     empData.FirstName = model.FirstName;
                     empData.LastName = model.LastName;
-                    empData.ImagePath = imageBase64Data;
+                    if(!string.IsNullOrEmpty(imageBase64Data))
+                    { empData.ImagePath = imageBase64Data; }
                     empData.DateOfBirth = model.DateOfBirth;
                     empData.PhoneNumber = model.Telephone;
                     empData.ModifiedDate = DateTime.Now;
