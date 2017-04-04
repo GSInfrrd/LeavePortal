@@ -337,6 +337,8 @@
     <Content Include="App_Data\EmailTemplates\RewardLeave.cshtml" />
     <Content Include="App_Data\EmailTemplates\WorkFromHome.cshtml" />
     <Content Include="App_Data\EmailTemplates\CancelLeave.cshtml" />
+    <Content Include="App_Data\EmailTemplates\AddNewEmployee.cshtml" />
+    <Content Include="App_Data\EmailTemplates\ChangePassword.cshtml" />
     <None Include="Properties\PublishProfiles\API.pubxml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />

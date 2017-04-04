@@ -30,5 +30,7 @@ namespace LMS_WebAPI_DAL.Repositories.Interfaces
 
         bool EditEmployeeSkills(List<EmployeeSkillDetails> skills, int employeeId);
         string getUserProfileImage(int employeeId);
+        bool CheckEmployeePassword(int employeeId, string currentPassword);
+        bool UpdatePassword(int employeeId, string newPassword);
     }
 }

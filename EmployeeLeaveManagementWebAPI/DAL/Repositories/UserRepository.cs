@@ -6,6 +6,8 @@ using System;
 using System.Collections.Generic;
 using System.Data.SqlClient;
 using LMS_WebAPI_Domain;
+using System.Security.Cryptography;
+using System.Text;
 
 namespace LMS_WebAPI_DAL.Repositories
 {
@@ -16,12 +18,13 @@ namespace LMS_WebAPI_DAL.Repositories
             Logger.Info("Entering in UserRepository API GetUser method");
             try
             {
+                string encryptedPassword = CommonMethods.encryption(password);
                 var userData = new UserAccount();
                 using (var ctx = new LeaveManagementSystemEntities1())
                 {
-                    if (!string.IsNullOrEmpty(password))
+                    if (!string.IsNullOrEmpty(encryptedPassword))
                     {
-                        userData = ctx.UserAccounts.Include("EmployeeDetail").FirstOrDefault(x => x.UserName.ToLower().Trim().Equals(emailId.ToLower().Trim()) && x.Password.ToLower().Trim().Equals(password.ToLower().Trim()));
+                        userData = ctx.UserAccounts.Include("EmployeeDetail").FirstOrDefault(x => x.UserName.ToLower().Trim().Equals(emailId.ToLower().Trim()) && x.Password.ToLower().Trim().Equals(encryptedPassword.ToLower().Trim()));
                     }
                     else
                     {
@@ -37,7 +40,7 @@ namespace LMS_WebAPI_DAL.Repositories
                 throw;
             }
         }
-
+        
         public EmployeeDetailsModel GetUserDetails(int userEmpId)
         {
             Logger.Info("Entering in UserRepository API GetUserDetails method");
@@ -401,23 +404,35 @@ namespace LMS_WebAPI_DAL.Repositories
                         var employeeEdDetails = ctx.EmployeeEducationDetails.FirstOrDefault(i => i.Id == item.Id);
                         if (employeeEdDetails != null)
                         {
-
-                            employeeEdDetails.Degree = item.Degree;
-                            employeeEdDetails.Institution = item.Institution;
-                            employeeEdDetails.FromDate = item.FromDate;
-                            employeeEdDetails.ToDate = item.ToDate;
-                            ctx.SaveChanges();
+                            if (item.Degree != null && item.Institution != null)
+                            {
+                                if (item.Degree.Trim() != "" && item.Institution.Trim() != "")
+                                {
+                                    employeeEdDetails.Degree = item.Degree;
+                                    employeeEdDetails.Institution = item.Institution;
+                                    employeeEdDetails.FromDate = item.FromDate;
+                                    employeeEdDetails.ToDate = item.ToDate;
+                                    ctx.SaveChanges();
+                                }
+                            }
+                            
                         }
                         else
                         {
-                            var edDetails = new EmployeeEducationDetail();
-                            edDetails.Degree = item.Degree;
-                            edDetails.Institution = item.Institution;
-                            edDetails.FromDate = item.FromDate;
-                            edDetails.ToDate = item.ToDate;
-                            edDetails.RefEmployeeId = employeeId;
-                            ctx.EmployeeEducationDetails.Add(edDetails);
-                            ctx.SaveChanges();
+                            if (item.Degree != null && item.Institution != null)
+                            {
+                                if (item.Degree.Trim() != "" && item.Institution.Trim() != "")
+                                {
+                                    var edDetails = new EmployeeEducationDetail();
+                                    edDetails.Degree = item.Degree;
+                                    edDetails.Institution = item.Institution;
+                                    edDetails.FromDate = item.FromDate;
+                                    edDetails.ToDate = item.ToDate;
+                                    edDetails.RefEmployeeId = employeeId;
+                                    ctx.EmployeeEducationDetails.Add(edDetails);
+                                    ctx.SaveChanges();
+                                }
+                            }
                         }
 
                     }
@@ -445,25 +460,37 @@ namespace LMS_WebAPI_DAL.Repositories
 
                         if (expDetails != null)
                         {
-                            expDetails.CompanyName = item.Company;
-                            expDetails.Role = item.Role;
-                            expDetails.FromDate = item.FromDate;
-                            expDetails.ToDate = item.ToDate;
-                            expDetails.CompanyLogo = item.CompanyLogo;
-                            ctx.SaveChanges();
+                            if (item.Company != null && item.Role != null)
+                            {
+                                if (item.Company.Trim() != "" && item.Role.Trim() != "")
+                                {
+                                    expDetails.CompanyName = item.Company;
+                                    expDetails.Role = item.Role;
+                                    expDetails.FromDate = item.FromDate;
+                                    expDetails.ToDate = item.ToDate;
+                                    expDetails.CompanyLogo = item.CompanyLogo;
+                                    ctx.SaveChanges();
+                                }
+                            }
 
                         }
                         else
                         {
-                            var employeeExpdetails = new EmployeeExperienceDetail();
-                            employeeExpdetails.CompanyName = item.Company;
-                            employeeExpdetails.Role = item.Role;
-                            employeeExpdetails.FromDate = item.FromDate;
-                            employeeExpdetails.ToDate = item.ToDate;
-                            employeeExpdetails.RefEmployeeId = employeeId;
-                            employeeExpdetails.CompanyLogo = item.CompanyLogo;
-                            ctx.EmployeeExperienceDetails.Add(employeeExpdetails);
-                            ctx.SaveChanges();
+                            if (item.Company != null && item.Role != null)
+                            {
+                                if (item.Company.Trim() != "" && item.Role.Trim() != "")
+                                {
+                                    var employeeExpdetails = new EmployeeExperienceDetail();
+                                    employeeExpdetails.CompanyName = item.Company;
+                                    employeeExpdetails.Role = item.Role;
+                                    employeeExpdetails.FromDate = item.FromDate;
+                                    employeeExpdetails.ToDate = item.ToDate;
+                                    employeeExpdetails.RefEmployeeId = employeeId;
+                                    employeeExpdetails.CompanyLogo = item.CompanyLogo;
+                                    ctx.EmployeeExperienceDetails.Add(employeeExpdetails);
+                                    ctx.SaveChanges();
+                                }
+                            }
                         }
 
                     }
@@ -550,6 +577,59 @@ namespace LMS_WebAPI_DAL.Repositories
             {
                 Logger.Error("Exception occured at UserRepository GetTeamMembers method ");
                 throw ex;
+            }
+        }
+
+        public bool CheckEmployeePassword(int employeeId, string currentPassword)
+        {
+            Logger.Info("Entering in UserRepository API CheckEmployeePassword method");
+            try
+            {
+                string encryptedPassword = CommonMethods.encryption(currentPassword);
+                bool result = false;
+                using (var ctx = new LeaveManagementSystemEntities1())
+                {
+                    string userName = ctx.UserAccounts.Where(x => x.RefEmployeeId == employeeId).FirstOrDefault().UserName;
+                    var Employee = ctx.UserAccounts.Where(x => x.UserName == userName && x.Password == encryptedPassword).FirstOrDefault();
+                    if (Employee != null)
+                        result = true;
+
+                }
+                Logger.Info("Successfully exiting from UserRepository API CheckEmployeePassword method");
+                return result;
+            }
+            catch
+            {
+                Logger.Error("Exception occured at UserRepository API CheckEmployeePassword method ");
+                throw;
+            }
+        }
+
+        public bool UpdatePassword(int employeeId, string newPassword)
+        {
+            Logger.Info("Entering in UserRepository API UpdatePassword method");
+            try
+            {
+                string encryptedPassword = CommonMethods.encryption(newPassword);
+                bool result = false;
+                using (var ctx = new LeaveManagementSystemEntities1())
+                {
+                    string userName = ctx.UserAccounts.Where(x => x.RefEmployeeId == employeeId).FirstOrDefault().UserName;
+                    var Employee = ctx.UserAccounts.Where(x => x.UserName == userName).FirstOrDefault();
+                    if (Employee != null)
+                    {
+                        Employee.Password = encryptedPassword;
+                        ctx.SaveChanges();
+                        result = true;
+                    }
+                }
+                Logger.Info("Successfully exiting from UserRepository API UpdatePassword method");
+                return result;
+            }
+            catch
+            {
+                Logger.Error("Exception occured at UserRepository API UpdatePassword method ");
+                throw;
             }
         }
 

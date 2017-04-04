@@ -3,10 +3,13 @@ using LMS_WebAPI_ServiceHelpers;
 using LMS_WebAPI_Utils;
 using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.IO;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
+using System.Threading;
+using System.Web.Hosting;
 using System.Web.Http;
 
 namespace EmployeeLeaveManagementWebAPI.Controllers
@@ -23,7 +26,15 @@ namespace EmployeeLeaveManagementWebAPI.Controllers
             try
             {
                 Logger.Info("Entering in HRController API Post method");
-                var result = hrOperations.SubmitEmployeeDetails(model);
+                string OTP = GenerateOTP();
+                int EmployeeId;
+                int HrId = Convert.ToInt32(model.EmployeeEmergencyContactDetail[0].RefCreatedBy);
+                var result = hrOperations.SubmitEmployeeDetails(model,OTP,out EmployeeId);
+
+                // Send Mail 
+                Thread MailThread = new Thread(() => SendMailForAddNewEmployee(OTP, EmployeeId,HrId));
+                MailThread.Start();
+
                 Logger.Info("Successfully exiting from HRController API Post method");
                 return result;
             }
@@ -32,6 +43,47 @@ namespace EmployeeLeaveManagementWebAPI.Controllers
                 Logger.Error("Error at HRController API Post method.", ex);
                 return false;
             }
+        }
+
+        private void SendMailForAddNewEmployee(string OTP, int EmployeeId, int HrId)
+        {
+            ActionsForMail actionName = ActionsForMail.AddNewEmployee;
+            MailManagement MM = new MailManagement();
+            var MailDetails = MM.GetMailTemplateForAddNewEmployee(actionName, EmployeeId, HrId);
+            string TemplatePath = MailDetails.TemplatePath;
+
+            string body;
+            //Read template file from the App_Data folder
+            using (var sr = new StreamReader(HostingEnvironment.MapPath(TemplatePath)))
+            {
+                body = sr.ReadToEnd();
+            }
+
+            var logoPath = HostingEnvironment.MapPath("~/Content/Images/infrrd-logo-main.png");
+            string appurl = ConfigurationManager.AppSettings["AppURL"];
+
+            string EmployeeName = MailDetails.EmployeeName.Substring(0, MailDetails.EmployeeName.IndexOf(" "));
+            string messageBody = string.Format(body, EmployeeName, MailDetails.ToMailId, OTP, appurl);
+
+            MailUtility.sendmail(MailDetails.ToMailId, MailDetails.CcMailId, actionName.Description(), messageBody, logoPath);
+        }
+
+        public string GenerateOTP()
+        {
+            char[] charArr = "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ".ToCharArray();
+            string strrandom = string.Empty;
+            Random objran = new Random();
+            int noofcharacters = 10;
+            for (int i = 0; i < noofcharacters; i++)
+            {
+                //It will not allow Repetation of Characters
+                int pos = objran.Next(1, charArr.Length);
+                if (!strrandom.Contains(charArr.GetValue(pos).ToString()))
+                    strrandom += charArr.GetValue(pos);
+                else
+                    i--;
+            }
+            return strrandom;
         }
 
         [HttpGet]

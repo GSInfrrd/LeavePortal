@@ -3,8 +3,11 @@
     ViewBag.Title = "ResourceLoad";
     Layout = "~/Views/Shared/_Layout.cshtml";
     var managerId = ((LMS_WebAPP_Domain.UserAccount)Session[Constants.SESSION_OBJ_USER]) != null ? ((LMS_WebAPP_Domain.UserAccount)Session[Constants.SESSION_OBJ_USER]).RefEmployeeId : 0;
-         var imagepath = "/Content/Images/DefaultImage.png";
+    var imagepath = "/Content/Images/DefaultImage.png";
+
+    var messageType_Success = @Convert.ToInt16((LMS_WebAPP_Utils.MessageType.Success));
 }
+@using EmployeeLeaveManagementApp.Content.Resources
 <style>
     .users-list > li {
   width: 15%;
@@ -303,7 +306,7 @@
                                              "<span class=/'users-list-date/'>"+result[i].Role+"</span></li>";
                 }
                 $(".users-list").append(employeeList);
-                showMessage("Resource removed successfully","1",true);
+                showMessage("@MessageResources.Msg_ResourceRemoved", "@messageType_Success", true);
                 GetResourceList();
                 $("#Loading").hide();
             }
@@ -339,7 +342,7 @@
                                              "<span class=/'users-list-date/'>"+result[i].Role+"</span></li>";
                 }
                 $(".users-list").append(employeeList);
-                showMessage("New Resource added successfully","1",true);
+                showMessage("@MessageResources.Msg_ResourceAdded", "@messageType_Success", true);
                 GetResourceList();
                 $("#Loading").hide();
             }
@@ -347,7 +350,7 @@
     });
 
     $(document).on('click',"#btnAddNewResource",function(){
-        
+
         if ($("#ddlEmployeeList").val() == "") {
             $("#divresourceError").show();
             return false;
@@ -365,7 +368,7 @@
         else {
             $("#divresourceError").show();
             return false;
-        }      
+        }
         var employeeId=$("#ddlEmployeeList").val().split("|")[0];
         var isActive=$("#ddlEmployeeList").val().split("|")[1];
         if(isActive=="true")

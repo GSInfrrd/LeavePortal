@@ -4,6 +4,7 @@ using LMS_WebAPI_Utils;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -11,7 +12,7 @@ namespace LMS_WebAPI_DAL.Repositories
 {
     public class HRRepository : IHRRepository
     {
-        public bool SubmitEmployeeDetails(EmployeeDetailsModel model)
+        public bool SubmitEmployeeDetails(EmployeeDetailsModel model,string OTP, out int EmployeeId)
         {
             Logger.Info("Entering in HRRepository API SubmitEmployeeDetails method");
             var result = false;
@@ -78,7 +79,7 @@ namespace LMS_WebAPI_DAL.Repositories
                     ctx.EmployeeDetails.Add(employeeDetails);
                     ctx.SaveChanges();
                     var id = employeeDetails.Id;
-                    
+                    EmployeeId = id;
                     if (model.EmployeeEducationDetails.Count > 0)
                     {
 
@@ -214,11 +215,11 @@ namespace LMS_WebAPI_DAL.Repositories
                         projectDetails.StartDate = DateTime.Now;
                         ctx.EmployeeProjectDetails.Add(projectDetails);
                         ctx.SaveChanges();
-                    }
+                    };
                     var userDetails = new UserAccount
                     {
                         UserName = model.InfrrdEmailId,
-                        Password = "Temp@123",
+                        Password = CommonMethods.encryption(OTP),
                         RefEmployeeId = id,
                         CreatedDate = DateTime.Now
                     };
@@ -272,7 +273,7 @@ namespace LMS_WebAPI_DAL.Repositories
             return result;
 
         }
-
+        
         public List<EmployeeDetailsModel> GetEmployeeList()
         {
             Logger.Info("Entering in HRRepository API GetEmployeeList method");
@@ -1139,5 +1140,6 @@ namespace LMS_WebAPI_DAL.Repositories
                 throw;
             }
         }
+        
     }
 }

@@ -349,5 +349,84 @@ namespace LMS_WebAPI_DAL.Repositories
             }
 
         }
+
+
+        public MailDetailsModel GetMailTemplateForAddNewEmployee(ActionsForMail actionName, int EmployeeId , int HrId)
+        {
+            try
+            {
+                Logger.Info("Entering in MailRepository API GetMailTemplateForAddNewEmployee method");
+                using (var ctx = new LeaveManagementSystemEntities1())
+                {
+                    var MailDetails = ctx.EmailTemplateMappings.Where(m => m.ActionName == actionName.ToString()).FirstOrDefault();
+                    var TemplatePath = MailDetails.EmailTemplateMaster.Template;
+
+                    var HrDetails = ctx.EmployeeDetails.Where(m => m.Id == HrId).FirstOrDefault();
+                    string HrEmailId = ctx.UserAccounts.Where(m => m.RefEmployeeId == HrId).FirstOrDefault().UserName;
+
+                    var EmployeeDetails = ctx.EmployeeDetails.Where(m => m.Id == EmployeeId).FirstOrDefault();
+                    string EmployeeName = EmployeeDetails.FirstName;
+                    string EmployeeLastName = EmployeeDetails.LastName;
+                    if (EmployeeLastName != null)
+                    {
+                        EmployeeName = string.Format(EmployeeName + " " + EmployeeLastName);
+                    }
+                    string EmployeeEmailId = EmployeeDetails.UserAccounts.Where(x => x.RefEmployeeId == EmployeeId).FirstOrDefault().UserName;
+
+                    MailDetailsModel retResult = new MailDetailsModel();
+                    retResult.ToMailId = EmployeeEmailId;
+                    retResult.CcMailId = HrEmailId;
+                    retResult.TemplatePath = TemplatePath;
+                    retResult.EmployeeName = EmployeeName;
+                    retResult.EmployeeId = EmployeeId;
+                    Logger.Info("Successfully exiting from MailRepository API GetMailTemplateForAddNewEmployee method");
+                    return retResult;
+                }
+            }
+            catch
+            {
+                Logger.Info("Exception occured at MailRepository API GetMailTemplateForAddNewEmployee method ");
+                throw;
+            }
+
+        }
+
+
+        public MailDetailsModel GetMailTemplateForChangePassword(ActionsForMail actionName, int EmployeeId)
+        {
+            try
+            {
+                Logger.Info("Entering in MailRepository API GetMailTemplateForChangePassword method");
+                using (var ctx = new LeaveManagementSystemEntities1())
+                {
+                    var MailDetails = ctx.EmailTemplateMappings.Where(m => m.ActionName == actionName.ToString()).FirstOrDefault();
+                    var TemplatePath = MailDetails.EmailTemplateMaster.Template;
+
+                    var EmployeeDetails = ctx.EmployeeDetails.Where(m => m.Id == EmployeeId).FirstOrDefault();
+                    string EmployeeName = EmployeeDetails.FirstName;
+                    string EmployeeLastName = EmployeeDetails.LastName;
+                    if (EmployeeLastName != null)
+                    {
+                        EmployeeName = string.Format(EmployeeName + " " + EmployeeLastName);
+                    }
+                    string EmployeeEmailId = EmployeeDetails.UserAccounts.Where(x => x.RefEmployeeId == EmployeeId).FirstOrDefault().UserName;
+
+                    MailDetailsModel retResult = new MailDetailsModel();
+                    retResult.ToMailId = EmployeeEmailId;
+                    retResult.CcMailId = "";
+                    retResult.TemplatePath = TemplatePath;
+                    retResult.EmployeeName = EmployeeName;
+                    retResult.EmployeeId = EmployeeId;
+                    Logger.Info("Successfully exiting from MailRepository API GetMailTemplateForChangePassword method");
+                    return retResult;
+                }
+            }
+            catch
+            {
+                Logger.Info("Exception occured at MailRepository API GetMailTemplateForChangePassword method ");
+                throw;
+            }
+
+        }
     }
 }

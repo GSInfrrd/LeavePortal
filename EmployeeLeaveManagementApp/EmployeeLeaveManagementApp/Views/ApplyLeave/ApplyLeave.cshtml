@@ -14,8 +14,14 @@
     var totalAdvanceLeaveLeft = data.TotalAdvanceLeaveTotake;
     var CompOffDateList = (from n in Model where n.RefLeaveType == compoLeavetype select n.FromDate).ToList();
     DateTime empDateOfJoining = data.DateOfJoining;
+    var messageType_Success = @Convert.ToInt16((LMS_WebAPP_Utils.MessageType.Success));
+    var messageType_Error = @Convert.ToInt16((LMS_WebAPP_Utils.MessageType.Error));
+    var dateFormatDatePicker = LMS_WebAPP_Utils.Constants.DATE_FORMAT_DATEPICKER;
+    var dateFormatDateRangePicker = LMS_WebAPP_Utils.Constants.DATE_FORMAT_DATERANGEPICKER;
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
+@using EmployeeLeaveManagementApp.Content.Resources
+
 <style>
     .toglediv {
         background-color: white;
@@ -301,7 +307,7 @@
         }
     }
     $('#sickDate').datepicker({
-        format: 'dd/mm/yyyy',
+        format : '@dateFormatDatePicker',
         autoclose: true,
 
     })
@@ -411,11 +417,11 @@
             $("#leaveDatePicker").data('daterangepicker').toggle();
         });
         $('#sickDate').datepicker({
-            format: 'dd/mm/yyyy',
+            format: '@dateFormatDatePicker',
             autoclose: true,
         })
         $('#datepicker').datepicker({
-            format: 'dd/mm/yyyy',
+            format: '@dateFormatDatePicker',
             autoclose: true,
         })
 
@@ -427,11 +433,11 @@
        console.log(newDate);
        if ($.inArray(newDate, loop) > -1)
        {
-           showMessage("The selected date is already existing.Please select new date!!", "2", true);
+           showMessage("@MessageResources.Err_SelectedDateAlreadyExist", "@messageType_Error", true);
            $('#datepicker').datepicker('hide');
            $('#datepicker').val("");
        }
-       
+
    });
         $(function () {
             $('#example1').DataTable({
@@ -455,148 +461,171 @@
             $('#leaveDatepicker ').daterangepicker(
                 {
                     locale: {
-                        format: 'DD/MM/YYYY'
+                        format : '@dateFormatDateRangePicker'
                     },
                     minDate: new Date('@empDateOfJoining.Date')
                 });
-             
-        $('#leaveDatepicker').on('change.daterangepicker', function (ev, picker) {
-            var date = ev.target.value;
-            var dates = [];
-            dates = date.split('-');
-            var start = dates[0].trim();
-            var startDate = new Date(start);
-            var startMonth = startDate.getMonth() + 1;
-            fromDate = startDate.getFullYear() + "-" + startMonth + "-" + startDate.getDate();
-            var end = dates[1].trim();
-            var endDate = new Date(end);
-            var endMonth = endDate.getMonth() + 1;
-            toDate = endDate.getFullYear() + "-" + endMonth + "-" + endDate.getDate();
-            $("#toggle-advance").hide();
-            $('#divDatePickerError').hide();
-        });
-        $('#datepicker').on('changeDate', function (ev) {
-            var date = $("#datepicker").datepicker('getDate');
-            fromDate=date.toLocaleDateString();
-            toDate = fromDate;
-            $.ajax({
-                cache: false,
-                type: 'post',
-                url: '/ApplyLeave/CheckLeaveAvailability',
-                data:{fromDate:fromDate,toDate:toDate,leaveType:0},
-                dataType: "json",
-                success: function (data) {
-                    responseCode=data.result.responseCode;
-                    if (responseCode==dateExists) {
-                        showMessage("You have already applied for leave/work from home within this date range","2",true);
-                        $('.modal-footer').hide();
-                    }
-                    else
-                    {
-                        $('.modal-footer').show();
-                    }
-                }
-            });
-        });
 
-        $('#leaveDatepicker ').on('apply.daterangepicker', function (ev, picker) {
-            var start = picker.startDate;
-            fromDate = start.format('YYYY-MM-DD');
-            var end = picker.endDate;
-            toDate = end.format('YYYY-MM-DD');
-            var leaveType = $('input[name=r1]:checked').val();
-            $.ajax({
-                cache: false,
-                type: 'post',
-                url: '/ApplyLeave/CheckLeaveAvailability',
-                data:{fromDate:fromDate,toDate:toDate,leaveType:leaveType},
-                dataType: "json",
-                success: function (data) {
-                    switch(data.result.responseCode)
-                    {
-                        case @Convert.ToInt16(LMS_WebAPP_Utils.ResponseCodes.NoLeaveBalance):
-                            if(leaveType == '@Convert.ToInt16((LMS_WebAPP_Utils.LeaveType.CasualLeave))') {
-                                showMessage("Only "+data.result.availableLeaveBalance+" Casual Leave(s) are available,Go for Advance Leave/LOP","2",true);
-                            }
-                            else if(leaveType == '@Convert.ToInt16((LMS_WebAPP_Utils.LeaveType.LOP))')
-                            {
-                                showMessage("Only "+data.result.lopLeaveBalance+" LOP(s) are available","2",true);
-                            }
-                            else if(leaveType == '@Convert.ToInt16((LMS_WebAPP_Utils.LeaveType.AdvanceLeave))')
-                            {
-                                showMessage("Only "+data.result.advanceLeaveBalance+" Advance Leaves(s) are available","2",true);
-                            }
-                            $("#lblTotalWorkingDays").html(data.result.noOfWorkingDays);
+            $('#leaveDatepicker').on('change.daterangepicker', function (ev, picker) {
+                var date = ev.target.value;
+                var dates = [];
+                dates = date.split('-');
+                var start = dates[0].trim();
+                var startDate = new Date(start);
+                var startMonth = startDate.getMonth() + 1;
+                fromDate = startDate.getFullYear() + "-" + startMonth + "-" + startDate.getDate();
+                var end = dates[1].trim();
+                var endDate = new Date(end);
+                var endMonth = endDate.getMonth() + 1;
+                toDate = endDate.getFullYear() + "-" + endMonth + "-" + endDate.getDate();
+                $("#toggle-advance").hide();
+                $('#divDatePickerError').hide();
+            });
+            $('#datepicker').on('changeDate', function (ev) {
+                var date = $("#datepicker").datepicker('getDate');
+                fromDate=date.toLocaleDateString();
+                toDate = fromDate;
+                $.ajax({
+                    cache: false,
+                    type: 'post',
+                    url: '/ApplyLeave/CheckLeaveAvailability',
+                    data:{fromDate:fromDate,toDate:toDate,leaveType:0},
+                    dataType: "json",
+                    success: function (data) {
+                        responseCode=data.result.responseCode;
+                        if (responseCode==dateExists) {
+                            showMessage("@MessageResources.Err_LeaveAlreadyApplied","@messageType_Error",true);
                             $('.modal-footer').hide();
-                            return false;
-                            break;
-                        case @Convert.ToInt16(LMS_WebAPP_Utils.ResponseCodes.DateAlreadyExists):
-                            showMessage("You have already applied for leave/work from home within this date range","2",true);
-                            $("#lblTotalWorkingDays").html(data.result.noOfWorkingDays);
-                            $('.modal-footer').hide();
-                            return false;
-                            break;
-                        case @Convert.ToInt16(LMS_WebAPP_Utils.ResponseCodes.OK):
-                            $("#lblTotalWorkingDays").html(data.result.noOfWorkingDays);
+                        }
+                        else
+                        {
                             $('.modal-footer').show();
-                            $('#divLeaveDetails').show();
-                            var between = [];
-                            var datePickedStr1 = picker.startDate;
-                            var datePickedDate1 = new Date(datePickedStr1);//converts string to date object
-
-                            var datePickedStr2 = picker.endDate;
-                            var datePickedDate2 = new Date(datePickedStr2);
-                            while (datePickedDate1 <= datePickedDate2) {
-                                between.push(new Date(datePickedDate1));
-                                datePickedDate1.setDate(datePickedDate1.getDate() + 1);
-                            }
-                            var htmlContent = "";
-                            for (var j = 0; j < between.length; j++) {
-                                var day = between[j].getDay();
-                                var isWeekend = (day == 6) || (day == 0);
-                                if(!isWeekend){
-                                    htmlContent += "<tr><td>" + formatDate(between[j]) + "</td><td><input type='radio' class='leave-selection half-day' name='leave-type-" + j +"' class='flat-red' /></td><td><input class='leave-selection full-day' type='radio' name='leave-type-"+ j +"' class='flat-red' checked='checked' /></td></tr>";
-                                }
-                            }
-                            $('#tblBodyLeaveDetails').html(htmlContent);
-                            return false;
-                            break;
+                        }
                     }
-                }
+                });
+            });
+
+            $('#leaveDatepicker ').on('apply.daterangepicker', function (ev, picker) {
+                var start = picker.startDate;
+                fromDate = start.format('YYYY-MM-DD');
+                var end = picker.endDate;
+                toDate = end.format('YYYY-MM-DD');
+                var leaveType = $('input[name=r1]:checked').val();
+                $.ajax({
+                    cache: false,
+                    type: 'post',
+                    url: '/ApplyLeave/CheckLeaveAvailability',
+                    data:{fromDate:fromDate,toDate:toDate,leaveType:leaveType},
+                    dataType: "json",
+                    success: function (data) {
+                        switch(data.result.responseCode)
+                        {
+                            case @Convert.ToInt16(LMS_WebAPP_Utils.ResponseCodes.NoLeaveBalance):
+                                if(leaveType == '@Convert.ToInt16((LMS_WebAPP_Utils.LeaveType.CasualLeave))') {
+                                    var availableLeaveBalance = "@string.Format(MessageResources.Err_AvailableCasualLeaves, "+data.result.availableLeaveBalance+")";
+                                    availableLeaveBalance = availableLeaveBalance.replace("+data.result.availableLeaveBalance+", data.result.availableLeaveBalance);
+                                    showMessage(availableLeaveBalance,"@messageType_Error",true);
+                                }
+                                else if(leaveType == '@Convert.ToInt16((LMS_WebAPP_Utils.LeaveType.LOP))')
+                                {
+                                    var lopLeaveBalance = "@string.Format(MessageResources.Err_lopLeaveBalanceMessage, "+data.result.lopLeaveBalance+")";
+                                    lopLeaveBalance = lopLeaveBalance.replace("+data.result.lopLeaveBalance+", data.result.lopLeaveBalance);
+                                    showMessage(lopLeaveBalance,"@messageType_Error",true);
+                                }
+                                else if(leaveType == '@Convert.ToInt16((LMS_WebAPP_Utils.LeaveType.AdvanceLeave))')
+                                {
+                                    var advanceLeaveBalance = "@string.Format(MessageResources.Err_AdvanceLeaveBalanceMessage, "+data.result.advanceLeaveBalance+")";
+                                    advanceLeaveBalance = advanceLeaveBalance.replace("+data.result.advanceLeaveBalance+", data.result.advanceLeaveBalance);
+                                    showMessage(advanceLeaveBalance,"@messageType_Error",true);
+                                }
+                                $("#lblTotalWorkingDays").html(data.result.noOfWorkingDays);
+                                $('.modal-footer').hide();
+                                return false;
+                                break;
+                            case @Convert.ToInt16(LMS_WebAPP_Utils.ResponseCodes.DateAlreadyExists):
+                                showMessage("@MessageResources.Err_LeaveAlreadyApplied","@messageType_Error",true);
+                                $("#lblTotalWorkingDays").html(data.result.noOfWorkingDays);
+                                $('.modal-footer').hide();
+                                return false;
+                                break;
+                            case @Convert.ToInt16(LMS_WebAPP_Utils.ResponseCodes.OK):
+                                $("#lblTotalWorkingDays").html(data.result.noOfWorkingDays);
+                                $('.modal-footer').show();
+                                if(data.result.noOfWorkingDays != "0")
+                                {
+                                    $('#divLeaveDetails').show();
+                                }
+                                else
+                                {
+                                    $('#divLeaveDetails').hide();
+                                }
+                                var between = [];
+                                var datePickedStr1 = picker.startDate;
+                                var datePickedDate1 = new Date(datePickedStr1);//converts string to date object
+
+                                var datePickedStr2 = picker.endDate;
+                                var datePickedDate2 = new Date(datePickedStr2);
+                                while (datePickedDate1 <= datePickedDate2) {
+                                    between.push(new Date(datePickedDate1));
+                                    datePickedDate1.setDate(datePickedDate1.getDate() + 1);
+                                }
+                                var htmlContent = "";
+                                for (var j = 0; j < between.length; j++) {
+                                    var day = between[j].getDay();
+                                    var isHoliday = 0;
+                                    for(hl=0; hl<data.result.HolidayList.length ; hl++)
+                                    {
+                                        if(formatDate(between[j])==formatDate(data.result.HolidayList[hl].FormattedDate))
+                                        {
+                                            isHoliday = 1;
+                                            break;
+                                        }
+                                    }
+                                    var isWeekend = (day == 6) || (day == 0);
+                                    if(!isWeekend && !isHoliday){
+                                        htmlContent += "<tr><td>" + formatDate(between[j]) + "</td><td><input type='radio' class='leave-selection half-day' name='leave-type-" + j +"' class='flat-red' /></td><td><input class='leave-selection full-day' type='radio' name='leave-type-"+ j +"' class='flat-red' checked='checked' /></td></tr>";
+                                    }
+                                }
+                                $('#tblBodyLeaveDetails').html(htmlContent);
+                                return false;
+                                break;
+                        }
+                    }
+                });
             });
         });
-    });
-    $(document).on('click', '.leave-selection', function(){
-        if($(this).hasClass('half-day')){
-            var workingDays = parseFloat( $("#lblTotalWorkingDays").html());
-            $("#lblTotalWorkingDays").html(workingDays - 0.5);
-        }
-        else if($(this).hasClass('full-day')){
-            var workingDays = parseFloat( $("#lblTotalWorkingDays").html());
-            $("#lblTotalWorkingDays").html(workingDays + 0.5);
-        }
-    });
-    function formatDate(date) {
-        var d = new Date(date),
-            month = '' + (d.getMonth() + 1),
-            day = '' + d.getDate(),
-            year = d.getFullYear();
+        $(document).on('click', '.leave-selection', function(){
+            if($(this).hasClass('half-day')){
+                var workingDays = parseFloat( $("#lblTotalWorkingDays").html());
+                $("#lblTotalWorkingDays").html(workingDays - 0.5);
+            }
+            else if($(this).hasClass('full-day')){
+                var workingDays = parseFloat( $("#lblTotalWorkingDays").html());
+                $("#lblTotalWorkingDays").html(workingDays + 0.5);
+            }
+        });
+        function formatDate(date) {
+            var d = new Date(date),
+                month = '' + (d.getMonth() + 1),
+                day = '' + d.getDate(),
+                year = d.getFullYear();
 
-        if (month.length < 2) month = '0' + month;
-        if (day.length < 2) day = '0' + day;
+            if (month.length < 2) month = '0' + month;
+            if (day.length < 2) day = '0' + day;
 
-        return [year, month, day].join('/');
-    }
-    $('#AddLeaveModal').on('hidden.bs.modal', function () {
-        $(this).find("textarea#leaveComment").val('').end();
-        $('#divHalfDay').show();
-        $("#divCommentError").hide();
-        $('#SickDatePicker').show();
-        // $('#sickDate').val(today);
-        $("#divLeaveTypeError").hide();
-        var clickedradioButton = $('input[name=r1]:checked').val();
-        $("#RdLeaveType_" + clickedradioButton).iCheck('uncheck');
-    });
+           //return [year, month, day].join('/');
+           return [day, month, year].join('/');
+        }
+        $('#AddLeaveModal').on('hidden.bs.modal', function () {
+            $(this).find("textarea#leaveComment").val('').end();
+            $('#divHalfDay').show();
+            $("#divCommentError").hide();
+            $('#SickDatePicker').show();
+            // $('#sickDate').val(today);
+            $("#divLeaveTypeError").hide();
+            var clickedradioButton = $('input[name=r1]:checked').val();
+            $("#RdLeaveType_" + clickedradioButton).iCheck('uncheck');
+        });
     });
     $(function () {
         $('#toggleOne').bootstrapToggle({
@@ -648,7 +677,7 @@
                 $('#divCommentError').hide();
                 if (responseCode == dateExists) {
                     $('.modal-footer').hide();
-                    showMessage("Sorry!!You already applied for Sick Leave today", "2", true);
+                    showMessage("@MessageResources.Err_SickLeaveAlreadyApplied", "@messageType_Error", true);
                     $('#datepicker').prop("disabled", true);
                 }
                 else{
@@ -685,12 +714,12 @@
                 if(totalcasualLeft<=0)
                 {
                     $('.modal-footer').hide();
-                    showMessage("No Casual Leaves available", "2", true);
+                    showMessage("@MessageResources.Err_NoCasualLeaves", "2", true);
                     $('#leaveDatepicker').prop("disabled", false);
                 }
                 else if (isPossibleToApplyCasual > 0) {
                     $('.modal-footer').hide();
-                    showMessage("Sorry!!  You cannot Apply for Casual/Advance leave since your manager approves the submitted one", "2", true);
+                    showMessage("@MessageResources.Err_CannotApplyCasualOrAdvanceLeave", "@messageType_Error", true);
                     $('#leaveDatepicker').prop("disabled", true);
                 }
                 break;
@@ -719,7 +748,7 @@
                 $("#divLeaveTypeError").hide();
                 if (isPossibleToApplyCasual > 0) {
                     $('.modal-footer').hide();
-                    showMessage("Sorry!!  You cannot Apply for Casual/Advance leave since your manager approves the submitted one", "2", true);
+                    showMessage("@MessageResources.Err_CannotApplyCasualOrAdvanceLeave", "@messageType_Error", true);
                     $('#leaveDatepicker').prop("disabled", true);
                 }
                 else{
@@ -744,7 +773,7 @@
                 $('#divHalfDay').hide();
                 if (isPossibleToApplyCompo > 0) {
                     $('.modal-footer').hide();
-                    showMessage("Sorry!!  You cannot Apply for Comp Off leave since your manager approves the submitted one", "2", true);
+                    showMessage("@MessageResources.Err_CannotApplyCompOff", "@messageType_Error", true);
                     $('#datepicker').prop("disabled", true);
                 }
                 else{
@@ -779,7 +808,7 @@
                 // $("#toggelDiv").slideToggle("slow");
                 if (totalLOPSubmitted > 0) {
                     $('.modal-footer').hide();
-                    showMessage("Sorry!!  You cannot Apply for LOP leave since your manager approves the submitted one", "2", true);
+                    showMessage("@MessageResources.Err_CannotApplyLOP", "@messageType_Error", true);
                     $('#leaveDatepicker').prop("disabled", true);
                 }
                 else{
@@ -860,7 +889,7 @@
                 //check comment
                 if($("#lblTotalWorkingDays").html()>parseInt(@totalAdvanceLeaveLeft))
                 {
-                    showMessage("Sorry!! Your max limit for advance leave is  " + '@totalAdvanceLeaveLeft', "2", true);
+                    showMessage("@MessageResources.Err_AdvanceLeaveMaxLimit  " + '@totalAdvanceLeaveLeft', "@messageType_Error", true);
                     return false;
                 }
                 else if ($('#leaveDatepicker').val()==""){
@@ -907,7 +936,7 @@
                     return false;
                 }
                 if($("#lblTotalWorkingDays").html() > parseInt(@totalLOPCap)){
-                    showMessage("Sorry!! Your max limit for LOP is  " + '@totalLOPCap', "2", true);
+                    showMessage("@MessageResources.Err_LOPMaxLimit " + '@totalLOPCap', "@messageType_Error", true);
                     return false;
 
                 }
@@ -921,7 +950,7 @@
                 break;
         }
     }
-    
+
     // submitting leave request
     $(document).on('click', '#btnLeaveRequestSubmit', function (e) {
         if (FormValidate()) {
@@ -953,11 +982,11 @@
                                         responseCode=dateExists;
                                         //  }
                                         break;
-                                        showMessage("Leave request added successfully", "1", true);
+                                        showMessage("@MessageResources.Msg_LeaveAdded", "@messageType_Success", true);
                                     case '@Convert.ToInt16((LMS_WebAPP_Utils.LeaveType.CompoOff))':
                                         loop.push(new Date($('#datepicker').val()).getTime());
                                         isPossibleToApplyCompo = isPossibleToApplyCompo + 1 ;
-                                        showMessage("Leave request added successfully", "1", true);
+                                        showMessage("@MessageResources.Msg_LeaveAdded", "@messageType_Success", true);
                                         break;
                                     case '@Convert.ToInt16((LMS_WebAPP_Utils.LeaveType.CasualLeave))':
                                     case '@Convert.ToInt16((LMS_WebAPP_Utils.LeaveType.AdvanceLeave))':
@@ -970,7 +999,7 @@
                                             $("#RdLeaveType_" + lopEnum).parent().removeClass('disabled','disabled');
                                             $("#RdLeaveType_" + lopEnum).removeAttr('disabled');
                                         }
-                                        showMessage("Leave request added successfully", "1", true);
+                                        showMessage("@MessageResources.Msg_LeaveAdded", "@messageType_Success", true);
                                         //$('#leaveDatepicker').daterangepicker(
                                         //{
                                         //    minDate: new Date()
@@ -980,10 +1009,10 @@
 
                                         totalLOPSubmitted = totalLOPSubmitted + 1;
 
-                                        showMessage("LOP request added successfully", "1", true);
+                                        showMessage("@MessageResources.Msg_LOPAdded", "@messageType_Success", true);
                                         break;
                                     default:
-                                        showMessage("Leave request successfully submitted for approval", "1", true);
+                                        showMessage("@MessageResources.Msg_LeaveAddedForApproval", "@messageType_Success", true);
                                         break;
                                 }
 
@@ -1035,7 +1064,7 @@
                         break;
                 }
                 updateLeaveTable(data.result);
-                showMessage("Leave request successfully deleted","1",true);
+                showMessage("@MessageResources.Msg_LeaveDeleted","@messageType_Success",true);
             }
         });
     }

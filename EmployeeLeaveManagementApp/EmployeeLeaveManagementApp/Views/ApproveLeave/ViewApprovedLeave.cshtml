@@ -3,7 +3,11 @@
     ViewBag.Title = "ApprovedLeave";
     Layout = "~/Views/Shared/_Layout.cshtml";
 
+    var messageType_Success = @Convert.ToInt16((LMS_WebAPP_Utils.MessageType.Success));
+    var messageType_Error = @Convert.ToInt16((LMS_WebAPP_Utils.MessageType.Error));
+
 }
+@using EmployeeLeaveManagementApp.Content.Resources
     <!-- DataTables -->
     <link rel="stylesheet" href="../../plugins/datatables/dataTables.bootstrap.css">
 
@@ -141,7 +145,7 @@
         $(document).ready(function () {
             $('#approveLeave').parent().addClass('active');
             if (localStorage.getItem("leaveCancelled") == 1) {
-                showMessage("Leave request Cancelled", "1", true);
+                showMessage("@MessageResources.Msg_LeaveCancelled", "@messageType_Success", true);
                 localStorage.removeItem("leaveCancelled");
             }
             $(function () {
@@ -187,14 +191,14 @@
             $(".rewardConfirmTitle").html("Are you sure you want to cancel leave for " + employeeName + " ?");
             $("#CancelLeaveConfirmationModal").modal("show");
             }
-        
+
 );
 
         $(".btnCancelLeave").on("click", function () {
             $("#CancelLeaveConfirmationModal").modal("hide");
         });
 
-        
+
     </script>
 
 

@@ -9,7 +9,7 @@ namespace LMS_WebAPI_DAL.Repositories.Interfaces
 {
   public interface IHRRepository 
     {
-        bool SubmitEmployeeDetails(EmployeeDetailsModel model);
+        bool SubmitEmployeeDetails(EmployeeDetailsModel model,string OTP, out int EmployeeId);
         List<EmployeeDetailsModel> GetEmployeeList();
 
         List<EmployeeDetailsModel> GetManagerList(int refLevel);

@@ -3,9 +3,13 @@ using LMS_WebAPI_ServiceHelpers;
 using LMS_WebAPI_Utils;
 using System;
 using System.Collections.Generic;
+using System.Configuration;
+using System.IO;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
+using System.Threading;
+using System.Web.Hosting;
 using System.Web.Http;
 
 namespace EmployeeLeaveManagementWebAPI.Controllers
@@ -210,6 +214,70 @@ namespace EmployeeLeaveManagementWebAPI.Controllers
                 Logger.Error("Error at ProfileController API getProfileImage method.", ex);
                 return null;
             }
+        }
+
+        [HttpGet]
+        [Route("CheckEmployeePassword")]
+        public bool CheckEmployeePassword(int employeeId, string currentPassword)
+        {
+            try
+            {
+                Logger.Info("Entering in ProfileController API CheckEmployeePassword method");
+                var result = userManager.CheckEmployeePassword(employeeId, currentPassword);
+                Logger.Info("Successfully exiting from ProfileController API CheckEmployeePassword method");
+                return result;
+            }
+            catch (Exception ex)
+            {
+                Logger.Error("Error at ProfileController API CheckEmployeePassword method.", ex);
+                return false;
+            }
+        }
+
+        [HttpGet]
+        [Route("UpdatePassword")]
+        public bool UpdatePassword(int employeeId, string newPassword)
+        {
+            try
+            {
+                Logger.Info("Entering in ProfileController API UpdatePassword method");
+                var result = userManager.UpdatePassword(employeeId, newPassword);
+
+                // Send Mail 
+                Thread MailThread = new Thread(() => SendMailForChangePassword(newPassword, employeeId));
+                MailThread.Start();
+
+                Logger.Info("Successfully exiting from ProfileController API UpdatePassword method");
+                return result;
+            }
+            catch (Exception ex)
+            {
+                Logger.Error("Error at ProfileController API UpdatePassword method.", ex);
+                return false;
+            }
+        }
+
+        private void SendMailForChangePassword(string newPassword, int EmployeeId)
+        {
+            ActionsForMail actionName = ActionsForMail.ChangePassword;
+            MailManagement MM = new MailManagement();
+            var MailDetails = MM.GetMailTemplateForChangePassword(actionName, EmployeeId);
+            string TemplatePath = MailDetails.TemplatePath;
+
+            string body;
+            //Read template file from the App_Data folder
+            using (var sr = new StreamReader(HostingEnvironment.MapPath(TemplatePath)))
+            {
+                body = sr.ReadToEnd();
+            }
+
+            var logoPath = HostingEnvironment.MapPath("~/Content/Images/infrrd-logo-main.png");
+            string appurl = ConfigurationManager.AppSettings["AppURL"];
+
+            string EmployeeName = MailDetails.EmployeeName.Substring(0, MailDetails.EmployeeName.IndexOf(" "));
+            string messageBody = string.Format(body, EmployeeName, MailDetails.ToMailId, newPassword, appurl);
+
+            MailUtility.sendmail(MailDetails.ToMailId, MailDetails.CcMailId, actionName.Description(), messageBody, logoPath);
         }
     }
 }

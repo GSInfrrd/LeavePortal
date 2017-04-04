@@ -2,6 +2,9 @@
 @{
     ViewBag.Title = "AddEmployeeDetails";
     Layout = "~/Views/Shared/_Layout.cshtml";
+
+    var dateFormatDatePicker = LMS_WebAPP_Utils.Constants.DATE_FORMAT_DATEPICKER;
+    var dateFormatDateRangePicker = LMS_WebAPP_Utils.Constants.DATE_FORMAT_DATERANGEPICKER;
 }
 
 <link rel="stylesheet" href="../../plugins/iCheck/all.css">
@@ -242,7 +245,7 @@
                             <select class="form-control level" style="width: 100%;" id="ddlEmployeeContractType">
                                 <option value="">Select</option>
                                 <option value="@Convert.ToInt16(LMS_WebAPP_Utils.EmployeeContractType.Permanent)">@LMS_WebAPP_Utils.CommonMethods.Description((LMS_WebAPP_Utils.EmployeeContractType.Permanent))</option>
-                                <option value="@Convert.ToInt16(LMS_WebAPP_Utils.EmployeeContractType.Temprary)">@LMS_WebAPP_Utils.CommonMethods.Description((LMS_WebAPP_Utils.EmployeeContractType.Temprary))</option>
+                                <option value="@Convert.ToInt16(LMS_WebAPP_Utils.EmployeeContractType.Temporary)">@LMS_WebAPP_Utils.CommonMethods.Description((LMS_WebAPP_Utils.EmployeeContractType.Temporary))</option>
                             </select>
                         </div>
                         <div class="form-group col-md-6">
@@ -832,6 +835,9 @@
     var imgId;
     var levelValue='@Convert.ToInt32(LMS_WebAPP_Utils.HierarchyLevel.Level0)';
     $(document).ready(function () {
+        $('#txtJoiningDate').datepicker({
+            autoclose: true,
+            format: '@dateFormatDatePicker'            });
         $(function () {
             GetProjectsList();
             GetSkillsList();
@@ -873,28 +879,27 @@
             $('#educationDatePicker').daterangepicker(
                    {
                        locale: {
-                           format: 'DD/MM/YYYY'
+                           format: '@dateFormatDateRangePicker'
                        }
                    });
             $('#experienceDatePicker').daterangepicker(
                   {
                       locale: {
-                          format: 'DD/MM/YYYY'
+                          format: '@dateFormatDateRangePicker'
                       },
-                      mindate: new Date()
+                      //maxDate: $("#txtJoiningDate").datepicker("getDate")
+                      maxDate: new Date()
                   });
 
             //Date picker
-            $('#txtJoiningDate').datepicker({
-                autoclose: true,
-                format: 'dd/mm/yyyy'            });
+            
             $('#txtConfirmationDate').datepicker({
                 autoclose: true,
-                format: 'dd/mm/yyyy'            });
+                format: '@dateFormatDatePicker'            });
             //Date picker
             $('#txtBirthday').datepicker({
                 autoclose: true,
-                format: 'dd/mm/yyyy'
+                format: '@dateFormatDatePicker'
             });
             function formatDate(date) {
                 var mm = date.getMonth() + 1;
@@ -924,9 +929,9 @@
             $('#educationDatePicker').on('apply.daterangepicker', function (ev, picker) {
 
                 var start = picker.startDate;
-                educationFromDate = start.format('YYYY-MM-DD');
+                educationFromDate = start.format('@dateFormatDateRangePicker');
                 var end = picker.endDate;
-                educationToDate = end.format('YYYY-MM-DD');
+                educationToDate = end.format('@dateFormatDateRangePicker');
             });
             $('#experienceDatePicker').on('change.daterangepicker', function (ev, picker) {
                 var date = ev.target.value;
@@ -945,9 +950,9 @@
             $('#experienceDatePicker').on('apply.daterangepicker', function (ev, picker) {
 
                 var start = picker.startDate;
-                experienceFromDate = start.format('YYYY-MM-DD');
+                experienceFromDate = start.format('@dateFormatDateRangePicker');
                 var end = picker.endDate;
-                experienceToDate = end.format('YYYY-MM-DD');
+                experienceToDate = end.format('@dateFormatDateRangePicker');
 
 
             });
@@ -965,7 +970,7 @@
     $(document).on('click', '#chkSamePermanentAddress', function (e) {
         debugger
         if($('#chkSamePermanentAddress').is(':checked'))
-        { 
+        {
             var ddlCurrentCountryValue = $("#ddlCurrentCountry").val();
             $("#ddlPermanentCountry").val(ddlCurrentCountryValue).trigger('change');
             $("#txtPermanentPincode").val($("#txtCurrentPincode").val());
@@ -981,7 +986,7 @@
             $("#ddlPermanentState").val("").trigger('change'),
             $("#ddlPermanentCity").val("").trigger('change')
         }
-    
+
     })
 
     $(document).on('click', '#btn_EmpPersonalInfo_collapse_Text', function (e) {
@@ -996,7 +1001,7 @@
             $("#CollapseTextEmpPersonalInfo").addClass('fa-minus');
 
         }
-        
+
     });
 
     $(document).on('click', '#btn_EmpCompanyInfo_collapse_Text', function (e) {
@@ -1011,7 +1016,7 @@
             $("#CollapseTextEmpCompanyInfo").addClass('fa-minus');
 
         }
-        
+
     });
 
     $(document).on('click', '#btn_EmpEmergencyContactDetails_collapse_Text', function (e) {
@@ -1026,7 +1031,7 @@
             $("#CollapseTextEmpEmergencyContactDetails").addClass('fa-minus');
 
         }
-        
+
     });
 
     $(document).on('click', '#btn_EmpPermanentAddressDetails_collapse_Text', function (e) {
@@ -1041,7 +1046,7 @@
             $("#CollapseTextEmpPermanentAddressDetails").addClass('fa-minus');
 
         }
-        
+
     });
 
     $(document).on('click', '#btn_EmpCurrentAddressDetails_collapse_Text', function (e) {
@@ -1056,7 +1061,7 @@
             $("#CollapseTextEmpCurrentAddressDetails").addClass('fa-minus');
 
         }
-        
+
     });
 
     $(document).on('click', '#btn_EmpWorkAddressDetails_collapse_Text', function (e) {
@@ -1071,7 +1076,7 @@
             $("#CollapseTextEmpWorkAddressDetails").addClass('fa-minus');
 
         }
-        
+
     });
 
     $(document).on('click', '#btn_EmpEducationDetails_collapse_Text', function (e) {
@@ -1086,7 +1091,7 @@
             $("#CollapseTextEmpEducationDetails").addClass('fa-minus');
 
         }
-        
+
     });
 
     $(document).on('click', '#btn_EmpExperienceDetails_collapse_Text', function (e) {
@@ -1101,7 +1106,7 @@
             $("#CollapseTextEmpExperienceDetails").addClass('fa-minus');
 
         }
-        
+
     });
 
     $('.numbersOnly').keyup(function () {
@@ -1116,7 +1121,7 @@
         if (($("#txtFirstName").val() == "") && ($("#txtLastName").val() == "") && ($("#txtEmail").val() == "") && ($("#txtTelephone").val() == "") && ($('input[name=r2]:checked').length<=0) && ($("#txtBirthday").val() == "")
             && ($("#txtEmployeeNumber").val() == "") && ($("#txtInfrrdEmail").val() == "") && ($("#ddlDesignation").val() == 0) && ($("#ddlEmployeeType").val() == 0) && ($("#ddlEmployeeContractType").val() == 0) && ($("#ddlManagerName").val() == 0) && ($("#ddlProjectName").val() == null)
             //&& ($("#txtEmergencyContactName").val() == "") && ($("#ddlEmergencyContactRelationship").val() == 0) && ($("#txtEmergencyContactTelephone").val() == "") && ($("#ddlEmergencyContactCountry").val() == 0)
-            && ($("#txtCurrentAddressLine1").val() == "")  && ($("#ddlCurrentCountry").val() == 0) 
+            && ($("#txtCurrentAddressLine1").val() == "")  && ($("#ddlCurrentCountry").val() == 0)
             && ($("#txtPermanentAddressLine1").val() == "") && ($("#ddlPermanentCountry").val() == 0)
             && ($("#ddlFacility").val() == 0)
             //&& ($("#ddlGraduation").val() == 0)  && ($("#txtUniversity").val() == "")
@@ -1165,7 +1170,7 @@
                 $("#CollapseTextEmpPersonalInfo").removeClass('fa-minus');
                 $("#CollapseTextEmpPersonalInfo").addClass('fa-plus');
             }
-            
+
             return false;
         }
 
@@ -1453,7 +1458,7 @@
             }
             return false;
         }
-        
+
         //if ($("#txtEmergencyContactName").val() == "") {
         //    $('#EmpEmergencyContactDetailsToggle').collapse('show');
         //    $('#divEmergencyContactNameError').show();
@@ -1556,7 +1561,7 @@
             return false;
         }
 
-        
+
 
         if ($("#txtPermanentAddressLine1").val() == "") {
             $('#EmpPermanentAddressDetailsToggle').collapse('show');
@@ -1592,7 +1597,7 @@
             return false;
         }
 
-        
+
 
         if ($("#ddlFacility").val() == 0) {
             $('#EmpWorkLocationDetailsToggle').collapse('show');
@@ -1724,8 +1729,10 @@
         var educationDetails = {
             Graduation: $("#ddlGraduation").val(),
             Institution: $("#txtUniversity").val(),
-            FromDate: $("#educationDatePicker").val().split("-")[0].trim(),
-            ToDate: $("#educationDatePicker").val().split("-")[1].trim(),
+            //FromDate: $("#educationDatePicker").val().split("-")[0].trim(),
+            //ToDate: $("#educationDatePicker").val().split("-")[1].trim(),
+            FromDate : $('#educationDatePicker').data('daterangepicker').startDate._d,
+            ToDate : $('#educationDatePicker').data('daterangepicker').endDate._d,
             Specialization: $("#ddlSpecialization").val(),
         }
 
@@ -1769,8 +1776,10 @@
             var experienceDetails = {
                 CompanyName: $("#txtEmployer").val(),
                 Role: $("#ddlExperienceDesignation").val(),
-                FromDate: $("#experienceDatePicker").val().split("-")[0].trim(),
-                ToDate: $("#experienceDatePicker").val().split("-")[1].trim(),
+                //FromDate: $("#experienceDatePicker").val().split("-")[0].trim(),
+                //ToDate: $("#experienceDatePicker").val().split("-")[1].trim(),
+                FromDate : $('#experienceDatePicker').data('daterangepicker').startDate._d,
+                ToDate : $('#experienceDatePicker').data('daterangepicker').endDate._d,
             }
         }
         else if($("#experienceDatePicker").val()!="")
@@ -1778,8 +1787,10 @@
             var experienceDetails = {
                 CompanyName: $("#txtEmployer").val(),
                 Role: $("#ddlExperienceDesignation").val(),
-                FromDate: $("#experienceDatePicker").val().split("-")[0].trim(),
-                ToDate: $("#experienceDatePicker").val().split("-")[1].trim(),
+                //FromDate: $("#experienceDatePicker").val().split("-")[0].trim(),
+                //ToDate: $("#experienceDatePicker").val().split("-")[1].trim(),
+                FromDate : $('#experienceDatePicker').data('daterangepicker').startDate._d,
+                ToDate : $('#experienceDatePicker').data('daterangepicker').endDate._d,
 
             }
         }
@@ -1858,7 +1869,7 @@
             EmployeeEmergencyContactDetail: [emergencycontactDetails],
         };
 
-        
+
         var empNumber = $("#txtEmployeeNumber").val();
         var employeeMailid = $("#txtInfrrdEmail").val();
         $.ajax({
@@ -2175,9 +2186,9 @@
                 }
             });
         }
-        
 
-        
+
+
     });
 
     //$(document).on('change', "#ddlWorkCountry", function (e) {
@@ -2361,13 +2372,13 @@
     //$("#txtEmergencyContactName").keypress(function (e) {
     //    $('#divEmergencyContactNameError').hide();
     //});
-    
+
 
     //$("#txtEmergencyContactTelephone").keypress(function (e) {
     //    $('#divEmergencyContactTelephoneError').hide();
     //});
 
-    
+
 
     $("#txtCurrentAddressLine1").keypress(function (e) {
         $('#divCurrentAddressError').hide();

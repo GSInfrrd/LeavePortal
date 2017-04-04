@@ -2,7 +2,11 @@
 @{
     ViewBag.Title = "CompanyAnnouncements";
     Layout = "~/Views/Shared/_Layout.cshtml";
+
+    var messageType_Success = @Convert.ToInt16((LMS_WebAPP_Utils.MessageType.Success));
+    var messageType_Error = @Convert.ToInt16((LMS_WebAPP_Utils.MessageType.Error));
         }
+@using EmployeeLeaveManagementApp.Content.Resources
 <link href="~/plugins/Toastr/toastr.css" rel="stylesheet" />
 <section class="content-header">
     <h1>Company Announcements</h1>
@@ -106,11 +110,11 @@
 
         var imagepath = imgpath != "" ? imgpath : "";
         if ($("#txtTitle").val() == "" ) {
-            showMessage("please enter title", "2", true);
+            showMessage("@MessageResources.Err_EnterTitle", "@messageType_Error", true);
             return false;
         }
         if ($("#txtContent").val() == "") {
-            showMessage("please enter content", "2", true);
+            showMessage("@MessageResources.Err_EnterContent", "@messageType_Error", true);
             return false;
         }
         var path = "\\Content\\Images\\" + imageName;
@@ -127,12 +131,12 @@
                     $("#txtContent").val("");
                     $("#announcementImageDisplay").attr('src', "/Content/Images/AnnouncementImage.jpg")
                     $("#AnnouncementImage").val("");
-                    showMessage("Company Announcement added successfully", "1", true);
+                    showMessage("@MessageResources.Msg_CompanyAnnouncementSaved", "@messageType_Success", true);
                     $("#Loading").hide();
                 }
                 else {
                     $("#Loading").hide();
-                    showMessage("Failed to add the announcement.Try again", "2", true);
+                    showMessage("@MessageResources.Err_AnnouncementFailed", "@messageType_Error", true);
                     return false;
                 }
 

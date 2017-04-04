@@ -8,7 +8,11 @@
     }
     var serializedlstRequestStatus = @Html.Raw(Newtonsoft.Json.JsonConvert.SerializeObject(lstRequestStatus));
     var lstResourceRequests = Model.ResourceRequestHistory;
+
+    var messageType_Success = @Convert.ToInt16((LMS_WebAPP_Utils.MessageType.Success));
+    var messageType_Error = @Convert.ToInt16((LMS_WebAPP_Utils.MessageType.Error));
 }
+@using EmployeeLeaveManagementApp.Content.Resources
 @Styles.Render("~/bundles/Content/css")
 <link href="~/Content/Style.css" rel="stylesheet" />
 <link href="~/plugins/datatables/jquery.dataTables.min.css" rel="stylesheet" />
@@ -284,7 +288,7 @@
                     var ticket = data.ticket;
                     $("#ResourceRequestToRespondModal").modal('hide');
                     $("#" + ticket).html("");
-                    showMessage("Request status changed successfully", "1", true);
+                    showMessage("@MessageResources.Msg_RequestStatusChanged", "@messageType_Success", true);
                     var tdSpan = '<span class="label';
                     if (data.status == '@Convert.ToInt32(ResourceRequestStatus.Requested)') {
                         tdSpan += ' btn-color-requested">';
@@ -310,7 +314,7 @@
                     $("#" + ticket).html(tdSpan);
                 }
                 else {
-                    showMessage("Request status could not be changed", "2", true);
+                    showMessage("@MessageResources.Err_RequestStatusCouldNotChanged", "@messageType_Error", true);
                 }
                 $("#Loading").hide();
             }

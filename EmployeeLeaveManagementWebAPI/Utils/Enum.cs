@@ -220,7 +220,11 @@ namespace LMS_WebAPI_Utils
         [Description("Leave Reward")]
         RewardLeave = 160,
         [Description("Leave Cancelled")]
-        CancelLeave = 161
+        CancelLeave = 161,
+        [Description("Registered Successfully")]
+        AddNewEmployee = 162,
+        [Description("Password Changed")]
+        ChangePassword = 163
 
 
     }

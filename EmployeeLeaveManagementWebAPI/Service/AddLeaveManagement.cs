@@ -101,6 +101,14 @@ namespace LMS_WebAPI_ServiceHelpers
                         response.responseCode = (int)LMS_WebAPI_Utils.ResponseCodes.OK;
                     }
                 }
+                var holidayDateList = new List<HolidayModel>();
+                foreach(var date in holidayList)
+                {
+                    var holidayDate = new HolidayModel();
+                    holidayDate.Date = date.Date;
+                    holidayDateList.Add(holidayDate);
+                }
+                response.HolidayList = holidayDateList;
                 Logger.Info("Exiting from into AddLeaveManagement Service helper CheckLeaveAvailability method ");
                 return response;
             }

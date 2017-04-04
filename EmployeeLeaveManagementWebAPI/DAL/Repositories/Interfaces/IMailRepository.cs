@@ -18,6 +18,10 @@ namespace LMS_WebAPI_DAL.Repositories.Interfaces
 
         MailDetailsModel GetMailTemplateForCancelEmployeeLeave(ActionsForMail actionName, int LeaveId);
 
+        MailDetailsModel GetMailTemplateForAddNewEmployee(ActionsForMail actionName, int EmployeeId, int HrId);
+
+        MailDetailsModel GetMailTemplateForChangePassword(ActionsForMail actionName, int EmployeeId);
+
         MailDetailsModel GetMailTemplateForAddResourceRequest(ActionsForMail actionName, int EmployeeId , int Hrid);
 
         MailDetailsModel GetMailTemplateForResourceRequestUpdate(ActionsForMail actionName, int EmployeeId, int Hrid);

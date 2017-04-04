@@ -5,7 +5,11 @@
     ViewBag.Title = "AddHolidays";
     Layout = "~/Views/Shared/_Layout.cshtml";
     var dateList = (from n in Model select n.Date).ToList();
+
+    var messageType_Success = @Convert.ToInt16((LMS_WebAPP_Utils.MessageType.Success));
+    var messageType_Error = @Convert.ToInt16((LMS_WebAPP_Utils.MessageType.Error));
 }
+@using EmployeeLeaveManagementApp.Content.Resources
 <link href="~/plugins/Toastr/toastr.css" rel="stylesheet" />
 <link rel="stylesheet" href="~/plugins/datatables/dataTables.bootstrap.css">
 <link rel="stylesheet" href="~/plugins/iCheck/all.css">
@@ -159,7 +163,7 @@
        console.log(newDate);
           if ($.inArray(newDate, loop) > -1)
           {
-              showMessage("The selected date is already existing.Please select new date!!", "2", true);
+              showMessage("@MessageResources.Err_HolidayDateAlreadyExists", "@messageType_Error", true);
               $('#datepicker').datepicker('hide');
               $('#datepicker').val("");
           }
@@ -203,7 +207,7 @@
 
         $("#Loading").show();
         if (formValidate() == true) {
-          
+
                 $.ajax({
                     cache: false,
                     type: 'post',
@@ -215,7 +219,7 @@
                         loop.push(new Date($('#datepicker').val()).getTime());
                         updateDatatable(data);
                         //  location.reload();
-                        showMessage("New holiday added successfully", "1", true);
+                        showMessage("@MessageResources.Msg_HolidaySaved", "@messageType_Success", true);
                         $('#datepickerYear').val("");
                         $('#datepicker').val("");
                         $('#Description').val("");
@@ -226,7 +230,7 @@
                 });
         }
         else {
-            showMessage("Fields cannot be empty!!", "2", true);
+            showMessage("@MessageResources.Err_FieldsCannotEmpty", "@messageType_Error", true);
         }
     }
     );
@@ -266,7 +270,7 @@
                 loop.pop(new Date(updatedDate).getTime());
                 updateDatatable(data);
                 //  location.reload();
-                showMessage("Deleted successfully", "1", true);
+                showMessage("@MessageResources.Msg_HolidayDeleted", "@messageType_Success", true);
             }
         });
     }
@@ -275,7 +279,7 @@
     var Id=0;
     var updatedDate = null ;
     $(document).on('click', '#btnEditHoliday', function (e) {
-        
+
         e.preventDefault();
         $('#exampleModalLabel').text("Edit Holiday");
         Id = $(this).data("content");
@@ -302,15 +306,15 @@
                     success: function (data) {
                         $('#exampleModal').modal('hide');
                         updateDatatable(data);
-                        
-                       
+
+
                       //if((new Date(updatedDate)).getTime() != (new Date(newDate)).getTime())
                       //  {
                                 loop.pop((new Date(updatedDate)).getTime());
                                 loop.push((new Date(newDate)).getTime());
                         //}
                         //  location.reload();
-                        showMessage("Successfully done.", "1", true);
+                                showMessage("@MessageResources.Msg_HolidayUpdated", "@messageType_Success", true);
                         $('#datepickerYear').val("");
                         $('#datepicker').val("");
                         $('#Description').val("");
@@ -319,12 +323,12 @@
                 });
         }
         else {
-            showMessage("Fields cannot be empty!!", "2", true);
+            showMessage("@MessageResources.Err_FieldsCannotEmpty", "@messageType_Error", true);
         }
     }
     );
     function updateDatatable(data) {
-        
+
         $('#DataTablebody').html('');
         var fixedCartItemsHtml = "<table id='example1' class='table table-bordered table-striped'>" + " <thead> <tr>  <th>Date</th><th>Description</th>  <th>Year</th>" +
                                "<th> Edit</th> <th>Delete</th> </tr></thead><tbody>";
@@ -335,7 +339,7 @@
                                  "<tr>" +
                                  "<td>" + data.list[i].FormattedDate +
                                  "</td>";
-            
+
             //Description
             fixedCartItemsHtml = fixedCartItemsHtml +
 

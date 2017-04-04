@@ -4,7 +4,12 @@
     ViewBag.Title = "Reports";
     Layout = "~/Views/Shared/_Layout.cshtml";
     var profileId = ((LMS_WebAPP_Domain.UserAccount)Session[Constants.SESSION_OBJ_USER]) != null ? ((LMS_WebAPP_Domain.UserAccount)Session[Constants.SESSION_OBJ_USER]).RefProfileType : 0;
+
+    var messageType_Success = @Convert.ToInt16((LMS_WebAPP_Utils.MessageType.Success));
+    var messageType_Error = @Convert.ToInt16((LMS_WebAPP_Utils.MessageType.Error));
 }
+
+@using EmployeeLeaveManagementApp.Content.Resources
 
 <link rel="stylesheet" href="../../plugins/select2/select2.min.css">
 <link rel="stylesheet" href="../../dist/css/AdminLTE.min.css">
@@ -640,7 +645,7 @@
             data: { employeeId: data, leaveType: leaveData, exportAs: exportAs, fromDate: fromDate, toDate: toDate },
             dataType: "json",
             success: function (data) {
-                showMessage("Mail sent successfully", "1", true);
+                showMessage("@MessageResources.Msg_MailSent", "@messageType_Success", true);
                 $("#Loading").hide();
             }
         });
@@ -664,7 +669,7 @@
 
         var exportAs = $(this).data("content");
         if ($("#ddlEmployeeName").val() == null && $("#ddlLeaveType").val() == null && reportFromDate == undefined && reportToDate == undefined) {
-            showMessage("Select Employee Name,Leave Type and Date Range", "2", true);
+            showMessage("@MessageResources.Err_SelectNameandLeaveType", "@messageType_Error", true);
             $(".ddlEmployee").select2({
                 containerCssClass: "error"
             });
@@ -717,7 +722,7 @@
 
     $('#ddlLeaveType').on('change', function () {
             $("#divLeaveTypeError").hide();
-       
+
     });
     $('#ddlProjectName').on('change', function () {
 

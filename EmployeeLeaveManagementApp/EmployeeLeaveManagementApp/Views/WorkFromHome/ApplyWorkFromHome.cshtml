@@ -3,8 +3,12 @@
     ViewBag.Title = "Index";
     Layout = "~/Views/Shared/_Layout.cshtml";
     var dateList = Model.Select(i => i.Date).ToList();
-}
 
+    var messageType_Success = @Convert.ToInt16((LMS_WebAPP_Utils.MessageType.Success));
+    var messageType_Error = @Convert.ToInt16((LMS_WebAPP_Utils.MessageType.Error));
+    var dateFormatDatePicker = LMS_WebAPP_Utils.Constants.DATE_FORMAT_DATEPICKER;
+}
+@using EmployeeLeaveManagementApp.Content.Resources
 <link href="~/plugins/Toastr/toastr.css" rel="stylesheet" />
 <link rel="stylesheet" href="~/plugins/datatables/dataTables.bootstrap.css">
 <link rel="stylesheet" href="~/plugins/iCheck/all.css">
@@ -118,7 +122,7 @@
     var dateList= @Html.Raw(Json.Encode(dateList));
     var dateExists='@Convert.ToInt16(LMS_WebAPP_Utils.ResponseCodes.DateAlreadyExists)';
     var leaveType='@Convert.ToInt16(LMS_WebAPP_Utils.LeaveType.CasualLeave)';
-    
+
     $(document).ready(function()
     {
         $(".reasonSelect").select2();
@@ -141,6 +145,30 @@
         });
 
     }
+
+    $('#datepicker').on('changeDate', function (ev) {
+        var date = $("#datepicker").datepicker('getDate');
+        fromDate=date.toLocaleDateString();
+        toDate = fromDate;
+        $.ajax({
+            cache: false,
+            type: 'post',
+            url: '/ApplyLeave/CheckLeaveAvailability',
+            data:{fromDate:fromDate,toDate:toDate,leaveType:0},
+            dataType: "json",
+            success: function (data) {
+                responseCode=data.result.responseCode;
+                if (responseCode==dateExists) {
+                    showMessage("@MessageResources.Err_LeaveAlreadyApplied","@messageType_Error",true);
+                    $('.modal-footer').hide();
+                }
+                else
+                {
+                    $('.modal-footer').show();
+                }
+            }
+        });
+    });
     function GetWorkFromHomeReasonsList()
     {
         $.ajax({
@@ -149,7 +177,7 @@
             url: '/WorkFromHome/GetWorkFromHomeReasonsList',
             dataType: "json",
             success: function (data) {
-                
+
                 for(var i=0;i<data.workFromHomeReasonsList.length;i++)
                 {
                     $("#SelectReason").append($('<option></option>').attr("value", data.workFromHomeReasonsList[i].RefReason).text(data.workFromHomeReasonsList[i].Reason));
@@ -178,12 +206,12 @@
     //Date picker
     $('#datepicker').datepicker({
         autoclose: true,
-        format: 'dd/mm/yyyy'            });
+        format: '@dateFormatDatePicker'            });
     var today = (formatDate(new Date()));
     $('#datepicker').datepicker('setDate', today);
     //$('#datepicker').val(today);
     var loop = [];
-    
+
     for (i = 0; i < dateList.length; i++) {
         loop.push(convertToJsonDate(dateList[i]));
     }
@@ -223,7 +251,7 @@
     }
 
     $(document).on('click', '#btnAddWorkFromHome ', function (e) {
-        
+
         if ($("#SelectReason").val() == 0) {
             $("#divSelectReasonError").show();
             return false;
@@ -244,7 +272,7 @@
         $('#btnAddWorkFromHome').attr("disabled", true);
         if ($.inArray(selectedDate, loop) != -1 ||responseCode==dateExists)
         {
-            showMessage("You already applied for leave/work from home on this date.", "2", true);
+            showMessage("@MessageResources.Err_LeaveAlreadyApplied","@messageType_Error",true);
             $('#btnAddWorkFromHome').attr("disabled", false);
             return false;
         }
@@ -266,14 +294,14 @@
                         $("#divOtherReason").hide();
                         $("#divSelectReasonError").hide();
                         updateDatatable(data.wfhList, true);
-                        showMessage("New WorkFromHome added successfully", "1", true);
+                        showMessage("@MessageResources.Msg_WorkFromHomeAdded","@messageType_Success",true);
                         $('#Loading').hide();
 
                     }
                 });
         }
         else {
-            showMessage("Fields cannot be empty!!", "2", true);
+            showMessage("@MessageResources.Err_FieldsCannotEmpty","@messageType_Error",true);
         }
     }
     );
@@ -287,7 +315,7 @@
 
        //Form validate
     function formValidate() {
-        
+
         if($("#SelectReason :selected").html() == "Others" && $("#txtOtherReason").val()!="")
         {
             return true;

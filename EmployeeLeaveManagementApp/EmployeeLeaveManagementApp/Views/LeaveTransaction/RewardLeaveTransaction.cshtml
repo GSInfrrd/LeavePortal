@@ -1,7 +1,11 @@
 ﻿@{
     ViewBag.Title = "RewardLeaveTransaction";
     Layout = "~/Views/Shared/_Layout.cshtml";
+
+    var messageType_Success = @Convert.ToInt16((LMS_WebAPP_Utils.MessageType.Success));
+    var messageType_Error = @Convert.ToInt16((LMS_WebAPP_Utils.MessageType.Error));
 }
+@using EmployeeLeaveManagementApp.Content.Resources
 @Styles.Render("~/bundles/Content/css")
 <section class="content-header" style="height:41px">
     <h1 class="col-md-9">
@@ -146,7 +150,7 @@
         var noofDays = $("#noOfRewardedDays").val();
         var comment = $("#txtComment").val();
         if (project == "" || employee == "" || noofDays <= 0 || noofDays == "" || comment == "") {
-            showMessage("Please select appropriate values", "2", true);
+            showMessage("@MessageResources.Err_SelectAppropriateValues", "@messageType_Error", true);
             return false;
         }
         $("#Loading").show();
@@ -170,10 +174,10 @@
                     $("#noOfRewardedDays").val("");
                     $("#txtComment").val("");
                     $("#RewardLeaveConfirmationModal").modal("hide");
-                    showMessage("Leave rewarded successfully", "1", true);
+                    showMessage("@MessageResources.Msg_LeaveRewarded", "@messageType_Success", true);
                 }
                 else {
-                    showMessage("Leave could not be rewarded", "2", true);
+                    showMessage("@MessageResources.Err_LeaveCouldNotRewarded", "@messageType_Error", true);
                 }
                 $("#Loading").hide();
             }
@@ -224,7 +228,7 @@
         var noofDays = $("#noOfRewardedDays").val();
         var comment = $("#txtComment").val();
         if (project == "" || employee == "" || noofDays <= 0 || noofDays == "" || comment == "") {
-            showMessage("Please select appropriate values", "2", true);
+            showMessage("@MessageResources.Err_SelectAppropriateValues", "@messageType_Error", true);
             return false;
         }
         $(".rewardConfirmTitle").html("Are you sure you want to reward " + employeeName + " with " + noofDays + " day(s) of leave?");

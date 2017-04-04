@@ -86,7 +86,7 @@ namespace EmployeeLeaveManagementWebAPI.Controllers
                 var logoPath = HostingEnvironment.MapPath("~/Content/Images/infrrd-logo-main.png");
                 string numberofworkingdays = workingDays.ToString();
                 string appurl = ConfigurationManager.AppSettings["AppURL"];
-                string messageBody = string.Format(body, MailDetails.ManagerName, MailDetails.EmployeeName, Convert.ToDateTime(fromDate).ToShortDateString(), Convert.ToDateTime(toDate).ToShortDateString(), numberofworkingdays, comments, appurl);
+                string messageBody = string.Format(body, MailDetails.ManagerName, MailDetails.EmployeeName, Convert.ToDateTime(fromDate).Date.ToString("dd/MM/yyyy"), Convert.ToDateTime(toDate).Date.ToString("dd/MM/yyyy"), numberofworkingdays, comments, appurl);
 
                 MailUtility.sendmail(MailDetails.ToMailId, MailDetails.CcMailId, actionName.Description(), messageBody, logoPath);
             }

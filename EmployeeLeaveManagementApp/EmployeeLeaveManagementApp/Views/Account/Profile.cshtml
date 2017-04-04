@@ -11,7 +11,13 @@
     var employeeId = 0;
     var employeeName = "";
     var profileHeader = "Profile";
+
+    var messageType_Success = @Convert.ToInt16((LMS_WebAPP_Utils.MessageType.Success));
+    var messageType_Error = @Convert.ToInt16((LMS_WebAPP_Utils.MessageType.Error));
+
+    var dateFormatDateRangePicker = LMS_WebAPP_Utils.Constants.DATE_FORMAT_DATERANGEPICKER;
 }
+@using EmployeeLeaveManagementApp.Content.Resources
 <link rel="stylesheet" href="../../plugins/select2/select2.min.css">
 <link rel="stylesheet" href="../../dist/css/AdminLTE.min.css">
 <link href="~/plugins/Toastr/toastr.css" rel="stylesheet" />
@@ -179,6 +185,8 @@
                                         <!-- col-sm-10 -->
                                     </div>
                                 </div>
+                                @if (@Model.City != "")
+                                {
                                 <div class="col-sm-6">
                                     <div class="row mgbt-xs-0">
                                         <label class="col-xs-5 control-label">City:</label>
@@ -186,6 +194,7 @@
                                         <!-- col-sm-10 -->
                                     </div>
                                 </div>
+                                }
                                 <div class="col-sm-6">
                                     <div class="row mgbt-xs-0">
                                         <label class="col-xs-5 control-label">Country:</label>
@@ -321,7 +330,7 @@
                                 <div class="form-group">
                                     <label for="inputEmail" class="col-sm-2 control-label">Date Of Birth</label>
                                     <div class="col-sm-10">
-                                        <input type="text" class="form-control" id="dateOfBirthDatePicker" value="@Model.DateOfBirth.Date.ToString("MM/dd/yyyy")">
+                                        <input type="text" class="form-control" id="dateOfBirthDatePicker" value="@Model.DateOfBirth.Date.ToString("dd/MM/yyyy")">
                                     </div>
                                 </div>
                                 <div class="form-group">
@@ -375,7 +384,7 @@
                                 <div class="form-group">
                                     <label for="inputName" class="col-sm-2 control-label">Date Of Joining</label>
                                     <div class="col-sm-10">
-                                        <input type="text" readonly="readonly" class="form-control"  value="@Model.DateOfJoining.ToShortDateString()">
+                                        <input type="text" readonly="readonly" class="form-control"  value="@Model.DateOfJoining.Date.ToString("dd/MM/yyyy")">
                                     </div>
                                 </div>
                                 <div class="form-group">
@@ -399,7 +408,7 @@
                                 <div class="form-group">
                                     <label for="inputName" class="col-sm-2 control-label">Date Of Confirmation</label>
                                     <div class="col-sm-10">
-                                        <input type="text" readonly="readonly" class="form-control" value="@Model.DateOfConfirmation.ToShortDateString()">
+                                        <input type="text" readonly="readonly" class="form-control" value="@Model.DateOfConfirmation.Date.ToString("dd/MM/yyyy")">
                                     </div>
                                 </div>
                                 <div class="form-group">
@@ -667,7 +676,7 @@
                                     <div class="form-group">
                                         <label for="inputEmail" class="col-sm-2 control-label">Duration</label>
                                         <div class="col-sm-10">
-                                            <input type="text" class="form-control" id="educationDatePicker_@i" value="@Model.EmployeeEducationDetails[i].FromDate.Date.ToString("MM/dd/yyyy") - @Model.EmployeeEducationDetails[i].ToDate.Date.ToString("MM/dd/yyyy")">
+                                            <input type="text" class="form-control" id="educationDatePicker_@i" value="@Model.EmployeeEducationDetails[i].FromDate.Date.ToString("dd/MM/yyyy") - @Model.EmployeeEducationDetails[i].ToDate.Date.ToString("dd/MM/yyyy")">
                                         </div>
                                     </div>
                                     <hr />
@@ -705,7 +714,7 @@
                                     <div class="form-group">
                                         <label class="col-sm-2 control-label">Duration</label>
                                         <div class="col-sm-10">
-                                            <input type="text" class="form-control" id="experienceDatePicker_@j" value="@Model.EmployeeExperienceDetails[j].FromDate.Date.ToString("MM/dd/yyyy") - @Model.EmployeeExperienceDetails[j].ToDate.Date.ToString("MM/dd/yyyy")">
+                                            <input type="text" class="form-control" id="experienceDatePicker_@j" value="@Model.EmployeeExperienceDetails[j].FromDate.Date.ToString("dd/MM/yyyy") - @Model.EmployeeExperienceDetails[j].ToDate.Date.ToString("dd/MM/yyyy")">
                                         </div>
                                     </div>
                                     <hr />
@@ -827,7 +836,7 @@
                                     {
                                         $('#CropImageModal').hide();
                                         alert("please select image with max size 400x280 PX.");
-                                       // $("#UserProfileImageDisplay").attr("src", "@imagePath");
+                                        // $("#UserProfileImageDisplay").attr("src", "@imagePath");
                                         return;
                                     }
                                     $('#Image1').Jcrop({
@@ -854,18 +863,18 @@
                                 $('#Image1').hide();
                                 $('#canvas').hide();
                                 jcrop_api.destroy();
-                                        jcrop_api.disable();
-                                        jcrop_api.release();
-                                        $('.jcrop-holder').remove();
+                                jcrop_api.disable();
+                                jcrop_api.release();
+                                $('.jcrop-holder').remove();
                             });
 
 
                             $('#btnCrop').click(function () {
 
                                 if ($('#imgWidth').val() == 0 && $('#imgHeight').val() == 0) {
-                                            alert("Please select crop area.");
-                                            return;
-                                        }
+                                    alert("Please select crop area.");
+                                    return;
+                                }
 
                                 $('#CropImageModal').hide();
                                 var x1 = $('#imgX1').val();
@@ -953,6 +962,9 @@
 
                                     $("#educationDatePicker_" + i).daterangepicker(
                                                    {
+                                                       locale: {
+                                                           format: '@dateFormatDateRangePicker'
+                                                       },
 
                                                    });
                                 }
@@ -960,6 +972,9 @@
                                 {
                                     $('#experienceDatePicker_'+j).daterangepicker(
                                           {
+                                              locale: {
+                                                  format: '@dateFormatDateRangePicker'
+                                              },
                                           });
                                 }
                                 $('#dateOfBirthDatePicker').datepicker(
@@ -1195,6 +1210,9 @@
                             $("#divEducationDetails").append(data);
                             $('#educationDatePicker_'+i).daterangepicker(
                                      {
+                                         locale: {
+                                             format: '@dateFormatDateRangePicker'
+                                         },
 
                                      });
                         });
@@ -1211,6 +1229,9 @@
                             $("#otherExperienceDetails").append(expDiv);
                             $('#experienceDatePicker_'+j).daterangepicker(
                                  {
+                                     locale: {
+                                         format: '@dateFormatDateRangePicker'
+                                     },
                                  });
                         });
 
@@ -1244,7 +1265,7 @@
                                 processData: false,
                                 success: function (data) {
                                     debugger
-                                    showMessage("Employee details saved successfully","1",true);
+                                    showMessage("@MessageResources.Msg_EmployeeDetailsSaved","@messageType_Success",true);
                                     // ShowAndHidetabs();
                                 }
                             });
@@ -1272,7 +1293,7 @@
                                 dataType: "json",
                                 processData: false,
                                 success: function (data) {
-                                    showMessage("Employee details saved successfully","1",true);
+                                    showMessage("@MessageResources.Msg_EmployeeDetailsSaved","@messageType_Success",true);
                                     window.location.href='/Account/Profile';
                                     // ShowAndHidetabs();
                                 }
@@ -1305,7 +1326,7 @@
                                 dataType: "json",
                                 processData: false,
                                 success: function (data) {
-                                    showMessage("Employee details saved successfully","1",true);
+                                    showMessage("@MessageResources.Msg_EmployeeDetailsSaved","@messageType_Success",true);
                                     window.location.href='/Account/Profile';
                                     // ShowAndHidetabs();
                                 }
@@ -1343,7 +1364,7 @@
                                 dataType: "json",
                                 processData: false,
                                 success: function (data) {
-                                    showMessage("Employee details saved successfully","1",true);
+                                    showMessage("@MessageResources.Msg_EmployeeDetailsSaved","@messageType_Success",true);
                                     window.location.href='/Account/Profile';
                                     // ShowAndHidetabs();
                                 }
@@ -1358,7 +1379,9 @@
                                     Id: $("#Id_" + j).val(),
                                     Institution: $("#txtInstitution_" + j).val(),
                                     Degree: $("#txtGraduation_" + j).val(),
-                                    TimePeriod:$("#educationDatePicker_"+j).val()
+                                    TimePeriod:$("#educationDatePicker_"+j).val(),
+                                    FromDate : $("#educationDatePicker_"+j).data('daterangepicker').startDate._d,
+                                    ToDate : $("#educationDatePicker_"+j).data('daterangepicker').endDate._d,
 
                                 }
                                 educationDetails.push(details);
@@ -1373,7 +1396,7 @@
                                 processData: false,
                                 success: function (data) {
                                     //ShowAndHidetabs();
-                                    showMessage("Education details saved successfully","1",true);
+                                    showMessage("@MessageResources.Msg_EmployeeDetailsSaved","@messageType_Success",true);
                                 }
                             });
                         });
@@ -1387,7 +1410,9 @@
                                     Id: $("#expId_" + k).val(),
                                     Company: $("#txtEmployer_" + k).val(),
                                     Role: $("#txtDesignation_" + k).val(),
-                                    TimePeriod:$("#experienceDatePicker_"+k).val()
+                                    TimePeriod:$("#experienceDatePicker_"+k).val(),
+                                    FromDate : $("#experienceDatePicker_"+k).data('daterangepicker').startDate._d,
+                                    ToDate : $("#experienceDatePicker_"+k).data('daterangepicker').endDate._d,
 
                                 }
                                 experienceDetails.push(details);
@@ -1401,7 +1426,7 @@
                                 dataType: "json",
                                 processData: false,
                                 success: function (data) {
-                                    showMessage("Experience details saved successfully","1",true);
+                                    showMessage("@MessageResources.Msg_EmployeeDetailsSaved","@messageType_Success",true);
                                     //ShowAndHidetabs();
 
                                 }
@@ -1425,7 +1450,7 @@
                                 dataType: "json",
                                 processData: false,
                                 success: function (data) {
-                                    showMessage("Skills saved successfully","1",true);
+                                    showMessage("@MessageResources.Msg_EmployeeDetailsSaved","@messageType_Success",true);
                                     //ShowAndHidetabs();
 
                                 }

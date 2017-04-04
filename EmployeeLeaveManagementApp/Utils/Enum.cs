@@ -224,8 +224,8 @@ namespace LMS_WebAPP_Utils
     {
         [Description("Permanent")]
         Permanent = 261,
-        [Description("Temprary")]
-        Temprary = 262
+        [Description("Temporary")]
+        Temporary = 262
     }
 
     public enum ProfileType
@@ -279,5 +279,15 @@ namespace LMS_WebAPP_Utils
         [Description("I.T")]
         IT = 234,
         
+    }
+
+    public enum MessageType
+    {
+        [Description("Success")]
+        Success = 1,
+        [Description("Error")]
+        Error = 2,
+        
+
     }
 }

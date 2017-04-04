@@ -79,6 +79,39 @@ namespace LMS_WebAPI_ServiceHelpers
             }
         }
 
+
+        public MailDetailsModel GetMailTemplateForAddNewEmployee(ActionsForMail actionName, int EmployeeId,int HrId)
+        {
+            Logger.Info("Entering into MailManagemet Service helper GetMailTemplateForAddNewEmployee method ");
+            try
+            {
+                var MailDetail = MailDetails.GetMailTemplateForAddNewEmployee(actionName, EmployeeId, HrId);
+                Logger.Info("Exiting from into MailManagemet Service helper GetMailTemplateForAddNewEmployee method ");
+                return MailDetail;
+            }
+            catch
+            {
+                Logger.Info("Exception occured at MailManagemet Service helper GetMailTemplateForAddNewEmployee method ");
+                throw;
+            }
+        }
+
+        public MailDetailsModel GetMailTemplateForChangePassword(ActionsForMail actionName, int EmployeeId)
+        {
+            Logger.Info("Entering into MailManagemet Service helper GetMailTemplateForChangePassword method ");
+            try
+            {
+                var MailDetail = MailDetails.GetMailTemplateForChangePassword(actionName, EmployeeId);
+                Logger.Info("Exiting from into MailManagemet Service helper GetMailTemplateForChangePassword method ");
+                return MailDetail;
+            }
+            catch
+            {
+                Logger.Info("Exception occured at MailManagemet Service helper GetMailTemplateForChangePassword method ");
+                throw;
+            }
+        }
+
         public MailDetailsModel GetMailTemplateForAddResourceRequest(ActionsForMail actionName, int EmployeeId , int HrId)
         {
             Logger.Info("Entering into MailManagemet Service helper GetMailTemplateForAddResourceRequest method ");

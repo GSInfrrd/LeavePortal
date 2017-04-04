@@ -382,6 +382,38 @@ namespace LMS_WebAPI_ServiceHelpers
             }
         }
 
+        public bool CheckEmployeePassword(int employeeId, string currentPassword)
+        {
+            Logger.Info("Entering into UserManagement Service helper CheckEmployeePassword method ");
+            try
+            {
+                var result = user.CheckEmployeePassword(employeeId, currentPassword);
+                Logger.Info("Exiting from into UserManagement Service helper CheckEmployeePassword method ");
+                return result;
+            }
+            catch
+            {
+                Logger.Error("Exception occured at UserManagement Service helper CheckEmployeePassword method ");
+                throw;
+            }
+        }
+
+        public bool UpdatePassword(int employeeId, string newPassword)
+        {
+            Logger.Info("Entering into UserManagement Service helper UpdatePassword method ");
+            try
+            {
+                var result = user.UpdatePassword(employeeId, newPassword);
+                Logger.Info("Exiting from into UserManagement Service helper UpdatePassword method ");
+                return result;
+            }
+            catch
+            {
+                Logger.Error("Exception occured at UserManagement Service helper UpdatePassword method ");
+                throw;
+            }
+        }
+
 
     }
 }

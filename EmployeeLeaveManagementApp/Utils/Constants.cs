@@ -12,5 +12,7 @@ namespace LMS_WebAPP_Utils
         public const string SESSION_OBJ_USER = "user";
         public const string Content = "CONTENT";
         public const string SUBJECT = " SUBJECT";
+        public const string DATE_FORMAT_DATEPICKER = "dd/mm/yyyy";
+        public const string DATE_FORMAT_DATERANGEPICKER = "DD/MM/YYYY";
     }
 }

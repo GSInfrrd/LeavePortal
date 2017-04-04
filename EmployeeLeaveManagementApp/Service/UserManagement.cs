@@ -504,6 +504,71 @@ namespace LMS_WebAPP_ServiceHelpers
         }
 
 
+        public async Task<bool> CheckEmployeePasswordAsync(int employeeId , string currentPassword)
+        {
+            Logger.Info("Entering into UserManagement APP Service helper CheckEmployeePasswordAsync method ");
+            try
+            {
+                using (HttpClient client = new HttpClient())
+                {
+                    string URL = ProfileURL + "/CheckEmployeePassword";
+                    urlParameters = "?employeeId=" + employeeId + "&currentPassword=" + currentPassword;
+                    client.BaseAddress = new Uri(URL);
+                    // Add an Accept header for JSON format.
+                    client.DefaultRequestHeaders.Accept.Add(
+                    new MediaTypeWithQualityHeaderValue("application/json"));
+
+                    // List data response.
+                    HttpResponseMessage response = await client.GetAsync(urlParameters);  // Blocking call!
+                    if (response.IsSuccessStatusCode)
+                    {
+                        var dataObjects = response.Content.ReadAsAsync<bool>().Result;
+                        Logger.Info("Exiting from into UserManagement APP Service helper CheckEmployeePasswordAsync method ");
+                        return dataObjects;
+                    }
+                    return false;
+                }
+            }
+            catch
+            {
+                Logger.Error("Exception occured at UserManagement APP Service helper CheckEmployeePasswordAsync method ");
+                throw;
+            }
+        }
+
+
+        public async Task<bool> UpdatePasswordAsync(int employeeId, string newPassword)
+        {
+            Logger.Info("Entering into UserManagement APP Service helper UpdatePasswordAsync method ");
+            try
+            {
+                using (HttpClient client = new HttpClient())
+                {
+                    string URL = ProfileURL + "/UpdatePassword";
+                    urlParameters = "?employeeId=" + employeeId + "&newPassword=" + newPassword;
+                    client.BaseAddress = new Uri(URL);
+                    // Add an Accept header for JSON format.
+                    client.DefaultRequestHeaders.Accept.Add(
+                    new MediaTypeWithQualityHeaderValue("application/json"));
+
+                    // List data response.
+                    HttpResponseMessage response = await client.GetAsync(urlParameters);  // Blocking call!
+                    if (response.IsSuccessStatusCode)
+                    {
+                        var dataObjects = response.Content.ReadAsAsync<bool>().Result;
+                        Logger.Info("Exiting from into UserManagement APP Service helper UpdatePasswordAsync method ");
+                        return dataObjects;
+                    }
+                    return false;
+                }
+            }
+            catch
+            {
+                Logger.Error("Exception occured at UserManagement APP Service helper UpdatePasswordAsync method ");
+                throw;
+            }
+        }
+
     }
 }
 

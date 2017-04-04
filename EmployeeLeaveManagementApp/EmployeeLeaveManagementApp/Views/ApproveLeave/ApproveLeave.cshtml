@@ -2,8 +2,11 @@
 @{
     ViewBag.Title = "ApproveLeave";
     Layout = "~/Views/Shared/_Layout.cshtml";
+    var messageType_Success = @Convert.ToInt16((LMS_WebAPP_Utils.MessageType.Success));
+    var messageType_Error = @Convert.ToInt16((LMS_WebAPP_Utils.MessageType.Error));
 
 }
+@using EmployeeLeaveManagementApp.Content.Resources
     <!-- DataTables -->
     <link rel="stylesheet" href="../../plugins/datatables/dataTables.bootstrap.css">
 
@@ -197,19 +200,19 @@
         $(document).ready(function () {
             $('#approveLeave').parent().addClass('active');
             if (localStorage.getItem("leaveApproved") == 1) {
-                showMessage("Leave request successfully approved", "1", true);
+                showMessage("@MessageResources.Msg_LeaveApproved", "@messageType_Success", true);
                 localStorage.removeItem("leaveApproved");
             }
             if (localStorage.getItem("leaveRejected") == 1) {
-                showMessage("Leave request rejected", "2", true);
+                showMessage("@MessageResources.Msg_LeaveRejected", "@messageType_Success", true);
                 localStorage.removeItem("leaveRejected");
             }
             if (localStorage.getItem("leaveAssigned") == 1) {
-                showMessage("Leave request successfully assigned", "1", true);
+                showMessage("@MessageResources.Msg_LeaveAssigned", "@messageType_Success", true);
                 localStorage.removeItem("leaveAssigned");
             }
             if (localStorage.getItem("leaveCanceled") == 1) {
-                showMessage("Leave request Canceled", "1", true);
+                showMessage("@MessageResources.Msg_LeaveCancelled", "@messageType_Success", true);
                 localStorage.removeItem("leaveCanceled");
             }
             $(function () {

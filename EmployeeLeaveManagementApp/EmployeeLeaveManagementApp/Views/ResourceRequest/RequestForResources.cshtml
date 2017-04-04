@@ -7,7 +7,11 @@
         lstRequestStatus.Add((int)Enum.Parse(typeof(LMS_WebAPP_Utils.ResourceRequestStatus), name), LMS_WebAPP_Utils.CommonMethods.Description((LMS_WebAPP_Utils.ResourceRequestStatus)Enum.Parse(typeof(LMS_WebAPP_Utils.ResourceRequestStatus), name, true)));
     }
     Layout = "~/Views/Shared/_Layout.cshtml";
+
+    var messageType_Success = @Convert.ToInt16((LMS_WebAPP_Utils.MessageType.Success));
+    var messageType_Error = @Convert.ToInt16((LMS_WebAPP_Utils.MessageType.Error));
 }
+@using EmployeeLeaveManagementApp.Content.Resources
 @Styles.Render("~/bundles/Content/css")
 <link rel="stylesheet" href="../../plugins/iCheck/all.css">
 <link rel="stylesheet" href="../../plugins/select2/select2.min.css">
@@ -249,7 +253,7 @@
                 "info": false,
             });
 
-      
+
         });
     });
 
@@ -301,17 +305,17 @@
         var requestTitle = $("#txtRequestTitle").val();
         if ($(requestTitle).length > 50) {
             $("#txtRequestTitle").val("");
-            showMessage("Request title too long", "2", true);
+            showMessage("@MessageResources.Err_RequestTitleTooLong", "@messageType_Error", true);
             return false;
         }
         else if (requestTitle == "") {
-            showMessage("Please enter request title", "2", true);
+            showMessage("@MessageResources.Err_EnterRequestTitle", "@messageType_Error", true);
             return false;
         }
         var noOfResourcesRequested = $("#txtResourcesRequired").val();
-        if (parseInt(noOfResourcesRequested) < 0 || parseInt(noOfResourcesRequested) == 0 || parseInt(noOfResourcesRequested) > 20) {
+        if (parseInt(noOfResourcesRequested) < 0 || parseInt(noOfResourcesRequested) == 0 || parseInt(noOfResourcesRequested) > 10) {
             $("#txtResourcesRequired").val("");
-            showMessage("Number of requested resources must be between 1 and 10", "2", true);
+            showMessage("@MessageResources.Err_RequestedResourceNumber", "@messageType_Error", true);
             return false;
         }
         var skills = [];
@@ -321,7 +325,7 @@
             }
         }
         else {
-            showMessage("Please select required skills", "2", true);
+            showMessage("@MessageResources.Err_SelectRequiredSkills", "@messageType_Error", true);
             return false;
         }
 
@@ -365,10 +369,10 @@
                         $(".viewAllBtn").show();
                     }
                     $('#addResourceRequestModal').modal('hide');
-                    showMessage("Request sent successfully", "1", true);
+                    showMessage("@MessageResources.Msg_RequestSent", "@messageType_Success", true);
                 }
                 else {
-                    showMessage("Request could not be sent", "2", true);
+                    showMessage("@MessageResources.Err_RequestCouldNotSent", "@messageType_Error", true);
                 }
                 $('#divTitleError').hide();
                 $('#divNoofresourcesError').hide();
@@ -480,10 +484,10 @@
                     else {
                         $(".viewAllBtn").show();
                     }
-                    showMessage("Request cancelled successfully", "1", true);
+                    showMessage("@MessageResources.Msg_RequestCancelled", "@messageType_Success", true);
                 }
                 else {
-                    showMessage("Request could not be cancelled", "2", true);
+                    showMessage("@MessageResources.Err_RequestCouldNotCancelled", "@messageType_Error", true);
                 }
                 $("#Loading").hide();
             },
@@ -502,7 +506,7 @@
         $('#divNoofresourcesinvalidError').hide();
     });
 
-   
+
     $('#ddlSkills').on('change', function () {
         if ($("#ddlSkills").val() != null) {
             $("#divSkillsError").hide();

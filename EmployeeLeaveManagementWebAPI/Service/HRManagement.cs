@@ -13,12 +13,12 @@ namespace LMS_WebAPI_ServiceHelpers
     public class HRManagement
     {
        private IHRRepository hrRepo = new HRRepository();
-        public bool SubmitEmployeeDetails(EmployeeDetailsModel model)
+        public bool SubmitEmployeeDetails(EmployeeDetailsModel model,string OTP, out int EmployeeId)
         {
             Logger.Info("Entering into HRManagement Service helper SubmitEmployeeDetails method ");
             try
             {
-                var result = hrRepo.SubmitEmployeeDetails(model);
+                var result = hrRepo.SubmitEmployeeDetails(model,OTP,out EmployeeId);
                 Logger.Info("Exiting from into HRManagement Service helper SubmitEmployeeDetails method ");
                 return result;
             }
