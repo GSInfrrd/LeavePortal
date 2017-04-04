@@ -95,13 +95,7 @@ namespace EmployeeLeaveManagementApp.Controllers
             Logger.Info("Entering in ProfileController APP EditEmployeeEducationDetails method");
             try
             {
-                foreach (var item in educationDetails)
-            {
-                var fromDate = item.TimePeriod.Split('-')[0];
-                var toDate = item.TimePeriod.Split('-')[1];
-                item.FromDate = Convert.ToDateTime(fromDate);
-                item.ToDate = Convert.ToDateTime(toDate);
-            }
+
                 var employeeId = ((UserAccount)Session[Constants.SESSION_OBJ_USER]).RefEmployeeId;
                 var result = await usrManagement.EditEmployeeEducationDetailsAsync(educationDetails,employeeId);
                 Logger.Info("Successfully exiting from ProfileController APP EditEmployeeEducationDetails method");
@@ -121,13 +115,6 @@ namespace EmployeeLeaveManagementApp.Controllers
             Logger.Info("Entering in ProfileController APP EditEmployeeExperienceDetails method");
             try
             {
-                foreach (var item in experienceDetails)
-            {
-                var fromDate = item.TimePeriod.Split('-')[0];
-                var toDate = item.TimePeriod.Split('-')[1];
-                item.FromDate = Convert.ToDateTime(fromDate);
-                item.ToDate = Convert.ToDateTime(toDate);
-            }
                 var employeeId = ((UserAccount)Session[Constants.SESSION_OBJ_USER]).RefEmployeeId;
                 var result = await usrManagement.EditEmployeeExperienceDetailsAsync(experienceDetails, employeeId);
                 Logger.Info("Successfully exiting from ProfileController APP EditEmployeeExperienceDetails method");

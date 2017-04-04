@@ -13,5 +13,7 @@ namespace LMS_WebAPP_Domain
         public double? advanceLeaveBalance { get; set; }
         public int lopLeaveBalance { get; set; }
         public int responseCode { get; set; }
+
+        public List<HolidayModel> HolidayList { get; set; }
     }
 }

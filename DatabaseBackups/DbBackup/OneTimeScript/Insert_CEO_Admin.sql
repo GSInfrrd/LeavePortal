@@ -104,8 +104,8 @@ INSERT INTO [dbo].[EmployeeLeaveTransaction] ([Id],
 SET IDENTITY_INSERT [dbo].[EmployeeLeaveTransaction] OFF
 
 SET IDENTITY_INSERT [dbo].[UserAccount] ON
-INSERT INTO [dbo].[UserAccount] ([Id], [UserName], [Password], [Lastlogin], [RefEmployeeId], [CreatedDate], [ModifiedDate], [CreatedBy], [ModifiedBy]) VALUES (1, N'amit@infrrd.ai', N'Temp@123', NULL, 1, N'2016-01-01 00:00:00', NULL, NULL, NULL)
-INSERT INTO [dbo].[UserAccount] ([Id], [UserName], [Password], [Lastlogin], [RefEmployeeId], [CreatedDate], [ModifiedDate], [CreatedBy], [ModifiedBy]) VALUES (2, N'riya@infrrd.ai', N'Temp@123', NULL, 2, N'2016-01-01 00:00:00', NULL, NULL, NULL)
-INSERT INTO [dbo].[UserAccount] ([Id], [UserName], [Password], [Lastlogin], [RefEmployeeId], [CreatedDate], [ModifiedDate], [CreatedBy], [ModifiedBy]) VALUES (3, N'girija.swami@infrrd.ai', N'Temp@123', NULL, 3, N'2016-01-01 00:00:00', NULL, NULL, NULL)
+INSERT INTO [dbo].[UserAccount] ([Id], [UserName], [Password], [Lastlogin], [RefEmployeeId], [CreatedDate], [ModifiedDate], [CreatedBy], [ModifiedBy]) VALUES (1, N'amit@infrrd.ai', N'1595016415591522271663213317117614521416575', NULL, 1, N'2016-01-01 00:00:00', NULL, NULL, NULL)
+INSERT INTO [dbo].[UserAccount] ([Id], [UserName], [Password], [Lastlogin], [RefEmployeeId], [CreatedDate], [ModifiedDate], [CreatedBy], [ModifiedBy]) VALUES (2, N'riya@infrrd.ai', N'1595016415591522271663213317117614521416575', NULL, 2, N'2016-01-01 00:00:00', NULL, NULL, NULL)
+INSERT INTO [dbo].[UserAccount] ([Id], [UserName], [Password], [Lastlogin], [RefEmployeeId], [CreatedDate], [ModifiedDate], [CreatedBy], [ModifiedBy]) VALUES (3, N'girija.swami@infrrd.ai', N'1595016415591522271663213317117614521416575', NULL, 3, N'2016-01-01 00:00:00', NULL, NULL, NULL)
 SET IDENTITY_INSERT [dbo].[UserAccount] OFF
 

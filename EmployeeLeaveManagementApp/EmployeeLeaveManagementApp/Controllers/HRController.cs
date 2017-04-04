@@ -555,6 +555,7 @@ namespace EmployeeLeaveManagementApp.Controllers
                 }
                 
                 empModel.Projects = projects;
+
                 var data = await hrOperations.SubmitEmployeeDetailsAsync(empModel);
                 return Json(new { result = data });
 
@@ -580,11 +581,16 @@ namespace EmployeeLeaveManagementApp.Controllers
                     var data = Array.ConvertAll(employeeId.TrimEnd(':').Split(':'), int.Parse);
                     var leaveData = Array.ConvertAll(leaveType.TrimEnd(':').Split(':'), int.Parse);
                     var detailsList = new List<DetailedLeaveReport>();
-                    model = await hrOperations.GenerateReportsAsync(employeeId, fromDate, toDate);
-                    if(model != null)
-                    { 
-                    detailsList =  model[0].DetailedLeaveReports;
+                    if(fromDate == "undefined")
+                    {
+                        fromDate = DateTime.Now.Date.ToShortDateString();
                     }
+                    if(toDate == "undefined")
+                    {
+                        toDate = DateTime.Now.Date.ToShortDateString();
+                    }
+                    model = await hrOperations.GenerateReportsAsync(employeeId, fromDate, toDate);
+                    detailsList =  model[0].DetailedLeaveReports;
                     string filterValue = String.Empty;
                     var filtersList = new List<ExcelDownloadFilterList>();
                     if (leaveData.Count() >= 1 && leaveData[0] != 0)
