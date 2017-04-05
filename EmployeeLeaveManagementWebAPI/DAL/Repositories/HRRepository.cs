@@ -52,8 +52,8 @@ namespace LMS_WebAPI_DAL.Repositories
                     EmployeeGender EGender = (EmployeeGender)Convert.ToInt16(model.Gender);
                     var employeeDetails = new EmployeeDetail
                     {
-                        FirstName = model.FirstName,
-                        LastName = model.LastName,
+                        FirstName = ConvertToCamelCase(model.FirstName),
+                        LastName = ConvertToCamelCase(model.LastName),
                         DateOfBirth = model.DateOfBirth,
                         RefRoleId = model.RefRoleId,
                         City = model.City,
@@ -273,7 +273,27 @@ namespace LMS_WebAPI_DAL.Repositories
             return result;
 
         }
-        
+
+
+        private string ConvertToCamelCase(string phrase)
+        {
+            string[] splittedPhrase = phrase.Split(' ', '-', '.');
+            var sb = new StringBuilder();
+            //sb.Append(splittedPhrase[0].ToLower());
+            //splittedPhrase[0] = string.Empty;
+
+            foreach (String s in splittedPhrase)
+            {
+                char[] splittedPhraseChars = s.ToCharArray();
+                if (splittedPhraseChars.Length > 0)
+                {
+                    splittedPhraseChars[0] = ((new String(splittedPhraseChars[0], 1)).ToUpper().ToCharArray())[0];
+                }
+                sb.Append(new String(splittedPhraseChars));
+            }
+            return sb.ToString();
+        }
+
         public List<EmployeeDetailsModel> GetEmployeeList()
         {
             Logger.Info("Entering in HRRepository API GetEmployeeList method");

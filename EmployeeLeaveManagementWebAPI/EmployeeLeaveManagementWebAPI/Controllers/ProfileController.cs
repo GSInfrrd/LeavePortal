@@ -275,7 +275,7 @@ namespace EmployeeLeaveManagementWebAPI.Controllers
             string appurl = ConfigurationManager.AppSettings["AppURL"];
 
             string EmployeeName = MailDetails.EmployeeName.Substring(0, MailDetails.EmployeeName.IndexOf(" "));
-            string messageBody = string.Format(body, EmployeeName, MailDetails.ToMailId, newPassword, appurl);
+            string messageBody = string.Format(body, EmployeeName, MailDetails.ToMailId, appurl);
 
             MailUtility.sendmail(MailDetails.ToMailId, MailDetails.CcMailId, actionName.Description(), messageBody, logoPath);
         }

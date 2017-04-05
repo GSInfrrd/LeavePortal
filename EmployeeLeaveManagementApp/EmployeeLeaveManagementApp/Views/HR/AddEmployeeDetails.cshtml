@@ -881,13 +881,18 @@
                        locale: {
                            format: '@dateFormatDateRangePicker'
                        }
+                       
                    });
+            $("#experienceDatePicker").click(function() {
+                $("html, body").animate({ scrollTop: $(document).height() }, "fast");
+
+            })
             $('#experienceDatePicker').daterangepicker(
                   {
                       locale: {
                           format: '@dateFormatDateRangePicker'
                       },
-                      //maxDate: $("#txtJoiningDate").datepicker("getDate")
+                      
                       maxDate: new Date()
                   });
 
@@ -967,8 +972,49 @@
         radioClass: 'iradio_flat-green'
     });
 
+    $(document).on('change', '#ddlCurrentCountry', function (e) {
+        if($('#chkSamePermanentAddress').is(':checked'))
+        {
+            var ddlCurrentCountryValue = $("#ddlCurrentCountry").val();
+            $("#ddlPermanentCountry").val(ddlCurrentCountryValue).trigger('change');
+        }
+    })
+    $(document).on('change', '#ddlCurrentState', function (e) {
+        if($('#chkSamePermanentAddress').is(':checked'))
+        {
+            var ddlCurrentStateValue = $("#ddlCurrentState").val();
+            $("#ddlPermanentState").val(ddlCurrentStateValue).trigger('change');
+        }
+    })
+    $(document).on('change', '#ddlCurrentCity', function (e) {
+        if($('#chkSamePermanentAddress').is(':checked'))
+        {
+            var ddlCurrentCityValue = $("#ddlCurrentCity").val();
+            $("#ddlPermanentCity").val(ddlCurrentCityValue).trigger('change');
+        }
+    })
+    $(document).on('change', '#txtCurrentAddressLine1', function (e) {
+        if($('#chkSamePermanentAddress').is(':checked'))
+        {
+            $("#txtPermanentAddressLine1").val($("#txtCurrentAddressLine1").val());
+        }
+    })
+    $(document).on('change', '#txtCurrentAddressLine2', function (e) {
+        if($('#chkSamePermanentAddress').is(':checked'))
+        {
+            $("#txtPermanentAddressLine2").val($("#txtCurrentAddressLine2").val());
+        }
+    })
+    $(document).on('change', '#txtCurrentPincode', function (e) {
+        if($('#chkSamePermanentAddress').is(':checked'))
+        {
+            $("#txtPermanentPincode").val($("#txtCurrentPincode").val());
+        }
+    })
+
+
+
     $(document).on('click', '#chkSamePermanentAddress', function (e) {
-        debugger
         if($('#chkSamePermanentAddress').is(':checked'))
         {
             var ddlCurrentCountryValue = $("#ddlCurrentCountry").val();
@@ -1787,8 +1833,6 @@
             var experienceDetails = {
                 CompanyName: $("#txtEmployer").val(),
                 Role: $("#ddlExperienceDesignation").val(),
-                //FromDate: $("#experienceDatePicker").val().split("-")[0].trim(),
-                //ToDate: $("#experienceDatePicker").val().split("-")[1].trim(),
                 FromDate : $('#experienceDatePicker').data('daterangepicker').startDate._d,
                 ToDate : $('#experienceDatePicker').data('daterangepicker').endDate._d,
 
