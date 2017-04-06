@@ -14,27 +14,7 @@ namespace EmployeeLeaveManagementApp.Controllers
     {
         // GET: ChangePassword
         UserManagement UM = new UserManagement();
-        public ActionResult ChangePassword()
-        {
-            Logger.Info("Entering in ChangePasswordController APP CheckEmployeePassword method");
-            try
-            {
-                if (null != Session[Constants.SESSION_OBJ_USER])
-                {
-                    return View();
-                }
-                else
-                {
-                    Logger.Info("Successfully exiting from ChangePasswordController APP ChangePassword method");
-                    return RedirectToAction("Login", "Account");
-                }
-            }
-            catch (Exception ex)
-            {
-                Logger.Error("Error at ChangePasswordController APP ChangePassword method.", ex);
-                return View("Error"); ;
-            }
-        }
+        
 
         public async Task<bool> CheckEmployeePassword(string currentPassword)
         {

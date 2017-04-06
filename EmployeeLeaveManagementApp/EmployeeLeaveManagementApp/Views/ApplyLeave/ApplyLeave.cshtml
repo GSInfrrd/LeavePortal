@@ -594,7 +594,7 @@
                 });
             });
         });
-        $(document).on('click', '.leave-selection', function(){
+        $(document).on('change', '.leave-selection', function(){
             if($(this).hasClass('half-day')){
                 var workingDays = parseFloat( $("#lblTotalWorkingDays").html());
                 $("#lblTotalWorkingDays").html(workingDays - 0.5);

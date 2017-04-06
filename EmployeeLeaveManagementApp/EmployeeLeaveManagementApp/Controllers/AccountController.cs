@@ -304,16 +304,27 @@ namespace EmployeeLeaveManagementApp.Controllers
         }
 
 
-        //private async Task<EmployeeDetailsModel> GetAsyncData(UserAccount data)
-        //{
-        //    Task<EmployeeDetailsModel> sCode = Task.Run(async () =>
-        //    {
-        //        var EmpData = await user.GetUserDetailsAsync(data.RefEmployeeId);
-        //        //EmployeeDetailsModel ss = EmpData;
-        //        return EmpData;
-        //    });
-        //    return null;
-        //}
+        public ActionResult ChangePassword()
+        {
+            Logger.Info("Entering in ChangePasswordController APP CheckEmployeePassword method");
+            try
+            {
+                if (null != Session[LMS_WebAPP_Utils.Constants.SESSION_OBJ_USER])
+                {
+                    return View();
+                }
+                else
+                {
+                    Logger.Info("Successfully exiting from ChangePasswordController APP ChangePassword method");
+                    return RedirectToAction("Login", "Account");
+                }
+            }
+            catch (Exception ex)
+            {
+                Logger.Error("Error at ChangePasswordController APP ChangePassword method.", ex);
+                return View("Error"); ;
+            }
+        }
 
         public async Task<ActionResult> ProfileDetails(int id)
         {
@@ -629,6 +640,8 @@ namespace EmployeeLeaveManagementApp.Controllers
                     Logger.Error("Error at AccountController APP ExecuteResult method.", ex);
                 }
             }
+
+            
         }
     }
 }

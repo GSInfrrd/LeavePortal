@@ -68,7 +68,7 @@
                 <button type="button" class="close text-color-white" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
                 <h3 class="modal-title" id="exampleModalLabel">Apply Work From Home</h3>
             </div>
-            <div class="modal-body">
+            <div class="modal-body" style="height:220px">
                 <form>
                     <div class="form-group">
                         <label>Date:</label>
@@ -77,6 +77,11 @@
                                 <i class="fa fa-calendar"></i>
                             </div>
                             <input type="text" class="form-control pull-right" id="datepicker" readonly="readonly">
+                        </div>
+                        <div class="form-group has-error" style="display:none" id="divDateError">
+                            <label class="control-label" for="SelectDate">
+                                <i class="fa fa-times-circle-o"></i> Please select date
+                            </label>
                         </div>
                         <!-- /.input group -->
                     </div>
@@ -125,14 +130,16 @@
 
     $(document).ready(function()
     {
+        debugger
         $(".reasonSelect").select2();
         GetWorkFromHomeReasonsList();
-        GetAppliedLeaveDateList();
+        //GetAppliedLeaveDateList();
         $('#applyWorkFromHome').parent().addClass('active');
     });
     var responseCode=0;
     function GetAppliedLeaveDateList()
     {
+        
         $.ajax({
             cache: false,
             type: 'post',
@@ -159,7 +166,7 @@
             success: function (data) {
                 responseCode=data.result.responseCode;
                 if (responseCode==dateExists) {
-                    showMessage("@MessageResources.Err_LeaveAlreadyApplied","@messageType_Error",true);
+                    @*showMessage("@MessageResources.Err_LeaveAlreadyApplied","@messageType_Error",true);*@
                     $('.modal-footer').hide();
                 }
                 else
@@ -251,6 +258,14 @@
     }
 
     $(document).on('click', '#btnAddWorkFromHome ', function (e) {
+        if ($('#datepicker').val() == ""){
+            $("#divDateError").show();
+            return false;
+        }
+        else
+        {
+            $("#divDateError").hide();
+        }
 
         if ($("#SelectReason").val() == 0) {
             $("#divSelectReasonError").show();
@@ -293,6 +308,7 @@
                         $('#SelectReason').val("").trigger("change");
                         $("#divOtherReason").hide();
                         $("#divSelectReasonError").hide();
+                        $("#divDateError").hide();
                         updateDatatable(data.wfhList, true);
                         showMessage("@MessageResources.Msg_WorkFromHomeAdded","@messageType_Success",true);
                         $('#Loading').hide();
@@ -310,6 +326,12 @@
         $("#txtOtherReason").val("");
         $('#SelectReason').val("").trigger("change");
         $("#divOtherReason").hide();
+        $("#divSelectReasonError").hide();
+        $("#divDateError").hide();
+    });
+
+    
+    $(document).on('click', '#btnAddNewWorkFromHome', function (e) {
         $("#divSelectReasonError").hide();
     });
 
