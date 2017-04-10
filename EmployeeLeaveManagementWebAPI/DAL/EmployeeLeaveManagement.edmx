@@ -110,6 +110,7 @@
           <Property Name="EmailId" Type="nvarchar" MaxLength="200" />
           <Property Name="RefEmployeeContractType" Type="int" />
           <Property Name="DateOfConfirmation" Type="date" />
+          <Property Name="IsHelpDeskMember" Type="int" />
         </EntityType>
         <EntityType Name="EmployeeEducationDetails">
           <Key>
@@ -366,7 +367,7 @@
           </Key>
           <Property Name="Id" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="RequestFromId" Type="int" Nullable="false" />
-          <Property Name="RequestToId" Type="int" Nullable="false" />
+          <Property Name="RequestTo" Type="nvarchar(max)" />
           <Property Name="ResourceRequestTitle" Type="varchar" MaxLength="250" />
           <Property Name="NumberRequestedResources" Type="int" Nullable="false" />
           <Property Name="Skills" Type="varchar" MaxLength="250" />
@@ -1347,7 +1348,6 @@
           <EntitySet Name="MasterDataValues" EntityType="LeaveManagementSystemModel.MasterDataValue" />
           <EntitySet Name="Notifications" EntityType="LeaveManagementSystemModel.Notification" />
           <EntitySet Name="ProjectMasters" EntityType="LeaveManagementSystemModel.ProjectMaster" />
-          <EntitySet Name="ResourceRequestDetails" EntityType="LeaveManagementSystemModel.ResourceRequestDetail" />
           <EntitySet Name="UserAccounts" EntityType="LeaveManagementSystemModel.UserAccount" />
           <EntitySet Name="Workflows" EntityType="LeaveManagementSystemModel.Workflow" />
           <EntitySet Name="WorkFromHomes" EntityType="LeaveManagementSystemModel.WorkFromHome" />
@@ -1564,13 +1564,14 @@
             <End Role="EmployeeDetail" EntitySet="EmployeeDetails" />
             <End Role="ProjectMaster" EntitySet="ProjectMasters" />
           </AssociationSet>
-          <AssociationSet Name="FK_ResourceRequestDetail_EmployeeDetails" Association="LeaveManagementSystemModel.FK_ResourceRequestDetail_EmployeeDetails">
-            <End Role="EmployeeDetail" EntitySet="EmployeeDetails" />
-            <End Role="ResourceRequestDetail" EntitySet="ResourceRequestDetails" />
-          </AssociationSet>
           <AssociationSet Name="FK_WorkFromHome_refEmpID" Association="LeaveManagementSystemModel.FK_WorkFromHome_refEmpID">
             <End Role="EmployeeDetail" EntitySet="EmployeeDetails" />
             <End Role="WorkFromHome" EntitySet="WorkFromHomes" />
+          </AssociationSet>
+          <EntitySet Name="ResourceRequestDetails" EntityType="LeaveManagementSystemModel.ResourceRequestDetail" />
+          <AssociationSet Name="FK_ResourceRequestDetail_EmployeeDetails" Association="LeaveManagementSystemModel.FK_ResourceRequestDetail_EmployeeDetails">
+            <End Role="EmployeeDetail" EntitySet="EmployeeDetails" />
+            <End Role="ResourceRequestDetail" EntitySet="ResourceRequestDetails" />
           </AssociationSet>
           </EntityContainer>
         <ComplexType Name="GetLeaveReportProcedure_Result">
@@ -1673,7 +1674,7 @@
           <Property Name="AdvanceLeave" Type="Double" />
           <NavigationProperty Name="EmployeeDetail" Relationship="LeaveManagementSystemModel.FK_ConsolidatedEmployeeLeaveDetails_EmployeeDetails" FromRole="EmployeeLeaveMaster" ToRole="EmployeeDetail" />
           <NavigationProperty Name="EmployeeDetail1" Relationship="LeaveManagementSystemModel.FK_EmployeeLeaveMaster_EmployeeDetails" FromRole="EmployeeLeaveMaster" ToRole="EmployeeDetail" />
-        </EntityType>
+          </EntityType>
         <EntityType Name="EmployeeLeaveTransaction">
           <Key>
             <PropertyRef Name="Id" />
@@ -1697,7 +1698,7 @@
           <NavigationProperty Name="EmployeeDetail" Relationship="LeaveManagementSystemModel.FK_EmployeeDetails_EmployeeLeaveTransaction" FromRole="EmployeeLeaveTransaction" ToRole="EmployeeDetail" />
           <NavigationProperty Name="EmployeeDetail1" Relationship="LeaveManagementSystemModel.FK_EmployeeDetailsCreatedById_EmployeeLeaveTransaction" FromRole="EmployeeLeaveTransaction" ToRole="EmployeeDetail" />
           <NavigationProperty Name="EmployeeDetail2" Relationship="LeaveManagementSystemModel.FK_EmployeeDetialsModifiedById_EmployeeLeaveTransaction" FromRole="EmployeeLeaveTransaction" ToRole="EmployeeDetail" />
-        </EntityType>
+          </EntityType>
         <EntityType Name="WorkflowHistory">
           <Key>
             <PropertyRef Name="PID" />
@@ -1721,7 +1722,7 @@
           <NavigationProperty Name="EmployeeDetail" Relationship="LeaveManagementSystemModel.FK_EmployeeDetails_EmployeeLeaveTransactionHistory" FromRole="WorkflowHistory" ToRole="EmployeeDetail" />
           <NavigationProperty Name="EmployeeDetail1" Relationship="LeaveManagementSystemModel.FK_EmployeeDetailsCreatedById_EmployeeLeaveTransactionHistory" FromRole="WorkflowHistory" ToRole="EmployeeDetail" />
           <NavigationProperty Name="EmployeeDetail2" Relationship="LeaveManagementSystemModel.FK_EmployeeDetilasModifiedById_EmployeeLeaveTransactionHistory" FromRole="WorkflowHistory" ToRole="EmployeeDetail" />
-        </EntityType>
+          </EntityType>
         <EntityType Name="EmployeeProjectDetail">
           <Key>
             <PropertyRef Name="Id" />
@@ -1752,7 +1753,7 @@
           <NavigationProperty Name="ProjectMaster" Relationship="LeaveManagementSystemModel.FK_EmployeeRewardedLeaveDetails_ProjectMaster" FromRole="EmployeeRewardedLeaveDetail" ToRole="ProjectMaster" />
           <NavigationProperty Name="EmployeeDetail" Relationship="LeaveManagementSystemModel.FK_EmployeeRewardedLeaveDetails_EmployeeDetails" FromRole="EmployeeRewardedLeaveDetail" ToRole="EmployeeDetail" />
           <NavigationProperty Name="EmployeeDetail1" Relationship="LeaveManagementSystemModel.FK_EmployeeRewardedLeaveDetails_EmployeeDetails1" FromRole="EmployeeRewardedLeaveDetail" ToRole="EmployeeDetail" />
-        </EntityType>
+          </EntityType>
         <EntityType Name="EmployeeSkill">
           <Key>
             <PropertyRef Name="Id" />
@@ -1853,22 +1854,6 @@
           <Property Name="TechnologyDetails" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <NavigationProperty Name="EmployeeDetail" Relationship="LeaveManagementSystemModel.FK_ProjectMaster_EmployeeDetails" FromRole="ProjectMaster" ToRole="EmployeeDetail" />
         </EntityType>
-        <EntityType Name="ResourceRequestDetail">
-          <Key>
-            <PropertyRef Name="Id" />
-          </Key>
-          <Property Name="Id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="RequestFromId" Type="Int32" Nullable="false" />
-          <Property Name="RequestToId" Type="Int32" Nullable="false" />
-          <Property Name="ResourceRequestTitle" Type="String" MaxLength="250" FixedLength="false" Unicode="false" />
-          <Property Name="NumberRequestedResources" Type="Int32" Nullable="false" />
-          <Property Name="Skills" Type="String" MaxLength="250" FixedLength="false" Unicode="false" />
-          <Property Name="Ticket" Type="String" MaxLength="250" FixedLength="false" Unicode="false" />
-          <Property Name="CreatedDate" Type="DateTime" Nullable="false" Precision="7" />
-          <Property Name="UpdatedDate" Type="DateTime" Nullable="false" Precision="7" />
-          <Property Name="Status" Type="Int32" Nullable="false" />
-          <NavigationProperty Name="EmployeeDetail" Relationship="LeaveManagementSystemModel.FK_ResourceRequestDetail_EmployeeDetails" FromRole="ResourceRequestDetail" ToRole="EmployeeDetail" />
-        </EntityType>
         <EntityType Name="UserAccount">
           <Key>
             <PropertyRef Name="Id" />
@@ -1902,7 +1887,7 @@
           <NavigationProperty Name="EmployeeDetail" Relationship="LeaveManagementSystemModel.FK_EmployeeDetailsCreatedById_Workflow" FromRole="Workflow" ToRole="EmployeeDetail" />
           <NavigationProperty Name="EmployeeDetail1" Relationship="LeaveManagementSystemModel.FK_EmployeeDetailsId_Workflow" FromRole="Workflow" ToRole="EmployeeDetail" />
           <NavigationProperty Name="EmployeeDetail2" Relationship="LeaveManagementSystemModel.FK_EmployeeDetailsModifiedById_Workflow" FromRole="Workflow" ToRole="EmployeeDetail" />
-        </EntityType>
+          </EntityType>
         <EntityType Name="WorkFromHome">
           <Key>
             <PropertyRef Name="Id" />
@@ -2345,6 +2330,7 @@
           <Property Name="EmailId" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
           <Property Name="RefEmployeeContractType" Type="Int32" />
           <Property Name="DateOfConfirmation" Type="DateTime" Precision="0" />
+          <Property Name="IsHelpDeskMember" Type="Int32" />
           <NavigationProperty Name="EmployeeContactDetails" Relationship="LeaveManagementSystemModel.FK_EmpDetails_EmployeeContactDetails" FromRole="EmployeeDetail" ToRole="EmployeeContactDetail" />
           <NavigationProperty Name="EmployeeCurrentAddressDetails" Relationship="LeaveManagementSystemModel.FK_EmployeeCurrentAddressDetails_EmployeeDetails" FromRole="EmployeeDetail" ToRole="EmployeeCurrentAddressDetail" />
           <NavigationProperty Name="EmployeeLeaveMasters" Relationship="LeaveManagementSystemModel.FK_ConsolidatedEmployeeLeaveDetails_EmployeeDetails" FromRole="EmployeeDetail" ToRole="EmployeeLeaveMaster" />
@@ -2376,8 +2362,8 @@
           <NavigationProperty Name="EmployeeSkills" Relationship="LeaveManagementSystemModel.FK_EmployeeSkills_EmployeeDetails" FromRole="EmployeeDetail" ToRole="EmployeeSkill" />
           <NavigationProperty Name="EmployeeWorkLocationDetails" Relationship="LeaveManagementSystemModel.FK_EmployeeWorkLocationDetails_EmployeeDetails" FromRole="EmployeeDetail" ToRole="EmployeeWorkLocationDetail" />
           <NavigationProperty Name="ProjectMasters" Relationship="LeaveManagementSystemModel.FK_ProjectMaster_EmployeeDetails" FromRole="EmployeeDetail" ToRole="ProjectMaster" />
-          <NavigationProperty Name="ResourceRequestDetails" Relationship="LeaveManagementSystemModel.FK_ResourceRequestDetail_EmployeeDetails" FromRole="EmployeeDetail" ToRole="ResourceRequestDetail" />
           <NavigationProperty Name="WorkFromHomes" Relationship="LeaveManagementSystemModel.FK_WorkFromHome_refEmpID" FromRole="EmployeeDetail" ToRole="WorkFromHome" />
+          <NavigationProperty Name="ResourceRequestDetails" Relationship="LeaveManagementSystemModel.FK_ResourceRequestDetail_EmployeeDetails" FromRole="EmployeeDetail" ToRole="ResourceRequestDetail" />
         </EntityType>
         <Association Name="FK_EmpDetails_EmployeeContactDetails">
           <End Type="LeaveManagementSystemModel.EmployeeDetail" Role="EmployeeDetail" Multiplicity="1" />
@@ -2739,18 +2725,6 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_ResourceRequestDetail_EmployeeDetails">
-          <End Type="LeaveManagementSystemModel.EmployeeDetail" Role="EmployeeDetail" Multiplicity="1" />
-          <End Type="LeaveManagementSystemModel.ResourceRequestDetail" Role="ResourceRequestDetail" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="EmployeeDetail">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="ResourceRequestDetail">
-              <PropertyRef Name="RequestFromId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Association Name="FK_WorkFromHome_refEmpID">
           <End Type="LeaveManagementSystemModel.EmployeeDetail" Role="EmployeeDetail" Multiplicity="1" />
           <End Type="LeaveManagementSystemModel.WorkFromHome" Role="WorkFromHome" Multiplicity="*" />
@@ -2760,6 +2734,34 @@
             </Principal>
             <Dependent Role="WorkFromHome">
               <PropertyRef Name="RefEmployeeId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="ResourceRequestDetail">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="RequestFromId" Type="Int32" Nullable="false" />
+          <Property Name="RequestTo" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="ResourceRequestTitle" Type="String" MaxLength="250" FixedLength="false" Unicode="false" />
+          <Property Name="NumberRequestedResources" Type="Int32" Nullable="false" />
+          <Property Name="Skills" Type="String" MaxLength="250" FixedLength="false" Unicode="false" />
+          <Property Name="Ticket" Type="String" MaxLength="250" FixedLength="false" Unicode="false" />
+          <Property Name="CreatedDate" Type="DateTime" Nullable="false" Precision="7" />
+          <Property Name="UpdatedDate" Type="DateTime" Nullable="false" Precision="7" />
+          <Property Name="Status" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="EmployeeDetail" Relationship="LeaveManagementSystemModel.FK_ResourceRequestDetail_EmployeeDetails" FromRole="ResourceRequestDetail" ToRole="EmployeeDetail" />
+        </EntityType>
+        <Association Name="FK_ResourceRequestDetail_EmployeeDetails">
+          <End Type="LeaveManagementSystemModel.EmployeeDetail" Role="EmployeeDetail" Multiplicity="1" />
+          <End Type="LeaveManagementSystemModel.ResourceRequestDetail" Role="ResourceRequestDetail" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="EmployeeDetail">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="ResourceRequestDetail">
+              <PropertyRef Name="RequestFromId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -3005,22 +3007,6 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="ResourceRequestDetails">
-            <EntityTypeMapping TypeName="LeaveManagementSystemModel.ResourceRequestDetail">
-              <MappingFragment StoreEntitySet="ResourceRequestDetail">
-                <ScalarProperty Name="Status" ColumnName="Status" />
-                <ScalarProperty Name="UpdatedDate" ColumnName="UpdatedDate" />
-                <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
-                <ScalarProperty Name="Ticket" ColumnName="Ticket" />
-                <ScalarProperty Name="Skills" ColumnName="Skills" />
-                <ScalarProperty Name="NumberRequestedResources" ColumnName="NumberRequestedResources" />
-                <ScalarProperty Name="ResourceRequestTitle" ColumnName="ResourceRequestTitle" />
-                <ScalarProperty Name="RequestToId" ColumnName="RequestToId" />
-                <ScalarProperty Name="RequestFromId" ColumnName="RequestFromId" />
-                <ScalarProperty Name="Id" ColumnName="Id" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
           <EntitySetMapping Name="UserAccounts">
             <EntityTypeMapping TypeName="LeaveManagementSystemModel.UserAccount">
               <MappingFragment StoreEntitySet="UserAccount">
@@ -3218,6 +3204,7 @@
           <EntitySetMapping Name="EmployeeDetails">
             <EntityTypeMapping TypeName="LeaveManagementSystemModel.EmployeeDetail">
               <MappingFragment StoreEntitySet="EmployeeDetails">
+                <ScalarProperty Name="IsHelpDeskMember" ColumnName="IsHelpDeskMember" />
                 <ScalarProperty Name="DateOfConfirmation" ColumnName="DateOfConfirmation" />
                 <ScalarProperty Name="RefEmployeeContractType" ColumnName="RefEmployeeContractType" />
                 <ScalarProperty Name="EmailId" ColumnName="EmailId" />
@@ -3247,6 +3234,22 @@
                 <ScalarProperty Name="DateOfJoining" ColumnName="DateOfJoining" />
                 <ScalarProperty Name="RefRoleId" ColumnName="RefRoleId" />
                 <ScalarProperty Name="FirstName" ColumnName="FirstName" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ResourceRequestDetails">
+            <EntityTypeMapping TypeName="LeaveManagementSystemModel.ResourceRequestDetail">
+              <MappingFragment StoreEntitySet="ResourceRequestDetail">
+                <ScalarProperty Name="Status" ColumnName="Status" />
+                <ScalarProperty Name="UpdatedDate" ColumnName="UpdatedDate" />
+                <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
+                <ScalarProperty Name="Ticket" ColumnName="Ticket" />
+                <ScalarProperty Name="Skills" ColumnName="Skills" />
+                <ScalarProperty Name="NumberRequestedResources" ColumnName="NumberRequestedResources" />
+                <ScalarProperty Name="ResourceRequestTitle" ColumnName="ResourceRequestTitle" />
+                <ScalarProperty Name="RequestTo" ColumnName="RequestTo" />
+                <ScalarProperty Name="RequestFromId" ColumnName="RequestFromId" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
               </MappingFragment>
             </EntityTypeMapping>

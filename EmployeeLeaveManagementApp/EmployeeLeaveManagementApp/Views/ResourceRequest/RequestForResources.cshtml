@@ -6,6 +6,16 @@
     {
         lstRequestStatus.Add((int)Enum.Parse(typeof(LMS_WebAPP_Utils.ResourceRequestStatus), name), LMS_WebAPP_Utils.CommonMethods.Description((LMS_WebAPP_Utils.ResourceRequestStatus)Enum.Parse(typeof(LMS_WebAPP_Utils.ResourceRequestStatus), name, true)));
     }
+    string listOfHelpDeskMembers="";
+    if(Model.ListOfHelpDeskMembers!=null)
+    {
+        foreach (var hdm in Model.ListOfHelpDeskMembers)
+        {
+            listOfHelpDeskMembers = listOfHelpDeskMembers +  hdm.FirstName + " " + hdm.LastName + ", ";
+        }
+        listOfHelpDeskMembers = listOfHelpDeskMembers.TrimEnd(' ');
+        listOfHelpDeskMembers = listOfHelpDeskMembers.TrimEnd(',');
+    }
     Layout = "~/Views/Shared/_Layout.cshtml";
 
     var messageType_Success = @Convert.ToInt16((LMS_WebAPP_Utils.MessageType.Success));
@@ -151,14 +161,18 @@
                             </select>
                             
                         </div>
-                        <div class="form-group col-md-6" id="ddlRequestToDiv">
+                        @*<div class="form-group col-md-6" id="ddlRequestToDiv">
                             <label style="margin-bottom: 0px;">Request send to</label>
                             <select class="form-control" style="width: 100%;" id="ddlRequestSendToSel">
-                                @foreach (var hr in Model.ListOfHR)
+                                @foreach (var hdm in Model.ListOfHelpDeskMembers)
                                 {
-                                    <option value="@hr.Id">@hr.FirstName @hr.LastName</option>
+                                    <option value="@hdm.Id">@hdm.FirstName @hdm.LastName</option>
                                 }
                             </select>
+                        </div>*@
+                        <div class="form-group col-md-6" id="ddlRequestToDiv">
+                            <label style="margin-bottom: 0px;">Request send to</label>
+                            <textarea  placeholder="@listOfHelpDeskMembers" class="form-control" style="width: 100%;resize:none" readonly="readonly" ></textarea>
                         </div>
                     </div>
                 </div>
@@ -332,7 +346,7 @@
         var requestSendTo = parseInt($("#ddlRequestSendToSel option:selected").val());
         var model = {
             ResourceRequestTitle: $("#txtRequestTitle").val(),
-            RequestToId:requestSendTo,
+            //RequestToId:requestSendTo,
             NumberRequestedResources: $("#txtResourcesRequired").val(),
             Skills: skills,
             HRId: $("#ddlRequestSendToSel option:selected").val()

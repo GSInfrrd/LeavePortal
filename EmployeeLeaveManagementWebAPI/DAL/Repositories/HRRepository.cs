@@ -72,7 +72,8 @@ namespace LMS_WebAPI_DAL.Repositories
                         DateOfJoining = model.DateOfJoining,
                         ImagePath = imageBase64Data,
                         RefEmployeeType = model.EmployeeType,
-                        RefProfileType = model.RefProfileType
+                        RefProfileType = model.RefProfileType,
+                        IsHelpDeskMember = 0
 
 
                     };

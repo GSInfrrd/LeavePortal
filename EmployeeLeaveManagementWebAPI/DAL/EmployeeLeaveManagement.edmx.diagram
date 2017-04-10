@@ -23,7 +23,6 @@
         <EntityTypeShape EntityType="LeaveManagementSystemModel.MasterDataValue" Width="1.5" PointX="3" PointY="29.75" />
         <EntityTypeShape EntityType="LeaveManagementSystemModel.Notification" Width="1.5" PointX="10.5" PointY="29" />
         <EntityTypeShape EntityType="LeaveManagementSystemModel.ProjectMaster" Width="1.5" PointX="7.5" PointY="64.875" />
-        <EntityTypeShape EntityType="LeaveManagementSystemModel.ResourceRequestDetail" Width="1.5" PointX="7.5" PointY="38.5" />
         <EntityTypeShape EntityType="LeaveManagementSystemModel.UserAccount" Width="1.5" PointX="7.5" PointY="47.75" />
         <EntityTypeShape EntityType="LeaveManagementSystemModel.Workflow" Width="1.5" PointX="12.75" PointY="28.375" />
         <EntityTypeShape EntityType="LeaveManagementSystemModel.WorkFromHome" Width="1.5" PointX="10.5" PointY="32.5" />
@@ -90,8 +89,9 @@
         <AssociationConnector Association="LeaveManagementSystemModel.FK_EmployeeSkills_EmployeeDetails" />
         <AssociationConnector Association="LeaveManagementSystemModel.FK_EmployeeWorkLocationDetails_EmployeeDetails" />
         <AssociationConnector Association="LeaveManagementSystemModel.FK_ProjectMaster_EmployeeDetails" />
-        <AssociationConnector Association="LeaveManagementSystemModel.FK_ResourceRequestDetail_EmployeeDetails" />
         <AssociationConnector Association="LeaveManagementSystemModel.FK_WorkFromHome_refEmpID" />
+        <EntityTypeShape EntityType="LeaveManagementSystemModel.ResourceRequestDetail" Width="1.5" PointX="7.5" PointY="39.5" />
+        <AssociationConnector Association="LeaveManagementSystemModel.FK_ResourceRequestDetail_EmployeeDetails" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

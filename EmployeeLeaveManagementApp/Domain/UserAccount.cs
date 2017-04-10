@@ -34,5 +34,7 @@ namespace LMS_WebAPP_Domain
 
         public int RefProfileType { get; set; }
 
+        public Nullable<int> IsHelpDeskMember { get; set; }
+
     }
 }

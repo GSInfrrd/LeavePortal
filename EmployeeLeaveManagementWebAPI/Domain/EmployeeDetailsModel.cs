@@ -99,6 +99,8 @@ namespace LMS_WebAPI_Domain
         public int? CompOffReceived { get; set; }
         public int RefProfileType { get; set; }
 
+        public Nullable<int> IsHelpDeskMember { get; set; }
+
     }
 
     public class Announcement

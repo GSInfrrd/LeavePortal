@@ -19,22 +19,22 @@ namespace LMS_WebAPI_DAL.Repositories
             {
                 using (var ctx = new LeaveManagementSystemEntities1())
                 {
-                    var allHR = ctx.EmployeeDetails.Where(x => x.RefRoleId == (Int16)EmployeeRole.HR).ToList();
+                    var allHelpDeskMembers = ctx.EmployeeDetails.Where(x => x.IsHelpDeskMember == 1).ToList();
                     var skills = ctx.MasterDataValues.Where(y => y.RefMasterType == (Int16)MasterDataTypeEnum.Skills).Select(y => y.Value).ToList();
 
-                    var lstHR = new List<EmployeeDetailsModel>();
+                    var HelpDeskMember = new List<EmployeeDetailsModel>();
 
-                    foreach (var hr in allHR)
+                    foreach (var hdm in allHelpDeskMembers)
                     {
                         var resourceFormDetails = new EmployeeDetailsModel()
                         {
-                            Id = hr.Id,
-                            FirstName = hr.FirstName,
-                            LastName = hr.LastName
+                            Id = hdm.Id,
+                            FirstName = hdm.FirstName,
+                            LastName = hdm.LastName
                         };
-                        lstHR.Add(resourceFormDetails);
+                        HelpDeskMember.Add(resourceFormDetails);
                     }
-                    resourceDetails.ListOfHR = lstHR;
+                    resourceDetails.ListOfHelpDeskMembers = HelpDeskMember;
                     resourceDetails.Skills = skills;
 
                     bool viewAll = false;
@@ -66,11 +66,13 @@ namespace LMS_WebAPI_DAL.Repositories
                     {
                         if (!viewAll)
                         {
-                            resourceRequests = resourceRequests.Where(x => x.RequestFromId == userId).OrderByDescending(y => y.UpdatedDate).Take(10).ToList();
+                            //resourceRequests = resourceRequests.Where(x => x.RequestFromId == userId).OrderByDescending(y => y.UpdatedDate).Take(10).ToList();
+                            resourceRequests = resourceRequests.OrderByDescending(y => y.UpdatedDate).Take(10).ToList();
                         }
                         else
                         {
-                            resourceRequests = resourceRequests.Where(x => x.RequestFromId == userId).OrderByDescending(y => y.UpdatedDate).Skip(10).ToList();
+                            // resourceRequests = resourceRequests.Where(x => x.RequestFromId == userId).OrderByDescending(y => y.UpdatedDate).Skip(10).ToList();
+                            resourceRequests = resourceRequests.OrderByDescending(y => y.UpdatedDate).Take(10).ToList();
                         }
 
                         if (null != resourceRequests)
@@ -88,8 +90,10 @@ namespace LMS_WebAPI_DAL.Repositories
                                     NumberRequestedResources = resource.NumberRequestedResources,
                                     Skills = resource.Skills,
                                     RequestFromId = resource.RequestFromId,
-                                    RequestToId = resource.RequestToId,
-                                    RequestToName = lstHR.Where(x => x.Id == resource.RequestToId).Select(x => x.FirstName + " " + x.LastName).FirstOrDefault()
+                                    RequestTo = resource.RequestTo,
+                                    RequestToName = resource.RequestTo,
+                                    //RequestToName = lstHR.Where(x => x.Id == resource.RequestToId).Select(x => x.FirstName + " " + x.LastName).FirstOrDefault()
+                                    RequestFromName = lstManagers.Where(x => x.Id == resource.RequestFromId).Select(x => x.FirstName + " " + x.LastName).FirstOrDefault()
                                 };
                                 lstResourceDetails.Add(resourceRequest);
                             }
@@ -99,11 +103,11 @@ namespace LMS_WebAPI_DAL.Repositories
                     {
                         if (!viewAll)
                         {
-                            resourceRequests = resourceRequests.Where(x => x.RequestToId == userId).OrderByDescending(y => y.UpdatedDate).Take(10).ToList();
+                            resourceRequests = resourceRequests.OrderByDescending(y => y.UpdatedDate).Take(10).ToList();
                         }
                         else
                         {
-                            resourceRequests = resourceRequests.Where(x => x.RequestToId == userId).OrderByDescending(y => y.UpdatedDate).Skip(10).ToList();
+                            resourceRequests = resourceRequests.OrderByDescending(y => y.UpdatedDate).Skip(10).ToList();
                         }
 
                         if (null != resourceRequests)
@@ -121,7 +125,7 @@ namespace LMS_WebAPI_DAL.Repositories
                                     NumberRequestedResources = resource.NumberRequestedResources,
                                     Skills = resource.Skills,
                                     RequestFromId = resource.RequestFromId,
-                                    RequestToId = resource.RequestToId,
+                                    RequestTo = resource.RequestTo,
                                     RequestFromName = lstManagers.Where(x => x.Id == resource.RequestFromId).Select(x => x.FirstName + " " + x.LastName).FirstOrDefault()
                                 };
                                 lstResourceDetails.Add(resourceRequest);
@@ -146,7 +150,27 @@ namespace LMS_WebAPI_DAL.Repositories
                 resourceRequests.Result = false;
                 using (var ctx = new LeaveManagementSystemEntities1())
                 {
-                    var newRecord = ctx.ResourceRequestDetails.Add(model);
+                    var HelpDeskMembers = ctx.EmployeeDetails.Where(x => x.IsHelpDeskMember == 1).ToList();
+                    string RequestTo = "";
+                    foreach (var hdm in HelpDeskMembers)
+                    {
+                        RequestTo = RequestTo + hdm.FirstName + " " + hdm.LastName + ", ";
+                    }
+                    RequestTo = RequestTo.TrimEnd(' ');
+                    RequestTo = RequestTo.TrimEnd(',');
+
+                    var NewResourceRequest = new ResourceRequestDetail();
+                    NewResourceRequest.RequestFromId = model.RequestFromId;
+                    NewResourceRequest.ResourceRequestTitle = model.ResourceRequestTitle;
+                    NewResourceRequest.NumberRequestedResources = model.NumberRequestedResources;
+                    NewResourceRequest.Skills = model.Skills;
+                    NewResourceRequest.Ticket = model.Ticket;
+                    NewResourceRequest.CreatedDate = model.CreatedDate;
+                    NewResourceRequest.UpdatedDate = model.UpdatedDate;
+                    NewResourceRequest.Status = model.Status;
+                    NewResourceRequest.RequestTo = RequestTo;
+
+                    var newRecord = ctx.ResourceRequestDetails.Add(NewResourceRequest);
                     ctx.SaveChanges();
                     if (null != model)
                     {
@@ -156,7 +180,7 @@ namespace LMS_WebAPI_DAL.Repositories
                         resourceRequests.ResourceRequestHistory = GetResourceRequestDetails(model.RequestFromId, viewAll, out count);
                         resourceRequests.Count = count;
 
-                        //Send notification to Hr
+                        //Send notification to HelpDeskMembers
                         var ManagerDetails = ctx.EmployeeDetails.Where(x => x.Id == model.RequestFromId).FirstOrDefault();
                         string ManagerName = ManagerDetails.FirstName;
                         if (ManagerDetails.LastName != null)
@@ -168,7 +192,12 @@ namespace LMS_WebAPI_DAL.Repositories
                         int Status = (Int16)NotificationStatus.Active;
                         int notificationType = (Int16)NotificationTypes.SubmitResourceRequest;
                         ApproveLeaveRepository alr = new ApproveLeaveRepository();
-                        alr.InsertNotification(model.RequestToId, ManagerName, Status, notificationType);
+                        foreach (var hdm in HelpDeskMembers)
+                        {
+                            alr.InsertNotification(hdm.Id, ManagerName, Status, notificationType);
+                            
+                        }
+                        
 
 
                         return resourceRequests;
@@ -209,7 +238,7 @@ namespace LMS_WebAPI_DAL.Repositories
                                 ResourceRequestTitle = ticketDetails.ResourceRequestTitle,
                                 Ticket = ticketDetails.Ticket,
                                 RequestFromId = ticketDetails.RequestFromId,
-                                RequestToId = ticketDetails.RequestToId,
+                                RequestTo = ticketDetails.RequestTo,
                                 Skills = ticketDetails.Skills,
                                 Status = ticketDetails.Status,
                                 NumberRequestedResources = ticketDetails.NumberRequestedResources,
@@ -217,18 +246,18 @@ namespace LMS_WebAPI_DAL.Repositories
                             };
 
                             //Send notification to manager
-                            var HrDetails = ctx.EmployeeDetails.Where(x => x.Id == model.RequestToId).FirstOrDefault();
-                            string HrName = HrDetails.FirstName;
-                            if (HrDetails.LastName != null)
+                            var HelpDeskMemberDetails = ctx.EmployeeDetails.Where(x => x.Id == model.RequestToId).FirstOrDefault();
+                            string HelpDeskMember = HelpDeskMemberDetails.FirstName;
+                            if (HelpDeskMemberDetails.LastName != null)
                             {
-                                HrName = string.Format(HrName + " " + HrDetails.LastName);
+                                HelpDeskMember = string.Format(HelpDeskMember + " " + HelpDeskMemberDetails.LastName);
                             }
 
-                            HrName += " has updated your request for resource";
+                            HelpDeskMember += " has updated your request for resource";
                             int Status = (Int16)NotificationStatus.Active;
                             int notificationType = (Int16)NotificationTypes.SubmitResourceRequestResponse;
                             ApproveLeaveRepository alr = new ApproveLeaveRepository();
-                            alr.InsertNotification(model.RequestFromId, HrName, Status, notificationType);
+                            alr.InsertNotification(model.RequestFromId, HelpDeskMember, Status, notificationType);
                             return resourceResponseDetails;
                         }
                     }

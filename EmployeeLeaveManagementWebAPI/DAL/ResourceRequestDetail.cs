@@ -16,6 +16,8 @@ namespace LMS_WebAPI_DAL
     {
         public long Id { get; set; }
         public int RequestFromId { get; set; }
+        public string RequestTo { get; set; }
+
         public int RequestToId { get; set; }
         public string ResourceRequestTitle { get; set; }
         public int NumberRequestedResources { get; set; }

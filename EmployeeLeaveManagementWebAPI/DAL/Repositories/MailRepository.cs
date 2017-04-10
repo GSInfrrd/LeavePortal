@@ -95,7 +95,7 @@ namespace LMS_WebAPI_DAL.Repositories
 
         }
 
-        public MailDetailsModel GetMailTemplateForAddResourceRequest(ActionsForMail actionName, int EmployeeId , int HrId)
+        public MailDetailsModel GetMailTemplateForAddResourceRequest(ActionsForMail actionName, int EmployeeId)
         {
             try
             {
@@ -105,9 +105,14 @@ namespace LMS_WebAPI_DAL.Repositories
                     var MailDetails = ctx.EmailTemplateMappings.Where(m => m.ActionName == actionName.ToString()).FirstOrDefault();
                     var TemplatePath = MailDetails.EmailTemplateMaster.Template;
 
-                    var HrDetails = ctx.EmployeeDetails.Where(m => m.Id == HrId).FirstOrDefault();
-                    string HrEmailId = ctx.UserAccounts.Where(m => m.RefEmployeeId == HrId).FirstOrDefault().UserName;
-                    string HrName = HrDetails.FirstName;
+                    var HelpDeskMembers = ctx.EmployeeDetails.Where(x => x.IsHelpDeskMember == 1).ToList();
+                    string SendMailTo = "";
+                    foreach (var hdm in HelpDeskMembers)
+                    {
+                        string mailid = ctx.UserAccounts.Where(x => x.RefEmployeeId == hdm.Id).FirstOrDefault().UserName;
+                        SendMailTo = SendMailTo + mailid + " ";
+                    }
+                    SendMailTo = SendMailTo.TrimEnd(';');
 
                     var EmployeeDetails = ctx.EmployeeDetails.Where(m => m.Id == EmployeeId).FirstOrDefault();
                     string EmployeeEmailId = ctx.UserAccounts.Where(m => m.RefEmployeeId == EmployeeId).FirstOrDefault().UserName;
@@ -119,16 +124,15 @@ namespace LMS_WebAPI_DAL.Repositories
                     }
 
                     MailDetailsModel retResult = new MailDetailsModel();
-                    retResult.ToMailId = HrEmailId;
+                    retResult.ToMailId = SendMailTo;
                     retResult.CcMailId = EmployeeEmailId;
                     retResult.TemplatePath = TemplatePath;
-                    retResult.ManagerName = HrName;
                     retResult.EmployeeName = EmployeeName;
                     Logger.Info("Successfully exiting from MailRepository API GetMailTemplateForAddResourceRequest method");
                     return retResult;
                 }
             }
-            catch(Exception ex)
+            catch
             {
                 Logger.Info("Exception occured at MailRepository API GetMailTemplateForAddResourceRequest method ");
                 throw;
@@ -137,7 +141,7 @@ namespace LMS_WebAPI_DAL.Repositories
         }
 
 
-        public MailDetailsModel GetMailTemplateForResourceRequestUpdate(ActionsForMail actionName, int EmployeeId, int HrId)
+        public MailDetailsModel GetMailTemplateForResourceRequestUpdate(ActionsForMail actionName, int EmployeeId, int HelpDeskMemberId)
         {
             try
             {
@@ -147,13 +151,13 @@ namespace LMS_WebAPI_DAL.Repositories
                     var MailDetails = ctx.EmailTemplateMappings.Where(m => m.ActionName == actionName.ToString()).FirstOrDefault();
                     var TemplatePath = MailDetails.EmailTemplateMaster.Template;
 
-                    var HrDetails = ctx.EmployeeDetails.Where(m => m.Id == HrId).FirstOrDefault();
-                    string HrEmailId = ctx.UserAccounts.Where(m => m.RefEmployeeId == HrId).FirstOrDefault().UserName;
-                    string HrName = HrDetails.FirstName;
-                    string HRLastName = HrDetails.LastName;
-                    if (HRLastName != null)
+                    var HelpDeskMemberDetails = ctx.EmployeeDetails.Where(m => m.Id == HelpDeskMemberId).FirstOrDefault();
+                    string HelpDeskMemberEmailId = ctx.UserAccounts.Where(m => m.RefEmployeeId == HelpDeskMemberId).FirstOrDefault().UserName;
+                    string HelpDeskMemberName = HelpDeskMemberDetails.FirstName;
+                    string HelpDeskMemberLastName = HelpDeskMemberDetails.LastName;
+                    if (HelpDeskMemberLastName != null)
                     {
-                        HrName = string.Format(HrName + " " + HRLastName);
+                        HelpDeskMemberName = string.Format(HelpDeskMemberName + " " + HelpDeskMemberLastName);
                     }
 
                     var EmployeeDetails = ctx.EmployeeDetails.Where(m => m.Id == EmployeeId).FirstOrDefault();
@@ -162,9 +166,9 @@ namespace LMS_WebAPI_DAL.Repositories
 
                     MailDetailsModel retResult = new MailDetailsModel();
                     retResult.ToMailId = EmployeeEmailId;
-                    retResult.CcMailId = HrEmailId;
+                    retResult.CcMailId = HelpDeskMemberEmailId;
                     retResult.TemplatePath = TemplatePath;
-                    retResult.ManagerName = HrName;
+                    retResult.ManagerName = HelpDeskMemberName;
                     retResult.EmployeeName = EmployeeName;
                     Logger.Info("Successfully exiting from MailRepository API GetMailTemplateForResourceRequestUpdate method");
                     return retResult;

@@ -10,7 +10,7 @@ namespace LMS_WebAPI_Domain
     public class ResourceDetails
     {
         public List<string> Skills { get; set; }
-        public List<EmployeeDetailsModel> ListOfHR { get; set; }
+        public List<EmployeeDetailsModel> ListOfHelpDeskMembers { get; set; }
         public List<ResourceRequestDetailModel> ResourceRequestHistory { get; set; }
 
         public int Count { get; set; }

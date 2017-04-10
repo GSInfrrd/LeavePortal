@@ -42,6 +42,7 @@
         var joiningDate = ((LMS_WebAPP_Domain.UserAccount)Session[Constants.SESSION_OBJ_USER])!=null?((LMS_WebAPP_Domain.UserAccount)Session[Constants.SESSION_OBJ_USER]).DateOfJoining:DateTime.MinValue;
         var roleId = ((LMS_WebAPP_Domain.UserAccount)Session[Constants.SESSION_OBJ_USER])!=null?((LMS_WebAPP_Domain.UserAccount)Session[Constants.SESSION_OBJ_USER]).RefRoleId:0;
         var userRole = roleId!=0?LMS_WebAPP_Utils.CommonMethods.Description((LMS_WebAPP_Utils.EmployeeRole)roleId):string.Empty;
+        int IsHelpDeskMember = ((LMS_WebAPP_Domain.UserAccount)Session[Constants.SESSION_OBJ_USER]) != null ? Convert.ToInt32(((LMS_WebAPP_Domain.UserAccount)Session[Constants.SESSION_OBJ_USER]).IsHelpDeskMember) : 0;
         imagePath = !string.IsNullOrEmpty(imagePath) ? imagePath : "/Content/Images/DefaultImage.png";
         var profileId = ((LMS_WebAPP_Domain.UserAccount)Session[Constants.SESSION_OBJ_USER]) != null ? ((LMS_WebAPP_Domain.UserAccount)Session[Constants.SESSION_OBJ_USER]).RefProfileType : 0;
     }
@@ -219,7 +220,7 @@
                                     </a>
                                 </li>
                                 <li>
-                                    <a id="changePassword" href="@Url.Action("ChangePassword")">
+                                    <a id="changePassword" href="@Url.Action("ChangePassword","Account")">
                                         <i class="fa fa-edit"></i> <span>Change Password</span>
 
                                     </a>
@@ -328,17 +329,20 @@
                             </ul>
                         </li>
                     }
+                    @if (IsHelpDeskMember==1)
+                    {
+                        <li>
+                            <a id="resourceRequestHR" href="@Url.Action("RequestForResourcesHR", "ResourceRequest")">
+                                <i class="fa fa-lightbulb-o" aria-hidden="true"></i> <span>Requested Tickets</span>
+
+                            </a>
+                        </li>
+                    }
                     @if (profileId == (int)ProfileType.HR)
                     {
                         <li>
                             <a id="employeeDetails" href="@Url.Action("EmployeeDetails", "HR")">
                                 <i class="fa fa-database"></i> <span>Employee Details</span>
-
-                            </a>
-                        </li>
-                        <li>
-                            <a id="resourceRequestHR" href="@Url.Action("RequestForResourcesHR", "ResourceRequest")">
-                                <i class="fa fa-lightbulb-o" aria-hidden="true"></i> <span>Requested Tickets</span>
 
                             </a>
                         </li>

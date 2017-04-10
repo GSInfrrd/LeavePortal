@@ -30,6 +30,7 @@ namespace EmployeeLeaveManagementApp.Models
         public string Projectname { get; set; }
         public String RoleName { get; set; }
 
+        public Nullable<int> IsHelpDeskMember { get; set; }
         public String ProfileTypeName { get; set; }
         public string EmployeeConractTypeName { get; set; }
         public string EmployeeTypeName { get; set; }

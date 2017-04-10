@@ -61,7 +61,7 @@ namespace EmployeeLeaveManagementApp.Controllers
                 var resourceEntity = new ResourceRequestDetailModel()
                 {
                     RequestFromId = managerId,
-                    RequestToId = model.RequestToId,
+                   // RequestToId = model.RequestToId,
                     ResourceRequestTitle = model.ResourceRequestTitle,
                     NumberRequestedResources = model.NumberRequestedResources,
 
@@ -124,6 +124,7 @@ namespace EmployeeLeaveManagementApp.Controllers
             try
             {
                 bool result = false;
+                model.RequestToId = ((UserAccount)Session[LMS_WebAPP_Utils.Constants.SESSION_OBJ_USER]).RefEmployeeId;
                 result = resourceManagementOperations.RespondToResourceRequests(model);
                 model.StatusValue = CommonMethods.Description((ResourceRequestStatus)model.Status);
 

@@ -54,7 +54,7 @@ namespace EmployeeLeaveManagementWebAPI.Controllers
                                         .TrimEnd('=');
                 var requestEntity = new ResourceRequestDetail();
                 requestEntity.RequestFromId = model.RequestFromId;
-                requestEntity.RequestToId = model.RequestToId;
+                //requestEntity.RequestToId = model.RequestToId;
                 requestEntity.ResourceRequestTitle = model.ResourceRequestTitle;
                 requestEntity.NumberRequestedResources = model.NumberRequestedResources;
                 requestEntity.Skills = model.Skills;
@@ -86,7 +86,7 @@ namespace EmployeeLeaveManagementWebAPI.Controllers
             {
                 ActionsForMail actionName = ActionsForMail.AddResourceRequest;
                 MailManagement MM = new MailManagement();
-                var MailDetails = MM.GetMailTemplateForAddResourceRequest(actionName, model.RequestFromId, model.RequestToId);
+                var MailDetails = MM.GetMailTemplateForAddResourceRequest(actionName, model.RequestFromId);
                 string TemplatePath = MailDetails.TemplatePath;
 
                 string body;
@@ -97,7 +97,7 @@ namespace EmployeeLeaveManagementWebAPI.Controllers
                 }
                 var logoPath = HostingEnvironment.MapPath("~/Content/Images/infrrd-logo-main.png");
                 string appurl = ConfigurationManager.AppSettings["AppURL"];
-                string messageBody = string.Format(body, MailDetails.ManagerName, MailDetails.EmployeeName, model.ResourceRequestTitle, model.NumberRequestedResources, model.Skills, ResourceRequestStatus.Requested.Description(), appurl);
+                string messageBody = string.Format(body, "All", MailDetails.EmployeeName, model.ResourceRequestTitle, model.NumberRequestedResources, model.Skills, ResourceRequestStatus.Requested.Description(), appurl);
                 string subject = "Ticket " + "INF-" + model.RequestFromId + randomId + " raised " + (DateTime.Now).ToShortDateString();
                 MailUtility.sendmail(MailDetails.ToMailId, MailDetails.CcMailId, subject, messageBody, logoPath);
             }
@@ -136,6 +136,7 @@ namespace EmployeeLeaveManagementWebAPI.Controllers
                     CreatedDate = model.CreatedDate,
                     UpdatedDate = DateTime.Now,
                     RequestFromId = model.RequestFromId,
+                    RequestTo = model.RequestTo,
                     RequestToId = model.RequestToId
                 };
 

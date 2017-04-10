@@ -43,8 +43,8 @@ namespace LMS_WebAPI_DAL
             this.EmployeeSkills = new HashSet<EmployeeSkill>();
             this.EmployeeWorkLocationDetails = new HashSet<EmployeeWorkLocationDetail>();
             this.ProjectMasters = new HashSet<ProjectMaster>();
-            this.ResourceRequestDetails = new HashSet<ResourceRequestDetail>();
             this.WorkFromHomes = new HashSet<WorkFromHome>();
+            this.ResourceRequestDetails = new HashSet<ResourceRequestDetail>();
         }
     
         public int Id { get; set; }
@@ -52,12 +52,16 @@ namespace LMS_WebAPI_DAL
         public int RefRoleId { get; set; }
 
         public string RoleName { get; set; }
-
         public string ProjectName { get; set; }
+        public string ManagerName { get; set; }
+        public string EmployeeType { get; set; }
+        public string EmployeeContractType { get; set; }
+
+        public string ProfileType { get; set; }
+        
+
         public Nullable<System.DateTime> DateOfJoining { get; set; }
         public Nullable<int> ManagerId { get; set; }
-
-        public string ManagerName { get; set; }
         public System.DateTime CreatedDate { get; set; }
         public Nullable<System.DateTime> ModifiedDate { get; set; }
         public Nullable<int> Experience { get; set; }
@@ -76,18 +80,14 @@ namespace LMS_WebAPI_DAL
         public string TwitterLink { get; set; }
         public string GooglePlusLink { get; set; }
         public int RefEmployeeType { get; set; }
-
-        public string EmployeeType { get; set; }
         public int RefProfileType { get; set; }
-
-        public string ProfileType { get; set; }
         public string Gender { get; set; }
         public string PassportNumber { get; set; }
         public string BloodGroup { get; set; }
         public string EmailId { get; set; }
         public Nullable<int> RefEmployeeContractType { get; set; }
-        public string EmployeeContractType { get; set; }
         public Nullable<System.DateTime> DateOfConfirmation { get; set; }
+        public Nullable<int> IsHelpDeskMember { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<EmployeeContactDetail> EmployeeContactDetails { get; set; }
@@ -147,8 +147,8 @@ namespace LMS_WebAPI_DAL
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<ProjectMaster> ProjectMasters { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<ResourceRequestDetail> ResourceRequestDetails { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<WorkFromHome> WorkFromHomes { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<ResourceRequestDetail> ResourceRequestDetails { get; set; }
     }
 }

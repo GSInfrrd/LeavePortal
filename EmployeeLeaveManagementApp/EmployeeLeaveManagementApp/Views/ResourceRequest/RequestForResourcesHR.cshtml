@@ -38,7 +38,7 @@
                     @foreach (var resource in lstResourceRequests)
                     {
                         <tr>
-                            <td><a class="@resource.Ticket" href="#" onClick="showRequestedDetails(this)" data-fromId="@resource.RequestFromId" data-toId="@resource.RequestToId" data-ticket="@resource.Ticket" data-created="@resource.CreatedDate" data-updated="@resource.UpdatedDate" data-title="@resource.ResourceRequestTitle" data-noRsource="@resource.NumberRequestedResources" data-skills="@resource.Skills" data-from="@resource.RequestFromName" data-status="@resource.StatusValue" data-statusKey="@resource.Status">@resource.Ticket</a></td>
+                            <td><a class="@resource.Ticket" href="#" onClick="showRequestedDetails(this)" data-fromId="@resource.RequestFromId" data-toId="@resource.RequestTo" data-ticket="@resource.Ticket" data-created="@resource.CreatedDate" data-updated="@resource.UpdatedDate" data-title="@resource.ResourceRequestTitle" data-noRsource="@resource.NumberRequestedResources" data-skills="@resource.Skills" data-from="@resource.RequestFromName" data-status="@resource.StatusValue" data-statusKey="@resource.Status">@resource.Ticket</a></td>
                             <td>@resource.ResourceRequestTitle</td>
                             @{
                                 var createDateWithTime = resource.CreatedDate;

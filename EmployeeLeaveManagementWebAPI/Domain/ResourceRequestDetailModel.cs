@@ -11,6 +11,8 @@ namespace LMS_WebAPI_Domain
         public long Id { get; set; }
         public int RequestFromId { get; set; }
         public string RequestFromName { get; set; }
+        public string RequestTo { get; set; }
+
         public int RequestToId { get; set; }
         public string RequestToName { get; set; }
         public string ResourceRequestTitle { get; set; }

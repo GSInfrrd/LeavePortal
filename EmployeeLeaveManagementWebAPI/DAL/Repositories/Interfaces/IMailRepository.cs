@@ -22,9 +22,9 @@ namespace LMS_WebAPI_DAL.Repositories.Interfaces
 
         MailDetailsModel GetMailTemplateForChangePassword(ActionsForMail actionName, int EmployeeId);
 
-        MailDetailsModel GetMailTemplateForAddResourceRequest(ActionsForMail actionName, int EmployeeId , int Hrid);
+        MailDetailsModel GetMailTemplateForAddResourceRequest(ActionsForMail actionName, int EmployeeId);
 
-        MailDetailsModel GetMailTemplateForResourceRequestUpdate(ActionsForMail actionName, int EmployeeId, int Hrid);
+        MailDetailsModel GetMailTemplateForResourceRequestUpdate(ActionsForMail actionName, int EmployeeId, int HelpDeskMemberId);
         MailDetailsModel GetMailTemplateForRewardLeave(ActionsForMail actionName, int EmployeeId, int ManagerId);
     }
 }

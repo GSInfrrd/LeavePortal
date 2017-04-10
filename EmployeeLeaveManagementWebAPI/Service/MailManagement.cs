@@ -112,12 +112,12 @@ namespace LMS_WebAPI_ServiceHelpers
             }
         }
 
-        public MailDetailsModel GetMailTemplateForAddResourceRequest(ActionsForMail actionName, int EmployeeId , int HrId)
+        public MailDetailsModel GetMailTemplateForAddResourceRequest(ActionsForMail actionName, int EmployeeId)
         {
             Logger.Info("Entering into MailManagemet Service helper GetMailTemplateForAddResourceRequest method ");
             try
             {
-                var MailDetail = MailDetails.GetMailTemplateForAddResourceRequest(actionName, EmployeeId, HrId);
+                var MailDetail = MailDetails.GetMailTemplateForAddResourceRequest(actionName, EmployeeId);
                 Logger.Info("Exiting from into MailManagemet Service helper GetMailTemplateForAddResourceRequest method ");
                 return MailDetail;
             }
@@ -128,12 +128,12 @@ namespace LMS_WebAPI_ServiceHelpers
             }
         }
 
-        public MailDetailsModel GetMailTemplateForResourceRequestUpdate(ActionsForMail actionName, int EmployeeId, int HrId)
+        public MailDetailsModel GetMailTemplateForResourceRequestUpdate(ActionsForMail actionName, int EmployeeId, int HelpDeskMemberId)
         {
             Logger.Info("Entering into MailManagemet Service helper GetMailTemplateForResourceRequestUpdate method ");
             try
             {
-                var MailDetail = MailDetails.GetMailTemplateForResourceRequestUpdate(actionName, EmployeeId, HrId);
+                var MailDetail = MailDetails.GetMailTemplateForResourceRequestUpdate(actionName, EmployeeId, HelpDeskMemberId);
                 Logger.Info("Exiting from into MailManagemet Service helper GetMailTemplateForResourceRequestUpdate method ");
                 return MailDetail;
             }
